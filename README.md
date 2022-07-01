@@ -1,4 +1,4 @@
 # collaborators
 - Zoechmann Benedikt
-- Mayrhofer Joe
+- Mayrhofer Johannes
 - Grubauer Patrick

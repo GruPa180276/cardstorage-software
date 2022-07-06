@@ -4,4 +4,4 @@
 
 5.7.2022: 14.45 -> 15.45: Teams Call mit Patrick über das Design der App. Es wurden Design das Design sowohl auch das Farbschema abgestimmt und es wurden sich Gedanken über das Login Layout gemacht (1h)
 
-6.7.2022: 15:00 -> 15:40: Allgemeine Informationen über die Admin App zusammengeschrieben. (15min)
+6.7.2022: 15:00 -> 16:00: Allgemeine Informationen über die Admin App zusammengeschrieben. (1h)

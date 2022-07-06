@@ -5,3 +5,5 @@
 5.7.2022: 14.45 -> 15.45: Teams Call mit Patrick über das Design der App. Es wurden Design das Design sowohl auch das Farbschema abgestimmt und es wurden sich Gedanken über das Login Layout gemacht (1h)
 
 6.7.2022: 15:00 -> 16:00: Allgemeine Informationen über die Admin App zusammengeschrieben. Weiters wurden 2 weitere Branches erstrellt of sämtliche Readmes mit Informationen befüllt. (1h)
+
+6.7.200: 18:00 -> 20:00: Erstes Dokument mit Latex erstellt. Hilfreiche Links: [Doku](https://www.overleaf.com/learn /late/Line_breaks_and_blank_spaces#Page_breaks) Weiters wurde ein Übungs Dokumet erstellt [hier](https://www.overleaf.com/project/62c5bdaad31d926d54df41dd) (2h)

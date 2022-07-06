@@ -8,4 +8,4 @@
 
 6.7.2022: 18:00 -> 20:00: Erstes Dokument mit Latex erstellt. Hilfreiche Links [Doku](https://www.overleaf.com/learn/latex/Line_breaks_and_blank_spaces#Page_breaks) Weiters wurde ein Übungs Dokumet erstellt [hier](https://www.overleaf.com/project/62c5bdaad31d926d54df41dd) (2h)
 
-6.7.2022: 18:00 -> 23:00: Weiters wurde ein gesamtes Konzept erstellt. Teams Call (3h)
+6.7.2022: 20:00 -> 22:00: Weiters wurde ein gesamtes Konzept erstellt. Teams Call (2h)

@@ -1,4 +1,2 @@
-# collaborators
-- Zoechmann Benedikt
-- Mayrhofer Johannes
-- Grubauer Patrick
+# Documentation Branch
+- Is used store the whole documentation and protocol stuff from ZoecBe.

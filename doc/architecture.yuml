@@ -1,0 +1,5 @@
+[Flutter App]->[Client 1]->[API (Centralized)]->[Card Storage 1]->[Raspberry Pi 1]->[Arduino 1]->[Hardware 1]
+[Flutter App]->[Client 2]->[API (Centralized)]->[Card Storage 2]->[Raspberry Pi 2]->[Arduino 2]->[Hardware 2]
+[Flutter App]->[Client 3]->[API (Centralized)]->[Card Storage 3]->[Raspberry Pi 3]->[Arduino 3]->[Hardware 3]
+[Flutter App]->[Client 4]->[API (Centralized)]->[Card Storage 2]
+[Flutter App]->[Client 5]->[API (Centralized)]->[Card Storage 1]

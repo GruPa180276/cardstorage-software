@@ -1,0 +1,118 @@
+\documentclass[a4paper]{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[backend=bibtex,style=numeric,defernumbers=true]{biblatex}
+\usepackage[margin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{svg}
+\usepackage[style=russian]{csquotes}
+\usepackage{flafter}
+\usepackage{titlesec}
+
+\titlespacing*{\section}{0pt}{4.3ex plus .2ex}{3ex}
+\titlespacing*{\subsection}{0pt}{4.3ex plus .2ex}{1.5ex}
+
+\newcommand{\DateCreated}{24. Juni 2022\\ 6. Juli 2022}
+
+\title{\Huge{\textbf{RFID Card Management System}}}
+\author{Mayrhofer Johannes, Grubauer Patrick, Zöchmann Benedikt}
+\date{\DateCreated}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Idee}
+Es soll ein Tresor für NFC-Karten entwickelt werden, der NFC-Karten für spezielle Zwecke aufbewahrt. Die NFC-Karten haben das klassische Scheckkarten-Format. Die Gesamtzahl an Schließfächern soll mindestens 10 betragen, kann aber auch größer sein. Jedenfalls soll der gesamte Tresor eine geschlossene Bauform bieten, dessen Bautiefe möglichst gering ist (Maß von Mauer nach vorne). Die folgenden Anforderungen werden erfüllt. 
+
+
+\section{Anforderungen}
+\begin{itemize}
+    \item Quaderförmiges Gehäuse mit wenig Bauhöhe zu der Wand
+    \item Zentrales Display
+    \item Entnahmeregistrierung mit Buchungszeile am Display
+    \item Schließfächer für mind. 10 Karten
+    \item Kartenverwaltung (je Automat)
+    \item Jedes Schließfach soll transparent sein
+    \item Jede Karte soll stehend parallel zur Wand sichtbar sein
+    \item Jedes Schließfach soll elektrisch aufspringen
+    \item Jedes Schließfach soll durch Fingerdruck wieder geschlossen werden
+    \item Rückgabekontrolle der Karte nur am richtigen Fach
+    \item Löschung der zugeordneten Buchungszeile am Display
+    \item Datenverwaltung für Statistik im Hintergrund
+    \item Administrativer Wartungszugang
+\end{itemize}
+
+\newpage
+
+\section{Umsetzung}
+\begin{figure}[htbp]
+  \centering
+  \includesvg[scale=0.7125,pretex=\small]{architecture.svg} % https://texdoc.org/serve/svg/0
+  \caption{Architektur}
+\end{figure}
+
+\pagebreak
+
+\subsection{Arbeitsaufteilung}
+\begin{itemize}
+  \item Mayrhofer Johannes: Zentrale API, Datenbank, Hardware (RFID)
+  \item Grubauer Patrick: Flutter App $\rightarrow$ Client-Login, Login-Page
+  \item Zöchmann Benedikt: Flutter App $\rightarrow$ Admin-Login, Hardware (Display)
+\end{itemize}
+
+\subsection{Zentrale API}
+to be continued
+
+\subsection{Client Anwendung}
+Als Grundlage zur adminstrativen als auch benutzerspezifizischen Verwaltung, kommt eine Flutter App zur Anwendung. Wir haben uns für dieses Framework entschieden, da es auf verschiedenen Plattformen bzw. Betriebssystemdn mit einer Version der Software läuft (Native Framework). Um zu dem Admin-Login zu gelangen, wird eine eigener Login, bei der Login-Seite benötigt. D.h Admin und User Anwendung teilen sich ab den Login auf.
+
+\subsection{Login}
+Der Login dient dazu, um zu der Admin bzw. User Anmeldung hinzugelangen.
+\subsubsection{Funktionen}
+\begin{itemize}
+  \item Neuanmeldung eines Lehrers möglich
+  \item "Remember me" $\rightarrow$ Funktion welche Passwörter sicher speichern (Encrypted-Shared-Preferences)
+  \item Möglichkeit sein Passwort zurückzusetzen  
+\end{itemize}
+
+\subsection{User-Login}
+\subsubsection{Generelle Spezifikation}
+Der User Login wird von den Lehrenden verwendet, um Karten zu beantragen, reservieren, anzufordern [...]. Weiters soll der Login am Display als auch im Web zur Verfügung gestellt, damit wirklich jeder Zugang zum Automaten hat. 
+
+\subsubsection{Funktionen}
+\begin{itemize}
+  \item Als Homepage wird eine Seite mit verschiedenen Grafiken  bspw. über die aktuellen verwendeten, reservieren, benutzen Karten angezeigt. Weiters sollen Informationen, wie die durschnittliche Verwendungsdauer, meist verwendeten Karten visualisiert werden, damit der User besser einschätzen kann, ob er die Karte reservieren soll.
+  \item Es soll eine Seite mit allen Karten angezeigt werden, wobei man die angezeigten Karten, anhand der Automaten filtern kann.
+  \item Eine eigene Seite zum Reservierungsystem
+  \item Quick Login Möglichkeit, per NFC, um sich schnell am Terminal anmelden zu können. 
+  \item Quick Card Drop Möglichkeit, per NFC, um sich schnell eine Karte zu holen.
+  \item 
+\end{itemize}
+
+\subsection{Admin-Login}
+\subsubsection{Generelle Spezifikation}
+Der Admin Login soll dazu verwendet werden können, direkt am Display am Automaten, administrative Aufgaben erledigen zu können z.B: Karten hinzufügen, Benutzer anlegen [...] Diese Anwendung soll auch als Webseite zur Verfügung stehen, um solche Einstellungen nicht direkt Vorort machen zu müssen. Die Admin App wird ebenfalls mit Flutter erstellt. Um die Admin App benutzen können, wird es bestimmte Benutzer geben die sich als Admin anmelden können. 
+
+\begin{itemize}
+  \item In der App soll der User sich in einer Grafik ansehen können, welche Karten gerade verfügbar sind und welche nicht. Diese kann pro Automaten oder mit allen Karten gemachte werden. 
+  \item Weiters soll man in der App einen neuen Automaten hinzufügen können, dazu muss man einige Parameter angeben wie Name, IP-Adresse, Anzahl Karten, Ort. Danach werden diese in einer Datenbank im Hintergrund eingepflegt. 
+  \item In der App sollen auch neue Karten hinzugefügt werden können oder Karten getauscht werden, dazu wird, wenn das Fenster geöffnet wird am Automaten angezeigt, dass die Karten zum Lesegerät gehalten werden soll, damit die Karte im System gespeichert werden kann.
+  \item Eine weitere Option ist, dass man auch neue Benutzer anlegen können soll, oder auch verwalten kann.
+  \item Als letzten soll sich der Admin auch Statistiken erstellen können, damit die Auslastung im Auge behalten werden kann.
+\end{itemize}
+
+\subsubsection{Funktionen}
+\begin{itemize}
+ \item Ansicht, welche Karten Verfügbar sind
+ \item Neuen Automaten anlegen
+ \item Neue Karten hinzufügen / tauschen können, gleichzeitig Anzeige am Display, das die Karte gescannt werden soll
+ \item Benutzer anlegen, Passwort ändern
+ \item Statistik / Auswertungen erstellen
+ \item Nice to have: Karten mit bestimmten Rechten erstellen / beschreiben können.
+\end{itemize}
+
+
+\end{document}

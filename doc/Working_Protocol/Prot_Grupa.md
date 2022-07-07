@@ -1,14 +1,25 @@
-## Protocol
+# Protocol
 
-### 2022-03-08T10:10-12:50  (3h)
+**2022-07-03      3h**
 
-Today we got some projectideas for a car. At first we had find some teampartners and the topic we want to do. We decided to choose the project "QrCode Follwing Car". At first we made a concept and we disscused how the structure of the project should look like. I just made so researches about the steering and qr-code algorithm where i found a good documentation which i might use
+Heute habe ich den Tag genutzt, um mir ein allgemeines Verständnis vom Framework "Flutter" zu erschaffen. Hierbei schaute ich mir verschiedene Dokumentationen bzw. Videos an, um die Grundstruktur von Flutter zu verstehen. Schlussendlich kam ich zu dem Punkt mir das Framework herunterzuladen, allerdings blieb ich bei der Installation bei einem Punkt hängen und entscheid mich die Installation erst morgen anzugehen.
 
-### 2022-03-08T10:10-12:50;16:20-17:20  (4h)
+**2022-07-04 3h**
 
-Today i started to code the QR-Code-Detection. I use OpenCv with the QRCodeDetection function to scan and decode the QrCode. At first jakob and me had a problem, as it was not possible to compile the created program. After some research i found out that we should use python 3.7 and opencv 4.0.0. I also created the QrCodes. After finishing the programm i started to help jakob because he had a problem with the bbox i gaver him.
-Later in the afternoon i started to correct jakobs code, as there were some problems. I just reprogramed the code to draw the diagonal and get the length of width and height
+Heute wurde das Framework Flutter installiert. Allerdings war es zunächst nicht möglich die Flutter-App im VsCode zu compilen. Zum Glück fand ich in einem Forum eine Lösung und konnte somit die Vorzeige App compilen. Danach musste ich verschiedene Extension herunterladen und den Editor für Flutter richtig einstellen. Der restliche Tag wurde noch damit verbracht sich Videos über Flutter anzusehen
 
-### 2022-03-23T10:10-12:50 (3h)
+**2022-07-05 5h**
 
-Today I discussed the steering calaculation with Jakob. We decided to calculate the steering angle by using the height and width point of the QRCode. Then we use the atan() function to calc the angle of the mid Point of the cam to the center point of the QrCode. I made the function to calculate the midpoint of the QRCOde while jakob created the function to calc angle for it. After some code &fix everything started run well. After that I decided to code the program for the pycam.
+Den heuten Tag habe ich damit verbracht die Programmiersprache Dart zu verstehen und wie man diese mit dem Framework Flutter verwendet. Zunächst habe ich verschiedene Widgets erstellt und diese mit einer Logik in Dart getestet. Überraschenderweise tat ich mir leicht und "programmierte" schon eine Testversion des Logins. Es funktionierte alles super. Abends hatten meine Kollegen und ich noch ein Gespräch, wie wir das Projekt angehen bzw. wer was macht.
+
+**2022-07-06 6h**
+
+Heute habe ich mir verschiedene Videos angeschaut, wie man Passwörter verschlüsselt am Smartphone speichern kann (Login „Remember me“ Funktion). Allerdings trat ich auf ein Problem da ich verschiedene Funktionen in Dart nicht verstand, die dazu benötigt waren. Schließlich verstand ich diese nach lesen von Dokus und schauen von Videos. Danach nutzte ich die Zeit, um den Zugriff auf Rest-APIs in Flutter zu verstehen. Am Abend hatte ich mit meinen Kollegen noch ein Meeting, um ein Konzept für unser Projekt zu gestalten. Zunächst wurde ein allgemeines yuml-File entworfen, welches den Lifecycle des Projekts darstellen soll. Danach schrieb jeder, was sein Teilbereich überhaupt alles implementieren soll
+
+**2022-07-07 4h**
+
+Heute schrieb ich eine Test-App die zu jeder ID (z.B Tresor Karte) von einem JSON File (welches man über eine REST-API bekommt) eine dementsprechende Widget-Card erstellen soll. Zunächst überlegte ich mir einen Algorithmus und zeichnete diesen auf einem Blatt Papier auf. Nach zahlreichen Denkfehlern schaffte ich es allerdings den Parser zum Laufen zu bekommen. Danach nutzte ich die Zeit und schaute mir verschiedene Videos, wie meine größeren Projekte mit Flutter strukturieren soll. Dementsprechend erstellte ich eine angepasste Struktur für unser Projekt und teilte es Ben mit wie diese funktioniert.
+
+ 
+
+ 

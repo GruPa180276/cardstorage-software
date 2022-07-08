@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/provider/authentication/user_secure_storage.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Home/home_page.dart';
+import 'package:rfidapp/pages/Login/register_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key, required this.title}) : super(key: key);
@@ -85,23 +86,23 @@ class _LoginScreenState extends State<LoginScreen> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(0.0, 110.0, 0.0, 0.0),
-          child: Text('Gsuten',
+          padding: const EdgeInsets.fromLTRB(0.0, 110.0, 0.0, 0.0),
+          child: const Text('Gsuten',
               style: TextStyle(
                   fontSize: 80.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(0.0, 175.0, 0.0, 0.0),
-          child: Text('Tag',
+          padding: const EdgeInsets.fromLTRB(0.0, 175.0, 0.0, 0.0),
+          child: const Text('Tag',
               style: TextStyle(
                   fontSize: 80.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(130.0, 175.0, 0.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(130.0, 175.0, 0.0, 0.0),
           child: Text('.',
               style: TextStyle(
                   fontSize: 80.0,
@@ -174,7 +175,10 @@ class _LoginScreenState extends State<LoginScreen> {
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: borderColor),
           ),
-          onPressed: () => print("it's pressed"),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const RegisterScreen()));
+          },
           style: ElevatedButton.styleFrom(
             side: BorderSide(width: 2.5, color: borderColor),
             shape: RoundedRectangleBorder(
@@ -197,8 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
             UserSecureStorage.setPassword(passwordController.text);
           }
           UserSecureStorage.setRememberState(rememberValue.toString());
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePage())); //open app
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const HomePage())); //open app
         },
         // style: ElevatedButton.styleFrom(
         //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
@@ -224,11 +228,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
+        const Text(
           'Password vergessen?',
           style: TextStyle(fontFamily: 'Lato'),
         ),
-        SizedBox(width: 5.0),
+        const SizedBox(width: 5.0),
         InkWell(
           onTap: () {
             Navigator.of(context).pushNamed('/signup');

@@ -1,11 +1,22 @@
 ## Protokoll
 
-4.7.2022: 15.00 -> 19:00, Generelle Recherche für Diplomarbeit. Unter anderem für mögliche Displays. Weiters wurde noch zur Programmierung der Anwendung für das Display recherchiert. Besprechung mit Teamkollegen (2h 30min Teams Call). Wir haben uns drauf geeinigt, 2 verschiedene Anwendungen zu erstellen, eine Client und eine Admin Anwendung. Diese werden beide mit Flutter realisiert und sin sowohl am Smartphone, Browser und am Raspberry am Kartentresor verfügbar. Weiters wurde sich Gedanken über die Funktion gemacht, welche implementiert werden sollen. Zu dem wurde ein weiter Teams Call durchgeführt (30min)
+**4.7.2022: 15.00 -> 16:00** <br>
+Generelle Recherche für Diplomarbeit. Unter anderem für mögliche Displays. Weiters wurde noch zur Programmierung der Anwendung für das Display recherchiert. 
 
-5.7.2022: 14.45 -> 15.45: Teams Call mit Patrick über das Design der App. Es wurden Design das Design sowohl auch das Farbschema abgestimmt und es wurden sich Gedanken über das Login Layout gemacht (1h)
+**4.7.2022: 16.00 -> 19:00** <br>
+Besprechung mit Teamkollegen (2h 30min Teams Call). Wir haben uns drauf geeinigt, 2 verschiedene Anwendungen zu erstellen, eine Client und eine Admin Anwendung. Diese werden beide mit Flutter realisiert und sind sowohl am Smartphone, Browser und am Raspberry am Kartentresor verfügbar. 
 
-6.7.2022: 15:00 -> 16:00: Allgemeine Informationen über die Admin App zusammengeschrieben. Weiters wurden 2 weitere Branches erstrellt of sämtliche Readmes mit Informationen befüllt. (1h)
+**4.7.2022: 19:00 -> 19:30** <br>
+Weiters wurden sich Gedanken über die Funktionen gemacht, welche implementiert werden sollen. Zu dem wurde ein weiter Teams Call durchgeführt (30min)
 
-6.7.2022: 18:00 -> 20:00: Erstes Dokument mit Latex erstellt. Hilfreiche Links [Doku](https://www.overleaf.com/learn/latex/Line_breaks_and_blank_spaces#Page_breaks) Weiters wurde ein Übungs Dokumet erstellt [hier](https://www.overleaf.com/project/62c5bdaad31d926d54df41dd) (2h)
+**5.7.2022: 14.45 -> 15.45** <br>
+Teams Call mit Patrick über das Design der App. Es wurden das Design sowohl auch das Farbschema abgestimmt und es wurden sich Gedanken über das Login Layout gemacht (1h)
 
-6.7.2022: 20:00 -> 22:00: Weiters wurde ein gesamtes Konzept erstellt. Teams Call (2h)
+**6.7.2022: 15:00 -> 16:00** <br>
+Allgemeine Informationen über die Admin App zusammengeschrieben. Weiters wurden 2 weitere Branches erstellt und sämtliche Readmes mit Informationen befüllt. (1h)
+
+**6.7.2022: 18:00 -> 20:00** <br>
+Erstes Dokument mit Latex erstellt. Hilfreiche Links [Doku](https://www.overleaf.com/learn/latex/Line_breaks_and_blank_spaces#Page_breaks) Weiters wurde ein Übungs Dokumet erstellt [hier](https://www.overleaf.com/project/62c5bdaad31d926d54df41dd) (2h)
+
+**6.7.2022: 20:00 -> 22:00** <br>
+Weiters wurde ein gesamtes Konzept erstellt. Unser Konzept haben wir mit Overleaf erstellt (Latex). Im Konzept wurden die die einzelnen Bereiche mit ihren Funktionen näher definiert [hier](https://www.overleaf.com/project/62b5849dc59dc86e3368e022). Teams Call (2h)

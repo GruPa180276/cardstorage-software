@@ -15,8 +15,11 @@ Teams Call mit Patrick über das Design der App. Es wurden das Design sowohl auc
 **6.7.2022: 15:00 -> 16:00** <br>
 Allgemeine Informationen über die Admin App zusammengeschrieben. Weiters wurden 2 weitere Branches erstellt und sämtliche Readmes mit Informationen befüllt. (1h)
 
-**6.7.2022: 18:00 -> 20:00** <br>
+**7.7.2022: 18:00 -> 20:00** <br>
 Erstes Dokument mit Latex erstellt. Hilfreiche Links [Doku](https://www.overleaf.com/learn/latex/Line_breaks_and_blank_spaces#Page_breaks) Weiters wurde ein Übungs Dokumet erstellt [hier](https://www.overleaf.com/project/62c5bdaad31d926d54df41dd) (2h)
 
-**6.7.2022: 20:00 -> 22:00** <br>
+**7.7.2022: 20:00 -> 22:00** <br>
 Weiters wurde ein gesamtes Konzept erstellt. Unser Konzept haben wir mit Overleaf erstellt (Latex). Im Konzept wurden die die einzelnen Bereiche mit ihren Funktionen näher definiert [hier](https://www.overleaf.com/project/62b5849dc59dc86e3368e022). Teams Call (2h)
+
+**8.7.2022: 9:30 -> 11:30** <br>
+Es wurde ein Mockup für die Admin Anwendung erstellt [hier](https://github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/blob/main/doc/Mockups/admin_login_mockup.pdf). Weiters wurde ein Discord Call mit Patrick durchgeführt, wo wir die Mockups erstellt haben. (2h)

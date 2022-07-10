@@ -20,6 +20,9 @@ Heute habe ich mir verschiedene Videos angeschaut, wie man Passwörter verschlü
 
 Heute schrieb ich eine Test-App die zu jeder ID (z.B Tresor Karte) von einem JSON File (welches man über eine REST-API bekommt) eine dementsprechende Widget-Card erstellen soll. Zunächst überlegte ich mir einen Algorithmus und zeichnete diesen auf einem Blatt Papier auf. Nach zahlreichen Denkfehlern schaffte ich es allerdings den Parser zum Laufen zu bekommen. Danach nutzte ich die Zeit und schaute mir verschiedene Videos, wie meine größeren Projekte mit Flutter strukturieren soll. Dementsprechend erstellte ich eine angepasste Struktur für unser Projekt und teilte es Ben mit wie diese funktioniert.
 
+**2022-07-07 2h**
+
+Es wurde eine Mockup fuer die kommende Anwendung erstellt
  
 
  

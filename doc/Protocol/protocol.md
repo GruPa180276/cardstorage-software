@@ -24,5 +24,5 @@ Weiters wurde ein gesamtes Konzept erstellt. Unser Konzept haben wir mit Overlea
 **8.7.2022: 9:30 -> 11:30** <br>
 Es wurde ein Mockup für die Admin Anwendung erstellt [hier](https://github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/blob/main/doc/Mockups/admin_login_mockup.pdf). Weiters wurde ein Discord Call mit Patrick durchgeführt, wo wir die Mockups erstellt haben. (2h)
 
-**11.7.2022: 7:50 -> ** <br>
+**11.7.2022: 7:50 -> xx** <br>
 Beginn, mit der Installation von Flutter

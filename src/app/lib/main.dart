@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const appTitle = 'Drawer Demo';
+  static const appTitle = 'Admin-Login';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: const Center(child: FirstScreen()),
+      body: const Center(child: SelectionBar()),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -62,8 +65,8 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class FirstScreen extends StatelessWidget {
-  const FirstScreen({Key? key}) : super(key: key);
+class SelectionBar extends StatelessWidget {
+  const SelectionBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +81,13 @@ class FirstScreen extends StatelessWidget {
               Tab(icon: Icon(Icons.directions_car)),
               Tab(icon: Icon(Icons.directions_transit)),
               Tab(icon: Icon(Icons.directions_bike)),
-              Tab(icon: Icon(Icons.directions_bike)),
-              Tab(icon: Icon(Icons.directions_bike)),
+              Tab(icon: Icon(Icons.directions_boat)),
+              Tab(icon: Icon(Icons.directions_bus)),
             ],
           ),
         ),
         body: TabBarView(
-          children: [Tab1(), Tab2(), Tab3(), Tab4(), Tab5()],
+          children: [ListCards(), Tab2(), Tab3(), Tab4(), Tab5()],
         ),
       ),
     );
@@ -96,14 +99,104 @@ class Tab1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      child: TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: 'Enter a search term',
+    return Container(
+        child: Column(
+      children: const [
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+            child: Text(
+              "Karten",
+              style: TextStyle(height: 0, fontSize: 30, color: Colors.grey),
+              textAlign: TextAlign.center,
+            )),
+        Divider(
+          color: Colors.grey,
+          height: 0,
+          thickness: 1.5,
+          indent: 10,
+          endIndent: 10,
         ),
-      ),
+        ListCards()
+      ],
+    ));
+  }
+}
+
+Future<List<Data>> fetchData() async {
+  final response =
+      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
+  if (response.statusCode == 200) {
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => new Data.fromJson(data)).toList();
+  } else {
+    throw Exception('Unexpected error occured!');
+  }
+}
+
+class Data {
+  final int userId;
+  final int id;
+  final String title;
+
+  Data({required this.userId, required this.id, required this.title});
+
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+    );
+  }
+}
+
+class ListCards extends StatefulWidget {
+  const ListCards({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<ListCards> {
+  late Future<List<Data>> futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 70,
+                  margin: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 3,
+                        color: Colors.green,
+                      ),
+                      // Make rounded corners
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                    child: Text(data![index].title),
+                  ),
+                );
+              });
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        // By default show a loading spinner.
+        return CircularProgressIndicator();
+      },
     );
   }
 }

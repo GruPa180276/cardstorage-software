@@ -29,3 +29,5 @@ Beginn, mit der Installation von Flutter. Habe micht etwas in Flutter eingearbei
 
 **11.7.2022: 12:30 -> 15:45** <br>
 Weiter an der Flutter App gearbeitet. Ich habe mich mit APIs in Flutter beschäftigt. Dazu wurde die Startseite erstellt und mit Test API Daten befüllt. Tutorial [hier](https://flutterforyou.com/how-to-fetch-data-from-api-and-show-in-flutter-listview/). (3h 15min)
+
+**12.7.2022: 7:45 -> xx** <br>

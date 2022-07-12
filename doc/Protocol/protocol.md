@@ -32,3 +32,5 @@ Weiter an der Flutter App gearbeitet. Ich habe mich mit APIs in Flutter beschäf
 
 **12.7.2022: 7:45 -> 11:45** <br>
 Habe am Startlayout weiter gearbeitet. Habe eine Auswahlbox für die Kartenautomaten hinzugeügt. Wietrs wurde das Design leicht verändert und es wurden Icons hinzugefügt.
+
+**12.7.2022: 13:10 -> xxx** <br>

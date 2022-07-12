@@ -81,7 +81,7 @@ class SelectionBar extends StatelessWidget {
           child: TabBar(
             labelColor: Colors.green,
             tabs: [
-              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.credit_card)),
               Tab(icon: Icon(Icons.directions_transit)),
               Tab(icon: Icon(Icons.directions_bike)),
               Tab(icon: Icon(Icons.directions_boat)),

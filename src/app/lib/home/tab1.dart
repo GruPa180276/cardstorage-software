@@ -108,9 +108,26 @@ class _MyAppState extends State<ListCards> {
                         color: Colors.green,
                       ),
                       borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                    child: Text(data![index].title),
-                  ),
+                  child: Stack(children: [
+                    Positioned(
+                        left: 100,
+                        child: Text(data![index].title,
+                            style: const TextStyle(fontSize: 20))),
+                    const Positioned(
+                        left: 100, top: 30, child: Icon(Icons.check)),
+                    const Positioned(
+                        left: 140,
+                        top: 30,
+                        child:
+                            Text("Verfügbar", style: TextStyle(fontSize: 20))),
+                    const Positioned(
+                        left: 15,
+                        top: 7,
+                        child: Icon(
+                          Icons.credit_card,
+                          size: 50,
+                        ))
+                  ]),
                 );
               });
         } else if (snapshot.hasError) {

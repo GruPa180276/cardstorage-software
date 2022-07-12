@@ -1,3 +1,4 @@
+import 'package:app/cardStats/cardStats.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -67,13 +68,14 @@ class _Tab1State extends State<Tab1> {
           left: 0,
           right: 0,
           bottom: 22,
-          child: Stack(children: const [ListCards()]))
+          child: Stack(children: [ListCards(cardStorage: dropdownvalue)]))
     ]);
   }
 }
 
 class ListCards extends StatefulWidget {
-  const ListCards({Key? key}) : super(key: key);
+  String cardStorage;
+  ListCards({Key? key, required String this.cardStorage}) : super(key: key);
 
   @override
   State<ListCards> createState() => _MyAppState();
@@ -88,6 +90,71 @@ class _MyAppState extends State<ListCards> {
     futureData = fetchData();
   }
 
+  Widget setSateOfCards(String card) {
+    String cardName = card;
+    String cardState = "";
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      cardState = "Verfügbar";
+    } else if (apiCall == "y") {
+      cardState = "Nicht Verfügbar";
+    }
+    return Positioned(
+        left: 140,
+        top: 30,
+        child: Text(cardState, style: const TextStyle(fontSize: 20)));
+  }
+
+  Widget setIconOfCards(String card) {
+    String cardName = card;
+    IconData cardIcon = Icons.not_started;
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      cardIcon = Icons.check;
+    } else if (apiCall == "y") {
+      cardIcon = Icons.cancel_rounded;
+    }
+    return Positioned(left: 100, top: 30, child: Icon(cardIcon));
+  }
+
+  Widget createCard(BuildContext context, List<Data>? data, int index) {
+    return InkWell(
+      child: Container(
+        height: 70,
+        margin: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              width: 3,
+              color: Colors.green,
+            ),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setSateOfCards(data[index].title.toString()),
+          setIconOfCards(data[index].title.toString()),
+          const Positioned(
+              left: 15,
+              top: 7,
+              child: Icon(
+                Icons.credit_card,
+                size: 50,
+              ))
+        ]),
+      ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CardStats(),
+            ));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Data>>(
@@ -98,37 +165,14 @@ class _MyAppState extends State<ListCards> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 70,
-                  margin: const EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        width: 3,
-                        color: Colors.green,
-                      ),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Stack(children: [
-                    Positioned(
-                        left: 100,
-                        child: Text(data![index].title,
-                            style: const TextStyle(fontSize: 20))),
-                    const Positioned(
-                        left: 100, top: 30, child: Icon(Icons.check)),
-                    const Positioned(
-                        left: 140,
-                        top: 30,
-                        child:
-                            Text("Verfügbar", style: TextStyle(fontSize: 20))),
-                    const Positioned(
-                        left: 15,
-                        top: 7,
-                        child: Icon(
-                          Icons.credit_card,
-                          size: 50,
-                        ))
-                  ]),
-                );
+                if (data?[index].title.toString() == widget.cardStorage) {
+                  return createCard(context, data, index);
+                }
+                if (widget.cardStorage == "All") {
+                  return createCard(context, data, index);
+                } else {
+                  return const Text("");
+                }
               });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");

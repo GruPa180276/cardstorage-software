@@ -3,58 +3,65 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class Tab1 extends StatelessWidget {
+class Tab1 extends StatefulWidget {
   const Tab1({Key? key}) : super(key: key);
+
+  _Tab1 createState() => _Tab1();
+}
+
+class _Tab1 extends State<Tab1> {
+  String dropdownvalue = 'Automat auswählen...';
+
+  // List of items in our dropdown menu
+  var items = [
+    'Automat auswählen...',
+    'All',
+    'Cardstorage 1',
+    'Cardstorage 2',
+    'Cardstorage 3'
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      children: const [
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-            child: Text(
-              "Karten",
-              style: TextStyle(height: 0, fontSize: 30, color: Colors.grey),
-              textAlign: TextAlign.center,
-            )),
-        Divider(
-          color: Colors.grey,
-          height: 0,
-          thickness: 1.5,
-          indent: 10,
-          endIndent: 10,
-        ),
-        ListCards()
-      ],
-    ));
-  }
-}
-
-Future<List<Data>> fetchData() async {
-  final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Data.fromJson(data)).toList();
-  } else {
-    throw Exception('Unexpected error occured!');
-  }
-}
-
-class Data {
-  final int userId;
-  final int id;
-  final String title;
-
-  Data({required this.userId, required this.id, required this.title});
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-    );
+    return Stack(children: [
+      Container(
+          padding: const EdgeInsets.all(7),
+          margin: const EdgeInsets.all(7),
+          height: 80,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                width: 3,
+                color: Colors.green,
+              ),
+              borderRadius: BorderRadius.circular(15)),
+          child: Column(
+            children: <Widget>[
+              DropdownButton(
+                value: dropdownvalue,
+                isExpanded: true,
+                icon: const Icon(Icons.keyboard_arrow_down),
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
+                },
+              ),
+            ],
+          )),
+      Positioned(
+          top: 100,
+          left: 0,
+          right: 0,
+          bottom: 22,
+          child: Stack(children: [ListCards()]))
+    ]);
   }
 }
 
@@ -93,7 +100,6 @@ class _MyAppState extends State<ListCards> {
                         width: 3,
                         color: Colors.green,
                       ),
-                      // Make rounded corners
                       borderRadius: BorderRadius.circular(15)),
                   child: Center(
                     child: Text(data![index].title),
@@ -103,9 +109,35 @@ class _MyAppState extends State<ListCards> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        // By default show a loading spinner.
         return const CircularProgressIndicator();
       },
+    );
+  }
+}
+
+Future<List<Data>> fetchData() async {
+  final response =
+      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
+  if (response.statusCode == 200) {
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => Data.fromJson(data)).toList();
+  } else {
+    throw Exception('Unexpected error occured!');
+  }
+}
+
+class Data {
+  final int userId;
+  final int id;
+  final String title;
+
+  Data({required this.userId, required this.id, required this.title});
+
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
     );
   }
 }

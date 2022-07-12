@@ -11,7 +11,7 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const appTitle = 'Admin-Login';
+  static const appTitle = 'Card-View';
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class SelectionBar extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: [ListCards(), Tab2(), Tab3(), Tab4(), Tab5()],
+          children: [Tab1(), Tab2(), Tab3(), Tab4(), Tab5()],
         ),
       ),
     );

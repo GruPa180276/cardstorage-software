@@ -6,10 +6,11 @@ import 'package:http/http.dart' as http;
 class Tab1 extends StatefulWidget {
   const Tab1({Key? key}) : super(key: key);
 
-  _Tab1 createState() => _Tab1();
+  @override
+  State<Tab1> createState() => _Tab1State();
 }
 
-class _Tab1 extends State<Tab1> {
+class _Tab1State extends State<Tab1> {
   String dropdownvalue = 'Automat auswählen...';
 
   // List of items in our dropdown menu
@@ -41,9 +42,15 @@ class _Tab1 extends State<Tab1> {
                 value: dropdownvalue,
                 isExpanded: true,
                 icon: const Icon(Icons.keyboard_arrow_down),
+                iconSize: 30,
+                underline: Container(
+                  height: 2,
+                  color: Colors.green,
+                ),
                 items: items.map((String items) {
                   return DropdownMenuItem(
                     value: items,
+                    alignment: Alignment.center,
                     child: Text(items),
                   );
                 }).toList(),
@@ -60,7 +67,7 @@ class _Tab1 extends State<Tab1> {
           left: 0,
           right: 0,
           bottom: 22,
-          child: Stack(children: [ListCards()]))
+          child: Stack(children: const [ListCards()]))
     ]);
   }
 }
@@ -69,7 +76,7 @@ class ListCards extends StatefulWidget {
   const ListCards({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<ListCards> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<ListCards> {

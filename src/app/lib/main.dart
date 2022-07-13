@@ -1,98 +1,58 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'home.dart';
 
-import 'home/tab1.dart';
-import 'home/tab2.dart';
-import 'home/tab3.dart';
-import 'home/tab4.dart';
-import 'home/tab5.dart';
+void main() {
+  runApp(const AppStart());
+}
 
-void main() => runApp(const MyApp());
+// Change app icon -> pubsec.yaml
+// https://pub.dev/packages/flutter_launcher_icons
+// Fix -> C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_launcher_icons-0.9.3\lib\android.dart
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// Change app name -> pubsec.yaml
+// https://pub.dev/packages/flutter_app_name
+// Replace this line -> final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
+// with this -> final String minSdk = "21"; // line.replaceAll(RegExp(r'[^\d]'), '');
 
-  static const appTitle = 'Card-View';
+class AppStart extends StatelessWidget {
+  const AppStart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.green),
-      title: appTitle,
-      home: const MyHomePage(title: appTitle),
+      title: 'Splash Screen',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: const SplashScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: const Center(child: SelectionBar()),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.green,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class SelectionBar extends StatelessWidget {
-  const SelectionBar({Key? key}) : super(key: key);
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+        const Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const Home())));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
-      length: 5,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
-          child: TabBar(
-            labelColor: Colors.green,
-            tabs: [
-              Tab(icon: Icon(Icons.credit_card)),
-              Tab(icon: Icon(Icons.directions_transit)),
-              Tab(icon: Icon(Icons.directions_bike)),
-              Tab(icon: Icon(Icons.directions_boat)),
-              Tab(icon: Icon(Icons.directions_bus)),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [Tab1(), Tab2(), Tab3(), Tab4(), Tab5()],
-        ),
-      ),
-    );
+    return Container(
+        color: Colors.white,
+        child:
+            Image.asset("img/splashscreen.jpg", height: 200.0, width: 200.0));
   }
 }

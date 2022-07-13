@@ -36,4 +36,5 @@ Habe am Startlayout weiter gearbeitet. Habe eine Auswahlbox für die Kartenautom
 **12.7.2022: 13:10 -> 15:45** <br>
 Habe an der Kartenansicht weiter gearbeitet. Es ist nu auch funkionell möglich zwischen Allen Karten und nur den Karten eines Tresors zu wechseln. Weiters wurde hinzugeügt, da es möglich ist, auf eine Karte zu klicken, und sich die Statisk zu jeder Karte anzeigen zu lasse. Aktuell noch mit Testdaten realisiert, da noch keine API vorhanden ist. (2h 35min)
 
-**13.7.2022: 7:45 -> xx** <br>
+**13.7.2022: 7:45 -> 11:30** <br>
+Habe an der Startseite weiter gearbeitet. Habe noch eine Beschreibung hinzugefügt. Weiters habe ich zur App einen Ladebildschirm, ein App Icon und den Namen der App geändert. Weiters habe ich damit begonnen den Drawer am Homescren mit Funktion auszustatten. Es wurde ein Logo eingefügt. Weiters wurde 2 neue Seiten erstellt. Die Einstellungs und App Info Seite. (3h 45min)

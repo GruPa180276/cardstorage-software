@@ -39,4 +39,5 @@ Habe an der Kartenansicht weiter gearbeitet. Es ist nu auch funkionell möglich 
 **13.7.2022: 7:45 -> 11:30** <br>
 Habe an der Startseite weiter gearbeitet. Habe noch eine Beschreibung hinzugefügt. Weiters habe ich zur App einen Ladebildschirm, ein App Icon und den Namen der App geändert. Weiters habe ich damit begonnen den Drawer am Homescren mit Funktion auszustatten. Es wurde ein Logo eingefügt. Weiters wurde 2 neue Seiten erstellt. Die Einstellungs und App Info Seite. (3h 45min)
 
-**13.7.2022: 12:40 -> xx** <br>
+**13.7.2022: 12:40 -> 15:15** <br>
+Hab mich damit beschäftigt, einen DarkMode umzusetzten. Dies stellte sich heraus, das es nicht so einfach war, aber ich habe es mit etwas Recherche und einem Youtube tutorial hinbekommen.

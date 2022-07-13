@@ -1,5 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+
+import 'dart:async';
 import 'home/home.dart';
 
 void main() {
@@ -22,9 +23,6 @@ class AppStart extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Splash Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );

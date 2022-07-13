@@ -25,10 +25,9 @@ class _Tab1State extends State<Tab1> {
           margin: const EdgeInsets.all(7),
           height: 80,
           decoration: BoxDecoration(
-              color: Colors.white,
               border: Border.all(
                 width: 3,
-                color: Colors.blue,
+                color: Colors.deepPurple,
               ),
               borderRadius: BorderRadius.circular(15)),
           child: Column(
@@ -87,17 +86,14 @@ class _MyAppState extends State<ListCards> {
   Widget setSateOfCards(String card) {
     // ignore: unused_local_variable
     String cardName = card;
-    String cardState = "";
+    Widget cardState = Text("");
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      cardState = "Verfügbar";
+      cardState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
     } else if (apiCall == "y") {
-      cardState = "Nicht Verfügbar";
+      cardState = Text("Nicht Verfügbar", style: const TextStyle(fontSize: 20));
     }
-    return Positioned(
-        left: 140,
-        top: 30,
-        child: Text(cardState, style: const TextStyle(fontSize: 20)));
+    return Positioned(left: 140, top: 30, child: cardState);
   }
 
   Widget setIconOfCards(String card) {
@@ -119,10 +115,9 @@ class _MyAppState extends State<ListCards> {
         height: 70,
         margin: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
-            color: Colors.white,
             border: Border.all(
               width: 3,
-              color: Colors.blue,
+              color: Colors.deepPurple,
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [
@@ -156,10 +151,9 @@ class _MyAppState extends State<ListCards> {
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
-          color: Colors.white,
           border: Border.all(
             width: 3,
-            color: Colors.blue,
+            color: Colors.deepPurple,
           ),
           borderRadius: BorderRadius.circular(15)),
       child: Column(children: [

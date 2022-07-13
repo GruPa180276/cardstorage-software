@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../themes.dart';
 import 'tab1.dart';
 import 'tab2.dart';
 import 'tab3.dart';
@@ -7,6 +8,7 @@ import 'tab4.dart';
 import 'tab5.dart';
 import '../drawer/settings.dart';
 import '../drawer/appinfo.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(const Home());
 
@@ -16,11 +18,35 @@ class Home extends StatelessWidget {
   static const appTitle = 'Card-View';
 
   @override
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      builder: (context, _) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+
+        return MaterialApp(
+          themeMode: themeProvider.themeMode,
+          theme: ThemeData(
+            primarySwatch: Colors.deepPurple,
+          ),
+          darkTheme: Mythemes.darkTheme,
+          title: appTitle,
+          home: const MyHomePage(title: appTitle),
+          debugShowCheckedModeBanner: false,
+        );
+      });
+}
+
+class ChangeThemeButtonWidget extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.blue),
-      title: appTitle,
-      home: const MyHomePage(title: appTitle),
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return Switch.adaptive(
+      value: themeProvider.isDarkMode,
+      onChanged: (value) {
+        final provider = Provider.of<ThemeProvider>(context, listen: false);
+        provider.toggleTheme(value);
+      },
     );
   }
 }
@@ -41,7 +67,7 @@ class MyHomePage extends StatelessWidget {
           children: [
             DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.deepPurple,
                 ),
                 child: Image.asset(
                   "img/splashscreen.jpg",
@@ -99,6 +125,7 @@ class MyHomePage extends StatelessWidget {
               indent: 5,
               endIndent: 5,
             ),
+            ChangeThemeButtonWidget()
           ],
         ),
       ),
@@ -117,7 +144,7 @@ class SelectionBar extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
           child: TabBar(
-            labelColor: Colors.blue,
+            labelColor: Colors.deepPurple,
             tabs: [
               Tab(icon: Icon(Icons.credit_card)),
               Tab(icon: Icon(Icons.directions_transit)),

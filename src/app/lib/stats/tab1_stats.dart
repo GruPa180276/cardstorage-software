@@ -11,21 +11,12 @@ class CardStats extends StatefulWidget {
 class _CardState extends State<CardStats> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-            title: const Text("Card"),
-            backgroundColor: Colors.blue,
-            actions: [
-              IconButton(
-                  icon: const Icon(Icons.arrow_back, size: 30),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-            ]),
-        body: Column(children: [DeveloperChart(data: data)]),
-      ),
-      debugShowCheckedModeBanner: false,
+    return Scaffold(
+      appBar: AppBar(
+          title: const Text("Card"),
+          backgroundColor: Colors.deepPurple,
+          actions: []),
+      body: Column(children: [DeveloperChart(data: data)]),
     );
   }
 }
@@ -43,27 +34,27 @@ final List<DeveloperSeries> data = [
   DeveloperSeries(
     year: "2017",
     developers: 40000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.green),
+    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
   ),
   DeveloperSeries(
     year: "2018",
     developers: 5000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.green),
+    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
   ),
   DeveloperSeries(
     year: "2019",
     developers: 40000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.green),
+    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
   ),
   DeveloperSeries(
     year: "2020",
     developers: 35000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.green),
+    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
   ),
   DeveloperSeries(
     year: "2021",
     developers: 45000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.green),
+    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
   ),
 ];
 

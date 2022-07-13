@@ -1,4 +1,4 @@
-import 'package:app/cardStats/cardStats.dart';
+import 'package:app/stats/tab1_stats.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -15,13 +15,7 @@ class _Tab1State extends State<Tab1> {
   String dropdownvalue = 'Automat auswählen...';
 
   // List of items in our dropdown menu
-  var items = [
-    'Automat auswählen...',
-    'All',
-    'Cardstorage 1',
-    'Cardstorage 2',
-    'Cardstorage 3'
-  ];
+  var items = ['Automat auswählen...', 'All', '1', '2', '3'];
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +68,8 @@ class _Tab1State extends State<Tab1> {
 }
 
 class ListCards extends StatefulWidget {
-  String cardStorage;
-  ListCards({Key? key, required String this.cardStorage}) : super(key: key);
+  final String cardStorage;
+  const ListCards({Key? key, required this.cardStorage}) : super(key: key);
 
   @override
   State<ListCards> createState() => _MyAppState();
@@ -91,6 +85,7 @@ class _MyAppState extends State<ListCards> {
   }
 
   Widget setSateOfCards(String card) {
+    // ignore: unused_local_variable
     String cardName = card;
     String cardState = "";
     String apiCall = "x"; // Only Test Values, will be changed to an API call
@@ -106,6 +101,7 @@ class _MyAppState extends State<ListCards> {
   }
 
   Widget setIconOfCards(String card) {
+    // ignore: unused_local_variable
     String cardName = card;
     IconData cardIcon = Icons.not_started;
     String apiCall = "x"; // Only Test Values, will be changed to an API call
@@ -155,23 +151,63 @@ class _MyAppState extends State<ListCards> {
     );
   }
 
+  Widget welcomePage(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            width: 3,
+            color: Colors.green,
+          ),
+          borderRadius: BorderRadius.circular(15)),
+      child: Column(children: [
+        const Text("Willkommen im Admin Login", style: TextStyle(fontSize: 25)),
+        const Divider(
+          color: Colors.green,
+          height: 10,
+          thickness: 2,
+          indent: 5,
+          endIndent: 5,
+        ),
+        Expanded(
+            child: ListView(
+          children: const <Widget>[
+            Text(
+                "Hier werden Ihnen kurz die Funktion des Admin Logins erklärt: \n\n"
+                "- In aktuellen Tab können Sie sich den Status aller Karten anzeigen lassen.\n\n"
+                "- Im zweiten Tab können Sie neue Kartentresore hinzufügen oder berbeiten.\n\n"
+                "- Im dritten Tab können Sie neue Karten hinzufügen oder bearbeiten.\n\n"
+                "- Im vierten Tab können Sie neue Benutzer anlegen oder bearbeiten.\n\n"
+                "- Im fünften Tab können Sie Statistiken anzeigen lassen oder exportieren.\n\n"
+                "Aktuelle Version: v0.0.3 Beta",
+                style: TextStyle(fontSize: 20))
+          ],
+        )),
+      ]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
+        if (widget.cardStorage == "Automat auswählen...") {
+          return welcomePage(context);
+        }
         if (snapshot.hasData) {
           List<Data>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                if (data?[index].title.toString() == widget.cardStorage) {
+                if (widget.cardStorage == data![index].userId.toString()) {
                   return createCard(context, data, index);
-                }
-                if (widget.cardStorage == "All") {
+                } else if (widget.cardStorage == "All") {
                   return createCard(context, data, index);
                 } else {
-                  return const Text("");
+                  return const SizedBox.shrink();
                 }
               });
         } else if (snapshot.hasError) {

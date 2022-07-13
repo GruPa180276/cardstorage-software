@@ -33,5 +33,7 @@ Weiter an der Flutter App gearbeitet. Ich habe mich mit APIs in Flutter beschäf
 **12.7.2022: 7:45 -> 11:45** <br>
 Habe am Startlayout weiter gearbeitet. Habe eine Auswahlbox für die Kartenautomaten hinzugeügt. Wietrs wurde das Design leicht verändert und es wurden Icons hinzugefügt. (4h)
 
-**12.7.2022: 13:10 ->15:45** <br>
+**12.7.2022: 13:10 -> 15:45** <br>
 Habe an der Kartenansicht weiter gearbeitet. Es ist nu auch funkionell möglich zwischen Allen Karten und nur den Karten eines Tresors zu wechseln. Weiters wurde hinzugeügt, da es möglich ist, auf eine Karte zu klicken, und sich die Statisk zu jeder Karte anzeigen zu lasse. Aktuell noch mit Testdaten realisiert, da noch keine API vorhanden ist. (2h 35min)
+
+**12.7.2022: 7:45 -> xx** <br>

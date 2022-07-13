@@ -28,7 +28,7 @@ class _Tab1State extends State<Tab1> {
               color: Colors.white,
               border: Border.all(
                 width: 3,
-                color: Colors.green,
+                color: Colors.blue,
               ),
               borderRadius: BorderRadius.circular(15)),
           child: Column(
@@ -40,7 +40,7 @@ class _Tab1State extends State<Tab1> {
                 iconSize: 30,
                 underline: Container(
                   height: 2,
-                  color: Colors.green,
+                  color: Colors.grey,
                 ),
                 items: items.map((String items) {
                   return DropdownMenuItem(
@@ -122,7 +122,7 @@ class _MyAppState extends State<ListCards> {
             color: Colors.white,
             border: Border.all(
               width: 3,
-              color: Colors.green,
+              color: Colors.blue,
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [
@@ -159,13 +159,13 @@ class _MyAppState extends State<ListCards> {
           color: Colors.white,
           border: Border.all(
             width: 3,
-            color: Colors.green,
+            color: Colors.blue,
           ),
           borderRadius: BorderRadius.circular(15)),
       child: Column(children: [
         const Text("Willkommen im Admin Login", style: TextStyle(fontSize: 25)),
         const Divider(
-          color: Colors.green,
+          color: Colors.grey,
           height: 10,
           thickness: 2,
           indent: 5,

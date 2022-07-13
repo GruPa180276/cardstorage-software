@@ -15,7 +15,7 @@ class _CardState extends State<CardStats> {
       home: Scaffold(
         appBar: AppBar(
             title: const Text("Card"),
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue,
             actions: [
               IconButton(
                   icon: const Icon(Icons.arrow_back, size: 30),

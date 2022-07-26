@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../color/color.dart';
+
+SettingsColorProvder settingsCP = new SettingsColorProvder();
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -13,7 +16,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       appBar: AppBar(
           title: const Text("Card"),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: settingsCP.getAppBarBackgroundColor(),
           actions: []),
       body: Column(children: [Text("Test")]),
     );

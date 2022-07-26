@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../color/color.dart';
+
+Tab1ColorProvider tab1CP = new Tab1ColorProvider();
 
 class Tab1 extends StatefulWidget {
   const Tab1({Key? key}) : super(key: key);
@@ -27,7 +30,7 @@ class _Tab1State extends State<Tab1> {
           decoration: BoxDecoration(
               border: Border.all(
                 width: 3,
-                color: Colors.deepPurple,
+                color: tab1CP.getStorageSelectorBorderColor(),
               ),
               borderRadius: BorderRadius.circular(15)),
           child: Column(
@@ -39,7 +42,7 @@ class _Tab1State extends State<Tab1> {
                 iconSize: 30,
                 underline: Container(
                   height: 2,
-                  color: Colors.grey,
+                  color: tab1CP.getStorageSelectorDividerColor(),
                 ),
                 items: items.map((String items) {
                   return DropdownMenuItem(
@@ -117,7 +120,7 @@ class _MyAppState extends State<ListCards> {
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: Colors.deepPurple,
+              color: tab1CP.getCardContainerBorderColor(),
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [
@@ -153,13 +156,13 @@ class _MyAppState extends State<ListCards> {
       decoration: BoxDecoration(
           border: Border.all(
             width: 3,
-            color: Colors.deepPurple,
+            color: tab1CP.getWelcomePageBorderColor(),
           ),
           borderRadius: BorderRadius.circular(15)),
       child: Column(children: [
         const Text("Willkommen im Admin Login", style: TextStyle(fontSize: 25)),
-        const Divider(
-          color: Colors.grey,
+        Divider(
+          color: tab1CP.getWelcomePageDividerColor(),
           height: 10,
           thickness: 2,
           indent: 5,
@@ -175,7 +178,7 @@ class _MyAppState extends State<ListCards> {
                 "- Im dritten Tab können Sie neue Karten hinzufügen oder bearbeiten.\n\n"
                 "- Im vierten Tab können Sie neue Benutzer anlegen oder bearbeiten.\n\n"
                 "- Im fünften Tab können Sie Statistiken anzeigen lassen oder exportieren.\n\n"
-                "Aktuelle Version: v0.0.3 Beta",
+                "Aktuelle Version: v0.0.4 Beta",
                 style: TextStyle(fontSize: 20))
           ],
         )),

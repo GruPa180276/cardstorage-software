@@ -9,6 +9,9 @@ import 'tab5.dart';
 import '../drawer/settings.dart';
 import '../drawer/appinfo.dart';
 import 'package:provider/provider.dart';
+import '../color/color.dart';
+
+HomeColorProvider homeCP = new HomeColorProvider();
 
 void main() => runApp(const Home());
 
@@ -26,7 +29,7 @@ class Home extends StatelessWidget {
         return MaterialApp(
           themeMode: themeProvider.themeMode,
           theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
+            primarySwatch: homeCP.getHeaderColor(),
           ),
           darkTheme: Mythemes.darkTheme,
           title: appTitle,
@@ -67,13 +70,13 @@ class MyHomePage extends StatelessWidget {
           children: [
             DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.deepPurple,
+                  color: homeCP.getDrawerHeaderColor(),
                 ),
                 child: Image.asset(
                   "img/splashscreen.jpg",
                 )),
-            const Divider(
-              color: Colors.grey,
+            Divider(
+              color: homeCP.getDrawerHeaderDividerColor(),
               height: 10,
               thickness: 2,
               indent: 5,
@@ -95,8 +98,8 @@ class MyHomePage extends StatelessWidget {
                     ));
               },
             ),
-            const Divider(
-              color: Colors.grey,
+            Divider(
+              color: homeCP.getDrawerHeaderDividerColor(),
               height: 10,
               thickness: 2,
               indent: 5,
@@ -118,8 +121,8 @@ class MyHomePage extends StatelessWidget {
                     ));
               },
             ),
-            const Divider(
-              color: Colors.grey,
+            Divider(
+              color: homeCP.getDrawerHeaderDividerColor(),
               height: 10,
               thickness: 2,
               indent: 5,
@@ -138,13 +141,13 @@ class SelectionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 5,
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
           child: TabBar(
-            labelColor: Colors.deepPurple,
+            labelColor: homeCP.getTabBarLabelColor(),
             tabs: [
               Tab(icon: Icon(Icons.credit_card)),
               Tab(icon: Icon(Icons.directions_transit)),

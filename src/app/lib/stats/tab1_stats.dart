@@ -1,5 +1,8 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import '../color/color.dart';
+
+Tab1StatsColorProvider tab1StatsCP = new Tab1StatsColorProvider();
 
 class CardStats extends StatefulWidget {
   const CardStats({Key? key}) : super(key: key);
@@ -14,7 +17,7 @@ class _CardState extends State<CardStats> {
     return Scaffold(
       appBar: AppBar(
           title: const Text("Card"),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: tab1StatsCP.getAppBarBackgroundColor(),
           actions: []),
       body: Column(children: [DeveloperChart(data: data)]),
     );
@@ -34,27 +37,27 @@ final List<DeveloperSeries> data = [
   DeveloperSeries(
     year: "2017",
     developers: 40000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
+    barColor: charts.ColorUtil.fromDartColor(tab1StatsCP.getChartColor()),
   ),
   DeveloperSeries(
     year: "2018",
     developers: 5000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
+    barColor: charts.ColorUtil.fromDartColor(tab1StatsCP.getChartColor()),
   ),
   DeveloperSeries(
     year: "2019",
     developers: 40000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
+    barColor: charts.ColorUtil.fromDartColor(tab1StatsCP.getChartColor()),
   ),
   DeveloperSeries(
     year: "2020",
     developers: 35000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
+    barColor: charts.ColorUtil.fromDartColor(tab1StatsCP.getChartColor()),
   ),
   DeveloperSeries(
     year: "2021",
     developers: 45000,
-    barColor: charts.ColorUtil.fromDartColor(Colors.deepPurple),
+    barColor: charts.ColorUtil.fromDartColor(tab1StatsCP.getChartColor()),
   ),
 ];
 

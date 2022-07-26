@@ -173,6 +173,7 @@ class _SelectionBarState extends State<SelectionBar> {
                     Tab(icon: Icon(Icons.directions_bus)),
                   ],
                 ))),
+        body: TabBarView(children: [Tab1(), Tab2(), Tab3(), Tab4(), Tab5()]),
       ),
     );
   }

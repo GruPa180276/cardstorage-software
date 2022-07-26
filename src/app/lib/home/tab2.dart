@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../color/color.dart';
-import '../description/description.dart';
+import '../description/textValues.dart';
 
 Tab2ColorProvider tab2CP = new Tab2ColorProvider();
 Tab2DescrpitionProvider tab2DP = new Tab2DescrpitionProvider();

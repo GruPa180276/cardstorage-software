@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../color/color.dart';
-import '../description/description.dart';
+import '../description/textValues.dart';
 
 Tab1ColorProvider tab1CP = new Tab1ColorProvider();
 Tab1DescrpitionProvider tab1DP = new Tab1DescrpitionProvider();

@@ -27,3 +27,6 @@
 - https://blog.logrocket.com/how-create-flutter-charts-with-charts-flutter/
 - https://www.geeksforgeeks.org/flutter-expanded-widget/
 - https://www.youtube.com/watch?v=HSAa9yi0OMA
+- https://github.com/flutter/flutter/issues/68842
+- https://www.flutterclutter.dev/flutter/troubleshooting/widget-overflowed-by-pixels/2020/461/
+- https://flutter-developer.medium.com/how-to-create-rounded-button-in-flutter-4195c321500f

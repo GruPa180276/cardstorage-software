@@ -10,7 +10,7 @@ import '../drawer/settings.dart';
 import '../drawer/appinfo.dart';
 import 'package:provider/provider.dart';
 import '../color/color.dart';
-import '../description/textValues.dart';
+import '../textValues/textValues.dart';
 
 HomeColorProvider homeCP = new HomeColorProvider();
 HomeDescrpitionProvider homeDP = new HomeDescrpitionProvider();

@@ -1,6 +1,6 @@
 class HomeDescrpitionProvider {
   String getAppTitle() {
-    return "Card-View";
+    return "Admin-Login";
   }
 
   String getDrawerSettingsTabName() {

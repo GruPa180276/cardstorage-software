@@ -156,18 +156,8 @@ class _SelectionBarState extends State<SelectionBar> {
                 child: TabBar(
                   labelColor: homeCP.getTabBarLabelColor(),
                   tabs: [
-                    Tab(
-                        child: Container(
-                      padding: EdgeInsets.all(3),
-                      child: Column(children: [
-                        Icon(Icons.credit_card),
-                        Text(
-                          "Add",
-                          overflow: TextOverflow.visible,
-                        )
-                      ]),
-                    )),
-                    Tab(icon: Icon(Icons.directions_transit)),
+                    Tab(icon: Icon(Icons.credit_card)),
+                    Tab(icon: Icon(Icons.storage)),
                     Tab(icon: Icon(Icons.directions_bike)),
                     Tab(icon: Icon(Icons.directions_boat)),
                     Tab(icon: Icon(Icons.directions_bus)),

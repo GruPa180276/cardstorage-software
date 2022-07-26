@@ -1,4 +1,4 @@
-## Protocol
+## Protokoll
 
 **11.7.2022: 7:50 -> 11:30** <br>
 Beginn, mit der Installation von Flutter. Habe micht etwas in Flutter eingearbeitet [Install Flutter](https://docs.flutter.dev/get-started/install) und [Flutter Getting Started](https://docs.flutter.dev/get-started/codelab). Danach habe ich mich mit dem groben Layout der AdminApp beschäftigt. (3h 40min)

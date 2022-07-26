@@ -4,8 +4,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../color/color.dart';
+import '../description/description.dart';
 
 Tab1ColorProvider tab1CP = new Tab1ColorProvider();
+Tab1DescrpitionProvider tab1DP = new Tab1DescrpitionProvider();
 
 class Tab1 extends StatefulWidget {
   const Tab1({Key? key}) : super(key: key);
@@ -15,10 +17,8 @@ class Tab1 extends StatefulWidget {
 }
 
 class _Tab1State extends State<Tab1> {
-  String dropdownvalue = 'Automat auswählen...';
-
-  // List of items in our dropdown menu
-  var items = ['Automat auswählen...', 'All', '1', '2', '3'];
+  String dropDownText = tab1DP.getDropDownText();
+  var dropDownValues = tab1DP.getDropDownValues();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _Tab1State extends State<Tab1> {
           child: Column(
             children: <Widget>[
               DropdownButton(
-                value: dropdownvalue,
+                value: dropDownText,
                 isExpanded: true,
                 icon: const Icon(Icons.keyboard_arrow_down),
                 iconSize: 30,
@@ -44,7 +44,7 @@ class _Tab1State extends State<Tab1> {
                   height: 2,
                   color: tab1CP.getStorageSelectorDividerColor(),
                 ),
-                items: items.map((String items) {
+                items: dropDownValues.map((String items) {
                   return DropdownMenuItem(
                     value: items,
                     alignment: Alignment.center,
@@ -53,7 +53,7 @@ class _Tab1State extends State<Tab1> {
                 }).toList(),
                 onChanged: (String? newValue) {
                   setState(() {
-                    dropdownvalue = newValue!;
+                    dropDownText = newValue!;
                   });
                 },
               ),
@@ -64,7 +64,7 @@ class _Tab1State extends State<Tab1> {
           left: 0,
           right: 0,
           bottom: 22,
-          child: Stack(children: [ListCards(cardStorage: dropdownvalue)]))
+          child: Stack(children: [ListCards(cardStorage: dropDownText)]))
     ]);
   }
 }
@@ -160,7 +160,7 @@ class _MyAppState extends State<ListCards> {
           ),
           borderRadius: BorderRadius.circular(15)),
       child: Column(children: [
-        const Text("Willkommen im Admin Login", style: TextStyle(fontSize: 25)),
+        Text(tab1DP.getWelcomePageHeadline(), style: TextStyle(fontSize: 25)),
         Divider(
           color: tab1CP.getWelcomePageDividerColor(),
           height: 10,
@@ -170,16 +170,8 @@ class _MyAppState extends State<ListCards> {
         ),
         Expanded(
             child: ListView(
-          children: const <Widget>[
-            Text(
-                "Hier werden Ihnen kurz die Funktion des Admin Logins erklärt: \n\n"
-                "- In aktuellen Tab können Sie sich den Status aller Karten anzeigen lassen.\n\n"
-                "- Im zweiten Tab können Sie neue Kartentresore hinzufügen oder berbeiten.\n\n"
-                "- Im dritten Tab können Sie neue Karten hinzufügen oder bearbeiten.\n\n"
-                "- Im vierten Tab können Sie neue Benutzer anlegen oder bearbeiten.\n\n"
-                "- Im fünften Tab können Sie Statistiken anzeigen lassen oder exportieren.\n\n"
-                "Aktuelle Version: v0.0.4 Beta",
-                style: TextStyle(fontSize: 20))
+          children: <Widget>[
+            Text(tab1DP.getWelcomePageText(), style: TextStyle(fontSize: 20))
           ],
         )),
       ]),

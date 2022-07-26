@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../color/color.dart';
+import '../description/description.dart';
+
+Tab2ColorProvider tab2CP = new Tab2ColorProvider();
+Tab2DescrpitionProvider tab2DP = new Tab2DescrpitionProvider();
 
 class Tab2 extends StatelessWidget {
   const Tab2({Key? key}) : super(key: key);

@@ -65,3 +65,5 @@ class Tab1StatsColorProvider {
     return Colors.blueGrey;
   }
 }
+
+class Tab2ColorProvider {}

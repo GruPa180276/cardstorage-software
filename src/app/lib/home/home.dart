@@ -10,15 +10,15 @@ import '../drawer/settings.dart';
 import '../drawer/appinfo.dart';
 import 'package:provider/provider.dart';
 import '../color/color.dart';
+import '../description/description.dart';
 
 HomeColorProvider homeCP = new HomeColorProvider();
+HomeDescrpitionProvider homeDP = new HomeDescrpitionProvider();
 
-void main() => runApp(const Home());
+void main() => runApp(Home());
 
 class Home extends StatelessWidget {
-  const Home({super.key});
-
-  static const appTitle = 'Card-View';
+  Home({super.key});
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
@@ -32,8 +32,8 @@ class Home extends StatelessWidget {
             primarySwatch: homeCP.getHeaderColor(),
           ),
           darkTheme: Mythemes.darkTheme,
-          title: appTitle,
-          home: const MyHomePage(title: appTitle),
+          title: homeDP.getAppTitle(),
+          home: MyHomePage(),
           debugShowCheckedModeBanner: false,
         );
       });
@@ -55,14 +55,12 @@ class ChangeThemeButtonWidget extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(title: Text(homeDP.getAppTitle())),
       body: const Center(child: SelectionBar()),
       drawer: Drawer(
         child: ListView(
@@ -73,7 +71,7 @@ class MyHomePage extends StatelessWidget {
                   color: homeCP.getDrawerHeaderColor(),
                 ),
                 child: Image.asset(
-                  "img/splashscreen.jpg",
+                  homeDP.getDrawerIconPath(),
                 )),
             Divider(
               color: homeCP.getDrawerHeaderDividerColor(),
@@ -87,7 +85,8 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.all(15),
                 alignment: Alignment.topLeft,
                 child: Column(children: [
-                  Text('Settings', style: const TextStyle(fontSize: 20)),
+                  Text(homeDP.getDrawerSettingsTabName(),
+                      style: const TextStyle(fontSize: 20)),
                 ]),
               ),
               onTap: () {
@@ -110,7 +109,8 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.all(15),
                 alignment: Alignment.topLeft,
                 child: Column(children: [
-                  Text('App Info', style: const TextStyle(fontSize: 20)),
+                  Text(homeDP.getDrawerAppInfoTabName(),
+                      style: const TextStyle(fontSize: 20)),
                 ]),
               ),
               onTap: () {

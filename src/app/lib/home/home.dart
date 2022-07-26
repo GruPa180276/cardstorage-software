@@ -61,7 +61,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(homeDP.getAppTitle())),
-      body: const Center(child: SelectionBar()),
+      body: Center(child: SelectionBar()),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -136,30 +136,43 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class SelectionBar extends StatelessWidget {
-  const SelectionBar({Key? key}) : super(key: key);
+class SelectionBar extends StatefulWidget {
+  SelectionBar({Key? key}) : super(key: key) {}
 
+  @override
+  State<SelectionBar> createState() => _SelectionBarState();
+}
+
+class _SelectionBarState extends State<SelectionBar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 5,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
-          child: TabBar(
-            labelColor: homeCP.getTabBarLabelColor(),
-            tabs: [
-              Tab(icon: Icon(Icons.credit_card)),
-              Tab(icon: Icon(Icons.directions_transit)),
-              Tab(icon: Icon(Icons.directions_bike)),
-              Tab(icon: Icon(Icons.directions_boat)),
-              Tab(icon: Icon(Icons.directions_bus)),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [Tab1(), Tab2(), Tab3(), Tab4(), Tab5()],
-        ),
+            preferredSize: Size.fromHeight(100),
+            child: Container(
+                height: 50,
+                child: TabBar(
+                  labelColor: homeCP.getTabBarLabelColor(),
+                  tabs: [
+                    Tab(
+                        child: Container(
+                      padding: EdgeInsets.all(3),
+                      child: Column(children: [
+                        Icon(Icons.credit_card),
+                        Text(
+                          "Add",
+                          overflow: TextOverflow.visible,
+                        )
+                      ]),
+                    )),
+                    Tab(icon: Icon(Icons.directions_transit)),
+                    Tab(icon: Icon(Icons.directions_bike)),
+                    Tab(icon: Icon(Icons.directions_boat)),
+                    Tab(icon: Icon(Icons.directions_bus)),
+                  ],
+                ))),
       ),
     );
   }

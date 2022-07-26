@@ -10,7 +10,7 @@ Tab1ColorProvider tab1CP = new Tab1ColorProvider();
 Tab1DescrpitionProvider tab1DP = new Tab1DescrpitionProvider();
 
 class Tab1 extends StatefulWidget {
-  const Tab1({Key? key}) : super(key: key);
+  Tab1({Key? key}) : super(key: key) {}
 
   @override
   State<Tab1> createState() => _Tab1State();

@@ -39,7 +39,7 @@ class _Tab2State extends State<Tab2> {
                             builder: (context) => AddStorage(),
                           ));
                     },
-                    child: Text('Neuen Automaten hinzufügen'),
+                    child: Text('Neue Automaten hinzufügen'),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

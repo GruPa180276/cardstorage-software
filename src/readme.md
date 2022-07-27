@@ -1,3 +1,2 @@
-# `src` Folder
-
-This folder is four your source code main development! However, don't forget to use BRANCHES!
+# Code
+In this folder you will the code of the Admin App for each plattform

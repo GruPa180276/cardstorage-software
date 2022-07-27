@@ -5,3 +5,5 @@ Habe damit begonnen den Code zu refactoren. Habe eigene Datein für Farben und T
 
 **26.7.2022: 12.35 -> 14:00** <br>
 Habe weiter am zweiten Tab der App gearbeitet. Dieser behandelt das hinzufügen und bearbeiten von Automaten. Dazu habe ich das Layout erstellt und erste Funktionen implementiert. (1h 25min)
+
+**27.7.2022: 7.25 -> xx** <br>

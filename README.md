@@ -6,8 +6,8 @@
 
 
 ## Contributors
-- Johannes Mayrhofer
 - Patrick Grubauer (leader)
+- Johannes Mayrhofer
 - Benedikt Zoechmann
 
 

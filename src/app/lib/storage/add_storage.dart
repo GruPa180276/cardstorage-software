@@ -12,15 +12,16 @@ class _AddStorageState extends State<AddStorage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text("Add Storage"),
-          backgroundColor: Colors.blueGrey,
-          actions: []),
-      body: Container(
-          child: Column(
-        children: [InputFields()],
-      )),
-    );
+        appBar: AppBar(
+            title: const Text("Add Storage"),
+            backgroundColor: Colors.blueGrey,
+            actions: []),
+        body: SingleChildScrollView(
+          child: Container(
+              child: Column(
+            children: [InputFields()],
+          )),
+        ));
   }
 }
 
@@ -91,25 +92,28 @@ class _InputFieldsState extends State<InputFields> {
             onChanged: (value) => ort = value,
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
-            child: SizedBox(
-                width: 370,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Automat hinzufügen'),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ))),
+            child: Container(
+              padding: EdgeInsets.all(10),
+              height: 70,
+              child: Column(children: [
+                SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Automat hinzufügen'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ))
+              ]),
+            )),
         Text("Name: " +
             name +
             "\n IP-Adress: " +

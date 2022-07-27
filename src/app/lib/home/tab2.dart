@@ -23,13 +23,11 @@ class _Tab2State extends State<Tab2> {
     return Stack(
       children: [
         Container(
-          height: 200,
-          padding: const EdgeInsets.all(7),
-          margin: const EdgeInsets.all(7),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               SizedBox(
-                  width: 370,
+                  width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
@@ -39,7 +37,7 @@ class _Tab2State extends State<Tab2> {
                             builder: (context) => AddStorage(),
                           ));
                     },
-                    child: Text('Neue Automaten hinzufügen'),
+                    child: Text('Neuen Automaten hinzufügen'),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -57,7 +55,7 @@ class _Tab2State extends State<Tab2> {
           ),
         ),
         Positioned(
-            top: 90,
+            top: 80,
             left: 0,
             right: 0,
             bottom: 22,

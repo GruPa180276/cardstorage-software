@@ -83,7 +83,7 @@ class _InputFieldsState extends State<InputFields> {
           leading: const Icon(Icons.location_pin),
           title: TextField(
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9\-\_ ])'))
+              FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
             ],
             decoration: InputDecoration(
               hintText: "Ort",
@@ -100,7 +100,9 @@ class _InputFieldsState extends State<InputFields> {
                 width: 370,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text('Automat hinzufügen'),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

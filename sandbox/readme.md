@@ -1,3 +1,3 @@
-# Sandbox Folder
+# Sandbox
 
-This folder should contain subfolder where tryout-code is to be stored (from tutorials, code-experiments, ...).
+This folder is used for testing the app. Currently not in use.

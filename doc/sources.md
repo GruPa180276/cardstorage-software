@@ -30,3 +30,8 @@
 - https://github.com/flutter/flutter/issues/68842
 - https://www.flutterclutter.dev/flutter/troubleshooting/widget-overflowed-by-pixels/2020/461/
 - https://flutter-developer.medium.com/how-to-create-rounded-button-in-flutter-4195c321500f
+- https://www.geeksforgeeks.org/how-to-dismiss-the-virtual-keyboard-in-a-flutter-app/
+- https://emacs.stackexchange.com/questions/55364/is-point-in-a-regexp
+- https://stackoverflow.com/questions/70369998/flutter-textformfield-inputformatters-regular-expression-regex-doesnt-work
+- https://stackoverflow.com/questions/2338044/regex-letters-numbers-dashes-and-underscores
+- https://www.geeksforgeeks.org/retrieve-data-from-textfields-in-flutter/

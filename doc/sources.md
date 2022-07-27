@@ -35,3 +35,4 @@
 - https://stackoverflow.com/questions/70369998/flutter-textformfield-inputformatters-regular-expression-regex-doesnt-work
 - https://stackoverflow.com/questions/2338044/regex-letters-numbers-dashes-and-underscores
 - https://www.geeksforgeeks.org/retrieve-data-from-textfields-in-flutter/
+- https://stackoverflow.com/questions/62894386/how-to-go-back-to-the-previous-page-in-flutter-upon-button-press

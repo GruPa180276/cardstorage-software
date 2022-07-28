@@ -2,6 +2,8 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import '../color/color.dart';
 
+// ToDo: The actual values should be used
+
 Tab1StatsColorProvider tab1StatsCP = new Tab1StatsColorProvider();
 
 class CardStats extends StatefulWidget {

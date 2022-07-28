@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../color/color.dart';
-import '../textValues/textValues.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../storage/storage_settings.dart';
 import '../storage/add_Storage.dart';
 
+// ToDo: Changed the API Calls to the actual API
+
 Tab2ColorProvider tab2CP = new Tab2ColorProvider();
-Tab2DescrpitionProvider tab2DP = new Tab2DescrpitionProvider();
 
 class Tab2 extends StatefulWidget {
   Tab2({Key? key}) : super(key: key) {}
@@ -138,7 +138,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => StorageSettings(),
+              builder: (context) => StorageSettings(data[index].id),
             ));
       },
     );

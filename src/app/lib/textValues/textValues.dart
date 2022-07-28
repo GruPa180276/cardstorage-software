@@ -43,9 +43,3 @@ class Tab1DescrpitionProvider {
         "Aktuelle Version: v0.0.4 Beta";
   }
 }
-
-class Tab2DescrpitionProvider {
-  String getAppTitle() {
-    return "Storage-View";
-  }
-}

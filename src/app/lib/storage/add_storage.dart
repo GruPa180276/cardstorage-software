@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../values/tab2_storage_values.dart';
+
+// ToDo: The needs to be pushed to the API
+
+Tab2StorageSettingsValuesProvider tab2SSVP =
+    new Tab2StorageSettingsValuesProvider();
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);
@@ -33,11 +39,6 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
-  String name = "";
-  String ipAdress = "";
-  String numberOfCards = "";
-  String ort = "";
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +52,7 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
               hintText: "Name",
             ),
-            onChanged: (value) => name = value,
+            onChanged: (value) => tab2SSVP.setName(value),
           ),
         ),
         ListTile(
@@ -64,7 +65,7 @@ class _InputFieldsState extends State<InputFields> {
               hintText: "IP-Adress",
             ),
             keyboardType: TextInputType.number,
-            onChanged: (value) => ipAdress = value,
+            onChanged: (value) => tab2SSVP.setIpAdress(value),
           ),
         ),
         ListTile(
@@ -77,7 +78,7 @@ class _InputFieldsState extends State<InputFields> {
               hintText: "Anzahl Karten",
             ),
             keyboardType: TextInputType.number,
-            onChanged: (value) => numberOfCards = value,
+            onChanged: (value) => tab2SSVP.setNumberOfCards(value),
           ),
         ),
         ListTile(
@@ -89,7 +90,7 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
               hintText: "Ort",
             ),
-            onChanged: (value) => ort = value,
+            onChanged: (value) => tab2SSVP.setLocation(value),
           ),
         ),
         GestureDetector(
@@ -115,13 +116,13 @@ class _InputFieldsState extends State<InputFields> {
               ]),
             )),
         Text("Name: " +
-            name +
+            tab2SSVP.getName() +
             "\n IP-Adress: " +
-            ipAdress +
+            tab2SSVP.getIpAdress() +
             "\n Number of Cards: " +
-            numberOfCards +
+            tab2SSVP.getNumberOfCards() +
             "\n Ort: " +
-            ort)
+            tab2SSVP.getLocation())
       ]),
     );
   }

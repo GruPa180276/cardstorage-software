@@ -9,8 +9,8 @@ import 'tab5.dart';
 import '../drawer/settings.dart';
 import '../drawer/appinfo.dart';
 import 'package:provider/provider.dart';
-import '../color/color.dart';
-import '../textValues/textValues.dart';
+import '../color/home_color_values.dart';
+import '../text/home_text_values.dart';
 
 HomeColorProvider homeCP = new HomeColorProvider();
 HomeDescrpitionProvider homeDP = new HomeDescrpitionProvider();

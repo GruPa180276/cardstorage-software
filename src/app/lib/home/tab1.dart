@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../color/color.dart';
-import '../textValues/textValues.dart';
+import '../color/tab1_color_values.dart';
+import '../text/tab1_text_values.dart';
 
 // ToDo: Changed the API Calls to the actual API
 

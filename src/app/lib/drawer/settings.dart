@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../color/color.dart';
+import '../color/home_color_values.dart';
 
 SettingsColorProvder settingsCP = new SettingsColorProvder();
 

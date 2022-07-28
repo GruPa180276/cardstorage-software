@@ -4,11 +4,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../values/tab2_storage_values.dart';
+import '../text/tab2_text_values.dart';
+import '../color/tab2_color_values.dart';
 
 // ToDo: The Api needs to be changed in the future
 
 Tab2StorageSettingsValuesProvider tab2SSVP =
     new Tab2StorageSettingsValuesProvider();
+Tab2AlterStorageDescriptionProvider tab2ASDP =
+    new Tab2AlterStorageDescriptionProvider();
+Tab2AlterStorageColorProvider tab2ASCP = new Tab2AlterStorageColorProvider();
 
 class StorageSettings extends StatefulWidget {
   StorageSettings(int id, {Key? key}) : super(key: key) {
@@ -24,8 +29,8 @@ class _StorageSettingsState extends State<StorageSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Storage Settings"),
-          backgroundColor: Colors.blueGrey,
+          title: Text(tab2ASDP.getAppBarTitle()),
+          backgroundColor: tab2ASCP.getAppBarColor(),
           actions: []),
       body: SingleChildScrollView(
           child: Container(
@@ -76,7 +81,8 @@ class _InputFieldsState extends State<InputFields> {
           leading: const Icon(Icons.description),
           title: TextField(
             decoration: InputDecoration(
-                labelText: "Name", hintText: data![tab2SSVP.getId()].title),
+                labelText: tab2ASDP.getNameFieldName(),
+                hintText: data![tab2SSVP.getId()].title),
             onChanged: (value) => tab2SSVP.setName(value),
           ),
         ),
@@ -87,7 +93,7 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([0-9\.])'))
             ],
             decoration: InputDecoration(
-              labelText: "Ip-Adresse",
+              labelText: tab2ASDP.getIpAdressFieldName(),
               hintText: data[tab2SSVP.getId()].id.toString(),
             ),
             keyboardType: TextInputType.number,
@@ -101,7 +107,7 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
             ],
             decoration: InputDecoration(
-              labelText: "Anzahl Karten",
+              labelText: tab2ASDP.getNumberOfCardsFieldName(),
               hintText: data[tab2SSVP.getId()].id.toString(),
             ),
             keyboardType: TextInputType.number,
@@ -115,7 +121,7 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
             ],
             decoration: InputDecoration(
-              labelText: "Ort",
+              labelText: tab2ASDP.getLocationFieldName(),
               hintText: data[tab2SSVP.getId()].title.toString(),
             ),
             onChanged: (value) => tab2SSVP.setLocation(value),
@@ -134,7 +140,7 @@ class _InputFieldsState extends State<InputFields> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('Änderungen speichern'),
+                      child: Text(tab2ASDP.getButtonName()),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

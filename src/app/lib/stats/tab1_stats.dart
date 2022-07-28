@@ -1,6 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import '../color/color.dart';
+import '../color/tab1_color_values.dart';
 
 // ToDo: The actual values should be used
 

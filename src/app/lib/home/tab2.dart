@@ -1,14 +1,16 @@
+import 'package:app/text/tab2_text_values.dart';
 import 'package:flutter/material.dart';
-import '../color/color.dart';
+import '../color/tab2_color_values.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../storage/storage_settings.dart';
+import '../storage/alter_storage.dart';
 import '../storage/add_Storage.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
 Tab2ColorProvider tab2CP = new Tab2ColorProvider();
+Tab2DescrpitionProvider tab2DP = new Tab2DescrpitionProvider();
 
 class Tab2 extends StatefulWidget {
   Tab2({Key? key}) : super(key: key) {}
@@ -37,7 +39,7 @@ class _Tab2State extends State<Tab2> {
                             builder: (context) => AddStorage(),
                           ));
                     },
-                    child: Text('Neuen Automaten hinzufügen'),
+                    child: Text(tab2DP.getButtonDescription()),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

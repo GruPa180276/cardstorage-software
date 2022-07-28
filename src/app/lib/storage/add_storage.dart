@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../values/tab2_storage_values.dart';
+import '../text/tab2_text_values.dart';
+import '../color/tab2_color_values.dart';
 
 // ToDo: The needs to be pushed to the API
 
 Tab2StorageSettingsValuesProvider tab2SSVP =
     new Tab2StorageSettingsValuesProvider();
+Tab2AddStorageDescriptionProvider tab2ASDP =
+    new Tab2AddStorageDescriptionProvider();
+Tab2AddStorageColorProvider tab2ASCP = new Tab2AddStorageColorProvider();
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);
@@ -19,8 +24,8 @@ class _AddStorageState extends State<AddStorage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Add Storage"),
-            backgroundColor: Colors.blueGrey,
+            title: Text(tab2ASDP.getAppBarTitle()),
+            backgroundColor: tab2ASCP.getAppBarColor(),
             actions: []),
         body: SingleChildScrollView(
           child: Container(
@@ -50,7 +55,7 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
             ],
             decoration: InputDecoration(
-              hintText: "Name",
+              labelText: tab2ASDP.getNameFieldName(),
             ),
             onChanged: (value) => tab2SSVP.setName(value),
           ),
@@ -62,7 +67,7 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([0-9\.])'))
             ],
             decoration: InputDecoration(
-              hintText: "IP-Adress",
+              labelText: tab2ASDP.getIpAdressFieldName(),
             ),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab2SSVP.setIpAdress(value),
@@ -75,7 +80,7 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
             ],
             decoration: InputDecoration(
-              hintText: "Anzahl Karten",
+              labelText: tab2ASDP.getNumberOfCardsFieldName(),
             ),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab2SSVP.setNumberOfCards(value),
@@ -88,7 +93,7 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
             ],
             decoration: InputDecoration(
-              hintText: "Ort",
+              labelText: tab2ASDP.getLocationFieldName(),
             ),
             onChanged: (value) => tab2SSVP.setLocation(value),
           ),
@@ -106,7 +111,7 @@ class _InputFieldsState extends State<InputFields> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('Automat hinzufügen'),
+                      child: Text(tab2ASDP.getButtonName()),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

@@ -8,6 +8,7 @@ import '../text/tab3_text_values.dart';
 import '../color/tab3_color_values.dart';
 
 // ToDo: The Api needs to be changed in the future
+// Add API call to select the Card Storage
 
 Tab3StorageSettingsValuesProvider tab3SSVP =
     new Tab3StorageSettingsValuesProvider();
@@ -103,19 +104,29 @@ class _InputFieldsState extends State<InputFields> {
             onChanged: (value) => tab3SSVP.setCardStorage(value),
           ),
         ),
-        ListTile(
-          leading: const Icon(Icons.format_list_numbered),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
-            ],
-            decoration: InputDecoration(
-              labelText: tab3ASDP.getHardwareIDofCardFieldName(),
-              hintText: data[tab3SSVP.getId()].id.toString(),
-            ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab3SSVP.setHardwareID(value),
-          ),
+        Container(
+          padding: EdgeInsets.all(10),
+          height: 70,
+          child: Column(children: [
+            SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildPopupDialog(context),
+                    );
+                  },
+                  child: Text(tab3ASDP.getHardwareIDofCardFieldName()),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ))
+          ]),
         ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
@@ -147,6 +158,46 @@ class _InputFieldsState extends State<InputFields> {
             tab3SSVP.getHardwareID())
       ]),
     ));
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Karte hinzufügen'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+              "Gehen Sie bitte zum Kartenlesegerät am Kartenautomaten und halte Sie die jeweilige Karte vor den Scanner ..."),
+        ],
+      ),
+      actions: <Widget>[
+        Container(
+          padding: EdgeInsets.all(10),
+          height: 70,
+          child: Column(children: [
+            SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // ToDo: Implment Call, to start the Scanner
+                    tab3SSVP.setHardwareID("hardwareID");
+                    if (tab3SSVP.getHardwareID() != "") {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text("Abschließen"),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ))
+          ]),
+        ),
+      ],
+    );
   }
 }
 

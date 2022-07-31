@@ -109,7 +109,11 @@ class _InputFieldsState extends State<InputFields> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        if (tab2SSVP.getName() != "" &&
+                            tab2SSVP.getIpAdress() != "" &&
+                            tab2SSVP.getLocation() != "" &&
+                            tab2SSVP.getNumberOfCards() != "")
+                          Navigator.pop(context);
                       },
                       child: Text(tab2ASDP.getButtonName()),
                       style: ElevatedButton.styleFrom(

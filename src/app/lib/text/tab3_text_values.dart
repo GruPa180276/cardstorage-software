@@ -22,7 +22,7 @@ class Tab3AddStorageDescriptionProvider {
   }
 
   String getHardwareIDofCardFieldName() {
-    return "Anzahl Karten";
+    return "Bitte Karte scannen";
   }
 
   String getCardStorageFieldName() {
@@ -44,7 +44,7 @@ class Tab3AlterStorageDescriptionProvider {
   }
 
   String getHardwareIDofCardFieldName() {
-    return "Anzahl Karten";
+    return "Bitte Karte scannen";
   }
 
   String getCardStorageFieldName() {

@@ -12,5 +12,5 @@ Habe heute an der Add Storage Seite gearbeitet. Dazu habe ich die funktionalitä
 **28.7.2022: 7.25 -> 12.25** <br>
 Habe an der Card Storage Settings Seite gearbeitet. Die Seite ist soweit fertig. Das komplette Layout inklusive funktionalität wurden hinzugefügt. Weiters wurden auch die nötigen Vorkehrung für die API getroffen, das funktioniert soweit auch. Weiters habe ich noch die Add Card Storage Seite bearbeite. Dort habe ich auch alles auf API umgestellt. Habe danach noch etwas Refactoring betrieben. Für jeden eine einzelne Text und Farb Datei erstellt. Weiters habe ich mich noch mit der nativen Ausführung der App unter Windows beschäftigt (Nur weil es mich interessiert) [hier](https://medium.com/flutter-community/flutter-for-desktop-create-and-run-a-desktop-application-ebeb1604f1e0).
 
-**31.7.2022: 8.15 -> xx** <br>
-Habe an Tab3 weitergearbeitet. Dort habe ich das komplette layout zum karten erstellen und bearbeiten hizugefügt. Es wurde auch die komplette Logik implmentiert.
+**31.7.2022: 8.15 -> 11.30 <br>
+Habe an Tab3 weitergearbeitet. Dort habe ich das komplette layout zum karten erstellen und bearbeiten hizugefügt. Es wurde auch die komplette Logik implmentiert. Weiters habe ich mir Gedanken über Änderung an der App gemacht. Danach habe ich noch kleine Änderung vorgenommen und etwas getestet.

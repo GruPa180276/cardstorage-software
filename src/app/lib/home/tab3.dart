@@ -42,7 +42,7 @@ class _Tab3State extends State<Tab3> {
                             builder: (context) => AddCards(),
                           ));
                     },
-                    child: Text("Neue Karte hinzufügen"),
+                    child: Text(tab3DP.getButtonDescription()),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

@@ -1,5 +1,5 @@
 class Tab3DescrpitionProvider {
-  String getAppTitle() {
+  String getButtonDescription() {
     return "Card-View";
   }
 

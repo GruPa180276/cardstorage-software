@@ -4,6 +4,8 @@ author: Benedikt Zöchmann
 date: 20220731
 ---
 
+---
+
 ## Änderung des Layouts bzw. Funktion
 
 Ich habe mir gerade Gedanken über den Aufbau der Applikation Gedanken gemacht. Dabei ist mir aufgefallen, das die Rechteverwaltung für die Karten komplett fehlt. Deshalb werde ich den Statistik Tab gegen einen Rechteverwaltungs Tab tauschen. Dieser wird folgende Funktion beinhalten:

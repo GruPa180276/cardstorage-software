@@ -156,9 +156,9 @@ class _SelectionBarState extends State<SelectionBar> {
                 child: TabBar(
                   labelColor: homeCP.getTabBarLabelColor(),
                   tabs: [
-                    Tab(icon: Icon(Icons.credit_card)),
+                    Tab(icon: Icon(Icons.home_outlined)),
                     Tab(icon: Icon(Icons.storage)),
-                    Tab(icon: Icon(Icons.directions_bike)),
+                    Tab(icon: Icon(Icons.credit_card)),
                     Tab(icon: Icon(Icons.directions_boat)),
                     Tab(icon: Icon(Icons.directions_bus)),
                   ],

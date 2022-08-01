@@ -39,3 +39,5 @@
 - https://www.fluttercampus.com/guide/38/how-to-change-background-color-size-border-radius-of-elevated-button/
 - https://flutterguide.com/how-to-fix-the-error-bottom-overflow-by-xx-xx-pixels-in-flutter/
 - https://dev.to/fluttercorner/how-to-create-popup-in-flutter-popup-menu-example-fluttercorner-com-373e
+- https://www.geeksforgeeks.org/flutter-search-bar/
+- https://stackoverflow.com/questions/56997940/flutter-how-to-initialize-an-empty-list-for-every-object-in-an-array

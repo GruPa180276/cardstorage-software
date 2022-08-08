@@ -12,7 +12,7 @@ Tab4ColorProvider tab4CP = new Tab4ColorProvider();
 
 List<String> values = [];
 
-String id = "";
+List<String> id = [];
 
 class Tab4 extends StatefulWidget {
   const Tab4({Key? key}) : super(key: key);
@@ -123,8 +123,10 @@ class _ShowUsersState extends State<ShowUsers> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                if (data![index].title == id) {
-                  return createStorage(context, data, index);
+                for (int i = 0; i < id.length; i++) {
+                  if (data![index].title == id.elementAt(i)) {
+                    return createStorage(context, data, index);
+                  }
                 }
                 return SizedBox.shrink();
               });
@@ -142,9 +144,10 @@ class _ShowUsersState extends State<ShowUsers> {
     Widget storageState = Text("");
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      storageState = Text("Online", style: const TextStyle(fontSize: 20));
+      storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
     } else if (apiCall == "y") {
-      storageState = Text("Offline", style: const TextStyle(fontSize: 20));
+      storageState =
+          Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
     }
     return Positioned(left: 140, top: 30, child: storageState);
   }
@@ -155,9 +158,9 @@ class _ShowUsersState extends State<ShowUsers> {
     IconData storageIcon = Icons.not_started;
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      storageIcon = Icons.wifi;
+      storageIcon = Icons.event_available;
     } else if (apiCall == "y") {
-      storageIcon = Icons.wifi_off_outlined;
+      storageIcon = Icons.event_busy;
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
   }
@@ -184,7 +187,7 @@ class _ShowUsersState extends State<ShowUsers> {
               left: 15,
               top: 7,
               child: Icon(
-                Icons.storage_rounded,
+                Icons.account_box_outlined,
                 size: 50,
               ))
         ]),
@@ -193,7 +196,7 @@ class _ShowUsersState extends State<ShowUsers> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => StorageSettings(id),
+              builder: (context) => StorageSettings(data[index].title),
             ));
       },
     );
@@ -289,12 +292,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id = matchQuery[index];
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StorageSettings(matchQuery[index]),
-                  ));
+              id.add(matchQuery[index]);
             });
       },
     );
@@ -324,12 +322,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id = matchQuery[index];
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StorageSettings(matchQuery[index]),
-                  ));
+              id.add(matchQuery[index]);
             });
       },
     );

@@ -41,3 +41,4 @@
 - https://dev.to/fluttercorner/how-to-create-popup-in-flutter-popup-menu-example-fluttercorner-com-373e
 - https://www.geeksforgeeks.org/flutter-search-bar/
 - https://stackoverflow.com/questions/56997940/flutter-how-to-initialize-an-empty-list-for-every-object-in-an-array
+- https://www.tutorialkart.com/flutter/flutter-change-margin-at-left-right-top-bottom/

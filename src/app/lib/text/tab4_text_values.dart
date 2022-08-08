@@ -1,6 +1,10 @@
 class Tab4DescrpitionProvider {
-  String getButtonDescription() {
+  String getAddButtonDescription() {
     return "Neuen Benutzer hinzufügen";
+  }
+
+  String getSearchButtonDescription() {
+    return "Benutzer suchen";
   }
 }
 

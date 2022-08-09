@@ -12,14 +12,14 @@ Tab4AddStorageDescriptionProvider tab4ASDP =
     new Tab4AddStorageDescriptionProvider();
 Tab4AddStorageColorProvider tab4ASCP = new Tab4AddStorageColorProvider();
 
-class AddStorage extends StatefulWidget {
-  const AddStorage({Key? key}) : super(key: key);
+class AddUser extends StatefulWidget {
+  const AddUser({Key? key}) : super(key: key);
 
   @override
-  State<AddStorage> createState() => _AddStorageState();
+  State<AddUser> createState() => _AddUserState();
 }
 
-class _AddStorageState extends State<AddStorage> {
+class _AddUserState extends State<AddUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

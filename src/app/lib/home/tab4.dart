@@ -11,7 +11,6 @@ Tab4DescrpitionProvider tab4DP = new Tab4DescrpitionProvider();
 Tab4ColorProvider tab4CP = new Tab4ColorProvider();
 
 List<String> values = [];
-
 List<String> id = [];
 
 class Tab4 extends StatefulWidget {
@@ -38,7 +37,7 @@ class _Tab4State extends State<Tab4> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddStorage(),
+                            builder: (context) => AddUser(),
                           ));
                     },
                     child: Text(tab4DP.getAddButtonDescription()),
@@ -196,7 +195,7 @@ class _ShowUsersState extends State<ShowUsers> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => StorageSettings(data[index].title),
+              builder: (context) => UserSettings(data[index].title),
             ));
       },
     );

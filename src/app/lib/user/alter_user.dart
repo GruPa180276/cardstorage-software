@@ -15,16 +15,16 @@ Tab4AlterStorageDescriptionProvider tab4ASDP =
     new Tab4AlterStorageDescriptionProvider();
 Tab4AlterStorageColorProvider tab4ASCP = new Tab4AlterStorageColorProvider();
 
-class StorageSettings extends StatefulWidget {
-  StorageSettings(String id, {Key? key}) : super(key: key) {
+class UserSettings extends StatefulWidget {
+  UserSettings(String id, {Key? key}) : super(key: key) {
     tab4SSVP.setCallerName(id);
   }
 
   @override
-  State<StorageSettings> createState() => _StorageSettingsState();
+  State<UserSettings> createState() => _UserSettingsState();
 }
 
-class _StorageSettingsState extends State<StorageSettings> {
+class _UserSettingsState extends State<UserSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

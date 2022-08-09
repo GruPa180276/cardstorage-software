@@ -160,7 +160,7 @@ class _SelectionBarState extends State<SelectionBar> {
                     Tab(icon: Icon(Icons.storage)),
                     Tab(icon: Icon(Icons.credit_card)),
                     Tab(icon: Icon(Icons.person)),
-                    Tab(icon: Icon(Icons.directions_bus)),
+                    Tab(icon: Icon(Icons.task)),
                   ],
                 ))),
         body: TabBarView(children: [Tab1(), Tab2(), Tab3(), Tab4(), Tab5()]),

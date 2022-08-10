@@ -5,3 +5,6 @@ Habe am User Login weitergearbeitet. Habe die Such Funktion fertig implementiert
 
 **9.8.2022: 7.05 -> 10.05** <br>
 Habe damit begonnen, ein GitHub project zu erstellen. Dieses habe ich dann auch mit Inhalt befüllt. Danach habe ich mich mit der Rechte Seite beschäftigt. Dazu habe ich begonnen die GUI zu erstellen und die Logik zu implementieren. Aktuell funktioniert es nocht nicht gnaz so wie ich will.
+
+
+**10.8.2022: 6.50 -> xx** <br>

@@ -1,5 +1,6 @@
 import 'package:app/rights/add_rights.dart';
 import 'package:app/rights/alter_rights.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -11,7 +12,8 @@ Tab5ColorProvider tab5CP = new Tab5ColorProvider();
 Tab5DescrpitionProvider tab5DP = new Tab5DescrpitionProvider();
 
 List<String> values = [];
-List<String> id = [];
+
+ValueListenable<List<String>> id = new ValueNotifier([]);
 
 class Tab5 extends StatefulWidget {
   Tab5({Key? key}) : super(key: key) {}
@@ -89,7 +91,13 @@ class _Tab5State extends State<Tab5> {
             right: 0,
             bottom: 22,
             child: Stack(
-              children: [ShowUsers()],
+              children: [
+                ValueListenableBuilder<List<String>>(
+                    valueListenable: id,
+                    builder: (context, value, child) {
+                      return ShowUsers();
+                    })
+              ],
             ))
       ],
     );
@@ -122,8 +130,8 @@ class _ShowUsersState extends State<ShowUsers> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                for (int i = 0; i < id.length; i++) {
-                  if (data![index].title == id.elementAt(i)) {
+                for (int i = 0; i < id.value.length; i++) {
+                  if (data![index].title == id.value.elementAt(i)) {
                     return createStorage(context, data, index);
                   }
                 }
@@ -276,25 +284,24 @@ class CustomSearchDelegate extends SearchDelegate {
       }
     }
     return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return InkWell(
-            child: Container(
-              margin: EdgeInsets.only(left: 3, top: 3, right: 3, bottom: 2),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.blueGrey,
-                  ),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [Text(result)]),
-            ),
-            onTap: () {
-              id.add(matchQuery[index]);
-            });
-      },
-    );
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return InkWell(
+              child: Container(
+                margin: EdgeInsets.only(left: 3, top: 3, right: 3, bottom: 2),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.blueGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Column(children: [Text(result)]),
+              ),
+              onTap: () {
+                id.value.add(matchQuery[index]);
+              });
+        });
   }
 
   @override
@@ -321,7 +328,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id.add(matchQuery[index]);
+              id.value.add(matchQuery[index]);
             });
       },
     );

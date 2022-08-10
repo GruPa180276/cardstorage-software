@@ -27,6 +27,9 @@ class Tab5AddRightsDescriptionProvider {
 }
 
 class Tab5AlterRightsDescriptionProvider {
+  List<String> values = [];
+  String text = "";
+
   String getAppBarTitle() {
     return "Rights Settings";
   }
@@ -44,10 +47,18 @@ class Tab5AlterRightsDescriptionProvider {
   }
 
   List<String> getDropDownValues() {
-    return ['Rechte auswählen ...', '1', '2', '3'];
+    return values;
   }
 
   String getDropDownText() {
-    return "Rechte auswählen ...";
+    return text;
+  }
+
+  void setDropDownValues(List<String> values) {
+    this.values = values;
+  }
+
+  void setDropDownText(String text) {
+    this.text = text;
   }
 }

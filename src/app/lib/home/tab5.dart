@@ -195,7 +195,7 @@ class _ShowUsersState extends State<ShowUsers> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => RightsSettings(data[index].title),
+              builder: (context) => RightsSettings(data[index].title, values),
             ));
       },
     );

@@ -16,9 +16,13 @@ Tab5AlterRightsDescriptionProvider tab5ASDP =
     new Tab5AlterRightsDescriptionProvider();
 Tab5AddRightsColorProvider tab5ASCP = new Tab5AddRightsColorProvider();
 
+List<String> selectedValues = [];
+
 class RightsSettings extends StatefulWidget {
-  RightsSettings(String id, {Key? key}) : super(key: key) {
+  RightsSettings(String id, List<String> values, {Key? key}) : super(key: key) {
     tab5SSVP.setCallerName(id);
+    tab5ASDP.setDropDownValues(values);
+    tab5ASDP.setDropDownText(values.first);
   }
 
   @override
@@ -33,7 +37,29 @@ class _RightsSettingsState extends State<RightsSettings> {
             title: Text(tab5ASDP.getAppBarTitle()),
             backgroundColor: tab5ASCP.getAppBarColor(),
             actions: []),
-        body: SingleChildScrollView(child: Stack(children: [InputFields()])));
+        body: Stack(
+          children: [
+            Container(
+                padding: EdgeInsets.all(10),
+                child: Column(children: [
+                  InputFields(),
+                  Divider(
+                    color: tab5ASCP.getAppBarColor(),
+                    height: 0,
+                    thickness: 2,
+                    indent: 5,
+                    endIndent: 5,
+                  ),
+                ])),
+            Positioned(
+              top: 200,
+              left: 0,
+              right: 0,
+              bottom: 22,
+              child: DropDownValues(),
+            )
+          ],
+        ));
   }
 }
 
@@ -63,7 +89,12 @@ class _DropDownValuesState extends State<DropDownValues> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                return createStorage(context, data, index);
+                for (int i = 0; i < selectedValues.length; i++) {
+                  if (selectedValues[i] == data![index].title) {
+                    return createStorage(context, data, index);
+                  }
+                }
+                return SizedBox.shrink();
               });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -104,6 +135,7 @@ class _DropDownValuesState extends State<DropDownValues> {
     return InkWell(
       child: Container(
         height: 70,
+        margin: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
@@ -126,13 +158,7 @@ class _DropDownValuesState extends State<DropDownValues> {
               ))
         ]),
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RightsSettings(data[index].title),
-            ));
-      },
+      onTap: () {},
     );
   }
 }
@@ -180,7 +206,6 @@ class _InputFieldsState extends State<InputFields> {
   Widget createStorage(BuildContext context, int index, List<Data>? data) {
     return InkWell(
         child: Container(
-      padding: EdgeInsets.all(10),
       child: Column(children: [
         Positioned(
             top: 75,
@@ -215,8 +240,10 @@ class _InputFieldsState extends State<InputFields> {
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
+                          selectedValues.add(newValue!);
+
                           setState(() {
-                            dropDownText = newValue!;
+                            dropDownText = newValue;
                           });
                         },
                       ),
@@ -233,7 +260,6 @@ class _InputFieldsState extends State<InputFields> {
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Container(
-              padding: EdgeInsets.all(10),
               height: 70,
               child: Column(children: [
                 SizedBox(
@@ -252,10 +278,6 @@ class _InputFieldsState extends State<InputFields> {
                     ))
               ]),
             )),
-        Text("Name Recht: " +
-            tab5SSVP.getRightsName() +
-            "\n Zugriff auf: " +
-            tab5SSVP.getAccessName())
       ]),
     ));
   }

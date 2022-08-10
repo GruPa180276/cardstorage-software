@@ -33,8 +33,7 @@ class _RightsSettingsState extends State<RightsSettings> {
             title: Text(tab5ASDP.getAppBarTitle()),
             backgroundColor: tab5ASCP.getAppBarColor(),
             actions: []),
-        body: SingleChildScrollView(
-            child: Stack(children: [InputFields(), DropDownValues()])));
+        body: SingleChildScrollView(child: Stack(children: [InputFields()])));
   }
 }
 
@@ -175,9 +174,10 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
+  String dropDownText = tab5ASDP.getDropDownText();
+  var dropDownValues = tab5ASDP.getDropDownValues();
+
   Widget createStorage(BuildContext context, int index, List<Data>? data) {
-    String dropDownText = tab5ASDP.getDropDownText();
-    var dropDownValues = tab5ASDP.getDropDownValues();
     return InkWell(
         child: Container(
       padding: EdgeInsets.all(10),

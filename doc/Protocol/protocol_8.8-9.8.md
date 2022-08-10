@@ -7,4 +7,5 @@ Habe am User Login weitergearbeitet. Habe die Such Funktion fertig implementiert
 Habe damit begonnen, ein GitHub project zu erstellen. Dieses habe ich dann auch mit Inhalt befüllt. Danach habe ich mich mit der Rechte Seite beschäftigt. Dazu habe ich begonnen die GUI zu erstellen und die Logik zu implementieren. Aktuell funktioniert es nocht nicht gnaz so wie ich will.
 
 
-**10.8.2022: 6.50 -> xx** <br>
+**10.8.2022: 6.50 -> 9.50** <br>
+Habe an der Rights Page weiter gearbeitet. Jetzt werden die Werte in der Auswahlbox richtig dargestellt und die ausgewählten Rechte auch angezeigt. Das Reload Problem besteht weiterhin. Habe es versuch mit setState() und dem ValueableListener zu lösen, habe es aber auch nicht hinbekommen.

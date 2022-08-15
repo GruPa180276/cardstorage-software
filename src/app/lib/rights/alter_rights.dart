@@ -50,9 +50,23 @@ class _RightsSettingsState extends State<RightsSettings> {
                     indent: 5,
                     endIndent: 5,
                   ),
+                  SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {});
+                        },
+                        child: Text("Rechte anzeigen"),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      )),
                 ])),
             Positioned(
-              top: 200,
+              top: 250,
               left: 0,
               right: 0,
               bottom: 22,
@@ -241,10 +255,7 @@ class _InputFieldsState extends State<InputFields> {
                         }).toList(),
                         onChanged: (String? newValue) {
                           selectedValues.add(newValue!);
-
-                          setState(() {
-                            dropDownText = newValue;
-                          });
+                          dropDownText = newValue;
                         },
                       ),
                     ],

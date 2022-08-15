@@ -1,6 +1,5 @@
 import 'package:app/rights/add_rights.dart';
 import 'package:app/rights/alter_rights.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -13,7 +12,7 @@ Tab5DescrpitionProvider tab5DP = new Tab5DescrpitionProvider();
 
 List<String> values = [];
 
-ValueListenable<List<String>> id = new ValueNotifier([]);
+List<String> id = [];
 
 class Tab5 extends StatefulWidget {
   Tab5({Key? key}) : super(key: key) {}
@@ -67,8 +66,9 @@ class _Tab5State extends State<Tab5> {
                       child: ElevatedButton(
                         onPressed: () {
                           showSearch(
-                              context: context,
-                              delegate: CustomSearchDelegate());
+                            context: context,
+                            delegate: CustomSearchDelegate(),
+                          );
                         },
                         child: Text(tab5DP.getSearchButtonDescription()),
                         style: ElevatedButton.styleFrom(
@@ -84,20 +84,28 @@ class _Tab5State extends State<Tab5> {
                 indent: 5,
                 endIndent: 5,
               ),
+              SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {});
+                    },
+                    child: Text("Benutzer anzeigen"),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  )),
             ])),
         Positioned(
-            top: 170,
+            top: 230,
             left: 0,
             right: 0,
             bottom: 22,
             child: Stack(
-              children: [
-                ValueListenableBuilder<List<String>>(
-                    valueListenable: id,
-                    builder: (context, value, child) {
-                      return ShowUsers();
-                    })
-              ],
+              children: [ShowUsers()],
             ))
       ],
     );
@@ -130,8 +138,8 @@ class _ShowUsersState extends State<ShowUsers> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                for (int i = 0; i < id.value.length; i++) {
-                  if (data![index].title == id.value.elementAt(i)) {
+                for (int i = 0; i < id.length; i++) {
+                  if (data![index].title == id.elementAt(i)) {
                     return createStorage(context, data, index);
                   }
                 }
@@ -299,7 +307,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 child: Column(children: [Text(result)]),
               ),
               onTap: () {
-                id.value.add(matchQuery[index]);
+                id.add(matchQuery[index]);
               });
         });
   }
@@ -328,7 +336,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id.value.add(matchQuery[index]);
+              id.add(matchQuery[index]);
             });
       },
     );

@@ -27,6 +27,10 @@ Es wurde eine Mockup fuer die kommende Anwendung erstellt
 **2022-08-16: 7.40 -> 13.10** 5,5h
 
 Nach einmonatiger Pause aufgrund eines Praktikums hatte ich heute mit Herrn  Zoechmann ein Meeting um ueber den aktuellen Stand des Projekt zu reden. Es wurden Aenderungen bei der Ordnerstruktur durchgefuehrt und eine Fehlerbehandlung umgesetzt. Da ich ca. ein Monat nicht beim Projekt weiterarbeiten konnte, musste ich mich bei meinem akutellen Fortschritt wieder einlesen. Danach fing ich mit der Registrierungsseite an. Ich entschied mich eine Progressbar zu programmieren, die das eingegebene Passwort bewertet. Da ich kein Paket aufgrund der Sicherheit verwenden wollte, programmierte ich die Logik selbst. Allerdings hatte ich kleine Komplikationen (Regex), die mir etwas Zeit kosteten. Schlussendlich funktionierte dann der Passwortbewerter
+
+**2022-08-16: 15.00 -> 16.00** 1h
+
+Am Nachmittag wurde eine Stunde bei der Registrierungsseite weitergearbetet. Es wurden Fehler ausgebessert und es wurde ein "Passwort wiederholen" Textfeld hinzugefuegt. Weiters wurde bei der Gesamtlogik etwas geaendert
  
 
  

@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.fromLTRB(0.0, 110.0, 0.0, 0.0),
-          child: const Text('Gsuten',
+          child: const Text('Guten',
               style: TextStyle(
                   fontSize: 80.0,
                   fontWeight: FontWeight.w900,

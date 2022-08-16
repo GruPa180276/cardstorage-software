@@ -91,7 +91,7 @@ class _Tab5State extends State<Tab5> {
                     onPressed: () {
                       setState(() {});
                     },
-                    child: Text("Benutzer anzeigen"),
+                    child: Text(tab5DP.getShowUsersButtonDescription()),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

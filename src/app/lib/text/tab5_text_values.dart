@@ -6,6 +6,10 @@ class Tab5DescrpitionProvider {
   String getSearchButtonDescription() {
     return "Benutzer suchen";
   }
+
+  String getShowUsersButtonDescription() {
+    return "Benutzer anzeigen";
+  }
 }
 
 class Tab5AddRightsDescriptionProvider {
@@ -44,6 +48,10 @@ class Tab5AlterRightsDescriptionProvider {
 
   String getButtonName() {
     return "Recht hinzufügen";
+  }
+
+  String getShowRightsName() {
+    return "Rechte anzeigen";
   }
 
   List<String> getDropDownValues() {

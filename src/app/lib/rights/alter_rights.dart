@@ -1,4 +1,5 @@
 import 'package:app/color/tab5_color_values.dart';
+import 'package:app/home/tab5.dart';
 import 'package:app/text/tab5_text_values.dart';
 import 'package:app/values/tab5_rights_values.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _RightsSettingsState extends State<RightsSettings> {
                         onPressed: () {
                           setState(() {});
                         },
-                        child: Text("Rechte anzeigen"),
+                        child: Text(tab5ASDP.getShowRightsName()),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -153,7 +154,7 @@ class _DropDownValuesState extends State<DropDownValues> {
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: Colors.blueGrey,
+              color: tab5CP.getCardContainerBorderColor(),
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [

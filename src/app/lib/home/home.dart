@@ -128,7 +128,6 @@ class MyHomePage extends StatelessWidget {
               indent: 5,
               endIndent: 5,
             ),
-            ChangeThemeButtonWidget()
           ],
         ),
       ),

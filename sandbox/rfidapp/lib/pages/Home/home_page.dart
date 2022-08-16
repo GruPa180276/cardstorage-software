@@ -12,6 +12,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: const Text('Guten',
+          style: TextStyle(
+              fontSize: 80.0, fontWeight: FontWeight.w900, fontFamily: "Lato")),
+    );
   }
 }

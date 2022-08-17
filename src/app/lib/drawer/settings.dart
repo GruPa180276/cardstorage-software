@@ -16,16 +16,14 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text("Einstellungen"),
-          backgroundColor: settingsCP.getAppBarBackgroundColor(),
-          actions: []),
-      body: Column(children: [
-        Container(
+        appBar: AppBar(
+            title: const Text("Einstellungen"),
+            backgroundColor: settingsCP.getAppBarBackgroundColor(),
+            actions: []),
+        body: Container(
+          padding: EdgeInsets.all(0),
           child: Column(children: [ChangeThemeButtonWidget()]),
-        )
-      ]),
-    );
+        ));
   }
 }
 

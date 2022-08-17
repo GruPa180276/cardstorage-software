@@ -54,13 +54,35 @@ class ChangeThemeButtonWidget extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(homeDP.getAppTitle())),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                child: Icon(Icons.refresh),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Center(child: SelectionBar()),
       drawer: Drawer(
         child: ListView(

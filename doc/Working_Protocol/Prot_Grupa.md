@@ -36,5 +36,8 @@ Am Nachmittag wurde eine Stunde bei der Registrierungsseite weitergearbetet. Es 
 
 Am Vormittag hatte mit Herrn Zoechmann ein Meeting um zu was fuer Daten die API uns zur verfuegung stellen soll. Es wurde ein Markdwon erstellt. Danach habe meine Task beim bereits erstellen git project hinzugefuegt und angepasst.
  
+**2022-08-17: 12.00 -> 14.00** 2,00h
 
+Danach habe ich bei meiner Registrierungsseite weitergearbeitet (Validator) und fertiggestellt. Danach fiel mir auf, dass der Dark bzw. Light Theme sehr kompliziert von mir implementiert wurde. Ich entschied mich diesen zu aendern um Komplikationen bei groesseren Projektfortschritt vermeiden zu koennen. Die restliche Zei schaute ich noch ein Video, was die beste Methode um dies zu programmieren 
+ 
  

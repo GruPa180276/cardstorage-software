@@ -32,7 +32,7 @@ Nach einmonatiger Pause aufgrund eines Praktikums hatte ich heute mit Herrn  Zoe
 
 Am Nachmittag wurde eine Stunde bei der Registrierungsseite weitergearbetet. Es wurden Fehler ausgebessert und es wurde ein "Passwort wiederholen" Textfeld hinzugefuegt. Weiters wurde bei der Gesamtlogik etwas geaendert
 
-**2022-08-17: 9.00 -> 11.00** 2,25h
+**2022-08-17: 9.00 -> 11.15** 2,25h
 
 Am Vormittag hatte mit Herrn Zoechmann ein Meeting um zu was fuer Daten die API uns zur verfuegung stellen soll. Es wurde ein Markdwon erstellt. Danach habe meine Task beim bereits erstellen git project hinzugefuegt und angepasst.
  

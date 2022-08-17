@@ -278,19 +278,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: OutlinedButton.icon(
           icon: Icon(
             Icons.create,
-            color: borderColor,
+            color: Theme.of(context).primaryColor,
           ),
           label: Text(
             "Zurück",
             style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: borderColor),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           onPressed: () {
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const LoginScreen()));
           },
           style: ElevatedButton.styleFrom(
-            side: BorderSide(width: 2.5, color: borderColor),
+            side: BorderSide(
+              width: 2.5,
+              color: Theme.of(context).primaryColor,
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100.0),
             ),

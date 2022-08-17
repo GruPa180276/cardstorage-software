@@ -1,16 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/Login/login_page.dart';
 
-void main() {
-  runApp(MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromARGB(255, 1, 216, 89),
-          secondary: const Color(0xFFFFC107),
-        ),
-      ),
-      darkTheme:
-          ThemeData(brightness: Brightness.dark, primarySwatch: Colors.green),
-      themeMode: ThemeMode.system,
-      home: const LoginScreen()));
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
+
+  runApp(MyApp());
 }
+
+class MyApp extends StatelessWidget {
+  static const String title = 'Light & Dark Theme';
+
+  @override
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+
+          return MaterialApp(
+            title: title,
+            themeMode: themeProvider.themeMode,
+            theme: MyThemes.lightTheme,
+            darkTheme: MyThemes.darkTheme,
+            home: LoginScreen(),
+          );
+        },
+      );
+}
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:rfidapp/pages/Login/login_page.dart';
+// import 'package:rfidapp/provider/theme_provider.dart';
+
+// void main() {
+//   runApp(MaterialApp(
+
+//       // darkTheme:
+//       //     ThemeData(brightness: Brightness.dark, primarySwatch: Colors.green),
+//       themeMode: ThemeMode.system,
+//       theme: MyThemes.lightTheme,
+//       darkTheme: MyThemes.darkTheme,
+//       home: const LoginScreen()));
+// }

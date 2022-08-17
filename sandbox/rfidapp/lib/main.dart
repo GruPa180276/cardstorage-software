@@ -12,7 +12,5 @@ void main() {
       darkTheme:
           ThemeData(brightness: Brightness.dark, primarySwatch: Colors.green),
       themeMode: ThemeMode.system,
-      home: const LoginScreen(
-        title: 'Login Rfid',
-      )));
+      home: const LoginScreen()));
 }

@@ -27,7 +27,6 @@
 \section{Idee}
 Es soll ein Tresor für NFC-Karten entwickelt werden, der NFC-Karten für spezielle Zwecke aufbewahrt. Die NFC-Karten haben das klassische Scheckkarten-Format. Die Gesamtzahl an Schließfächern soll mindestens 10 betragen, kann aber auch größer sein. Jedenfalls soll der gesamte Tresor eine geschlossene Bauform bieten, dessen Bautiefe möglichst gering ist (Maß von Mauer nach vorne). Die folgenden Anforderungen werden erfüllt. 
 
-
 \section{Anforderungen}
 \begin{itemize}
     \item Quaderförmiges Gehäuse mit wenig Bauhöhe zu der Wand
@@ -59,12 +58,12 @@ Es soll ein Tresor für NFC-Karten entwickelt werden, der NFC-Karten für spezie
 \subsection{Arbeitsaufteilung}
 \begin{itemize}
   \item Mayrhofer Johannes: Zentrale API, Datenbank, Hardware (RFID)
-  \item Grubauer Patrick: Flutter App $\rightarrow$ Client-Login, Login-Page
+  \item Grubauer Patrick: Flutter App $\rightarrow$ Client-Login, Login-Page, Menu bzw. Settings
   \item Zöchmann Benedikt: Flutter App $\rightarrow$ Admin-Login, Hardware (Display)
 \end{itemize}
 
 \subsection{Zentrale API}
-to be continued
+Die API ist der zentrale Knotenpunkt zum Austausch von Daten zwischen Client Anwendung (Flutter App) und den Cardstorages. Die Kommunikation zwischen der API und den Clients wird mithilfe der REST (Representaional State Transfer) Architektur realisiert. Die API kommuniziert mit den Cardstorages mithilfe MQTT welche jeweils ein Topic zugewiesen bekommen und so Daten senden als auch empfangen können. Die API speichert etwaige Daten in einer Datenbank. Diese Daten können ausschließlich von der API verwaltet werden. 
 
 \subsection{Client Anwendung}
 Als Grundlage zur adminstrativen als auch benutzerspezifizischen Verwaltung, kommt eine Flutter App zur Anwendung. Wir haben uns für dieses Framework entschieden, da es auf verschiedenen Plattformen bzw. Betriebssystemdn mit einer Version der Software läuft (Native Framework). Um zu dem Admin-Login zu gelangen, wird eine eigener Login, bei der Login-Seite benötigt. D.h Admin und User Anwendung teilen sich ab den Login auf.
@@ -89,7 +88,8 @@ Der User Login wird von den Lehrenden verwendet, um Karten zu beantragen, reserv
   \item Eine eigene Seite zum Reservierungsystem
   \item Quick Login Möglichkeit, per NFC, um sich schnell am Terminal anmelden zu können. 
   \item Quick Card Drop Möglichkeit, per NFC, um sich schnell eine Karte zu holen.
-  \item 
+  \item Möglichkeit Nachrichten an den Admin zu senden (Feedback, Bug-report, Verbesserungen [...])
+  \item Möglichkeit um an den Besitzer eine Karte eine Push Notification zu senden, um sich die Karten abzuholen, falls sie nicht mehr verwendet wird.
 \end{itemize}
 
 \subsection{Admin-Login}
@@ -113,6 +113,5 @@ Der Admin Login soll dazu verwendet werden können, direkt am Display am Automat
  \item Statistik / Auswertungen erstellen
  \item Nice to have: Karten mit bestimmten Rechten erstellen / beschreiben können.
 \end{itemize}
-
 
 \end{document}

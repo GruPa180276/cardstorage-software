@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
+import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.dark;
+  ThemeMode themeMode =
+      AppPreferences.getIsOn() ? ThemeMode.dark : ThemeMode.light;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
 

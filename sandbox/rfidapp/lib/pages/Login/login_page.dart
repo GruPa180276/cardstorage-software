@@ -4,6 +4,7 @@ import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Home/home_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
+import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,12 +17,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool rememberValue = false;
   bool isLoading = false;
+  late bool isDark;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
     init();
+    isDark = AppPreferences.getIsOn();
   }
 
   Future init() async {
@@ -172,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => const RegisterScreen()));
           },
           style: ElevatedButton.styleFrom(
@@ -251,13 +254,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildChangeThemeMode(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-
     return Switch(
-        value: themeProvider.isDarkMode,
-        onChanged: (value) {
+        value: isDark,
+        onChanged: (value) async {
+          await AppPreferences.setIsOn(value);
           final provider = Provider.of<ThemeProvider>(context, listen: false);
-          provider.toggleTheme(value);
+          isDark = value;
+          setState(() {
+            provider.toggleTheme(value);
+          });
         });
   }
 }

@@ -289,7 +289,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           onPressed: () {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const LoginScreen()));
           },
           style: ElevatedButton.styleFrom(

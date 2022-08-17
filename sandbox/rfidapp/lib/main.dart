@@ -3,9 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/Login/login_page.dart';
+import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AppPreferences.init();
+
   // await SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,

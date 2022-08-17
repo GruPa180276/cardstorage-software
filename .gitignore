@@ -76,7 +76,6 @@ dkms.conf
 
 ### Flutter ###
 # Flutter/Dart/Pub related
-**/doc/api/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies

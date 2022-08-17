@@ -3,6 +3,9 @@ import 'package:rfidapp/provider/authentication/user_secure_storage.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Home/home_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
+import 'package:rfidapp/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,24 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  Color borderColor = Colors.black;
-
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-    Brightness brightness =
-        MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-            .platformBrightness;
-    if (brightness == Brightness.dark) {
-      borderColor = Colors.white;
-    }
     init();
   }
 
   Future init() async {
     final rememberState = await UserSecureStorage.getRememberState() ?? '';
-
     if (rememberState == "true") {
       final email = await UserSecureStorage.getUsername() ?? '';
       final password = await UserSecureStorage.getPassword() ?? '';
@@ -57,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            buildChangeThemeMode(this.context),
             buildGreeting(this.context),
             buildEmail(this.context),
             const SizedBox(
@@ -168,19 +161,25 @@ class _LoginScreenState extends State<LoginScreen> {
         child: OutlinedButton.icon(
           icon: Icon(
             Icons.create,
-            color: borderColor,
+            color: Theme.of(context).primaryColor,
           ),
           label: Text(
             "Erstelle einen Account",
             style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: borderColor),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const RegisterScreen()));
           },
           style: ElevatedButton.styleFrom(
-            side: BorderSide(width: 2.5, color: borderColor),
+            side: BorderSide(
+              width: 2.5,
+              color: Theme.of(context).primaryColor,
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100.0),
             ),
@@ -209,16 +208,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // ),
         style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            backgroundColor:
-                MaterialStateProperty.all<Color>(ColorSelect.greenAccent),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100),
-            ))),
-        child: const Text(
+          borderRadius: BorderRadius.circular(100),
+        ))),
+        child: Text(
           'SIGN IN',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ),
     );
@@ -248,5 +248,16 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ],
     );
+  }
+
+  Widget buildChangeThemeMode(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return Switch(
+        value: themeProvider.isDarkMode,
+        onChanged: (value) {
+          final provider = Provider.of<ThemeProvider>(context, listen: false);
+          provider.toggleTheme(value);
+        });
   }
 }

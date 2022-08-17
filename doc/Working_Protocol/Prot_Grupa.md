@@ -39,5 +39,9 @@ Am Vormittag hatte mit Herrn Zoechmann ein Meeting um zu was fuer Daten die API 
 **2022-08-17: 12.00 -> 14.00** 2,00h
 
 Danach habe ich bei meiner Registrierungsseite weitergearbeitet (Validator) und fertiggestellt. Danach fiel mir auf, dass der Dark bzw. Light Theme sehr kompliziert von mir implementiert wurde. Ich entschied mich diesen zu aendern um Komplikationen bei groesseren Projektfortschritt vermeiden zu koennen. Die restliche Zei schaute ich noch ein Video, was die beste Methode um dies zu programmieren 
+
+**2022-08-17: 20:00 -> 23.00** 3,00h
+
+Nach Rechere habe ich damit begonnen einen moeglichst schnelle und kurze Variante zu bauen um das Theme zu aendern. Nach 1,5 Stund ging dieser auch. Allerdings habe ich danach versuch verschiedene weret in eine lokale Db zu speichern, was sich leider als ein Problem darstellte.
  
  

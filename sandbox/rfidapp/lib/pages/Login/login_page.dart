@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/provider/authentication/user_secure_storage.dart';
+import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Home/home_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rfidapp/pages/navigation/menu_navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     // ignore: unnecessary_new
     return new Scaffold(
+      drawer: MenuNavigationDrawer(),
       resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),

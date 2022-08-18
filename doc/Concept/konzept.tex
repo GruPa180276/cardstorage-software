@@ -79,7 +79,7 @@ Die Client bzw. Admin Anwendung auf dem Endgerät des Benutzers als auch auf dem
 Die Cardstorage Einheiten kommunizieren mit der API mithilfe dem MQTT Protokoll. Das Controller-Programm welches auf dem Raspberry (bzw. ein anderer Mikroprozessor) der Cardstorage läuft, kommuniziert mit der API, um die Kommandos welche die API von der Client bzw. Admin Anwendung erhält, auszuführen.
 
 \subsubsection{Datenbank}
-Wie bereits erwähnt werden alle aufzubewahrenden Daten in der Datenbank gespeichert. Zum Einsatz kommt eine relationale Datenbank (für Testzwecke PostgreSQL).
+Wie bereits erwähnt werden alle aufzubewahrenden Daten (Schließfächer, Benutzer, Karten, Rechte) in der Datenbank gespeichert. Zum Einsatz kommt eine relationale Datenbank (für Testzwecke PostgreSQL).
 
 \subsubsection{Fallbeispiel um das Schließfach von der Client-Anwendung am Smartphone zu öffnen}
 Request (POST) vom Smartphone an API mit Schließfach ID; API sendet Kommando per MQTT an Schließfach-Topic um dieses zu öffnen; API speichert möglicherweise dieses Kommando in der DB um später Auswertungen anfertigen zu können; Schließfach-Controller (bsp. Raspberry) erhält Kommando und gibt dies an den Mikrocontroller der Schließfach-Schaltung weiter welches dieses schließlich öffnet.   

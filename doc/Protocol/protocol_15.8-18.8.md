@@ -9,4 +9,5 @@ Habe heute kleine Verbesserungen an der App vorgenommen. Habe mit Herrn Grubauer
 **17.8.2022: 8.00 -> 11.10** <br>
 Habe heute an der User Page gearbeitet. Dort habe ich das Design überarbeitet. Danach habe ich ein Meeting mit Herrn Grubauer abgehalten, wo wir klärten, welche Anforderungen wir an die API haben. (3h 10min)
 
-**18.8.2022: 7.30 -> xx** <br>
+**18.8.2022: 7.30 -> 10.30** <br>
+Habe heute das Problem gelöst, warum der Clear Button auf der Seite 5 und 4 nicht funktionierte. Danach habe ich die Anordnung der Buttons auf den selbigen Seiten geändert. Weiters habe ich noch alle Seiten auf ein einheitliche Design angepasst. Die App wäre soweit auch funktionell, es fehlt ledeglich überall die Implementation der API, die noch nicht vorhanden ist. Zukünftige Änderungen sind im GitHub Project ersichtlich. (3h)

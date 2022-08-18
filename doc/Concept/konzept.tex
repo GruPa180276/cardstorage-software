@@ -1,3 +1,6 @@
+% https://tex.stackexchange.com/questions/1891/figure-reference-reffigresult-renders-as-in-pdf
+% https://texdoc.org/serve/svg/0
+
 \documentclass[a4paper]{article}
 
 \usepackage[ngerman]{babel}
@@ -8,11 +11,12 @@
 \usepackage[style=russian]{csquotes}
 \usepackage{flafter}
 \usepackage{titlesec}
+\usepackage{hyperref}
 
 \titlespacing*{\section}{0pt}{4.3ex plus .2ex}{3ex}
 \titlespacing*{\subsection}{0pt}{4.3ex plus .2ex}{1.5ex}
 
-\newcommand{\DateCreated}{24. Juni 2022\\ 6. Juli 2022}
+\newcommand{\DateCreated}{24. Juni 2022\\ 6. Juli 2022\\ 16. August 2022\\ 18. August 2022}
 
 \title{\Huge{\textbf{RFID Card Management System}}}
 \author{Mayrhofer Johannes, Grubauer Patrick, Zöchmann Benedikt}
@@ -26,7 +30,6 @@
 
 \section{Idee}
 Es soll ein Tresor für NFC-Karten entwickelt werden, der NFC-Karten für spezielle Zwecke aufbewahrt. Die NFC-Karten haben das klassische Scheckkarten-Format. Die Gesamtzahl an Schließfächern soll mindestens 10 betragen, kann aber auch größer sein. Jedenfalls soll der gesamte Tresor eine geschlossene Bauform bieten, dessen Bautiefe möglichst gering ist (Maß von Mauer nach vorne). Die folgenden Anforderungen werden erfüllt. 
-
 
 \section{Anforderungen}
 \begin{itemize}
@@ -50,21 +53,46 @@ Es soll ein Tresor für NFC-Karten entwickelt werden, der NFC-Karten für spezie
 \section{Umsetzung}
 \begin{figure}[htbp]
   \centering
-  \includesvg[scale=0.7125,pretex=\small]{architecture.svg} % https://texdoc.org/serve/svg/0
+  \includesvg[scale=0.7125,pretex=\small]{architecture.svg} 
   \caption{Architektur}
+  \label{architecture}
 \end{figure}
 
 \pagebreak
 
 \subsection{Arbeitsaufteilung}
 \begin{itemize}
-  \item Mayrhofer Johannes: Zentrale API, Datenbank, Hardware (RFID)
-  \item Grubauer Patrick: Flutter App $\rightarrow$ Client-Login, Login-Page
-  \item Zöchmann Benedikt: Flutter App $\rightarrow$ Admin-Login, Hardware (Display)
+    \item Mayrhofer Johannes: Zentrale API, Datenbank, API-Raspberry-$\mu$C Kommunikation
+    \item Grubauer Patrick: Flutter App $\rightarrow$ Client-Login, Login-Page, Menu bzw. Settings, Hardware (RFID)
+    \item Zöchmann Benedikt: Flutter App $\rightarrow$ Admin-Login, Hardware (Display)
 \end{itemize}
 
+\newpage
+
 \subsection{Zentrale API}
-to be continued
+Die API ist der zentrale Knotenpunkt zum Austausch von Daten zwischen Client Anwendung (Flutter App) und den Cardstorages (siehe \autoref{architecture}). Die Kommunikation zwischen der API und den Clients wird mithilfe der REST (Representaional State Transfer) Architektur realisiert. Die API kommuniziert mit den Cardstorages mithilfe MQTT welche jeweils ein Topic zugewiesen bekommen und so Daten senden als auch empfangen können. Die API speichert etwaige Daten in einer Datenbank. Diese Daten können ausschließlich von der API verwaltet werden. Diese wird mithilfe der Programmiersprache Go implementiert. Daten werden im JSON Format ausgetauscht da dies der de-facto Standard zum Austausch von Daten im Internet ist und es sehr gut von Go unterstützt wird.   
+
+\subsubsection{Kommunikation zwischen App und API}
+Die Client bzw. Admin Anwendung auf dem Endgerät des Benutzers als auch auf dem Display des Schließfaches kommunizieren mittels der oben beschriebenen REST API miteinander. 
+
+\subsubsection{Kommunikation zwischen API und Cardstorage Unit}
+Die Cardstorage Einheiten kommunizieren mit der API mithilfe dem MQTT Protokoll. Das Controller-Programm welches auf dem Raspberry (bzw. ein anderer Mikroprozessor) der Cardstorage läuft, kommuniziert mit der API, um die Kommandos welche die API von der Client bzw. Admin Anwendung erhält, auszuführen.
+
+\subsubsection{Datenbank}
+Wie bereits erwähnt werden alle aufzubewahrenden Daten in der Datenbank gespeichert. Zum Einsatz kommt eine relationale Datenbank (für Testzwecke PostgreSQL).
+
+\subsubsection{Fallbeispiel um das Schließfach von der Client-Anwendung am Smartphone zu öffnen}
+Request (POST) vom Smartphone an API mit Schließfach ID; API sendet Kommando per MQTT an Schließfach-Topic um dieses zu öffnen; API speichert möglicherweise dieses Kommando in der DB um später Auswertungen anfertigen zu können; Schließfach-Controller (bsp. Raspberry) erhält Kommando und gibt dies an den Mikrocontroller der Schließfach-Schaltung weiter welches dieses schließlich öffnet.   
+
+\subsubsection{TL;DR}
+Die API ist das Herzstück der Anwendung. Sowohl die Client- und Admin-Anwendung als auch die Cardstorage Einheiten kommunizieren damit. Die API ist, wenn man so will, der Übersetzer zwischen den beiden. Sie übersetzt einerseits die Kommandos der Client- und Admin-Anwendung in MQTT-Befehle welche dann von dem Controller-Programm am z.B. Raspberry des Cardstorage ausgewertet und an die Schaltung weitergegeben werden. Andererseits verwaltet die API auch den Zugriff zur Datenbank, in welcher alle Cardstorage Units (Schließfächer), Benutzer, Karten und Rechte pro Benutzer hinterlegt sind. 
+
+\newpage
+
+\subsection{Cardstorage-Controller}
+Das Programm, welches am Mikroprozessor, in der obigen Grafik (siehe \autoref{architecture}) ein Raspberry Pi, läuft und einerseits die Kommandos, beispielsweise die Schließfachtür per App öffnen, interpretiert und ausführt aber auch andererseits Daten an die API, wenn diese danach fragt, beispielsweise die aktuelle Anzahl der vorhandenen Schlüsselkarten im Schließfach, zurücksendet. Das Cardstorage-Controller-Programm kommuniziert mittels MQTT mit der API. Dieses wird mithilfe der Programmiersprache Go implementiert. Jeder Cardstorage-Controller bekommt ein MQTT-Topic zugewiesen, womit dieser mit dem Broker (Zentrale API) kommunizieren kann. Um, wie oben erwähnt, Funktionen bereitstellen zu können die Hardware beinhaltet, welche von den Mechatronikern enwtickelt wird, beispielsweise die aktuelle Anzahl der vorhandenen Schlüsselkarten im Schließfach, muss der Cardstorage-Controller auch mit dem Mikrocontroller kommunizieren, welcher eben diese Hardware steuert. \textbf{Sobald ein Konzept seitens der Mechatroniker zur Verfügung steht werden Einzelheiten weiter erläutert.}
+
+\newpage
 
 \subsection{Client Anwendung}
 Als Grundlage zur adminstrativen als auch benutzerspezifizischen Verwaltung, kommt eine Flutter App zur Anwendung. Wir haben uns für dieses Framework entschieden, da es auf verschiedenen Plattformen bzw. Betriebssystemdn mit einer Version der Software läuft (Native Framework). Um zu dem Admin-Login zu gelangen, wird eine eigener Login, bei der Login-Seite benötigt. D.h Admin und User Anwendung teilen sich ab den Login auf.
@@ -84,7 +112,7 @@ Der User Login wird von den Lehrenden verwendet, um Karten zu beantragen, reserv
 
 \subsubsection{Funktionen}
 \begin{itemize}
-  \item Als Homepage wird eine Seite mit verschiedenen Grafiken  bspw. über die aktuellen verwendeten, reservieren, benutzen Karten angezeigt. Weiters sollen Informationen, wie die durschnittliche Verwendungsdauer, meist verwendeten Karten visualisiert werden, damit der User besser einschätzen kann, ob er die Karte reservieren soll.
+  \item Als Homepage wird eine Seite mit verschiedenen Grafiken bspw. über die aktuellen verwendeten, reservieren, benutzen Karten angezeigt. Weiters sollen Informationen, wie die durschnittliche Verwendungsdauer, meist verwendeten Karten visualisiert werden, damit der User besser einschätzen kann, ob er die Karte reservieren soll.
   \item Es soll eine Seite mit allen Karten angezeigt werden, wobei man die angezeigten Karten, anhand der Automaten filtern kann.
   \item Eine eigene Seite zum Reservierungsystem
   \item Quick Login Möglichkeit, per NFC, um sich schnell am Terminal anmelden zu können. 
@@ -114,6 +142,5 @@ Der Admin Login soll dazu verwendet werden können, direkt am Display am Automat
  \item Statistik / Auswertungen erstellen
  \item Nice to have: Karten mit bestimmten Rechten erstellen / beschreiben können.
 \end{itemize}
-
 
 \end{document}

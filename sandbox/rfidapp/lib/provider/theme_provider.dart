@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
 
 class ThemeProvider extends ChangeNotifier {
@@ -15,14 +16,18 @@ class ThemeProvider extends ChangeNotifier {
 
 class MyThemes {
   static get darkTheme => ThemeData(
-      scaffoldBackgroundColor: Colors.grey.shade900,
-      colorScheme: const ColorScheme.dark()
-          .copyWith(primary: const Color.fromARGB(255, 1, 216, 89)),
-      primaryColor: Colors.white);
+        scaffoldBackgroundColor: Colors.grey.shade900,
+        colorScheme:
+            const ColorScheme.dark().copyWith(primary: ColorSelect.greenAccent),
+        primaryColor: Colors.white,
+        secondaryHeaderColor: ColorSelect.greenAccent,
+      );
 
   static final lightTheme = ThemeData(
-      scaffoldBackgroundColor: Colors.white,
-      colorScheme: const ColorScheme.light()
-          .copyWith(primary: const Color.fromARGB(255, 1, 216, 89)),
-      primaryColor: Colors.black);
+    scaffoldBackgroundColor: Colors.white,
+    colorScheme:
+        const ColorScheme.light().copyWith(primary: ColorSelect.greenAccent),
+    primaryColor: Colors.black,
+    secondaryHeaderColor: ColorSelect.greenAccent,
+  );
 }

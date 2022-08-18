@@ -8,3 +8,5 @@ Habe heute kleine Verbesserungen an der App vorgenommen. Habe mit Herrn Grubauer
 
 **17.8.2022: 8.00 -> 11.10** <br>
 Habe heute an der User Page gearbeitet. Dort habe ich das Design überarbeitet. Danach habe ich ein Meeting mit Herrn Grubauer abgehalten, wo wir klärten, welche Anforderungen wir an die API haben. (3h 10min)
+
+**18.8.2022: 7.30 -> xx** <br>

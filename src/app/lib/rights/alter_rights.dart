@@ -34,45 +34,69 @@ class _RightsSettingsState extends State<RightsSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  child: Icon(Icons.refresh),
+                ),
+              ),
+            ),
+          ],
+        ),
         appBar: AppBar(
-            title: Text(tab5ASDP.getAppBarTitle()),
-            backgroundColor: tab5ASCP.getAppBarColor(),
-            actions: []),
+          title: Text(tab5ASDP.getAppBarTitle()),
+          backgroundColor: tab5ASCP.getAppBarColor(),
+        ),
         body: Stack(
           children: [
             Container(
                 padding: EdgeInsets.all(10),
                 child: Column(children: [
                   InputFields(),
-                  Divider(
-                    color: tab5ASCP.getAppBarColor(),
-                    height: 0,
-                    thickness: 2,
-                    indent: 5,
-                    endIndent: 5,
-                  ),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {});
-                        },
-                        child: Text(tab5ASDP.getShowRightsName()),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      )),
                 ])),
             Positioned(
-              top: 250,
+              top: 100,
               left: 0,
               right: 0,
               bottom: 22,
               child: DropDownValues(),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: FloatingActionButton.extended(
+                  label: Text("Add"),
+                  icon: Icon(Icons.add),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton.extended(
+                  label: Text("Remove"),
+                  icon: Icon(Icons.add),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    // ToDo
+                  },
+                ),
+              ),
+            ),
           ],
         ));
   }
@@ -125,7 +149,8 @@ class _DropDownValuesState extends State<DropDownValues> {
     Widget storageState = Text("");
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
+      storageState =
+          Text("Zugriff auf ...", style: const TextStyle(fontSize: 20));
     } else if (apiCall == "y") {
       storageState =
           Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
@@ -139,7 +164,7 @@ class _DropDownValuesState extends State<DropDownValues> {
     IconData storageIcon = Icons.not_started;
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      storageIcon = Icons.event_available;
+      storageIcon = Icons.task;
     } else if (apiCall == "y") {
       storageIcon = Icons.event_busy;
     }
@@ -168,7 +193,7 @@ class _DropDownValuesState extends State<DropDownValues> {
               left: 15,
               top: 7,
               child: Icon(
-                Icons.account_box_outlined,
+                Icons.task,
                 size: 50,
               ))
         ]),
@@ -220,78 +245,40 @@ class _InputFieldsState extends State<InputFields> {
 
   Widget createStorage(BuildContext context, int index, List<Data>? data) {
     return InkWell(
-        child: Container(
-      child: Column(children: [
-        Positioned(
-            top: 75,
-            left: 0,
-            right: 0,
-            bottom: 22,
-            child: Stack(children: [
-              Container(
-                  height: 80,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 3,
-                        color: tab5ASCP.getAppBarColor(),
-                      ),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    children: <Widget>[
-                      DropdownButton(
-                        value: dropDownText,
-                        isExpanded: true,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 30,
-                        underline: Container(
-                          height: 2,
-                          color: tab5ASCP.getAppBarColor(),
-                        ),
-                        items: dropDownValues.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            alignment: Alignment.center,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          selectedValues.add(newValue!);
-                          dropDownText = newValue;
-                        },
-                      ),
-                    ],
-                  )),
-            ])),
-        Divider(
-          color: tab5ASCP.getAppBarColor(),
-          height: 30,
-          thickness: 2,
-          indent: 5,
-          endIndent: 5,
-        ),
-        GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Container(
-              height: 70,
-              child: Column(children: [
-                SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(tab5ASDP.getButtonName()),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ))
-              ]),
-            )),
-      ]),
-    ));
+      child: Container(
+          height: 80,
+          decoration: BoxDecoration(
+              border: Border.all(
+                width: 3,
+                color: tab5ASCP.getAppBarColor(),
+              ),
+              borderRadius: BorderRadius.circular(15)),
+          child: Column(
+            children: <Widget>[
+              DropdownButton(
+                value: dropDownText,
+                isExpanded: true,
+                icon: const Icon(Icons.keyboard_arrow_down),
+                iconSize: 30,
+                underline: Container(
+                  height: 2,
+                  color: tab5ASCP.getAppBarColor(),
+                ),
+                items: dropDownValues.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    alignment: Alignment.center,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  selectedValues.add(newValue!);
+                  dropDownText = newValue;
+                },
+              ),
+            ],
+          )),
+    );
   }
 }
 

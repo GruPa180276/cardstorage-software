@@ -27,86 +27,76 @@ class _Tab5State extends State<Tab5> {
     return Stack(
       children: [
         Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(children: [
-              InputFields(),
-              SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddRights(),
-                          ));
-                    },
-                    child: Text(tab5DP.getAddButtonDescription()),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  )),
-              Divider(
-                color: tab5CP.getStorageSelectorDividerColor(),
-                height: 30,
-                thickness: 2,
-                indent: 5,
-                endIndent: 5,
-              ),
-              Positioned(
-                  top: 80,
-                  left: 0,
-                  right: 0,
-                  bottom: 22,
-                  child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          showSearch(
-                            context: context,
-                            delegate: CustomSearchDelegate(),
-                          );
-                        },
-                        child: Text(tab5DP.getSearchButtonDescription()),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ))),
-              Divider(
-                color: tab5CP.getStorageSelectorDividerColor(),
-                height: 30,
-                thickness: 2,
-                indent: 5,
-                endIndent: 5,
+          margin: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: FloatingActionButton.extended(
+                  label: Text("Add"),
+                  icon: Icon(Icons.add),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddRights(),
+                        ));
+                  },
+                ),
               ),
               SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {});
-                    },
-                    child: Text(tab5DP.getShowUsersButtonDescription()),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  )),
-            ])),
+                width: 10,
+              ),
+              Expanded(
+                child: FloatingActionButton.extended(
+                  icon: Icon(Icons.remove),
+                  label: Text("Remove"),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    print("object");
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                  child: FloatingActionButton.extended(
+                icon: Icon(Icons.search),
+                label: Text("Search"),
+                backgroundColor: Colors.blueGrey,
+                onPressed: () {
+                  showSearch(
+                      context: context, delegate: CustomSearchDelegate());
+                },
+              )),
+            ],
+          ),
+        ),
+        InputFields(),
         Positioned(
-            top: 230,
-            left: 0,
-            right: 0,
-            bottom: 22,
-            child: Stack(
-              children: [ShowUsers()],
-            ))
+          top: 70,
+          left: 0,
+          right: 0,
+          bottom: 22,
+          child: ShowUsers(),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton.extended(
+              label: Text("Clear"),
+              icon: Icon(Icons.clear),
+              backgroundColor: Colors.blueGrey,
+              onPressed: () {
+                id = [];
+                setState(() {});
+              },
+            ),
+          ),
+        ),
       ],
     );
   }

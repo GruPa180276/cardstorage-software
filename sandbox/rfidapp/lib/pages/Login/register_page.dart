@@ -4,7 +4,7 @@ import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Login/login_page.dart';
 
 import 'package:flutter/material.dart';
-import 'package:rfidapp/service/validator.dart';
+import 'package:rfidapp/domain/validator.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -71,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  buildFirstName(BuildContext context) {
+  Widget buildFirstName(BuildContext context) {
     return Form(
       key: _formKeyFirstname,
       child: Container(
@@ -98,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  buildLastName(BuildContext context) {
+  Widget buildLastName(BuildContext context) {
     return Form(
       key: _formKeyLastname,
       child: Container(
@@ -125,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  buildRegisterText(BuildContext context) {
+  Widget buildRegisterText(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 35, left: 0, right: 0),
       // ignore: prefer_const_constructors
@@ -135,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  buildEmail(BuildContext context) {
+  Widget buildEmail(BuildContext context) {
     return Form(
       key: _formKeyEmail,
       child: Container(
@@ -162,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  buildPassword(BuildContext context) {
+  Widget buildPassword(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
       child: Form(
@@ -209,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  buildRepeatPassword(BuildContext context) {
+  Widget buildRepeatPassword(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
       child: Form(
@@ -244,7 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     //        readOnly: true,
   }
 
-  buildProgressbar(BuildContext context) {
+  Widget buildProgressbar(BuildContext context) {
     return Stack(children: [
       Container(
         padding: const EdgeInsets.only(top: 40, left: 0, right: 0),

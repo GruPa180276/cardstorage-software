@@ -25,65 +25,77 @@ class _Tab4State extends State<Tab4> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        Container(
+          margin: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: FloatingActionButton.extended(
+                  label: Text("Add"),
+                  icon: Icon(Icons.add),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddUser(),
+                        ));
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: FloatingActionButton.extended(
+                  icon: Icon(Icons.remove),
+                  label: Text("Remove"),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    print("object");
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                  child: FloatingActionButton.extended(
+                icon: Icon(Icons.search),
+                label: Text("Search"),
+                backgroundColor: Colors.blueGrey,
+                onPressed: () {
+                  showSearch(
+                      context: context, delegate: CustomSearchDelegate());
+                },
+              )),
+            ],
+          ),
+        ),
         InputFields(),
         Positioned(
-          top: 10,
-          left: 10,
-          child: FloatingActionButton.extended(
-            label: Text("Add"),
-            icon: Icon(Icons.add),
-            backgroundColor: Colors.blueGrey,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddUser(),
-                  ));
-            },
+          top: 70,
+          left: 0,
+          right: 0,
+          bottom: 22,
+          child: ShowUsers(),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton.extended(
+              label: Text("Clear"),
+              icon: Icon(Icons.clear),
+              backgroundColor: Colors.blueGrey,
+              onPressed: () {
+                id = [];
+                setState(() {});
+              },
+            ),
           ),
         ),
-        Positioned(
-          top: 10,
-          left: 120,
-          child: FloatingActionButton.extended(
-            icon: Icon(Icons.remove),
-            label: Text("Remove"),
-            backgroundColor: Colors.blueGrey,
-            onPressed: () {
-              setState(() {});
-            },
-          ),
-        ),
-        Positioned(
-          top: 10,
-          left: 260,
-          child: FloatingActionButton.extended(
-            icon: Icon(Icons.search),
-            label: Text("Search"),
-            backgroundColor: Colors.blueGrey,
-            onPressed: () {
-              showSearch(context: context, delegate: CustomSearchDelegate());
-            },
-          ),
-        ),
-        Positioned(
-          top: 620,
-          left: 10,
-          child: FloatingActionButton.extended(
-            label: Text("Clear"),
-            icon: Icon(Icons.clear),
-            backgroundColor: Colors.blueGrey,
-            onPressed: () {},
-          ),
-        ),
-        Positioned(
-            top: 70,
-            left: 0,
-            right: 0,
-            bottom: 22,
-            child: Stack(
-              children: [ShowUsers()],
-            )),
       ],
     );
   }

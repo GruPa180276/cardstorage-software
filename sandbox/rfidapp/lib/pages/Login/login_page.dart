@@ -3,9 +3,6 @@ import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Home/home_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
-import 'package:rfidapp/provider/theme_provider.dart';
-import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
-import 'package:provider/provider.dart';
 import 'package:rfidapp/pages/navigation/menu_navigation.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,7 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     init();
-    isDark = AppPreferences.getIsOn();
   }
 
   Future init() async {
@@ -53,7 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            buildChangeThemeMode(this.context),
             buildGreeting(this.context),
             buildEmail(this.context),
             const SizedBox(
@@ -204,8 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
             UserSecureStorage.setPassword(passwordController.text);
           }
           UserSecureStorage.setRememberState(rememberValue.toString());
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const HomePage())); //open app
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomePage())); //open app
         },
         // style: ElevatedButton.styleFrom(
         //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
@@ -252,18 +247,5 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ],
     );
-  }
-
-  Widget buildChangeThemeMode(BuildContext context) {
-    return Switch(
-        value: isDark,
-        onChanged: (value) async {
-          await AppPreferences.setIsOn(value);
-          final provider = Provider.of<ThemeProvider>(context, listen: false);
-          isDark = value;
-          setState(() {
-            provider.toggleTheme(value);
-          });
-        });
   }
 }

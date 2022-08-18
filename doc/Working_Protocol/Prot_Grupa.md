@@ -46,7 +46,14 @@ Nach Rechere habe ich damit begonnen einen moeglichst schnelle und kurze Variant
 
 **2022-08-17: 12:30 -> 16.30** 
 
-Nach etwas Rechere stellte sich mein Fehler heraus, den ich bei der lokalen Datenbank gemacht habe. Danach habe ich etwas bei der Ordnerstrukutur umgeaendert, um eine moeglichst gute Performance zu erreichen. Ebenfalls habe ich mit der Homep[age angefanngen und mir die Dokus zu Menu navigation durchgelesen. Spaeter hatte ich ein Meeting mit Herrn Mayrhofer, um ueber den aktuellen Projektfortschirtt zu reden. Danach zeigte mir Herr Mayrhofer noch sein go Programm, um automatisch die Arbeitsstunden zaehlen zu koennen.
+Nach etwas Rechere stellte sich mein Fehler heraus, den ich bei der lokalen Datenbank gemacht habe. Danach habe ich etwas bei der Ordnerstrukutur umgeaendert, um eine moeglichst gute Performance zu erreichen. Ebenfalls habe ich mit der Homepage angefangen und mir die Dokus zu Menu navigation durchgelesen. Spaeter hatte ich ein Meeting mit Herrn Mayrhofer, um ueber den aktuellen Projektfortschirtt zu reden. Danach zeigte mir Herr Mayrhofer noch sein go Programm, um automatisch die Arbeitsstunden zaehlen zu koennen.
+
+**2022-08-17: 19:00 ->21:04** 
+
+Es wurde der Drawer fuer den ClientLogin erstellt um auf verschiedene Seiten zju wechseln. Dieser hat etwas Zeit gekostet, da ich diesen moeglich "open-closed" programmieren wollte, um Erweiterungen einfach zu machen. Schlussendlich funktionierete dann alles. Danach wurden noch verschiedene Design Ideen gaendert.
+
+
+
  
  
 ## Arbeitszeit
@@ -63,6 +70,6 @@ Nach etwas Rechere stellte sich mein Fehler heraus, den ich bei der lokalen Date
 - 12:00 bis 14:00 Uhr
 - 20:00 bis 23:00 Uhr
 - 12:30 bis 16:30 Uhr
-
+- 19:30 bis 21:30 Uhr
 <!-- { "progress": false } -->
 

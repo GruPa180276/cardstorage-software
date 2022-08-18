@@ -43,7 +43,9 @@
 - https://stackoverflow.com/questions/56997940/flutter-how-to-initialize-an-empty-list-for-every-object-in-an-array
 - https://www.tutorialkart.com/flutter/flutter-change-margin-at-left-right-top-bottom/
 - https://www.fluttercampus.com/guide/322/align-switch-left-on-switchlisttile/
-<<<<<<< HEAD
 - https://www.kindacode.com/article/flutter-floating-action-button/
-=======
->>>>>>> e298c3a9112d66fbbe024427666375eddfd3cc7d
+- https://stackoverflow.com/questions/49279736/how-can-i-display-buttons-side-by-side-in-flutter
+- https://stackoverflow.com/questions/53141752/set-the-space-between-elements-in-row-flutter
+- https://flutterforyou.com/how-to-place-a-button-at-bottom-of-the-screen-in-flutter/
+- https://stackoverflow.com/questions/57271292/flutter-giving-equal-width-to-two-buttons-in-a-buttonbar-with-dynamic-height-fo
+- https://flutteragency.com/add-space-between-widgets/

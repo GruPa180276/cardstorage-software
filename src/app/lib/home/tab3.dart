@@ -29,85 +29,60 @@ class _Tab3State extends State<Tab3> {
       children: [
         Container(
           padding: const EdgeInsets.all(10),
-          child: Column(
+          child: Row(
             children: [
+              Expanded(
+                child: FloatingActionButton.extended(
+                  label: Text("Add"),
+                  icon: Icon(Icons.add),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddCards(),
+                        ));
+                  },
+                ),
+              ),
               SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddCards(),
-                          ));
-                    },
-                    child: Text(tab3DP.getButtonDescription()),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  )),
-              Divider(
-                color: tab3CP.getStorageSelectorDividerColor(),
-                height: 20,
-                thickness: 2,
-                indent: 5,
-                endIndent: 5,
+                width: 10,
               ),
             ],
           ),
         ),
         Positioned(
-            top: 75,
+            top: 70,
             left: 0,
             right: 0,
-            bottom: 22,
-            child: Stack(children: [
-              Container(
-                  padding: const EdgeInsets.all(7),
-                  margin: const EdgeInsets.all(7),
-                  height: 80,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 3,
-                        color: tab3CP.getStorageSelectorBorderColor(),
-                      ),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    children: <Widget>[
-                      DropdownButton(
-                        value: dropDownText,
-                        isExpanded: true,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 30,
-                        underline: Container(
-                          height: 2,
-                          color: tab3CP.getStorageSelectorDividerColor(),
-                        ),
-                        items: dropDownValues.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            alignment: Alignment.center,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropDownText = newValue!;
-                          });
-                        },
-                      ),
-                    ],
-                  )),
-            ])),
-        Positioned(
-            top: 180,
-            left: 0,
-            right: 0,
-            bottom: 22,
-            child: Stack(children: [ListCards(cardStorage: dropDownText)]))
+            bottom: 50,
+            child: Stack(children: [ListCards(cardStorage: dropDownText)])),
+        Padding(
+            padding: EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: DropdownButton(
+                value: dropDownText,
+                icon: const Icon(Icons.keyboard_arrow_down),
+                iconSize: 30,
+                underline: Container(
+                  height: 2,
+                  color: tab3CP.getStorageSelectorDividerColor(),
+                ),
+                items: dropDownValues.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    alignment: Alignment.center,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropDownText = newValue!;
+                  });
+                },
+              ),
+            ))
       ],
     );
   }

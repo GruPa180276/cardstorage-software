@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:rfidapp/config/palette.dart';
+
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
 
@@ -16,6 +18,7 @@ class _HomePageState extends State<HomePage> {
         drawer: MenuNavigationDrawer(),
         appBar: AppBar(
             centerTitle: true,
+            backgroundColor: ColorSelect.greenAccent,
             title: Text(
               "Homepage",
             )),

@@ -42,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     // ignore: unnecessary_new
     return new Scaffold(
-      drawer: MenuNavigationDrawer(),
       resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),

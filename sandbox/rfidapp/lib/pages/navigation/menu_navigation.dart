@@ -24,19 +24,20 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final name = "mustermann@gmail.com";
+    final name = "Mustermann";
     final email = "example@gmail.com";
 
     return Drawer(
         child: Material(
       child: ListView(
-        // buildHeader(
-        //   name:name,
-        //   email:email
-        // )
         padding: EdgeInsets.symmetric(horizontal: 20),
         children: [
-          const SizedBox(height: 48),
+          const SizedBox(height: 20),
+          buildHeader(
+              name: name,
+              email: email,
+              onClicked: () => selectedItem(context, 5)),
+          const SizedBox(height: 10),
           Column(
             children: [
               Row(
@@ -44,40 +45,35 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
                   SizedBox(
                     width: 15,
                   ),
-                  Text("DarkMode",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500, fontFamily: "Lato")),
+                  Text("Theme", style: TextStyle(fontWeight: FontWeight.w500)),
                   SizedBox(
-                    width: 125,
+                    width: 146,
                   ),
                   buildChangeThemeMode(context)
                 ],
               )
             ],
           ),
-          const SizedBox(height: 20),
-          buildMenuItem(
-              text: "Account",
-              icon: Icons.account_box,
-              onclicked: () => selectedItem(context, 0)),
           const SizedBox(height: 16),
           buildMenuItem(
               text: "Einstellungen",
               icon: Icons.settings,
               onclicked: () => selectedItem(context, 1)),
-          const SizedBox(height: 24),
-          Divider(color: Theme.of(context).primaryColor),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
+          Divider(
+            color: Theme.of(context).primaryColor,
+          ),
+          const SizedBox(height: 10),
           buildMenuItem(
               text: "Home",
               icon: Icons.home,
               onclicked: () => selectedItem(context, 2)),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           buildMenuItem(
               text: "Cards",
               icon: Icons.sd_card,
               onclicked: () => selectedItem(context, 3)),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           buildMenuItem(
               text: "Home",
               icon: Icons.info,
@@ -114,6 +110,7 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
 
   Widget buildChangeThemeMode(BuildContext context) {
     return Switch(
+        activeColor: Theme.of(context).secondaryHeaderColor,
         value: isDark,
         onChanged: (value) async {
           await AppPreferences.setIsOn(value);
@@ -125,5 +122,45 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
         });
   }
 
-  buildHeader({required String name, required String email}) {}
+  Widget buildHeader({
+    required String name,
+    required String email,
+    required VoidCallback onClicked,
+  }) =>
+      InkWell(
+        onTap: onClicked,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(15, 40, 0, 16),
+          child: Row(
+            children: [
+              //CircleAvatar(radius: 30, backgroundImage: Icons.account_box),
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: Colors.black54,
+                child: Icon(
+                  Icons.account_box,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    email,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+              Spacer(),
+            ],
+          ),
+        ),
+      );
 }

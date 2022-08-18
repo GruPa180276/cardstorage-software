@@ -135,7 +135,7 @@ class _ListCardsState extends State<ListCards> {
     return InkWell(
       child: Container(
         height: 70,
-        margin: const EdgeInsets.all(5.0),
+        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,

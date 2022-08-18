@@ -174,7 +174,7 @@ class _ShowUsersState extends State<ShowUsers> {
     return InkWell(
       child: Container(
         height: 70,
-        margin: const EdgeInsets.all(5.0),
+        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
@@ -287,7 +287,8 @@ class CustomSearchDelegate extends SearchDelegate {
           var result = matchQuery[index];
           return InkWell(
               child: Container(
-                margin: EdgeInsets.only(left: 3, top: 3, right: 3, bottom: 2),
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
                 decoration: BoxDecoration(
                     border: Border.all(
                       width: 3,
@@ -316,7 +317,8 @@ class CustomSearchDelegate extends SearchDelegate {
         var result = matchQuery[index];
         return InkWell(
             child: Container(
-              margin: EdgeInsets.only(left: 3, top: 3, right: 3, bottom: 2),
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
               decoration: BoxDecoration(
                   border: Border.all(
                     width: 3,

@@ -4,11 +4,11 @@ class Tab1DescrpitionProvider {
   }
 
   List<String> getDropDownValues() {
-    return ['Automat auswählen...', 'All', '1', '2', '3'];
+    return ['Select Storage...', 'All', '1', '2', '3'];
   }
 
   String getDropDownText() {
-    return "Automat auswählen...";
+    return "Select Storage...";
   }
 
   String getWelcomePageHeadline() {
@@ -22,6 +22,6 @@ class Tab1DescrpitionProvider {
         "- Im dritten Tab können Sie neue Karten hinzufügen oder bearbeiten.\n\n"
         "- Im vierten Tab können Sie neue Benutzer anlegen oder bearbeiten.\n\n"
         "- Im fünften Tab können Sie Statistiken anzeigen lassen oder exportieren.\n\n"
-        "Aktuelle Version: v0.0.8 Beta";
+        "Aktuelle Version: v0.1.0 Beta";
   }
 }

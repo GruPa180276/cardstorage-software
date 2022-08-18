@@ -97,10 +97,6 @@ class _InputFieldsState extends State<InputFields> {
                     ))
               ]),
             )),
-        Text("Name Recht: " +
-            tab5SSVP.getRightsName() +
-            "\n Zugriff auf: " +
-            tab5SSVP.getAccessName())
       ]),
     );
   }

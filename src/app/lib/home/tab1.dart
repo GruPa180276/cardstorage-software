@@ -26,8 +26,8 @@ class _Tab1State extends State<Tab1> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-          padding: const EdgeInsets.all(7),
-          margin: const EdgeInsets.all(7),
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           height: 80,
           decoration: BoxDecoration(
               border: Border.all(
@@ -118,7 +118,7 @@ class _MyAppState extends State<ListCards> {
     return InkWell(
       child: Container(
         height: 70,
-        margin: const EdgeInsets.all(5.0),
+        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
@@ -154,7 +154,7 @@ class _MyAppState extends State<ListCards> {
   Widget welcomePage(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
           border: Border.all(
             width: 3,
@@ -185,7 +185,7 @@ class _MyAppState extends State<ListCards> {
     return FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
-        if (widget.cardStorage == "Automat auswählen...") {
+        if (widget.cardStorage == "Select Storage...") {
           return welcomePage(context);
         }
         if (snapshot.hasData) {

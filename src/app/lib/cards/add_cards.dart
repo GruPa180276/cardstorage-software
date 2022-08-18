@@ -124,12 +124,6 @@ class _InputFieldsState extends State<InputFields> {
                     ))
               ]),
             )),
-        Text("Name: " +
-            tab3SSVP.getName() +
-            "\n CardStorage: " +
-            tab3SSVP.getCardStorage() +
-            "\n HardwareID: " +
-            tab3SSVP.getHardwareID())
       ]),
     );
   }

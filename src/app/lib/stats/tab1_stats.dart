@@ -18,7 +18,7 @@ class _CardState extends State<CardStats> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Card"),
+          title: const Text("Stats"),
           backgroundColor: tab1StatsCP.getAppBarBackgroundColor(),
           actions: []),
       body: Column(children: [DeveloperChart(data: data)]),

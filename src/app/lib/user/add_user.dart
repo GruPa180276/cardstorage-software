@@ -127,14 +127,6 @@ class _InputFieldsState extends State<InputFields> {
                     ))
               ]),
             )),
-        Text("Vorname: " +
-            tab4SSVP.getFirstName() +
-            "\n Lastname: " +
-            tab4SSVP.getLastName() +
-            "\n Mail: " +
-            tab4SSVP.getUserMail() +
-            "\n Telefunnummer: " +
-            tab4SSVP.getPhoneNumber())
       ]),
     );
   }

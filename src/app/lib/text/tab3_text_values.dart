@@ -4,11 +4,11 @@ class Tab3DescrpitionProvider {
   }
 
   List<String> getDropDownValues() {
-    return ['Automat auswählen...', '1', '2', '3'];
+    return ['Select Storage...', '1', '2', '3'];
   }
 
   String getDropDownText() {
-    return "Automat auswählen...";
+    return "Select Storage...";
   }
 }
 

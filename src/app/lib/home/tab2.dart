@@ -26,38 +26,27 @@ class _Tab2State extends State<Tab2> {
       children: [
         Container(
           padding: const EdgeInsets.all(10),
-          child: Column(
+          child: Row(
             children: [
-              SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddStorage(),
-                          ));
-                    },
-                    child: Text(tab2DP.getButtonDescription()),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  )),
-              Divider(
-                color: Colors.blueGrey,
-                height: 20,
-                thickness: 2,
-                indent: 5,
-                endIndent: 5,
+              Expanded(
+                child: FloatingActionButton.extended(
+                  label: Text("Add"),
+                  icon: Icon(Icons.add),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddStorage(),
+                        ));
+                  },
+                ),
               ),
             ],
           ),
         ),
         Positioned(
-            top: 80,
+            top: 70,
             left: 0,
             right: 0,
             bottom: 22,
@@ -113,7 +102,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
     return InkWell(
       child: Container(
         height: 70,
-        margin: const EdgeInsets.all(5.0),
+        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,

@@ -124,14 +124,6 @@ class _InputFieldsState extends State<InputFields> {
                     ))
               ]),
             )),
-        Text("Name: " +
-            tab2SSVP.getName() +
-            "\n IP-Adress: " +
-            tab2SSVP.getIpAdress() +
-            "\n Number of Cards: " +
-            tab2SSVP.getNumberOfCards() +
-            "\n Ort: " +
-            tab2SSVP.getLocation())
       ]),
     );
   }

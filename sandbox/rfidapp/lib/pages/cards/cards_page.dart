@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
 
-class HomePage extends StatefulWidget {
+class CardPage extends StatefulWidget {
+  const CardPage({Key? key}) : super(key: key);
+
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CardPage> createState() => _CardPage();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CardPage extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
             centerTitle: true,
             title: Text(
-              "Homepage",
+              "Cards",
             )),
         body: buildGetback(this.context));
   }

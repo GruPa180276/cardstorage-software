@@ -2,14 +2,21 @@
 
 ## Benutzer
 
-### Post
+### POST
 
-- User anlegen/bearbeiten :\[Vorname,Nachname, Email,Passwort,Access Privilges(optional)] (Email ist Unique)
+- User anlegen :\[Vorname,Nachname, Email,Passwort,Access Privilges(optional)] (Email ist Unique)
+
+### PUT
+
+- User bearbeiten :\[Vorname,Nachname, Email,Passwort,Access Privilges(optional)] (Email ist Unique)
+
+### DELETE
+
 - User loeschen: [Email]
 
-### Get
+### GET
 
-- send Email: get all meta-datas
+- :question: **send Email: get all meta-datas** :question:
 
 - getAll Users
 
@@ -17,12 +24,19 @@
 
 ## Karten
 
-### Post
+### POST
 
-- Karte anlegen/bearbeiten :\[Name, StorageID, KartenID] 
+- Karte anlegen :\[Name, StorageID, KartenID] 
+
+### PUT
+
+- Karte bearbeiten :\[Name, StorageID, KartenID] 
+
+### DELETE
+
 - Karte loeschen: [KartenID]
 
-### Get
+### GET
 
 - get all Cards 
 - get all Cards per Card Storage [StorageId] (wird uebergeben)
@@ -31,12 +45,19 @@
 
 ## Automat 
 
-### Post
+### POST
 
-- Automat anlegen/bearbeiten :\[Name,IP-Adress,Capacity, Location] (Name Unique)
+- Automat anlegen :\[Name,IP-Adress,Capacity, Location] (Name Unique)
+
+### PUT
+
+- Automat bearbeiten :\[Name,IP-Adress,Capacity, Location] (Name Unique)
+
+### DELETE
+
 - Automat loeschen: [Name]
 
-### Get
+### GET
 
 - get all CardStorages 
 
@@ -44,11 +65,18 @@
 
 ## Rechte (Optional)
 
-### Post
+### POST
+
+- Rechte anlegen :\[Name, Cardgroup] (Name Unique)
+
+### PUT
 
 - Rechte anlegen/bearbeiten :\[Name, Cardgroup] (Name Unique)
+
+### DELETE
+
 - Rechte loeschen: [Name]
 
-### Get
+### GET
 
 - get all Rightsgroup per User (Email uebergeben)

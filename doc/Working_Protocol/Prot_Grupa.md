@@ -45,6 +45,7 @@ Danach habe ich bei meiner Registrierungsseite weitergearbeitet (Validator) und 
 Nach Rechere habe ich damit begonnen einen moeglichst schnelle und kurze Variante zu bauen um das Theme zu aendern. Nach 1,5 Stund ging dieser auch. Allerdings habe ich danach versuch verschiedene Werte in eine lokale Db zu speichern, was sich leider als ein Problem darstellte.
 
 **2022-08-17: 12:30 -> 16.30** 
+
 Nach etwas Rechere stellte sich mein Fehler heraus, den ich bei der lokalen Datenbank gemacht habe. Danach habe ich etwas bei der Ordnerstrukutur umgeaendert, um eine moeglichst gute Performance zu erreichen. Ebenfalls habe ich mit der Homep[age angefanngen und mir die Dokus zu Menu navigation durchgelesen. Spaeter hatte ich ein Meeting mit Herrn Mayrhofer, um ueber den aktuellen Projektfortschirtt zu reden. Danach zeigte mir Herr Mayrhofer noch sein go Programm, um automatisch die Arbeitsstunden zaehlen zu koennen.
  
  

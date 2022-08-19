@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/provider/dataType/cards.dart';
+import 'package:rfidapp/pages/generate/ListCards.dart';
+import 'package:rfidapp/pages/navigation/menu_navigation.dart';
+import 'package:rfidapp/provider/types/cards.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:rfidapp/provider/restApi/fetchData.dart';
+import 'package:rfidapp/provider/restApi/data.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -20,66 +22,35 @@ class _CardPage extends State<CardPage> {
   @override
   void initState() {
     super.initState();
-    listOfUsers = FetchData.getData("posts").then(
-        (value) => jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+    reloadCardList();
   }
 
-  Future<List<Cards>> getData() async {
-    http.Response response = await http
-        .get(Uri.parse("https://jsonplaceholder.typicode.com/posts"), headers: {
-      //"key":"value" for authen.
-      "Accept": "application/json"
+  void reloadCardList() {
+    setState(() {
+      listOfUsers = FetchData.getData("posts").then((value) =>
+          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+      ListCards.listOfTypes = listOfUsers;
     });
-    return jsonDecode(response.body).map<Cards>(Cards.fromJson).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MenuNavigationDrawer(),
       appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
         title: const Text('Listbv'),
       ),
-      body: Center(child: buildListCards(context)),
+      body: Center(child: ListCards.buildListCards(context)),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          setState(() {
-            listOfUsers = getData();
-          })
-        },
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        child: const Icon(
+          Icons.replay,
+          color: Colors.white,
+        ),
+        onPressed: () => {reloadCardList()},
       ),
     );
   }
-
-  Widget buildListCards(BuildContext context) {
-    return FutureBuilder<List<Cards>>(
-      future: listOfUsers,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        } else if (snapshot.hasData) {
-          final users = snapshot.data!;
-          return buildUsers(users);
-        } else {
-          return Text("${snapshot.error}");
-        }
-      },
-    );
-  }
-
-  Widget buildUsers(List<Cards> users) => ListView.builder(
-      itemCount: users.length,
-      itemBuilder: (context, index) {
-        final user = users[index];
-        return Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          margin: const EdgeInsets.fromLTRB(15, 0, 15, 10),
-          child: ListTile(
-            title: Text(user.title),
-            subtitle: Text(user.userId.toString()),
-          ),
-        );
-      });
 }

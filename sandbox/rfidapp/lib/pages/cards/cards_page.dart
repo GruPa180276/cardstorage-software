@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
+import 'package:rfidapp/provider/cards/cards.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -10,48 +14,72 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPage extends State<CardPage> {
+  late Future<List<Cards>> listOfUsers;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: MenuNavigationDrawer(),
-        appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              "Cards",
-            )),
-        body: buildGetback(this.context));
+  void initState() {
+    super.initState();
+    listOfUsers = getCardsData();
   }
 
-  Widget buildGetback(BuildContext context) {
-    return SizedBox(
-        width: 500,
-        height: 60,
-        child: OutlinedButton.icon(
-          icon: Icon(
-            Icons.create,
-            color: Theme.of(context).primaryColor,
-          ),
-          label: Text(
-            "Zurück",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginScreen()));
-          },
-          style: ElevatedButton.styleFrom(
-            side: BorderSide(
-              width: 2.5,
-              color: Theme.of(context).primaryColor,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0),
-            ),
-          ),
-        ));
+  Future<List<Cards>> getCardsData() async {
+    http.Response response = await http
+        .get(Uri.parse("https://jsonplaceholder.typicode.com/posts"), headers: {
+      //"key":"value" for authen.
+      "Accept": "application/json"
+    });
+    return jsonDecode(response.body).map<Cards>(Cards.fromJson).toList();
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      drawer: MenuNavigationDrawer(),
+      appBar: AppBar(
+        title: const Text('Listbv'),
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+      ),
+      body: Container(child: Center(child: buildListCards(context))),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          setState(() {
+            listOfUsers = getCardsData();
+          })
+        },
+      ),
+    );
+  }
+
+  Widget buildListCards(BuildContext context) {
+    return FutureBuilder<List<Cards>>(
+      future: listOfUsers,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasData) {
+          final users = snapshot.data!;
+          return buildUsers(users);
+        } else {
+          return Text("${snapshot.error}");
+        }
+      },
+    );
+  }
+
+  Widget buildUsers(List<Cards> users) => ListView.builder(
+      itemCount: users.length,
+      itemBuilder: (context, index) {
+        final user = users[index];
+        return Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          margin: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+          child: ListTile(
+            title: Text(user.title),
+            subtitle: Text(user.userId.toString()),
+          ),
+        );
+      });
 }

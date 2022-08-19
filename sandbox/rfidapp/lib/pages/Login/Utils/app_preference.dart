@@ -1,4 +1,3 @@
-import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {

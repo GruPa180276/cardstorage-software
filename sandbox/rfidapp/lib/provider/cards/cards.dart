@@ -1,17 +1,17 @@
-class User {
+class Cards {
   final int userId;
   final int id;
   final String title;
   final String body;
 
-  const User({
+  const Cards({
     required this.userId,
     required this.id,
     required this.title,
     required this.body,
   });
 
-  static User fromJson(json) => User(
+  static Cards fromJson(json) => Cards(
         userId: json['userId'],
         id: json['id'],
         title: json['title'],

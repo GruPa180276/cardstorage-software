@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
-import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Home/home_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
-import 'package:rfidapp/pages/navigation/menu_navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -153,69 +151,75 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildCreateAccount(BuildContext context) {
-    return SizedBox(
-        width: 500,
-        height: 60,
-        child: OutlinedButton.icon(
-          icon: Icon(
-            Icons.create,
-            color: Theme.of(context).primaryColor,
-          ),
-          label: Text(
-            "Erstelle einen Account",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+    return Container(
+      alignment: Alignment.center,
+      child: SizedBox(
+          width: 500,
+          height: 60,
+          child: OutlinedButton.icon(
+            icon: Icon(
+              Icons.create,
               color: Theme.of(context).primaryColor,
             ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const RegisterScreen()));
-          },
-          style: ElevatedButton.styleFrom(
-            side: BorderSide(
-              width: 2.5,
-              color: Theme.of(context).primaryColor,
+            label: Text(
+              "Erstelle einen Account",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const RegisterScreen()));
+            },
+            style: ElevatedButton.styleFrom(
+              side: BorderSide(
+                width: 2.5,
+                color: Theme.of(context).primaryColor,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100.0),
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   Widget buildSignIn(BuildContext context) {
-    return SizedBox(
-      width: 500,
-      height: 60,
-      child: ElevatedButton(
-        onPressed: () {
-          //check if login was succesfull (email and password are vaild)
-          //TODO if not then change rememberState and rememberValue to false
-          if (rememberValue) {
-            UserSecureStorage.setUsername(emailController.text);
-            UserSecureStorage.setPassword(passwordController.text);
-          }
-          UserSecureStorage.setRememberState(rememberValue.toString());
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePage())); //open app
-        },
-        // style: ElevatedButton.styleFrom(
-        //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
+    return Container(
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: 500,
+        height: 60,
+        child: ElevatedButton(
+          onPressed: () {
+            //check if login was succesfull (email and password are vaild)
+            //TODO if not then change rememberState and rememberValue to false
+            if (rememberValue) {
+              UserSecureStorage.setUsername(emailController.text);
+              UserSecureStorage.setPassword(passwordController.text);
+            }
+            UserSecureStorage.setRememberState(rememberValue.toString());
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => HomePage())); //open app
+          },
+          // style: ElevatedButton.styleFrom(
+          //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
 
-        // ),
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-        ))),
-        child: Text(
-          'SIGN IN',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).primaryColor,
+          // ),
+          style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ))),
+          child: Text(
+            'SIGN IN',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

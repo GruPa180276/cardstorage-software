@@ -53,7 +53,8 @@ class _InputFieldsState extends State<InputFields> {
           leading: const Icon(Icons.description),
           title: TextField(
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
               labelText: tab3ASDP.getNameFieldName(),
@@ -65,7 +66,8 @@ class _InputFieldsState extends State<InputFields> {
           leading: const Icon(Icons.storage),
           title: TextField(
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
               labelText: tab3ASDP.getCardStorageFieldName(),

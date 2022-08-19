@@ -87,7 +87,7 @@ class _InputFieldsState extends State<InputFields> {
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z0-9\-\_\ö\ä\ü ])'))
+                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
                 labelText: tab4ASDP.getFirstNameFieldName(),
@@ -100,7 +100,7 @@ class _InputFieldsState extends State<InputFields> {
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z0-9\-\_\ö\ä\ü ])'))
+                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
                 labelText: tab4ASDP.getLastNameFieldName(),
@@ -113,7 +113,7 @@ class _InputFieldsState extends State<InputFields> {
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z0-9\-\_\@\. ])'))
+                  RegExp(r'([A-Za-z0-9\-\_\@\.\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
               labelText: tab4ASDP.getMailFieldName(),

@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 80.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato",
-                  color: ColorSelect.greenAccent)),
+                  color: Theme.of(context).secondaryHeaderColor)),
         )
       ],
     );
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.only(top: 5, left: 0),
       child: CheckboxListTile(
         visualDensity: VisualDensity.compact,
-        activeColor: ColorSelect.greenAccent,
+        activeColor: Theme.of(context).secondaryHeaderColor,
         title: const Text("Remember me"),
         //contentPadding: EdgeInsets.fromLTRB(50, 0, 0, 0),
         value: rememberValue,
@@ -238,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Text(
             'Passwort ändern',
             style: TextStyle(
-                color: ColorSelect.greenAccent,
+                color: Theme.of(context).secondaryHeaderColor,
                 fontFamily: 'Lato',
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline),

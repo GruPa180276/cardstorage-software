@@ -1,6 +1,7 @@
 class Users {
   final int userId;
 
+  @override
   const Users({
     required this.userId,
   });

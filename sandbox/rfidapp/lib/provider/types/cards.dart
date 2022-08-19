@@ -4,6 +4,7 @@ class Cards {
   final String title;
   final String body;
 
+  @override
   const Cards({
     required this.userId,
     required this.id,

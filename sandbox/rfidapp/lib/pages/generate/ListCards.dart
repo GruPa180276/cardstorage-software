@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-
-import 'package:rfidapp/provider/dataType/cards.dart';
+import 'package:rfidapp/provider/types/cards.dart';
 
 class ListCards {
+  static late var listOfTypes;
+
   //@TODO and voidCallback
-  Widget buildListCards(BuildContext context, Future<List<Cards>> listOfUsers) {
+  static Widget buildListCards(BuildContext context) {
     return FutureBuilder<List<Cards>>(
-      future: listOfUsers,
+      future: listOfTypes,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();

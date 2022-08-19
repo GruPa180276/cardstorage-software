@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/home/home_page.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
@@ -141,10 +142,10 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
           child: Row(
             children: [
               //CircleAvatar(radius: 30, backgroundImage: Icons.account_box),
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 24,
-                backgroundColor: Colors.black54,
-                child: Icon(
+                backgroundColor: ColorSelect.blueAccent,
+                child: const Icon(
                   Icons.account_box,
                   size: 30,
                   color: Colors.white,

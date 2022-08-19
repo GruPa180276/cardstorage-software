@@ -59,3 +59,29 @@ class Tab4AlterStorageDescriptionProvider {
     return "Änderungen speichern";
   }
 }
+
+class Tab4RemoveStorageDescriptionProvider {
+  String getAppBarTitle() {
+    return "Remove Users";
+  }
+
+  String getFirstNameFieldName() {
+    return "Vorname";
+  }
+
+  String getLastNameFieldName() {
+    return "Nachname";
+  }
+
+  String getMailFieldName() {
+    return "Mail";
+  }
+
+  String getPhoneFieldName() {
+    return "Telefonnummer";
+  }
+
+  String getButtonName() {
+    return "Änderungen speichern";
+  }
+}

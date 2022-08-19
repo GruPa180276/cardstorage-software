@@ -1,119 +1,120 @@
+import 'package:app/values/tab3_card_values.dart';
 import 'package:flutter/material.dart';
-import '../text/tab4_text_values.dart';
-import '../color/tab4_color_values.dart';
-import '../user/add_user.dart';
-import '../user/alter_user.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../user/remove_users.dart';
+import '../values/tab3_card_values.dart';
+import '../text/tab4_text_values.dart';
+import '../color/tab3_color_values.dart';
 
-Tab4DescrpitionProvider tab4DP = new Tab4DescrpitionProvider();
-Tab4ColorProvider tab4CP = new Tab4ColorProvider();
+// ToDo: The Api needs to be changed in the future
+
+Tab3StorageSettingsValuesProvider tab3SSVP =
+    new Tab3StorageSettingsValuesProvider();
+Tab4RemoveStorageDescriptionProvider tab4ASDP =
+    new Tab4RemoveStorageDescriptionProvider();
+Tab3AlterStorageColorProvider tab3ASCP = new Tab3AlterStorageColorProvider();
 
 List<String> values = [];
 List<String> id = [];
 
-class Tab4 extends StatefulWidget {
-  const Tab4({Key? key}) : super(key: key);
+class RemoveUsers extends StatefulWidget {
+  RemoveUsers({Key? key}) : super(key: key) {}
 
   @override
-  State<Tab4> createState() => _Tab4State();
+  State<RemoveUsers> createState() => _RemoveCardsState();
 }
 
-class _Tab4State extends State<Tab4> {
+class _RemoveCardsState extends State<RemoveUsers> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          margin: EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: FloatingActionButton.extended(
-                  label: Text("Add"),
-                  icon: Icon(Icons.add),
-                  backgroundColor: Colors.blueGrey,
+    return Scaffold(
+        appBar: AppBar(
+            title: Text(tab4ASDP.getAppBarTitle()),
+            backgroundColor: tab3ASCP.getAppBarColor(),
+            actions: []),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddUser(),
-                        ));
+                    setState(() {});
                   },
+                  child: Icon(Icons.refresh),
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: FloatingActionButton.extended(
+            ),
+          ],
+        ),
+        body: Stack(children: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Expanded(
+                    child: FloatingActionButton.extended(
+                  icon: Icon(Icons.search),
+                  label: Text("Search"),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    showSearch(
+                        context: context, delegate: CustomSearchDelegate());
+                  },
+                )),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    child: FloatingActionButton.extended(
                   icon: Icon(Icons.remove),
                   label: Text("Remove"),
                   backgroundColor: Colors.blueGrey,
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RemoveUsers(),
-                        ));
+                    // ToDo: API Call to remove Storage from DB
                   },
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                  child: FloatingActionButton.extended(
-                icon: Icon(Icons.search),
-                label: Text("Search"),
-                backgroundColor: Colors.blueGrey,
-                onPressed: () {
-                  showSearch(
-                      context: context, delegate: CustomSearchDelegate());
-                },
-              )),
-            ],
-          ),
-        ),
-        InputFields(),
-        Positioned(
-          top: 70,
-          left: 0,
-          right: 0,
-          bottom: 22,
-          child: ShowUsers(),
-        ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: FloatingActionButton.extended(
-              label: Text("Clear"),
-              icon: Icon(Icons.clear),
-              backgroundColor: Colors.blueGrey,
-              onPressed: () {
-                id = [];
-                setState(() {});
-              },
+                )),
+              ],
             ),
           ),
-        ),
-      ],
-    );
+          InputFields2(),
+          Positioned(
+            top: 70,
+            left: 0,
+            right: 0,
+            bottom: 22,
+            child: ShowUsers2(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton.extended(
+                label: Text("Clear"),
+                icon: Icon(Icons.clear),
+                backgroundColor: Colors.blueGrey,
+                onPressed: () {
+                  id = [];
+                  setState(() {});
+                },
+              ),
+            ),
+          ),
+        ]));
   }
 }
 
-class ShowUsers extends StatefulWidget {
-  const ShowUsers({Key? key}) : super(key: key);
+class ShowUsers2 extends StatefulWidget {
+  const ShowUsers2({Key? key}) : super(key: key);
 
   @override
-  State<ShowUsers> createState() => _ShowUsersState();
+  State<ShowUsers2> createState() => _ShowUsersState();
 }
 
-class _ShowUsersState extends State<ShowUsers> {
+class _ShowUsersState extends State<ShowUsers2> {
   late Future<List<Data>> futureData;
 
   @override
@@ -167,9 +168,9 @@ class _ShowUsersState extends State<ShowUsers> {
     IconData storageIcon = Icons.not_started;
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      storageIcon = Icons.event_available;
+      storageIcon = Icons.check;
     } else if (apiCall == "y") {
-      storageIcon = Icons.event_busy;
+      storageIcon = Icons.cancel_rounded;
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
   }
@@ -196,30 +197,23 @@ class _ShowUsersState extends State<ShowUsers> {
               left: 15,
               top: 7,
               child: Icon(
-                Icons.account_box_outlined,
+                Icons.credit_card,
                 size: 50,
               ))
         ]),
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UserSettings(data[index].title),
-            ));
-      },
     );
   }
 }
 
-class InputFields extends StatefulWidget {
-  const InputFields({Key? key}) : super(key: key);
+class InputFields2 extends StatefulWidget {
+  const InputFields2({Key? key}) : super(key: key);
 
   @override
-  State<InputFields> createState() => _InputFieldsState();
+  State<InputFields2> createState() => _InputFields2State();
 }
 
-class _InputFieldsState extends State<InputFields> {
+class _InputFields2State extends State<InputFields2> {
   late Future<List<Data>> futureData;
 
   @override

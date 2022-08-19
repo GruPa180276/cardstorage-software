@@ -1,5 +1,5 @@
+import 'package:app/values/tab3_card_values.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -8,13 +8,15 @@ import '../text/tab3_text_values.dart';
 import '../color/tab3_color_values.dart';
 
 // ToDo: The Api needs to be changed in the future
-// Add API call to select the Card Storage
 
 Tab3StorageSettingsValuesProvider tab3SSVP =
     new Tab3StorageSettingsValuesProvider();
-Tab3AlterStorageDescriptionProvider tab3ASDP =
-    new Tab3AlterStorageDescriptionProvider();
+Tab3RemoveStorageDescriptionProvider tab3ASDP =
+    new Tab3RemoveStorageDescriptionProvider();
 Tab3AlterStorageColorProvider tab3ASCP = new Tab3AlterStorageColorProvider();
+
+List<String> values = [];
+List<String> id = [];
 
 class RemoveCards extends StatefulWidget {
   RemoveCards({Key? key}) : super(key: key) {}
@@ -27,27 +29,92 @@ class _RemoveCardsState extends State<RemoveCards> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(tab3ASDP.getAppBarTitle()),
-          backgroundColor: tab3ASCP.getAppBarColor(),
-          actions: []),
-      body: SingleChildScrollView(
-          child: Container(
-              child: Column(
-        children: [InputFields()],
-      ))),
-    );
+        appBar: AppBar(
+            title: Text(tab3ASDP.getAppBarTitle()),
+            backgroundColor: tab3ASCP.getAppBarColor(),
+            actions: []),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  child: Icon(Icons.refresh),
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: Stack(children: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Expanded(
+                    child: FloatingActionButton.extended(
+                  icon: Icon(Icons.search),
+                  label: Text("Search"),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    showSearch(
+                        context: context, delegate: CustomSearchDelegate());
+                  },
+                )),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    child: FloatingActionButton.extended(
+                  icon: Icon(Icons.remove),
+                  label: Text("Remove"),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    // ToDo: API Call to remove Storage from DB
+                  },
+                )),
+              ],
+            ),
+          ),
+          InputFields2(),
+          Positioned(
+            top: 70,
+            left: 0,
+            right: 0,
+            bottom: 22,
+            child: ShowUsers2(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton.extended(
+                label: Text("Clear"),
+                icon: Icon(Icons.clear),
+                backgroundColor: Colors.blueGrey,
+                onPressed: () {
+                  id = [];
+                  setState(() {});
+                },
+              ),
+            ),
+          ),
+        ]));
   }
 }
 
-class InputFields extends StatefulWidget {
-  const InputFields({Key? key}) : super(key: key);
+class ShowUsers2 extends StatefulWidget {
+  const ShowUsers2({Key? key}) : super(key: key);
 
   @override
-  State<InputFields> createState() => _InputFieldsState();
+  State<ShowUsers2> createState() => _ShowUsersState();
 }
 
-class _InputFieldsState extends State<InputFields> {
+class _ShowUsersState extends State<ShowUsers2> {
   late Future<List<Data>> futureData;
 
   @override
@@ -63,7 +130,16 @@ class _InputFieldsState extends State<InputFields> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Data>? data = snapshot.data;
-          return createStorage(context, data);
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                for (int i = 0; i < id.length; i++) {
+                  if (data![index].title == id.elementAt(i)) {
+                    return createStorage(context, data, index);
+                  }
+                }
+                return SizedBox.shrink();
+              });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -72,123 +148,188 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  Widget createStorage(BuildContext context, List<Data>? data) {
-    return InkWell(
-        child: Container(
-      child: Column(children: [
-        ListTile(
-          leading: const Icon(Icons.description),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab3ASDP.getNameFieldName(),
-                hintText: data![tab3SSVP.getId()].title),
-            onChanged: (value) => tab3SSVP.setName(value),
-          ),
-        ),
-        ListTile(
-          leading: const Icon(Icons.storage),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
-            ],
-            decoration: InputDecoration(
-              labelText: tab3ASDP.getCardStorageFieldName(),
-              hintText: data[tab3SSVP.getId()].id.toString(),
-            ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab3SSVP.setCardStorage(value),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.all(10),
-          height: 70,
-          child: Column(children: [
-            SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    );
-                  },
-                  child: Text(tab3ASDP.getHardwareIDofCardFieldName()),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ))
-          ]),
-        ),
-        GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Container(
-              padding: EdgeInsets.all(10),
-              height: 70,
-              child: Column(children: [
-                SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(tab3ASDP.getButtonName()),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ))
-              ]),
-            )),
-      ]),
-    ));
+  Widget setStateOdCardStorage(String storage) {
+    // ignore: unused_local_variable
+    String storageName = storage;
+    Widget storageState = Text("");
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
+    } else if (apiCall == "y") {
+      storageState =
+          Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
+    }
+    return Positioned(left: 140, top: 30, child: storageState);
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Karte hinzufügen'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-              "Gehen Sie bitte zum Kartenlesegerät am Kartenautomaten und halte Sie die jeweilige Karte vor den Scanner ..."),
-        ],
+  Widget setCardStorageIcon(String storage) {
+    // ignore: unused_local_variable
+    String storageName = storage;
+    IconData storageIcon = Icons.not_started;
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      storageIcon = Icons.check;
+    } else if (apiCall == "y") {
+      storageIcon = Icons.cancel_rounded;
+    }
+    return Positioned(left: 100, top: 30, child: Icon(storageIcon));
+  }
+
+  Widget createStorage(BuildContext context, List<Data>? data, int index) {
+    return InkWell(
+      child: Container(
+        height: 70,
+        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.blueGrey,
+            ),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setStateOdCardStorage(data[index].title.toString()),
+          setCardStorageIcon(data[index].title.toString()),
+          const Positioned(
+              left: 15,
+              top: 7,
+              child: Icon(
+                Icons.credit_card,
+                size: 50,
+              ))
+        ]),
       ),
-      actions: <Widget>[
-        Container(
-          padding: EdgeInsets.all(10),
-          height: 70,
-          child: Column(children: [
-            SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // ToDo: Implment Call, to start the Scanner
-                    tab3SSVP.setHardwareID("hardwareID");
-                    if (tab3SSVP.getHardwareID() != "") {
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: Text("Abschließen"),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+    );
+  }
+}
+
+class InputFields2 extends StatefulWidget {
+  const InputFields2({Key? key}) : super(key: key);
+
+  @override
+  State<InputFields2> createState() => _InputFields2State();
+}
+
+class _InputFields2State extends State<InputFields2> {
+  late Future<List<Data>> futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+    values = [];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          addValues(data!);
+          return Container();
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
+  void addValues(List<Data> data) {
+    values.length = 0;
+    for (int i = 0; i < data.length; i++) {
+      values.add(data[i].title);
+    }
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in values) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return InkWell(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3,
+                    color: Colors.blueGrey,
                   ),
-                ))
-          ]),
-        ),
-      ],
+                  borderRadius: BorderRadius.circular(15)),
+              child: Column(children: [Text(result)]),
+            ),
+            onTap: () {
+              id.add(matchQuery[index]);
+            });
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in values) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return InkWell(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3,
+                    color: Colors.blueGrey,
+                  ),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Column(children: [Text(result)]),
+            ),
+            onTap: () {
+              id.add(matchQuery[index]);
+            });
+      },
     );
   }
 }

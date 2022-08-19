@@ -55,3 +55,25 @@ class Tab3AlterStorageDescriptionProvider {
     return "Änderungen speichern";
   }
 }
+
+class Tab3RemoveStorageDescriptionProvider {
+  String getAppBarTitle() {
+    return "Remove Cards";
+  }
+
+  String getNameFieldName() {
+    return "Name";
+  }
+
+  String getHardwareIDofCardFieldName() {
+    return "Bitte Karte scannen";
+  }
+
+  String getCardStorageFieldName() {
+    return "Karten Storage";
+  }
+
+  String getButtonName() {
+    return "Änderungen speichern";
+  }
+}

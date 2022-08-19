@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -11,9 +10,12 @@ import '../color/tab2_color_values.dart';
 
 Tab2StorageSettingsValuesProvider tab2SSVP =
     new Tab2StorageSettingsValuesProvider();
-Tab2AlterStorageDescriptionProvider tab2ASDP =
-    new Tab2AlterStorageDescriptionProvider();
+Tab2RemoveStorageDescriptionProvider tab2RSDP =
+    new Tab2RemoveStorageDescriptionProvider();
 Tab2AlterStorageColorProvider tab2ASCP = new Tab2AlterStorageColorProvider();
+
+List<String> values = [];
+List<String> id = [];
 
 class RemoveStorage extends StatefulWidget {
   RemoveStorage({Key? key}) : super(key: key) {}
@@ -26,27 +28,92 @@ class _RemoveStorageState extends State<RemoveStorage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(tab2ASDP.getAppBarTitle()),
-          backgroundColor: tab2ASCP.getAppBarColor(),
-          actions: []),
-      body: SingleChildScrollView(
-          child: Container(
-              child: Column(
-        children: [InputFields()],
-      ))),
-    );
+        appBar: AppBar(
+            title: Text(tab2RSDP.getAppBarTitle()),
+            backgroundColor: tab2ASCP.getAppBarColor(),
+            actions: []),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  child: Icon(Icons.refresh),
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: Stack(children: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Expanded(
+                    child: FloatingActionButton.extended(
+                  icon: Icon(Icons.search),
+                  label: Text("Search"),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    showSearch(
+                        context: context, delegate: CustomSearchDelegate());
+                  },
+                )),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    child: FloatingActionButton.extended(
+                  icon: Icon(Icons.remove),
+                  label: Text("Remove"),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    // ToDo: API Call to remove Storage from DB
+                  },
+                )),
+              ],
+            ),
+          ),
+          InputFields2(),
+          Positioned(
+            top: 70,
+            left: 0,
+            right: 0,
+            bottom: 22,
+            child: ShowUsers2(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton.extended(
+                label: Text("Clear"),
+                icon: Icon(Icons.clear),
+                backgroundColor: Colors.blueGrey,
+                onPressed: () {
+                  id = [];
+                  setState(() {});
+                },
+              ),
+            ),
+          ),
+        ]));
   }
 }
 
-class InputFields extends StatefulWidget {
-  const InputFields({Key? key}) : super(key: key);
+class ShowUsers2 extends StatefulWidget {
+  const ShowUsers2({Key? key}) : super(key: key);
 
   @override
-  State<InputFields> createState() => _InputFieldsState();
+  State<ShowUsers2> createState() => _ShowUsersState();
 }
 
-class _InputFieldsState extends State<InputFields> {
+class _ShowUsersState extends State<ShowUsers2> {
   late Future<List<Data>> futureData;
 
   @override
@@ -62,7 +129,16 @@ class _InputFieldsState extends State<InputFields> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Data>? data = snapshot.data;
-          return createStorage(context, data);
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                for (int i = 0; i < id.length; i++) {
+                  if (data![index].title == id.elementAt(i)) {
+                    return createStorage(context, data, index);
+                  }
+                }
+                return SizedBox.shrink();
+              });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -71,84 +147,188 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  Widget createStorage(BuildContext context, List<Data>? data) {
+  Widget setStateOdCardStorage(String storage) {
+    // ignore: unused_local_variable
+    String storageName = storage;
+    Widget storageState = Text("");
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      storageState = Text("Online", style: const TextStyle(fontSize: 20));
+    } else if (apiCall == "y") {
+      storageState = Text("Offline", style: const TextStyle(fontSize: 20));
+    }
+    return Positioned(left: 140, top: 30, child: storageState);
+  }
+
+  Widget setCardStorageIcon(String storage) {
+    // ignore: unused_local_variable
+    String storageName = storage;
+    IconData storageIcon = Icons.not_started;
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      storageIcon = Icons.wifi;
+    } else if (apiCall == "y") {
+      storageIcon = Icons.wifi_off;
+    }
+    return Positioned(left: 100, top: 30, child: Icon(storageIcon));
+  }
+
+  Widget createStorage(BuildContext context, List<Data>? data, int index) {
     return InkWell(
-        child: Container(
-      child: Column(children: [
-        ListTile(
-          leading: const Icon(Icons.description),
-          title: TextField(
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getNameFieldName(),
-                hintText: data![tab2SSVP.getId()].title),
-            onChanged: (value) => tab2SSVP.setName(value),
-          ),
-        ),
-        ListTile(
-          leading: const Icon(Icons.network_wifi),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9\.])'))
-            ],
-            decoration: InputDecoration(
-              labelText: tab2ASDP.getIpAdressFieldName(),
-              hintText: data[tab2SSVP.getId()].id.toString(),
+      child: Container(
+        height: 70,
+        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.blueGrey,
             ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab2SSVP.setIpAdress(value),
-          ),
-        ),
-        ListTile(
-          leading: const Icon(Icons.format_list_numbered),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
-            ],
-            decoration: InputDecoration(
-              labelText: tab2ASDP.getNumberOfCardsFieldName(),
-              hintText: data[tab2SSVP.getId()].id.toString(),
-            ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab2SSVP.setNumberOfCards(value),
-          ),
-        ),
-        ListTile(
-          leading: const Icon(Icons.location_pin),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([A-Za-z0-9\-\_ ])'))
-            ],
-            decoration: InputDecoration(
-              labelText: tab2ASDP.getLocationFieldName(),
-              hintText: data[tab2SSVP.getId()].title.toString(),
-            ),
-            onChanged: (value) => tab2SSVP.setLocation(value),
-          ),
-        ),
-        GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setStateOdCardStorage(data[index].title.toString()),
+          setCardStorageIcon(data[index].title.toString()),
+          const Positioned(
+              left: 15,
+              top: 7,
+              child: Icon(
+                Icons.storage_rounded,
+                size: 50,
+              ))
+        ]),
+      ),
+    );
+  }
+}
+
+class InputFields2 extends StatefulWidget {
+  const InputFields2({Key? key}) : super(key: key);
+
+  @override
+  State<InputFields2> createState() => _InputFields2State();
+}
+
+class _InputFields2State extends State<InputFields2> {
+  late Future<List<Data>> futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+    values = [];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          addValues(data!);
+          return Container();
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
+  void addValues(List<Data> data) {
+    values.length = 0;
+    for (int i = 0; i < data.length; i++) {
+      values.add(data[i].title);
+    }
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in values) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return InkWell(
             child: Container(
               padding: EdgeInsets.all(10),
-              height: 70,
-              child: Column(children: [
-                SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(tab2ASDP.getButtonName()),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ))
-              ]),
-            )),
-      ]),
-    ));
+              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3,
+                    color: Colors.blueGrey,
+                  ),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Column(children: [Text(result)]),
+            ),
+            onTap: () {
+              id.add(matchQuery[index]);
+            });
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in values) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return InkWell(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3,
+                    color: Colors.blueGrey,
+                  ),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Column(children: [Text(result)]),
+            ),
+            onTap: () {
+              id.add(matchQuery[index]);
+            });
+      },
+    );
   }
 }
 

@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../storage/alter_storage.dart';
 import '../storage/add_Storage.dart';
+import '../storage/remove_storage.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
@@ -42,6 +43,23 @@ class _Tab2State extends State<Tab2> {
                   },
                 ),
               ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: FloatingActionButton.extended(
+                  label: Text("Remove"),
+                  icon: Icon(Icons.remove),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RemoveStorage(),
+                        ));
+                  },
+                ),
+              )
             ],
           ),
         ),

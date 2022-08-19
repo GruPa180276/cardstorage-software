@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../themes.dart';
 import 'tab1.dart';
 import 'tab2.dart';
@@ -65,7 +64,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(homeDP.getAppTitle())),
+      appBar: AppBar(
+        title: Text(homeDP.getAppTitle()),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+            ),
+            onPressed: () {
+              // ToDo: Call Login Page from GruPa
+            },
+          )
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Stack(
         children: [

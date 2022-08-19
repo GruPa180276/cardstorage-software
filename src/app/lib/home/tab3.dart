@@ -6,6 +6,7 @@ import '../text/tab3_text_values.dart';
 import '../color/tab3_color_values.dart';
 import '../cards/add_cards.dart';
 import '../cards/alter_cards.dart';
+import '../cards/remove_cards.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
@@ -47,6 +48,20 @@ class _Tab3State extends State<Tab3> {
               ),
               SizedBox(
                 width: 10,
+              ),
+              Expanded(
+                child: FloatingActionButton.extended(
+                  label: Text("Remove"),
+                  icon: Icon(Icons.remove),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RemoveCards(),
+                        ));
+                  },
+                ),
               ),
             ],
           ),

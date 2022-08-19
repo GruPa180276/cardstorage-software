@@ -44,22 +44,25 @@ Danach habe ich bei meiner Registrierungsseite weitergearbeitet (Validator) und 
 
 Nach Rechere habe ich damit begonnen einen moeglichst schnelle und kurze Variante zu bauen um das Theme zu aendern. Nach 1,5 Stund ging dieser auch. Allerdings habe ich danach versuch verschiedene Werte in eine lokale Db zu speichern, was sich leider als ein Problem darstellte.
 
-**2022-08-17: 12:30 -> 16.30** 
+**2022-08-18: 12:30 -> 16.30** 
 
 Nach etwas Rechere stellte sich mein Fehler heraus, den ich bei der lokalen Datenbank gemacht habe. Danach habe ich etwas bei der Ordnerstrukutur umgeaendert, um eine moeglichst gute Performance zu erreichen. Ebenfalls habe ich mit der Homepage angefangen und mir die Dokus zu Menu navigation durchgelesen. Spaeter hatte ich ein Meeting mit Herrn Mayrhofer, um ueber den aktuellen Projektfortschirtt zu reden. Danach zeigte mir Herr Mayrhofer noch sein go Programm, um automatisch die Arbeitsstunden zaehlen zu koennen.
 
-**2022-08-17: 19:00 -> 21:04** 
+**2022-08-18 : 19:00 -> 21:04** 
 
 Es wurde der Drawer fuer den ClientLogin erstellt um auf verschiedene Seiten zju wechseln. Dieser hat etwas Zeit gekostet, da ich diesen moeglich "open-closed" programmieren wollte, um Erweiterungen einfach zu machen. Schlussendlich funktionierete dann alles. Danach wurden noch verschiedene Design Ideen gaendert.
 
-**2022-08-17: 9:20 -> 11:20** 
+**2022-08-19: 9:20 -> 11:20** 
 
 Am Vormittag hatte ich ein Meeting mit Herrn zoechmann um uber dcen aktuellen projektfortschritt bzw aufteilung zu reden. Weiters haben wir noch ueber eine vereinheitlichung des Design geredet und uns fuer ein gleiches entschieden. Allerdings trat ein Problem mit der Helligkeit der Farben auf, wenn man den dark und lightmode aenderte was etwas zeit raubte. Danach haben wir unsere RegEx geandert und etwas angepasst
 
-**2022-08-17: 11:45 -> 14:08** 
+**2022-08-19: 11:45 -> 14:08** 
 
 Danach habe ich begonnen die Seite fuer die Karten zu erstellen. Zum Testen der  Karten wurde eine public API verwendet. Um eine moeglichst gute Erweiterbarkeit zu ermoeglichen versuchte ich ein Konzept zu erstellen. Allerdings stellte sich die Umsetzung als Problem sehr sonderbar ist in Sachen OOP. Als Unterstuetzung half mir Herr Mayrhofer. Allerdings hat er auch keine Loesung gefunden.
 
+**2022-08-19: 17:00 -> 19:00** 
+
+Nach etwas Pause versuchte ich erneut einen allgemeinen Handler fuer Get Api Anfrage zu schreiben und automatisch Widget davon in der App zu erstellen. Nach etwas genauerer Ueberlegung fand ich das Problem und schaffte den Handler erfolgreich zu erstellen. 
 
  
  
@@ -78,7 +81,9 @@ Danach habe ich begonnen die Seite fuer die Karten zu erstellen. Zum Testen der 
 - 20:00 bis 23:00 Uhr
 - 12:30 bis 16:30 Uhr
 - 19:00 bis 21:04 Uhr
-- 9:20 bis 11:16
-- 11:45 bis 14:08
+- 9:20  bis 11:16 Uhr
+- 11:45 bis 14:08 Uhr
+- 17:00 bis 19:00 Uhr
+
 <!-- { "progress": false } -->
 

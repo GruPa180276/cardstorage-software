@@ -10,7 +10,6 @@ class Cards {
     required this.title,
     required this.body,
   });
-
   static Cards fromJson(json) => Cards(
         userId: json['userId'],
         id: json['id'],

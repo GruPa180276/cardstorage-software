@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/login/login_page.dart';
-import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
-import 'package:rfidapp/provider/cards/cards.dart';
+import 'package:rfidapp/provider/dataType/cards.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:rfidapp/provider/restApi/fetchData.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -14,15 +15,16 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPage extends State<CardPage> {
-  late Future<List<Cards>> listOfUsers;
+  Future<List<Cards>>? listOfUsers;
 
   @override
   void initState() {
     super.initState();
-    listOfUsers = getCardsData();
+    listOfUsers = FetchData.getData("posts").then(
+        (value) => jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
   }
 
-  Future<List<Cards>> getCardsData() async {
+  Future<List<Cards>> getData() async {
     http.Response response = await http
         .get(Uri.parse("https://jsonplaceholder.typicode.com/posts"), headers: {
       //"key":"value" for authen.
@@ -33,17 +35,15 @@ class _CardPage extends State<CardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      drawer: MenuNavigationDrawer(),
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Listbv'),
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
       ),
-      body: Container(child: Center(child: buildListCards(context))),
+      body: Center(child: buildListCards(context)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           setState(() {
-            listOfUsers = getCardsData();
+            listOfUsers = getData();
           })
         },
       ),

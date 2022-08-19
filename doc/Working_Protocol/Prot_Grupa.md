@@ -52,6 +52,10 @@ Nach etwas Rechere stellte sich mein Fehler heraus, den ich bei der lokalen Date
 
 Es wurde der Drawer fuer den ClientLogin erstellt um auf verschiedene Seiten zju wechseln. Dieser hat etwas Zeit gekostet, da ich diesen moeglich "open-closed" programmieren wollte, um Erweiterungen einfach zu machen. Schlussendlich funktionierete dann alles. Danach wurden noch verschiedene Design Ideen gaendert.
 
+**2022-08-17: 9:20 -> 11:20** 
+
+Am Vormittag hatte ich ein Meeting mit Herrn zoechmann um uber dcen aktuellen projektfortschritt bzw aufteilung zu reden. Weiters haben wir noch ueber eine vereinheitlichung des Design geredet und uns fuer ein gleiches entschieden. Allerdings trat ein Problem mit der Helligkeit der Farben auf, wenn man den dark und lightmode aenderte was etwas zeit raubte. Danach haben wir unsere RegEx geandert und etwas angepasst
+
 
 
  
@@ -70,6 +74,7 @@ Es wurde der Drawer fuer den ClientLogin erstellt um auf verschiedene Seiten zju
 - 12:00 bis 14:00 Uhr
 - 20:00 bis 23:00 Uhr
 - 12:30 bis 16:30 Uhr
-- 19:30 bis 21:30 Uhr
+- 19:00 bis 21:04 Uhr
+- 9:20 bis 11:16
 <!-- { "progress": false } -->
 

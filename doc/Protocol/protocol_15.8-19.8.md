@@ -12,4 +12,5 @@ Habe heute an der User Page gearbeitet. Dort habe ich das Design überarbeitet. 
 **18.8.2022: 7.30 -> 10.30** <br>
 Habe heute das Problem gelöst, warum der Clear Button auf der Seite 5 und 4 nicht funktionierte. Danach habe ich die Anordnung der Buttons auf den selbigen Seiten geändert. Weiters habe ich noch alle Seiten auf ein einheitliche Design angepasst. Die App wäre soweit auch funktionell, es fehlt ledeglich überall die Implementation der API, die noch nicht vorhanden ist. Zukünftige Änderungen sind im GitHub Project ersichtlich. (3h)
 
-**19.8.2022: 7.00 -> xx** <br>
+**19.8.2022: 7.00 -> 11.10** <br>
+Habe heute die Remove Seite auf allen Tabs hinzugefügt. Dies funktioniert auch bereits. Danach habe ich noch einen Logout Button hinzugefügt. Weiters wurde ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und Ordner Struktur abgestimmt haben. Danach habe ich noch die Regex angepasst.

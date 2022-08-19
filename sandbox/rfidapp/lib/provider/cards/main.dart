@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:flutter/material.dart';
-import 'package:rfidapp/provider/card_repository/cards.dart';
+import 'package:rfidapp/provider/cards/cards.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -17,7 +17,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  late Future<List<User>> listOfUsers;
+  late Future<List<Cards>> listOfUsers;
 
   @override
   void initState() {
@@ -25,14 +25,13 @@ class _HomepageState extends State<Homepage> {
     listOfUsers = getData();
   }
 
-  Future<List<User>> getData() async {
+  Future<List<Cards>> getData() async {
     http.Response response = await http
         .get(Uri.parse("https://jsonplaceholder.typicode.com/posts"), headers: {
       //"key":"value" for authen.
       "Accept": "application/json"
     });
-    print('hellsaasdo');
-    return jsonDecode(response.body).map<User>(User.fromJson).toList();
+    return jsonDecode(response.body).map<Cards>(Cards.fromJson).toList();
   }
 
   @override
@@ -53,7 +52,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget buildListCards(BuildContext context) {
-    return FutureBuilder<List<User>>(
+    return FutureBuilder<List<Cards>>(
       future: listOfUsers,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,20 +67,20 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget buildUsers(List<User> users) => ListView.builder(
+  Widget buildUsers(List<Cards> users) => ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, index) {
         final user = users[index];
         return Card(
           elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          margin: const EdgeInsets.fromLTRB(15, 0, 15, 10),
           child: ListTile(
             title: Text(user.title),
             subtitle: Text(user.userId.toString()),
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
         );
       });
 }

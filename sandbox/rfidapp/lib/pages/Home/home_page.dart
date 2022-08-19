@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:rfidapp/config/palette.dart';
-
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
 
@@ -19,7 +15,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
             centerTitle: true,
             backgroundColor: Theme.of(context).secondaryHeaderColor,
-            title: Text(
+            title: const Text(
               "Homepage",
             )),
         body: buildGetback(this.context));

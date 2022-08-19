@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rfidapp/pages/home/home_page.dart';
-import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
@@ -17,36 +15,36 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isDark = AppPreferences.getIsOn();
   }
 
   @override
   Widget build(BuildContext context) {
-    final name = "Mustermann";
-    final email = "example@gmail.com";
+    const name = "Mustermann";
+    const email = "example@gmail.com";
 
     return Drawer(
         child: Material(
       child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
           const SizedBox(height: 20),
           buildHeader(
               name: name,
               email: email,
-              onClicked: () => selectedItem(context, 5)),
+              onClicked: () => selectedItem(context, 0)),
           const SizedBox(height: 10),
           Column(
             children: [
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
-                  Text("Theme", style: TextStyle(fontWeight: FontWeight.w500)),
-                  SizedBox(
+                  const Text("Theme",
+                      style: TextStyle(fontWeight: FontWeight.w500)),
+                  const SizedBox(
                     width: 146,
                   ),
                   buildChangeThemeMode(context)
@@ -98,10 +96,19 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
     switch (index) {
       case 0:
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()));
+            MaterialPageRoute(builder: (context) => CardPage()));
         break;
 
       case 1:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
+        break;
+
+      case 2:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
+        break;
+      case 3:
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => CardPage()));
         break;
@@ -130,11 +137,11 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
       InkWell(
         onTap: onClicked,
         child: Container(
-          padding: EdgeInsets.fromLTRB(15, 40, 0, 16),
+          padding: const EdgeInsets.fromLTRB(15, 40, 0, 16),
           child: Row(
             children: [
               //CircleAvatar(radius: 30, backgroundImage: Icons.account_box),
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 24,
                 backgroundColor: Colors.black54,
                 child: Icon(
@@ -143,22 +150,22 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     email,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
             ],
           ),
         ),

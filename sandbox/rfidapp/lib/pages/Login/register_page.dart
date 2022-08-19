@@ -1,5 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Login/login_page.dart';
 
@@ -88,6 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             } else if (!Validator().validateName(value)) {
               return "Vorname nicht korrekt";
             }
+            return null;
           },
           decoration: const InputDecoration(
             prefixIcon: Icon(Icons.person),
@@ -115,6 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             } else if (!Validator().validateName(value)) {
               return "Nachname nicht korrekt";
             }
+            return null;
           },
           decoration: const InputDecoration(
             prefixIcon: Icon(Icons.person),
@@ -151,6 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             } else if (!Validator().validateEmail(value)) {
               return "Email nicht korrekt";
             }
+            return null;
           },
           controller: emailController,
           decoration: const InputDecoration(
@@ -235,6 +236,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return "Die Passwoerte sind nicht ident";
                   }
                 }
+                return null;
               },
             ),
           ],
@@ -263,7 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       Container(
           padding: const EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 0.0),
-          child: Text('Stärke Passwort',
+          child: const Text('Stärke Passwort',
               style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.w400,
@@ -318,8 +320,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // ),
         style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            backgroundColor:
-                MaterialStateProperty.all<Color>(ColorSelect.greenAccent),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100),

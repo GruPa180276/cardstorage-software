@@ -22,7 +22,7 @@ class Validator {
   }
 
   bool validateName(String name) {
-    RegExp nameValid = RegExp(r"^[A-ZÄÖÜß][a-zäöüß]*");
+    RegExp nameValid = RegExp(r"^([A-ZÖÄÜ][a-zäöüß]+)+$");
     return (nameValid.hasMatch(name));
   }
 

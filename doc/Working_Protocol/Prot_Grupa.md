@@ -56,6 +56,9 @@ Es wurde der Drawer fuer den ClientLogin erstellt um auf verschiedene Seiten zju
 
 Am Vormittag hatte ich ein Meeting mit Herrn zoechmann um uber dcen aktuellen projektfortschritt bzw aufteilung zu reden. Weiters haben wir noch ueber eine vereinheitlichung des Design geredet und uns fuer ein gleiches entschieden. Allerdings trat ein Problem mit der Helligkeit der Farben auf, wenn man den dark und lightmode aenderte was etwas zeit raubte. Danach haben wir unsere RegEx geandert und etwas angepasst
 
+**2022-08-17: 11:45 -> 14:08** 
+
+Danach habe ich begonnen die Seite fuer die Karten zu erstellen. Zum Testen der  Karten wurde eine public API verwendet. Um eine moeglichst gute Erweiterbarkeit zu ermoeglichen versuchte ich ein Konzept zu erstellen. Allerdings stellte sich die Umsetzung als Problem sehr sonderbar ist in Sachen OOP. Als Unterstuetzung half mir Herr Mayrhofer. Allerdings hat er auch keine Loesung gefunden.
 
 
  
@@ -76,5 +79,6 @@ Am Vormittag hatte ich ein Meeting mit Herrn zoechmann um uber dcen aktuellen pr
 - 12:30 bis 16:30 Uhr
 - 19:00 bis 21:04 Uhr
 - 9:20 bis 11:16
+- 11:45 bis 14:08
 <!-- { "progress": false } -->
 

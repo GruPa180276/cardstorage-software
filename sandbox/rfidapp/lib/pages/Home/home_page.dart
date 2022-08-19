@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
         drawer: MenuNavigationDrawer(),
         appBar: AppBar(
             centerTitle: true,
-            backgroundColor: ColorSelect.greenAccent,
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
             title: Text(
               "Homepage",
             )),
@@ -61,3 +61,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
+// white, black, primary:, secondary: 

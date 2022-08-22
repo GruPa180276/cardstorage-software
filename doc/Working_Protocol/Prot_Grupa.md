@@ -69,10 +69,13 @@ Nach etwas Pause versuchte ich erneut einen allgemeinen Handler fuer Get Api Anf
 
 Heute habe ich bei der Kartenansicht weitergearbeitet. Es werden nun alle Karten je nachdem ob sie reserviert sind oder derzeit benutzt werden angzeigt. Allerdings hatte ich ein paar Probleme bekommen, da der DateTimepicker nicht ordentlich funktionierte. Schlussendlich hat dann alles funktioniert. Weiters habe ich mir aufgeschrieben, wie das Reservierungssystem aufgebaut werden soll.
 
-**2022-08-22: 9:00 -> 12:08** 
+**2022-08-22: 14:30 -> 16:30** 
 
 Am Nachmittag habe ich beim reservierungsystem weitergearbetet. Nach Fertigstellung eines Pop ups (Zum Auswaehlen der Reservierungszeit (von,bis)) bekam ich eine Fehlermeldung, zu der ich keine Loesungfand. Nach etwas Probieren konnte ich allerdings das Problem loesen. Danach habe ich das Pop up Fenster zum NFC scannen geschrieben
 
+**2022-08-22: 21:00 -> 22:13** 
+
+Abends versuchte ich dann die Kartenansich, damit sie auch auf anderen Geraeten gleich aussieht. Allerdings stellte sich das als Problem dar, da Flutter angesichts dieses Themas sehr komisch ist. Auch nach zahlreichen Besuchen in Foren fand ich keine saubere Loesung sondern nur Workarrounds. Morgen habe ich vor, eine saubere Implementaton zu finden
  
  
 ## Arbeitszeit
@@ -94,6 +97,7 @@ Am Nachmittag habe ich beim reservierungsystem weitergearbetet. Nach Fertigstell
 - 11:45 bis 14:08 Uhr
 - 17:00 bis 19:00 Uhr
 - 9:00 bis 12:08 Uhr
-
+- 14:30 bis 16:30 Uhr 
+- 21:00 bis 22:13 Uhr
 <!-- { "progress": false } -->
 

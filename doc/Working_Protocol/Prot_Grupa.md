@@ -81,7 +81,7 @@ Nach etwas Pause versuchte ich erneut einen allgemeinen Handler fuer Get Api Anf
 - 20:00 bis 23:00 Uhr
 - 12:30 bis 16:30 Uhr
 - 19:00 bis 21:04 Uhr
-- 9:20  bis 11:16 Uhr
+- 9:20  bis 11:16 Uhr v    
 - 11:45 bis 14:08 Uhr
 - 17:00 bis 19:00 Uhr
 

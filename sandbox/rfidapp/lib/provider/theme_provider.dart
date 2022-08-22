@@ -16,7 +16,7 @@ class ThemeProvider extends ChangeNotifier {
 
 class MyThemes {
   static get darkTheme => ThemeData(
-        //scaffoldBackgroundColor: Colors.grey.shade900,
+        scaffoldBackgroundColor: Colors.grey.shade900,
         colorScheme:
             const ColorScheme.dark().copyWith(primary: ColorSelect.blueAccent),
         primaryColor: Colors.white,

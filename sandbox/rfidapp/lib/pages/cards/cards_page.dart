@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/ListCards.dart';
 import 'package:rfidapp/pages/navigation/menu_navigation.dart';
 import 'package:rfidapp/provider/types/cards.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:rfidapp/config/palette.dart';
 
 import 'package:rfidapp/provider/restApi/data.dart';
 
@@ -40,7 +40,7 @@ class _CardPage extends State<CardPage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Theme.of(context).secondaryHeaderColor,
-        title: const Text('Listbv'),
+        title: const Text('Karten'),
       ),
       body: Center(child: ListCards.buildListCards(context)),
       floatingActionButton: FloatingActionButton(

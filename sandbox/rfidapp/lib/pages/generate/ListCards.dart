@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rfidapp/config/palette.dart';
+import 'package:intl/intl.dart';
 
 class ListCards {
   static late var listOfTypes;
   static DateTime date = DateTime(2000, 1, 12, 12);
   static BuildContext? buildContext;
+  static DateTime? vonTime;
+  static DateTime? bisTime;
+  static TextEditingController vonTextEdidtingcontroller =
+      TextEditingController();
+  static TextEditingController bisTextEdidtingcontroller =
+      TextEditingController();
+
   //@TODO and voidCallback
   static Widget buildListCards(BuildContext context) {
     buildContext = context;
@@ -30,7 +38,6 @@ class ListCards {
       itemBuilder: (context, index) {
         final user = users[index];
         Text title = Text(user.userId.toString());
-
         return Card(
           elevation: 3,
           shape: RoundedRectangleBorder(
@@ -58,7 +65,7 @@ class ListCards {
                                     color: ColorSelect.greyBorderColor)),
                             color: Colors.transparent,
                             splashColor: Colors.black,
-                            onPressed: buildReservatePopUp,
+                            onPressed: _displayTextInputDialog,
                             child: Text('Reservieren')),
                         FlatButton(
                             padding: EdgeInsets.symmetric(horizontal: 35),
@@ -67,7 +74,7 @@ class ListCards {
                                 top: BorderSide(
                                     color: ColorSelect.greyBorderColor)),
                             //TODO ask if card is available and then ask if current time is not between reservated time
-                            onPressed: buildDateTimePicker,
+                            onPressed: buildNfcScanner,
                             child: Text('Jetzt holen'))
                       ],
                     )
@@ -79,40 +86,26 @@ class ListCards {
         );
       });
 
-  static void buildReservatePopUp() {
-    showDialog(
-      context: buildContext!,
-      builder: (ctx) => AlertDialog(
-        title: const Text("Reservierung"),
-        content: Column(
-          children: [
-            Row(
+  static Future<void> _displayTextInputDialog() async {
+    return showDialog(
+        context: buildContext!,
+        builder: (context) {
+          return AlertDialog(title: Text('Reservierung'), actions: [
+            Column(
               children: [
-                const Text("Von"),
-                ElevatedButton(
-                    onPressed: buildDateTimePicker,
-                    child: Icon(Icons.date_range))
+                buildTimeChooseSection(
+                    buildContext!, "Von:", vonTextEdidtingcontroller),
+                SizedBox(height: 20),
+                buildTimeChooseSection(
+                    buildContext!, "Bis:", bisTextEdidtingcontroller)
               ],
             )
-          ],
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-            child: Container(
-              color: Colors.green,
-              padding: const EdgeInsets.all(14),
-              child: const Text("okay"),
-            ),
-          ),
-        ],
-      ),
-    );
+          ]);
+        });
   }
 
-  static void buildDateTimePicker() {
+  static void buildDateTimePicker(
+      String text, TextEditingController editingController) {
     DatePicker.showDateTimePicker(buildContext!,
         minTime: DateTime.now(),
         theme: DatePickerTheme(
@@ -123,7 +116,54 @@ class ListCards {
         showTitleActions: true, onChanged: (date) {
       print('change $date');
     }, onConfirm: (date) {
-      print('confirm $date');
+      editingController.text =
+          DateFormat('yyyy-MM-dd hh:mm').format(date).toString();
     }, currentTime: DateTime.now(), locale: LocaleType.de);
+  }
+
+  static Widget buildTimeChooseSection(BuildContext context, String text,
+      TextEditingController editingController) {
+    return Row(children: [
+      Container(
+        width: 40,
+        child: Text(text),
+      ),
+      // SizedBox(
+      //   width: 15,
+      // ),
+      Container(
+        height: 40,
+        width: 200,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(16, 0, 0, 0),
+              child: TextField(
+                controller: editingController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  prefixText: 'prefix',
+                  prefixStyle: TextStyle(color: Colors.transparent),
+                ),
+              ),
+            ),
+            IconButton(
+                icon: Icon(Icons.date_range),
+                onPressed: () {
+                  buildDateTimePicker(text, editingController);
+                }),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  static Future<void> buildNfcScanner() async {
+    return showDialog(
+        context: buildContext!,
+        builder: (context) {
+          return AlertDialog(
+              title: Text('Halten Sie Ihre Telefon auf den NFC-Scanner'));
+        });
   }
 }

@@ -64,6 +64,11 @@ Danach habe ich begonnen die Seite fuer die Karten zu erstellen. Zum Testen der 
 
 Nach etwas Pause versuchte ich erneut einen allgemeinen Handler fuer Get Api Anfrage zu schreiben und automatisch Widget davon in der App zu erstellen. Nach etwas genauerer Ueberlegung fand ich das Problem und schaffte den Handler erfolgreich zu erstellen. 
 
+
+**2022-08-22: 9:00 -> 12:08** 
+
+Heute habe ich bei der Kartenansicht weitergearbeitet. Es werden nun alle Karten je nachdem ob sie reserviert sind oder derzeit benutzt werden angzeigt. Allerdings hatte ich ein paar Probleme bekommen, da der DateTimepicker nicht ordentlich funktionierte. Schlussendlich hat dann alles funktioniert. Weiters habe ich mir aufgeschriben,a wie das Reservierungssystem aufgebaut werden soll.
+
  
  
 ## Arbeitszeit
@@ -81,9 +86,10 @@ Nach etwas Pause versuchte ich erneut einen allgemeinen Handler fuer Get Api Anf
 - 20:00 bis 23:00 Uhr
 - 12:30 bis 16:30 Uhr
 - 19:00 bis 21:04 Uhr
-- 9:20  bis 11:16 Uhr v    
+- 9:20  bis 11:16 Uhr  
 - 11:45 bis 14:08 Uhr
 - 17:00 bis 19:00 Uhr
+- 9:00 bis 12:08 Uhr
 
 <!-- { "progress": false } -->
 

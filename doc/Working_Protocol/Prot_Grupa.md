@@ -67,7 +67,11 @@ Nach etwas Pause versuchte ich erneut einen allgemeinen Handler fuer Get Api Anf
 
 **2022-08-22: 9:00 -> 12:08** 
 
-Heute habe ich bei der Kartenansicht weitergearbeitet. Es werden nun alle Karten je nachdem ob sie reserviert sind oder derzeit benutzt werden angzeigt. Allerdings hatte ich ein paar Probleme bekommen, da der DateTimepicker nicht ordentlich funktionierte. Schlussendlich hat dann alles funktioniert. Weiters habe ich mir aufgeschriben,a wie das Reservierungssystem aufgebaut werden soll.
+Heute habe ich bei der Kartenansicht weitergearbeitet. Es werden nun alle Karten je nachdem ob sie reserviert sind oder derzeit benutzt werden angzeigt. Allerdings hatte ich ein paar Probleme bekommen, da der DateTimepicker nicht ordentlich funktionierte. Schlussendlich hat dann alles funktioniert. Weiters habe ich mir aufgeschrieben, wie das Reservierungssystem aufgebaut werden soll.
+
+**2022-08-22: 9:00 -> 12:08** 
+
+Am Nachmittag habe ich beim reservierungsystem weitergearbetet. Nach Fertigstellung eines Pop ups (Zum Auswaehlen der Reservierungszeit (von,bis)) bekam ich eine Fehlermeldung, zu der ich keine Loesungfand. Nach etwas Probieren konnte ich allerdings das Problem loesen. Danach habe ich das Pop up Fenster zum NFC scannen geschrieben
 
  
  

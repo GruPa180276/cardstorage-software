@@ -58,7 +58,7 @@ class ListCards {
                                     color: ColorSelect.greyBorderColor)),
                             color: Colors.transparent,
                             splashColor: Colors.black,
-                            onPressed: buildDateTimePicker,
+                            onPressed: buildReservatePopUp,
                             child: Text('Reservieren')),
                         FlatButton(
                             padding: EdgeInsets.symmetric(horizontal: 35),
@@ -66,6 +66,7 @@ class ListCards {
                             shape: Border(
                                 top: BorderSide(
                                     color: ColorSelect.greyBorderColor)),
+                            //TODO ask if card is available and then ask if current time is not between reservated time
                             onPressed: buildDateTimePicker,
                             child: Text('Jetzt holen'))
                       ],
@@ -77,6 +78,39 @@ class ListCards {
           ),
         );
       });
+
+  static void buildReservatePopUp() {
+    showDialog(
+      context: buildContext!,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Reservierung"),
+        content: Column(
+          children: [
+            Row(
+              children: [
+                const Text("Von"),
+                ElevatedButton(
+                    onPressed: buildDateTimePicker,
+                    child: Icon(Icons.date_range))
+              ],
+            )
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: Container(
+              color: Colors.green,
+              padding: const EdgeInsets.all(14),
+              child: const Text("okay"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   static void buildDateTimePicker() {
     DatePicker.showDateTimePicker(buildContext!,

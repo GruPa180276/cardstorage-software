@@ -5,7 +5,6 @@ import 'package:rfidapp/provider/types/cards.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:rfidapp/config/palette.dart';
 
 import 'package:rfidapp/provider/restApi/data.dart';
 

@@ -8,29 +8,24 @@ Future<void> buildReservatePopUp(BuildContext context) async {
   return showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(title: const Text('Reservierung'), actions: [
-          Column(
-            children: [
-              buildTimeChooseField(context, "Von:", vonTextEdidtingcontroller),
-              const SizedBox(height: 20),
-              buildTimeChooseField(context, "Bis:", bisTextEdidtingcontroller),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                  // ignore: avoid_print
-                  onPressed: () => print('tbc'),
-                  child: const Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),
-                    child: Text(
-                      'Jetzt Reservieren',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ))
-            ],
-          )
-        ]);
+        return AlertDialog(
+            title: const Text('Reservierung'),
+            actionsPadding: EdgeInsets.all(10),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            actions: [
+              Column(
+                children: [
+                  buildTimeChooseField(
+                      context, "Von:", vonTextEdidtingcontroller),
+                  const SizedBox(height: 20),
+                  buildTimeChooseField(
+                      context, "Bis:", bisTextEdidtingcontroller),
+                  const SizedBox(height: 20),
+                  buildReservateNow(context),
+                ],
+              )
+            ]);
       });
 }
 
@@ -39,7 +34,10 @@ Widget buildTimeChooseField(BuildContext context, String text,
   return Row(children: [
     SizedBox(
       width: 40,
-      child: Text(text),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 18),
+      ),
     ),
     // SizedBox(
     //   width: 15,
@@ -69,4 +67,24 @@ Widget buildTimeChooseField(BuildContext context, String text,
       ),
     )
   ]);
+}
+
+Widget buildReservateNow(BuildContext context) {
+  return ElevatedButton(
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(32),
+      ))),
+      // ignore: avoid_print
+      onPressed: () => print('tbc'),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),
+        child: Text(
+          'Jetzt Reservieren',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ));
 }

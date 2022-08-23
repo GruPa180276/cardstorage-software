@@ -5,11 +5,6 @@ import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/pup_up/reservate_popup.dart';
 
-late var listOfTypes;
-DateTime date = DateTime(2000, 1, 12, 12);
-DateTime? vonTime;
-DateTime? bisTime;
-
 Widget cardsView(List<Cards> users, BuildContext context) => ListView.builder(
     itemCount: users.length,
     itemBuilder: (context, index) {

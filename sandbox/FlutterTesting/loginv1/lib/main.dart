@@ -29,7 +29,7 @@ class _MyHomepageState extends State<MyHomepage> {
   final _formKey = GlobalKey<FormState>();
   // regular expression to check if string
   RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
-  double password_strength = 0;
+  double passwordStrength = 0;
   // 0: No password
   // 1/4: Weak
   // 2/4: Medium
@@ -40,25 +40,25 @@ class _MyHomepageState extends State<MyHomepage> {
     String _password = pass.trim();
     if (_password.isEmpty) {
       setState(() {
-        password_strength = 0;
+        passwordStrength = 0;
       });
     } else if (_password.length < 6) {
       setState(() {
-        password_strength = 1 / 4;
+        passwordStrength = 1 / 4;
       });
     } else if (_password.length < 8) {
       setState(() {
-        password_strength = 2 / 4;
+        passwordStrength = 2 / 4;
       });
     } else {
       if (pass_valid.hasMatch(_password)) {
         setState(() {
-          password_strength = 4 / 4;
+          passwordStrength = 4 / 4;
         });
         return true;
       } else {
         setState(() {
-          password_strength = 3 / 4;
+          passwordStrength = 3 / 4;
         });
         return false;
       }
@@ -102,20 +102,20 @@ class _MyHomepageState extends State<MyHomepage> {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: LinearProgressIndicator(
-                  value: password_strength,
+                  value: passwordStrength,
                   backgroundColor: Colors.grey[300],
                   minHeight: 5,
-                  color: password_strength <= 1 / 4
+                  color: passwordStrength <= 1 / 4
                       ? Colors.red
-                      : password_strength == 2 / 4
+                      : passwordStrength == 2 / 4
                           ? Colors.yellow
-                          : password_strength == 3 / 4
+                          : passwordStrength == 3 / 4
                               ? Colors.blue
                               : Colors.green,
                 ),
               ),
               ElevatedButton(
-                  onPressed: password_strength != 1
+                  onPressed: passwordStrength != 1
                       ? null
                       : () {
                           //perform click event

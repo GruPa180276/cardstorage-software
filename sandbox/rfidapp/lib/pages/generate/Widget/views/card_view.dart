@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/generate/widget/pup_up/reservate_popup.dart';
+import 'package:rfidapp/pages/generate/widget/pop_up/reservate_popup.dart';
 
 Widget cardsView(List<Cards> users, BuildContext context) => ListView.builder(
     itemCount: users.length,

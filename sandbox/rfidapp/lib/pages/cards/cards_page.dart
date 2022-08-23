@@ -27,7 +27,7 @@ class _CardPage extends State<CardPage> {
     setState(() {
       listOfUsers = FetchData.getData("posts").then((value) =>
           jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
-      ListCards.listOfTypes = listOfUsers;
+      ApiVisualizer.listOfTypes = listOfUsers;
     });
   }
 
@@ -40,7 +40,7 @@ class _CardPage extends State<CardPage> {
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         title: const Text('Karten'),
       ),
-      body: Center(child: ListCards.build(context)),
+      body: Center(child: ApiVisualizer.build(context)),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         child: const Icon(

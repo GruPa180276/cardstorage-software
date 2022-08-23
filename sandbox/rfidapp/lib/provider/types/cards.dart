@@ -1,20 +1,20 @@
 class Cards {
-  final int userId;
   final int id;
-  final String title;
-  final String body;
+  final String name;
+  final int storageId;
+  final bool isAvailable;
 
   @override
   const Cards({
-    required this.userId,
     required this.id,
-    required this.title,
-    required this.body,
+    required this.name,
+    required this.storageId,
+    required this.isAvailable,
   });
   static Cards fromJson(json) => Cards(
-        userId: json['userId'],
         id: json['id'],
-        title: json['title'],
-        body: json['body'],
+        name: json['name'],
+        storageId: json['storageId'],
+        isAvailable: json['isAvailable'],
       );
 }

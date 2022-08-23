@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       alignment: Alignment.center,
       child: SizedBox(
-          width: 500,
+          width: double.infinity,
           height: 60,
           child: OutlinedButton.icon(
             icon: Icon(
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       alignment: Alignment.center,
       child: SizedBox(
-        width: 500,
+        width: double.infinity,
         height: 60,
         child: ElevatedButton(
           onPressed: () {

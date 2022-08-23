@@ -84,6 +84,11 @@ Am Vormittag habe ich versucht die Cards Page mit Constraints auf allen gereaten
  **2022-08-23: 16:50 -> 18:00** 
 
 Am Nachmittag hatte ich ein einstuendiges Meeting mit Herrn Mayrhofer, um die von ihm erstellte Api zu testen. Anfangs hatten wir noch Probleme, da wir den localhost des emulators mit der IP adresse vom computer verwechselt haben. Danach konnte ich erfolgreich daten von der API gettten. Danach hatten wir noch ein Gespraech ueber die Aufteilung und Funktionsweise des Projekts. Es wurde auch ueber die Datenbankstruktur disskutiert
+
+ **2022-08-23: 21:15 -> 22:35** 
+
+Abends habe ichn dann das Design der Kartenansich voellig ueberarbeitet, nun wird die Seite, egal wie gross das Display gleich angezeigt. Ebenfalls wurde der Login ueberarbeitet, damit er auch respopnsive ist
+ 
  
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -108,6 +113,7 @@ Am Nachmittag hatte ich ein einstuendiges Meeting mit Herrn Mayrhofer, um die vo
 - 21:00 bis 22:13 Uhr
 - 09:50 bis 12:50 Uhr
 - 16:15 bis 18:00 Uhr
+- 21:15 bis 22:35 Uhr
 
 <!-- { "progress": false } -->
 

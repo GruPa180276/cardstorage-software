@@ -3,17 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/generate/Widget/reservate_popup.dart';
+import 'package:rfidapp/pages/generate/widget/pup_up/reservate_popup.dart';
 
 late var listOfTypes;
 DateTime date = DateTime(2000, 1, 12, 12);
-BuildContext? buildContext;
 DateTime? vonTime;
 DateTime? bisTime;
-TextEditingController vonTextEdidtingcontroller = TextEditingController();
-TextEditingController bisTextEdidtingcontroller = TextEditingController();
 
-Widget cardsView(List<Cards> users) => ListView.builder(
+Widget cardsView(List<Cards> users, BuildContext context) => ListView.builder(
     itemCount: users.length,
     itemBuilder: (context, index) {
       final user = users[index];
@@ -48,7 +45,7 @@ Widget cardsView(List<Cards> users) => ListView.builder(
                                     color: ColorSelect.greyBorderColor)),
                             color: Colors.transparent,
                             splashColor: Colors.black,
-                            onPressed: _displayTextInputDialog,
+                            onPressed: () => buildReservatePopUp(context),
                             child: Text('Reservieren',
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor)),
@@ -81,35 +78,3 @@ Widget cardsView(List<Cards> users) => ListView.builder(
         ),
       );
     });
-
-Future<void> _displayTextInputDialog() async {
-  return showDialog(
-      context: buildContext!,
-      builder: (context) {
-        return AlertDialog(title: const Text('Reservierung'), actions: [
-          Column(
-            children: [
-              buildTimeChooseSection(
-                  buildContext!, "Von:", vonTextEdidtingcontroller),
-              const SizedBox(height: 20),
-              buildTimeChooseSection(
-                  buildContext!, "Bis:", bisTextEdidtingcontroller),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                  // ignore: avoid_print
-                  onPressed: () => print('tbc'),
-                  child: const Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),
-                    child: Text(
-                      'Jetzt Reservieren',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ))
-            ],
-          )
-        ]);
-      });
-}

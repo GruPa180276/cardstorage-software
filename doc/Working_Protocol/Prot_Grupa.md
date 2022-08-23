@@ -77,7 +77,7 @@ Am Nachmittag habe ich beim reservierungsystem weitergearbetet. Nach Fertigstell
 
 Abends versuchte ich dann die Kartenansich, damit sie auch auf anderen Geraeten gleich aussieht. Allerdings stellte sich das als Problem dar, da Flutter angesichts dieses Themas sehr komisch ist. Auch nach zahlreichen Besuchen in Foren fand ich keine saubere Loesung sondern nur Workarrounds. Morgen habe ich vor, eine saubere Implementaton zu finden
 
- **2022-08-22: 09:50 -> 12:50** 
+ **2022-08-23: 09:50 -> 12:50** 
 
 Am Vormittag habe ich versucht die Cards Page mit Constraints auf allen gereaten gleich aufzuloesen. Allerdings hat dies wieder nicht funktioniert. Danach habe ich die komplette CardsPage neu strukturiert und refactort, da mir die Ordnerstruktur nicht mehr gefiel. Danach habe ich mit der Reservierungseite begonnen, die die Reservierten Karten pro person anzeigt.
  
@@ -102,5 +102,6 @@ Am Vormittag habe ich versucht die Cards Page mit Constraints auf allen gereaten
 - 9:00 bis 12:08 Uhr
 - 14:30 bis 16:30 Uhr 
 - 21:00 bis 22:13 Uhr
+- 09:50 bis 12:50 Uhr
 <!-- { "progress": false } -->
 

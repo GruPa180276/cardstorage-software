@@ -10,8 +10,8 @@ Future<void> buildReservatePopUp(BuildContext context) async {
       builder: (context) {
         return AlertDialog(
             title: const Text('Reservierung'),
-            actionsPadding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
+            actionsPadding: const EdgeInsets.all(10),
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(32.0))),
             actions: [
               Column(
@@ -36,7 +36,7 @@ Widget buildTimeChooseField(BuildContext context, String text,
       width: 40,
       child: Text(
         text,
-        style: TextStyle(fontSize: 18),
+        style: const TextStyle(fontSize: 18),
       ),
     ),
     // SizedBox(

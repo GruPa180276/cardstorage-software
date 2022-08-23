@@ -85,23 +85,23 @@ class _LoginScreenState extends State<LoginScreen> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(0.0, 110.0, 0.0, 0.0),
-          child: Text('Guten',
+          padding: const EdgeInsets.fromLTRB(0.0, 110.0, 0.0, 0.0),
+          child: const Text('Guten',
               style: TextStyle(
                   fontSize: 80.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(0.0, 175.0, 0.0, 0.0),
-          child: Text('Tag',
+          padding: const EdgeInsets.fromLTRB(0.0, 175.0, 0.0, 0.0),
+          child: const Text('Tag',
               style: TextStyle(
                   fontSize: 80.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(130.0, 175.0, 0.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(130.0, 175.0, 0.0, 0.0),
           child: Text('.',
               style: TextStyle(
                   fontSize: 80.0,
@@ -174,6 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: borderColor),
           ),
+          // ignore: avoid_print
           onPressed: () => print("it's pressed"),
           style: ElevatedButton.styleFrom(
             side: BorderSide(width: 2.5, color: borderColor),
@@ -198,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           UserSecureStorage.setRememberState(rememberValue.toString());
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => UserPage())); //open app
+              MaterialPageRoute(builder: (context) => const UserPage())); //open app
         },
         // style: ElevatedButton.styleFrom(
         //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
@@ -224,11 +225,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
+        const Text(
           'Password vergessen?',
           style: TextStyle(fontFamily: 'Lato'),
         ),
-        SizedBox(width: 5.0),
+        const SizedBox(width: 5.0),
         InkWell(
           onTap: () {
             Navigator.of(context).pushNamed('/signup');
@@ -261,7 +262,7 @@ class SecondRoute extends StatelessWidget {
           onPressed: () {
             // Navigate back to first route when tapped.
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => LoginScreen(
+                builder: (context) => const LoginScreen(
                       title: 'asd',
                     )));
           },

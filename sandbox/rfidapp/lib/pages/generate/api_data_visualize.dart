@@ -5,6 +5,7 @@ import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/pages/generate/Widget/views/card_view.dart';
 
 class ApiVisualizer {
+  // ignore: prefer_typing_uninitialized_variables
   static late var listOfTypes;
   static Widget build(BuildContext context) {
     return FutureBuilder<List<Cards>>(

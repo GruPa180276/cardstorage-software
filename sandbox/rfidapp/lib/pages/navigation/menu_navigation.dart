@@ -3,6 +3,7 @@ import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/home/home_page.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
+import 'package:rfidapp/pages/reservate/reservate_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -76,7 +77,7 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
               onclicked: () => selectedItem(context, 3)),
           const SizedBox(height: 16),
           buildMenuItem(
-              text: "Home",
+              text: "Reservierungen",
               icon: Icons.info,
               onclicked: () => selectedItem(context, 4)),
         ],
@@ -104,16 +105,20 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
 
       case 1:
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()));
+            MaterialPageRoute(builder: (context) => const HomePage()));
         break;
 
       case 2:
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()));
+            MaterialPageRoute(builder: (context) => const HomePage()));
         break;
       case 3:
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const CardPage()));
+        break;
+      case 4:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ReservatePage()));
         break;
     }
   }

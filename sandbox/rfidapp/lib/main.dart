@@ -13,11 +13,13 @@ Future main() async {
   //   DeviceOrientation.portraitDown,
   // ]);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   static const String title = 'Light & Dark Theme';
+
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(

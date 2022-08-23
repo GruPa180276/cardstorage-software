@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Column(
-        children: [
+        children: const [
           TextField(
             decoration: InputDecoration(),
           ),

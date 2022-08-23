@@ -80,6 +80,10 @@ Abends versuchte ich dann die Kartenansich, damit sie auch auf anderen Geraeten 
  **2022-08-23: 09:50 -> 12:50** 
 
 Am Vormittag habe ich versucht die Cards Page mit Constraints auf allen gereaten gleich aufzuloesen. Allerdings hat dies wieder nicht funktioniert. Danach habe ich die komplette CardsPage neu strukturiert und refactort, da mir die Ordnerstruktur nicht mehr gefiel. Danach habe ich mit der Reservierungseite begonnen, die die Reservierten Karten pro person anzeigt.
+
+ **2022-08-23: 16:50 -> 18:00** 
+
+Am Nachmittag hatte ich ein einstuendiges Meeting mit Herrn Mayrhofer, um die von ihm erstellte Api zu testen. Anfangs hatten wir noch Probleme, da wir den localhost des emulators mit der IP adresse vom computer verwechselt haben. Danach konnte ich erfolgreich daten von der API gettten. Danach hatten wir noch ein Gespraech ueber die Aufteilung und Funktionsweise des Projekts. Es wurde auch ueber die Datenbankstruktur disskutiert
  
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -103,5 +107,7 @@ Am Vormittag habe ich versucht die Cards Page mit Constraints auf allen gereaten
 - 14:30 bis 16:30 Uhr 
 - 21:00 bis 22:13 Uhr
 - 09:50 bis 12:50 Uhr
+- 16:15 bis 18:00 Uhr
+
 <!-- { "progress": false } -->
 

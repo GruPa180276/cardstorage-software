@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -16,7 +18,7 @@ class ListCards {
       TextEditingController();
 
   //@TODO and voidCallback
-  static Widget buildListCards(BuildContext context) {
+  static Widget build(BuildContext context) {
     buildContext = context;
     return FutureBuilder<List<Cards>>(
       future: listOfTypes,
@@ -48,7 +50,7 @@ class ListCards {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.0),
                   child: Icon(Icons.card_giftcard_sharp, size: 30),
                 ),
@@ -60,7 +62,8 @@ class ListCards {
                         ButtonBar(
                           children: [
                             FlatButton(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
                               shape: Border(
                                   top: BorderSide(
                                       color: ColorSelect.greyBorderColor),
@@ -74,7 +77,8 @@ class ListCards {
                                       color: Theme.of(context).primaryColor)),
                             ),
                             FlatButton(
-                                padding: EdgeInsets.symmetric(horizontal: 30),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
                                 // NEW,
                                 shape: Border(
                                     top: BorderSide(
@@ -106,26 +110,25 @@ class ListCards {
     return showDialog(
         context: buildContext!,
         builder: (context) {
-          return AlertDialog(title: Text('Reservierung'), actions: [
+          return AlertDialog(title: const Text('Reservierung'), actions: [
             Column(
               children: [
                 buildTimeChooseSection(
                     buildContext!, "Von:", vonTextEdidtingcontroller),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 buildTimeChooseSection(
                     buildContext!, "Bis:", bisTextEdidtingcontroller),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
+                    // ignore: avoid_print
                     onPressed: () => print('tbc'),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 50.0, vertical: 15),
-                      child: Container(
-                        child: Text(
-                          'Jetzt Reservieren',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),
+                      child: Text(
+                        'Jetzt Reservieren',
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ))
@@ -155,31 +158,31 @@ class ListCards {
   static Widget buildTimeChooseSection(BuildContext context, String text,
       TextEditingController editingController) {
     return Row(children: [
-      Container(
+      SizedBox(
         width: 40,
         child: Text(text),
       ),
       // SizedBox(
       //   width: 15,
       // ),
-      Container(
+      SizedBox(
         height: 40,
         width: 200,
         child: Stack(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.fromLTRB(16, 0, 0, 0),
+              margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
               child: TextField(
                 controller: editingController,
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixText: 'prefix',
                   prefixStyle: TextStyle(color: Colors.transparent),
                 ),
               ),
             ),
             IconButton(
-                icon: Icon(Icons.date_range),
+                icon: const Icon(Icons.date_range),
                 onPressed: () {
                   buildDateTimePicker(text, editingController);
                 }),
@@ -193,7 +196,7 @@ class ListCards {
     return showDialog(
         context: buildContext!,
         builder: (context) {
-          return AlertDialog(
+          return const AlertDialog(
               title: Text('Halten Sie Ihre Telefon auf den NFC-Scanner'));
         });
   }

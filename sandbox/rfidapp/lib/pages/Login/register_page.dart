@@ -1,4 +1,3 @@
-import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Login/login_page.dart';
 
 import 'package:flutter/material.dart';

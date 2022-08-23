@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   @override
+  // ignore: must_call_super
   void initState() {
     init();
   }
@@ -201,8 +202,8 @@ class _LoginScreenState extends State<LoginScreen> {
               UserSecureStorage.setPassword(passwordController.text);
             }
             UserSecureStorage.setRememberState(rememberValue.toString());
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => HomePage())); //open app
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const HomePage())); //open app
           },
           // style: ElevatedButton.styleFrom(
           //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
@@ -213,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ))),
-          child: Text(
+          child: const Text(
             'SIGN IN',
             style: TextStyle(
               fontSize: 18,

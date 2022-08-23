@@ -7,6 +7,8 @@ import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class MenuNavigationDrawer extends StatefulWidget {
+  const MenuNavigationDrawer({Key? key}) : super(key: key);
+
   @override
   State<MenuNavigationDrawer> createState() => _MenuNavigationDrawerState();
 }
@@ -97,7 +99,7 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
     switch (index) {
       case 0:
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => CardPage()));
+            MaterialPageRoute(builder: (context) => const CardPage()));
         break;
 
       case 1:
@@ -111,7 +113,7 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
         break;
       case 3:
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => CardPage()));
+            MaterialPageRoute(builder: (context) => const CardPage()));
         break;
     }
   }

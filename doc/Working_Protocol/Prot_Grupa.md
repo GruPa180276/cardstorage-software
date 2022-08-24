@@ -89,6 +89,8 @@ Am Nachmittag hatte ich ein einstuendiges Meeting mit Herrn Mayrhofer, um die vo
 
 Abends habe ichn dann das Design der Kartenansich voellig ueberarbeitet, nun wird die Seite, egal wie gross das Display gleich angezeigt. Ebenfalls wurde der Login ueberarbeitet, damit er auch respopnsive ist
  
+ **2022-08-24: 10:20 -> 12:53** 
+Gegen Mittag habe ich die Reservierungseite erstellt und beim Code, der die Wildcards generiert dementsprechend etwas umgeaendert, sodass er schoen erweiterbar ist. D.h je nach seite (reservierung od Karten) werden die Karten automatisch generiert und angepasst a. Beim Testen ist mir dann ein Fehler bei der API aufgefallen, den ich dann Johannes erklaert habe.  Gegen habe ich dann noch die ausgebesserte API von Johannes erfolgreich testen koennen
  
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -114,6 +116,6 @@ Abends habe ichn dann das Design der Kartenansich voellig ueberarbeitet, nun wir
 - 09:50 bis 12:50 Uhr
 - 16:15 bis 18:00 Uhr
 - 21:15 bis 22:35 Uhr
-
+- 10:20 bis 12:53 Uhr 
 <!-- { "progress": false } -->
 

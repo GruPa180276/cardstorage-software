@@ -118,3 +118,6 @@ die Implementation der API, die noch nicht vorhanden ist. Zukünftige Änderunge
 **19.8.2022: 7.00 -> 11.10** <br>
 Habe heute die Remove Seite auf allen Tabs hinzugefügt. Dies funktioniert auch bereits. Danach habe ich noch einen Logout Button hinzugefügt. Weiters wurde 
 ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und Ordner Struktur abgestimmt haben. Danach habe ich noch die Regex angepasst. (4h 10min)
+
+**24.8.2022: 14.00 -> 15.00** <br>
+Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir die Protokolle meiner Teammitglieder angeschaut, um über den aktuellen Stand bescheidzuwissen. Danach habe ich alle Protokoll files zusammengemerged. (1h)

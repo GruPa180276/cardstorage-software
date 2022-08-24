@@ -94,6 +94,9 @@ Gegen Mittag habe ich die Reservierungseite erstellt und beim Code, der die Wild
 
  **2022-08-24: 14:10 -> 15:50** 
 Am Nachmittag habe ich dann noch die Funktion hinzugefuegt um DAten senden zu koennen. Allerdings hatte ich verschiedene Probleme, da das encodieren meiner dAten nicht richtig funktionierte. Ebenfalls habe ich mir die Flutter Docu durchegelesen, damit ich besser weiss, wie man Flutter Projekte besser aufbaut
+
+ **2022-08-24: 19:40 -> 21:15** 
+Am Abend habe ich dann ncoph die post, put, delete Rest Api befehle hinzugefuegt und getestet. Danach wurde die Business Logic fuer die Reservierungsseite programmiert. Es koennen jetzt ganz einfach Reservierungen aufgehoben, bearbeitet werden. Um das open closed Prinzip einhalten zu koennen, habe ich mir ebenfalls dafuer einen guten aufbau ueberlegt
  
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -121,5 +124,6 @@ Am Nachmittag habe ich dann noch die Funktion hinzugefuegt um DAten senden zu ko
 - 21:15 bis 22:35 Uhr
 - 10:20 bis 12:53 Uhr 
 - 14:10 bis 15:50 Uhr
+- 19:40 bis 21:15 Uhr
 <!-- { "progress": false } -->
 

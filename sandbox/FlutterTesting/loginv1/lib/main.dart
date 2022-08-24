@@ -28,7 +28,7 @@ class MyHomepage extends StatefulWidget {
 class _MyHomepageState extends State<MyHomepage> {
   final _formKey = GlobalKey<FormState>();
   // regular expression to check if string
-  RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
+  RegExp passValid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
   double passwordStrength = 0;
   // 0: No password
   // 1/4: Weak
@@ -37,21 +37,21 @@ class _MyHomepageState extends State<MyHomepage> {
   //   1:   Great
   //A function that validate user entered password
   bool validatePassword(String pass) {
-    String _password = pass.trim();
-    if (_password.isEmpty) {
+    String password = pass.trim();
+    if (password.isEmpty) {
       setState(() {
         passwordStrength = 0;
       });
-    } else if (_password.length < 6) {
+    } else if (password.length < 6) {
       setState(() {
         passwordStrength = 1 / 4;
       });
-    } else if (_password.length < 8) {
+    } else if (password.length < 8) {
       setState(() {
         passwordStrength = 2 / 4;
       });
     } else {
-      if (pass_valid.hasMatch(_password)) {
+      if (passValid.hasMatch(password)) {
         setState(() {
           passwordStrength = 4 / 4;
         });
@@ -95,7 +95,7 @@ class _MyHomepageState extends State<MyHomepage> {
                       }
                     }
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(), hintText: "Password"),
                 ),
               ),
@@ -120,7 +120,7 @@ class _MyHomepageState extends State<MyHomepage> {
                       : () {
                           //perform click event
                         },
-                  child: Text("Submit form"))
+                  child: const Text("Submit form"))
             ],
           ),
         ),

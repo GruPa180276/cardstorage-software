@@ -12,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: MenuNavigationDrawer(),
+        drawer: const MenuNavigationDrawer(),
         appBar: AppBar(
             centerTitle: true,
             backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         ),
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         child: Table(
-          children: [
+          children: const [
             TableRow(
               children: [
                 TableCell(child: Text("ID:")),

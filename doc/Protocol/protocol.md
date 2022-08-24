@@ -1,0 +1,120 @@
+## Protokoll
+
+**4.7.2022: 15.00 -> 19:30** <br>
+Generelle Recherche für Diplomarbeit. Unter anderem für mögliche Displays. Weiters wurde noch zur Programmierung der Anwendung für das Display recherchiert. 
+Besprechung mit Teamkollegen (2h 30min Teams Call). Wir haben uns drauf geeinigt, 2 verschiedene Anwendungen zu erstellen, eine Client und eine Admin Anwendung.
+Diese werden beide mit Flutter realisiert und sind sowohl am Smartphone, Browser und am Raspberry am Kartentresor verfügbar. Weiters wurden sich Gedanken über
+die Funktionen gemacht, welche implementiert werden sollen. Zu dem wurde ein weiter Teams Call durchgeführt (4h 30min)
+
+**5.7.2022: 14.45 -> 15.45** <br>
+Teams Call mit Patrick über das Design der App. Es wurden das Design sowohl auch das Farbschema abgestimmt und es wurden sich Gedanken über das Login Layout
+gemacht (1h)
+
+**6.7.2022: 15:00 -> 16:00** <br>
+Allgemeine Informationen über die Admin App zusammengeschrieben. Weiters wurden 2 weitere Branches erstellt und sämtliche Readmes mit Informationen befüllt. (1h)
+
+**7.7.2022: 18:00 -> 22:00** <br>
+Erstes Dokument mit Latex erstellt. Hilfreiche Links [Doku](https://www.overleaf.com/learn/latex/Line_breaks_and_blank_spaces#Page_breaks) Weiters wurde ein
+Übungs Dokumet erstellt [hier](https://www.overleaf.com/project/62c5bdaad31d926d54df41dd). Weiters wurde ein gesamtes Konzept erstellt. Unser Konzept haben
+wir mit Overleaf erstellt (Latex). Im Konzept wurden die die einzelnen Bereiche mit ihren Funktionen näher
+definiert [hier](https://www.overleaf.com/project/62b5849dc59dc86e3368e022). Teams Call (4h)
+
+**8.7.2022: 9:30 -> 11:30** <br>
+Es wurde ein Mockup für die Admin Anwendung erstellt [hier](https://github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/blob/main/doc/Mockups/admin_login_mockup.pdf). 
+Weiters wurde ein Discord Call mit Patrick durchgeführt, wo wir die Mockups erstellt haben. (2h)
+
+**11.7.2022: 7:50 -> 11:30** <br>
+Beginn, mit der Installation von Flutter. Habe micht etwas in Flutter eingearbeitet [Install Flutter](https://docs.flutter.dev/get-started/install) 
+und [Flutter Getting Started](https://docs.flutter.dev/get-started/codelab). Danach habe ich mich mit dem groben Layout der AdminApp beschäftigt. (3h 40min)
+
+**11.7.2022: 12:30 -> 15:45** <br>
+Weiter an der Flutter App gearbeitet. Ich habe mich mit APIs in Flutter beschäftigt. Dazu wurde die Startseite erstellt und mit Test API Daten befüllt. 
+Tutorial [hier](https://flutterforyou.com/how-to-fetch-data-from-api-and-show-in-flutter-listview/). (3h 15min)
+
+**12.7.2022: 7:45 -> 11:45** <br>
+Habe am Startlayout weiter gearbeitet. Habe eine Auswahlbox für die Kartenautomaten hinzugeügt. Weiters wurde das Design leicht verändert und es wurden 
+Icons hinzugefügt. (4h)
+
+**12.7.2022: 13:10 -> 15:45** <br>
+Habe an der Kartenansicht weiter gearbeitet. Es ist nun auch funkionell möglich zwischen allen Karten und nur den Karten eines Tresors zu wechseln. 
+Weiters wurde hinzugeügt, dass es möglich ist, auf eine Karte zu klicken, und sich die Statistik zu jeder Karte anzeigen zu lassen. Aktuell noch mit 
+Testdaten realisiert, da noch keine API vorhanden ist. (2h 35min)
+
+**13.7.2022: 7:45 -> 11:30** <br>
+Habe an der Startseite weiter gearbeitet. Habe noch eine Beschreibung hinzugefügt. Weiters habe ich zur App einen Ladebildschirm, ein App Icon und den 
+Namen der App geändert. Weiters habe ich damit begonnen den Drawer am Homescren mit Funktionen auszustatten. Es wurde ein Logo eingefügt. Weiters wurden
+2 neue Seiten erstellt. Die Einstellungs und App Info Seite. (3h 45min)
+
+**13.7.2022: 12:40 -> 15:15** <br>
+Hab mich damit beschäftigt, einen DarkMode umzusetzten. Dies stellte sich heraus, das es nicht so einfach war, aber ich habe es mit etwas Recherche und 
+einem Youtube tutorial hinbekommen. (2h 35min)
+
+**26.7.2022: 7.40 -> 11:50** <br>
+Habe damit begonnen den Code zu refactoren. Habe eigene Datein für Farben und Texte erstellt. Weiters habe ich mit der Umetzung von Dynamischen Titel 
+beschäftigt, habe jedoch gemerkt das das nicht so einfach möglich ist. Arbeite gerade an der Tabbar Leiste um Icons und Text anzeigen zu können, ohne das 
+ein overflow entsteht. (4h 10min)
+
+**26.7.2022: 12.35 -> 14:00** <br>
+Habe weiter am zweiten Tab der App gearbeitet. Dieser behandelt das hinzufügen und bearbeiten von Automaten. Dazu habe ich das Layout erstellt und erste
+Funktionen implementiert. (1h 25min)
+
+**27.7.2022: 7.25 -> 12.25** <br>
+Habe heute an der Add Storage Seite gearbeitet. Dazu habe ich die funktionalität und das Design dafür implementiert. Weiters tratten technische problemen auf,
+der Android Emulator wollte nicht mehr starten, funktioniert jetzt aber wieder. Weiters habe ich das Git Repo etwas erweitert, die readmes mit text befüllt.
+Danach habe ich mich noch damit beschäftigt, das die App im Querformat funktioniert, das klappt auch alles einwandfrei. (5h)
+
+**28.7.2022: 7.25 -> 12.25** <br>
+Habe an der Card Storage Settings Seite gearbeitet. Die Seite ist soweit fertig. Das komplette Layout inklusive funktionalität wurden hinzugefügt. 
+Weiters wurden auch die nötigen Vorkehrungen für die API getroffen, das funktioniert soweit auch. Weiters habe ich noch die Add Card Storage Seite bearbeite. 
+Dort habe ich auch alles auf die API umgestellt. Habe danach noch etwas Refactoring betrieben. Für jeden eine einzelne Text und Farb Datei erstellt. 
+Weiters habe ich mich noch mit der nativen Ausführung der App unter Windows beschäftigt (Nur weil es mich interessiert) [hier](https://medium.com/flutter-community/flutter-for-desktop-create-and-run-a-desktop-application-ebeb1604f1e0). (5h)
+
+**31.7.2022: 8.15 -> 11.30** <br>
+Habe an Tab3 weitergearbeitet. Dort habe ich das komplette layout zum Karten erstellen und bearbeiten hizugefügt. Es wurde auch die komplette Logik 
+implmentiert. Weiters habe ich mir Gedanken über Änderungen an der App gemacht. Danach habe ich noch kleine Änderungen vorgenommen und etwas getestet. (3h 15min)
+
+
+**1.8.2022: 7.15 -> 11:30** <br>
+Habe heute an dem User hinzufügen gearbeitet. Dazu habe ich einen Teil des Layout und die meisten der Funktion implementiert. Ich habe ein Suchfeld erstellt,
+mit dem man sich alle Benutzer anzeigen lassen kann. Es fehlen noch das Design. (4h 15min)
+
+
+**8.8.2022: 7.10 -> 10.10** <br>
+Habe am User Login weitergearbeitet. Habe die Such Funktion fertig implementiert. Es ist jetzt möglich Benutzer auszuwählen. Diese werden dann in einer Liste
+angezeigt. Ein Problem besteht weiterhin. Ich habe keine Lösung gefunden wie man eine Seite neuladen kann, deshalb werden die Werte nicht direkt angezeigt. 
+Man muss zuerst auf eine andere Seite wechseln, damit diese angeziegt werden. (3h)
+
+**9.8.2022: 7.05 -> 10.05** <br>
+Habe damit begonnen, ein GitHub project zu erstellen. Dieses habe ich dann auch mit Inhalt befüllt. Danach habe ich mich mit der Rechte Seite beschäftigt. 
+Dazu habe ich begonnen die GUI zu erstellen und die Logik zu implementieren. Aktuell funktioniert es nocht nicht gnaz so wie ich will. (3h)
+
+
+**10.8.2022: 6.50 -> 9.50** <br>
+Habe an der Rights Page weiter gearbeitet. Jetzt werden die Werte in der Auswahlbox richtig dargestellt und die ausgewählten Rechte auch angezeigt. 
+Das Reload Problem besteht weiterhin. Habe es versuch mit setState() und dem ValueableListener zu lösen, habe es aber auch nicht hinbekommen. (3h)
+
+
+**15.8.2022: 7.25 -> 10.25** <br>
+Habe an der Rechte Seite weiter gearbeitet. Es funktioniert jetzt soweit alles. Der Issue wurde durch ein Refresh Button "gelöst". Weiters habe ich am 
+Projects Board einen weiteren Eintrag hinzugefügt. Es sollte an jeder Seite die Möglichkeit bestehen, das die ausgewählten Benutzer auch wieder entfernt 
+werden können. (3h)
+
+**16.8.2022: 7.40 -> 11.40** <br>
+Habe heute kleine Verbesserungen an der App vorgenommen. Habe mit Herrn Grubauer ein Meeting abgehalten. Wir haben uns über Diverse Dinge abgestimmt. 
+Danach habe wir noch die Branch Struktur auf GitHub angepasst. Weiters haben wir noch Diverse Lokale Änderungen bei Herrn Grubauer vorgenommen. 
+Danach habe ich die App noch etwas getestet. Zum Schluss habe ich noch die Settings Page mit Inhalt befüllt, dazu habe ich den Darkmode Button verschoben. 
+Weiters habe ich noch die App Info Seite mit etwas Text befüllt. Danach habe ich noch diverse typos in meine Protokollen behoben und zu jedem Tag die Studen 
+anzahl hinzugefügt. (4h)
+
+**17.8.2022: 8.00 -> 11.10** <br>
+Habe heute an der User Page gearbeitet. Dort habe ich das Design überarbeitet. Danach habe ich ein Meeting mit Herrn Grubauer abgehalten, wo wir klärten, 
+welche Anforderungen wir an die API haben. (3h 10min)
+
+**18.8.2022: 7.30 -> 10.30** <br>
+Habe heute das Problem gelöst, warum der Clear Button auf der Seite 5 und 4 nicht funktionierte. Danach habe ich die Anordnung der Buttons auf den selbigen 
+Seiten geändert. Weiters habe ich noch alle Seiten auf ein einheitliche Design angepasst. Die App wäre soweit auch funktionell, es fehlt ledeglich überall 
+die Implementation der API, die noch nicht vorhanden ist. Zukünftige Änderungen sind im GitHub Project ersichtlich. (3h)
+
+**19.8.2022: 7.00 -> 11.10** <br>
+Habe heute die Remove Seite auf allen Tabs hinzugefügt. Dies funktioniert auch bereits. Danach habe ich noch einen Logout Button hinzugefügt. Weiters wurde 
+ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und Ordner Struktur abgestimmt haben. Danach habe ich noch die Regex angepasst. (4h 10min)

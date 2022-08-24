@@ -11,9 +11,8 @@ void buildDateTimePicker(String text, TextEditingController editingController,
           doneStyle: TextStyle(color: Theme.of(context).primaryColor),
           cancelStyle: TextStyle(color: Theme.of(context).primaryColor),
           itemStyle: TextStyle(color: Theme.of(context).primaryColor)),
-      showTitleActions: true, onChanged: (date) {
-    print('change $date');
-  }, onConfirm: (date) {
+      showTitleActions: true,
+      onChanged: (date) {}, onConfirm: (date) {
     editingController.text =
         DateFormat('yyyy-MM-dd hh:mm').format(date).toString();
   }, currentTime: DateTime.now(), locale: LocaleType.de);

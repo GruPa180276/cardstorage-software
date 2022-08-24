@@ -15,7 +15,7 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPage extends State<CardPage> {
-  Future<List<Cards>>? listOfUsers;
+  Future<List<Cards>>? listOfCards;
 
   @override
   void initState() {
@@ -25,9 +25,9 @@ class _CardPage extends State<CardPage> {
 
   void reloadCardList() {
     setState(() {
-      listOfUsers = FetchData.getData("posts").then((value) =>
+      listOfCards = Data.getData("card").then((value) =>
           jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
-      ApiVisualizer.listOfTypes = listOfUsers;
+      ApiVisualizer.listOfTypes = listOfCards;
     });
   }
 
@@ -40,7 +40,7 @@ class _CardPage extends State<CardPage> {
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         title: const Text('Karten'),
       ),
-      body: Center(child: ApiVisualizer.build(context)),
+      body: Center(child: ApiVisualizer.build(context, "cards")),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         child: const Icon(

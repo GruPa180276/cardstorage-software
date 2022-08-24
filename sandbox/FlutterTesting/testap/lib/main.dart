@@ -8,10 +8,12 @@ import 'dart:async';
 import 'dart:convert';
 
 void main() {
-  runApp(new MaterialApp(home: new Homepage()));
+  runApp(const MaterialApp(home: Homepage()));
 }
 
 class Homepage extends StatefulWidget {
+  const Homepage({Key? key}) : super(key: key);
+
   @override
   State<Homepage> createState() => _HomepageState();
 }
@@ -31,7 +33,6 @@ class _HomepageState extends State<Homepage> {
       //"key":"value" for authen.
       "Accept": "application/json"
     });
-    print('hellsaasdo');
     return jsonDecode(response.body).map<User>(User.fromJson).toList();
   }
 
@@ -74,14 +75,14 @@ class _HomepageState extends State<Homepage> {
         final user = users[index];
         return Card(
           elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          margin: const EdgeInsets.fromLTRB(15, 0, 15, 10),
           child: ListTile(
             title: Text(user.title),
             subtitle: Text(user.userId.toString()),
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
         );
       });
 }

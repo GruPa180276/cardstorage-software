@@ -123,3 +123,36 @@ ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und 
 Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir die Protokolle meiner Teammitglieder angeschaut, um über den aktuellen Stand bescheidzuwissen. Danach habe ich alle Protokoll files zusammengemerged. (1h)
 
 **25.8.2022: 7.25 -> xx** <br>
+
+
+
+## Arbeitszeit
+<!-- { "progress": true } -->
+15.00 bis 19:30
+14.45 bis 15.45
+15:00 bis 16:00
+18:00 bis 22:00
+9:30 bis 11:30
+7:50 bis 11:30
+12:30 bis 15:45
+7:45 bis 11:45
+13:10 bis 15:45
+7:45 bis 11:30
+12:40 bis 15:15
+7:40 bis 11:50
+12:35 bis 14:00
+7:25 bis 12:25
+7:25 bis 12:25 
+8:15 bis 11:30
+7:15 bis 11:30
+7:10 bis 10:10
+7:05 bis 10:05
+6:50 bis 9:50
+7:25 bis 10:25
+7:40 bis 11:40
+8:00 bis 11:10
+7:30 bis 10:30
+7:00 bis 11:10
+14:00 bis 15:00
+7:25 bis 11:25
+<!-- { "progress": false } -->

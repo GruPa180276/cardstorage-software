@@ -107,7 +107,7 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
           ),
           Expanded(
               child: Row(
-            children: [buildReservateButton(context, "Bearbeiten")],
+            children: [buildReservateButton(context, "Bearbeiten", card)],
           ))
         ],
       );
@@ -125,7 +125,7 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
                 right: BorderSide(color: ColorSelect.greyBorderColor)),
             color: Colors.transparent,
             splashColor: Colors.black,
-            onPressed: () => buildReservatePopUp(context),
+            onPressed: () => buildReservatePopUp(context, card),
             child: Text('Jetzt holen',
                 style: TextStyle(color: Theme.of(context).primaryColor)),
           ),
@@ -134,7 +134,7 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
       return Row(
         children: <Widget>[
           getNow,
-          buildReservateButton(context, "Reservieren")
+          buildReservateButton(context, "Reservieren", card)
         ],
       );
   }

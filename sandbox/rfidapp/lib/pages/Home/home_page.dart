@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
+import 'package:rfidapp/pages/navigation/menu_navigation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

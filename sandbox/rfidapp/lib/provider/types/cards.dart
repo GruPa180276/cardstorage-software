@@ -5,8 +5,8 @@ class Cards {
   int? storageId;
   bool? isAvailable;
   bool? isReserved;
-  DateTime? reservedSince;
-  DateTime? reservedUntil;
+  int? reservedSince;
+  int? reservedUntil;
 
   @override
   Cards(

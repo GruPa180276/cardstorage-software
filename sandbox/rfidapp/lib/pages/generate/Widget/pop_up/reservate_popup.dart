@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/Widget/date_picker.dart';
+import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/types/cards.dart';
 
 TextEditingController vonTextEdidtingcontroller = TextEditingController();
 TextEditingController bisTextEdidtingcontroller = TextEditingController();
 
-Future<void> buildReservatePopUp(BuildContext context) async {
+Future<void> buildReservatePopUp(BuildContext context, Cards card) async {
   return showDialog(
       context: context,
       builder: (context) {
@@ -22,7 +24,7 @@ Future<void> buildReservatePopUp(BuildContext context) async {
                   buildTimeChooseField(
                       context, "Bis:", bisTextEdidtingcontroller),
                   const SizedBox(height: 20),
-                  buildReservateNow(context),
+                  buildReservateNow(context, card),
                 ],
               )
             ]);
@@ -60,16 +62,15 @@ Widget buildTimeChooseField(BuildContext context, String text,
           ),
           IconButton(
               icon: const Icon(Icons.date_range),
-              onPressed: () {
-                buildDateTimePicker(text, editingController, context);
-              }),
+              onPressed: () =>
+                  buildDateTimePicker(text, editingController, context))
         ],
       ),
     )
   ]);
 }
 
-Widget buildReservateNow(BuildContext context) {
+Widget buildReservateNow(BuildContext context, Cards card) {
   return ElevatedButton(
       style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -77,7 +78,14 @@ Widget buildReservateNow(BuildContext context) {
         borderRadius: BorderRadius.circular(32),
       ))),
       // ignore: avoid_print
-      onPressed: () => print('tbc'),
+      onPressed: () {
+        card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
+            .millisecondsSinceEpoch;
+        card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
+            .millisecondsSinceEpoch;
+
+        Data.putData('card', card.toJson());
+      },
       child: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),
         child: Text(

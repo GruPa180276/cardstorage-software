@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/home/home_page.dart';
+import 'package:rfidapp/pages/Home/home_page.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
 import 'package:rfidapp/pages/reservate/reservate_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
+import 'package:rfidapp/pages/account/account_page.dart';
+
 import 'package:provider/provider.dart';
 
 class MenuNavigationDrawer extends StatefulWidget {
@@ -99,8 +101,8 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
   selectedItem(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const CardPage()));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => AccountPage()));
         break;
 
       case 1:

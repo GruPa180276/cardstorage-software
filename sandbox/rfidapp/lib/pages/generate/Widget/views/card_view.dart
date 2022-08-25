@@ -23,7 +23,7 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site) =>
                 Row(children: [
                   const Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
-                    child: Icon(Icons.card_giftcard_sharp, size: 35),
+                    child: Icon(Icons.credit_card_outlined, size: 35),
                   ),
                   buildCardsText(context, card),
                 ]),
@@ -96,8 +96,6 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
               splashColor: Colors.black,
               onPressed: () {
                 card.isReserved = false;
-                card.name = "sigma";
-
                 Data.putData("cards", card.toJson());
                 //TODO maybe change to SetState (cleaner)
                 // ignore: invalid_use_of_protected_member

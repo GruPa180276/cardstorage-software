@@ -37,21 +37,3 @@ class MyApp extends StatelessWidget {
         },
       );
 }
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:rfidapp/pages/Login/login_page.dart';
-// import 'package:rfidapp/provider/theme_provider.dart';
-
-// void main() {
-//   runApp(MaterialApp(
-
-//       // darkTheme:
-//       //     ThemeData(brightness: Brightness.dark, primarySwatch: Colors.green),
-//       themeMode: ThemeMode.system,
-//       theme: MyThemes.lightTheme,
-//       darkTheme: MyThemes.darkTheme,
-//       home: const LoginScreen()));
-// }

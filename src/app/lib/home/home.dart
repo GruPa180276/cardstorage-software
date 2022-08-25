@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+
 import '../themes.dart';
+
 import 'tab1.dart';
 import 'tab2.dart';
 import 'tab3.dart';
 import 'tab4.dart';
 import 'tab5.dart';
+
 import '../drawer/settings.dart';
 import '../drawer/appinfo.dart';
-import 'package:provider/provider.dart';
-import '../color/home_color_values.dart';
-import '../text/home_text_values.dart';
 
-HomeColorProvider homeCP = new HomeColorProvider();
-HomeDescrpitionProvider homeDP = new HomeDescrpitionProvider();
+import '../properties/home_properties.dart';
+
+HomeColorProvider homeColorProvider = new HomeColorProvider();
+HomeTextProvider homeTextProvider = new HomeTextProvider();
 
 void main() => runApp(Home());
 
@@ -28,11 +32,11 @@ class Home extends StatelessWidget {
         return MaterialApp(
           themeMode: themeProvider.themeMode,
           theme: ThemeData(
-            primarySwatch: homeCP.getHeaderColor(),
+            primarySwatch: homeColorProvider.getHeaderColor(),
           ),
           darkTheme: Mythemes.darkTheme,
-          title: homeDP.getAppTitle(),
-          home: MyHomePage(),
+          title: homeTextProvider.getAppTitle(),
+          home: HomePage(),
           debugShowCheckedModeBanner: false,
         );
       });
@@ -53,118 +57,133 @@ class ChangeThemeButtonWidget extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(homeDP.getAppTitle()),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.logout,
-            ),
-            onPressed: () {
-              // ToDo: Call Login Page from GruPa
-            },
-          )
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                child: Icon(Icons.refresh),
+        appBar: AppBar(
+          title: Text(homeTextProvider.getAppTitle()),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.logout,
               ),
-            ),
-          ),
-        ],
-      ),
-      body: Center(child: SelectionBar()),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+              onPressed: () {
+                // ToDo: Call Login Page from GruPa
+              },
+            )
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Stack(
           children: [
-            DrawerHeader(
-                decoration: BoxDecoration(
-                  color: homeCP.getDrawerHeaderColor(),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  child: Icon(Icons.refresh),
                 ),
-                child: Image.asset(
-                  homeDP.getDrawerIconPath(),
-                )),
-            Divider(
-              color: homeCP.getDrawerHeaderDividerColor(),
-              height: 10,
-              thickness: 2,
-              indent: 5,
-              endIndent: 5,
-            ),
-            InkWell(
-              child: Container(
-                padding: EdgeInsets.all(15),
-                alignment: Alignment.topLeft,
-                child: Column(children: [
-                  Text(homeDP.getDrawerSettingsTabName(),
-                      style: const TextStyle(fontSize: 20)),
-                ]),
               ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Settings(),
-                    ));
-              },
-            ),
-            Divider(
-              color: homeCP.getDrawerHeaderDividerColor(),
-              height: 10,
-              thickness: 2,
-              indent: 5,
-              endIndent: 5,
-            ),
-            InkWell(
-              child: Container(
-                padding: EdgeInsets.all(15),
-                alignment: Alignment.topLeft,
-                child: Column(children: [
-                  Text(homeDP.getDrawerAppInfoTabName(),
-                      style: const TextStyle(fontSize: 20)),
-                ]),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AppInfo(),
-                    ));
-              },
-            ),
-            Divider(
-              color: homeCP.getDrawerHeaderDividerColor(),
-              height: 10,
-              thickness: 2,
-              indent: 5,
-              endIndent: 5,
             ),
           ],
         ),
-      ),
-    );
+        body: Center(child: SelectionBar()),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              UserAccountsDrawerHeader(
+                currentAccountPicture: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngmart.com%2Ffiles%2F10%2FBusiness-User-Account-PNG-File.png&f=1&nofb=1",
+                )),
+                accountEmail: Text('benedikt.zoechmann@protonmail.com'),
+                accountName: Text(
+                  'Benedikt Zöchmann',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text(
+                  'Settings',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const Settings(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: const Text(
+                  'App Info',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const AppInfo(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.query_stats),
+                title: const Text(
+                  'Stats',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => HomePage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(
+                height: 10,
+                thickness: 1,
+              ),
+              ListTile(
+                leading: const Icon(Icons.exit_to_app),
+                title: const Text(
+                  'Exit',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const HomePage(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -186,7 +205,7 @@ class _SelectionBarState extends State<SelectionBar> {
             child: Container(
                 height: 50,
                 child: TabBar(
-                  labelColor: homeCP.getTabBarLabelColor(),
+                  labelColor: homeColorProvider.getTabBarLabelColor(),
                   tabs: [
                     Tab(icon: Icon(Icons.home_outlined)),
                     Tab(icon: Icon(Icons.storage)),

@@ -50,3 +50,5 @@
 - https://stackoverflow.com/questions/57271292/flutter-giving-equal-width-to-two-buttons-in-a-buttonbar-with-dynamic-height-fo
 - https://flutteragency.com/add-space-between-widgets/
 - https://stackoverflow.com/questions/57941227/how-to-add-icon-to-appbar-in-flutter
+- https://www.waldo.com/blog/flutter-drawer
+

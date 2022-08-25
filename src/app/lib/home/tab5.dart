@@ -22,6 +22,12 @@ class Tab5 extends StatefulWidget {
 }
 
 class _Tab5State extends State<Tab5> {
+  void setID(String data) {
+    setState(() {
+      id.add(data);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -68,7 +74,8 @@ class _Tab5State extends State<Tab5> {
                 backgroundColor: Colors.blueGrey,
                 onPressed: () {
                   showSearch(
-                      context: context, delegate: CustomSearchDelegate());
+                      context: context,
+                      delegate: CustomSearchDelegate(this.setID));
                 },
               )),
             ],
@@ -251,6 +258,12 @@ class _InputFieldsState extends State<InputFields> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
+  late Function setState;
+
+  CustomSearchDelegate(Function state) {
+    setState = state;
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -298,7 +311,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 child: Column(children: [Text(result)]),
               ),
               onTap: () {
-                id.add(matchQuery[index]);
+                setState(matchQuery[index]);
               });
         });
   }
@@ -328,7 +341,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id.add(matchQuery[index]);
+              setState(matchQuery[index]);
             });
       },
     );

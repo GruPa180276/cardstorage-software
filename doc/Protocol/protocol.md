@@ -128,8 +128,8 @@ Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir 
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
-- 15.00 bis 19:30 Uhr
-- 14.45 bis 15.45 Uhr
+- 15:00 bis 19:30 Uhr
+- 14:45 bis 15:45 Uhr
 - 15:00 bis 16:00 Uhr
 - 18:00 bis 22:00 Uhr
 - 9:30 bis 11:30 Uhr

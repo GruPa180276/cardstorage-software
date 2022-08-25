@@ -102,7 +102,11 @@ Am Abend habe ich dann ncoph die post, put, delete Rest Api befehle hinzugefuegt
 Am Vormittag hatte ich ein Meeting mit Ben. Am Anfang half ich ihm bei seinem Issue, und loeste ihn mit einer Callbackfunction (delegate). Danach erklaerte ich ihm unsere Ordnerstruktur. Weiters habe ich ihm erklaerte wie mein API Visualizer funktioniert. Danach zeigte ich ihm, wie man die API von Herrn Mayrhofer startet und damit kommuniziert. Danach brachte ich ihm bei,wie man die Zaehlstunden app von Herrn Mj nutzt. Ebenfalls haben wir noch darueber geredet, wie unser git merge ablaufen wird
 
 **2022-08-25: 15:00 -> 18:00** 
-Am Nachmittag habe ich bei Reservierungs und Kartenseite weitergearbeitet. Ich habe nun fuer das Reservierungssystem den put Api call programmiert. Danach habe ich eine Neue page erstellt, um die Benuzterdaten zu aendern. Allerdings hat mir ein problem mit Flutter (Ordnernamen umbennen) etwas Zeitgeraubt, da dies  nicht richtig funktioniert und Flutter die neuen Namen nicht finden konte
+Am Nachmittag habe ich bei Reservierungs und Kartenseite weitergearbeitet. Ich habe nun fuer das Reservierungssystem den put Api call programmiert. Danach habe ich eine Neue page erstellt, um die Benuzterdaten zu aendern. Allerdings hat mir ein problem mit Flutter (Ordnernamen umbennen) etwas Zeitgeraubt, da dies  nicht richtig funktioniert und Flutter die neuen Namen nicht finden konnte
+
+**2022-08-25: 20:30 -> 00:02** 
+Am Abend habe ich aufgrund eines Gespraechs mit Herrn Zoechmann meinen Drawer voellig entfernt und Tabs eingebaut. Dazue ueberlegt ich mir wieder ein Konzept, damit es schoen erweiterbar ist. Danach habe ich eine Seite Settings erstellt und dort verschiedene Verlinkungen eingebunden. Auserdem habe ich das komplette Colorscheme der App veraender, was etwas zeit kostete.
+
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -132,6 +136,7 @@ Am Nachmittag habe ich bei Reservierungs und Kartenseite weitergearbeitet. Ich h
 - 19:40 bis 21:15 Uhr
 - 9:00 bis 11:30 Uhr
 - 15:00 bis 18:00 Uhr
+- 20:30 bis 00:02 Uhr
 
 <!-- { "progress": false } -->
 

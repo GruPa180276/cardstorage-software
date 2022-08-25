@@ -34,12 +34,16 @@ class _CardPage extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const MenuNavigationDrawer(),
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-        title: const Text('Karten'),
-      ),
+          toolbarHeight: 125,
+          bottomOpacity: 0.0,
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          title: Text('Karten',
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                  color: Theme.of(context).primaryColor))),
       body: Center(child: ApiVisualizer.build(context, "cards")),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).secondaryHeaderColor,

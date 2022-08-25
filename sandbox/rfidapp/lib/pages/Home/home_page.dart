@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/navigation/menu_navigation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,16 +8,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
+
+  void onClicked(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const MenuNavigationDrawer(),
         appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Theme.of(context).secondaryHeaderColor,
-            title: const Text(
-              "Homepage",
-            )),
+            toolbarHeight: 125,
+            bottomOpacity: 0.0,
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            title: Text("Homepage",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                    color: Theme.of(context).primaryColor))),
         body: buildGetback(this.context));
   }
 

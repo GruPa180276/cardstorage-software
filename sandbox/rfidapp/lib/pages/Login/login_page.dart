@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/pages/Home/home_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
+import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -203,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
             UserSecureStorage.setRememberState(rememberValue.toString());
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const HomePage())); //open app
+                builder: (context) => const BottomNavigation())); //open app
           },
           // style: ElevatedButton.styleFrom(
           //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),

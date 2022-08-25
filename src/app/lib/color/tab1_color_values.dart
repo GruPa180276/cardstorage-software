@@ -21,13 +21,3 @@ class Tab1ColorProvider {
     return Colors.blueGrey;
   }
 }
-
-class Tab1StatsColorProvider {
-  Color getAppBarBackgroundColor() {
-    return Colors.blueGrey;
-  }
-
-  Color getChartColor() {
-    return Colors.blueGrey;
-  }
-}

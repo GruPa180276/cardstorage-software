@@ -1,15 +1,17 @@
-import 'package:app/stats/tab1_stats.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../color/tab1_color_values.dart';
-import '../text/tab1_text_values.dart';
+
+import '../properties/tab1_properties.dart';
+import '../stats/tab1_stats.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
-Tab1ColorProvider tab1CP = new Tab1ColorProvider();
-Tab1DescrpitionProvider tab1DP = new Tab1DescrpitionProvider();
+Tab1ColorProvider tab1ColorProvider = new Tab1ColorProvider();
+Tab1TextProvider tab1TextProvider = new Tab1TextProvider();
+Tab1IconProvider tab1IconProvider = new Tab1IconProvider();
 
 class Tab1 extends StatefulWidget {
   Tab1({Key? key}) : super(key: key) {}
@@ -19,8 +21,8 @@ class Tab1 extends StatefulWidget {
 }
 
 class _Tab1State extends State<Tab1> {
-  String dropDownText = tab1DP.getDropDownText();
-  var dropDownValues = tab1DP.getDropDownValues();
+  String dropDownText = tab1TextProvider.getDropDownText();
+  var dropDownValues = tab1TextProvider.getDropDownValues();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _Tab1State extends State<Tab1> {
           decoration: BoxDecoration(
               border: Border.all(
                 width: 3,
-                color: tab1CP.getStorageSelectorBorderColor(),
+                color: tab1ColorProvider.getStorageSelectorBorderColor(),
               ),
               borderRadius: BorderRadius.circular(15)),
           child: Column(
@@ -44,7 +46,7 @@ class _Tab1State extends State<Tab1> {
                 iconSize: 30,
                 underline: Container(
                   height: 2,
-                  color: tab1CP.getStorageSelectorDividerColor(),
+                  color: tab1ColorProvider.getStorageSelectorDividerColor(),
                 ),
                 items: dropDownValues.map((String items) {
                   return DropdownMenuItem(
@@ -65,8 +67,8 @@ class _Tab1State extends State<Tab1> {
           top: 100,
           left: 0,
           right: 0,
-          bottom: 22,
-          child: Stack(children: [ListCards(cardStorage: dropDownText)]))
+          bottom: 10,
+          child: ListCards(cardStorage: dropDownText))
     ]);
   }
 }
@@ -88,105 +90,13 @@ class _MyAppState extends State<ListCards> {
     futureData = fetchData();
   }
 
-  Widget setSateOfCards(String card) {
-    // ignore: unused_local_variable
-    String cardName = card;
-    Widget cardState = Text("");
-    String apiCall = "x"; // Only Test Values, will be changed to an API call
-    if (apiCall == "x") {
-      cardState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
-    } else if (apiCall == "y") {
-      cardState = Text("Nicht Verfügbar", style: const TextStyle(fontSize: 20));
-    }
-    return Positioned(left: 140, top: 30, child: cardState);
-  }
-
-  Widget setIconOfCards(String card) {
-    // ignore: unused_local_variable
-    String cardName = card;
-    IconData cardIcon = Icons.not_started;
-    String apiCall = "x"; // Only Test Values, will be changed to an API call
-    if (apiCall == "x") {
-      cardIcon = Icons.check;
-    } else if (apiCall == "y") {
-      cardIcon = Icons.cancel_rounded;
-    }
-    return Positioned(left: 100, top: 30, child: Icon(cardIcon));
-  }
-
-  Widget createCard(BuildContext context, List<Data>? data, int index) {
-    return InkWell(
-      child: Container(
-        height: 70,
-        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 3,
-              color: tab1CP.getCardContainerBorderColor(),
-            ),
-            borderRadius: BorderRadius.circular(15)),
-        child: Stack(children: [
-          Positioned(
-              left: 100,
-              child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
-          setSateOfCards(data[index].title.toString()),
-          setIconOfCards(data[index].title.toString()),
-          const Positioned(
-              left: 15,
-              top: 7,
-              child: Icon(
-                Icons.credit_card,
-                size: 50,
-              ))
-        ]),
-      ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const CardStats(),
-            ));
-      },
-    );
-  }
-
-  Widget welcomePage(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-          border: Border.all(
-            width: 3,
-            color: tab1CP.getWelcomePageBorderColor(),
-          ),
-          borderRadius: BorderRadius.circular(15)),
-      child: Column(children: [
-        Text(tab1DP.getWelcomePageHeadline(), style: TextStyle(fontSize: 25)),
-        Divider(
-          color: tab1CP.getWelcomePageDividerColor(),
-          height: 10,
-          thickness: 2,
-          indent: 5,
-          endIndent: 5,
-        ),
-        Expanded(
-            child: ListView(
-          children: <Widget>[
-            Text(tab1DP.getWelcomePageText(), style: TextStyle(fontSize: 20))
-          ],
-        )),
-      ]),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
         if (widget.cardStorage == "Select Storage...") {
-          return welcomePage(context);
+          return createWelcomePage(context);
         }
         if (snapshot.hasData) {
           List<Data>? data = snapshot.data;
@@ -207,6 +117,98 @@ class _MyAppState extends State<ListCards> {
         return const CircularProgressIndicator();
       },
     );
+  }
+
+  Widget createWelcomePage(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          border: Border.all(
+            width: 3,
+            color: tab1ColorProvider.getWelcomePageBorderColor(),
+          ),
+          borderRadius: BorderRadius.circular(15)),
+      child: Column(children: [
+        Text(tab1TextProvider.getWelcomePageHeadline(),
+            style: TextStyle(fontSize: 25)),
+        Divider(
+          color: tab1ColorProvider.getWelcomePageDividerColor(),
+          height: 10,
+          thickness: 2,
+          indent: 5,
+          endIndent: 5,
+        ),
+        Expanded(
+            child: ListView(
+          children: <Widget>[
+            Text(tab1TextProvider.getWelcomePageText(),
+                style: TextStyle(fontSize: 20))
+          ],
+        )),
+      ]),
+    );
+  }
+
+  Widget createCard(BuildContext context, List<Data>? data, int index) {
+    return InkWell(
+      child: Container(
+        height: 85,
+        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: tab1ColorProvider.getCardContainerBorderColor(),
+            ),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setStateOfCard(data[index].title.toString()),
+          setIconOfCard(data[index].title.toString()),
+          Icon(
+            tab1IconProvider.getContainerIcon(),
+            size: 60,
+          )
+        ]),
+      ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CardStats(),
+            ));
+      },
+    );
+  }
+
+  Widget setStateOfCard(String card) {
+    // ignore: unused_local_variable
+    String cardName = card;
+    Widget cardState = Text("");
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      cardState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
+    } else if (apiCall == "y") {
+      cardState = Text("Nicht Verfügbar", style: const TextStyle(fontSize: 20));
+    }
+    return Positioned(left: 140, top: 30, child: cardState);
+  }
+
+  Widget setIconOfCard(String card) {
+    // ignore: unused_local_variable
+    String cardName = card;
+    IconData cardIcon = Icons.not_started;
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
+      cardIcon = tab1IconProvider.getCardIconAvailable();
+    } else if (apiCall == "y") {
+      cardIcon = tab1IconProvider.getCardIconUnavailable();
+    }
+    return Positioned(left: 100, top: 30, child: Icon(cardIcon));
   }
 }
 

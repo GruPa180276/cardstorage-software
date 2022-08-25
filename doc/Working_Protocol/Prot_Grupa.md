@@ -98,7 +98,9 @@ Am Nachmittag habe ich dann noch die Funktion hinzugefuegt um DAten senden zu ko
  **2022-08-24: 19:40 -> 21:15** 
 Am Abend habe ich dann ncoph die post, put, delete Rest Api befehle hinzugefuegt und getestet. Danach wurde die Business Logic fuer die Reservierungsseite programmiert. Es koennen jetzt ganz einfach Reservierungen aufgehoben, bearbeitet werden. Um das open closed Prinzip einhalten zu koennen, habe ich mir ebenfalls dafuer einen guten aufbau ueberlegt
  
-## Arbeitszeit
+**2022-08-25: 9:00 -> 11:30** 
+Am Vormittag hatte ich ein Meeting mit Ben. Am Anfang half ich ihm bei seinem Issue, und loeste ihn mit einer Callbackfunction (delegate). Danach erklaerte ich ihm unsere Ordnerstruktur. Weiters habe ich ihm erklaerte wie mein API Visualizer funktioniert. Danach zeigte ich ihm, wie man die API von Herrn Mayrhofer startet und damit kommuniziert. Danach brachte ich ihm bei,wie man die Zaehlstunden app von Herrn Mj nutzt. Ebenfalls haben wir noch darueber geredet, wie unser git merge ablaufen wird
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -125,5 +127,6 @@ Am Abend habe ich dann ncoph die post, put, delete Rest Api befehle hinzugefuegt
 - 10:20 bis 12:53 Uhr 
 - 14:10 bis 15:50 Uhr
 - 19:40 bis 21:15 Uhr
+- 9:00 bis 11:30 Uhr
 <!-- { "progress": false } -->
 

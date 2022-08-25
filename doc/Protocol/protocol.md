@@ -128,31 +128,31 @@ Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir 
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
-- 15.00 bis 19:30
-- 14.45 bis 15.45
-- 15:00 bis 16:00
-- 18:00 bis 22:00
-- 9:30 bis 11:30
-- 7:50 bis 11:30
-- 12:30 bis 15:45
-- 7:45 bis 11:45
-- 13:10 bis 15:45
-- 7:45 bis 11:30
-- 12:40 bis 15:15
-- 7:40 bis 11:50
-- 12:35 bis 14:00
-- 7:25 bis 12:25
-- 7:25 bis 12:25 
-- 8:15 bis 11:30
-- 7:15 bis 11:30
-- 7:10 bis 10:10
-- 7:05 bis 10:05
-- 6:50 bis 9:50
-- 7:25 bis 10:25
-- 7:40 bis 11:40
-- 8:00 bis 11:10
-- 7:30 bis 10:30
-- 7:00 bis 11:10
-- 14:00 bis 15:00
-- 7:25 bis 11:25
+- 15.00 bis 19:30 Uhr
+- 14.45 bis 15.45 Uhr
+- 15:00 bis 16:00 Uhr
+- 18:00 bis 22:00 Uhr
+- 9:30 bis 11:30 Uhr
+- 7:50 bis 11:30 Uhr
+- 12:30 bis 15:45 Uhr
+- 7:45 bis 11:45 Uhr
+- 13:10 bis 15:45 Uhr
+- 7:45 bis 11:30 Uhr
+- 12:40 bis 15:15 Uhr
+- 7:40 bis 11:50 Uhr
+- 12:35 bis 14:00 Uhr
+- 7:25 bis 12:25 Uhr
+- 7:25 bis 12:25 Uhr
+- 8:15 bis 11:30 Uhr 
+- 7:15 bis 11:30 Uhr
+- 7:10 bis 10:10 Uhr
+- 7:05 bis 10:05 Uhr
+- 6:50 bis 9:50 Uhr 
+- 7:25 bis 10:25 Uhr
+- 7:40 bis 11:40 Uhr
+- 8:00 bis 11:10 Uhr
+- 7:30 bis 10:30 Uhr
+- 7:00 bis 11:10 Uhr
+- 14:00 bis 15:00 Uhr
+- 7:25 bis 11:25 Uhr
 <!-- { "progress": false } -->

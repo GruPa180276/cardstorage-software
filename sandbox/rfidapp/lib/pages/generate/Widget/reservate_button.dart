@@ -10,8 +10,8 @@ Widget buildReservateButton(BuildContext context, String text, Cards cards) {
     child: FlatButton(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       shape: Border(
-          top: BorderSide(color: ColorSelect.greyBorderColor),
-          right: BorderSide(color: ColorSelect.greyBorderColor)),
+        top: BorderSide(color: Theme.of(context).dividerColor),
+      ),
       color: Colors.transparent,
       splashColor: Colors.black,
       onPressed: () {

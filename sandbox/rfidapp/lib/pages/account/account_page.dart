@@ -21,17 +21,15 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
         //drawer: const MenuNavigationDrawer(),
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          title: const Text(
-            "Homepage",
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-          ),
+          toolbarHeight: 125,
+          bottomOpacity: 0.0,
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          title: Text("Homepage",
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900,
+                  color: Theme.of(context).primaryColor)),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

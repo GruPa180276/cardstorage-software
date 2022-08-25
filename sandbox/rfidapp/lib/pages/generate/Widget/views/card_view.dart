@@ -14,11 +14,11 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site) =>
           final card = cards[index];
 
           return Card(
-              elevation: 3,
+              elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  //borderRadius: BorderRadius.circular(15.0),
+                  ),
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
               child: Column(children: [
                 Row(children: [
                   const Padding(
@@ -90,8 +90,8 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
             child: FlatButton(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               shape: Border(
-                  top: BorderSide(color: ColorSelect.greyBorderColor),
-                  right: BorderSide(color: ColorSelect.greyBorderColor)),
+                  top: BorderSide(color: Theme.of(context).dividerColor),
+                  right: BorderSide(color: Theme.of(context).dividerColor)),
               color: Colors.transparent,
               splashColor: Colors.black,
               onPressed: () {
@@ -121,8 +121,8 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
           child: FlatButton(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             shape: Border(
-                top: BorderSide(color: ColorSelect.greyBorderColor),
-                right: BorderSide(color: ColorSelect.greyBorderColor)),
+                top: BorderSide(color: Theme.of(context).dividerColor),
+                right: BorderSide(color: Theme.of(context).dividerColor)),
             color: Colors.transparent,
             splashColor: Colors.black,
             onPressed: () => buildReservatePopUp(context, card),

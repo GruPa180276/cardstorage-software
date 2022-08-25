@@ -121,3 +121,5 @@ ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und 
 
 **24.8.2022: 14.00 -> 15.00** <br>
 Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir die Protokolle meiner Teammitglieder angeschaut, um über den aktuellen Stand bescheidzuwissen. Danach habe ich alle Protokoll files zusammengemerged. (1h)
+
+**25.8.2022: 7.25 -> xx** <br>

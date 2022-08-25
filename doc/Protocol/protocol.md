@@ -122,7 +122,8 @@ ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und 
 **24.8.2022: 14.00 -> 15.00** <br>
 Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir die Protokolle meiner Teammitglieder angeschaut, um über den aktuellen Stand bescheidzuwissen. Danach habe ich alle Protokoll files zusammengemerged. (1h)
 
-**25.8.2022: 7.25 -> xx** <br>
+**25.8.2022: 7:25 -> 11:30** <br>
+Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt befüllt. Danach habe ich mich wieder einemal mit meinem Refresh Problem beschäftigt. Dazu habe ich einen Call mit Herrn Grubauer durchgeführt, wo wir das Problem mit meine Refresh gelöst haben. Danach hat er mir noch seinen API Handler erklärt und er hat mir noch gezeigt, wie man das Stunden Zähl tool von Johannes benutzt.
 
 
 
@@ -154,5 +155,5 @@ Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir 
 - 7:30 bis 10:30 Uhr
 - 7:00 bis 11:10 Uhr
 - 14:00 bis 15:00 Uhr
-- 7:25 bis 11:25 Uhr
+- 7:25 bis 11:30 Uhr
 <!-- { "progress": false } -->

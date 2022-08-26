@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/pop_up/reservate_popup.dart';
@@ -15,6 +16,7 @@ Widget buildReservateButton(BuildContext context, String text, Cards cards) {
       color: Colors.transparent,
       splashColor: Colors.black,
       onPressed: () {
+        //TODO make also available if its reservateed (Bearbeiten)
         buildReservatePopUp(context, cards);
       },
       child:

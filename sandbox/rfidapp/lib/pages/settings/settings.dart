@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
-import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -47,13 +45,13 @@ class _SettingsPageState extends State<SettingsPage> {
             TableRow(children: [
               Container(
                 height: 40,
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 color: Theme.of(context).cardColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      children: [
+                      children: const [
                         Icon(Icons.mode),
                         SizedBox(
                           width: 10,
@@ -63,9 +61,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                 fontSize: 17, fontWeight: FontWeight.w400)),
                       ],
                     ),
-
-                    //TODO Hardcoded
-
                     Align(
                         alignment: Alignment.centerRight,
                         child: buildChangeThemeMode(context)),
@@ -79,7 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget buildSettingsButton(String text, IconData icon) {
     return ButtonTheme(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
           vertical: 7.0, horizontal: 8.0), //adds padding inside the button
       materialTapTargetSize: MaterialTapTargetSize
           .shrinkWrap, //limits the touch area to the button area
@@ -93,12 +88,12 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Row(
               children: [
                 Icon(icon),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Text(
                   text,
-                  style: TextStyle(fontSize: 19),
+                  style: const TextStyle(fontSize: 19),
                 ),
               ],
             ),

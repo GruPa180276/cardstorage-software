@@ -37,4 +37,10 @@ class Validator {
         DateTime.parse(bis).millisecondsSinceEpoch >
             DateTime.parse(von).millisecondsSinceEpoch);
   }
+
+  static int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day, from.hour, from.minute);
+    to = DateTime(to.year, to.month, to.day, to.hour, to.minute);
+    return (to.difference(from).inHours);
+  }
 }

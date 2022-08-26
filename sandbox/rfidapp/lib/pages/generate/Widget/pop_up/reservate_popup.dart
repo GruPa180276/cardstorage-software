@@ -75,7 +75,8 @@ Widget buildTimeChooseField(BuildContext context, String text,
                   return 'Uhrzeit muss spaeter sein ';
                 } else if (vonTextEdidtingcontroller.text.isNotEmpty &&
                     bisTextEdidtingcontroller.text.isNotEmpty &&
-                    daysBetween(DateTime.parse(vonTextEdidtingcontroller.text),
+                    Validator.daysBetween(
+                            DateTime.parse(vonTextEdidtingcontroller.text),
                             DateTime.parse(bisTextEdidtingcontroller.text)) >=
                         6) {
                   return 'Nicht laenger als 6h ';
@@ -114,6 +115,9 @@ Widget buildReservateNow(BuildContext context, Cards card) {
           card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
               .millisecondsSinceEpoch;
           Data.putData('card', card.toJson());
+          vonTextEdidtingcontroller.clear();
+          bisTextEdidtingcontroller.clear();
+          Navigator.pop(context);
         }
       },
       child: const Padding(
@@ -125,14 +129,4 @@ Widget buildReservateNow(BuildContext context, Cards card) {
           ),
         ),
       ));
-}
-
-int daysBetween(DateTime from, DateTime to) {
-  from = DateTime(from.year, from.month, from.day, from.hour, from.minute);
-  to = DateTime(to.year, to.month, to.day, to.hour, to.minute);
-  print(from.toString());
-  print(to.toString());
-
-  print(to.difference(from).inHours);
-  return (to.difference(from).inHours);
 }

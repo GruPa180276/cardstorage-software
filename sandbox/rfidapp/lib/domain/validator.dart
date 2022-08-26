@@ -31,4 +31,10 @@ class Validator {
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     return emailValid.hasMatch(email);
   }
+
+  static bool validateDates(String von, String bis) {
+    return ((von.isNotEmpty && bis.isNotEmpty) &&
+        DateTime.parse(bis).millisecondsSinceEpoch >
+            DateTime.parse(von).millisecondsSinceEpoch);
+  }
 }

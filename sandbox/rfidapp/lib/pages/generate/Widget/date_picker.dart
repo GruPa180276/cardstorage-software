@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:rfidapp/provider/restApi/data.dart';
-import 'package:rfidapp/provider/types/cards.dart';
 
 void buildDateTimePicker(String text, TextEditingController editingController,
     BuildContext context) {
+  DateTime datetime = DateTime.now();
+
   DatePicker.showDateTimePicker(context,
       minTime: DateTime.now(),
       theme: DatePickerTheme(

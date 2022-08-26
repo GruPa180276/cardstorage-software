@@ -1,33 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/Widget/date_picker.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 TextEditingController vonTextEdidtingcontroller = TextEditingController();
 TextEditingController bisTextEdidtingcontroller = TextEditingController();
-
+final _formKey = GlobalKey<FormState>();
 Future<void> buildReservatePopUp(BuildContext context, Cards card) async {
+  vonTextEdidtingcontroller.clear;
+  bisTextEdidtingcontroller.clear;
   return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-            title: const Text('Reservierung'),
-            actionsPadding: const EdgeInsets.all(10),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
-            actions: [
-              Column(
+          title: const Text('Reservierung'),
+          actionsPadding: const EdgeInsets.all(10),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          actions: [
+            Form(
+              key: _formKey,
+              child: Column(
                 children: [
                   buildTimeChooseField(
-                      context, "Von:", vonTextEdidtingcontroller),
+                    context,
+                    "Von:",
+                    vonTextEdidtingcontroller,
+                  ),
                   const SizedBox(height: 20),
                   buildTimeChooseField(
                       context, "Bis:", bisTextEdidtingcontroller),
                   const SizedBox(height: 20),
                   buildReservateNow(context, card),
                 ],
-              )
-            ]);
+              ),
+            )
+          ],
+        );
       });
 }
 
@@ -51,7 +61,22 @@ Widget buildTimeChooseField(BuildContext context, String text,
         children: <Widget>[
           Container(
             margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-            child: TextField(
+            child: TextFormField(
+              validator: (value) {
+                if (text == "Von:" && value!.isEmpty) {
+                  return 'Bitte datum angeben';
+                } else if ((text == "Bis:" &&
+                        !Validator.validateDates(vonTextEdidtingcontroller.text,
+                            bisTextEdidtingcontroller.text)) &&
+                    vonTextEdidtingcontroller.text.isNotEmpty) {
+                  return 'Uhrzeit muss spaeter sein ';
+                } else if (daysBetween(
+                        DateTime.parse(vonTextEdidtingcontroller.text),
+                        DateTime.parse(bisTextEdidtingcontroller.text)) >=
+                    6) {
+                  return 'Nicht laenger als 6h ';
+                }
+              },
               controller: editingController,
               readOnly: true,
               decoration: const InputDecoration(
@@ -70,6 +95,16 @@ Widget buildTimeChooseField(BuildContext context, String text,
   ]);
 }
 
+int daysBetween(DateTime from, DateTime to) {
+  from = DateTime(from.year, from.month, from.day, from.hour, from.minute);
+  to = DateTime(to.year, to.month, to.day, to.hour, to.minute);
+  print(from.toString());
+  print(to.toString());
+
+  print(to.difference(from).inHours);
+  return (to.difference(from).inHours);
+}
+
 Widget buildReservateNow(BuildContext context, Cards card) {
   return ElevatedButton(
       style: ButtonStyle(
@@ -79,12 +114,13 @@ Widget buildReservateNow(BuildContext context, Cards card) {
       ))),
       // ignore: avoid_print
       onPressed: () {
-        card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
-            .millisecondsSinceEpoch;
-        card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
-            .millisecondsSinceEpoch;
-
-        Data.putData('card', card.toJson());
+        if (_formKey.currentState!.validate()) {
+          card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
+              .millisecondsSinceEpoch;
+          card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
+              .millisecondsSinceEpoch;
+          Data.putData('card', card.toJson());
+        }
       },
       child: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),

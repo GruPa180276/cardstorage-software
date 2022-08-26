@@ -3,16 +3,17 @@ import 'package:app/rights/alter_rights.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import '../color/tab5_color_values.dart';
 import '../text/tab5_text_values.dart';
+
+import '../provider/API/data_API.dart';
+import '../provider/types/card.dart';
 
 Tab5ColorProvider tab5CP = new Tab5ColorProvider();
 Tab5DescrpitionProvider tab5DP = new Tab5DescrpitionProvider();
 
 List<String> values = [];
-
-List<String> id = [];
+List<int> id = [];
 
 class Tab5 extends StatefulWidget {
   Tab5({Key? key}) : super(key: key) {}
@@ -22,7 +23,7 @@ class Tab5 extends StatefulWidget {
 }
 
 class _Tab5State extends State<Tab5> {
-  void setID(String data) {
+  void setID(int data) {
     setState(() {
       id.add(data);
     });
@@ -87,7 +88,7 @@ class _Tab5State extends State<Tab5> {
           left: 0,
           right: 0,
           bottom: 22,
-          child: ShowUsers(),
+          child: ShowCards(),
         ),
         Padding(
           padding: EdgeInsets.all(10),
@@ -109,38 +110,40 @@ class _Tab5State extends State<Tab5> {
   }
 }
 
-class ShowUsers extends StatefulWidget {
-  const ShowUsers({Key? key}) : super(key: key);
+class ShowCards extends StatefulWidget {
+  const ShowCards({Key? key}) : super(key: key);
 
   @override
-  State<ShowUsers> createState() => _ShowUsersState();
+  State<ShowCards> createState() => _ShowCardsState();
 }
 
-class _ShowUsersState extends State<ShowUsers> {
-  late Future<List<Data>> futureData;
+class _ShowCardsState extends State<ShowCards> {
+  Future<List<Cards>>? futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    reloadCardList();
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = Data.getData("card").then((value) =>
+          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                for (int i = 0; i < id.length; i++) {
-                  if (data![index].title == id.elementAt(i)) {
-                    return createStorage(context, data, index);
-                  }
-                }
-                return SizedBox.shrink();
+                return createStorage(context, data, index);
               });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -150,34 +153,32 @@ class _ShowUsersState extends State<ShowUsers> {
     );
   }
 
-  Widget setStateOdCardStorage(String storage) {
+  Widget setStateOdCardStorage(String state) {
     // ignore: unused_local_variable
-    String storageName = storage;
     Widget storageState = Text("");
-    String apiCall = "x"; // Only Test Values, will be changed to an API call
-    if (apiCall == "x") {
+
+    if (state == "true") {
       storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
-    } else if (apiCall == "y") {
+    } else if (state == "false") {
       storageState =
           Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
     }
     return Positioned(left: 140, top: 30, child: storageState);
   }
 
-  Widget setCardStorageIcon(String storage) {
+  Widget setCardStorageIcon(String state) {
     // ignore: unused_local_variable
-    String storageName = storage;
     IconData storageIcon = Icons.not_started;
-    String apiCall = "x"; // Only Test Values, will be changed to an API call
-    if (apiCall == "x") {
+
+    if (state == "true") {
       storageIcon = Icons.event_available;
-    } else if (apiCall == "y") {
+    } else if (state == "false") {
       storageIcon = Icons.event_busy;
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
   }
 
-  Widget createStorage(BuildContext context, List<Data>? data, int index) {
+  Widget createStorage(BuildContext context, List<Cards>? data, int index) {
     return InkWell(
       child: Container(
         height: 70,
@@ -191,10 +192,10 @@ class _ShowUsersState extends State<ShowUsers> {
         child: Stack(children: [
           Positioned(
               left: 100,
-              child: Text(data![index].title,
+              child: Text(data![index].name.toString(),
                   style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].title.toString()),
-          setCardStorageIcon(data[index].title.toString()),
+          setStateOdCardStorage(data[index].isAvailable.toString()),
+          setCardStorageIcon(data[index].isAvailable.toString()),
           const Positioned(
               left: 15,
               top: 7,
@@ -208,7 +209,8 @@ class _ShowUsersState extends State<ShowUsers> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => RightsSettings(data[index].title, values),
+              builder: (context) =>
+                  RightsSettings(data[index].name.toString(), values),
             ));
       },
     );
@@ -223,22 +225,28 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
-    values = [];
+    reloadCardList();
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = Data.getData("card").then((value) =>
+          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           addValues(data!);
           return Container();
         } else if (snapshot.hasError) {
@@ -249,10 +257,10 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  void addValues(List<Data> data) {
+  void addValues(List<Cards> data) {
     values.length = 0;
     for (int i = 0; i < data.length; i++) {
-      values.add(data[i].title);
+      values.add(data[i].name.toString());
     }
   }
 }
@@ -344,33 +352,6 @@ class CustomSearchDelegate extends SearchDelegate {
               setState(matchQuery[index]);
             });
       },
-    );
-  }
-}
-
-Future<List<Data>> fetchData() async {
-  final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Data.fromJson(data)).toList();
-  } else {
-    throw Exception('Unexpected error occured!');
-  }
-}
-
-class Data {
-  final int userId;
-  final int id;
-  final String title;
-
-  Data({required this.userId, required this.id, required this.title});
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
     );
   }
 }

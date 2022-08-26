@@ -5,10 +5,13 @@ import 'package:app/values/tab5_rights_values.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import '../values/tab5_rights_values.dart';
 import '../text/tab5_text_values.dart';
 import '../color/tab5_color_values.dart';
+
+import '../provider/API/data_API.dart';
+import '../provider/types/card.dart';
 
 // ToDo: The Api needs to be changed in the future
 
@@ -110,26 +113,33 @@ class DropDownValues extends StatefulWidget {
 }
 
 class _DropDownValuesState extends State<DropDownValues> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    reloadCardList();
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = Data.getData("card").then((value) =>
+          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 for (int i = 0; i < selectedValues.length; i++) {
-                  if (selectedValues[i] == data![index].title) {
+                  if (selectedValues[i] == data![index].name) {
                     return createStorage(context, data, index);
                   }
                 }
@@ -171,7 +181,7 @@ class _DropDownValuesState extends State<DropDownValues> {
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
   }
 
-  Widget createStorage(BuildContext context, List<Data>? data, int index) {
+  Widget createStorage(BuildContext context, List<Cards>? data, int index) {
     return InkWell(
       child: Container(
         height: 70,
@@ -185,10 +195,10 @@ class _DropDownValuesState extends State<DropDownValues> {
         child: Stack(children: [
           Positioned(
               left: 100,
-              child: Text(data![index].title,
+              child: Text(data![index].name.toString(),
                   style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].title.toString()),
-          setCardStorageIcon(data[index].title.toString()),
+          setStateOdCardStorage(data[index].id.toString()),
+          setCardStorageIcon(data[index].id.toString()),
           const Positioned(
               left: 15,
               top: 7,
@@ -211,24 +221,31 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    reloadCardList();
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = Data.getData("card").then((value) =>
+          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
 
           for (int i = 0; i < data!.length; i++) {
-            if (data[i].title == tab5SSVP.getCallerName()) {
+            if (data[i].name == tab5SSVP.getCallerName()) {
               return createStorage(context, data[i].id - 1, data);
             }
           }
@@ -243,7 +260,7 @@ class _InputFieldsState extends State<InputFields> {
   String dropDownText = tab5ASDP.getDropDownText();
   var dropDownValues = tab5ASDP.getDropDownValues();
 
-  Widget createStorage(BuildContext context, int index, List<Data>? data) {
+  Widget createStorage(BuildContext context, int index, List<Cards>? data) {
     return InkWell(
       child: Container(
           height: 80,
@@ -279,33 +296,6 @@ class _InputFieldsState extends State<InputFields> {
               ),
             ],
           )),
-    );
-  }
-}
-
-Future<List<Data>> fetchData() async {
-  final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Data.fromJson(data)).toList();
-  } else {
-    throw Exception('Unexpected error occured!');
-  }
-}
-
-class Data {
-  final int userId;
-  final int id;
-  final String title;
-
-  Data({required this.userId, required this.id, required this.title});
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
     );
   }
 }

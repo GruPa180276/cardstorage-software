@@ -1,5 +1,4 @@
 class Cards {
-  //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
   final int id;
   String? name;
   int? storageId;

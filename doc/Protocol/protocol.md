@@ -125,8 +125,8 @@ Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir 
 **25.8.2022: 7:25 -> 11:30** <br>
 Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt befüllt. Danach habe ich mich wieder einemal mit meinem Refresh Problem beschäftigt. Dazu habe ich einen Call mit Herrn Grubauer durchgeführt, wo wir das Problem mit meine Refresh gelöst haben. Danach hat er mir noch seinen API Handler erklärt und er hat mir noch gezeigt, wie man das Stunden Zähl tool von Johannes benutzt.
 
-**26.8.2022: 7:15 -> xx** <br>
-
+**26.8.2022: 7:15 -> 11.15** <br>
+Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit erfolgreich. Danach habe ich mit dem Refactoring vom Code begonnen, wie Herr Grubauer es will. Weiters habe ich mit Herrn Gruabuer eine Call durchgeführt, da er das Design wieder ändern will. Zum Schluss habe ich mit dem Refactoring weitergemacht.
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -157,4 +157,5 @@ Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt be
 - 7:00 bis 11:10 Uhr
 - 14:00 bis 15:00 Uhr
 - 7:25 bis 11:30 Uhr
+- 7:15 bis 11:15 Uhr
 <!-- { "progress": false } -->

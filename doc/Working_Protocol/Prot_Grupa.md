@@ -107,6 +107,8 @@ Am Nachmittag habe ich bei Reservierungs und Kartenseite weitergearbeitet. Ich h
 **2022-08-25: 20:30 -> 00:02** 
 Am Abend habe ich aufgrund eines Gespraechs mit Herrn Zoechmann meinen Drawer voellig entfernt und Tabs eingebaut. Dazue ueberlegt ich mir wieder ein Konzept, damit es schoen erweiterbar ist. Danach habe ich eine Seite Settings erstellt und dort verschiedene Verlinkungen eingebunden. Auserdem habe ich das komplette Colorscheme der App veraender, was etwas zeit kostete.
 
+**2022-08-26: 8:45 -> 10:45** 
+Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann bezueglich des Designs der App. Ebenfalls implementierten wir eine Standard Font. Danach habe ich bei der Settings Seite etwas weitergearbetet
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -137,6 +139,7 @@ Am Abend habe ich aufgrund eines Gespraechs mit Herrn Zoechmann meinen Drawer vo
 - 9:00 bis 11:30 Uhr
 - 15:00 bis 18:00 Uhr
 - 20:30 bis 00:02 Uhr
+- 8:45 bis 10:45 Uhr
 
 <!-- { "progress": false } -->
 

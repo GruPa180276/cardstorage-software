@@ -19,65 +19,69 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         //drawer: const MenuNavigationDrawer(),
         appBar: AppBar(
           toolbarHeight: 125,
           bottomOpacity: 0.0,
           elevation: 0.0,
           backgroundColor: Colors.transparent,
-          title: Text("Homepage",
+          title: Text("Account",
               style: TextStyle(
-                  fontSize: 25,
+                  fontFamily: 'Kanit',
+                  fontSize: 40,
                   fontWeight: FontWeight.w900,
                   color: Theme.of(context).primaryColor)),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: Column(
-            children: [
-              Center(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: ColorSelect.greyBorderColor,
-                  child: const Icon(
-                    Icons.account_box,
-                    size: 70,
-                    color: Colors.white,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Column(
+              children: [
+                Center(
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: ColorSelect.greyBorderColor,
+                    child: const Icon(
+                      Icons.account_box,
+                      size: 70,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              buildTexfield(
-                  context,
-                  "Vorname",
-                  firstName,
-                  const Icon(
-                    Icons.person,
-                    size: 27,
-                  )),
-              buildTexfield(context, "Nachname", lastName,
-                  const Icon(Icons.person, size: 27)),
-              buildTexfield(context, "E-Mail", emailController,
-                  const Icon(Icons.email, size: 27)),
-              buildTexfield(context, "Birthdate", birthDate,
-                  const Icon(Icons.date_range, size: 27)),
-              SizedBox(height: 35),
-              SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: buildButton('Passwort aendern')),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                      child: SizedBox(
-                          height: 50, child: buildButton('Abbrechen'))),
-                  SizedBox(width: 20),
-                  Expanded(
-                      child:
-                          SizedBox(height: 50, child: buildButton('Speichern')))
-                ],
-              )
-            ],
+                buildTexfield(
+                    context,
+                    "Vorname",
+                    firstName,
+                    const Icon(
+                      Icons.person,
+                      size: 27,
+                    )),
+                buildTexfield(context, "Nachname", lastName,
+                    const Icon(Icons.person, size: 27)),
+                buildTexfield(context, "E-Mail", emailController,
+                    const Icon(Icons.email, size: 27)),
+                buildTexfield(context, "Birthdate", birthDate,
+                    const Icon(Icons.date_range, size: 27)),
+                SizedBox(height: 35),
+                SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: buildButton('Passwort aendern')),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                        child: SizedBox(
+                            height: 50, child: buildButton('Abbrechen'))),
+                    SizedBox(width: 20),
+                    Expanded(
+                        child: SizedBox(
+                            height: 50, child: buildButton('Speichern')))
+                  ],
+                )
+              ],
+            ),
           ),
         ));
   }

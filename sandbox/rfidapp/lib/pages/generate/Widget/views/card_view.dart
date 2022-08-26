@@ -16,9 +16,9 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site) =>
           return Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                  //borderRadius: BorderRadius.circular(15.0),
-                  ),
-              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(children: [
                 Row(children: [
                   const Padding(

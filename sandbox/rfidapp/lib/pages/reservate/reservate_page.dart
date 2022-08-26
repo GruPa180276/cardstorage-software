@@ -40,7 +40,8 @@ class _ReservatePageState extends State<ReservatePage> {
         backgroundColor: Colors.transparent,
         title: Text('Ihre Reservierungen',
             style: TextStyle(
-                fontSize: 30,
+                fontFamily: 'Kanit',
+                fontSize: 35,
                 fontWeight: FontWeight.w900,
                 color: Theme.of(context).primaryColor)),
       ),

@@ -26,8 +26,8 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.transparent,
             title: Text("Homepage",
                 style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w900,
+                    fontFamily: 'Kanit',
+                    fontSize: 40,
                     color: Theme.of(context).primaryColor))),
         body: buildGetback(this.context));
   }

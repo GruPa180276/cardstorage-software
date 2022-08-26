@@ -29,9 +29,9 @@ class _SettingsPageState extends State<SettingsPage> {
           bottomOpacity: 0.0,
           elevation: 0.0,
           backgroundColor: Colors.transparent,
-          title: Text("Settings",
+          title: Text("Einstellungen",
               style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 40,
                   fontWeight: FontWeight.w900,
                   color: Theme.of(context).primaryColor)),
         ),
@@ -50,16 +50,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 color: Theme.of(context).cardColor,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.mode),
-                    SizedBox(
-                      width: 10,
+                    Row(
+                      children: [
+                        Icon(Icons.mode),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text('Dark-Mode',
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.w400)),
+                      ],
                     ),
-                    Text('Dark-Mode', style: TextStyle(fontSize: 19)),
+
                     //TODO Hardcoded
-                    SizedBox(
-                      width: 190,
-                    ),
+
                     Align(
                         alignment: Alignment.centerRight,
                         child: buildChangeThemeMode(context)),

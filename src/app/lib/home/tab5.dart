@@ -13,7 +13,7 @@ Tab5ColorProvider tab5CP = new Tab5ColorProvider();
 Tab5DescrpitionProvider tab5DP = new Tab5DescrpitionProvider();
 
 List<String> values = [];
-List<int> id = [];
+List<String> id = [];
 
 class Tab5 extends StatefulWidget {
   Tab5({Key? key}) : super(key: key) {}
@@ -23,7 +23,7 @@ class Tab5 extends StatefulWidget {
 }
 
 class _Tab5State extends State<Tab5> {
-  void setID(int data) {
+  void setID(String data) {
     setState(() {
       id.add(data);
     });
@@ -143,7 +143,12 @@ class _ShowCardsState extends State<ShowCards> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                return createStorage(context, data, index);
+                for (int i = 0; i < id.length; i++) {
+                  if (data![index].name == id.elementAt(i)) {
+                    return createStorage(context, data, index);
+                  }
+                }
+                return SizedBox.shrink();
               });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -153,26 +158,24 @@ class _ShowCardsState extends State<ShowCards> {
     );
   }
 
-  Widget setStateOdCardStorage(String state) {
-    // ignore: unused_local_variable
+  Widget setStateOdCardStorage(bool? state) {
     Widget storageState = Text("");
 
-    if (state == "true") {
+    if (state == true) {
       storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
-    } else if (state == "false") {
+    } else if (state == false) {
       storageState =
           Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
     }
     return Positioned(left: 140, top: 30, child: storageState);
   }
 
-  Widget setCardStorageIcon(String state) {
-    // ignore: unused_local_variable
+  Widget setCardStorageIcon(bool? state) {
     IconData storageIcon = Icons.not_started;
 
-    if (state == "true") {
+    if (state == true) {
       storageIcon = Icons.event_available;
-    } else if (state == "false") {
+    } else if (state == false) {
       storageIcon = Icons.event_busy;
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
@@ -194,8 +197,8 @@ class _ShowCardsState extends State<ShowCards> {
               left: 100,
               child: Text(data![index].name.toString(),
                   style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].isAvailable.toString()),
-          setCardStorageIcon(data[index].isAvailable.toString()),
+          setStateOdCardStorage(data[index].isAvailable),
+          setCardStorageIcon(data[index].isAvailable),
           const Positioned(
               left: 15,
               top: 7,

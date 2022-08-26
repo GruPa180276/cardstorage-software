@@ -143,6 +143,6 @@ Am Nachmittag wollte ich beim Reservierungs Pop up die validation hinzufuegen. D
 - 15:00 bis 18:00 Uhr
 - 20:30 bis 00:02 Uhr
 - 8:45 bis 10:45 Uhr
-- 14:00 bis 16:10  Uhr
+- 14:30 bis 16:10  Uhr
 <!-- { "progress": false } -->
 

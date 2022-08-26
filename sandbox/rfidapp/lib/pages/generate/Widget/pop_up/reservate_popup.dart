@@ -63,17 +63,21 @@ Widget buildTimeChooseField(BuildContext context, String text,
             margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
             child: TextFormField(
               validator: (value) {
-                if (text == "Von:" && value!.isEmpty) {
+                if (text == "Bis:" && bisTextEdidtingcontroller.text.isEmpty) {
+                  return 'Bitte datum angeben';
+                } else if (text == "Von:" &&
+                    vonTextEdidtingcontroller.text.isEmpty) {
                   return 'Bitte datum angeben';
                 } else if ((text == "Bis:" &&
                         !Validator.validateDates(vonTextEdidtingcontroller.text,
                             bisTextEdidtingcontroller.text)) &&
                     vonTextEdidtingcontroller.text.isNotEmpty) {
                   return 'Uhrzeit muss spaeter sein ';
-                } else if (daysBetween(
-                        DateTime.parse(vonTextEdidtingcontroller.text),
-                        DateTime.parse(bisTextEdidtingcontroller.text)) >=
-                    6) {
+                } else if (vonTextEdidtingcontroller.text.isNotEmpty &&
+                    bisTextEdidtingcontroller.text.isNotEmpty &&
+                    daysBetween(DateTime.parse(vonTextEdidtingcontroller.text),
+                            DateTime.parse(bisTextEdidtingcontroller.text)) >=
+                        6) {
                   return 'Nicht laenger als 6h ';
                 }
               },
@@ -93,16 +97,6 @@ Widget buildTimeChooseField(BuildContext context, String text,
       ),
     )
   ]);
-}
-
-int daysBetween(DateTime from, DateTime to) {
-  from = DateTime(from.year, from.month, from.day, from.hour, from.minute);
-  to = DateTime(to.year, to.month, to.day, to.hour, to.minute);
-  print(from.toString());
-  print(to.toString());
-
-  print(to.difference(from).inHours);
-  return (to.difference(from).inHours);
 }
 
 Widget buildReservateNow(BuildContext context, Cards card) {
@@ -131,4 +125,14 @@ Widget buildReservateNow(BuildContext context, Cards card) {
           ),
         ),
       ));
+}
+
+int daysBetween(DateTime from, DateTime to) {
+  from = DateTime(from.year, from.month, from.day, from.hour, from.minute);
+  to = DateTime(to.year, to.month, to.day, to.hour, to.minute);
+  print(from.toString());
+  print(to.toString());
+
+  print(to.difference(from).inHours);
+  return (to.difference(from).inHours);
 }

@@ -125,6 +125,7 @@ Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir 
 **25.8.2022: 7:25 -> 11:30** <br>
 Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt befüllt. Danach habe ich mich wieder einemal mit meinem Refresh Problem beschäftigt. Dazu habe ich einen Call mit Herrn Grubauer durchgeführt, wo wir das Problem mit meine Refresh gelöst haben. Danach hat er mir noch seinen API Handler erklärt und er hat mir noch gezeigt, wie man das Stunden Zähl tool von Johannes benutzt.
 
+**26.8.2022: 7:15 -> xx** <br>
 
 
 ## Arbeitszeit

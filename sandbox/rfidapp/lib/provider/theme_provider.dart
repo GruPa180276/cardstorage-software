@@ -16,6 +16,7 @@ class ThemeProvider extends ChangeNotifier {
 
 class MyThemes {
   static get darkTheme => ThemeData(
+        fontFamily: 'Kanit',
         scaffoldBackgroundColor: Colors.black,
         colorScheme:
             const ColorScheme.dark().copyWith(primary: ColorSelect.blueAccent),
@@ -28,6 +29,7 @@ class MyThemes {
       );
 
   static get lightTheme => ThemeData(
+        fontFamily: 'Kanit',
         scaffoldBackgroundColor: ColorSelect.lightBgColor,
         colorScheme:
             const ColorScheme.light().copyWith(primary: ColorSelect.blueAccent),

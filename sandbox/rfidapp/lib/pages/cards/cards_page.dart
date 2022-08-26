@@ -41,8 +41,8 @@ class _CardPage extends State<CardPage> {
           backgroundColor: Colors.transparent,
           title: Text('Karten',
               style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w900,
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryColor))),
       body: Center(child: ApiVisualizer.build(context, "cards")),
       floatingActionButton: FloatingActionButton(

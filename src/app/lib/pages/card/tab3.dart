@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../text/tab3_text_values.dart';
-import '../color/tab3_color_values.dart';
-import '../cards/add_cards.dart';
-import '../cards/alter_cards.dart';
-import '../cards/remove_cards.dart';
+
+import 'add_cards.dart';
+import 'alter_cards.dart';
+import 'remove_cards.dart';
+
+import 'package:app/config/text_values/tab3_text_values.dart';
+import 'package:app/config/color_values/tab3_color_values.dart';
 
 // ToDo: Changed the API Calls to the actual API
 

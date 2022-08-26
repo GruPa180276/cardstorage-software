@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomeColorProvider {
+class Tab1ColorProvider {
   MaterialColor getHeaderColor() {
     return Colors.blueGrey;
   }

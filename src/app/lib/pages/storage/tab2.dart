@@ -1,17 +1,20 @@
-import 'package:app/text/tab2_text_values.dart';
 import 'package:flutter/material.dart';
-import '../color/tab2_color_values.dart';
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../storage/alter_storage.dart';
-import '../storage/add_Storage.dart';
-import '../storage/remove_storage.dart';
+
+import 'alter_storage.dart';
+import 'add_Storage.dart';
+import 'remove_storage.dart';
+
+import 'package:app/config/color_values/tab2_color_values.dart';
+import 'package:app/config/text_values/tab2_text_values.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
-Tab2ColorProvider tab2CP = new Tab2ColorProvider();
-Tab2DescrpitionProvider tab2DP = new Tab2DescrpitionProvider();
+Tab2ColorProvider tab2ColorProvider = new Tab2ColorProvider();
+Tab2TextProvider tab2TextProvider = new Tab2TextProvider();
 
 class Tab2 extends StatefulWidget {
   Tab2({Key? key}) : super(key: key) {}
@@ -90,7 +93,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
     futureData = fetchData();
   }
 
-  Widget setStateOdCardStorage(String storage) {
+  Widget setStateOfCardStorage(String storage) {
     // ignore: unused_local_variable
     String storageName = storage;
     Widget storageState = Text("");
@@ -103,7 +106,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
     return Positioned(left: 140, top: 30, child: storageState);
   }
 
-  Widget setCardStorageIcon(String storage) {
+  Widget setStateOfCardStorageIcon(String storage) {
     // ignore: unused_local_variable
     String storageName = storage;
     IconData storageIcon = Icons.not_started;
@@ -132,8 +135,8 @@ class _ListCardStoragesState extends State<ListCardStorages> {
               left: 100,
               child: Text(data![index].title,
                   style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].title.toString()),
-          setCardStorageIcon(data[index].title.toString()),
+          setStateOfCardStorage(data[index].title.toString()),
+          setStateOfCardStorageIcon(data[index].title.toString()),
           const Positioned(
               left: 15,
               top: 7,

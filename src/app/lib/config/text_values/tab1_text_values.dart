@@ -1,4 +1,4 @@
-class HomeDescrpitionProvider {
+class Tab1TextValues {
   String getAppTitle() {
     return "Admin-Login";
   }

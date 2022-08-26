@@ -1,34 +1,30 @@
-import 'package:app/rights/add_rights.dart';
-import 'package:app/rights/alter_rights.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:async';
 import 'dart:convert';
-import '../color/tab5_color_values.dart';
-import '../text/tab5_text_values.dart';
+import 'package:http/http.dart' as http;
 
-import '../provider/API/data_API.dart';
-import '../provider/types/card.dart';
+import 'add_user.dart';
+import 'alter_user.dart';
+import 'remove_users.dart';
 
-Tab5ColorProvider tab5CP = new Tab5ColorProvider();
-Tab5DescrpitionProvider tab5DP = new Tab5DescrpitionProvider();
+import 'package:app/config/text_values/tab4_text_values.dart';
+import 'package:app/config/color_values/tab4_color_values.dart';
+
+Tab4DescrpitionProvider tab4DP = new Tab4DescrpitionProvider();
+Tab4ColorProvider tab4CP = new Tab4ColorProvider();
 
 List<String> values = [];
 List<String> id = [];
 
-class Tab5 extends StatefulWidget {
-  Tab5({Key? key}) : super(key: key) {}
+class Tab4 extends StatefulWidget {
+  const Tab4({Key? key}) : super(key: key);
 
   @override
-  State<Tab5> createState() => _Tab5State();
+  State<Tab4> createState() => _Tab4State();
 }
 
-class _Tab5State extends State<Tab5> {
-  void setID(String data) {
-    setState(() {
-      id.add(data);
-    });
-  }
-
+class _Tab4State extends State<Tab4> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -47,7 +43,7 @@ class _Tab5State extends State<Tab5> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddRights(),
+                          builder: (context) => AddUser(),
                         ));
                   },
                 ),
@@ -61,7 +57,11 @@ class _Tab5State extends State<Tab5> {
                   label: Text("Remove"),
                   backgroundColor: Colors.blueGrey,
                   onPressed: () {
-                    print("object");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RemoveUsers(),
+                        ));
                   },
                 ),
               ),
@@ -75,8 +75,7 @@ class _Tab5State extends State<Tab5> {
                 backgroundColor: Colors.blueGrey,
                 onPressed: () {
                   showSearch(
-                      context: context,
-                      delegate: CustomSearchDelegate(this.setID));
+                      context: context, delegate: CustomSearchDelegate());
                 },
               )),
             ],
@@ -88,7 +87,7 @@ class _Tab5State extends State<Tab5> {
           left: 0,
           right: 0,
           bottom: 22,
-          child: ShowCards(),
+          child: ShowUsers(),
         ),
         Padding(
           padding: EdgeInsets.all(10),
@@ -110,41 +109,34 @@ class _Tab5State extends State<Tab5> {
   }
 }
 
-class ShowCards extends StatefulWidget {
-  const ShowCards({Key? key}) : super(key: key);
+class ShowUsers extends StatefulWidget {
+  const ShowUsers({Key? key}) : super(key: key);
 
   @override
-  State<ShowCards> createState() => _ShowCardsState();
+  State<ShowUsers> createState() => _ShowUsersState();
 }
 
-class _ShowCardsState extends State<ShowCards> {
-  Future<List<Cards>>? futureData;
+class _ShowUsersState extends State<ShowUsers> {
+  late Future<List<Data>> futureData;
 
   @override
   void initState() {
     super.initState();
-    reloadCardList();
-  }
-
-  void reloadCardList() {
-    setState(() {
-      futureData = Data.getData("card").then((value) =>
-          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
-    });
+    futureData = fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Cards>>(
+    return FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Cards>? data = snapshot.data;
+          List<Data>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 for (int i = 0; i < id.length; i++) {
-                  if (data![index].name == id.elementAt(i)) {
+                  if (data![index].title == id.elementAt(i)) {
                     return createStorage(context, data, index);
                   }
                 }
@@ -158,30 +150,34 @@ class _ShowCardsState extends State<ShowCards> {
     );
   }
 
-  Widget setStateOdCardStorage(bool? state) {
+  Widget setStateOdCardStorage(String storage) {
+    // ignore: unused_local_variable
+    String storageName = storage;
     Widget storageState = Text("");
-
-    if (state == true) {
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
       storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
-    } else if (state == false) {
+    } else if (apiCall == "y") {
       storageState =
           Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
     }
     return Positioned(left: 140, top: 30, child: storageState);
   }
 
-  Widget setCardStorageIcon(bool? state) {
+  Widget setCardStorageIcon(String storage) {
+    // ignore: unused_local_variable
+    String storageName = storage;
     IconData storageIcon = Icons.not_started;
-
-    if (state == true) {
+    String apiCall = "x"; // Only Test Values, will be changed to an API call
+    if (apiCall == "x") {
       storageIcon = Icons.event_available;
-    } else if (state == false) {
+    } else if (apiCall == "y") {
       storageIcon = Icons.event_busy;
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
   }
 
-  Widget createStorage(BuildContext context, List<Cards>? data, int index) {
+  Widget createStorage(BuildContext context, List<Data>? data, int index) {
     return InkWell(
       child: Container(
         height: 70,
@@ -195,10 +191,10 @@ class _ShowCardsState extends State<ShowCards> {
         child: Stack(children: [
           Positioned(
               left: 100,
-              child: Text(data![index].name.toString(),
+              child: Text(data![index].title,
                   style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].isAvailable),
-          setCardStorageIcon(data[index].isAvailable),
+          setStateOdCardStorage(data[index].title.toString()),
+          setCardStorageIcon(data[index].title.toString()),
           const Positioned(
               left: 15,
               top: 7,
@@ -212,8 +208,7 @@ class _ShowCardsState extends State<ShowCards> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  RightsSettings(data[index].name.toString(), values),
+              builder: (context) => UserSettings(data[index].title),
             ));
       },
     );
@@ -228,28 +223,22 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
-  late Future<List<Cards>> futureData;
+  late Future<List<Data>> futureData;
 
   @override
   void initState() {
     super.initState();
-    reloadCardList();
-  }
-
-  void reloadCardList() {
-    setState(() {
-      futureData = Data.getData("card").then((value) =>
-          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
-    });
+    futureData = fetchData();
+    values = [];
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Cards>>(
+    return FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Cards>? data = snapshot.data;
+          List<Data>? data = snapshot.data;
           addValues(data!);
           return Container();
         } else if (snapshot.hasError) {
@@ -260,21 +249,15 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  void addValues(List<Cards> data) {
+  void addValues(List<Data> data) {
     values.length = 0;
     for (int i = 0; i < data.length; i++) {
-      values.add(data[i].name.toString());
+      values.add(data[i].title);
     }
   }
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  late Function setState;
-
-  CustomSearchDelegate(Function state) {
-    setState = state;
-  }
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -306,25 +289,26 @@ class CustomSearchDelegate extends SearchDelegate {
       }
     }
     return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return InkWell(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.blueGrey,
-                    ),
-                    borderRadius: BorderRadius.circular(15)),
-                child: Column(children: [Text(result)]),
-              ),
-              onTap: () {
-                setState(matchQuery[index]);
-              });
-        });
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return InkWell(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3,
+                    color: Colors.blueGrey,
+                  ),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Column(children: [Text(result)]),
+            ),
+            onTap: () {
+              id.add(matchQuery[index]);
+            });
+      },
+    );
   }
 
   @override
@@ -352,9 +336,36 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              setState(matchQuery[index]);
+              id.add(matchQuery[index]);
             });
       },
+    );
+  }
+}
+
+Future<List<Data>> fetchData() async {
+  final response =
+      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
+  if (response.statusCode == 200) {
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => Data.fromJson(data)).toList();
+  } else {
+    throw Exception('Unexpected error occured!');
+  }
+}
+
+class Data {
+  final int userId;
+  final int id;
+  final String title;
+
+  Data({required this.userId, required this.id, required this.title});
+
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
     );
   }
 }

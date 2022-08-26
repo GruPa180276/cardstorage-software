@@ -4,14 +4,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../properties/tab1_properties.dart';
-import '../stats/tab1_stats.dart';
+import 'package:app/config/color_values/tab1_color_values.dart';
+import 'package:app/config/text_values/tab1_text_values.dart';
+import 'tab1_stats.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
 Tab1ColorProvider tab1ColorProvider = new Tab1ColorProvider();
-Tab1TextProvider tab1TextProvider = new Tab1TextProvider();
-Tab1IconProvider tab1IconProvider = new Tab1IconProvider();
+Tab1TextValues tab1TextProvider = new Tab1TextValues();
 
 class Tab1 extends StatefulWidget {
   Tab1({Key? key}) : super(key: key) {}
@@ -34,7 +34,7 @@ class _Tab1State extends State<Tab1> {
           decoration: BoxDecoration(
               border: Border.all(
                 width: 3,
-                color: tab1ColorProvider.getStorageSelectorBorderColor(),
+                color: Colors.blueGrey,
               ),
               borderRadius: BorderRadius.circular(15)),
           child: Column(
@@ -46,7 +46,7 @@ class _Tab1State extends State<Tab1> {
                 iconSize: 30,
                 underline: Container(
                   height: 2,
-                  color: tab1ColorProvider.getStorageSelectorDividerColor(),
+                  color: Colors.blueGrey,
                 ),
                 items: dropDownValues.map((String items) {
                   return DropdownMenuItem(
@@ -126,14 +126,13 @@ class _MyAppState extends State<ListCards> {
       decoration: BoxDecoration(
           border: Border.all(
             width: 3,
-            color: tab1ColorProvider.getWelcomePageBorderColor(),
+            color: Colors.blueGrey,
           ),
           borderRadius: BorderRadius.circular(15)),
       child: Column(children: [
-        Text(tab1TextProvider.getWelcomePageHeadline(),
-            style: TextStyle(fontSize: 25)),
+        Text("", style: TextStyle(fontSize: 25)),
         Divider(
-          color: tab1ColorProvider.getWelcomePageDividerColor(),
+          color: Colors.blueGrey,
           height: 10,
           thickness: 2,
           indent: 5,
@@ -141,10 +140,7 @@ class _MyAppState extends State<ListCards> {
         ),
         Expanded(
             child: ListView(
-          children: <Widget>[
-            Text(tab1TextProvider.getWelcomePageText(),
-                style: TextStyle(fontSize: 20))
-          ],
+          children: <Widget>[Text("", style: TextStyle(fontSize: 20))],
         )),
       ]),
     );
@@ -159,7 +155,7 @@ class _MyAppState extends State<ListCards> {
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: tab1ColorProvider.getCardContainerBorderColor(),
+              color: Colors.blueGrey,
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [
@@ -170,7 +166,7 @@ class _MyAppState extends State<ListCards> {
           setStateOfCard(data[index].title.toString()),
           setIconOfCard(data[index].title.toString()),
           Icon(
-            tab1IconProvider.getContainerIcon(),
+            Icons.credit_card,
             size: 60,
           )
         ]),
@@ -204,9 +200,9 @@ class _MyAppState extends State<ListCards> {
     IconData cardIcon = Icons.not_started;
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      cardIcon = tab1IconProvider.getCardIconAvailable();
+      cardIcon = Icons.abc;
     } else if (apiCall == "y") {
-      cardIcon = tab1IconProvider.getCardIconUnavailable();
+      cardIcon = Icons.abc;
     }
     return Positioned(left: 100, top: 30, child: Icon(cardIcon));
   }

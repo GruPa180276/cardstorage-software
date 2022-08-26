@@ -1,4 +1,4 @@
-class Tab2DescrpitionProvider {
+class Tab2TextProvider {
   String getButtonDescription() {
     return "Neuen Automaten hinzufügen";
   }

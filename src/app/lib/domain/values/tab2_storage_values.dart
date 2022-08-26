@@ -1,4 +1,4 @@
-class Tab2StorageSettingsValuesProvider {
+class Tab2StorageValuesProvider {
   int id = 0;
   String name = "";
   String location = "";

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
-import '../themes.dart';
+import 'package:app/config/themes.dart';
 
-import 'tab1.dart';
-import 'tab2.dart';
-import 'tab3.dart';
-import 'tab4.dart';
-import 'tab5.dart';
+import 'package:app/pages/home/tab1.dart';
+import 'package:app/pages/storage/tab2.dart';
+import 'package:app/pages/card/tab3.dart';
+import 'package:app/pages/user/tab4.dart';
+import 'package:app/pages/right/tab5.dart';
 
-import '../drawer/settings.dart';
-import '../drawer/appinfo.dart';
+import 'package:app/pages/drawer/settings.dart';
+import 'package:app/pages/drawer/appinfo.dart';
 
-import '../properties/home_properties.dart';
+import 'package:app/config/text_values/home_text_values.dart';
+import 'package:app/config/color_values/home_color_values.dart';
 
 HomeColorProvider homeColorProvider = new HomeColorProvider();
 HomeTextProvider homeTextProvider = new HomeTextProvider();

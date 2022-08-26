@@ -110,6 +110,9 @@ Am Abend habe ich aufgrund eines Gespraechs mit Herrn Zoechmann meinen Drawer vo
 **2022-08-26: 8:45 -> 10:45** 
 Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann bezueglich des Designs der App. Ebenfalls implementierten wir eine Standard Font. Danach habe ich bei der Settings Seite etwas weitergearbetet
 
+**2022-08-26: 14:00 -> 16:07** 
+Am Nachmittag wollte ich beim Reservierungs Pop up die validation hinzufuegen. Dies stellte sich allerdings als problem dar, da ein POP up kein statefull widget ist. Deshalb ueberlegte ich mir ein konzept, um den automatisch generierten Pop up auch eine ueberpruefung zu geben. Dies benoetigte etwas zeit. Als ich fertig war, uebte ich dann noch kleine Verbesserungen bei der App aus.,
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -140,6 +143,6 @@ Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann bezueglich des Designs de
 - 15:00 bis 18:00 Uhr
 - 20:30 bis 00:02 Uhr
 - 8:45 bis 10:45 Uhr
-
+- 14:00 bis 16:10  Uhr
 <!-- { "progress": false } -->
 

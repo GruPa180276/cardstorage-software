@@ -28,80 +28,91 @@ class _Tab3State extends State<Tab3> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            children: [
-              Expanded(
-                child: FloatingActionButton.extended(
-                  label: Text("Add"),
-                  icon: Icon(Icons.add),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddCards(),
-                        ));
-                  },
-                ),
+    return Scaffold(
+        appBar: AppBar(
+            toolbarHeight: 125,
+            bottomOpacity: 0.0,
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            title: Text('Karten',
+                style: TextStyle(
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey))),
+        body: Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: FloatingActionButton.extended(
+                      label: Text("Add"),
+                      icon: Icon(Icons.add),
+                      backgroundColor: Colors.blueGrey,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddCards(),
+                            ));
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: FloatingActionButton.extended(
+                      label: Text("Remove"),
+                      icon: Icon(Icons.remove),
+                      backgroundColor: Colors.blueGrey,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RemoveCards(),
+                            ));
+                      },
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: FloatingActionButton.extended(
-                  label: Text("Remove"),
-                  icon: Icon(Icons.remove),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RemoveCards(),
-                        ));
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-            top: 70,
-            left: 0,
-            right: 0,
-            bottom: 50,
-            child: Stack(children: [ListCards(cardStorage: dropDownText)])),
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: DropdownButton(
-                value: dropDownText,
-                icon: const Icon(Icons.keyboard_arrow_down),
-                iconSize: 30,
-                underline: Container(
-                  height: 2,
-                  color: tab3CP.getStorageSelectorDividerColor(),
-                ),
-                items: dropDownValues.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    alignment: Alignment.center,
-                    child: Text(items),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropDownText = newValue!;
-                  });
-                },
-              ),
-            ))
-      ],
-    );
+            ),
+            Positioned(
+                top: 70,
+                left: 0,
+                right: 0,
+                bottom: 50,
+                child: Stack(children: [ListCards(cardStorage: dropDownText)])),
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: DropdownButton(
+                    value: dropDownText,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    iconSize: 30,
+                    underline: Container(
+                      height: 2,
+                      color: tab3CP.getStorageSelectorDividerColor(),
+                    ),
+                    items: dropDownValues.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        alignment: Alignment.center,
+                        child: Text(items),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropDownText = newValue!;
+                      });
+                    },
+                  ),
+                ))
+          ],
+        ));
   }
 }
 

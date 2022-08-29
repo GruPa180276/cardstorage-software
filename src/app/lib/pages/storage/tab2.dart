@@ -26,54 +26,65 @@ class Tab2 extends StatefulWidget {
 class _Tab2State extends State<Tab2> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            children: [
-              Expanded(
-                child: FloatingActionButton.extended(
-                  label: Text("Add"),
-                  icon: Icon(Icons.add),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddStorage(),
-                        ));
-                  },
-                ),
+    return Scaffold(
+        appBar: AppBar(
+            toolbarHeight: 125,
+            bottomOpacity: 0.0,
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            title: Text('Karten',
+                style: TextStyle(
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey))),
+        body: Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: FloatingActionButton.extended(
+                      label: Text("Add"),
+                      icon: Icon(Icons.add),
+                      backgroundColor: Colors.blueGrey,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddStorage(),
+                            ));
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: FloatingActionButton.extended(
+                      label: Text("Remove"),
+                      icon: Icon(Icons.remove),
+                      backgroundColor: Colors.blueGrey,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RemoveStorage(),
+                            ));
+                      },
+                    ),
+                  )
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: FloatingActionButton.extended(
-                  label: Text("Remove"),
-                  icon: Icon(Icons.remove),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RemoveStorage(),
-                        ));
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
-        Positioned(
-            top: 70,
-            left: 0,
-            right: 0,
-            bottom: 22,
-            child: Stack(children: [ListCardStorages()]))
-      ],
-    );
+            ),
+            Positioned(
+                top: 70,
+                left: 0,
+                right: 0,
+                bottom: 22,
+                child: Stack(children: [ListCardStorages()]))
+          ],
+        ));
   }
 }
 

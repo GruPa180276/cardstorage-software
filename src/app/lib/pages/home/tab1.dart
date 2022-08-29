@@ -26,50 +26,75 @@ class _Tab1State extends State<Tab1> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.all(10),
-          height: 80,
-          decoration: BoxDecoration(
-              border: Border.all(
-                width: 3,
-                color: Colors.blueGrey,
-              ),
-              borderRadius: BorderRadius.circular(15)),
-          child: Column(
-            children: <Widget>[
-              DropdownButton(
-                value: dropDownText,
-                isExpanded: true,
-                icon: const Icon(Icons.keyboard_arrow_down),
-                iconSize: 30,
-                underline: Container(
-                  height: 2,
-                  color: Colors.blueGrey,
-                ),
-                items: dropDownValues.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    alignment: Alignment.center,
-                    child: Text(items),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropDownText = newValue!;
-                  });
-                },
-              ),
-            ],
-          )),
-      Positioned(
-          top: 100,
-          left: 0,
-          right: 0,
-          bottom: 10,
-          child: ListCards(cardStorage: dropDownText))
-    ]);
+    return Scaffold(
+        appBar: AppBar(
+          leading: Icon(
+            Icons.credit_card,
+            size: 30,
+          ),
+          toolbarHeight: 70,
+          backgroundColor: Colors.blueGrey,
+          title: Text('Admin Login',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+          actions: [
+            Icon(Icons.account_box_rounded),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.settings),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.logout),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        body: Stack(children: [
+          Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
+              height: 80,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3,
+                    color: Colors.blueGrey,
+                  ),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Column(
+                children: <Widget>[
+                  DropdownButton(
+                    value: dropDownText,
+                    isExpanded: true,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    iconSize: 30,
+                    underline: Container(
+                      height: 2,
+                      color: Colors.blueGrey,
+                    ),
+                    items: dropDownValues.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        alignment: Alignment.center,
+                        child: Text(items),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropDownText = newValue!;
+                      });
+                    },
+                  ),
+                ],
+              )),
+          Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: ListCards(cardStorage: dropDownText))
+        ]));
   }
 }
 

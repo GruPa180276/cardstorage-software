@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:app/pages/home.dart';
+import 'package:app/pages/navigation/bottom_navigation.dart';
 
 void main() {
   runApp(const AppStart());
@@ -43,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
         const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home())));
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => BottomNavigation())));
   }
 
   @override

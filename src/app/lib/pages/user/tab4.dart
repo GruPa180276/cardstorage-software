@@ -27,85 +27,96 @@ class Tab4 extends StatefulWidget {
 class _Tab4State extends State<Tab4> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          margin: EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: FloatingActionButton.extended(
-                  label: Text("Add"),
-                  icon: Icon(Icons.add),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddUser(),
-                        ));
-                  },
-                ),
+    return Scaffold(
+        appBar: AppBar(
+            toolbarHeight: 125,
+            bottomOpacity: 0.0,
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            title: Text('Karten',
+                style: TextStyle(
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey))),
+        body: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: FloatingActionButton.extended(
+                      label: Text("Add"),
+                      icon: Icon(Icons.add),
+                      backgroundColor: Colors.blueGrey,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddUser(),
+                            ));
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: FloatingActionButton.extended(
+                      icon: Icon(Icons.remove),
+                      label: Text("Remove"),
+                      backgroundColor: Colors.blueGrey,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RemoveUsers(),
+                            ));
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: FloatingActionButton.extended(
+                    icon: Icon(Icons.search),
+                    label: Text("Search"),
+                    backgroundColor: Colors.blueGrey,
+                    onPressed: () {
+                      showSearch(
+                          context: context, delegate: CustomSearchDelegate());
+                    },
+                  )),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: FloatingActionButton.extended(
-                  icon: Icon(Icons.remove),
-                  label: Text("Remove"),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RemoveUsers(),
-                        ));
-                  },
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                  child: FloatingActionButton.extended(
-                icon: Icon(Icons.search),
-                label: Text("Search"),
-                backgroundColor: Colors.blueGrey,
-                onPressed: () {
-                  showSearch(
-                      context: context, delegate: CustomSearchDelegate());
-                },
-              )),
-            ],
-          ),
-        ),
-        InputFields(),
-        Positioned(
-          top: 70,
-          left: 0,
-          right: 0,
-          bottom: 22,
-          child: ShowUsers(),
-        ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: FloatingActionButton.extended(
-              label: Text("Clear"),
-              icon: Icon(Icons.clear),
-              backgroundColor: Colors.blueGrey,
-              onPressed: () {
-                id = [];
-                setState(() {});
-              },
             ),
-          ),
-        ),
-      ],
-    );
+            InputFields(),
+            Positioned(
+              top: 70,
+              left: 0,
+              right: 0,
+              bottom: 22,
+              child: ShowUsers(),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: FloatingActionButton.extended(
+                  label: Text("Clear"),
+                  icon: Icon(Icons.clear),
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    id = [];
+                    setState(() {});
+                  },
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }
 

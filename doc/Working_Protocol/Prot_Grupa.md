@@ -116,6 +116,9 @@ Am Nachmittag wollte ich beim Reservierungs Pop up die validation hinzufuegen. D
 **2022-08-26: 9:00 -> 12:15** 
 Am Vormittag fuegte und aenderte ich verscheidene tasks im Git Project. Danach entschied ich mich die einen Notificataion service zu schreiben, der sowohl auf iOs als auch Android funktioniert, wennn die App geschlossen ist. Das Problem war, dass ich kein Package dafuer finden konnte. Einige Zeit speater fand ich ein tutorial, dass ich nachmachen wollte, aber dann nicht funktioniert. Schlussendlich entsdchied ich mich, eine fertige Version von Gitrhub runterzuloaden, und diese an mein Projekt dann anzupassen
 
+**2022-08-26: 9:00 -> 12:15** 
+Nach dem Mittagessen implementierte ich den Notification Service in meine App. Zunaechst funktionierte es, allerdings trat dann ein Problem auf, da die Reservierungszeiten, einen anderen Timestamp verwenden als der Service. Um dies zu begreifen, benoetigte es etwas Zeit. Schlussendlich konnte ich das Problem, behen und somit erfolgreich das Reservierungssystem vervollstaendingen
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -148,6 +151,7 @@ Am Vormittag fuegte und aenderte ich verscheidene tasks im Git Project. Danach e
 - 8:45 bis 10:45 Uhr
 - 14:30 bis 16:10  Uhr
 - 9:00 bis 12:15 Uhr
-  
+- 13:00 bis 15:11 Uhr
+
 <!-- { "progress": false } -->
 

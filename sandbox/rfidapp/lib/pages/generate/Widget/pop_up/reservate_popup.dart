@@ -132,7 +132,7 @@ Widget buildReservateNow(BuildContext context, Cards card) {
             bisTextEdidtingcontroller.clear();
             await service!.showScheduledNotification(
                 id: card.id,
-                title: 'Karte abholen',
+                title: 'Karte abholen' + card.id.toString(),
                 body: 'Bitte holen Sie sich Ihre Karte ab',
                 dateTime:
                     DateTime.fromMillisecondsSinceEpoch(card.reservedSince!));

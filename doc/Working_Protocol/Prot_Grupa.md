@@ -113,6 +113,9 @@ Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann bezueglich des Designs de
 **2022-08-26: 13:30 -> 16:07** 
 Am Nachmittag wollte ich beim Reservierungs Pop up die validation hinzufuegen. Dies stellte sich allerdings als problem dar, da ein POP up kein statefull widget ist. Deshalb ueberlegte ich mir ein konzept, um den automatisch generierten Pop up auch eine ueberpruefung zu geben. Dies benoetigte etwas zeit. Als ich fertig war, uebte ich dann noch kleine Verbesserungen bei der App aus.,
 
+**2022-08-26: 9:00 -> 12:15** 
+Am Vormittag fuegte und aenderte ich verscheidene tasks im Git Project. Danach entschied ich mich die einen Notificataion service zu schreiben, der sowohl auf iOs als auch Android funktioniert, wennn die App geschlossen ist. Das Problem war, dass ich kein Package dafuer finden konnte. Einige Zeit speater fand ich ein tutorial, dass ich nachmachen wollte, aber dann nicht funktioniert. Schlussendlich entsdchied ich mich, eine fertige Version von Gitrhub runterzuloaden, und diese an mein Projekt dann anzupassen
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -144,5 +147,7 @@ Am Nachmittag wollte ich beim Reservierungs Pop up die validation hinzufuegen. D
 - 20:30 bis 00:02 Uhr
 - 8:45 bis 10:45 Uhr
 - 14:30 bis 16:10  Uhr
+- 9:00 bis 12:15 Uhr
+  
 <!-- { "progress": false } -->
 

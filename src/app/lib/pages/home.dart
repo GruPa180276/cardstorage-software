@@ -12,11 +12,11 @@ import 'package:app/pages/right/tab5.dart';
 import 'package:app/pages/drawer/settings.dart';
 import 'package:app/pages/drawer/appinfo.dart';
 
-import 'package:app/config/text_values/home_text_values.dart';
-import 'package:app/config/color_values/home_color_values.dart';
+import '../config/color_values/tab1_color_values.dart';
+import '../config/text_values/tab1_text_values.dart';
 
-HomeColorProvider homeColorProvider = new HomeColorProvider();
-HomeTextProvider homeTextProvider = new HomeTextProvider();
+Tab1ColorProvider homeColorProvider = new Tab1ColorProvider();
+Tab1TextValues homeTextProvider = new Tab1TextValues();
 
 void main() => runApp(Home());
 

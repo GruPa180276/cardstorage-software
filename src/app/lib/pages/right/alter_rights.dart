@@ -1,17 +1,13 @@
-import 'package:app/color/tab5_color_values.dart';
-import 'package:app/home/tab5.dart';
-import 'package:app/text/tab5_text_values.dart';
-import 'package:app/values/tab5_rights_values.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
-import '../values/tab5_rights_values.dart';
-import '../text/tab5_text_values.dart';
-import '../color/tab5_color_values.dart';
+import 'package:app/config/color_values/tab5_color_values.dart';
+import 'package:app/config/text_values/tab5_text_values.dart';
+import 'package:app/domain/values/tab5_rights_values.dart';
 
-import '../provider/API/data_API.dart';
-import '../provider/types/card.dart';
+import 'package:app/provider/api/data_API.dart';
+import 'package:app/provider/types/card.dart';
 
 // ToDo: The Api needs to be changed in the future
 
@@ -189,7 +185,7 @@ class _DropDownValuesState extends State<DropDownValues> {
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: tab5CP.getCardContainerBorderColor(),
+              color: Colors.blueGrey,
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [

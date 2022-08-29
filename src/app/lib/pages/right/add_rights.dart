@@ -1,9 +1,9 @@
-import 'package:app/color/tab5_color_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../values/tab5_rights_values.dart';
-import '../text/tab5_text_values.dart';
-import '../color/tab5_color_values.dart';
+
+import 'package:app/config/color_values/tab5_color_values.dart';
+import 'package:app/config/text_values/tab5_text_values.dart';
+import 'package:app/domain/values/tab5_rights_values.dart';
 
 // ToDo: The needs to be pushed to the API
 

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import '../properties/tab1_properties.dart';
+import 'package:app/config/color_values/tab1_color_values.dart';
+import 'package:app/config/text_values/tab1_text_values.dart';
 
 // ToDo: The actual API values should be used
 
-Tab1StatsTextProvider tab1statsTextProvider = new Tab1StatsTextProvider();
-Tab1StatsColorProvider tab1statsColorProvider = new Tab1StatsColorProvider();
+Tab1TextValues tab1statsTextProvider = new Tab1TextValues();
+Tab1ColorProvider tab1statsColorProvider = new Tab1ColorProvider();
 
 class CardStats extends StatefulWidget {
   const CardStats({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class _CardState extends State<CardStats> {
     return Scaffold(
       appBar: AppBar(
           title: Text(tab1statsTextProvider.getAppTitle()),
-          backgroundColor: tab1statsColorProvider.getAppBarBackgroundColor(),
+          backgroundColor: Colors.blueGrey,
           actions: []),
       body: Column(children: [DeveloperChart()]),
     );
@@ -51,7 +52,7 @@ class DeveloperChart extends StatelessWidget {
           padding: const EdgeInsets.all(9.0),
           child: Column(
             children: <Widget>[
-              Text(tab1statsTextProvider.getChartTitle()),
+              Text("Test"),
               Expanded(
                 child: charts.BarChart(series, animate: true),
               )
@@ -76,31 +77,26 @@ final List<DeveloperSeries> data = [
   DeveloperSeries(
     year: "2017",
     developers: 40000,
-    barColor:
-        charts.ColorUtil.fromDartColor(tab1statsColorProvider.getChartColor()),
+    barColor: charts.ColorUtil.fromDartColor(Colors.blueGrey),
   ),
   DeveloperSeries(
     year: "2018",
     developers: 5000,
-    barColor:
-        charts.ColorUtil.fromDartColor(tab1statsColorProvider.getChartColor()),
+    barColor: charts.ColorUtil.fromDartColor(Colors.blueGrey),
   ),
   DeveloperSeries(
     year: "2019",
     developers: 40000,
-    barColor:
-        charts.ColorUtil.fromDartColor(tab1statsColorProvider.getChartColor()),
+    barColor: charts.ColorUtil.fromDartColor(Colors.blueGrey),
   ),
   DeveloperSeries(
     year: "2020",
     developers: 35000,
-    barColor:
-        charts.ColorUtil.fromDartColor(tab1statsColorProvider.getChartColor()),
+    barColor: charts.ColorUtil.fromDartColor(Colors.blueGrey),
   ),
   DeveloperSeries(
     year: "2021",
     developers: 45000,
-    barColor:
-        charts.ColorUtil.fromDartColor(tab1statsColorProvider.getChartColor()),
+    barColor: charts.ColorUtil.fromDartColor(Colors.blueGrey),
   ),
 ];

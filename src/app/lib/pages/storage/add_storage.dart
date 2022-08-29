@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
-import '../values/tab2_storage_values.dart';
-import '../text/tab2_text_values.dart';
-import '../color/tab2_color_values.dart';
+
+import 'package:app/config/color_values/tab2_color_values.dart';
+import 'package:app/config/text_values/tab2_text_values.dart';
+import 'package:app/domain/values/tab2_storage_values.dart';
 
 // ToDo: The needs to be pushed to the API
 
-Tab2StorageSettingsValuesProvider tab2SSVP =
-    new Tab2StorageSettingsValuesProvider();
+Tab2StorageValuesProvider tab2SSVP = new Tab2StorageValuesProvider();
 Tab2AddStorageDescriptionProvider tab2ASDP =
     new Tab2AddStorageDescriptionProvider();
 Tab2AddStorageColorProvider tab2ASCP = new Tab2AddStorageColorProvider();

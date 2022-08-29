@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../values/tab3_card_values.dart';
-import '../text/tab3_text_values.dart';
-import '../color/tab3_color_values.dart';
+
+import 'package:app/config/color_values/tab3_color_values.dart';
+import 'package:app/config/text_values/tab3_text_values.dart';
+import 'package:app/domain/values/tab3_card_values.dart';
 
 // ToDo: The Api needs to be changed in the future
 // Add API call to select the Card Storage

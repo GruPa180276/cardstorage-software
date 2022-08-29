@@ -1,18 +1,17 @@
-import 'package:app/values/tab3_card_values.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../values/tab3_card_values.dart';
-import '../text/tab4_text_values.dart';
-import '../color/tab3_color_values.dart';
+
+import 'package:app/config/color_values/tab3_color_values.dart';
+import 'package:app/config/text_values/tab3_text_values.dart';
 
 // ToDo: The Api needs to be changed in the future
 
-Tab3StorageSettingsValuesProvider tab3SSVP =
-    new Tab3StorageSettingsValuesProvider();
-Tab4RemoveStorageDescriptionProvider tab4ASDP =
-    new Tab4RemoveStorageDescriptionProvider();
+Tab3DescrpitionProvider tab3SSVP = new Tab3DescrpitionProvider();
+Tab3RemoveStorageDescriptionProvider tab4ASDP =
+    new Tab3RemoveStorageDescriptionProvider();
 Tab3AlterStorageColorProvider tab3ASCP = new Tab3AlterStorageColorProvider();
 
 List<String> values = [];

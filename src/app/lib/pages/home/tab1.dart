@@ -130,7 +130,8 @@ class _MyAppState extends State<ListCards> {
           ),
           borderRadius: BorderRadius.circular(15)),
       child: Column(children: [
-        Text("", style: TextStyle(fontSize: 25)),
+        Text(tab1TextProvider.getWelcomePageHeadline(),
+            style: TextStyle(fontSize: 25)),
         Divider(
           color: Colors.blueGrey,
           height: 10,
@@ -140,7 +141,10 @@ class _MyAppState extends State<ListCards> {
         ),
         Expanded(
             child: ListView(
-          children: <Widget>[Text("", style: TextStyle(fontSize: 20))],
+          children: <Widget>[
+            Text(tab1TextProvider.getWelcomePageText(),
+                style: TextStyle(fontSize: 20))
+          ],
         )),
       ]),
     );

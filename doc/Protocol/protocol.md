@@ -106,30 +106,30 @@ Danach habe ich die App noch etwas getestet. Zum Schluss habe ich noch die Setti
 Weiters habe ich noch die App Info Seite mit etwas Text befüllt. Danach habe ich noch diverse typos in meine Protokollen behoben und zu jedem Tag die Studen 
 anzahl hinzugefügt. (4h)
 
-**17.8.2022: 8.00 -> 11.10** <br>
+**17.8.2022: 8.00 -> 11:10** <br>
 Habe heute an der User Page gearbeitet. Dort habe ich das Design überarbeitet. Danach habe ich ein Meeting mit Herrn Grubauer abgehalten, wo wir klärten, 
 welche Anforderungen wir an die API haben. (3h 10min)
 
-**18.8.2022: 7.30 -> 10.30** <br>
+**18.8.2022: 7:30 -> 10:30** <br>
 Habe heute das Problem gelöst, warum der Clear Button auf der Seite 5 und 4 nicht funktionierte. Danach habe ich die Anordnung der Buttons auf den selbigen 
 Seiten geändert. Weiters habe ich noch alle Seiten auf ein einheitliche Design angepasst. Die App wäre soweit auch funktionell, es fehlt ledeglich überall 
 die Implementation der API, die noch nicht vorhanden ist. Zukünftige Änderungen sind im GitHub Project ersichtlich. (3h)
 
-**19.8.2022: 7.00 -> 11.10** <br>
+**19.8.2022: 7:00 -> 11:10** <br>
 Habe heute die Remove Seite auf allen Tabs hinzugefügt. Dies funktioniert auch bereits. Danach habe ich noch einen Logout Button hinzugefügt. Weiters wurde 
 ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und Ordner Struktur abgestimmt haben. Danach habe ich noch die Regex angepasst. (4h 10min)
 
-**24.8.2022: 14.00 -> 15.00** <br>
+**24.8.2022: 14.00 -> 15:00** <br>
 Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir die Protokolle meiner Teammitglieder angeschaut, um über den aktuellen Stand bescheidzuwissen. Danach habe ich alle Protokoll files zusammengemerged. (1h)
 
 **25.8.2022: 7:25 -> 11:30** <br>
-Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt befüllt. Danach habe ich mich wieder einemal mit meinem Refresh Problem beschäftigt. Dazu habe ich einen Call mit Herrn Grubauer durchgeführt, wo wir das Problem mit meine Refresh gelöst haben. Danach hat er mir noch seinen API Handler erklärt und er hat mir noch gezeigt, wie man das Stunden Zähl tool von Johannes benutzt.
+Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt befüllt. Danach habe ich mich wieder einemal mit meinem Refresh Problem beschäftigt. Dazu habe ich einen Call mit Herrn Grubauer durchgeführt, wo wir das Problem mit meine Refresh gelöst haben. Danach hat er mir noch seinen API Handler erklärt und er hat mir noch gezeigt, wie man das Stunden Zähl tool von Johannes benutzt. (4h 5min)
 
-**26.8.2022: 7:15 -> 11.15** <br>
-Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit erfolgreich. Danach habe ich mit dem Refactoring vom Code begonnen, wie Herr Grubauer es will. Weiters habe ich mit Herrn Gruabuer eine Call durchgeführt, da er das Design wieder ändern will. Zum Schluss habe ich mit dem Refactoring weitergemacht.
+**26.8.2022: 7:15 -> 11:15** <br>
+Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit erfolgreich. Danach habe ich mit dem Refactoring vom Code begonnen, wie Herr Grubauer es will. Weiters habe ich mit Herrn Gruabuer eine Call durchgeführt, da er das Design wieder ändern will. Zum Schluss habe ich mit dem Refactoring weitergemacht. (4h)
 
-**29.8.2022: 7:20 -> xx** <br>
-Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim starten der App befasst. Die warnings kamen daher, da seit flutter 3.0.0 sich intern bei Flutter etwas verändert hat, was die warnings auslöst. Die warnings kommen aus der Chart libary, da dort an gewissen stellen ein !(nullable) steht. Dies wird nicht mehr benötigt, deshalb entstehen diese warnings. Wenn man die Rufzeichen entfernt, sind die Fehler weg.
+**29.8.2022: 7:20 -> 11:20** <br>
+Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim starten der App befasst. Die warnings kamen daher, da seit flutter 3.0.0 sich intern bei Flutter etwas verändert hat, was die warnings auslöst. Die warnings kommen aus der Chart libary, da dort an gewissen stellen ein !(nullable) steht. Dies wird nicht mehr benötigt, deshalb entstehen diese warnings. Wenn man die Rufzeichen entfernt, sind die Fehler weg. Danach ich damit begonnen, das Design komplett zu überarbeiten (4h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -161,4 +161,5 @@ Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim
 - 14:00 bis 15:00 Uhr
 - 7:25 bis 11:30 Uhr
 - 7:15 bis 11:15 Uhr
+- 7:20 bis 11:20 Uhr
 <!-- { "progress": false } -->

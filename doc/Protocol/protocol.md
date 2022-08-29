@@ -128,6 +128,8 @@ Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt be
 **26.8.2022: 7:15 -> 11.15** <br>
 Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit erfolgreich. Danach habe ich mit dem Refactoring vom Code begonnen, wie Herr Grubauer es will. Weiters habe ich mit Herrn Gruabuer eine Call durchgeführt, da er das Design wieder ändern will. Zum Schluss habe ich mit dem Refactoring weitergemacht.
 
+**29.8.2022: 7:20 -> xx** <br>
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

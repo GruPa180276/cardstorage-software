@@ -129,6 +129,7 @@ Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt be
 Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit erfolgreich. Danach habe ich mit dem Refactoring vom Code begonnen, wie Herr Grubauer es will. Weiters habe ich mit Herrn Gruabuer eine Call durchgeführt, da er das Design wieder ändern will. Zum Schluss habe ich mit dem Refactoring weitergemacht.
 
 **29.8.2022: 7:20 -> xx** <br>
+Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim starten der App befasst. Die warnings kamen daher, da seit flutter 3.0.0 sich intern bei Flutter etwas verändert hat, was die warnings auslöst. Die warnings kommen aus der Chart libary, da dort an gewissen stellen ein !(nullable) steht. Dies wird nicht mehr benötigt, deshalb entstehen diese warnings. Wenn man die Rufzeichen entfernt, sind die Fehler weg.
 
 ## Arbeitszeit
 <!-- { "progress": true } -->

@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rfidapp/domain/local_notification_service.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/Widget/date_picker.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
+import 'package:clock/clock.dart';
 
 TextEditingController vonTextEdidtingcontroller = TextEditingController();
 TextEditingController bisTextEdidtingcontroller = TextEditingController();
+LocalNotificationService? service;
+
 final _formKey = GlobalKey<FormState>();
 Future<void> buildReservatePopUp(BuildContext context, Cards card) async {
+  service = LocalNotificationService();
+  service!.intialize();
+  listenToNotification();
+
   vonTextEdidtingcontroller.clear;
   bisTextEdidtingcontroller.clear;
   return showDialog(
@@ -110,15 +119,25 @@ Widget buildReservateNow(BuildContext context, Cards card) {
       // ignore: avoid_print
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
-              .millisecondsSinceEpoch;
-          card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
-              .millisecondsSinceEpoch;
-          Data.putData('card', card.toJson());
-          vonTextEdidtingcontroller.clear();
-          bisTextEdidtingcontroller.clear();
-
-          Navigator.pop(context);
+          if (DateTime.parse(vonTextEdidtingcontroller.text)
+              .isBefore(DateTime.now())) {
+            Navigator.pop(context);
+          } else {
+            card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
+                .millisecondsSinceEpoch;
+            card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
+                .millisecondsSinceEpoch;
+            Data.putData('card', card.toJson());
+            vonTextEdidtingcontroller.clear();
+            bisTextEdidtingcontroller.clear();
+            await service!.showScheduledNotification(
+                id: card.id,
+                title: 'Karte abholen',
+                body: 'Bitte holen Sie sich Ihre Karte ab',
+                dateTime:
+                    DateTime.fromMillisecondsSinceEpoch(card.reservedSince!));
+            Navigator.pop(context);
+          }
         }
       },
       child: const Padding(
@@ -130,4 +149,13 @@ Widget buildReservateNow(BuildContext context, Cards card) {
           ),
         ),
       ));
+}
+
+void listenToNotification() =>
+    service!.onNotificationClick.stream.listen(onNoticationListener);
+
+void onNoticationListener(String? payload) {
+  if (payload != null && payload.isNotEmpty) {
+    print('payload $payload');
+  }
 }

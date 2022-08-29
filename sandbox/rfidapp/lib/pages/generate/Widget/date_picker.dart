@@ -4,10 +4,8 @@ import 'package:intl/intl.dart';
 
 void buildDateTimePicker(String text, TextEditingController editingController,
     BuildContext context) {
-  DateTime datetime = DateTime.now();
-
   DatePicker.showDateTimePicker(context,
-      minTime: DateTime.now(),
+      minTime: DateTime.now().add(const Duration(hours: 0)),
       theme: DatePickerTheme(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           doneStyle: TextStyle(color: Theme.of(context).primaryColor),
@@ -16,6 +14,8 @@ void buildDateTimePicker(String text, TextEditingController editingController,
       showTitleActions: true,
       onChanged: (date) {}, onConfirm: (date) {
     editingController.text =
-        DateFormat('yyyy-MM-dd hh:mm').format(date).toString();
-  }, currentTime: DateTime.now(), locale: LocaleType.de);
+        DateFormat('yyyy-MM-dd HH:mm').format(date).toString();
+  },
+      currentTime: DateTime.now().add(const Duration(hours: 0)),
+      locale: LocaleType.de);
 }

@@ -64,14 +64,14 @@ class LocalNotificationService {
       {required int id,
       required String title,
       required String body,
-      required int seconds}) async {
+      required DateTime dateTime}) async {
     final details = await _notificationDetails();
     await _localNotificationService.zonedSchedule(
       id,
       title,
       body,
       tz.TZDateTime.from(
-        DateTime.now().add(Duration(seconds: seconds)),
+        dateTime,
         tz.local,
       ),
       details,

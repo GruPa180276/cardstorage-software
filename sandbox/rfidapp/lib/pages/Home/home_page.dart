@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/domain/local_notification_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,7 +9,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final LocalNotificationService service;
+
   int selectedIndex = 0;
+  @override
+  void initState() {
+    service = LocalNotificationService();
+    service.intialize();
+    listenToNotification();
+    super.initState();
+  }
 
   void onClicked(int index) {
     setState(() {
@@ -29,7 +39,18 @@ class _HomePageState extends State<HomePage> {
                     fontFamily: 'Kanit',
                     fontSize: 40,
                     color: Theme.of(context).primaryColor))),
-        body: buildGetback(this.context));
+        body: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                await service.showNotification(
+                    id: 0, title: 'Notification Title', body: 'Some body');
+              },
+              child: const Text('Show Local Notification'),
+            ),
+            buildGetback(this.context),
+          ],
+        ));
   }
 
   Widget buildGetback(BuildContext context) {
@@ -67,6 +88,15 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ));
+  }
+
+  void listenToNotification() =>
+      service.onNotificationClick.stream.listen(onNoticationListener);
+
+  void onNoticationListener(String? payload) {
+    if (payload != null && payload.isNotEmpty) {
+      print('payload $payload');
+    }
   }
 }
 

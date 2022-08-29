@@ -108,7 +108,7 @@ Widget buildReservateNow(BuildContext context, Cards card) {
         borderRadius: BorderRadius.circular(32),
       ))),
       // ignore: avoid_print
-      onPressed: () {
+      onPressed: () async {
         if (_formKey.currentState!.validate()) {
           card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
               .millisecondsSinceEpoch;
@@ -117,6 +117,7 @@ Widget buildReservateNow(BuildContext context, Cards card) {
           Data.putData('card', card.toJson());
           vonTextEdidtingcontroller.clear();
           bisTextEdidtingcontroller.clear();
+
           Navigator.pop(context);
         }
       },

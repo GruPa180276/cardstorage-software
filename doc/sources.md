@@ -52,4 +52,4 @@
 - https://stackoverflow.com/questions/57941227/how-to-add-icon-to-appbar-in-flutter
 - https://www.waldo.com/blog/flutter-drawer
 - https://stackoverflow.com/questions/72210806/warning-operand-of-null-aware-operation-has-type-schedulerbinding-which-e
-
+- https://blog.logrocket.com/flutter-appbar-tutorial/

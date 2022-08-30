@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/email.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
 
 class PasswordForgetSecreen extends StatefulWidget {
   const PasswordForgetSecreen({Key? key}) : super(key: key);
@@ -32,7 +33,14 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
           child: Container(
             child: Column(
               children: [
-                buildEmail(context),
+                Form(
+                  key: _formKey,
+                  child: TextInput(
+                      inputController: emailController,
+                      label: 'E-Mail',
+                      iconData: Icons.email,
+                      validator: Validator.funcEmail),
+                ),
                 Text(
                   'Falls Sie noch keinen Account haben erstellen Sie einen',
                   style: TextStyle(color: Theme.of(context).dividerColor),
@@ -78,6 +86,7 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
         height: 60,
         child: ElevatedButton(
           onPressed: () {
+            print(emailController.text);
             if (_formKey.currentState!.validate()) {
               //TODO look if email is available in db
 

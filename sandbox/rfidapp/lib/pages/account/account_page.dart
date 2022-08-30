@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/Navigation/menu_navigation.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -61,20 +60,18 @@ class _AccountPageState extends State<AccountPage> {
                     const Icon(Icons.person, size: 27)),
                 buildTexfield(context, "E-Mail", emailController,
                     const Icon(Icons.email, size: 27)),
-                buildTexfield(context, "Birthdate", birthDate,
-                    const Icon(Icons.date_range, size: 27)),
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
                 SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: buildButton('Passwort aendern')),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
                         child: SizedBox(
                             height: 50, child: buildButton('Abbrechen'))),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Expanded(
                         child: SizedBox(
                             height: 50, child: buildButton('Speichern')))
@@ -113,7 +110,9 @@ class _AccountPageState extends State<AccountPage> {
     }
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pop(context);
+      },
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(colorbg),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(

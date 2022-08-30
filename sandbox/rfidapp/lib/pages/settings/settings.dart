@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
+import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -82,7 +83,10 @@ class _SettingsPageState extends State<SettingsPage> {
       height: 0, //wraps child's height
       child: RaisedButton(
           color: Theme.of(context).cardColor,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const AccountPage()));
+          },
           child: Align(
             alignment: Alignment.centerLeft,
             child: Row(

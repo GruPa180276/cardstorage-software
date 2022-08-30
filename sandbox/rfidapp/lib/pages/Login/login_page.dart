@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
-import 'package:rfidapp/pages/Home/home_page.dart';
+import 'package:rfidapp/domain/email.dart';
+import 'package:rfidapp/pages/Login/password_forget_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 
@@ -239,7 +240,8 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(width: 5.0),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed('/signup');
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const PasswordForgetSecreen()));
           },
           child: Text(
             'Passwort ändern',

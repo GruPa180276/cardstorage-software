@@ -276,19 +276,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return SizedBox(
         width: 500,
         height: 60,
-        child: OutlinedButton.icon(
-          icon: Icon(
-            Icons.create,
-            color: Theme.of(context).primaryColor,
-          ),
-          label: Text(
-            "Zurück",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+        child: OutlinedButton(
           onPressed: () {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const LoginScreen()));
@@ -300,6 +288,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100.0),
+            ),
+          ),
+          child: Text(
+            "Zurück",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
             ),
           ),
         ));

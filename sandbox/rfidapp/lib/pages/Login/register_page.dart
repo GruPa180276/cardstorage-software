@@ -28,7 +28,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Brightness brightness =
         MediaQueryData.fromWindow(WidgetsBinding.instance.window)
@@ -41,29 +40,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        bottomOpacity: 0.0,
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        title: Text("Registrierung",
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w900,
+                color: Theme.of(context).primaryColor)),
+      ),
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-        child: Column(children: <Widget>[
-          buildRegisterText(this.context),
-          const SizedBox(
-            height: 15,
-          ),
-          buildFirstName(this.context),
-          buildLastName(this.context),
-          buildEmail(this.context),
-          buildPassword(this.context),
-          buildRepeatPassword(this.context),
-          buildProgressbar(this.context),
-          const SizedBox(
-            height: 30,
-          ),
-          buildCreateAccount(this.context),
-          const SizedBox(
-            height: 15,
-          ),
-          buildGetback(this.context),
-        ]),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+        child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            buildFirstName(this.context),
+            buildLastName(this.context),
+            buildEmail(this.context),
+            buildPassword(this.context),
+            buildRepeatPassword(this.context),
+            buildProgressbar(this.context),
+            const SizedBox(
+              height: 30,
+            ),
+            buildCreateAccount(this.context),
+          ]),
+        ),
       ),
     );
   }
@@ -124,16 +127,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget buildRegisterText(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 35, left: 0, right: 0),
-      // ignore: prefer_const_constructors
-      child: const Text('Registrierung',
-          style: TextStyle(
-              fontSize: 53.0, fontWeight: FontWeight.w900, fontFamily: "Lato")),
-    );
-  }
-
   Widget buildEmail(BuildContext context) {
     return Form(
       key: _formKeyEmail,
@@ -173,6 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             TextFormField(
               controller: passwordController,
               decoration: const InputDecoration(
+                errorStyle: TextStyle(),
                 prefixIcon: Icon(Icons.person),
                 labelText: 'Password',
               ),
@@ -270,35 +264,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontWeight: FontWeight.w400,
                   fontFamily: "Lato")))
     ]);
-  }
-
-  Widget buildGetback(BuildContext context) {
-    return SizedBox(
-        width: 500,
-        height: 60,
-        child: OutlinedButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginScreen()));
-          },
-          style: ElevatedButton.styleFrom(
-            side: BorderSide(
-              width: 2.5,
-              color: Theme.of(context).primaryColor,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0),
-            ),
-          ),
-          child: Text(
-            "Zurück",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-        ));
   }
 
   Widget buildCreateAccount(BuildContext context) {

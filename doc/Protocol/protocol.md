@@ -131,7 +131,8 @@ Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit 
 **29.8.2022: 7:20 -> 11:20** <br>
 Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim starten der App befasst. Die warnings kamen daher, da seit flutter 3.0.0 sich intern bei Flutter etwas verändert hat, was die warnings auslöst. Die warnings kommen aus der Chart libary, da dort an gewissen stellen ein !(nullable) steht. Dies wird nicht mehr benötigt, deshalb entstehen diese warnings. Wenn man die Rufzeichen entfernt, sind die Fehler weg. Danach ich damit begonnen, das Design komplett zu überarbeiten (4h)
 
-**30.8.2022: 7:20 -> xx** <br>
+**30.8.2022: 7:20 -> 11:20** <br>
+Habe heute am Tab1 weiter gearbeitet. Dort habe ich soweit sämtliche Darstellungsfehler behoben. Danach habe ich mit Herrn Grubauer eine kurze Besprechung durchgeführt um uns gegeseitig auf den aktuellen Stand zu bringen. Weiters habe ich begonnen, den Code von Tab1 zu refactoren um die performance zu verbessern. Zum Schluss habe ich die Anwendung auf Fehler getestet.
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -163,5 +164,6 @@ Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim
 - 14:00 bis 15:00 Uhr
 - 7:25 bis 11:30 Uhr
 - 7:15 bis 11:15 Uhr
+- 7:20 bis 11:20 Uhr
 - 7:20 bis 11:20 Uhr
 <!-- { "progress": false } -->

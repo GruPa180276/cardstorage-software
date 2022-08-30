@@ -110,14 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onChanged: (value) {
             _formKeyLastname.currentState!.validate();
           },
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Bitte Nachname angeben";
-            } else if (!Validator().validateName(value)) {
-              return "Nachname nicht korrekt";
-            }
-            return null;
-          },
+          validator: (value) {},
           decoration: const InputDecoration(
             prefixIcon: Icon(Icons.person),
             labelText: 'Nachname',

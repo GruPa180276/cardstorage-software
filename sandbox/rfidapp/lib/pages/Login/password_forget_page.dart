@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/email.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
 
@@ -55,29 +54,6 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
         ));
   }
 
-  Widget buildEmail(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
-      child: Form(
-        key: _formKey,
-        child: TextFormField(
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Bitte geben Sie eine Email an';
-            } else if (!Validator().validateEmail(value)) {
-              return "Email nicht korrekt";
-            }
-          },
-          controller: emailController,
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.email),
-            labelText: 'Email',
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildSignIn(BuildContext context) {
     return Container(
       alignment: Alignment.center,
@@ -109,11 +85,3 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
     );
   }
 }
-
-
-
-// Email.sendEmail(
-//                 name: 'Grpa',
-//                 email: 'grubauer.patrick@gmail.com',
-//                 subject: 'Tesing',
-//                 message: 'Hello World!');

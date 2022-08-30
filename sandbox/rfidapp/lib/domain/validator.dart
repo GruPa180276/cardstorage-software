@@ -51,4 +51,27 @@ class Validator {
       return "Email nicht korrekt";
     }
   }
+
+  static String? funcName(String? value) {
+    if (value!.isEmpty) {
+      return "Bitte Nachname angeben";
+    } else if (!Validator().validateName(value)) {
+      return "Nachname nicht korrekt";
+    }
+    return null;
+  }
+
+  static String? funcPassword(String? value) {
+    RegExp regex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    if (value!.isEmpty) {
+      return 'Please enter password';
+    } else {
+      if (!regex.hasMatch(value)) {
+        return 'Enter valid password';
+      } else {
+        return null;
+      }
+    }
+  }
 }

@@ -119,6 +119,13 @@ Am Vormittag fuegte und aenderte ich verscheidene tasks im Git Project. Danach e
 **2022-08-26: 9:00 -> 12:15** 
 Nach dem Mittagessen implementierte ich den Notification Service in meine App. Zunaechst funktionierte es, allerdings trat dann ein Problem auf, da die Reservierungszeiten, einen anderen Timestamp verwenden als der Service. Um dies zu begreifen, benoetigte es etwas Zeit. Schlussendlich konnte ich das Problem, behen und somit erfolgreich das Reservierungssystem vervollstaendingen
 
+**2022-08-26: 9:00 -> 12:00** 
+Am Vormittag habe ich mir als Zielgenommen einen EmnailBt zu schreiben, der die Bestaetungn der Anmeldung und das Zuruecksetzen des Passworts uebernimmt. Dazu habe ioch mir ein Tutorial angeschaut und dementsprechend im Code angepasst. Zwischendurch hatte ich ncoh ein Meeting mit Herrn Zoechmann, um uns uber den aktuellen Projektstatus auszutaiuschen. Ebenfalls haben wir gemeinsam bei mir ein Error beim Compilen beseitigt, da ein verwendetes Package einen Fehler beim Code hatte. 
+
+**2022-08-26: 12:30 -> 14:00** 
+Nach dem Mittagessen, habe ich ein neues Scaffold zum Zuruecksetzten des Passworts erstellt, welches den Informationsaustausch zwischen User und UI ermoeglich. Zwischendruch, kam ich dan auf die Idee das es gut weare, die Strukur an das DRY Princip anzupassen. Allerdings, habe ich mich nur informiert, wie dieses zum Umsetzen ist und habe mir ein Konzept ueberlegt, wie ich dieses einbauen moechte 
+
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -152,6 +159,8 @@ Nach dem Mittagessen implementierte ich den Notification Service in meine App. Z
 - 14:30 bis 16:10  Uhr
 - 9:00 bis 12:15 Uhr
 - 13:00 bis 15:11 Uhr
+- 9:00 bis 12:00 Uhr
+- 12:30 bis 14:00 Uhr
 
 <!-- { "progress": false } -->
 

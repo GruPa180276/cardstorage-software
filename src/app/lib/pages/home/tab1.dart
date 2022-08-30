@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -21,12 +22,60 @@ class Tab1 extends StatefulWidget {
 }
 
 class _Tab1State extends State<Tab1> {
+  String selectedStorage = "Select Storage...";
   String dropDownText = tab1TextProvider.getDropDownText();
   var dropDownValues = tab1TextProvider.getDropDownValues();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 28.0),
+        backgroundColor: Colors.blueGrey,
+        visible: true,
+        curve: Curves.bounceInOut,
+        children: [
+          SpeedDialChild(
+            child: Icon(Icons.storage, color: Colors.white),
+            backgroundColor: Colors.blueGrey,
+            onTap: () => setState(() {
+              selectedStorage = "1";
+            }),
+            label: '1',
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+            labelBackgroundColor: Colors.black,
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.storage, color: Colors.white),
+            backgroundColor: Colors.blueGrey,
+            onTap: () => setState(() {
+              selectedStorage = "2";
+            }),
+            label: '2',
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+            labelBackgroundColor: Colors.black,
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.storage, color: Colors.white),
+            backgroundColor: Colors.blueGrey,
+            onTap: () => setState(() {
+              selectedStorage = "3";
+            }),
+            label: '3',
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+            labelBackgroundColor: Colors.black,
+          ),
+        ],
+      ),
       appBar: AppBar(
         leading: Icon(
           Icons.credit_card,
@@ -53,38 +102,8 @@ class _Tab1State extends State<Tab1> {
       ),
       body: Container(
           padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.all(10),
           child: Column(
-            children: <Widget>[
-              DropdownButtonFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey, width: 2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  filled: true,
-                  fillColor: Colors.blueGrey,
-                ),
-                dropdownColor: Colors.white,
-                value: dropDownText,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropDownText = newValue!;
-                  });
-                },
-                items: dropDownValues.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    alignment: Alignment.center,
-                    child: Text(items),
-                  );
-                }).toList(),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ListCards(cardStorage: dropDownText)
-            ],
+            children: <Widget>[ListCards(cardStorage: selectedStorage)],
           )),
     );
   }

@@ -43,4 +43,12 @@ class Validator {
     to = DateTime(to.year, to.month, to.day, to.hour, to.minute);
     return (to.difference(from).inHours);
   }
+
+  static String? funcEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Bitte gessben Sie eine Email an';
+    } else if (!Validator().validateEmail(value)) {
+      return "Email nicht korrekt";
+    }
+  }
 }

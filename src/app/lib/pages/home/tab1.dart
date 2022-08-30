@@ -27,74 +27,66 @@ class _Tab1State extends State<Tab1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: Icon(
-            Icons.credit_card,
-            size: 30,
-          ),
-          toolbarHeight: 70,
-          backgroundColor: Colors.blueGrey,
-          title: Text('Admin Login',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-          actions: [
-            Icon(Icons.account_box_rounded),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(Icons.settings),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(Icons.logout),
-            SizedBox(
-              width: 10,
-            ),
-          ],
+      appBar: AppBar(
+        leading: Icon(
+          Icons.credit_card,
+          size: 30,
         ),
-        body: Stack(children: [
-          Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(10),
-              height: 80,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.blueGrey,
+        toolbarHeight: 70,
+        backgroundColor: Colors.blueGrey,
+        title: Text('Admin Login',
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+        actions: [
+          Icon(Icons.account_box_rounded),
+          SizedBox(
+            width: 20,
+          ),
+          Icon(Icons.settings),
+          SizedBox(
+            width: 20,
+          ),
+          Icon(Icons.logout),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
+      body: Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              DropdownButtonFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueGrey, width: 2),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(
-                children: <Widget>[
-                  DropdownButton(
-                    value: dropDownText,
-                    isExpanded: true,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    iconSize: 30,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.blueGrey,
-                    ),
-                    items: dropDownValues.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        alignment: Alignment.center,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropDownText = newValue!;
-                      });
-                    },
-                  ),
-                ],
-              )),
-          Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: ListCards(cardStorage: dropDownText))
-        ]));
+                  filled: true,
+                  fillColor: Colors.blueGrey,
+                ),
+                dropdownColor: Colors.white,
+                value: dropDownText,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropDownText = newValue!;
+                  });
+                },
+                items: dropDownValues.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    alignment: Alignment.center,
+                    child: Text(items),
+                  );
+                }).toList(),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ListCards(cardStorage: dropDownText)
+            ],
+          )),
+    );
   }
 }
 
@@ -117,7 +109,8 @@ class _MyAppState extends State<ListCards> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return Expanded(
+        child: FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
         if (widget.cardStorage == "Select Storage...") {
@@ -141,13 +134,12 @@ class _MyAppState extends State<ListCards> {
         }
         return const CircularProgressIndicator();
       },
-    );
+    ));
   }
 
   Widget createWelcomePage(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
           border: Border.all(
             width: 3,
@@ -180,7 +172,7 @@ class _MyAppState extends State<ListCards> {
       child: Container(
         height: 85,
         padding: EdgeInsets.all(10),
-        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
+        margin: const EdgeInsets.only(left: 0, top: 5, bottom: 5, right: 0),
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,

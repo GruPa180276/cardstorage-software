@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:login/user_simple_prefernce.dart';
+import 'package:login/notificationApi.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await UserSimplePreferences.init();
   runApp(MaterialApp(
     home: MyApp(),
   ));
@@ -17,32 +16,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-  bool isSwitched = false;
-
   @override
   void initState() {
     super.initState();
-    isSwitched = UserSimplePreferences.getIsOn();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter - tutorialkart.com'),
+          title: const Text('Flutter - tutorialskart.com'),
         ),
-        body: Center(
-          child: Switch(
-            value: isSwitched,
-            onChanged: (value) async {
-              await UserSimplePreferences.setIsOn(value);
-              setState(() {
-                isSwitched = value;
-              });
-            },
-            activeTrackColor: Colors.lightGreenAccent,
-            activeColor: Colors.green,
-          ),
+        body: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  // NotificationApi.showNotification(
+                  //     title: 'Sarah Abs',
+                  //     body: 'I am simple not there',
+                  //     payload: 'sarah.abs');
+                },
+                child: Text('Simple Notification')),
+            ElevatedButton(
+                onPressed: () {}, child: Text('Scheduled Notification')),
+            ElevatedButton(onPressed: () {}, child: Text('Remove Notification'))
+          ],
         ));
   }
 }

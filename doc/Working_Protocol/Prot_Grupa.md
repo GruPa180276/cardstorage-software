@@ -90,41 +90,55 @@ Am Nachmittag hatte ich ein einstuendiges Meeting mit Herrn Mayrhofer, um die vo
 Abends habe ichn dann das Design der Kartenansich voellig ueberarbeitet, nun wird die Seite, egal wie gross das Display gleich angezeigt. Ebenfalls wurde der Login ueberarbeitet, damit er auch respopnsive ist
  
  **2022-08-24: 10:20 -> 12:53** 
+ 
 Gegen Mittag habe ich die Reservierungseite erstellt und beim Code, der die Wildcards generiert dementsprechend etwas umgeaendert, sodass er schoen erweiterbar ist. D.h je nach seite (reservierung od Karten) werden die Karten automatisch generiert und angepasst a. Beim Testen ist mir dann ein Fehler bei der API aufgefallen, den ich dann Johannes erklaert habe.  Gegen habe ich dann noch die ausgebesserte API von Johannes erfolgreich testen koennen
 
  **2022-08-24: 14:10 -> 15:50** 
+ 
 Am Nachmittag habe ich dann noch die Funktion hinzugefuegt um DAten senden zu koennen. Allerdings hatte ich verschiedene Probleme, da das encodieren meiner dAten nicht richtig funktionierte. Ebenfalls habe ich mir die Flutter Docu durchegelesen, damit ich besser weiss, wie man Flutter Projekte besser aufbaut
 
  **2022-08-24: 19:40 -> 21:15** 
 Am Abend habe ich dann ncoph die post, put, delete Rest Api befehle hinzugefuegt und getestet. Danach wurde die Business Logic fuer die Reservierungsseite programmiert. Es koennen jetzt ganz einfach Reservierungen aufgehoben, bearbeitet werden. Um das open closed Prinzip einhalten zu koennen, habe ich mir ebenfalls dafuer einen guten aufbau ueberlegt
  
 **2022-08-25: 9:00 -> 11:30** 
+
 Am Vormittag hatte ich ein Meeting mit Ben. Am Anfang half ich ihm bei seinem Issue, und loeste ihn mit einer Callbackfunction (delegate). Danach erklaerte ich ihm unsere Ordnerstruktur. Weiters habe ich ihm erklaerte wie mein API Visualizer funktioniert. Danach zeigte ich ihm, wie man die API von Herrn Mayrhofer startet und damit kommuniziert. Danach brachte ich ihm bei,wie man die Zaehlstunden app von Herrn Mj nutzt. Ebenfalls haben wir noch darueber geredet, wie unser git merge ablaufen wird
 
 **2022-08-25: 15:00 -> 18:00** 
+
 Am Nachmittag habe ich bei Reservierungs und Kartenseite weitergearbeitet. Ich habe nun fuer das Reservierungssystem den put Api call programmiert. Danach habe ich eine Neue page erstellt, um die Benuzterdaten zu aendern. Allerdings hat mir ein problem mit Flutter (Ordnernamen umbennen) etwas Zeitgeraubt, da dies  nicht richtig funktioniert und Flutter die neuen Namen nicht finden konnte
 
 **2022-08-25: 20:30 -> 00:02** 
+
 Am Abend habe ich aufgrund eines Gespraechs mit Herrn Zoechmann meinen Drawer voellig entfernt und Tabs eingebaut. Dazue ueberlegt ich mir wieder ein Konzept, damit es schoen erweiterbar ist. Danach habe ich eine Seite Settings erstellt und dort verschiedene Verlinkungen eingebunden. Auserdem habe ich das komplette Colorscheme der App veraender, was etwas zeit kostete.
 
 **2022-08-26: 8:45 -> 10:45** 
+
 Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann bezueglich des Designs der App. Ebenfalls implementierten wir eine Standard Font. Danach habe ich bei der Settings Seite etwas weitergearbetet
 
 **2022-08-26: 13:30 -> 16:07** 
+
 Am Nachmittag wollte ich beim Reservierungs Pop up die validation hinzufuegen. Dies stellte sich allerdings als problem dar, da ein POP up kein statefull widget ist. Deshalb ueberlegte ich mir ein konzept, um den automatisch generierten Pop up auch eine ueberpruefung zu geben. Dies benoetigte etwas zeit. Als ich fertig war, uebte ich dann noch kleine Verbesserungen bei der App aus.,
 
 **2022-08-26: 9:00 -> 12:15** 
+
 Am Vormittag fuegte und aenderte ich verscheidene tasks im Git Project. Danach entschied ich mich die einen Notificataion service zu schreiben, der sowohl auf iOs als auch Android funktioniert, wennn die App geschlossen ist. Das Problem war, dass ich kein Package dafuer finden konnte. Einige Zeit speater fand ich ein tutorial, dass ich nachmachen wollte, aber dann nicht funktioniert. Schlussendlich entsdchied ich mich, eine fertige Version von Gitrhub runterzuloaden, und diese an mein Projekt dann anzupassen
 
 **2022-08-26: 9:00 -> 12:15** 
+
 Nach dem Mittagessen implementierte ich den Notification Service in meine App. Zunaechst funktionierte es, allerdings trat dann ein Problem auf, da die Reservierungszeiten, einen anderen Timestamp verwenden als der Service. Um dies zu begreifen, benoetigte es etwas Zeit. Schlussendlich konnte ich das Problem, behen und somit erfolgreich das Reservierungssystem vervollstaendingen
 
 **2022-08-26: 9:00 -> 12:00** 
+
 Am Vormittag habe ich mir als Zielgenommen einen EmnailBt zu schreiben, der die Bestaetungn der Anmeldung und das Zuruecksetzen des Passworts uebernimmt. Dazu habe ioch mir ein Tutorial angeschaut und dementsprechend im Code angepasst. Zwischendurch hatte ich ncoh ein Meeting mit Herrn Zoechmann, um uns uber den aktuellen Projektstatus auszutaiuschen. Ebenfalls haben wir gemeinsam bei mir ein Error beim Compilen beseitigt, da ein verwendetes Package einen Fehler beim Code hatte. 
 
 **2022-08-26: 12:30 -> 14:00** 
+
 Nach dem Mittagessen, habe ich ein neues Scaffold zum Zuruecksetzten des Passworts erstellt, welches den Informationsaustausch zwischen User und UI ermoeglich. Zwischendruch, kam ich dan auf die Idee das es gut weare, die Strukur an das DRY Princip anzupassen. Allerdings, habe ich mich nur informiert, wie dieses zum Umsetzen ist und habe mir ein Konzept ueberlegt, wie ich dieses einbauen moechte 
 
+**2022-08-26: 15:30 -> 18:10** 
+
+Gegen Abend hin habe ich dann mein Konzept was ich mir ueberlegt habe um das DRY Prinzip zu implementieren umgesetzt. Und getestet. Danach habe ich beim Login noch etwas gaendert, sodass er wenn remember me aktiviert ist sich automatisch anmeldet und habe ein template erstellt, welches ueberprueft ob die LoginDaten uebereinstimmen. 
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -161,6 +175,6 @@ Nach dem Mittagessen, habe ich ein neues Scaffold zum Zuruecksetzten des Passwor
 - 13:00 bis 15:11 Uhr
 - 9:00 bis 12:00 Uhr
 - 12:30 bis 14:00 Uhr
-
+- 15:30 bis 18:10 Uhr
 <!-- { "progress": false } -->
 

@@ -99,4 +99,9 @@ final List<DeveloperSeries> data = [
     developers: 45000,
     barColor: charts.ColorUtil.fromDartColor(Colors.blueGrey),
   ),
+  DeveloperSeries(
+    year: "2022",
+    developers: 45000,
+    barColor: charts.ColorUtil.fromDartColor(Colors.blueGrey),
+  ),
 ];

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'dart:async';
 
-import 'package:app/pages/home.dart';
 import 'package:app/pages/navigation/bottom_navigation.dart';
 
 void main() {

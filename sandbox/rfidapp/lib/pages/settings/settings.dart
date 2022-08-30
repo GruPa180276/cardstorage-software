@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
+import 'package:rfidapp/pages/Login/login_page.dart';
 import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 
@@ -44,6 +45,9 @@ class _SettingsPageState extends State<SettingsPage> {
               buildSettingsButton("Benachrichtigungen", Icons.notifications),
             ]),
             TableRow(children: [
+              buildSettingsButton("Log-Out", Icons.logout_rounded),
+            ]),
+            TableRow(children: [
               Container(
                 height: 40,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -85,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
           color: Theme.of(context).cardColor,
           onPressed: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const AccountPage()));
+                MaterialPageRoute(builder: (context) => const LoginScreen()));
           },
           child: Align(
             alignment: Alignment.centerLeft,

@@ -28,19 +28,33 @@ class _Tab2State extends State<Tab2> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            toolbarHeight: 125,
-            bottomOpacity: 0.0,
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            title: Text('Karten',
-                style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey))),
-        body: Stack(
-          children: [
+          leading: Icon(
+            Icons.credit_card,
+            size: 30,
+          ),
+          toolbarHeight: 70,
+          backgroundColor: Colors.blueGrey,
+          title: Text('Admin Login',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+          actions: [
+            Icon(Icons.account_box_rounded),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.settings),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.logout),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        body: Container(
+          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Column(children: [
             Container(
-              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   Expanded(
@@ -73,17 +87,16 @@ class _Tab2State extends State<Tab2> {
                             ));
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            Positioned(
-                top: 70,
-                left: 0,
-                right: 0,
-                bottom: 22,
-                child: Stack(children: [ListCardStorages()]))
-          ],
+            Expanded(
+              child: Container(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(children: [ListCardStorages()])),
+            )
+          ]),
         ));
   }
 }
@@ -102,6 +115,70 @@ class _ListCardStoragesState extends State<ListCardStorages> {
   void initState() {
     super.initState();
     futureData = fetchData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                return createStorage(context, data, index);
+              });
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Container(
+            child: Column(
+          children: [
+            CircularProgressIndicator(
+              backgroundColor: Colors.blueGrey,
+              valueColor: AlwaysStoppedAnimation(Colors.green),
+            )
+          ],
+        ));
+      },
+    ));
+  }
+
+  Widget createStorage(BuildContext context, List<Data>? data, int index) {
+    return InkWell(
+      child: Container(
+        height: 85,
+        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left: 0, top: 5, bottom: 5, right: 0),
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.blueGrey,
+            ),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setStateOfCardStorage(data[index].title.toString()),
+          setStateOfCardStorageIcon(data[index].title.toString()),
+          Icon(
+            Icons.credit_card,
+            size: 60,
+          )
+        ]),
+      ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StorageSettings(data[index].id),
+            ));
+      },
+    );
   }
 
   Widget setStateOfCardStorage(String storage) {
@@ -128,63 +205,6 @@ class _ListCardStoragesState extends State<ListCardStorages> {
       storageIcon = Icons.wifi_off_outlined;
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
-  }
-
-  Widget createStorage(BuildContext context, List<Data>? data, int index) {
-    return InkWell(
-      child: Container(
-        height: 70,
-        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 3,
-              color: Colors.blueGrey,
-            ),
-            borderRadius: BorderRadius.circular(15)),
-        child: Stack(children: [
-          Positioned(
-              left: 100,
-              child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
-          setStateOfCardStorage(data[index].title.toString()),
-          setStateOfCardStorageIcon(data[index].title.toString()),
-          const Positioned(
-              left: 15,
-              top: 7,
-              child: Icon(
-                Icons.storage_rounded,
-                size: 50,
-              ))
-        ]),
-      ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => StorageSettings(data[index].id),
-            ));
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
-      future: futureData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
-          return ListView.builder(
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index) {
-                return createStorage(context, data, index);
-              });
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return const CircularProgressIndicator();
-      },
-    );
   }
 }
 

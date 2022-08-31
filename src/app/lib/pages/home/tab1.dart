@@ -101,7 +101,7 @@ class _Tab1State extends State<Tab1> {
         ],
       ),
       body: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(
             children: <Widget>[ListCards(cardStorage: selectedStorage)],
           )),
@@ -148,7 +148,16 @@ class _MyAppState extends State<ListCards> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return const CircularProgressIndicator();
+        return Center(
+            child: Container(
+                child: Column(
+          children: [
+            CircularProgressIndicator(
+              backgroundColor: Colors.blueGrey,
+              valueColor: AlwaysStoppedAnimation(Colors.green),
+            )
+          ],
+        )));
       },
     ));
   }

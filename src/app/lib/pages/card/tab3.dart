@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'add_cards.dart';
 import 'alter_cards.dart';
@@ -23,26 +24,83 @@ class Tab3 extends StatefulWidget {
 }
 
 class _Tab3State extends State<Tab3> {
+  String selectedStorage = "1";
   String dropDownText = tab3DP.getDropDownText();
   var dropDownValues = tab3DP.getDropDownValues();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            toolbarHeight: 125,
-            bottomOpacity: 0.0,
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            title: Text('Karten',
-                style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey))),
-        body: Stack(
+        floatingActionButton: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 28.0),
+          backgroundColor: Colors.blueGrey,
+          visible: true,
+          curve: Curves.bounceInOut,
           children: [
+            SpeedDialChild(
+              child: Icon(Icons.storage, color: Colors.white),
+              backgroundColor: Colors.blueGrey,
+              onTap: () => setState(() {
+                selectedStorage = "1";
+              }),
+              label: '1',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.black,
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.storage, color: Colors.white),
+              backgroundColor: Colors.blueGrey,
+              onTap: () => setState(() {
+                selectedStorage = "2";
+              }),
+              label: '2',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.black,
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.storage, color: Colors.white),
+              backgroundColor: Colors.blueGrey,
+              onTap: () => setState(() {
+                selectedStorage = "3";
+              }),
+              label: '3',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.black,
+            ),
+          ],
+        ),
+        appBar: AppBar(
+          leading: Icon(
+            Icons.credit_card,
+            size: 30,
+          ),
+          toolbarHeight: 70,
+          backgroundColor: Colors.blueGrey,
+          title: Text('Admin Login',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+          actions: [
+            Icon(Icons.account_box_rounded),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.settings),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.logout),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        body: Container(
+          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Column(children: [
             Container(
-              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   Expanded(
@@ -79,39 +137,13 @@ class _Tab3State extends State<Tab3> {
                 ],
               ),
             ),
-            Positioned(
-                top: 70,
-                left: 0,
-                right: 0,
-                bottom: 50,
-                child: Stack(children: [ListCards(cardStorage: dropDownText)])),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: DropdownButton(
-                    value: dropDownText,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    iconSize: 30,
-                    underline: Container(
-                      height: 2,
-                      color: tab3CP.getStorageSelectorDividerColor(),
-                    ),
-                    items: dropDownValues.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        alignment: Alignment.center,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropDownText = newValue!;
-                      });
-                    },
-                  ),
-                ))
-          ],
+            Expanded(
+                child: Container(
+              padding: EdgeInsets.only(top: 10),
+              child: Column(
+                  children: <Widget>[ListCards(cardStorage: selectedStorage)]),
+            ))
+          ]),
         ));
   }
 }
@@ -133,7 +165,77 @@ class _ListCardsState extends State<ListCards> {
     futureData = fetchData();
   }
 
-  Widget setStateOdCardStorage(String card) {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (widget.cardStorage == data![index].userId.toString()) {
+                  return createCard(context, data, index);
+                } else if (widget.cardStorage == "All") {
+                  return createCard(context, data, index);
+                } else {
+                  return const SizedBox.shrink();
+                }
+              });
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Container(
+            child: Column(
+          children: [
+            CircularProgressIndicator(
+              backgroundColor: Colors.blueGrey,
+              valueColor: AlwaysStoppedAnimation(Colors.green),
+            )
+          ],
+        ));
+      },
+    ));
+  }
+
+  Widget createCard(BuildContext context, List<Data>? data, int index) {
+    return InkWell(
+      child: Container(
+        height: 85,
+        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left: 0, top: 5, bottom: 5, right: 0),
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.blueGrey,
+            ),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setStateOfCardStorage(data[index].title.toString()),
+          setCardStorageIcon(data[index].title.toString()),
+          Icon(
+            Icons.credit_card,
+            size: 60,
+          )
+        ]),
+      ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CardSettings(data[index].id),
+            ));
+      },
+    );
+  }
+
+  Widget setStateOfCardStorage(String card) {
     // ignore: unused_local_variable
     String cardName = card;
     Widget cardState = Text("");
@@ -157,69 +259,6 @@ class _ListCardsState extends State<ListCards> {
       cardIcon = Icons.cancel_rounded;
     }
     return Positioned(left: 100, top: 30, child: Icon(cardIcon));
-  }
-
-  Widget createCard(BuildContext context, List<Data>? data, int index) {
-    return InkWell(
-      child: Container(
-        height: 70,
-        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 3,
-              color: tab3CP.getCardContainerBorderColor(),
-            ),
-            borderRadius: BorderRadius.circular(15)),
-        child: Stack(children: [
-          Positioned(
-              left: 100,
-              child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].title.toString()),
-          setCardStorageIcon(data[index].title.toString()),
-          const Positioned(
-              left: 15,
-              top: 7,
-              child: Icon(
-                Icons.credit_card,
-                size: 50,
-              ))
-        ]),
-      ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CardSettings(data[index].id),
-            ));
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
-      future: futureData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
-          return ListView.builder(
-              itemCount: data?.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].userId.toString()) {
-                  return createCard(context, data, index);
-                } else if (widget.cardStorage == "All") {
-                  return createCard(context, data, index);
-                } else {
-                  return const SizedBox.shrink();
-                }
-              });
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return const CircularProgressIndicator();
-      },
-    );
   }
 }
 

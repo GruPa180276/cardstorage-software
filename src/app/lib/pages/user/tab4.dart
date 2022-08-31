@@ -25,23 +25,43 @@ class Tab4 extends StatefulWidget {
 }
 
 class _Tab4State extends State<Tab4> {
+  void setID(String data) {
+    setState(() {
+      id.add(data);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            toolbarHeight: 125,
-            bottomOpacity: 0.0,
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            title: Text('Karten',
-                style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey))),
-        body: Stack(
-          children: [
+          leading: Icon(
+            Icons.credit_card,
+            size: 30,
+          ),
+          toolbarHeight: 70,
+          backgroundColor: Colors.blueGrey,
+          title: Text('Admin Login',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+          actions: [
+            Icon(Icons.account_box_rounded),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.settings),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.logout),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        body: Container(
+          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Column(children: [
             Container(
-              margin: EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -86,36 +106,22 @@ class _Tab4State extends State<Tab4> {
                     backgroundColor: Colors.blueGrey,
                     onPressed: () {
                       showSearch(
-                          context: context, delegate: CustomSearchDelegate());
+                          context: context,
+                          delegate: CustomSearchDelegate(this.setID));
                     },
                   )),
                 ],
               ),
             ),
-            InputFields(),
-            Positioned(
-              top: 70,
-              left: 0,
-              right: 0,
-              bottom: 22,
-              child: ShowUsers(),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: FloatingActionButton.extended(
-                  label: Text("Clear"),
-                  icon: Icon(Icons.clear),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    id = [];
-                    setState(() {});
-                  },
-                ),
-              ),
-            ),
-          ],
+            Expanded(
+                child: Container(
+              padding: EdgeInsets.only(top: 10),
+              child: Column(children: [
+                InputFields(),
+                ShowUsers(),
+              ]),
+            ))
+          ]),
         ));
   }
 }
@@ -133,12 +139,19 @@ class _ShowUsersState extends State<ShowUsers> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    reloadCardList();
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = fetchData();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return Expanded(
+        child: FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -156,7 +169,50 @@ class _ShowUsersState extends State<ShowUsers> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return const CircularProgressIndicator();
+        return Container(
+            child: Column(
+          children: [
+            CircularProgressIndicator(
+              backgroundColor: Colors.blueGrey,
+              valueColor: AlwaysStoppedAnimation(Colors.green),
+            )
+          ],
+        ));
+      },
+    ));
+  }
+
+  Widget createStorage(BuildContext context, List<Data>? data, int index) {
+    return InkWell(
+      child: Container(
+        height: 85,
+        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left: 0, top: 5, bottom: 5, right: 0),
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.blueGrey,
+            ),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setStateOdCardStorage(data[index].title.toString()),
+          setCardStorageIcon(data[index].title.toString()),
+          Icon(
+            Icons.credit_card,
+            size: 60,
+          )
+        ]),
+      ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserSettings(data[index].title),
+            ));
       },
     );
   }
@@ -187,43 +243,6 @@ class _ShowUsersState extends State<ShowUsers> {
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
   }
-
-  Widget createStorage(BuildContext context, List<Data>? data, int index) {
-    return InkWell(
-      child: Container(
-        height: 70,
-        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 3,
-              color: Colors.blueGrey,
-            ),
-            borderRadius: BorderRadius.circular(15)),
-        child: Stack(children: [
-          Positioned(
-              left: 100,
-              child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].title.toString()),
-          setCardStorageIcon(data[index].title.toString()),
-          const Positioned(
-              left: 15,
-              top: 7,
-              child: Icon(
-                Icons.account_box_outlined,
-                size: 50,
-              ))
-        ]),
-      ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UserSettings(data[index].title),
-            ));
-      },
-    );
-  }
 }
 
 class InputFields extends StatefulWidget {
@@ -239,8 +258,14 @@ class _InputFieldsState extends State<InputFields> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    reloadCardList();
     values = [];
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = fetchData();
+    });
   }
 
   @override
@@ -255,7 +280,7 @@ class _InputFieldsState extends State<InputFields> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return const CircularProgressIndicator();
+        return SizedBox.shrink();
       },
     );
   }
@@ -269,6 +294,12 @@ class _InputFieldsState extends State<InputFields> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
+  late Function setState;
+
+  CustomSearchDelegate(Function state) {
+    setState = state;
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -316,7 +347,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id.add(matchQuery[index]);
+              setState(matchQuery[index]);
             });
       },
     );
@@ -347,7 +378,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id.add(matchQuery[index]);
+              setState(matchQuery[index]);
             });
       },
     );

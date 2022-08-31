@@ -4,6 +4,7 @@ import 'package:app/pages/home.dart';
 import 'package:app/pages/home/tab1.dart';
 import 'package:app/pages/storage/tab2.dart';
 import 'package:app/pages/card/tab3.dart';
+import 'package:app/pages/user/tab4.dart';
 import 'package:app/pages/menu.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -15,7 +16,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  final screens = [Home(), Tab1(), Tab2(), Tab3(), Menu()];
+  final screens = [Home(), Tab1(), Tab3(), Tab2(), Tab4(), Menu()];
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.query_stats),
+              label: 'State',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.credit_card),
               label: 'Cards',
             ),
@@ -48,7 +53,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             BottomNavigationBarItem(
               icon: Icon(Icons.menu),
               label: 'More',
-            )
+            ),
           ],
         ));
   }

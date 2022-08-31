@@ -134,6 +134,8 @@ Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim
 **30.8.2022: 7:20 -> 11:20** <br>
 Habe heute am Tab1 weiter gearbeitet. Dort habe ich soweit sämtliche Darstellungsfehler behoben. Danach habe ich mit Herrn Grubauer eine kurze Besprechung durchgeführt um uns gegeseitig auf den aktuellen Stand zu bringen. Weiters habe ich begonnen, den Code von Tab1 zu refactoren um die performance zu verbessern. Zum Schluss habe ich die Anwendung auf Fehler getestet.
 
+**31.8.2022: 7:15 -> xx** <br>
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

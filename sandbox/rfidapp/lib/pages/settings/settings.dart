@@ -88,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
       child: RaisedButton(
           color: Theme.of(context).cardColor,
           onPressed: () {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const LoginScreen()));
           },
           child: Align(

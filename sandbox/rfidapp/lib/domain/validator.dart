@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
+
 class Validator {
   // regular expression to check if string
 
-  double validatePassword(String pass) {
+  static double validatePassword(String pass) {
     RegExp passvalid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
     double passwordStrength = 0;
 
@@ -21,12 +23,12 @@ class Validator {
     return passwordStrength;
   }
 
-  bool validateName(String name) {
+  static bool _validateName(String name) {
     RegExp nameValid = RegExp(r"^([A-ZÖÄÜ][a-zäöüß]+)+$");
     return (nameValid.hasMatch(name));
   }
 
-  bool validateEmail(String email) {
+  static bool _validateEmail(String email) {
     RegExp emailValid = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     return emailValid.hasMatch(email);
@@ -47,7 +49,7 @@ class Validator {
   static String? funcEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Bitte gessben Sie eine Email an';
-    } else if (!Validator().validateEmail(value)) {
+    } else if (!Validator._validateEmail(value)) {
       return "Email nicht korrekt";
     }
   }
@@ -55,7 +57,7 @@ class Validator {
   static String? funcName(String? value) {
     if (value!.isEmpty) {
       return "Bitte Nachname angeben";
-    } else if (!Validator().validateName(value)) {
+    } else if (!Validator._validateName(value)) {
       return "Nachname nicht korrekt";
     }
     return null;

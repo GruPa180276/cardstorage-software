@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import 'package:rfidapp/pages/generate/Widget/pop_up/reservate_popup.dart';
 
 class Email {
   static Future sendEmail({

@@ -96,7 +96,7 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
               splashColor: Colors.black,
               onPressed: () {
                 card.isReserved = false;
-                Data.putData("cards", card.toJson());
+                Data.putData("card", card.toJson());
                 //TODO maybe change to SetState (cleaner)
                 // ignore: invalid_use_of_protected_member
                 (context as Element).reassemble();

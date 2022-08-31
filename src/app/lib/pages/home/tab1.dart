@@ -22,7 +22,7 @@ class Tab1 extends StatefulWidget {
 }
 
 class _Tab1State extends State<Tab1> {
-  String selectedStorage = "Select Storage...";
+  String selectedStorage = "1";
   String dropDownText = tab1TextProvider.getDropDownText();
   var dropDownValues = tab1TextProvider.getDropDownValues();
 
@@ -132,9 +132,6 @@ class _MyAppState extends State<ListCards> {
         child: FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
-        if (widget.cardStorage == "Select Storage...") {
-          return createWelcomePage(context);
-        }
         if (snapshot.hasData) {
           List<Data>? data = snapshot.data;
           return ListView.builder(
@@ -154,36 +151,6 @@ class _MyAppState extends State<ListCards> {
         return const CircularProgressIndicator();
       },
     ));
-  }
-
-  Widget createWelcomePage(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          border: Border.all(
-            width: 3,
-            color: Colors.blueGrey,
-          ),
-          borderRadius: BorderRadius.circular(15)),
-      child: Column(children: [
-        Text(tab1TextProvider.getWelcomePageHeadline(),
-            style: TextStyle(fontSize: 25)),
-        Divider(
-          color: Colors.blueGrey,
-          height: 10,
-          thickness: 2,
-          indent: 5,
-          endIndent: 5,
-        ),
-        Expanded(
-            child: ListView(
-          children: <Widget>[
-            Text(tab1TextProvider.getWelcomePageText(),
-                style: TextStyle(fontSize: 20))
-          ],
-        )),
-      ]),
-    );
   }
 
   Widget createCard(BuildContext context, List<Data>? data, int index) {

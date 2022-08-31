@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/pages/home.dart';
 import 'package:app/pages/home/tab1.dart';
 import 'package:app/pages/storage/tab2.dart';
 import 'package:app/pages/card/tab3.dart';
-import 'package:app/pages/user/tab4.dart';
+import 'package:app/pages/menu.dart';
 
 class BottomNavigation extends StatefulWidget {
   BottomNavigation({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  final screens = [Tab1(), Tab2(), Tab3(), Tab4()];
+  final screens = [Home(), Tab1(), Tab2(), Tab3(), Menu()];
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +38,16 @@ class _BottomNavigationState extends State<BottomNavigation> {
               label: 'Cards',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.info),
-              label: 'Reservation',
+              icon: Icon(Icons.storage),
+              label: 'Storages',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
+              icon: Icon(Icons.account_box_rounded),
+              label: 'User',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu),
+              label: 'More',
             )
           ],
         ));

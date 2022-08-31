@@ -137,6 +137,9 @@ Habe heute am Tab1 weiter gearbeitet. Dort habe ich soweit sämtliche Darstellun
 **31.8.2022: 7:15 -> 11:15** <br>
 Habe heute die Designüberarbeitung fortgesetzt. Es wurde alle Seiten bis auf die Einstellungs Seite auf das neue Design geändert. Danach habe ich noch diverse Logik Verbesserung durchgeführt und eine Lade Animation hinzugefügt. Danach habe ich einen Call mit Herrn Grubauer durchgeführt haben wo wir diverse Themen besprochen haben. Zum Schluss habe ich noch kleine Verbesserungen vorgenommen. (4h)
 
+**31.8.2022: 18:30 -> 19:30** <br>
+Habe mit Herrn Grubauer versucht Deep Links zu implementieren.
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -170,4 +173,5 @@ Habe heute die Designüberarbeitung fortgesetzt. Es wurde alle Seiten bis auf di
 - 7:20 bis 11:20 Uhr
 - 7:20 bis 11:20 Uhr
 - 7:15 bis 11:15 Uhr
+- 18:30 bis 19:30 Uhr
 <!-- { "progress": false } -->

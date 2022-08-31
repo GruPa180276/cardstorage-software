@@ -56,3 +56,4 @@
 - https://stackoverflow.com/questions/57803737/flutter-renderflex-children-have-non-zero-flex-but-incoming-height-constraints
 - https://blog.logrocket.com/creating-dropdown-list-flutter/
 - https://www.geeksforgeeks.org/fab-speed-dial-in-flutter/
+- https://stackoverflow.com/questions/70829946/three-horizontal-line-icon-and-filter-result-icons-in-flutter

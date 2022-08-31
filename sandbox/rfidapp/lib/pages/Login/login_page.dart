@@ -59,13 +59,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   inputController: emailController,
                   label: 'E-Mail',
                   iconData: Icons.email,
-                  validator: Validator.funcEmail),
+                  validator: Validator.funcEmail,
+                  obsecureText: false),
               SizedBox(height: 20),
               TextInput(
                   inputController: passwordController,
                   label: 'Password',
                   iconData: Icons.lock,
-                  validator: Validator.funcPassword),
+                  validator: Validator.funcPassword,
+                  obsecureText: true),
               buildRememberMe(this.context),
               const SizedBox(
                 height: 20,

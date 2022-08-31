@@ -175,7 +175,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => StorageSettings(data[index].id),
+              builder: (context) => StorageSettings(data[index].id - 1),
             ));
       },
     );

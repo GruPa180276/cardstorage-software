@@ -229,7 +229,7 @@ class _ListCardsState extends State<ListCards> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CardSettings(data[index].id),
+              builder: (context) => CardSettings(data[index].id - 1),
             ));
       },
     );

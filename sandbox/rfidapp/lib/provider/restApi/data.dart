@@ -15,9 +15,10 @@ class Data {
     return response;
   }
 
-  static void postData(String type, Map<String, dynamic> datas) async {
+  static void postData(
+      String type, Map<String, dynamic> datas, String adress) async {
     //TODO add try catch
-    await post(Uri.parse("http://10.0.2.2:7171/card"),
+    await post(Uri.parse(uri + type),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -26,7 +27,7 @@ class Data {
 
   static void putData(String type, Map<String, dynamic> datas) async {
     //TODO add try catch
-    await put(Uri.parse("http://10.0.2.2:7171/card"),
+    await put(Uri.parse(uri + type),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

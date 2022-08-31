@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/domain/email.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
+import 'package:rxdart/rxdart.dart';
 
 class PasswordForgetSecreen extends StatefulWidget {
   const PasswordForgetSecreen({Key? key}) : super(key: key);
@@ -49,14 +51,14 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
                 SizedBox(
                   height: 30,
                 ),
-                buildSignIn(context)
+                buildSendMail(context)
               ],
             ),
           ),
         ));
   }
 
-  Widget buildSignIn(BuildContext context) {
+  Widget buildSendMail(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       child: SizedBox(
@@ -66,8 +68,15 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
           onPressed: () {
             print(emailController.text);
             if (_formKey.currentState!.validate()) {
-              //TODO look if email is available in db
-
+              //TODO look if email is available in db and get values name...
+              final name = 'Firtz Bauer';
+              final email = emailController.text;
+              final subject = 'RfidApp Passwort zuruecksetzen';
+              final message = 'Sehr geehrter Herr ' +
+                  name +
+                  '\nSie haben angefragt Ihr Passwort zu aendern\n httpsa \n\n Beste Gruese\nIhre RfidApp Team';
+              Email.sendEmail(
+                  name: name, email: email, subject: subject, message: message);
             }
           },
           style: ButtonStyle(

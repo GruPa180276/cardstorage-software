@@ -2,6 +2,7 @@ import 'package:rfidapp/pages/Login/login_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -13,9 +14,6 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKeyPasswort = GlobalKey<FormState>();
   final _formKeyPasswortRepeat = GlobalKey<FormState>();
-  final _formKeyEmail = GlobalKey<FormState>();
-  final _formKeyLastname = GlobalKey<FormState>();
-  final _formKeyFirstname = GlobalKey<FormState>();
   Color borderColor = Colors.black;
 
   double passwordStrength = 0;
@@ -55,9 +53,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
         child: SingleChildScrollView(
           child: Column(children: <Widget>[
-            buildFirstName(this.context),
-            buildLastName(this.context),
-            buildEmail(this.context),
+            TextInput(
+              inputController: firstnameController,
+              label: 'Vorname',
+              iconData: Icons.person,
+              validator: Validator.funcName,
+              obsecureText: false,
+            ),
+            TextInput(
+              inputController: lastNameController,
+              label: 'Nachname',
+              iconData: Icons.person,
+              validator: Validator.funcName,
+              obsecureText: false,
+            ),
+            TextInput(
+              inputController: emailController,
+              label: 'E-Mail',
+              iconData: Icons.email,
+              validator: Validator.funcEmail,
+              obsecureText: false,
+            ),
             buildPassword(this.context),
             buildRepeatPassword(this.context),
             buildProgressbar(this.context),
@@ -71,83 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget buildFirstName(BuildContext context) {
-    return Form(
-      key: _formKeyFirstname,
-      child: Container(
-        padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
-        // ignore: prefer_const_constructors
-        child: TextFormField(
-          controller: firstnameController,
-          onChanged: (value) {
-            _formKeyFirstname.currentState!.validate();
-          },
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Bitte Vorname angeben";
-            } else if (!Validator().validateName(value)) {
-              return "Vorname nicht korrekt";
-            }
-            return null;
-          },
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.person),
-            labelText: 'Vorname',
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildLastName(BuildContext context) {
-    return Form(
-      key: _formKeyLastname,
-      child: Container(
-        padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
-        // ignore: prefer_const_constructors
-        child: TextFormField(
-          controller: lastNameController,
-          onChanged: (value) {
-            _formKeyLastname.currentState!.validate();
-          },
-          validator: (value) {},
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.person),
-            labelText: 'Nachname',
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildEmail(BuildContext context) {
-    return Form(
-      key: _formKeyEmail,
-      child: Container(
-        padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
-        // ignore: prefer_const_constructors
-        child: TextFormField(
-          onChanged: (value) {
-            _formKeyEmail.currentState!.validate();
-          },
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Bitte E-Mail angeben";
-            } else if (!Validator().validateEmail(value)) {
-              return "Email nicht korrekt";
-            }
-            return null;
-          },
-          controller: emailController,
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.person),
-            labelText: 'Email',
-          ),
-        ),
-      ),
-    );
-  }
-
+//TODO export password scaffold into own file
   Widget buildPassword(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
@@ -166,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onChanged: (value) {
                 _formKeyPasswort.currentState!.validate();
                 setState(() {
-                  passwordStrength = Validator().validatePassword(value);
+                  passwordStrength = Validator.validatePassword(value);
                 });
               },
               validator: (value) {

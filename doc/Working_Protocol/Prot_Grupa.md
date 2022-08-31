@@ -148,6 +148,9 @@ Heute in der frueh hatte ich ein Meeting mit Heern Zoechmann, um ueber die Konst
 
 Am Nachmittag habe beim Email Bot (Passwort reset) weitergeschrieben. Als der Bot erfolgreich die Mails and den User schicken konnte, wollte ich einen Link erstellen, der in der Mail ist um die App zu oeffen und ein neues Passwort einfuegen zu koennen. Allerdings stellte sich dies als ein Problem dar da Flutter keinen suport fuer Deeplinks aufweist. Nach sehr sehr langer Suche fand ich allerdgins ein package, welches ein einem Forum empfohlen wurde. Dezeit bin ich noch dabei dieses zu implentieren, was sich als grosse herrausforderung herrausstellt.
 
+**2022-08-31: 18:30 -> 19:30** 
+
+Am Abend versuchte dan Herr Zoechmann mir dann noch mit den deep links zu helfen. Allerdings schafften wir es zu weit auch nicht.
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -187,5 +190,6 @@ Am Nachmittag habe beim Email Bot (Passwort reset) weitergeschrieben. Als der Bo
 - 15:30 bis 18:10 Uhr
 - 10:00 bis 12:00 Uhr 
 - 13:00 bis 16:00 Uhr 
+- 18:30 bis 19:30 Uhr
 <!-- { "progress": false } -->
 

@@ -35,10 +35,12 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
                 Form(
                   key: _formKey,
                   child: TextInput(
-                      inputController: emailController,
-                      label: 'E-Mail',
-                      iconData: Icons.email,
-                      validator: Validator.funcEmail),
+                    inputController: emailController,
+                    label: 'E-Mail',
+                    iconData: Icons.email,
+                    validator: Validator.funcEmail,
+                    obsecureText: false,
+                  ),
                 ),
                 Text(
                   'Falls Sie noch keinen Account haben erstellen Sie einen',

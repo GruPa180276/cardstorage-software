@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/validator.dart';
 
 class TextInput extends StatelessWidget {
   const TextInput(
@@ -7,13 +6,16 @@ class TextInput extends StatelessWidget {
       required this.inputController,
       required this.label,
       required this.iconData,
-      required this.validator})
+      required this.validator,
+      required this.obsecureText})
       : super(key: key);
 
   final TextEditingController inputController;
   final String label;
   final IconData iconData;
   final String? Function(String?)? validator;
+  final bool obsecureText;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -23,6 +25,7 @@ class TextInput extends StatelessWidget {
           border: const UnderlineInputBorder(),
           prefixIcon: Icon(iconData),
           labelText: label),
+      obscureText: obsecureText,
       validator: validator,
     );
   }

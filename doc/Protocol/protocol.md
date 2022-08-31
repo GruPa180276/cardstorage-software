@@ -1,12 +1,12 @@
 ## Protokoll
 
-**4.7.2022: 15.00 -> 19:30** <br>
+**4.7.2022: 15:00 -> 19:30** <br>
 Generelle Recherche für Diplomarbeit. Unter anderem für mögliche Displays. Weiters wurde noch zur Programmierung der Anwendung für das Display recherchiert. 
 Besprechung mit Teamkollegen (2h 30min Teams Call). Wir haben uns drauf geeinigt, 2 verschiedene Anwendungen zu erstellen, eine Client und eine Admin Anwendung.
 Diese werden beide mit Flutter realisiert und sind sowohl am Smartphone, Browser und am Raspberry am Kartentresor verfügbar. Weiters wurden sich Gedanken über
 die Funktionen gemacht, welche implementiert werden sollen. Zu dem wurde ein weiter Teams Call durchgeführt (4h 30min)
 
-**5.7.2022: 14.45 -> 15.45** <br>
+**5.7.2022: 14:45 -> 15:45** <br>
 Teams Call mit Patrick über das Design der App. Es wurden das Design sowohl auch das Farbschema abgestimmt und es wurden sich Gedanken über das Login Layout
 gemacht (1h)
 
@@ -49,64 +49,64 @@ Namen der App geändert. Weiters habe ich damit begonnen den Drawer am Homescren
 Hab mich damit beschäftigt, einen DarkMode umzusetzten. Dies stellte sich heraus, das es nicht so einfach war, aber ich habe es mit etwas Recherche und 
 einem Youtube tutorial hinbekommen. (2h 35min)
 
-**26.7.2022: 7.40 -> 11:50** <br>
+**26.7.2022: 7:40 -> 11:50** <br>
 Habe damit begonnen den Code zu refactoren. Habe eigene Datein für Farben und Texte erstellt. Weiters habe ich mit der Umetzung von Dynamischen Titel 
 beschäftigt, habe jedoch gemerkt das das nicht so einfach möglich ist. Arbeite gerade an der Tabbar Leiste um Icons und Text anzeigen zu können, ohne das 
 ein overflow entsteht. (4h 10min)
 
-**26.7.2022: 12.35 -> 14:00** <br>
+**26.7.2022: 12:35 -> 14:00** <br>
 Habe weiter am zweiten Tab der App gearbeitet. Dieser behandelt das hinzufügen und bearbeiten von Automaten. Dazu habe ich das Layout erstellt und erste
 Funktionen implementiert. (1h 25min)
 
-**27.7.2022: 7.25 -> 12.25** <br>
+**27.7.2022: 7:25 -> 12:25** <br>
 Habe heute an der Add Storage Seite gearbeitet. Dazu habe ich die funktionalität und das Design dafür implementiert. Weiters tratten technische problemen auf,
 der Android Emulator wollte nicht mehr starten, funktioniert jetzt aber wieder. Weiters habe ich das Git Repo etwas erweitert, die readmes mit text befüllt.
 Danach habe ich mich noch damit beschäftigt, das die App im Querformat funktioniert, das klappt auch alles einwandfrei. (5h)
 
-**28.7.2022: 7.25 -> 12.25** <br>
+**28.7.2022: 7:25 -> 12:25** <br>
 Habe an der Card Storage Settings Seite gearbeitet. Die Seite ist soweit fertig. Das komplette Layout inklusive funktionalität wurden hinzugefügt. 
 Weiters wurden auch die nötigen Vorkehrungen für die API getroffen, das funktioniert soweit auch. Weiters habe ich noch die Add Card Storage Seite bearbeite. 
 Dort habe ich auch alles auf die API umgestellt. Habe danach noch etwas Refactoring betrieben. Für jeden eine einzelne Text und Farb Datei erstellt. 
 Weiters habe ich mich noch mit der nativen Ausführung der App unter Windows beschäftigt (Nur weil es mich interessiert) [hier](https://medium.com/flutter-community/flutter-for-desktop-create-and-run-a-desktop-application-ebeb1604f1e0). (5h)
 
-**31.7.2022: 8.15 -> 11.30** <br>
+**31.7.2022: 8:15 -> 11:30** <br>
 Habe an Tab3 weitergearbeitet. Dort habe ich das komplette layout zum Karten erstellen und bearbeiten hizugefügt. Es wurde auch die komplette Logik 
 implmentiert. Weiters habe ich mir Gedanken über Änderungen an der App gemacht. Danach habe ich noch kleine Änderungen vorgenommen und etwas getestet. (3h 15min)
 
 
-**1.8.2022: 7.15 -> 11:30** <br>
+**1.8.2022: 7:15 -> 11:30** <br>
 Habe heute an dem User hinzufügen gearbeitet. Dazu habe ich einen Teil des Layout und die meisten der Funktion implementiert. Ich habe ein Suchfeld erstellt,
 mit dem man sich alle Benutzer anzeigen lassen kann. Es fehlen noch das Design. (4h 15min)
 
 
-**8.8.2022: 7.10 -> 10.10** <br>
+**8.8.2022: 7:10 -> 10:10** <br>
 Habe am User Login weitergearbeitet. Habe die Such Funktion fertig implementiert. Es ist jetzt möglich Benutzer auszuwählen. Diese werden dann in einer Liste
 angezeigt. Ein Problem besteht weiterhin. Ich habe keine Lösung gefunden wie man eine Seite neuladen kann, deshalb werden die Werte nicht direkt angezeigt. 
 Man muss zuerst auf eine andere Seite wechseln, damit diese angeziegt werden. (3h)
 
-**9.8.2022: 7.05 -> 10.05** <br>
+**9.8.2022: 7:05 -> 10:05** <br>
 Habe damit begonnen, ein GitHub project zu erstellen. Dieses habe ich dann auch mit Inhalt befüllt. Danach habe ich mich mit der Rechte Seite beschäftigt. 
 Dazu habe ich begonnen die GUI zu erstellen und die Logik zu implementieren. Aktuell funktioniert es nocht nicht gnaz so wie ich will. (3h)
 
 
-**10.8.2022: 6.50 -> 9.50** <br>
+**10.8.2022: 6:50 -> 9:50** <br>
 Habe an der Rights Page weiter gearbeitet. Jetzt werden die Werte in der Auswahlbox richtig dargestellt und die ausgewählten Rechte auch angezeigt. 
 Das Reload Problem besteht weiterhin. Habe es versuch mit setState() und dem ValueableListener zu lösen, habe es aber auch nicht hinbekommen. (3h)
 
 
-**15.8.2022: 7.25 -> 10.25** <br>
+**15.8.2022: 7:25 -> 10:25** <br>
 Habe an der Rechte Seite weiter gearbeitet. Es funktioniert jetzt soweit alles. Der Issue wurde durch ein Refresh Button "gelöst". Weiters habe ich am 
 Projects Board einen weiteren Eintrag hinzugefügt. Es sollte an jeder Seite die Möglichkeit bestehen, das die ausgewählten Benutzer auch wieder entfernt 
 werden können. (3h)
 
-**16.8.2022: 7.40 -> 11.40** <br>
+**16.8.2022: 7:40 -> 11:40** <br>
 Habe heute kleine Verbesserungen an der App vorgenommen. Habe mit Herrn Grubauer ein Meeting abgehalten. Wir haben uns über Diverse Dinge abgestimmt. 
 Danach habe wir noch die Branch Struktur auf GitHub angepasst. Weiters haben wir noch Diverse Lokale Änderungen bei Herrn Grubauer vorgenommen. 
 Danach habe ich die App noch etwas getestet. Zum Schluss habe ich noch die Settings Page mit Inhalt befüllt, dazu habe ich den Darkmode Button verschoben. 
 Weiters habe ich noch die App Info Seite mit etwas Text befüllt. Danach habe ich noch diverse typos in meine Protokollen behoben und zu jedem Tag die Studen 
 anzahl hinzugefügt. (4h)
 
-**17.8.2022: 8.00 -> 11:10** <br>
+**17.8.2022: 8:00 -> 11:10** <br>
 Habe heute an der User Page gearbeitet. Dort habe ich das Design überarbeitet. Danach habe ich ein Meeting mit Herrn Grubauer abgehalten, wo wir klärten, 
 welche Anforderungen wir an die API haben. (3h 10min)
 
@@ -119,7 +119,7 @@ die Implementation der API, die noch nicht vorhanden ist. Zukünftige Änderunge
 Habe heute die Remove Seite auf allen Tabs hinzugefügt. Dies funktioniert auch bereits. Danach habe ich noch einen Logout Button hinzugefügt. Weiters wurde 
 ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und Ordner Struktur abgestimmt haben. Danach habe ich noch die Regex angepasst. (4h 10min)
 
-**24.8.2022: 14.00 -> 15:00** <br>
+**24.8.2022: 14:00 -> 15:00** <br>
 Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir die Protokolle meiner Teammitglieder angeschaut, um über den aktuellen Stand bescheidzuwissen. Danach habe ich alle Protokoll files zusammengemerged. (1h)
 
 **25.8.2022: 7:25 -> 11:30** <br>
@@ -132,9 +132,10 @@ Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit 
 Habe heute die App fertig refactored. Danach habe ich mich mit den warnings beim starten der App befasst. Die warnings kamen daher, da seit flutter 3.0.0 sich intern bei Flutter etwas verändert hat, was die warnings auslöst. Die warnings kommen aus der Chart libary, da dort an gewissen stellen ein !(nullable) steht. Dies wird nicht mehr benötigt, deshalb entstehen diese warnings. Wenn man die Rufzeichen entfernt, sind die Fehler weg. Danach ich damit begonnen, das Design komplett zu überarbeiten (4h)
 
 **30.8.2022: 7:20 -> 11:20** <br>
-Habe heute am Tab1 weiter gearbeitet. Dort habe ich soweit sämtliche Darstellungsfehler behoben. Danach habe ich mit Herrn Grubauer eine kurze Besprechung durchgeführt um uns gegeseitig auf den aktuellen Stand zu bringen. Weiters habe ich begonnen, den Code von Tab1 zu refactoren um die performance zu verbessern. Zum Schluss habe ich die Anwendung auf Fehler getestet.
+Habe heute am Tab1 weiter gearbeitet. Dort habe ich soweit sämtliche Darstellungsfehler behoben. Danach habe ich mit Herrn Grubauer eine kurze Besprechung durchgeführt um uns gegeseitig auf den aktuellen Stand zu bringen. Weiters habe ich begonnen, den Code von Tab1 zu refactoren um die performance zu verbessern. Zum Schluss habe ich die Anwendung auf Fehler getestet. (4h)
 
-**31.8.2022: 7:15 -> xx** <br>
+**31.8.2022: 7:15 -> 11:15** <br>
+Habe heute die Designüberarbeitung fortgesetzt. Es wurde alle Seiten bis auf die Einstellungs Seite auf das neue Design geändert. Danach habe ich noch diverse Logik Verbesserung durchgeführt und eine Lade Animation hinzugefügt. Danach habe ich einen Call mit Herrn Grubauer durchgeführt haben wo wir diverse Themen besprochen haben. Zum Schluss habe ich noch kleine Verbesserungen vorgenommen. (4h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -168,4 +169,5 @@ Habe heute am Tab1 weiter gearbeitet. Dort habe ich soweit sämtliche Darstellun
 - 7:15 bis 11:15 Uhr
 - 7:20 bis 11:20 Uhr
 - 7:20 bis 11:20 Uhr
+- 7:15 bis 11:15 Uhr
 <!-- { "progress": false } -->

@@ -57,3 +57,5 @@
 - https://blog.logrocket.com/creating-dropdown-list-flutter/
 - https://www.geeksforgeeks.org/fab-speed-dial-in-flutter/
 - https://stackoverflow.com/questions/70829946/three-horizontal-line-icon-and-filter-result-icons-in-flutter
+- https://stackoverflow.com/questions/66835173/how-to-change-background-color-of-elevated-button-in-flutter-from-function
+- https://stackoverflow.com/questions/56411599/flutter-textformfield-change-labelcolor-on-focus

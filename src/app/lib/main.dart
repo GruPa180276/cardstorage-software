@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'dart:async';
 
 import 'package:app/pages/navigation/bottom_navigation.dart';
 import 'package:app/pages/app_preference.dart';
+import 'package:app/provider/themes.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,11 +28,20 @@ class AppStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Splash Screen',
-      home: const SplashScreen(),
-      debugShowCheckedModeBanner: false,
-    );
+    return ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+
+          return MaterialApp(
+            title: 'Splash Screen',
+            themeMode: themeProvider.themeMode,
+            theme: MyThemes.lightTheme,
+            darkTheme: MyThemes.darkTheme,
+            debugShowCheckedModeBanner: false,
+            home: const SplashScreen(),
+          );
+        });
   }
 }
 

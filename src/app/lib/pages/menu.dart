@@ -47,30 +47,18 @@ class _SettingsPageState extends State<Menu> {
         ],
       ),
       body: Container(
-        height: 40,
-        padding: const EdgeInsets.all(10),
-        color: Theme.of(context).cardColor,
-        child: Row(
-          children: [
-            Icon(Icons.mode),
-            SizedBox(
-              width: 10,
-            ),
-            Text('Dark-Mode',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400)),
-            Align(
-                alignment: Alignment.centerRight,
-                child: buildChangeThemeMode(context)),
-          ],
-        ),
-      ),
+          child: Column(
+        children: [buildChangeThemeMode(context)],
+      )),
     );
   }
 
   Widget buildChangeThemeMode(BuildContext context) {
-    return Switch(
+    return SwitchListTile(
         activeColor: Theme.of(context).secondaryHeaderColor,
         value: isDark,
+        controlAffinity: ListTileControlAffinity.trailing,
+        title: Text("Switch Theme Mode"),
         onChanged: (value) async {
           await AppPreferences.setIsOn(value);
           final provider = Provider.of<ThemeProvider>(context, listen: false);

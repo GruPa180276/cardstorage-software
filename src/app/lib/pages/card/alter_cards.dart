@@ -31,16 +31,17 @@ class _CardSettingsState extends State<CardSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(tab3ASDP.getAppBarTitle()),
-          backgroundColor: tab3ASCP.getAppBarColor(),
-          actions: []),
-      body: Container(
-          padding: EdgeInsets.only(top: 10),
-          child: Column(
-            children: [InputFields()],
-          )),
-    );
+        appBar: AppBar(
+            title: Text(tab3ASDP.getAppBarTitle()),
+            backgroundColor: tab3ASCP.getAppBarColor(),
+            actions: []),
+        body: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.only(top: 10),
+              child: Column(
+                children: [InputFields()],
+              )),
+        ));
   }
 }
 

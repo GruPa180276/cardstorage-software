@@ -30,16 +30,17 @@ class _UserSettingsState extends State<UserSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(tab4ASDP.getAppBarTitle()),
-          backgroundColor: tab4ASCP.getAppBarColor(),
-          actions: []),
-      body: Container(
-          padding: EdgeInsets.only(top: 10),
-          child: Column(
-            children: [InputFields()],
-          )),
-    );
+        appBar: AppBar(
+            title: Text(tab4ASDP.getAppBarTitle()),
+            backgroundColor: tab4ASCP.getAppBarColor(),
+            actions: []),
+        body: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.only(top: 10),
+              child: Column(
+                children: [InputFields()],
+              )),
+        ));
   }
 }
 

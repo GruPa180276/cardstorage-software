@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:app/config/palette.dart';
+import 'package:app/pages/app_preference.dart';
+
+class ThemeProvider extends ChangeNotifier {
+  ThemeMode themeMode =
+      AppPreferences.getIsOn() ? ThemeMode.dark : ThemeMode.light;
+
+  bool get isDarkMode => themeMode == ThemeMode.dark;
+
+  void toggleTheme(bool isOn) {
+    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+  }
+}
+
+class MyThemes {
+  static get darkTheme => ThemeData(
+        fontFamily: 'Kanit',
+        scaffoldBackgroundColor: Colors.black,
+        colorScheme:
+            const ColorScheme.dark().copyWith(primary: ColorSelect.blueAccent),
+        primaryColor: Colors.white,
+        secondaryHeaderColor: ColorSelect.blueAccent,
+
+        //new
+        dividerColor: ColorSelect.darkBorder,
+        cardColor: ColorSelect.darkCardColor,
+      );
+
+  static get lightTheme => ThemeData(
+        fontFamily: 'Kanit',
+        scaffoldBackgroundColor: ColorSelect.lightBgColor,
+        colorScheme:
+            const ColorScheme.light().copyWith(primary: ColorSelect.blueAccent),
+        primaryColor: Colors.black,
+        secondaryHeaderColor: ColorSelect.blueAccent,
+        //new
+        dividerColor: ColorSelect.lightBorder,
+        cardColor: ColorSelect.lightCardColor,
+      );
+}

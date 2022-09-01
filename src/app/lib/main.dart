@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:app/pages/navigation/bottom_navigation.dart';
+import 'package:app/pages/app_preference.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppPreferences.init();
+
   runApp(const AppStart());
 }
 

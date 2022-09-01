@@ -25,16 +25,15 @@ class _AddUserState extends State<AddUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(tab4ASDP.getAppBarTitle()),
-            backgroundColor: tab4ASCP.getAppBarColor(),
-            actions: []),
-        body: SingleChildScrollView(
-          child: Container(
-              child: Column(
-            children: [InputFields()],
-          )),
-        ));
+      appBar: AppBar(
+          title: Text(tab4ASDP.getAppBarTitle()),
+          backgroundColor: tab4ASCP.getAppBarColor(),
+          actions: []),
+      body: Container(
+          child: Column(
+        children: [InputFields()],
+      )),
+    );
   }
 }
 
@@ -58,8 +57,14 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-              labelText: tab4ASDP.getFirstNameFieldName(),
-            ),
+                labelText: tab4ASDP.getFirstNameFieldName(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             onChanged: (value) => tab4SSVP.setFirstName(value),
           ),
         ),
@@ -71,8 +76,14 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-              labelText: tab4ASDP.getLastNameFieldName(),
-            ),
+                labelText: tab4ASDP.getLastNameFieldName(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             onChanged: (value) => tab4SSVP.setLastName(value),
           ),
         ),
@@ -84,8 +95,14 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z0-9\-\_\@\.\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-              labelText: tab4ASDP.getMailFieldName(),
-            ),
+                labelText: tab4ASDP.getMailFieldName(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab4SSVP.setUserMail(value),
           ),
@@ -97,8 +114,14 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([0-9\- ])'))
             ],
             decoration: InputDecoration(
-              labelText: tab4ASDP.getPhoneFieldName(),
-            ),
+                labelText: tab4ASDP.getPhoneFieldName(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab4SSVP.setPhoneNumber(value),
           ),
@@ -122,6 +145,7 @@ class _InputFieldsState extends State<InputFields> {
                       },
                       child: Text(tab4ASDP.getButtonName()),
                       style: ElevatedButton.styleFrom(
+                        primary: Colors.blueGrey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),

@@ -36,7 +36,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.query_stats),
-              label: 'State',
+              label: 'Stats',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.credit_card),
@@ -48,7 +48,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_box_rounded),
-              label: 'User',
+              label: 'Users',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu),

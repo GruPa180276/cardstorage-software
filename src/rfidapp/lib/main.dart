@@ -3,13 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
-import 'package:rfidapp/pages/Login/login_page.dart';
-import 'package:rfidapp/pages/Login/Utils/app_preference.dart';
+import 'package:rfidapp/pages/login/utils/app_preference.dart';
+import 'package:rfidapp/pages/login/login_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
-  final rememberState = await UserSecureStorage.getRememberState() ?? '';
+  await UserSecureStorage.setRememberState('true');
+  final rememberState = await UserSecureStorage.getRememberState() ?? 'false';
 
   // await SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,

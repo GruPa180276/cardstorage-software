@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/email.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class PasswordForgetSecreen extends StatefulWidget {
   const PasswordForgetSecreen({Key? key}) : super(key: key);
@@ -12,7 +11,7 @@ class PasswordForgetSecreen extends StatefulWidget {
 }
 
 class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
-  TextEditingController emailController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -31,29 +30,27 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          child: Container(
-            child: Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: TextInput(
-                    inputController: emailController,
-                    label: 'E-Mail',
-                    iconData: Icons.email,
-                    validator: Validator.funcEmail,
-                    obsecureText: false,
-                  ),
+          child: Column(
+            children: [
+              Form(
+                key: _formKey,
+                child: TextInput(
+                  inputController: emailController,
+                  label: 'E-Mail',
+                  iconData: Icons.email,
+                  validator: Validator.funcEmail,
+                  obsecureText: false,
                 ),
-                Text(
-                  'Falls Sie noch keinen Account haben erstellen Sie einen',
-                  style: TextStyle(color: Theme.of(context).dividerColor),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                buildSendMail(context)
-              ],
-            ),
+              ),
+              Text(
+                'Falls Sie noch keinen Account haben erstellen Sie einen',
+                style: TextStyle(color: Theme.of(context).dividerColor),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              buildSendMail(context)
+            ],
           ),
         ));
   }
@@ -66,15 +63,13 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
         height: 60,
         child: ElevatedButton(
           onPressed: () {
-            print(emailController.text);
             if (_formKey.currentState!.validate()) {
               //TODO look if email is available in db and get values name...
-              final name = 'Firtz Bauer';
+              const name = 'Firtz Bauer';
               final email = emailController.text;
-              final subject = 'RfidApp Passwort zuruecksetzen';
-              final message = 'Sehr geehrter Herr ' +
-                  name +
-                  '\nSie haben angefragt Ihr Passwort zu aendern\n httpsa \n\n Beste Gruese\nIhre RfidApp Team';
+              const subject = 'RfidApp Passwort zuruecksetzen';
+              const message =
+                  'Sehr geehrter Herr $name\nSie haben angefragt Ihr Passwort zu aendern\n httpsa \n\n Beste Gruese\nIhre RfidApp Team';
               Email.sendEmail(
                   name: name, email: email, subject: subject, message: message);
             }

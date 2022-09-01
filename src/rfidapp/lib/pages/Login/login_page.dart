@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
-import 'package:rfidapp/domain/email.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/Login/password_forget_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
-import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
+import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -54,14 +53,14 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               buildGreeting(this.context),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextInput(
                   inputController: emailController,
                   label: 'E-Mail',
                   iconData: Icons.email,
                   validator: Validator.funcEmail,
                   obsecureText: false),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextInput(
                   inputController: passwordController,
                   label: 'Password',

@@ -8,13 +8,13 @@ class Email {
     required String subject,
     required String message,
   }) async {
-    final serviceId = 'service_8undalr';
-    final templateId = 'template_vplro6e';
-    final userId = 'mNY4n19_gHAKfcCHy';
+    const serviceId = 'service_8undalr';
+    const templateId = 'template_vplro6e';
+    const userId = 'mNY4n19_gHAKfcCHy';
 
     //TODO use data package
     final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-    final response = await http.post(url,
+    await http.post(url,
         headers: {
           'origin': 'http://localhost',
           'Content-Type': 'application/json',
@@ -30,6 +30,5 @@ class Email {
             'user_message': message
           }
         }));
-    print(response.body);
   }
 }

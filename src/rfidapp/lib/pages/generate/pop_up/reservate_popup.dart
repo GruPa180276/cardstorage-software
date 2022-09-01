@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/local_notification_service.dart';
+import 'package:rfidapp/domain/local_notification.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/Widget/date_picker.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
@@ -130,7 +130,7 @@ Widget buildReservateNow(BuildContext context, Cards card) {
             bisTextEdidtingcontroller.clear();
             await service!.showScheduledNotification(
                 id: card.id,
-                title: 'Karte abholen' + card.id.toString(),
+                title: 'Karte abholen${card.id}',
                 body: 'Bitte holen Sie sich Ihre Karte ab',
                 dateTime:
                     DateTime.fromMillisecondsSinceEpoch(card.reservedSince!));
@@ -153,7 +153,5 @@ void listenToNotification() =>
     service!.onNotificationClick.stream.listen(onNoticationListener);
 
 void onNoticationListener(String? payload) {
-  if (payload != null && payload.isNotEmpty) {
-    print('payload $payload');
-  }
+  if (payload != null && payload.isNotEmpty) {}
 }

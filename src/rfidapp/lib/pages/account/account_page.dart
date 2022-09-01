@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
+import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -11,9 +13,12 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   TextEditingController emailController = TextEditingController()
     ..text = 'Get data';
-  TextEditingController firstName = TextEditingController()..text = 'Get data';
-  TextEditingController lastName = TextEditingController()..text = 'Get data';
-  TextEditingController birthDate = TextEditingController()..text = 'Get data';
+  TextEditingController firstNameController = TextEditingController()
+    ..text = 'Get data';
+  TextEditingController lastNameController = TextEditingController()
+    ..text = 'Get data';
+  TextEditingController birthDateController = TextEditingController()
+    ..text = 'Get data';
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class _AccountPageState extends State<AccountPage> {
 
         //drawer: const MenuNavigationDrawer(),
         appBar: AppBar(
-          toolbarHeight: 125,
+          toolbarHeight: 100,
           bottomOpacity: 0.0,
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -34,68 +39,74 @@ class _AccountPageState extends State<AccountPage> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Column(
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: ColorSelect.greyBorderColor,
-                    child: const Icon(
-                      Icons.account_box,
-                      size: 70,
-                      color: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: ColorSelect.greyBorderColor,
+                      child: const Icon(
+                        Icons.account_box,
+                        size: 70,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                buildTexfield(
-                    context,
-                    "Vorname",
-                    firstName,
-                    const Icon(
-                      Icons.person,
-                      size: 27,
-                    )),
-                buildTexfield(context, "Nachname", lastName,
-                    const Icon(Icons.person, size: 27)),
-                buildTexfield(context, "E-Mail", emailController,
-                    const Icon(Icons.email, size: 27)),
-                const SizedBox(height: 35),
-                SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: buildButton('Passwort aendern')),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                        child: SizedBox(
-                            height: 50, child: buildButton('Abbrechen'))),
-                    const SizedBox(width: 20),
-                    Expanded(
-                        child: SizedBox(
-                            height: 50, child: buildButton('Speichern')))
-                  ],
-                )
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextInput(
+                      iconData: Icons.person,
+                      inputController: firstNameController,
+                      label: 'Vorname',
+                      obsecureText: false,
+                      validator: Validator.funcName),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextInput(
+                      iconData: Icons.person,
+                      inputController: lastNameController,
+                      label: 'Nachname',
+                      obsecureText: false,
+                      validator: Validator.funcName),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextInput(
+                      iconData: Icons.email,
+                      inputController: emailController,
+                      label: 'E-Mail',
+                      obsecureText: false,
+                      validator: Validator.funcEmail),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(height: 35),
+                  SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: buildButton('Passwort aendern')),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: SizedBox(
+                              height: 50, child: buildButton('Abbrechen'))),
+                      const SizedBox(width: 20),
+                      Expanded(
+                          child: SizedBox(
+                              height: 50, child: buildButton('Speichern')))
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ));
-  }
-
-  Widget buildTexfield(BuildContext context, String text,
-      TextEditingController editingController, Icon icon) {
-    return Container(
-      padding: const EdgeInsets.only(top: 35, left: 0, right: 0),
-      child: TextField(
-        controller: editingController,
-        decoration: InputDecoration(
-          //hintText: "Get User Data",
-          labelText: text,
-          prefixIcon: icon,
-        ),
-      ),
-    );
   }
 
   Widget buildButton(String text) {
@@ -117,7 +128,7 @@ class _AccountPageState extends State<AccountPage> {
           backgroundColor: MaterialStateProperty.all(colorbg),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
+                  borderRadius: BorderRadius.circular(100.0),
                   side: BorderSide(color: colorBorder, width: 2.2)))),
       child: Text(
         text,

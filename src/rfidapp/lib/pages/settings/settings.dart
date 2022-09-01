@@ -39,13 +39,23 @@ class _SettingsPageState extends State<SettingsPage> {
           border: TableBorder.all(color: Theme.of(context).dividerColor),
           children: [
             TableRow(children: [
-              buildSettingsButton("Account", Icons.person),
+              buildSettingsButton("Account", Icons.person, () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AccountPage()));
+              }),
             ]),
             TableRow(children: [
-              buildSettingsButton("Benachrichtigungen", Icons.notifications),
+              buildSettingsButton("Benachrichtigungen", Icons.notifications,
+                  () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const LoginScreen()));
+              }),
             ]),
             TableRow(children: [
-              buildSettingsButton("Log-Out", Icons.logout_rounded),
+              buildSettingsButton("Log-Out", Icons.logout_rounded, () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const LoginScreen()));
+              }),
             ]),
             TableRow(children: [
               Container(
@@ -77,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ));
   }
 
-  Widget buildSettingsButton(String text, IconData icon) {
+  Widget buildSettingsButton(String text, IconData icon, Function function) {
     return ButtonTheme(
       padding: const EdgeInsets.symmetric(
           vertical: 7.0, horizontal: 8.0), //adds padding inside the button
@@ -87,10 +97,7 @@ class _SettingsPageState extends State<SettingsPage> {
       height: 0, //wraps child's height
       child: RaisedButton(
           color: Theme.of(context).cardColor,
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginScreen()));
-          },
+          onPressed: () => function(),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Row(

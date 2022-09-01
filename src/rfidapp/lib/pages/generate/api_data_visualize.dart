@@ -15,6 +15,7 @@ class ApiVisualizer extends StatefulWidget {
 }
 
 class _ApiVisualizerState extends State<ApiVisualizer> {
+  //TODO change for Ben as its hardcoded Cards text
   _ApiVisualizerState({required this.site});
   Future<List<Cards>>? listOfTypes;
   String searchString = "";
@@ -37,66 +38,64 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          toolbarHeight: 100,
-          bottomOpacity: 0.0,
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          title: Text('Karten',
-              style: TextStyle(
-                  fontSize: 42,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor))),
-      body: Column(
-        children: [
-          TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: 'Search Card',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide:
-                          BorderSide(color: Theme.of(context).dividerColor))),
-              onChanged: ((value) {
-                setState(() {
-                  searchString = value;
-                });
-              })),
-          SizedBox(height: 10),
-          FutureBuilder<List<Cards>>(
-            future: listOfTypes,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasData) {
-                final users = snapshot.data!;
+        appBar: AppBar(
+            toolbarHeight: 100,
+            bottomOpacity: 0.0,
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            title: Text('Karten',
+                style: TextStyle(
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor))),
+        body: Column(
+          children: [
+            TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    hintText: 'Search Card',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).dividerColor))),
+                onChanged: ((value) {
+                  setState(() {
+                    searchString = value;
+                  });
+                })),
+            SizedBox(height: 10),
+            FutureBuilder<List<Cards>>(
+              future: listOfTypes,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasData) {
+                  final users = snapshot.data!;
 
-                switch (site) {
-                  case "Reservierungen":
-                    return cardsView(
-                        users, context, 'reservation', searchString);
-                  case "Karten":
-                    return cardsView(users, context, 'cards', searchString);
+                  switch (site) {
+                    case "Reservierungen":
+                      return cardsView(
+                          users, context, 'reservation', searchString);
+                    case "Karten":
+                      return cardsView(users, context, 'cards', searchString);
+                  }
+                  return const Text('Error Type not valid');
+                } else {
+                  return Text("${snapshot.error}");
                 }
-                return const Text('Error Type not valid');
-              } else {
-                return Text("${snapshot.error}");
-              }
-            },
+              },
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+          child: const Icon(
+            Icons.replay,
+            color: Colors.white,
           ),
-        ],
-      ),
-    );
-    floatingActionButton:
-    FloatingActionButton(
-      backgroundColor: Theme.of(context).secondaryHeaderColor,
-      child: const Icon(
-        Icons.replay,
-        color: Colors.white,
-      ),
-      onPressed: () => {reloadCardList()},
-    );
+          onPressed: () => {reloadCardList()},
+        ));
   }
 }
 

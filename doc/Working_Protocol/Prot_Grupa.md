@@ -152,6 +152,10 @@ Am Nachmittag habe beim Email Bot (Passwort reset) weitergeschrieben. Als der Bo
 
 Am Abend versuchte dan Herr Zoechmann mir dann noch mit den deep links zu helfen. Allerdings schafften wir es zu weit auch nicht.
 
+**2022-09-01: 9:30 -> 11:35** 
+
+Am Vormittag habe ich die Suchleiste bei den Karten eingefuegt. Beim Einbauen ist mir aufgefallen, dass ich bei der Struktur etwas vereinfachen kann. Nachdem ich es vereinfacht habe wurde die Suchleist hinzugefuegt und getestet. Danach wurde noch etwas bei der AccountSeite umgeaendert um sie performanter zu machen
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -191,5 +195,6 @@ Am Abend versuchte dan Herr Zoechmann mir dann noch mit den deep links zu helfen
 - 10:00 bis 12:00 Uhr 
 - 13:00 bis 16:00 Uhr 
 - 18:30 bis 19:30 Uhr
+- 9:30 bis 11:35 Uhr
 <!-- { "progress": false } -->
 

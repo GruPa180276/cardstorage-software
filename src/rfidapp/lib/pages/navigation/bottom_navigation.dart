@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/Home/home_page.dart';
-import 'package:rfidapp/pages/Login/login_page.dart';
-import 'package:rfidapp/pages/account/account_page.dart';
+import 'package:rfidapp/pages/home/home_page.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/reservate/reservate_page.dart';
 import 'package:rfidapp/pages/settings/settings.dart';

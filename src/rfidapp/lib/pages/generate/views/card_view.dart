@@ -1,10 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/generate/Widget/reservate_button.dart';
+import 'package:rfidapp/pages/generate/widget/reservate_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
-import 'package:rfidapp/pages/generate/widget/pop_up/reservate_popup.dart';
+import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
         String searchstring) =>

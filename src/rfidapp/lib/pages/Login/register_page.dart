@@ -1,8 +1,6 @@
-import 'package:rfidapp/pages/Login/login_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
+import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);

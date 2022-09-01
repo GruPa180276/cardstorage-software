@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
-import 'package:rfidapp/pages/generate/Widget/views/card_view.dart';
+import 'package:rfidapp/pages/generate/views/card_view.dart';
 
 class ApiVisualizer extends StatefulWidget {
   String site;
@@ -64,7 +64,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     searchString = value;
                   });
                 })),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             FutureBuilder<List<Cards>>(
               future: listOfTypes,
               builder: (context, snapshot) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/local_notification_service.dart';
+import 'package:rfidapp/domain/local_notification.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -94,9 +94,7 @@ class _HomePageState extends State<HomePage> {
       service.onNotificationClick.stream.listen(onNoticationListener);
 
   void onNoticationListener(String? payload) {
-    if (payload != null && payload.isNotEmpty) {
-      print('payload $payload');
-    }
+    if (payload != null && payload.isNotEmpty) {}
   }
 }
 

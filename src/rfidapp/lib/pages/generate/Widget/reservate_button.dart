@@ -1,9 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/generate/widget/pop_up/reservate_popup.dart';
+import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 Widget buildReservateButton(BuildContext context, String text, Cards cards) {

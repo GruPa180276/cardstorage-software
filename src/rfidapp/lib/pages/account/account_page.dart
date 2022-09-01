@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/generate/Widget/textInputField.dart';
+import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);

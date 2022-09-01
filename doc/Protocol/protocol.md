@@ -140,7 +140,8 @@ Habe heute die Designüberarbeitung fortgesetzt. Es wurde alle Seiten bis auf di
 **31.8.2022: 18:30 -> 19:30** <br>
 Habe mit Herrn Grubauer versucht Deep Links zu implementieren.
 
-**1.9.2022: 8:00 -> xx** <br>
+**1.9.2022: 8:00 -> 12:00** <br>
+Habe heute das Design fertig überarbeitet und einem Themes Switcher implementiert. Der Code muss jetzt noch in mehrere Datein ausgelagert werden und doppelter Code gelöscht werden. (4h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -176,4 +177,5 @@ Habe mit Herrn Grubauer versucht Deep Links zu implementieren.
 - 7:20 bis 11:20 Uhr
 - 7:15 bis 11:15 Uhr
 - 18:30 bis 19:30 Uhr
+- 8:00 bis 12:00 Uhr
 <!-- { "progress": false } -->

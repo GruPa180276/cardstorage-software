@@ -140,6 +140,8 @@ Habe heute die Designüberarbeitung fortgesetzt. Es wurde alle Seiten bis auf di
 **31.8.2022: 18:30 -> 19:30** <br>
 Habe mit Herrn Grubauer versucht Deep Links zu implementieren.
 
+**1.9.2022: 8:00 -> xx** <br>
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

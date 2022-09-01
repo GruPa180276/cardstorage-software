@@ -26,16 +26,15 @@ class _AddCardsState extends State<AddCards> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(tab3ASDP.getAppBarTitle()),
-            backgroundColor: tab3ASCP.getAppBarColor(),
-            actions: []),
-        body: SingleChildScrollView(
-          child: Container(
-              child: Column(
-            children: [InputFields()],
-          )),
-        ));
+      appBar: AppBar(
+          title: Text(tab3ASDP.getAppBarTitle()),
+          backgroundColor: tab3ASCP.getAppBarColor(),
+          actions: []),
+      body: Container(
+          child: Column(
+        children: [InputFields()],
+      )),
+    );
   }
 }
 
@@ -59,8 +58,14 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-              labelText: tab3ASDP.getNameFieldName(),
-            ),
+                labelText: tab3ASDP.getNameFieldName(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             onChanged: (value) => tab3SSVP.setName(value),
           ),
         ),
@@ -72,8 +77,14 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-              labelText: tab3ASDP.getCardStorageFieldName(),
-            ),
+                labelText: tab3ASDP.getCardStorageFieldName(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab3SSVP.setCardStorage(value),
           ),
@@ -95,6 +106,7 @@ class _InputFieldsState extends State<InputFields> {
                   },
                   child: Text(tab3ASDP.getHardwareIDofCardFieldName()),
                   style: ElevatedButton.styleFrom(
+                    primary: Colors.blueGrey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -121,6 +133,7 @@ class _InputFieldsState extends State<InputFields> {
                       },
                       child: Text(tab3ASDP.getButtonName()),
                       style: ElevatedButton.styleFrom(
+                        primary: Colors.blueGrey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -161,6 +174,7 @@ class _InputFieldsState extends State<InputFields> {
                   },
                   child: Text("Abschließen"),
                   style: ElevatedButton.styleFrom(
+                    primary: Colors.blueGrey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

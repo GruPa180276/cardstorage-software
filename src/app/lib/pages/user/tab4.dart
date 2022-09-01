@@ -34,6 +34,25 @@ class _Tab4State extends State<Tab4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.blueGrey,
+                  onPressed: () {
+                    id = [];
+                    setState(() {});
+                  },
+                  child: Icon(Icons.clear),
+                ),
+              ),
+            ),
+          ],
+        ),
         appBar: AppBar(
           leading: Icon(
             Icons.credit_card,

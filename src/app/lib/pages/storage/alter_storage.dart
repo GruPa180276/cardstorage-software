@@ -33,11 +33,11 @@ class _StorageSettingsState extends State<StorageSettings> {
           title: Text(tab2ASDP.getAppBarTitle()),
           backgroundColor: tab2ASCP.getAppBarColor(),
           actions: []),
-      body: SingleChildScrollView(
-          child: Container(
-              child: Column(
-        children: [InputFields()],
-      ))),
+      body: Container(
+          padding: EdgeInsets.only(top: 10),
+          child: Column(
+            children: [InputFields()],
+          )),
     );
   }
 }
@@ -69,7 +69,16 @@ class _InputFieldsState extends State<InputFields> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return const CircularProgressIndicator();
+        return Center(
+            child: Container(
+                child: Column(
+          children: [
+            CircularProgressIndicator(
+              backgroundColor: Colors.blueGrey,
+              valueColor: AlwaysStoppedAnimation(Colors.green),
+            )
+          ],
+        )));
       },
     );
   }
@@ -87,7 +96,14 @@ class _InputFieldsState extends State<InputFields> {
             ],
             decoration: InputDecoration(
                 labelText: tab2ASDP.getNameFieldName(),
-                hintText: data![tab2SSVP.getId()].title),
+                hintText: data![tab2SSVP.getId()].title,
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             onChanged: (value) => tab2SSVP.setName(value),
           ),
         ),
@@ -98,9 +114,15 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([0-9\.])'))
             ],
             decoration: InputDecoration(
-              labelText: tab2ASDP.getIpAdressFieldName(),
-              hintText: data[tab2SSVP.getId()].id.toString(),
-            ),
+                labelText: tab2ASDP.getIpAdressFieldName(),
+                hintText: data[tab2SSVP.getId()].id.toString(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab2SSVP.setIpAdress(value),
           ),
@@ -112,9 +134,15 @@ class _InputFieldsState extends State<InputFields> {
               FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
             ],
             decoration: InputDecoration(
-              labelText: tab2ASDP.getNumberOfCardsFieldName(),
-              hintText: data[tab2SSVP.getId()].id.toString(),
-            ),
+                labelText: tab2ASDP.getNumberOfCardsFieldName(),
+                hintText: data[tab2SSVP.getId()].id.toString(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab2SSVP.setNumberOfCards(value),
           ),
@@ -127,9 +155,15 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-              labelText: tab2ASDP.getLocationFieldName(),
-              hintText: data[tab2SSVP.getId()].title.toString(),
-            ),
+                labelText: tab2ASDP.getLocationFieldName(),
+                hintText: data[tab2SSVP.getId()].title.toString(),
+                labelStyle: TextStyle(color: Colors.blueGrey),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                )),
             onChanged: (value) => tab2SSVP.setLocation(value),
           ),
         ),
@@ -148,6 +182,7 @@ class _InputFieldsState extends State<InputFields> {
                       },
                       child: Text(tab2ASDP.getButtonName()),
                       style: ElevatedButton.styleFrom(
+                        primary: Colors.blueGrey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),

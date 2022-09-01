@@ -26,6 +26,12 @@ class RemoveStorage extends StatefulWidget {
 }
 
 class _RemoveStorageState extends State<RemoveStorage> {
+  void setID(String data) {
+    setState(() {
+      id.add(data);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,69 +47,59 @@ class _RemoveStorageState extends State<RemoveStorage> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
+                  backgroundColor: Colors.blueGrey,
                   onPressed: () {
+                    id = [];
                     setState(() {});
                   },
-                  child: Icon(Icons.refresh),
+                  child: Icon(Icons.clear),
                 ),
               ),
             ),
           ],
         ),
-        body: Stack(children: [
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Expanded(
-                    child: FloatingActionButton.extended(
-                  icon: Icon(Icons.search),
-                  label: Text("Search"),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    showSearch(
-                        context: context, delegate: CustomSearchDelegate());
-                  },
-                )),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                    child: FloatingActionButton.extended(
-                  icon: Icon(Icons.remove),
-                  label: Text("Remove"),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    // ToDo: API Call to remove Storage from DB
-                  },
-                )),
-              ],
-            ),
-          ),
-          InputFields2(),
-          Positioned(
-            top: 70,
-            left: 0,
-            right: 0,
-            bottom: 22,
-            child: ShowUsers2(),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: FloatingActionButton.extended(
-                label: Text("Clear"),
-                icon: Icon(Icons.clear),
-                backgroundColor: Colors.blueGrey,
-                onPressed: () {
-                  id = [];
-                  setState(() {});
-                },
+        body: Container(
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Column(children: [
+            Container(
+              child: Row(
+                children: [
+                  Expanded(
+                      child: FloatingActionButton.extended(
+                    icon: Icon(Icons.search),
+                    label: Text("Search"),
+                    backgroundColor: Colors.blueGrey,
+                    onPressed: () {
+                      showSearch(
+                          context: context,
+                          delegate: CustomSearchDelegate(this.setID));
+                    },
+                  )),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: FloatingActionButton.extended(
+                    icon: Icon(Icons.remove),
+                    label: Text("Remove"),
+                    backgroundColor: Colors.blueGrey,
+                    onPressed: () {
+                      // ToDo: API Call to remove Storage from DB
+                    },
+                  )),
+                ],
               ),
             ),
-          ),
-        ]));
+            Expanded(
+                child: Container(
+              padding: EdgeInsets.only(top: 10),
+              child: Column(children: [
+                InputFields2(),
+                ShowUsers2(),
+              ]),
+            ))
+          ]),
+        ));
   }
 }
 
@@ -120,12 +116,19 @@ class _ShowUsersState extends State<ShowUsers2> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    reloadCardList();
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = fetchData();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return Expanded(
+        child: FutureBuilder<List<Data>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -143,8 +146,44 @@ class _ShowUsersState extends State<ShowUsers2> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return const CircularProgressIndicator();
+        return Container(
+            child: Column(
+          children: [
+            CircularProgressIndicator(
+              backgroundColor: Colors.blueGrey,
+              valueColor: AlwaysStoppedAnimation(Colors.green),
+            )
+          ],
+        ));
       },
+    ));
+  }
+
+  Widget createStorage(BuildContext context, List<Data>? data, int index) {
+    return InkWell(
+      child: Container(
+        height: 85,
+        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left: 0, top: 5, bottom: 5, right: 0),
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.blueGrey,
+            ),
+            borderRadius: BorderRadius.circular(15)),
+        child: Stack(children: [
+          Positioned(
+              left: 100,
+              child: Text(data![index].title,
+                  style: const TextStyle(fontSize: 20))),
+          setStateOdCardStorage(data[index].title.toString()),
+          setCardStorageIcon(data[index].title.toString()),
+          Icon(
+            Icons.credit_card,
+            size: 60,
+          )
+        ]),
+      ),
     );
   }
 
@@ -173,36 +212,6 @@ class _ShowUsersState extends State<ShowUsers2> {
     }
     return Positioned(left: 100, top: 30, child: Icon(storageIcon));
   }
-
-  Widget createStorage(BuildContext context, List<Data>? data, int index) {
-    return InkWell(
-      child: Container(
-        height: 70,
-        margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 3,
-              color: Colors.blueGrey,
-            ),
-            borderRadius: BorderRadius.circular(15)),
-        child: Stack(children: [
-          Positioned(
-              left: 100,
-              child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
-          setStateOdCardStorage(data[index].title.toString()),
-          setCardStorageIcon(data[index].title.toString()),
-          const Positioned(
-              left: 15,
-              top: 7,
-              child: Icon(
-                Icons.storage_rounded,
-                size: 50,
-              ))
-        ]),
-      ),
-    );
-  }
 }
 
 class InputFields2 extends StatefulWidget {
@@ -218,8 +227,13 @@ class _InputFields2State extends State<InputFields2> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
-    values = [];
+    reloadCardList();
+  }
+
+  void reloadCardList() {
+    setState(() {
+      futureData = fetchData();
+    });
   }
 
   @override
@@ -234,7 +248,7 @@ class _InputFields2State extends State<InputFields2> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return const CircularProgressIndicator();
+        return SizedBox.shrink();
       },
     );
   }
@@ -248,6 +262,12 @@ class _InputFields2State extends State<InputFields2> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
+  late Function setState;
+
+  CustomSearchDelegate(Function state) {
+    setState = state;
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -295,7 +315,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id.add(matchQuery[index]);
+              setState(matchQuery[index]);
             });
       },
     );
@@ -326,7 +346,7 @@ class CustomSearchDelegate extends SearchDelegate {
               child: Column(children: [Text(result)]),
             ),
             onTap: () {
-              id.add(matchQuery[index]);
+              setState(matchQuery[index]);
             });
       },
     );

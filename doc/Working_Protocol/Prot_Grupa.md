@@ -156,6 +156,9 @@ Am Abend versuchte dan Herr Zoechmann mir dann noch mit den deep links zu helfen
 
 Am Vormittag habe ich die Suchleiste bei den Karten eingefuegt. Beim Einbauen ist mir aufgefallen, dass ich bei der Struktur etwas vereinfachen kann. Nachdem ich es vereinfacht habe wurde die Suchleist hinzugefuegt und getestet. Danach wurde noch etwas bei der AccountSeite umgeaendert um sie performanter zu machen
 
+**2022-09-01: 13:00 -> 15:00** 
+
+Am Nachmittag habe ich mich damit beschaeft die Ordner und Filename der Konvention anzupassen. Dies stellte sich als ueberraschung als Herrausforderung dar, da ich nicht wusste, dass Flutter die Ordner bzw. Filename in einen eigenen Ordner speichert. Nach zahlreichen Versuchen, asuchte ich mir die Loesung in einem Forum raus. 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -196,5 +199,6 @@ Am Vormittag habe ich die Suchleiste bei den Karten eingefuegt. Beim Einbauen is
 - 13:00 bis 16:00 Uhr 
 - 18:30 bis 19:30 Uhr
 - 9:30 bis 11:35 Uhr
+- 13:00 bis 15:00 Uhr
 <!-- { "progress": false } -->
 

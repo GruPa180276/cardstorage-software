@@ -138,10 +138,12 @@ Habe heute am Tab1 weiter gearbeitet. Dort habe ich soweit sämtliche Darstellun
 Habe heute die Designüberarbeitung fortgesetzt. Es wurde alle Seiten bis auf die Einstellungs Seite auf das neue Design geändert. Danach habe ich noch diverse Logik Verbesserung durchgeführt und eine Lade Animation hinzugefügt. Danach habe ich einen Call mit Herrn Grubauer durchgeführt haben wo wir diverse Themen besprochen haben. Zum Schluss habe ich noch kleine Verbesserungen vorgenommen. (4h)
 
 **31.8.2022: 18:30 -> 19:30** <br>
-Habe mit Herrn Grubauer versucht Deep Links zu implementieren.
+Habe mit Herrn Grubauer versucht Deep Links zu implementieren. (1h)
 
 **1.9.2022: 8:00 -> 12:00** <br>
 Habe heute das Design fertig überarbeitet und einem Themes Switcher implementiert. Der Code muss jetzt noch in mehrere Datein ausgelagert werden und doppelter Code gelöscht werden. (4h)
+
+**2.9.2022: 7:15 -> xx** <br>
 
 ## Arbeitszeit
 <!-- { "progress": true } -->

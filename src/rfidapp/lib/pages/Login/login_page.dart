@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/Login/password_forget_page.dart';
 import 'package:rfidapp/pages/Login/register_page.dart';
+import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 
@@ -71,11 +73,35 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 20,
               ),
-              buildSignIn(context),
+              SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: buttonField(
+                    bgColor: ColorSelect.blueAccent,
+                    borderColor: ColorSelect.blueAccent,
+                    text: 'SIGN IN',
+                    textColor: Colors.white,
+                    onPress: () {
+                      sigIn();
+                    },
+                  )),
               const SizedBox(
                 height: 15,
               ),
-              buildCreateAccount(this.context),
+              SizedBox(
+                height: 60,
+                width: double.infinity,
+                child: buttonField(
+                  bgColor: Theme.of(context).scaffoldBackgroundColor,
+                  borderColor: Theme.of(context).primaryColor,
+                  text: 'Erstelle einen Account',
+                  textColor: Theme.of(context).primaryColor,
+                  onPress: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const RegisterScreen()));
+                  },
+                ),
+              ),
               const SizedBox(
                 height: 15,
               ),
@@ -139,85 +165,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget buildCreateAccount(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: SizedBox(
-          width: double.infinity,
-          height: 60,
-          child: OutlinedButton.icon(
-            icon: Icon(
-              Icons.create,
-              color: Theme.of(context).primaryColor,
-            ),
-            label: Text(
-              "Erstelle einen Account",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const RegisterScreen()));
-            },
-            style: ElevatedButton.styleFrom(
-              side: BorderSide(
-                width: 2.5,
-                color: Theme.of(context).primaryColor,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100.0),
-              ),
-            ),
-          )),
-    );
-  }
-
-  Widget buildSignIn(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: ElevatedButton(
-          onPressed: () {
-            //TODO if not then change rememberState and rememberValue to false
-            //check if login was succesfull (email and password are vaild)...set rememberStateTo current rememberValue
-
-            if (_formKey.currentState!.validate()) {
-              if (rememberValue) {
-                UserSecureStorage.setUsername(emailController.text);
-                UserSecureStorage.setPassword(passwordController.text);
-              }
-              UserSecureStorage.setRememberState(rememberValue.toString());
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const BottomNavigation()));
-            } //open app
-          },
-          // style: ElevatedButton.styleFrom(
-          //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
-
-          // ),
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ))),
-          child: const Text(
-            'SIGN IN',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildChangePassword(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -243,5 +190,17 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ],
     );
+  }
+
+  void sigIn() {
+    if (_formKey.currentState!.validate()) {
+      if (rememberValue) {
+        UserSecureStorage.setUsername(emailController.text);
+        UserSecureStorage.setPassword(passwordController.text);
+      }
+      UserSecureStorage.setRememberState(rememberValue.toString());
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const BottomNavigation()));
+    } //open app}
   }
 }

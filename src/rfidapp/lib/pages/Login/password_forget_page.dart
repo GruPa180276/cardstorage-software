@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/email.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class PasswordForgetSecreen extends StatefulWidget {
@@ -49,45 +51,30 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
               const SizedBox(
                 height: 30,
               ),
-              buildSendMail(context)
+              SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: buttonField(
+                    bgColor: ColorSelect.blueAccent,
+                    borderColor: ColorSelect.blueAccent,
+                    text: 'Passwort zuruecksetzen',
+                    textColor: Colors.white,
+                    onPress: () {
+                      sendMail();
+                    },
+                  )),
             ],
           ),
         ));
   }
 
-  Widget buildSendMail(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: ElevatedButton(
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              //TODO look if email is available in db and get values name...
-              const name = 'Firtz Bauer';
-              final email = emailController.text;
-              const subject = 'RfidApp Passwort zuruecksetzen';
-              const message =
-                  'Sehr geehrter Herr $name\nSie haben angefragt Ihr Passwort zu aendern\n httpsa \n\n Beste Gruese\nIhre RfidApp Team';
-              Email.sendEmail(
-                  name: name, email: email, subject: subject, message: message);
-            }
-          },
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ))),
-          child: const Text(
-            'Passwort zuruecksetzen',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
+  void sendMail() {
+    const name = 'Firtz Bauer';
+    final email = emailController.text;
+    const subject = 'RfidApp Passwort zuruecksetzen';
+    const message =
+        'Sehr geehrter Herr $name\nSie haben angefragt Ihr Passwort zu aendern\n httpsa \n\n Beste Gruese\nIhre RfidApp Team';
+    Email.sendEmail(
+        name: name, email: email, subject: subject, message: message);
   }
 }

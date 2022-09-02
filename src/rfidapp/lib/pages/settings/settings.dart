@@ -4,6 +4,7 @@ import 'package:rfidapp/pages/login/utils/app_preference.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
+import 'package:app_settings/app_settings.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -47,8 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
             TableRow(children: [
               buildSettingsButton("Benachrichtigungen", Icons.notifications,
                   () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const LoginScreen()));
+                AppSettings.openNotificationSettings();
               }),
             ]),
             TableRow(children: [

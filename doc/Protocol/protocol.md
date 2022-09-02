@@ -73,11 +73,9 @@ Weiters habe ich mich noch mit der nativen Ausführung der App unter Windows bes
 Habe an Tab3 weitergearbeitet. Dort habe ich das komplette layout zum Karten erstellen und bearbeiten hizugefügt. Es wurde auch die komplette Logik 
 implmentiert. Weiters habe ich mir Gedanken über Änderungen an der App gemacht. Danach habe ich noch kleine Änderungen vorgenommen und etwas getestet. (3h 15min)
 
-
 **1.8.2022: 7:15 -> 11:30** <br>
 Habe heute an dem User hinzufügen gearbeitet. Dazu habe ich einen Teil des Layout und die meisten der Funktion implementiert. Ich habe ein Suchfeld erstellt,
 mit dem man sich alle Benutzer anzeigen lassen kann. Es fehlen noch das Design. (4h 15min)
-
 
 **8.8.2022: 7:10 -> 10:10** <br>
 Habe am User Login weitergearbeitet. Habe die Such Funktion fertig implementiert. Es ist jetzt möglich Benutzer auszuwählen. Diese werden dann in einer Liste
@@ -88,11 +86,9 @@ Man muss zuerst auf eine andere Seite wechseln, damit diese angeziegt werden. (3
 Habe damit begonnen, ein GitHub project zu erstellen. Dieses habe ich dann auch mit Inhalt befüllt. Danach habe ich mich mit der Rechte Seite beschäftigt. 
 Dazu habe ich begonnen die GUI zu erstellen und die Logik zu implementieren. Aktuell funktioniert es nocht nicht gnaz so wie ich will. (3h)
 
-
 **10.8.2022: 6:50 -> 9:50** <br>
 Habe an der Rights Page weiter gearbeitet. Jetzt werden die Werte in der Auswahlbox richtig dargestellt und die ausgewählten Rechte auch angezeigt. 
 Das Reload Problem besteht weiterhin. Habe es versuch mit setState() und dem ValueableListener zu lösen, habe es aber auch nicht hinbekommen. (3h)
-
 
 **15.8.2022: 7:25 -> 10:25** <br>
 Habe an der Rechte Seite weiter gearbeitet. Es funktioniert jetzt soweit alles. Der Issue wurde durch ein Refresh Button "gelöst". Weiters habe ich am 
@@ -143,7 +139,8 @@ Habe mit Herrn Grubauer versucht Deep Links zu implementieren. (1h)
 **1.9.2022: 8:00 -> 12:00** <br>
 Habe heute das Design fertig überarbeitet und einem Themes Switcher implementiert. Der Code muss jetzt noch in mehrere Datein ausgelagert werden und doppelter Code gelöscht werden. (4h)
 
-**2.9.2022: 7:15 -> xx** <br>
+**2.9.2022: 7:15 -> 11:15** <br>
+Habe heute weiter am Themeswitcher gearbeitet. Dazu habe ich jeden statischen Farbwert auf den Themeswitcher geändert. Der Darkmods funktioniert jetzt auch soweit richtig. Danach habe ich begonnen den Code in mehrere Datein aufzuteilen. Die AppBar und der SpeedDialSwitcher wurden bereits ausgelagert. (4h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -180,4 +177,5 @@ Habe heute das Design fertig überarbeitet und einem Themes Switcher implementie
 - 7:15 bis 11:15 Uhr
 - 18:30 bis 19:30 Uhr
 - 8:00 bis 12:00 Uhr
-<!-- { "progress": false } -->
+- 7:15 bis 11:15 Uhr
+- <!-- { "progress": false } -->

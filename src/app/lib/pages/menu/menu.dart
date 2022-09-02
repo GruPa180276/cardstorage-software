@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:app/provider/theme/themes.dart';
 import 'package:app/config/theme/app_preference.dart';
 
+import '../Widget/appbar.dart';
+
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
 
@@ -22,40 +24,7 @@ class _SettingsPageState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(
-          Icons.credit_card,
-          size: 30,
-          color: Theme.of(context).focusColor,
-        ),
-        toolbarHeight: 70,
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-        title: Text('Admin Login',
-            style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).focusColor)),
-        actions: [
-          Icon(
-            Icons.account_box_rounded,
-            color: Theme.of(context).focusColor,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.settings,
-            color: Theme.of(context).focusColor,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(Icons.logout, color: Theme.of(context).focusColor),
-          SizedBox(
-            width: 10,
-          ),
-        ],
-      ),
+      appBar: generateAppBar(context),
       body: Container(
           child: Column(
         children: [buildChangeThemeMode(context)],

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../Widget/appbar.dart';
 import 'add_cards.dart';
 import 'alter_cards.dart';
 import 'remove_cards.dart';
@@ -75,35 +76,7 @@ class _Tab3State extends State<Tab3> {
             ),
           ],
         ),
-        appBar: AppBar(
-          leading: Icon(
-            Icons.credit_card,
-            size: 30,
-            color: Theme.of(context).focusColor,
-          ),
-          toolbarHeight: 70,
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          title: Text('Admin Login',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-          actions: [
-            Icon(Icons.account_box_rounded,
-                color: Theme.of(context).focusColor),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(Icons.settings, color: Theme.of(context).focusColor),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Icons.logout,
-              color: Theme.of(context).focusColor,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-          ],
-        ),
+        appBar: generateAppBar(context),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(children: [

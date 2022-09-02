@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../Widget/appbar.dart';
 import 'add_user.dart';
 import 'alter_user.dart';
 import 'remove_users.dart';
@@ -54,41 +55,7 @@ class _Tab4State extends State<Tab4> {
             ),
           ],
         ),
-        appBar: AppBar(
-          leading: Icon(
-            Icons.credit_card,
-            size: 30,
-            color: Theme.of(context).focusColor,
-          ),
-          toolbarHeight: 70,
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          title: Text('Admin Login',
-              style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).focusColor)),
-          actions: [
-            Icon(Icons.account_box_rounded,
-                color: Theme.of(context).focusColor),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Icons.settings,
-              color: Theme.of(context).focusColor,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Icons.logout,
-              color: Theme.of(context).focusColor,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-          ],
-        ),
+        appBar: generateAppBar(context),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(children: [

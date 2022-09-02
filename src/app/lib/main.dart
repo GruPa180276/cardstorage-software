@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 import 'package:app/pages/navigation/bottom_navigation.dart';
-import 'package:app/pages/app_preference.dart';
-import 'package:app/provider/themes.dart';
+import 'package:app/config/theme/app_preference.dart';
+import 'package:app/provider/theme/themes.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

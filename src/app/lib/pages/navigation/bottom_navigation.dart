@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:app/pages/home.dart';
-import 'package:app/pages/home/tab1.dart';
+import 'package:app/pages/home/home.dart';
+import 'package:app/pages/stats/tab1.dart';
 import 'package:app/pages/storage/tab2.dart';
 import 'package:app/pages/card/tab3.dart';
 import 'package:app/pages/user/tab4.dart';
-import 'package:app/pages/menu.dart';
+import 'package:app/pages/menu/menu.dart';
 
 class BottomNavigation extends StatefulWidget {
   BottomNavigation({Key? key}) : super(key: key);

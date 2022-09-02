@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app/provider/themes.dart';
-import 'package:app/pages/app_preference.dart';
+import 'package:app/provider/theme/themes.dart';
+import 'package:app/config/theme/app_preference.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app/config/palette.dart';
-import 'package:app/pages/app_preference.dart';
+import 'package:app/config/theme/palette.dart';
+import 'package:app/config/theme/app_preference.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode =

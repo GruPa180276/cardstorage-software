@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-import 'package:app/config/color_values/tab3_color_values.dart';
 import 'package:app/config/text_values/tab3_text_values.dart';
 import 'package:app/domain/values/tab3_card_values.dart';
 
@@ -13,7 +12,6 @@ Tab3StorageSettingsValuesProvider tab3SSVP =
     new Tab3StorageSettingsValuesProvider();
 Tab3AddStorageDescriptionProvider tab3ASDP =
     new Tab3AddStorageDescriptionProvider();
-Tab3AddStorageColorProvider tab3ASCP = new Tab3AddStorageColorProvider();
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);

@@ -9,11 +9,9 @@ import 'alter_cards.dart';
 import 'remove_cards.dart';
 
 import 'package:app/config/text_values/tab3_text_values.dart';
-import 'package:app/config/color_values/tab3_color_values.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
-Tab3ColorProvider tab3CP = new Tab3ColorProvider();
 Tab3DescrpitionProvider tab3DP = new Tab3DescrpitionProvider();
 
 class Tab3 extends StatefulWidget {

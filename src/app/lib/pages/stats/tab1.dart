@@ -5,13 +5,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:app/config/color_values/tab1_color_values.dart';
 import 'package:app/config/text_values/tab1_text_values.dart';
 import 'tab1_stats.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
-Tab1ColorProvider tab1ColorProvider = new Tab1ColorProvider();
 Tab1TextValues tab1TextProvider = new Tab1TextValues();
 
 class Tab1 extends StatefulWidget {

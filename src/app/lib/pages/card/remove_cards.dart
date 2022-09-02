@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:app/config/color_values/tab3_color_values.dart';
 import 'package:app/config/text_values/tab3_text_values.dart';
 import 'package:app/domain/values/tab3_card_values.dart';
 
@@ -14,7 +13,6 @@ Tab3StorageSettingsValuesProvider tab3SSVP =
     new Tab3StorageSettingsValuesProvider();
 Tab3RemoveStorageDescriptionProvider tab3ASDP =
     new Tab3RemoveStorageDescriptionProvider();
-Tab3AlterStorageColorProvider tab3ASCP = new Tab3AlterStorageColorProvider();
 
 List<String> values = [];
 List<String> id = [];

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:app/config/color_values/tab1_color_values.dart';
-
-SettingsColorProvder settingsCP = new SettingsColorProvder();
-
 class AppInfo extends StatefulWidget {
   const AppInfo({Key? key}) : super(key: key);
 
@@ -17,7 +13,7 @@ class _AppInfoState extends State<AppInfo> {
     return Scaffold(
         appBar: AppBar(
             title: const Text("App Info"),
-            backgroundColor: settingsCP.getAppBarBackgroundColor(),
+            backgroundColor: Colors.blueGrey,
             actions: []),
         body: Container(
           padding: EdgeInsets.all(10),

@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:app/config/themes_old.dart';
-import 'package:app/config/color_values/tab1_color_values.dart';
-
-SettingsColorProvder settingsCP = new SettingsColorProvder();
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -20,7 +17,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
         appBar: AppBar(
             title: const Text("Einstellungen"),
-            backgroundColor: settingsCP.getAppBarBackgroundColor(),
+            backgroundColor: Colors.blueGrey,
             actions: []),
         body: Container(
           padding: EdgeInsets.all(0),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-import 'package:app/config/color_values/tab2_color_values.dart';
 import 'package:app/config/text_values/tab2_text_values.dart';
 import 'package:app/domain/values/tab2_storage_values.dart';
 
@@ -11,7 +10,6 @@ import 'package:app/domain/values/tab2_storage_values.dart';
 Tab2StorageValuesProvider tab2SSVP = new Tab2StorageValuesProvider();
 Tab2AddStorageDescriptionProvider tab2ASDP =
     new Tab2AddStorageDescriptionProvider();
-Tab2AddStorageColorProvider tab2ASCP = new Tab2AddStorageColorProvider();
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);

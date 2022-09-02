@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:app/config/color_values/tab2_color_values.dart';
 import 'package:app/config/text_values/tab2_text_values.dart';
 import 'package:app/domain/values/tab2_storage_values.dart';
 
@@ -13,7 +12,6 @@ import 'package:app/domain/values/tab2_storage_values.dart';
 Tab2StorageValuesProvider tab2SSVP = new Tab2StorageValuesProvider();
 Tab2RemoveStorageDescriptionProvider tab2RSDP =
     new Tab2RemoveStorageDescriptionProvider();
-Tab2AlterStorageColorProvider tab2ASCP = new Tab2AlterStorageColorProvider();
 
 List<String> values = [];
 List<String> id = [];

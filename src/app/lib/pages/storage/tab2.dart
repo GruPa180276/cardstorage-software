@@ -8,12 +8,10 @@ import 'alter_storage.dart';
 import 'add_Storage.dart';
 import 'remove_storage.dart';
 
-import 'package:app/config/color_values/tab2_color_values.dart';
 import 'package:app/config/text_values/tab2_text_values.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
-Tab2ColorProvider tab2ColorProvider = new Tab2ColorProvider();
 Tab2TextProvider tab2TextProvider = new Tab2TextProvider();
 
 class Tab2 extends StatefulWidget {

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import 'package:app/config/color_values/tab1_color_values.dart';
 import 'package:app/config/text_values/tab1_text_values.dart';
 
 // ToDo: The actual API values should be used
 
 Tab1TextValues tab1statsTextProvider = new Tab1TextValues();
-Tab1ColorProvider tab1statsColorProvider = new Tab1ColorProvider();
 
 class CardStats extends StatefulWidget {
   const CardStats({Key? key}) : super(key: key);

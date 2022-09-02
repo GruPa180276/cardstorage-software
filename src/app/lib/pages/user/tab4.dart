@@ -9,10 +9,8 @@ import 'alter_user.dart';
 import 'remove_users.dart';
 
 import 'package:app/config/text_values/tab4_text_values.dart';
-import 'package:app/config/color_values/tab4_color_values.dart';
 
 Tab4DescrpitionProvider tab4DP = new Tab4DescrpitionProvider();
-Tab4ColorProvider tab4CP = new Tab4ColorProvider();
 
 List<String> values = [];
 List<String> id = [];

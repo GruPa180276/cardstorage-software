@@ -178,4 +178,4 @@ Habe heute weiter am Themeswitcher gearbeitet. Dazu habe ich jeden statischen Fa
 - 18:30 bis 19:30 Uhr
 - 8:00 bis 12:00 Uhr
 - 7:15 bis 11:15 Uhr
-- <!-- { "progress": false } -->
+<!-- { "progress": false } -->

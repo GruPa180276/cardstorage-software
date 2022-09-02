@@ -53,8 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ]),
             TableRow(children: [
               buildSettingsButton("Log-Out", Icons.logout_rounded, () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const LoginScreen()));
+                buildPop();
               }),
             ]),
             TableRow(children: [
@@ -128,5 +127,47 @@ class _SettingsPageState extends State<SettingsPage> {
             provider.toggleTheme(value);
           });
         });
+  }
+
+  Future<void> buildPop() {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Hinweis'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Wollen Sie sich wirklich abmelden?.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      TextButton(
+                        child: const Text('Abbrechen'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    child: const Text('Abmelden'),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
+                    },
+                  ),
+                ])
+          ],
+        );
+      },
+    );
   }
 }

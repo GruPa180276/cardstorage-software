@@ -28,7 +28,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           currentIndex: currentIndex,
           onTap: (value) => setState(() => currentIndex = value),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          selectedItemColor: Colors.blueGrey,
+          selectedItemColor: Theme.of(context).primaryColor,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

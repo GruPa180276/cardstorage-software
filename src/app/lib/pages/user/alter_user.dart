@@ -31,8 +31,11 @@ class _UserSettingsState extends State<UserSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(tab4ASDP.getAppBarTitle()),
-            backgroundColor: tab4ASCP.getAppBarColor(),
+            title: Text(
+              tab4ASDP.getAppBarTitle(),
+              style: TextStyle(color: Theme.of(context).focusColor),
+            ),
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         body: SingleChildScrollView(
           child: Container(
@@ -81,8 +84,8 @@ class _InputFieldsState extends State<InputFields> {
                 child: Column(
           children: [
             CircularProgressIndicator(
-              backgroundColor: Colors.blueGrey,
-              valueColor: AlwaysStoppedAnimation(Colors.green),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
             )
           ],
         )));
@@ -95,7 +98,10 @@ class _InputFieldsState extends State<InputFields> {
         child: Container(
       child: Column(children: [
         ListTile(
-          leading: const Icon(Icons.description),
+          leading: Icon(
+            Icons.description,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -104,18 +110,21 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab4ASDP.getFirstNameFieldName(),
                 hintText: data![index].title,
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             onChanged: (value) => tab4SSVP.setFirstName(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.description),
+          leading: Icon(
+            Icons.description,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -124,18 +133,21 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab4ASDP.getLastNameFieldName(),
                 hintText: data[index].title,
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             onChanged: (value) => tab4SSVP.setLastName(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.mail),
+          leading: Icon(
+            Icons.mail,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -144,19 +156,22 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab4ASDP.getMailFieldName(),
                 hintText: data[index].title.toString(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab4SSVP.setUserMail(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.numbers),
+          leading: Icon(
+            Icons.numbers,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'([0-9\- ])'))
@@ -164,12 +179,12 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab4ASDP.getPhoneFieldName(),
                 hintText: data[index].id.toString(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab4SSVP.setPhoneNumber(value),
@@ -188,9 +203,12 @@ class _InputFieldsState extends State<InputFields> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(tab4ASDP.getButtonName()),
+                      child: Text(
+                        tab4ASDP.getButtonName(),
+                        style: TextStyle(color: Theme.of(context).focusColor),
+                      ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blueGrey,
+                        primary: Theme.of(context).secondaryHeaderColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),

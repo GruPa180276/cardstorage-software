@@ -42,12 +42,15 @@ class _Tab4State extends State<Tab4> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
-                  backgroundColor: Colors.blueGrey,
+                  foregroundColor: Theme.of(context).focusColor,
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
                   onPressed: () {
                     id = [];
                     setState(() {});
                   },
-                  child: Icon(Icons.clear),
+                  child: Icon(
+                    Icons.clear,
+                  ),
                 ),
               ),
             ),
@@ -57,21 +60,32 @@ class _Tab4State extends State<Tab4> {
           leading: Icon(
             Icons.credit_card,
             size: 30,
+            color: Theme.of(context).focusColor,
           ),
           toolbarHeight: 70,
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
           title: Text('Admin Login',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).focusColor)),
           actions: [
-            Icon(Icons.account_box_rounded),
+            Icon(Icons.account_box_rounded,
+                color: Theme.of(context).focusColor),
             SizedBox(
               width: 20,
             ),
-            Icon(Icons.settings),
+            Icon(
+              Icons.settings,
+              color: Theme.of(context).focusColor,
+            ),
             SizedBox(
               width: 20,
             ),
-            Icon(Icons.logout),
+            Icon(
+              Icons.logout,
+              color: Theme.of(context).focusColor,
+            ),
             SizedBox(
               width: 10,
             ),
@@ -88,7 +102,8 @@ class _Tab4State extends State<Tab4> {
                     child: FloatingActionButton.extended(
                       label: Text("Add"),
                       icon: Icon(Icons.add),
-                      backgroundColor: Colors.blueGrey,
+                      foregroundColor: Theme.of(context).focusColor,
+                      backgroundColor: Theme.of(context).secondaryHeaderColor,
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -105,7 +120,8 @@ class _Tab4State extends State<Tab4> {
                     child: FloatingActionButton.extended(
                       icon: Icon(Icons.remove),
                       label: Text("Remove"),
-                      backgroundColor: Colors.blueGrey,
+                      foregroundColor: Theme.of(context).focusColor,
+                      backgroundColor: Theme.of(context).secondaryHeaderColor,
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -122,7 +138,8 @@ class _Tab4State extends State<Tab4> {
                       child: FloatingActionButton.extended(
                     icon: Icon(Icons.search),
                     label: Text("Search"),
-                    backgroundColor: Colors.blueGrey,
+                    foregroundColor: Theme.of(context).focusColor,
+                    backgroundColor: Theme.of(context).secondaryHeaderColor,
                     onPressed: () {
                       showSearch(
                           context: context,
@@ -192,8 +209,8 @@ class _ShowUsersState extends State<ShowUsers> {
             child: Column(
           children: [
             CircularProgressIndicator(
-              backgroundColor: Colors.blueGrey,
-              valueColor: AlwaysStoppedAnimation(Colors.green),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
             )
           ],
         ));
@@ -210,19 +227,21 @@ class _ShowUsersState extends State<ShowUsers> {
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: Colors.blueGrey,
+              color: Theme.of(context).secondaryHeaderColor,
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [
           Positioned(
               left: 100,
               child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
+                  style: TextStyle(
+                      fontSize: 20, color: Theme.of(context).primaryColor))),
           setStateOdCardStorage(data[index].title.toString()),
           setCardStorageIcon(data[index].title.toString()),
           Icon(
             Icons.credit_card,
             size: 60,
+            color: Theme.of(context).primaryColor,
           )
         ]),
       ),
@@ -242,10 +261,13 @@ class _ShowUsersState extends State<ShowUsers> {
     Widget storageState = Text("");
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
+      storageState = Text("Verfügbar",
+          style:
+              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
     } else if (apiCall == "y") {
-      storageState =
-          Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
+      storageState = Text("Nicht verfügbar",
+          style:
+              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
     }
     return Positioned(left: 140, top: 30, child: storageState);
   }
@@ -260,7 +282,13 @@ class _ShowUsersState extends State<ShowUsers> {
     } else if (apiCall == "y") {
       storageIcon = Icons.event_busy;
     }
-    return Positioned(left: 100, top: 30, child: Icon(storageIcon));
+    return Positioned(
+        left: 100,
+        top: 30,
+        child: Icon(
+          storageIcon,
+          color: Theme.of(context).primaryColor,
+        ));
   }
 }
 
@@ -326,7 +354,10 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: Icon(
+          Icons.clear,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     ];
   }
@@ -337,7 +368,10 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(
+        Icons.arrow_back,
+        color: Theme.of(context).primaryColor,
+      ),
     );
   }
 
@@ -360,10 +394,15 @@ class CustomSearchDelegate extends SearchDelegate {
               decoration: BoxDecoration(
                   border: Border.all(
                     width: 3,
-                    color: Colors.blueGrey,
+                    color: Theme.of(context).secondaryHeaderColor,
                   ),
                   borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [Text(result)]),
+              child: Column(children: [
+                Text(
+                  result,
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                )
+              ]),
             ),
             onTap: () {
               setState(matchQuery[index]);
@@ -391,10 +430,13 @@ class CustomSearchDelegate extends SearchDelegate {
               decoration: BoxDecoration(
                   border: Border.all(
                     width: 3,
-                    color: Colors.blueGrey,
+                    color: Theme.of(context).secondaryHeaderColor,
                   ),
                   borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [Text(result)]),
+              child: Column(children: [
+                Text(result,
+                    style: TextStyle(color: Theme.of(context).primaryColor))
+              ]),
             ),
             onTap: () {
               setState(matchQuery[index]);

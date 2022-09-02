@@ -22,8 +22,11 @@ class _CardState extends State<CardStats> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(tab1statsTextProvider.getAppTitle()),
-          backgroundColor: Colors.blueGrey,
+          title: Text(
+            tab1statsTextProvider.getAppTitle(),
+            style: TextStyle(color: Theme.of(context).focusColor),
+          ),
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
           actions: []),
       body: Column(children: [DeveloperChart()]),
     );
@@ -52,7 +55,10 @@ class DeveloperChart extends StatelessWidget {
           padding: const EdgeInsets.all(9.0),
           child: Column(
             children: <Widget>[
-              Text("Test"),
+              Text(
+                "Test",
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
               Expanded(
                 child: charts.BarChart(series, animate: true),
               )

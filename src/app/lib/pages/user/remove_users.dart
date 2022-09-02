@@ -35,8 +35,11 @@ class _RemoveCardsState extends State<RemoveUsers> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(tab4ASDP.getAppBarTitle()),
-            backgroundColor: tab3ASCP.getAppBarColor(),
+            title: Text(
+              tab4ASDP.getAppBarTitle(),
+              style: TextStyle(color: Theme.of(context).focusColor),
+            ),
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Stack(
@@ -46,7 +49,8 @@ class _RemoveCardsState extends State<RemoveUsers> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
-                  backgroundColor: Colors.blueGrey,
+                  foregroundColor: Theme.of(context).focusColor,
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
                   onPressed: () {
                     id = [];
                     setState(() {});
@@ -68,7 +72,8 @@ class _RemoveCardsState extends State<RemoveUsers> {
                           child: FloatingActionButton.extended(
                         icon: Icon(Icons.search),
                         label: Text("Search"),
-                        backgroundColor: Colors.blueGrey,
+                        foregroundColor: Theme.of(context).focusColor,
+                        backgroundColor: Theme.of(context).secondaryHeaderColor,
                         onPressed: () {
                           showSearch(
                               context: context,
@@ -82,7 +87,8 @@ class _RemoveCardsState extends State<RemoveUsers> {
                           child: FloatingActionButton.extended(
                         icon: Icon(Icons.remove),
                         label: Text("Remove"),
-                        backgroundColor: Colors.blueGrey,
+                        foregroundColor: Theme.of(context).focusColor,
+                        backgroundColor: Theme.of(context).secondaryHeaderColor,
                         onPressed: () {
                           // ToDo: API Call to remove Storage from DB
                         },
@@ -150,8 +156,8 @@ class _ShowUsersState extends State<ShowUsers2> {
             child: Column(
           children: [
             CircularProgressIndicator(
-              backgroundColor: Colors.blueGrey,
-              valueColor: AlwaysStoppedAnimation(Colors.green),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
             )
           ],
         ));
@@ -168,19 +174,21 @@ class _ShowUsersState extends State<ShowUsers2> {
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: Colors.blueGrey,
+              color: Theme.of(context).secondaryHeaderColor,
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [
           Positioned(
               left: 100,
               child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
+                  style: TextStyle(
+                      fontSize: 20, color: Theme.of(context).primaryColor))),
           setStateOdCardStorage(data[index].title.toString()),
           setCardStorageIcon(data[index].title.toString()),
           Icon(
             Icons.credit_card,
             size: 60,
+            color: Theme.of(context).primaryColor,
           )
         ]),
       ),
@@ -193,10 +201,13 @@ class _ShowUsersState extends State<ShowUsers2> {
     Widget storageState = Text("");
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      storageState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
+      storageState = Text("Verfügbar",
+          style:
+              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
     } else if (apiCall == "y") {
-      storageState =
-          Text("Nicht verfügbar", style: const TextStyle(fontSize: 20));
+      storageState = Text("Nicht verfügbar",
+          style:
+              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
     }
     return Positioned(left: 140, top: 30, child: storageState);
   }
@@ -211,7 +222,13 @@ class _ShowUsersState extends State<ShowUsers2> {
     } else if (apiCall == "y") {
       storageIcon = Icons.cancel_rounded;
     }
-    return Positioned(left: 100, top: 30, child: Icon(storageIcon));
+    return Positioned(
+        left: 100,
+        top: 30,
+        child: Icon(
+          storageIcon,
+          color: Theme.of(context).primaryColor,
+        ));
   }
 }
 
@@ -276,7 +293,10 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: Icon(
+          Icons.clear,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     ];
   }
@@ -287,7 +307,10 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(
+        Icons.arrow_back,
+        color: Theme.of(context).primaryColor,
+      ),
     );
   }
 
@@ -310,10 +333,15 @@ class CustomSearchDelegate extends SearchDelegate {
               decoration: BoxDecoration(
                   border: Border.all(
                     width: 3,
-                    color: Colors.blueGrey,
+                    color: Theme.of(context).secondaryHeaderColor,
                   ),
                   borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [Text(result)]),
+              child: Column(children: [
+                Text(
+                  result,
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                )
+              ]),
             ),
             onTap: () {
               setState(matchQuery[index]);
@@ -341,10 +369,15 @@ class CustomSearchDelegate extends SearchDelegate {
               decoration: BoxDecoration(
                   border: Border.all(
                     width: 3,
-                    color: Colors.blueGrey,
+                    color: Theme.of(context).secondaryHeaderColor,
                   ),
                   borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [Text(result)]),
+              child: Column(children: [
+                Text(
+                  result,
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                )
+              ]),
             ),
             onTap: () {
               setState(matchQuery[index]);

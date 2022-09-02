@@ -17,24 +17,31 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   static get darkTheme => ThemeData(
         fontFamily: 'Kanit',
-        scaffoldBackgroundColor: Colors.black,
         colorScheme:
             const ColorScheme.dark().copyWith(primary: ColorSelect.blueAccent),
+
+        scaffoldBackgroundColor: Colors.black,
         primaryColor: Colors.white,
+        backgroundColor: Colors.black,
         secondaryHeaderColor: ColorSelect.blueAccent,
+        focusColor: Colors.white,
 
         //new
-        dividerColor: ColorSelect.darkBorder,
+        dividerColor: ColorSelect.blueAccent,
         cardColor: ColorSelect.darkCardColor,
       );
 
   static get lightTheme => ThemeData(
         fontFamily: 'Kanit',
-        scaffoldBackgroundColor: ColorSelect.lightBgColor,
         colorScheme:
             const ColorScheme.light().copyWith(primary: ColorSelect.blueAccent),
+
+        scaffoldBackgroundColor: ColorSelect.lightBgColor,
         primaryColor: Colors.black,
+        backgroundColor: Colors.black,
         secondaryHeaderColor: ColorSelect.blueAccent,
+        focusColor: Colors.white,
+
         //new
         dividerColor: ColorSelect.lightBorder,
         cardColor: ColorSelect.lightCardColor,

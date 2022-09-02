@@ -32,8 +32,11 @@ class _CardSettingsState extends State<CardSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(tab3ASDP.getAppBarTitle()),
-            backgroundColor: tab3ASCP.getAppBarColor(),
+            title: Text(
+              tab3ASDP.getAppBarTitle(),
+              style: TextStyle(color: Theme.of(context).focusColor),
+            ),
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         body: SingleChildScrollView(
           child: Container(
@@ -77,8 +80,8 @@ class _InputFieldsState extends State<InputFields> {
                 child: Column(
           children: [
             CircularProgressIndicator(
-              backgroundColor: Colors.blueGrey,
-              valueColor: AlwaysStoppedAnimation(Colors.green),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
             )
           ],
         )));
@@ -91,7 +94,10 @@ class _InputFieldsState extends State<InputFields> {
         child: Container(
       child: Column(children: [
         ListTile(
-          leading: const Icon(Icons.description),
+          leading: Icon(
+            Icons.description,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -100,18 +106,18 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab3ASDP.getNameFieldName(),
                 hintText: data![tab3SSVP.getId()].title,
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             onChanged: (value) => tab3SSVP.setName(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.storage),
+          leading: Icon(Icons.storage, color: Theme.of(context).primaryColor),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -120,12 +126,12 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab3ASDP.getCardStorageFieldName(),
                 hintText: data[tab3SSVP.getId()].id.toString(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab3SSVP.setCardStorage(value),
@@ -146,9 +152,12 @@ class _InputFieldsState extends State<InputFields> {
                           _buildPopupDialog(context),
                     );
                   },
-                  child: Text(tab3ASDP.getHardwareIDofCardFieldName()),
+                  child: Text(
+                    tab3ASDP.getHardwareIDofCardFieldName(),
+                    style: TextStyle(color: Theme.of(context).focusColor),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blueGrey,
+                    primary: Theme.of(context).secondaryHeaderColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -169,9 +178,12 @@ class _InputFieldsState extends State<InputFields> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(tab3ASDP.getButtonName()),
+                      child: Text(
+                        tab3ASDP.getButtonName(),
+                        style: TextStyle(color: Theme.of(context).focusColor),
+                      ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blueGrey,
+                        primary: Theme.of(context).secondaryHeaderColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -185,13 +197,17 @@ class _InputFieldsState extends State<InputFields> {
 
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
-      title: const Text('Karte hinzufügen'),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      title: Text('Karte hinzufügen',
+          style: TextStyle(color: Theme.of(context).primaryColor)),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "Gehen Sie bitte zum Kartenlesegerät am Kartenautomaten und halte Sie die jeweilige Karte vor den Scanner ..."),
+            "Gehen Sie bitte zum Kartenlesegerät am Kartenautomaten und halte Sie die jeweilige Karte vor den Scanner ...",
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
         ],
       ),
       actions: <Widget>[
@@ -210,9 +226,12 @@ class _InputFieldsState extends State<InputFields> {
                       Navigator.pop(context);
                     }
                   },
-                  child: Text("Abschließen"),
+                  child: Text(
+                    "Abschließen",
+                    style: TextStyle(color: Theme.of(context).focusColor),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blueGrey,
+                    primary: Theme.of(context).secondaryHeaderColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

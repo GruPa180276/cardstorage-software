@@ -23,19 +23,32 @@ class _HomeState extends State<Home> {
           size: 30,
         ),
         toolbarHeight: 70,
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
         title: Text('Admin Login',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).focusColor,
+            )),
         actions: [
-          Icon(Icons.account_box_rounded),
+          Icon(
+            Icons.account_box_rounded,
+            color: Theme.of(context).focusColor,
+          ),
           SizedBox(
             width: 20,
           ),
-          Icon(Icons.settings),
+          Icon(
+            Icons.settings,
+            color: Theme.of(context).focusColor,
+          ),
           SizedBox(
             width: 20,
           ),
-          Icon(Icons.logout),
+          Icon(
+            Icons.logout,
+            color: Theme.of(context).focusColor,
+          ),
           SizedBox(
             width: 10,
           ),
@@ -54,14 +67,17 @@ class _HomeState extends State<Home> {
       decoration: BoxDecoration(
           border: Border.all(
             width: 3,
-            color: Colors.blueGrey,
+            color: Theme.of(context).secondaryHeaderColor,
           ),
           borderRadius: BorderRadius.circular(15)),
       child: Column(children: [
         Text(homeTextValues.getWelcomePageHeadline(),
-            style: TextStyle(fontSize: 25)),
+            style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).primaryColor,
+            )),
         Divider(
-          color: Colors.blueGrey,
+          color: Theme.of(context).secondaryHeaderColor,
           height: 10,
           thickness: 2,
           indent: 5,
@@ -71,7 +87,10 @@ class _HomeState extends State<Home> {
             child: ListView(
           children: <Widget>[
             Text(homeTextValues.getWelcomePageText(),
-                style: TextStyle(fontSize: 20))
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Theme.of(context).primaryColor,
+                ))
           ],
         )),
       ]),

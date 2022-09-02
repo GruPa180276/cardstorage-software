@@ -30,8 +30,11 @@ class _StorageSettingsState extends State<StorageSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(tab2ASDP.getAppBarTitle()),
-            backgroundColor: tab2ASCP.getAppBarColor(),
+            title: Text(
+              tab2ASDP.getAppBarTitle(),
+              style: TextStyle(color: Theme.of(context).focusColor),
+            ),
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         body: SingleChildScrollView(
           child: Container(
@@ -75,8 +78,8 @@ class _InputFieldsState extends State<InputFields> {
                 child: Column(
           children: [
             CircularProgressIndicator(
-              backgroundColor: Colors.blueGrey,
-              valueColor: AlwaysStoppedAnimation(Colors.green),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
             )
           ],
         )));
@@ -89,7 +92,10 @@ class _InputFieldsState extends State<InputFields> {
         child: Container(
       child: Column(children: [
         ListTile(
-          leading: const Icon(Icons.description),
+          leading: Icon(
+            Icons.description,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -98,18 +104,21 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab2ASDP.getNameFieldName(),
                 hintText: data![tab2SSVP.getId()].title,
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             onChanged: (value) => tab2SSVP.setName(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.network_wifi),
+          leading: Icon(
+            Icons.network_wifi,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'([0-9\.])'))
@@ -117,19 +126,22 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab2ASDP.getIpAdressFieldName(),
                 hintText: data[tab2SSVP.getId()].id.toString(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab2SSVP.setIpAdress(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.format_list_numbered),
+          leading: Icon(
+            Icons.format_list_numbered,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
@@ -137,19 +149,22 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab2ASDP.getNumberOfCardsFieldName(),
                 hintText: data[tab2SSVP.getId()].id.toString(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab2SSVP.setNumberOfCards(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.location_pin),
+          leading: Icon(
+            Icons.location_pin,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -158,12 +173,12 @@ class _InputFieldsState extends State<InputFields> {
             decoration: InputDecoration(
                 labelText: tab2ASDP.getLocationFieldName(),
                 hintText: data[tab2SSVP.getId()].title.toString(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             onChanged: (value) => tab2SSVP.setLocation(value),
           ),
@@ -181,9 +196,12 @@ class _InputFieldsState extends State<InputFields> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(tab2ASDP.getButtonName()),
+                      child: Text(
+                        tab2ASDP.getButtonName(),
+                        style: TextStyle(color: Theme.of(context).focusColor),
+                      ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blueGrey,
+                        primary: Theme.of(context).secondaryHeaderColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),

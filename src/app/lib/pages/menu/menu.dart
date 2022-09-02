@@ -26,21 +26,31 @@ class _SettingsPageState extends State<Menu> {
         leading: Icon(
           Icons.credit_card,
           size: 30,
+          color: Theme.of(context).focusColor,
         ),
         toolbarHeight: 70,
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
         title: Text('Admin Login',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).focusColor)),
         actions: [
-          Icon(Icons.account_box_rounded),
+          Icon(
+            Icons.account_box_rounded,
+            color: Theme.of(context).focusColor,
+          ),
           SizedBox(
             width: 20,
           ),
-          Icon(Icons.settings),
+          Icon(
+            Icons.settings,
+            color: Theme.of(context).focusColor,
+          ),
           SizedBox(
             width: 20,
           ),
-          Icon(Icons.logout),
+          Icon(Icons.logout, color: Theme.of(context).focusColor),
           SizedBox(
             width: 10,
           ),
@@ -55,10 +65,13 @@ class _SettingsPageState extends State<Menu> {
 
   Widget buildChangeThemeMode(BuildContext context) {
     return SwitchListTile(
-        activeColor: Theme.of(context).secondaryHeaderColor,
+        activeColor: Theme.of(context).primaryColor,
         value: isDark,
         controlAffinity: ListTileControlAffinity.trailing,
-        title: Text("Switch Theme Mode"),
+        title: Text(
+          "Switch Theme Mode",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
         onChanged: (value) async {
           await AppPreferences.setIsOn(value);
           final provider = Provider.of<ThemeProvider>(context, listen: false);

@@ -26,8 +26,11 @@ class _AddUserState extends State<AddUser> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(tab4ASDP.getAppBarTitle()),
-            backgroundColor: tab4ASCP.getAppBarColor(),
+            title: Text(
+              tab4ASDP.getAppBarTitle(),
+              style: TextStyle(color: Theme.of(context).focusColor),
+            ),
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         body: SingleChildScrollView(
           child: Container(
@@ -52,7 +55,10 @@ class _InputFieldsState extends State<InputFields> {
     return Container(
       child: Column(children: [
         ListTile(
-          leading: const Icon(Icons.description),
+          leading: Icon(
+            Icons.description,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -60,18 +66,21 @@ class _InputFieldsState extends State<InputFields> {
             ],
             decoration: InputDecoration(
                 labelText: tab4ASDP.getFirstNameFieldName(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             onChanged: (value) => tab4SSVP.setFirstName(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.description),
+          leading: Icon(
+            Icons.description,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -79,18 +88,21 @@ class _InputFieldsState extends State<InputFields> {
             ],
             decoration: InputDecoration(
                 labelText: tab4ASDP.getLastNameFieldName(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             onChanged: (value) => tab4SSVP.setLastName(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.mail),
+          leading: Icon(
+            Icons.mail,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(
@@ -98,31 +110,34 @@ class _InputFieldsState extends State<InputFields> {
             ],
             decoration: InputDecoration(
                 labelText: tab4ASDP.getMailFieldName(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab4SSVP.setUserMail(value),
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.format_list_numbered),
+          leading: Icon(
+            Icons.format_list_numbered,
+            color: Theme.of(context).primaryColor,
+          ),
           title: TextField(
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'([0-9\- ])'))
             ],
             decoration: InputDecoration(
                 labelText: tab4ASDP.getPhoneFieldName(),
-                labelStyle: TextStyle(color: Colors.blueGrey),
+                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 )),
             keyboardType: TextInputType.number,
             onChanged: (value) => tab4SSVP.setPhoneNumber(value),
@@ -145,9 +160,12 @@ class _InputFieldsState extends State<InputFields> {
                             tab4SSVP.getUserMail() != "")
                           Navigator.pop(context);
                       },
-                      child: Text(tab4ASDP.getButtonName()),
+                      child: Text(
+                        tab4ASDP.getButtonName(),
+                        style: TextStyle(color: Theme.of(context).focusColor),
+                      ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blueGrey,
+                        primary: Theme.of(context).secondaryHeaderColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),

@@ -34,42 +34,46 @@ class _Tab3State extends State<Tab3> {
         floatingActionButton: SpeedDial(
           animatedIcon: AnimatedIcons.menu_close,
           animatedIconTheme: IconThemeData(size: 28.0),
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+          foregroundColor: Theme.of(context).focusColor,
           visible: true,
           curve: Curves.bounceInOut,
           children: [
             SpeedDialChild(
-              child: Icon(Icons.storage, color: Colors.white),
-              backgroundColor: Colors.blueGrey,
+              child: Icon(Icons.storage, color: Theme.of(context).focusColor),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
               onTap: () => setState(() {
                 selectedStorage = "1";
               }),
               label: '1',
-              labelStyle:
-                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-              labelBackgroundColor: Colors.black,
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).focusColor),
+              labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
             ),
             SpeedDialChild(
-              child: Icon(Icons.storage, color: Colors.white),
-              backgroundColor: Colors.blueGrey,
+              child: Icon(Icons.storage, color: Theme.of(context).focusColor),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
               onTap: () => setState(() {
                 selectedStorage = "2";
               }),
               label: '2',
-              labelStyle:
-                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-              labelBackgroundColor: Colors.black,
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).focusColor),
+              labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
             ),
             SpeedDialChild(
-              child: Icon(Icons.storage, color: Colors.white),
-              backgroundColor: Colors.blueGrey,
+              child: Icon(Icons.storage, color: Theme.of(context).focusColor),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
               onTap: () => setState(() {
                 selectedStorage = "3";
               }),
               label: '3',
-              labelStyle:
-                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-              labelBackgroundColor: Colors.black,
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).focusColor),
+              labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
             ),
           ],
         ),
@@ -77,21 +81,26 @@ class _Tab3State extends State<Tab3> {
           leading: Icon(
             Icons.credit_card,
             size: 30,
+            color: Theme.of(context).focusColor,
           ),
           toolbarHeight: 70,
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
           title: Text('Admin Login',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           actions: [
-            Icon(Icons.account_box_rounded),
+            Icon(Icons.account_box_rounded,
+                color: Theme.of(context).focusColor),
             SizedBox(
               width: 20,
             ),
-            Icon(Icons.settings),
+            Icon(Icons.settings, color: Theme.of(context).focusColor),
             SizedBox(
               width: 20,
             ),
-            Icon(Icons.logout),
+            Icon(
+              Icons.logout,
+              color: Theme.of(context).focusColor,
+            ),
             SizedBox(
               width: 10,
             ),
@@ -107,7 +116,8 @@ class _Tab3State extends State<Tab3> {
                     child: FloatingActionButton.extended(
                       label: Text("Add"),
                       icon: Icon(Icons.add),
-                      backgroundColor: Colors.blueGrey,
+                      backgroundColor: Theme.of(context).secondaryHeaderColor,
+                      foregroundColor: Theme.of(context).focusColor,
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -124,7 +134,8 @@ class _Tab3State extends State<Tab3> {
                     child: FloatingActionButton.extended(
                       label: Text("Remove"),
                       icon: Icon(Icons.remove),
-                      backgroundColor: Colors.blueGrey,
+                      backgroundColor: Theme.of(context).secondaryHeaderColor,
+                      foregroundColor: Theme.of(context).focusColor,
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -191,8 +202,8 @@ class _ListCardsState extends State<ListCards> {
             child: Column(
           children: [
             CircularProgressIndicator(
-              backgroundColor: Colors.blueGrey,
-              valueColor: AlwaysStoppedAnimation(Colors.green),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
             )
           ],
         ));
@@ -209,20 +220,19 @@ class _ListCardsState extends State<ListCards> {
         decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: Colors.blueGrey,
+              color: Theme.of(context).secondaryHeaderColor,
             ),
             borderRadius: BorderRadius.circular(15)),
         child: Stack(children: [
           Positioned(
               left: 100,
               child: Text(data![index].title,
-                  style: const TextStyle(fontSize: 20))),
+                  style: TextStyle(
+                      fontSize: 20, color: Theme.of(context).primaryColor))),
           setStateOfCardStorage(data[index].title.toString()),
           setCardStorageIcon(data[index].title.toString()),
-          Icon(
-            Icons.credit_card,
-            size: 60,
-          )
+          Icon(Icons.credit_card,
+              size: 60, color: Theme.of(context).primaryColor)
         ]),
       ),
       onTap: () {
@@ -241,9 +251,13 @@ class _ListCardsState extends State<ListCards> {
     Widget cardState = Text("");
     String apiCall = "x"; // Only Test Values, will be changed to an API call
     if (apiCall == "x") {
-      cardState = Text("Verfügbar", style: const TextStyle(fontSize: 20));
+      cardState = Text("Verfügbar",
+          style:
+              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
     } else if (apiCall == "y") {
-      cardState = Text("Nicht Verfügbar", style: const TextStyle(fontSize: 20));
+      cardState = Text("Nicht Verfügbar",
+          style:
+              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
     }
     return Positioned(left: 140, top: 30, child: cardState);
   }
@@ -258,7 +272,10 @@ class _ListCardsState extends State<ListCards> {
     } else if (apiCall == "y") {
       cardIcon = Icons.cancel_rounded;
     }
-    return Positioned(left: 100, top: 30, child: Icon(cardIcon));
+    return Positioned(
+        left: 100,
+        top: 30,
+        child: Icon(cardIcon, color: Theme.of(context).primaryColor));
   }
 }
 

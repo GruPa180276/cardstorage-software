@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.white,
+        color: Theme.of(context).focusColor,
         child:
             Image.asset("img/splashscreen.jpg", height: 200.0, width: 200.0));
   }

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:app/provider/theme/themes.dart';
 import 'package:app/config/theme/app_preference.dart';
 
-import '../Widget/appbar.dart';
+import 'package:app/pages/widget/appbar.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);

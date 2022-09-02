@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-import '../Widget/appbar.dart';
 import 'add_cards.dart';
 import 'alter_cards.dart';
 import 'remove_cards.dart';
+
+import 'package:app/pages/widget/appbar.dart';
+
+import 'package:app/pages/widget/speeddial.dart';
 
 import 'package:app/config/text_values/tab3_text_values.dart';
 
@@ -27,55 +29,16 @@ class _Tab3State extends State<Tab3> {
   String dropDownText = tab3DP.getDropDownText();
   var dropDownValues = tab3DP.getDropDownValues();
 
+  callBack(String storage) {
+    setState(() {
+      selectedStorage = storage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: SpeedDial(
-          animatedIcon: AnimatedIcons.menu_close,
-          animatedIconTheme: IconThemeData(size: 28.0),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          foregroundColor: Theme.of(context).focusColor,
-          visible: true,
-          curve: Curves.bounceInOut,
-          children: [
-            SpeedDialChild(
-              child: Icon(Icons.storage, color: Theme.of(context).focusColor),
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
-              onTap: () => setState(() {
-                selectedStorage = "1";
-              }),
-              label: '1',
-              labelStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).focusColor),
-              labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
-            ),
-            SpeedDialChild(
-              child: Icon(Icons.storage, color: Theme.of(context).focusColor),
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
-              onTap: () => setState(() {
-                selectedStorage = "2";
-              }),
-              label: '2',
-              labelStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).focusColor),
-              labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
-            ),
-            SpeedDialChild(
-              child: Icon(Icons.storage, color: Theme.of(context).focusColor),
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
-              onTap: () => setState(() {
-                selectedStorage = "3";
-              }),
-              label: '3',
-              labelStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).focusColor),
-              labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
-            ),
-          ],
-        ),
+        floatingActionButton: GenerateSpeedDial(this.callBack),
         appBar: generateAppBar(context),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),

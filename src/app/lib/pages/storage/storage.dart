@@ -4,12 +4,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../Widget/appbar.dart';
 import 'alter_storage.dart';
 import 'add_Storage.dart';
 import 'remove_storage.dart';
 
 import 'package:app/config/text_values/tab2_text_values.dart';
+
+import 'package:app/pages/widget/appbar.dart';
 
 // ToDo: Changed the API Calls to the actual API
 

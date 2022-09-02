@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:app/pages/home/home.dart';
-import 'package:app/pages/stats/tab1.dart';
-import 'package:app/pages/storage/tab2.dart';
-import 'package:app/pages/card/tab3.dart';
-import 'package:app/pages/user/tab4.dart';
+import 'package:app/pages/stats/stats.dart';
+import 'package:app/pages/storage/storage.dart';
+import 'package:app/pages/card/card.dart';
+import 'package:app/pages/user/user.dart';
 import 'package:app/pages/menu/menu.dart';
 
 class BottomNavigation extends StatefulWidget {

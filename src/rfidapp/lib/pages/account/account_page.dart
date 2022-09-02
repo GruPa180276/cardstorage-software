@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/Login/login_page.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
@@ -115,7 +116,8 @@ class _AccountPageState extends State<AccountPage> {
                               text: 'Abbrechen',
                               textColor: Theme.of(context).primaryColor,
                               onPress: () {
-                                print('Tbc');
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()));
                               },
                             )),
                       )),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -37,6 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 100,
         bottomOpacity: 0.0,
         elevation: 0.0,
         backgroundColor: Colors.transparent,
@@ -51,6 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
         child: SingleChildScrollView(
           child: Column(children: <Widget>[
+            SizedBox(height: 20),
             TextInput(
               inputController: firstnameController,
               label: 'Vorname',
@@ -58,6 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               validator: Validator.funcName,
               obsecureText: false,
             ),
+            SizedBox(height: 20),
             TextInput(
               inputController: lastNameController,
               label: 'Nachname',
@@ -65,6 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               validator: Validator.funcName,
               obsecureText: false,
             ),
+            SizedBox(height: 20),
             TextInput(
               inputController: emailController,
               label: 'E-Mail',
@@ -75,10 +81,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
             buildPassword(this.context),
             buildRepeatPassword(this.context),
             buildProgressbar(this.context),
-            const SizedBox(
+            SizedBox(
               height: 30,
             ),
-            buildCreateAccount(this.context),
+            SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: buttonField(
+                  bgColor: ColorSelect.blueAccent,
+                  borderColor: ColorSelect.blueAccent,
+                  text: 'Erstelle einen Account',
+                  textColor: Colors.white,
+                  onPress: () {
+                    print('tbc');
+                  },
+                )),
           ]),
         ),
       ),
@@ -195,31 +212,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontWeight: FontWeight.w400,
                   fontFamily: "Lato")))
     ]);
-  }
-
-  Widget buildCreateAccount(BuildContext context) {
-    return SizedBox(
-      width: 500,
-      height: 60,
-      child: ElevatedButton(
-        onPressed: () {
-          //TODO
-        },
-        // style: ElevatedButton.styleFrom(
-        //   padding: const EdgeInsets.fromLTRB(150, 15, 150, 15),
-
-        // ),
-        style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100),
-            ))),
-        child: const Text(
-          'Erstelle einen Account',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
   }
 }

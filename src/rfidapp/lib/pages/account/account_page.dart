@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class AccountPage extends StatefulWidget {
@@ -89,17 +90,52 @@ class _AccountPageState extends State<AccountPage> {
                   SizedBox(
                       width: double.infinity,
                       height: 50,
-                      child: buildButton('Passwort aendern')),
+                      child: buttonField(
+                        bgColor: ColorSelect.blueAccent,
+                        borderColor: ColorSelect.blueAccent,
+                        text: 'Passwort aendern',
+                        textColor: Colors.white,
+                        onPress: () {
+                          print('Tbc');
+                        },
+                      )),
                   const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(
                           child: SizedBox(
-                              height: 50, child: buildButton('Abbrechen'))),
+                        height: 50,
+                        child: SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: buttonField(
+                              bgColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              borderColor: Theme.of(context).primaryColor,
+                              text: 'Abbrechen',
+                              textColor: Theme.of(context).primaryColor,
+                              onPress: () {
+                                print('Tbc');
+                              },
+                            )),
+                      )),
                       const SizedBox(width: 20),
                       Expanded(
                           child: SizedBox(
-                              height: 50, child: buildButton('Speichern')))
+                        height: 50,
+                        child: SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: buttonField(
+                              bgColor: ColorSelect.blueAccent,
+                              borderColor: ColorSelect.blueAccent,
+                              text: 'Speichern',
+                              textColor: Colors.white,
+                              onPress: () {
+                                print('Tbc');
+                              },
+                            )),
+                      ))
                     ],
                   )
                 ],
@@ -107,37 +143,5 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
         ));
-  }
-
-  Widget buildButton(String text) {
-    Color colorbg = ColorSelect.blueAccent;
-    Color colorText = Colors.white;
-    Color colorBorder = ColorSelect.blueAccent;
-
-    if (text == 'Abbrechen') {
-      colorbg = Theme.of(context).scaffoldBackgroundColor;
-      colorText = Theme.of(context).primaryColor;
-      colorBorder = Theme.of(context).primaryColor;
-    }
-
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(colorbg),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0),
-                  side: BorderSide(color: colorBorder, width: 2.2)))),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: colorText,
-        ),
-      ),
-    );
   }
 }

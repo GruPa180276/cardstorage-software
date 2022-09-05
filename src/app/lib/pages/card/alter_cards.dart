@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:app/config/text_values/tab3_text_values.dart';
 import 'package:app/domain/values/tab3_card_values.dart';
+
+import 'package:app/pages/widget/data.dart';
 
 // ToDo: The Api needs to be changed in the future
 // Add API call to select the Card Storage
@@ -238,33 +238,6 @@ class _InputFieldsState extends State<InputFields> {
           ]),
         ),
       ],
-    );
-  }
-}
-
-Future<List<Data>> fetchData() async {
-  final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Data.fromJson(data)).toList();
-  } else {
-    throw Exception('Unexpected error occured!');
-  }
-}
-
-class Data {
-  final int userId;
-  final int id;
-  final String title;
-
-  Data({required this.userId, required this.id, required this.title});
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
     );
   }
 }

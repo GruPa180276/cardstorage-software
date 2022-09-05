@@ -142,6 +142,8 @@ Habe heute das Design fertig überarbeitet und einem Themes Switcher implementie
 **2.9.2022: 7:15 -> 11:15** <br>
 Habe heute weiter am Themeswitcher gearbeitet. Dazu habe ich jeden statischen Farbwert auf den Themeswitcher geändert. Der Darkmods funktioniert jetzt auch soweit richtig. Danach habe ich begonnen den Code in mehrere Datein aufzuteilen. Die AppBar und der SpeedDialSwitcher wurden bereits ausgelagert. (4h)
 
+**5.9.2022: 6:45 -> xx** <br>
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

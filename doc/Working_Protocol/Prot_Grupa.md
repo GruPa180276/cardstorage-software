@@ -165,7 +165,7 @@ Am Nachmittag habe ich mich damit beschaeft die Ordner und Filename der Konventi
 
 Am Vormittag habe ich bei der app das Dry Prinzip fuer die Buttonsgeschrieben, um Zeilen sparen und eine bnessere Lesbarkeit zu ermoeglichen. Danach habe cih einen Inent geschrieben, um die Einstellungen vom Betriebssystem oeffnen zu koennen, damit die Notificationssetting geaendert werden koenne. Danach habe ich noch ein paar Bugs behoben. Allerdings war die App soweit fertig, aber ich musste noch auf die Fertigstellen von MJs Api warten. Deshalb habe ich begonnen, den NFC Write beim handy zu implementieren, was sich als herrausforderung darstellt, da es keine packages dafuer gibt. Alelrdings hatte ich beim raspberry ein problem, da ih mich mit ssh nicht anmelden konnte. Nach zahrleichen neuinstalltionen, habe ich im internet gelese, dass raspberry vor kruzem, den standardnutzer entfertn. Somit musste ih ein usder config erstellen und alles funktionierte dann.
 
-**2022-09-06: 8:00 -> 11:00** 
+**2022-09-06: 8:00 -> 11:15** 
 
 Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann, um ueber den aktuellen Projektstand zu reden. Danach habe ich das Programm fuer den NFC reader am raspi geschrieben. Nach langem suchen in zahlreichen Foren, stellt sich raus, das mein Konzept mit dem NFC lesen nicht moeglich ist da sich die UID laufend aendert. Danach habe ich mir ein neues Konzept ueberlegt und ahtte anschliessend wieder ein  Meeting mit Herrn Zoechmann. 
 
@@ -213,6 +213,6 @@ Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann, um ueber den aktuellen P
 - 9:30 bis 11:35 Uhr
 - 13:00 bis 15:00 Uhr
 - 9:00 bis 12:40 Uhr
-- 8:00 bis 11:00 Uhr
+- 8:00 bis 11:15 Uhr
 <!-- { "progress": false } -->
 

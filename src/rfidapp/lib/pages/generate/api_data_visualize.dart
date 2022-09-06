@@ -80,7 +80,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     onPressed: () {
                       BottomSheetPop(
                               onPressStorage: setListType,
-                              listOfTypes: listOfTypes!)
+                              listOfTypes: listOfTypes!,
+                              reloadList: reloadCardList)
                           .buildBottomSheet(context);
                     },
                     icon: Icon(Icons.filter))

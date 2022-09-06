@@ -169,6 +169,8 @@ Am Vormittag habe ich bei der app das Dry Prinzip fuer die Buttonsgeschrieben, u
 
 Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann, um ueber den aktuellen Projektstand zu reden. Danach habe ich das Programm fuer den NFC reader am raspi geschrieben. Nach langem suchen in zahlreichen Foren, stellt sich raus, das mein Konzept mit dem NFC lesen nicht moeglich ist da sich die UID laufend aendert. Danach habe ich mir ein neues Konzept ueberlegt und ahtte anschliessend wieder ein  Meeting mit Herrn Zoechmann. 
 
+**2022-09-06: 13:00 -> 15:00** 
+
 Am Nachmittag habe ich mich damit beschaeftigt einen Filter hinzuzufuegen. Zuerst uyeblergte ich mir ein Konzept, um eine moeglichst gute Implementierung zu haben. Danachn wurde der Filter erfolgreich einprogrammiert. Allerdings muss ich noch auf die Fertifgstellung von MJ seiner API warten umd den Filter fertigzustellen.
 
 <!-- { "progress": true } -->
@@ -215,5 +217,6 @@ Am Nachmittag habe ich mich damit beschaeftigt einen Filter hinzuzufuegen. Zuers
 - 9:00 bis 12:40 Uhr
 - 8:00 bis 11:15 Uhr
 - 8:00 bis 11:15 Uhr
+- 13:00 bis 15:00 Uhr
 <!-- { "progress": false } -->
 

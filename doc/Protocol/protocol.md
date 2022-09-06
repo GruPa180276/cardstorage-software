@@ -145,6 +145,8 @@ Habe heute weiter am Themeswitcher gearbeitet. Dazu habe ich jeden statischen Fa
 **5.9.2022: 6:45 -> 12.00** <br>
 Hab heute beim refactoren weitergemacht. Dazu habe ich die Cards Datei in mehere Datein aufgeteilt. Danach hat sich ein Problem ergeben. Jedes mal, wenn man einen Button auf dieser Seite drückt, funktioniert das genau einaml, danach kann man in der App nichts mehr drücken. Das Problem ist, das ich dir Routen zu den Seiten als Klasssenparameter übergebe und deshalb die App nicht mehr weis, wie sie zurück kommt. Deshalb habe ich einen Issue aufgemacht.
 
+**6.9.2022: 6:55 -> xx** <br>
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

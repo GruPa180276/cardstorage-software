@@ -6,14 +6,25 @@ class GenerateCards extends StatefulWidget {
   final int index;
   final List<Data> data;
   final IconData icon;
-  final MaterialPageRoute route;
+  final String route;
+  final int argument;
 
-  const GenerateCards(
+  const GenerateCards.withoutArguments({
+    Key? key,
+    required this.index,
+    required this.data,
+    required this.icon,
+    required this.route,
+    this.argument = 0,
+  }) : super(key: key);
+
+  const GenerateCards.withArguments(
       {Key? key,
       required this.index,
       required this.data,
       required this.icon,
-      required this.route})
+      required this.route,
+      required this.argument})
       : super(key: key);
 
   @override
@@ -46,7 +57,8 @@ class _GenerateCardsState extends State<GenerateCards> {
         ]),
       ),
       onTap: () {
-        Navigator.push(context, widget.route);
+        Navigator.of(context)
+            .pushNamed(widget.route, arguments: widget.argument);
       },
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Expanded generateButton(BuildContext context, String buttonText,
-    IconData buttonIcon, MaterialPageRoute route) {
+    IconData buttonIcon, String route) {
   return Expanded(
     child: FloatingActionButton.extended(
       label: Text(buttonText),
@@ -9,7 +9,7 @@ Expanded generateButton(BuildContext context, String buttonText,
       backgroundColor: Theme.of(context).secondaryHeaderColor,
       foregroundColor: Theme.of(context).focusColor,
       onPressed: () {
-        Navigator.push(context, route);
+        Navigator.of(context).pushNamed(route);
       },
     ),
   );

@@ -1,19 +1,14 @@
-import 'package:app/pages/widget/button.dart';
-import 'package:app/pages/widget/card.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'add_cards.dart';
-import 'alter_cards.dart';
-import 'remove_cards.dart';
-
-import 'package:app/pages/widget/appbar.dart';
-
-import 'package:app/pages/widget/speeddial.dart';
 
 import 'package:app/config/text_values/tab3_text_values.dart';
 
 import 'package:app/pages/widget/data.dart';
+import 'package:app/pages/widget/card.dart';
+import 'package:app/pages/widget/button.dart';
+import 'package:app/pages/widget/appbar.dart';
+import 'package:app/pages/widget/speeddial.dart';
+import 'package:app/pages/widget/circularprogressindicator.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
@@ -48,23 +43,12 @@ class _Tab3State extends State<Tab3> {
             Container(
               child: Row(
                 children: [
-                  generateButton(
-                      context,
-                      "Add",
-                      Icons.add,
-                      MaterialPageRoute(
-                        builder: (context) => AddCards(),
-                      )),
+                  generateButton(context, "Add", Icons.add, "/addCards"),
                   SizedBox(
                     width: 10,
                   ),
                   generateButton(
-                      context,
-                      "Remove",
-                      Icons.remove,
-                      MaterialPageRoute(
-                        builder: (context) => RemoveCards(),
-                      )),
+                      context, "Remove", Icons.remove, "/removeCards")
                 ],
               ),
             ),
@@ -97,42 +81,5 @@ class _ListCardsState extends State<ListCards> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: FutureBuilder<List<Data>>(
-      future: futureData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
-          return ListView.builder(
-              itemCount: data?.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].userId.toString()) {
-                  return GenerateCards(
-                    index: index,
-                    data: data,
-                    icon: Icons.credit_card,
-                    route: MaterialPageRoute(
-                      builder: (context) => CardSettings(data[index].id - 1),
-                    ),
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
-              });
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return Container(
-            child: Column(
-          children: [
-            CircularProgressIndicator(
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
-              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
-            )
-          ],
-        ));
-      },
-    ));
-  }
+  
 }

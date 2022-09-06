@@ -1,3 +1,4 @@
+import 'package:app/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class AppStart extends StatelessWidget {
             darkTheme: MyThemes.darkTheme,
             debugShowCheckedModeBanner: false,
             home: const SplashScreen(),
+            onGenerateRoute: RouteGenerator.generateRoute,
           );
         });
   }

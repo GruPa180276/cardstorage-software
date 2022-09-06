@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import 'package:app/config/text_values/tab1_text_values.dart';
+import 'package:app/config/values/tab1_text_values.dart';
 
 // ToDo: The actual API values should be used
 

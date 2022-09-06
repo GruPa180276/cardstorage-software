@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
-import 'package:app/config/text_values/tab3_text_values.dart';
 import 'package:app/domain/values/tab3_card_values.dart';
 
 import 'package:app/pages/widget/data.dart';
@@ -13,8 +12,6 @@ import 'package:app/pages/widget/data.dart';
 
 Tab3StorageSettingsValuesProvider tab3SSVP =
     new Tab3StorageSettingsValuesProvider();
-Tab3AlterStorageDescriptionProvider tab3ASDP =
-    new Tab3AlterStorageDescriptionProvider();
 
 class CardSettings extends StatefulWidget {
   CardSettings(int id, {Key? key}) : super(key: key) {
@@ -31,7 +28,7 @@ class _CardSettingsState extends State<CardSettings> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              tab3ASDP.getAppBarTitle(),
+              "Karten Einstellungen",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -102,7 +99,7 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-                labelText: tab3ASDP.getNameFieldName(),
+                labelText: "Name",
                 hintText: data![tab3SSVP.getId()].title,
                 labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
@@ -122,7 +119,7 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-                labelText: tab3ASDP.getCardStorageFieldName(),
+                labelText: "Karten Tresor",
                 hintText: data[tab3SSVP.getId()].id.toString(),
                 labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
@@ -151,7 +148,7 @@ class _InputFieldsState extends State<InputFields> {
                     );
                   },
                   child: Text(
-                    tab3ASDP.getHardwareIDofCardFieldName(),
+                    "Bitte Karte scannen",
                     style: TextStyle(color: Theme.of(context).focusColor),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -177,7 +174,7 @@ class _InputFieldsState extends State<InputFields> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        tab3ASDP.getButtonName(),
+                        "Änderungen speichern",
                         style: TextStyle(color: Theme.of(context).focusColor),
                       ),
                       style: ElevatedButton.styleFrom(

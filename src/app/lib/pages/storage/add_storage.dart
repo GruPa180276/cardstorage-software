@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-import 'package:app/config/text_values/tab2_text_values.dart';
+import 'package:app/config/values/tab2_text_values.dart';
 import 'package:app/domain/values/tab2_storage_values.dart';
 
 // ToDo: The needs to be pushed to the API

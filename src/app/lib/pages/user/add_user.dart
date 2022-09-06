@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-import 'package:app/config/text_values/tab4_text_values.dart';
+import 'package:app/config/values/tab4_text_values.dart';
 import 'package:app/domain/values/tab4_user_values.dart';
 
 // ToDo: The needs to be pushed to the API

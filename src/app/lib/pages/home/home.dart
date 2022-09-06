@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:app/config/text_values/home_text_values.dart';
+import 'package:app/config/values/home_text_values.dart';
 
 import 'package:app/pages/Widget/appbar.dart';
 

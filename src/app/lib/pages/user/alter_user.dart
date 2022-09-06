@@ -5,7 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:app/config/text_values/tab4_text_values.dart';
+import 'package:app/config/values/tab4_text_values.dart';
 import 'package:app/domain/values/tab4_user_values.dart';
 
 // ToDo: The Api needs to be changed in the future

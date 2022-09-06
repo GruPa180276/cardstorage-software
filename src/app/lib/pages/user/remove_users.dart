@@ -4,13 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:app/config/text_values/tab3_text_values.dart';
-
 // ToDo: The Api needs to be changed in the future
-
-Tab3DescrpitionProvider tab3SSVP = new Tab3DescrpitionProvider();
-Tab3RemoveStorageDescriptionProvider tab4ASDP =
-    new Tab3RemoveStorageDescriptionProvider();
 
 List<String> values = [];
 List<String> id = [];
@@ -34,7 +28,7 @@ class _RemoveCardsState extends State<RemoveUsers> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              tab4ASDP.getAppBarTitle(),
+              "Benutzer entfernen",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,

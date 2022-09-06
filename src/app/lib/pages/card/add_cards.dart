@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-import 'package:app/config/text_values/tab3_text_values.dart';
 import 'package:app/domain/values/tab3_card_values.dart';
 
 // ToDo: The needs to be pushed to the API
@@ -10,8 +9,6 @@ import 'package:app/domain/values/tab3_card_values.dart';
 
 Tab3StorageSettingsValuesProvider tab3SSVP =
     new Tab3StorageSettingsValuesProvider();
-Tab3AddStorageDescriptionProvider tab3ASDP =
-    new Tab3AddStorageDescriptionProvider();
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -26,7 +23,7 @@ class _AddCardsState extends State<AddCards> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              tab3ASDP.getAppBarTitle(),
+              "Admin Login",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -62,7 +59,7 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-                labelText: tab3ASDP.getNameFieldName(),
+                labelText: "Name",
                 labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).primaryColor),
@@ -81,7 +78,7 @@ class _InputFieldsState extends State<InputFields> {
                   RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
             ],
             decoration: InputDecoration(
-                labelText: tab3ASDP.getCardStorageFieldName(),
+                labelText: "Karten Tresor",
                 labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).primaryColor),
@@ -109,7 +106,7 @@ class _InputFieldsState extends State<InputFields> {
                     );
                   },
                   child: Text(
-                    tab3ASDP.getHardwareIDofCardFieldName(),
+                    "Bitte Karte scannen",
                     style: TextStyle(color: Theme.of(context).focusColor),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -139,7 +136,7 @@ class _InputFieldsState extends State<InputFields> {
                         }
                       },
                       child: Text(
-                        tab3ASDP.getButtonName(),
+                        "Karte hinzufügen",
                         style: TextStyle(color: Theme.of(context).focusColor),
                       ),
                       style: ElevatedButton.styleFrom(

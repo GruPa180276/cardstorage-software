@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:app/config/text_values/tab3_text_values.dart';
+import 'dart:async';
 
 import 'package:app/pages/widget/data.dart';
 import 'package:app/pages/widget/card.dart';
@@ -12,8 +11,6 @@ import 'package:app/pages/widget/circularprogressindicator.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
-Tab3DescrpitionProvider tab3DP = new Tab3DescrpitionProvider();
-
 class Tab3 extends StatefulWidget {
   Tab3({Key? key}) : super(key: key) {}
 
@@ -23,8 +20,7 @@ class Tab3 extends StatefulWidget {
 
 class _Tab3State extends State<Tab3> {
   String selectedStorage = "1";
-  String dropDownText = tab3DP.getDropDownText();
-  var dropDownValues = tab3DP.getDropDownValues();
+  List<String> dropDownValues = ['1', '2', '3'];
 
   callBack(String storage) {
     setState(() {
@@ -43,12 +39,12 @@ class _Tab3State extends State<Tab3> {
             Container(
               child: Row(
                 children: [
-                  generateButton(context, "Add", Icons.add, "/addCards"),
+                  generateButton(context, "Hinzufügen", Icons.add, "/addCards"),
                   SizedBox(
                     width: 10,
                   ),
                   generateButton(
-                      context, "Remove", Icons.remove, "/removeCards")
+                      context, "Entfernen", Icons.remove, "/removeCards")
                 ],
               ),
             ),

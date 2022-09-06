@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'dart:async';
 
-import 'package:app/config/text_values/tab3_text_values.dart';
 import 'package:app/domain/values/tab3_card_values.dart';
 
 import 'package:app/pages/widget/data.dart';
@@ -11,8 +10,6 @@ import 'package:app/pages/widget/data.dart';
 
 Tab3StorageSettingsValuesProvider tab3SSVP =
     new Tab3StorageSettingsValuesProvider();
-Tab3RemoveStorageDescriptionProvider tab3ASDP =
-    new Tab3RemoveStorageDescriptionProvider();
 
 List<String> values = [];
 List<String> id = [];
@@ -36,7 +33,7 @@ class _RemoveCardsState extends State<RemoveCards> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              tab3ASDP.getAppBarTitle(),
+              "Karten entferenen",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -77,7 +74,7 @@ class _RemoveCardsState extends State<RemoveCards> {
                           Icons.search,
                           color: Theme.of(context).focusColor,
                         ),
-                        label: Text("Search",
+                        label: Text("Karte Suchen",
                             style:
                                 TextStyle(color: Theme.of(context).focusColor)),
                         backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -97,7 +94,7 @@ class _RemoveCardsState extends State<RemoveCards> {
                           color: Theme.of(context).focusColor,
                         ),
                         label: Text(
-                          "Remove",
+                          "Entfernen",
                           style: TextStyle(color: Theme.of(context).focusColor),
                         ),
                         backgroundColor: Theme.of(context).secondaryHeaderColor,

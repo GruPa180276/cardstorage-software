@@ -8,7 +8,7 @@ import 'add_user.dart';
 import 'alter_user.dart';
 import 'remove_users.dart';
 
-import 'package:app/config/text_values/tab4_text_values.dart';
+import 'package:app/config/values/tab4_text_values.dart';
 
 import 'package:app/pages/widget/appbar.dart';
 

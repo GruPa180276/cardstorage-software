@@ -8,7 +8,7 @@ import 'alter_storage.dart';
 import 'add_Storage.dart';
 import 'remove_storage.dart';
 
-import 'package:app/config/text_values/tab2_text_values.dart';
+import 'package:app/config/values/tab2_text_values.dart';
 
 import 'package:app/pages/widget/appbar.dart';
 

@@ -61,3 +61,5 @@
 - https://stackoverflow.com/questions/56411599/flutter-textformfield-change-labelcolor-on-focus
 - https://www.bezkoder.com/dart-flutter-constructors/
 - https://www.youtube.com/watch?v=nyvwx7o277U
+- https://stackoverflow.com/questions/68259350/how-to-create-elevated-button-with-icon-and-text-in-flutter
+- https://stackoverflow.com/questions/50293503/how-to-set-the-width-and-height-of-a-button-in-flutter

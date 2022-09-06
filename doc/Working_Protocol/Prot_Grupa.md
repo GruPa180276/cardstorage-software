@@ -173,6 +173,10 @@ Am Vormittag hatte ich ein Meeting mit Herrn Zoechmann, um ueber den aktuellen P
 
 Am Nachmittag habe ich mich damit beschaeftigt einen Filter hinzuzufuegen. Zuerst uyeblergte ich mir ein Konzept, um eine moeglichst gute Implementierung zu haben. Danachn wurde der Filter erfolgreich einprogrammiert. Allerdings muss ich noch auf die Fertifgstellung von MJ seiner API warten umd den Filter fertigzustellen.
 
+**2022-09-06: 21:00 -> 23:30** 
+
+Abends habe ich dann noch versucht den Filter fertigzustellen. Allerdings stoss ich auf ein Problem, da ich leider bei meinem Konzept die flasche Liste verwendet habe. nach etwas debuugen konte ich allerdings den Fehler finden und behebe. Danach wurde noch etwas am deisgin umgeaendert
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -218,5 +222,6 @@ Am Nachmittag habe ich mich damit beschaeftigt einen Filter hinzuzufuegen. Zuers
 - 8:00 bis 11:15 Uhr
 - 8:00 bis 11:15 Uhr
 - 13:00 bis 15:00 Uhr
+- 21:00 bis 23:30 Uhr
 <!-- { "progress": false } -->
 

@@ -20,6 +20,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   //TODO change for Ben as its hardcoded Cards text
   _ApiVisualizerState({required this.site});
   Future<List<Cards>>? listOfTypes;
+  Future<List<Cards>>? listOfTypesSinceInit;
+
   String searchString = "";
   TextEditingController searchController = TextEditingController();
   String site;
@@ -34,6 +36,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     setState(() {
       listOfTypes = Data.getData("card").then((value) =>
           jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+      listOfTypesSinceInit = listOfTypes;
     });
   }
 
@@ -79,10 +82,9 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 IconButton(
                     onPressed: () {
                       BottomSheetPop(
-                              onPressStorage: setListType,
-                              listOfTypes: listOfTypes!,
-                              reloadList: reloadCardList)
-                          .buildBottomSheet(context);
+                        onPressStorage: setListType,
+                        listOfTypes: listOfTypesSinceInit!,
+                      ).buildBottomSheet(context);
                     },
                     icon: Icon(Icons.filter))
               ],

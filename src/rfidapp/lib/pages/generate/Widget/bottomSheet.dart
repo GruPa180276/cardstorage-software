@@ -9,24 +9,29 @@ class BottomSheetPop {
   List<dynamic> listOfStorageId = ['', 1117, 1118];
   List<dynamic> listofAvailable = ['', true, false];
   final Function(Future<List<Cards>>) onPressStorage;
-  final Function reloadList;
   Future<List<Cards>> listOfTypes;
   Future<List<Cards>>? newListOfCards;
 
-  BottomSheetPop(
-      {Key? key,
-      required this.listOfTypes,
-      required this.onPressStorage,
-      required this.reloadList});
+  BottomSheetPop({
+    Key? key,
+    required this.listOfTypes,
+    required this.onPressStorage,
+  });
 
   Future buildBottomSheet(BuildContext context) {
     //TODO getStorageIds by API
     return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(30),
+          ),
+        ),
         context: context,
         builder: (context) {
           return StatefulBuilder(builder: (BuildContext context,
               StateSetter setState /*You can rename this!*/) {
             return Container(
+                height: 300,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
                 child: Column(children: [
                   Text(
@@ -88,16 +93,30 @@ class BottomSheetPop {
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     width: double.infinity,
+                    height: 50,
                     child: buttonField(
                         bgColor: ColorSelect.blueAccent,
                         borderColor: ColorSelect.blueAccent,
                         text: 'Filtern',
-                        onPress: () async {
+                        onPress: () {
                           listOfTypes.then((value) => print(value.length));
-                          await reloadList();
                           listOfTypes.then((value) => print(value.length));
-
+                          //Improve logic readability
                           newListOfCards = listOfTypes.then((value) {
+                            if (valueAvailable.toString().isEmpty &&
+                                valueStorage.toString().isEmpty) {
+                              return value;
+                            } else if (valueAvailable.toString().isEmpty) {
+                              return value
+                                  .where((element) =>
+                                      element.storageId == valueStorage)
+                                  .toList();
+                            } else if (valueStorage.toString().isEmpty) {
+                              return value
+                                  .where((element) =>
+                                      element.isAvailable == valueAvailable)
+                                  .toList();
+                            }
                             return value
                                 .where((element) =>
                                     element.storageId == valueStorage &&

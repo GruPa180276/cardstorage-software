@@ -81,5 +81,35 @@ class _ListCardsState extends State<ListCards> {
   }
 
   @override
-  
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (widget.cardStorage == data![index].userId.toString()) {
+                  return GenerateCards.withArguments(
+                      index: index,
+                      data: data,
+                      icon: Icons.credit_card,
+                      route: "/alterCards",
+                      argument: data[index].id - 1);
+                } else {
+                  return const SizedBox.shrink();
+                }
+              });
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Container(
+            child: Column(
+          children: [generateProgressIndicator(context)],
+        ));
+      },
+    ));
+  }
 }

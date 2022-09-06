@@ -1,78 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/palette.dart';
+import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 class BottomSheetPop {
-  const BottomSheetPop(
-      {Key? key, required this.onPressStorage, required this.listOfTypes});
+  dynamic? valueStorage = '';
+  dynamic? valueAvailable = '';
+  List<dynamic> listOfStorageId = ['', 1117, 1118];
+  List<dynamic> listofAvailable = ['', true, false];
   final Function(Future<List<Cards>>) onPressStorage;
-  final Future<List<Cards>> listOfTypes;
+  final Function reloadList;
+  Future<List<Cards>> listOfTypes;
+  Future<List<Cards>>? newListOfCards;
+
+  BottomSheetPop(
+      {Key? key,
+      required this.listOfTypes,
+      required this.onPressStorage,
+      required this.reloadList});
 
   Future buildBottomSheet(BuildContext context) {
     //TODO getStorageIds by API
-    String valueStorage = '';
-    String valueAvail = '';
-    List<int> storageId = [1117, 1118];
-    List<bool> availAble = [true, false];
-
     return showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-          // <-- SEE HERE
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(25.0),
-          ),
-        ),
         context: context,
-        builder: (context) => Container(
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
-            child: Column(children: [
-              Text(
-                'Filter',
-                style: TextStyle(fontSize: 30),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                    'Storage',
-                    style: TextStyle(fontSize: 17),
-                  )),
-                  DropdownButton(
-                    items: storageId.map((valueItem) {
-                      return DropdownMenuItem(
-                          value: valueItem, child: Text(valueItem.toString()));
-                    }).toList(),
-                    onChanged: (valueIt) {
-                      onPressStorage(listOfTypes.then((value) {
-                        return value
-                            .where((element) => element.storageId == valueIt)
-                            .toList();
-                      }));
-                    },
+        builder: (context) {
+          return StatefulBuilder(builder: (BuildContext context,
+              StateSetter setState /*You can rename this!*/) {
+            return Container(
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                child: Column(children: [
+                  Text(
+                    'Filter',
+                    style: TextStyle(fontSize: 30),
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                    'Verfuegabar',
-                    style: TextStyle(fontSize: 17),
-                  )),
-                  DropdownButton(
-                    items: availAble.map((valueItem) {
-                      return DropdownMenuItem(
-                          value: valueItem, child: Text(valueItem.toString()));
-                    }).toList(),
-                    onChanged: (valueIt) {
-                      onPressStorage(listOfTypes.then((value) {
-                        return value
-                            .where((element) => element.isAvailable == valueIt)
-                            .toList();
-                      }));
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        'Storage',
+                        style: TextStyle(fontSize: 17),
+                      )),
+                      DropdownButton(
+                        value: valueStorage,
+                        items: listOfStorageId.map((valueItem) {
+                          return DropdownMenuItem(
+                              value: valueItem,
+                              child: Text(valueItem.toString()));
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            if (newValue != '') {
+                              valueStorage = newValue as int;
+                            } else {
+                              valueStorage = newValue as dynamic;
+                            }
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              )
-            ])));
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        'Verfuegabar',
+                        style: TextStyle(fontSize: 17),
+                      )),
+                      DropdownButton(
+                        value: valueAvailable,
+                        items: listofAvailable.map((valueItem) {
+                          return DropdownMenuItem(
+                              value: valueItem,
+                              child: Text(valueItem.toString()));
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            if (newValue != '') {
+                              valueAvailable = newValue as bool;
+                            } else {
+                              valueAvailable = newValue as dynamic;
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    width: double.infinity,
+                    child: buttonField(
+                        bgColor: ColorSelect.blueAccent,
+                        borderColor: ColorSelect.blueAccent,
+                        text: 'Filtern',
+                        onPress: () async {
+                          listOfTypes.then((value) => print(value.length));
+                          await reloadList();
+                          listOfTypes.then((value) => print(value.length));
+
+                          newListOfCards = listOfTypes.then((value) {
+                            return value
+                                .where((element) =>
+                                    element.storageId == valueStorage &&
+                                    element.isAvailable == valueAvailable)
+                                .toList();
+                          });
+                          onPressStorage(newListOfCards!);
+                        },
+                        textColor: Colors.white),
+                  )
+                ]));
+          });
+        });
   }
 }

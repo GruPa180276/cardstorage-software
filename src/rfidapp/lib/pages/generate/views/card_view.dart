@@ -14,9 +14,9 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           scrollDirection: Axis.vertical,
           itemCount: cards.length,
           itemBuilder: (context, index) {
-            final card = cards[index].name?.contains(searchstring);
+            final card = cards[index].name!.contains(searchstring);
 
-            return cards[index].name!.contains(searchstring)
+            return card
                 ? Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(

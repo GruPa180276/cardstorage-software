@@ -50,20 +50,37 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     color: Theme.of(context).primaryColor))),
         body: Column(
           children: [
-            TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    hintText: 'Search Card',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide:
-                            BorderSide(color: Theme.of(context).dividerColor))),
-                onChanged: ((value) {
-                  setState(() {
-                    searchString = value;
-                  });
-                })),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          hintText: 'Search Card',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).dividerColor))),
+                      onChanged: ((value) {
+                        setState(() {
+                          searchString = value;
+                        });
+                      })),
+                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        listOfTypes = listOfTypes?.then((value) {
+                          return value
+                              .where((element) => element.isAvailable!)
+                              .toList();
+                        });
+                      });
+                    },
+                    icon: Icon(Icons.filter))
+              ],
+            ),
             const SizedBox(height: 10),
             FutureBuilder<List<Cards>>(
               future: listOfTypes,

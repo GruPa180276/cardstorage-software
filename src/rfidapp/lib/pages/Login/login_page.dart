@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  // ignore: must_call_super
+  // ignore: must_cal_super
   void initState() {
     init();
   }

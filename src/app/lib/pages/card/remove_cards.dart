@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'dart:async';
 
-import 'package:app/domain/values/tab3_card_values.dart';
+import 'package:app/domain/values/card_values.dart';
 
 import 'package:app/pages/widget/data.dart';
 

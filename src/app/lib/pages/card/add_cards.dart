@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
-
-import 'package:app/domain/values/tab3_card_values.dart';
+import 'package:app/pages/widget/listTile.dart';
+import 'package:app/domain/values/card_values.dart';
 
 // ToDo: The needs to be pushed to the API
 // Add API call to select the Card Storage
@@ -50,45 +49,17 @@ class _InputFieldsState extends State<InputFields> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(children: [
-        ListTile(
-          leading:
-              Icon(Icons.description, color: Theme.of(context).primaryColor),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: "Name",
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            onChanged: (value) => tab3SSVP.setName(value),
-          ),
+        generateListTile(
+          context,
+          "Name",
+          Icons.storage,
+          r'([A-Za-z\-\_\ö\ä\ü\ß ])',
         ),
-        ListTile(
-          leading: Icon(Icons.storage, color: Theme.of(context).primaryColor),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: "Karten Tresor",
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab3SSVP.setCardStorage(value),
-          ),
+        generateListTile(
+          context,
+          "Karten Tresor",
+          Icons.description,
+          r'([A-Za-z\-\_\ö\ä\ü\ß ])',
         ),
         Container(
           padding: EdgeInsets.all(10),

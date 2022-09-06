@@ -1,7 +1,9 @@
 // ignore_for_file: deprecated_member_use
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
@@ -32,6 +34,12 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     setState(() {
       listOfTypes = Data.getData("card").then((value) =>
           jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+    });
+  }
+
+  void setListType(Future<List<Cards>> listOfTypeNew) {
+    setState(() {
+      listOfTypes = listOfTypeNew;
     });
   }
 
@@ -70,13 +78,10 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 ),
                 IconButton(
                     onPressed: () {
-                      setState(() {
-                        listOfTypes = listOfTypes?.then((value) {
-                          return value
-                              .where((element) => element.isAvailable!)
-                              .toList();
-                        });
-                      });
+                      BottomSheetPop(
+                              onPressStorage: setListType,
+                              listOfTypes: listOfTypes!)
+                          .buildBottomSheet(context);
                     },
                     icon: Icon(Icons.filter))
               ],

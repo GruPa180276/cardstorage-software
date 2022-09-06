@@ -14,7 +14,7 @@ import 'package:app/pages/widget/speeddial.dart';
 Tab1TextValues tab1TextProvider = new Tab1TextValues();
 
 class Tab1 extends StatefulWidget {
-  Tab1({Key? key}) : super(key: key) {}
+  Tab1({Key? key}) : super(key: key);
 
   @override
   State<Tab1> createState() => _Tab1State();

@@ -15,7 +15,7 @@ List<String> values = [];
 List<String> id = [];
 
 class RemoveCards extends StatefulWidget {
-  RemoveCards({Key? key}) : super(key: key) {}
+  RemoveCards({Key? key}) : super(key: key);
 
   @override
   State<RemoveCards> createState() => _RemoveCardsState();

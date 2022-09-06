@@ -10,7 +10,7 @@ List<String> values = [];
 List<String> id = [];
 
 class RemoveUsers extends StatefulWidget {
-  RemoveUsers({Key? key}) : super(key: key) {}
+  RemoveUsers({Key? key}) : super(key: key);
 
   @override
   State<RemoveUsers> createState() => _RemoveCardsState();

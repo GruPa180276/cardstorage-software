@@ -17,7 +17,7 @@ import 'package:app/pages/widget/appbar.dart';
 Tab2TextProvider tab2TextProvider = new Tab2TextProvider();
 
 class Tab2 extends StatefulWidget {
-  Tab2({Key? key}) : super(key: key) {}
+  Tab2({Key? key}) : super(key: key);
 
   @override
   State<Tab2> createState() => _Tab2State();

@@ -17,7 +17,7 @@ List<String> values = [];
 List<String> id = [];
 
 class RemoveStorage extends StatefulWidget {
-  RemoveStorage({Key? key}) : super(key: key) {}
+  RemoveStorage({Key? key}) : super(key: key);
 
   @override
   State<RemoveStorage> createState() => _RemoveStorageState();

@@ -12,7 +12,7 @@ import 'package:app/pages/widget/circularprogressindicator.dart';
 // ToDo: Changed the API Calls to the actual API
 
 class Tab3 extends StatefulWidget {
-  Tab3({Key? key}) : super(key: key) {}
+  Tab3({Key? key}) : super(key: key);
 
   @override
   State<Tab3> createState() => _Tab3State();

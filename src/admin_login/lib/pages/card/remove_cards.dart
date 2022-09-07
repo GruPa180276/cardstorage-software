@@ -1,3 +1,4 @@
+import 'package:admin_login/pages/widget/reloadbutton.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -28,39 +29,24 @@ class _RemoveCardsState extends State<RemoveCards> {
     });
   }
 
+  callBack() {
+    setState(() {
+      id = [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              "Karten entferenen",
+              "Karten entfernen",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 10),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: FloatingActionButton(
-                  foregroundColor: Theme.of(context).focusColor,
-                  backgroundColor: Theme.of(context).secondaryHeaderColor,
-                  onPressed: () {
-                    id = [];
-                    setState(() {});
-                  },
-                  child: Icon(
-                    Icons.clear,
-                    color: Theme.of(context).focusColor,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        floatingActionButton: GenerateReloadButton(this.callBack),
         body: Container(
             padding: EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Column(

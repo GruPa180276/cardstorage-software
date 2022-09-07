@@ -1,3 +1,4 @@
+import 'package:admin_login/pages/widget/button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/listTile.dart';
@@ -22,7 +23,7 @@ class _AddCardsState extends State<AddCards> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              "Admin Login",
+              "Karte hinzufügen",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -66,27 +67,10 @@ class _InputFieldsState extends State<InputFields> {
           height: 70,
           child: Column(children: [
             SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    );
-                  },
-                  child: Text(
-                    "Bitte Karte scannen",
-                    style: TextStyle(color: Theme.of(context).focusColor),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).secondaryHeaderColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ))
+              height: 50,
+              width: double.infinity,
+              child: generateButtonWithDialog(context, "Bitte Karte scannen"),
+            )
           ]),
         ),
         GestureDetector(
@@ -96,80 +80,13 @@ class _InputFieldsState extends State<InputFields> {
               height: 70,
               child: Column(children: [
                 SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (tab3SSVP.getCardStorage() != "" &&
-                            tab3SSVP.getHardwareID() != "" &&
-                            tab3SSVP.getName() != "") {
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: Text(
-                        "Karte hinzufügen",
-                        style: TextStyle(color: Theme.of(context).focusColor),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).secondaryHeaderColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ))
+                  height: 50,
+                  width: double.infinity,
+                  child: generateButtonRectangle(context, "Karte hinzufügen"),
+                )
               ]),
             )),
       ]),
-    );
-  }
-
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      title: Text(
-        'Karte hinzufügen',
-        style: TextStyle(color: Theme.of(context).primaryColor),
-      ),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "Gehen Sie bitte zum Kartenlesegerät am Kartenautomaten und halte Sie die jeweilige Karte vor den Scanner ...",
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        Container(
-          padding: EdgeInsets.all(10),
-          height: 70,
-          child: Column(children: [
-            SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // ToDo: Implment Call, to start the Scanner
-                    tab3SSVP.setHardwareID("hardwareID");
-                    if (tab3SSVP.getHardwareID() != "") {
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: Text(
-                    "Abschließen",
-                    style: TextStyle(color: Theme.of(context).focusColor),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).secondaryHeaderColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ))
-          ]),
-        ),
-      ],
     );
   }
 }

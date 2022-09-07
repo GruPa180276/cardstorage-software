@@ -39,11 +39,12 @@ class _Tab3State extends State<Tab3> {
             Container(
               child: Row(
                 children: [
-                  generateButton(context, "Hinzufügen", Icons.add, "/addCards"),
+                  generateButtonRound(
+                      context, "Hinzufügen", Icons.add, "/addCards"),
                   SizedBox(
                     width: 10,
                   ),
-                  generateButton(
+                  generateButtonRound(
                       context, "Entfernen", Icons.remove, "/removeCards")
                 ],
               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-// ignore: unused_element
-Widget _buildPopupDialog(BuildContext context) {
+Widget generatePopupDialog(BuildContext context) {
   return new AlertDialog(
     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     title: Text(
@@ -29,6 +28,7 @@ Widget _buildPopupDialog(BuildContext context) {
               child: ElevatedButton(
                 onPressed: () {
                   // ToDo: Implment Call, to start the Scanner
+                  Navigator.of(context).pop();
                 },
                 child: Text(
                   "Abschließen",

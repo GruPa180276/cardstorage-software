@@ -148,8 +148,8 @@ Hab heute beim refactoren weitergemacht. Dazu habe ich die Cards Datei in mehere
 **6.9.2022: 6:55 -> 12:00** <br>
 Habe am refactoren weitergemacht. Ich konnte das Problem durch named Routes lösen [link](https://www.youtube.com/watch?v=nyvwx7o277U). Danach habe ich weiter refactored. Weiters habe ich mit Herrn Grubauer einen Call durchgeführt. Zum Schluss habe ich noch weiter refactored. (5h 5min)
 
-**7.9.2022: 7:20 -> xx** <br>
-Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktioniert hatte. Die App App eine Fehlermeldung geworfen, welche sagte, das die verwendete Android Version zu alt sei. Nach der neuerstellung funktioniert jetzt wieder alles.
+**7.9.2022: 7:20 -> 12:20** <br>
+Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktioniert hatte. Die App App eine Fehlermeldung geworfen, welche sagte, das die verwendete Android Version zu alt sei. Nach der neuerstellung funktioniert jetzt wieder alles. Danach habe ich weiter Refactored. Die Such Seite is jetzt auch fast fertig aufgeteilt. (5h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -189,4 +189,5 @@ Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktionie
 - 7:15 bis 11:15 Uhr
 - 6:45 bis 12:00 Uhr
 - 6:55 bis 12:00 Uhr
+- 7:20 bis 12:20 Uhr
 <!-- { "progress": false } -->

@@ -63,3 +63,5 @@
 - https://www.youtube.com/watch?v=nyvwx7o277U
 - https://stackoverflow.com/questions/68259350/how-to-create-elevated-button-with-icon-and-text-in-flutter
 - https://stackoverflow.com/questions/50293503/how-to-set-the-width-and-height-of-a-button-in-flutter
+- https://stackoverflow.com/questions/66642636/how-to-change-the-shape-of-my-elevatedbutton
+- https://flutterforyou.com/how-to-change-the-color-of-elevatedbutton-in-flutter/

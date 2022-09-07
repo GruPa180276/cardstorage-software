@@ -149,6 +149,7 @@ Hab heute beim refactoren weitergemacht. Dazu habe ich die Cards Datei in mehere
 Habe am refactoren weitergemacht. Ich konnte das Problem durch named Routes lösen [link](https://www.youtube.com/watch?v=nyvwx7o277U). Danach habe ich weiter refactored. Weiters habe ich mit Herrn Grubauer einen Call durchgeführt. Zum Schluss habe ich noch weiter refactored. (5h 5min)
 
 **7.9.2022: 7:20 -> xx** <br>
+Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktioniert hatte. Die App App eine Fehlermeldung geworfen, welche sagte, das die verwendete Android Version zu alt sei. Nach der neuerstellung funktioniert jetzt wieder alles.
 
 ## Arbeitszeit
 <!-- { "progress": true } -->

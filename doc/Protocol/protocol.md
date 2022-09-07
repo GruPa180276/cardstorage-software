@@ -148,6 +148,8 @@ Hab heute beim refactoren weitergemacht. Dazu habe ich die Cards Datei in mehere
 **6.9.2022: 6:55 -> 12:00** <br>
 Habe am refactoren weitergemacht. Ich konnte das Problem durch named Routes lösen [link](https://www.youtube.com/watch?v=nyvwx7o277U). Danach habe ich weiter refactored. Weiters habe ich mit Herrn Grubauer einen Call durchgeführt. Zum Schluss habe ich noch weiter refactored. (5h 5min)
 
+**7.9.2022: 7:20 -> xx** <br>
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

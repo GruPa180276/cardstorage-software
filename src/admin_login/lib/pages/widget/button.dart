@@ -31,6 +31,34 @@ Expanded generateButtonRound(BuildContext context, String buttonText,
   );
 }
 
+Expanded generateButtonRoundWithoutRoute(
+    BuildContext context, String buttonText, IconData buttonIcon) {
+  return Expanded(
+    child: ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        minimumSize: Size(double.infinity, 50),
+        primary: Theme.of(context).secondaryHeaderColor,
+        onPrimary: Theme.of(context).focusColor,
+      ),
+      child: Wrap(
+        children: <Widget>[
+          Icon(
+            buttonIcon,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(buttonText, style: TextStyle(fontSize: 20)),
+        ],
+      ),
+    ),
+  );
+}
+
 Expanded generateButtonRectangle(BuildContext context, String buttonText) {
   return Expanded(
     child: ElevatedButton(

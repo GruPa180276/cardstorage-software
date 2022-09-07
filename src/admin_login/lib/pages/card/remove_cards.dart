@@ -1,18 +1,18 @@
-import 'package:admin_login/pages/widget/reloadbutton.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
 
-import 'package:admin_login/domain/values/card_values.dart';
-
 import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/button.dart';
+import 'package:admin_login/pages/widget/searchfield.dart';
+import 'package:admin_login/pages/widget/reloadbutton.dart';
+import 'package:admin_login/pages/widget/searchbutton.dart';
+import 'package:admin_login/pages/widget/cardwithoutinkwell.dart';
+import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The Api needs to be changed in the future
 
-Tab3StorageSettingsValuesProvider tab3SSVP =
-    new Tab3StorageSettingsValuesProvider();
-
-List<String> values = [];
+List<String> searchValues = [];
 List<String> id = [];
 
 class RemoveCards extends StatefulWidget {
@@ -29,10 +29,14 @@ class _RemoveCardsState extends State<RemoveCards> {
     });
   }
 
-  callBack() {
+  void callBack() {
     setState(() {
       id = [];
     });
+  }
+
+  void setValues(String value) {
+    searchValues.add(value);
   }
 
   @override
@@ -54,40 +58,19 @@ class _RemoveCardsState extends State<RemoveCards> {
                 Container(
                   child: Row(
                     children: [
-                      Expanded(
-                          child: FloatingActionButton.extended(
-                        icon: Icon(
-                          Icons.search,
-                          color: Theme.of(context).focusColor,
-                        ),
-                        label: Text("Karte Suchen",
-                            style:
-                                TextStyle(color: Theme.of(context).focusColor)),
-                        backgroundColor: Theme.of(context).secondaryHeaderColor,
-                        onPressed: () {
-                          showSearch(
-                              context: context,
-                              delegate: CustomSearchDelegate(this.setID));
-                        },
-                      )),
+                      generateSearchButton(
+                        context,
+                        this.setID,
+                        searchValues,
+                      ),
                       SizedBox(
                         width: 10,
                       ),
-                      Expanded(
-                          child: FloatingActionButton.extended(
-                        icon: Icon(
-                          Icons.remove,
-                          color: Theme.of(context).focusColor,
-                        ),
-                        label: Text(
-                          "Entfernen",
-                          style: TextStyle(color: Theme.of(context).focusColor),
-                        ),
-                        backgroundColor: Theme.of(context).secondaryHeaderColor,
-                        onPressed: () {
-                          // ToDo: API Call to remove Storage from DB
-                        },
-                      )),
+                      generateButtonRoundWithoutRoute(
+                        context,
+                        "Entfernen",
+                        Icons.remove,
+                      ),
                     ],
                   ),
                 ),
@@ -95,8 +78,8 @@ class _RemoveCardsState extends State<RemoveCards> {
                     child: Container(
                   padding: EdgeInsets.only(top: 10),
                   child: Column(children: [
-                    InputFields2(),
-                    ShowUsers2(),
+                    GenerateSearchValues(setValue: this.setValues),
+                    GenerateCards(),
                   ]),
                 ))
               ],
@@ -104,14 +87,14 @@ class _RemoveCardsState extends State<RemoveCards> {
   }
 }
 
-class ShowUsers2 extends StatefulWidget {
-  const ShowUsers2({Key? key}) : super(key: key);
+class GenerateCards extends StatefulWidget {
+  const GenerateCards({Key? key}) : super(key: key);
 
   @override
-  State<ShowUsers2> createState() => _ShowUsersState();
+  State<GenerateCards> createState() => _GenerateCardsState();
 }
 
-class _ShowUsersState extends State<ShowUsers2> {
+class _GenerateCardsState extends State<GenerateCards> {
   late Future<List<Data>> futureData;
 
   @override
@@ -139,7 +122,11 @@ class _ShowUsersState extends State<ShowUsers2> {
               itemBuilder: (BuildContext context, int index) {
                 for (int i = 0; i < id.length; i++) {
                   if (data![index].title == id.elementAt(i)) {
-                    return createStorage(context, data, index);
+                    return GenerateCardWithoutInkWell(
+                      index: index,
+                      data: data,
+                      icon: Icons.credit_card,
+                    );
                   }
                 }
                 return SizedBox.shrink();
@@ -149,236 +136,9 @@ class _ShowUsersState extends State<ShowUsers2> {
         }
         return Container(
             child: Column(
-          children: [
-            CircularProgressIndicator(
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
-              valueColor: AlwaysStoppedAnimation(Theme.of(context).focusColor),
-            )
-          ],
+          children: [generateProgressIndicator(context)],
         ));
       },
     ));
-  }
-
-  Widget setStateOdCardStorage(String storage) {
-    // ignore: unused_local_variable
-    String storageName = storage;
-    Widget storageState = Text("");
-    String apiCall = "x"; // Only Test Values, will be changed to an API call
-    if (apiCall == "x") {
-      storageState = Text("Verfügbar",
-          style:
-              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
-    } else if (apiCall == "y") {
-      storageState = Text("Nicht verfügbar",
-          style:
-              TextStyle(fontSize: 20, color: Theme.of(context).primaryColor));
-    }
-    return Positioned(left: 140, top: 30, child: storageState);
-  }
-
-  Widget setCardStorageIcon(String storage) {
-    // ignore: unused_local_variable
-    String storageName = storage;
-    IconData storageIcon = Icons.not_started;
-    String apiCall = "x"; // Only Test Values, will be changed to an API call
-    if (apiCall == "x") {
-      storageIcon = Icons.check;
-    } else if (apiCall == "y") {
-      storageIcon = Icons.cancel_rounded;
-    }
-    return Positioned(
-        left: 100,
-        top: 30,
-        child: Icon(
-          storageIcon,
-          color: Theme.of(context).primaryColor,
-        ));
-  }
-
-  Widget createStorage(BuildContext context, List<Data>? data, int index) {
-    return InkWell(
-      child: Container(
-        height: 85,
-        padding: EdgeInsets.all(10),
-        margin: const EdgeInsets.only(left: 0, top: 5, bottom: 5, right: 0),
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 3,
-              color: Theme.of(context).secondaryHeaderColor,
-            ),
-            borderRadius: BorderRadius.circular(15)),
-        child: Stack(children: [
-          Positioned(
-              left: 100,
-              child: Text(data![index].title,
-                  style: TextStyle(
-                      fontSize: 20, color: Theme.of(context).primaryColor))),
-          setStateOdCardStorage(data[index].title.toString()),
-          setCardStorageIcon(data[index].title.toString()),
-          Icon(
-            Icons.credit_card,
-            size: 60,
-            color: Theme.of(context).primaryColor,
-          )
-        ]),
-      ),
-    );
-  }
-}
-
-class InputFields2 extends StatefulWidget {
-  const InputFields2({Key? key}) : super(key: key);
-
-  @override
-  State<InputFields2> createState() => _InputFields2State();
-}
-
-class _InputFields2State extends State<InputFields2> {
-  late Future<List<Data>> futureData;
-
-  @override
-  void initState() {
-    super.initState();
-    reloadCardList();
-    values = [];
-  }
-
-  void reloadCardList() {
-    setState(() {
-      futureData = fetchData();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
-      future: futureData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
-          addValues(data!);
-          return Container();
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return SizedBox.shrink();
-      },
-    );
-  }
-
-  void addValues(List<Data> data) {
-    values.length = 0;
-    for (int i = 0; i < data.length; i++) {
-      values.add(data[i].title);
-    }
-  }
-}
-
-class CustomSearchDelegate extends SearchDelegate {
-  late Function setState;
-
-  CustomSearchDelegate(Function state) {
-    setState = state;
-  }
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: Icon(
-          Icons.clear,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: Icon(
-        Icons.arrow_back,
-        color: Theme.of(context).primaryColor,
-      ),
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in values) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return InkWell(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Theme.of(context).secondaryHeaderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [
-                Text(
-                  result,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                )
-              ]),
-            ),
-            onTap: () {
-              setState(matchQuery[index]);
-            });
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in values) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return InkWell(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Theme.of(context).secondaryHeaderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [
-                Text(
-                  result,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                )
-              ]),
-            ),
-            onTap: () {
-              setState(matchQuery[index]);
-            });
-      },
-    );
   }
 }

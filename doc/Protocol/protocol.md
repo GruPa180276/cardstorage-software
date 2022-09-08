@@ -157,6 +157,9 @@ Heute habe ich weiter refactored. Fertig sind bereits der Karten und Storage Tei
 **8.9.2022: 12:30 -> 13:30** <br>
 Weiters habe ich noch den User und Statistik Teil überarbeitet. Dazu habe ich den Code in mehrere Datein ausgelagert und duplikate gelöscht. (1h)
 
+**8.9.2022: 14:30 -> 15:00** <br>
+Später habe ich mit Herrn Grubauer einen Call durchgrführt, wo wir einiges besprochen haben. (30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -198,4 +201,5 @@ Weiters habe ich noch den User und Statistik Teil überarbeitet. Dazu habe ich d
 - 7:20 bis 12:20 Uhr
 - 7:15 bis 12:15 Uhr
 - 12:30 bis 13:30 Uhr
+- 14:30 bis 15:00 Uhr
 <!-- { "progress": false } -->

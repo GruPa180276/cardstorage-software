@@ -6,14 +6,13 @@ import 'package:admin_login/pages/widget/data.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/searchfield.dart';
 import 'package:admin_login/pages/widget/reloadbutton.dart';
-import 'package:admin_login/pages/widget/searchbutton.dart';
 import 'package:admin_login/pages/widget/cardwithoutinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The Api needs to be changed in the future
 
 List<String> searchValues = [];
-List<String> id = [];
+List<String> selectedEntrys = [];
 
 class RemoveCards extends StatefulWidget {
   RemoveCards({Key? key}) : super(key: key);
@@ -23,15 +22,15 @@ class RemoveCards extends StatefulWidget {
 }
 
 class _RemoveCardsState extends State<RemoveCards> {
-  void setID(String data) {
+  void setSelectedEntrys(String data) {
     setState(() {
-      id.add(data);
+      selectedEntrys.add(data);
     });
   }
 
-  void callBack() {
+  void clearView() {
     setState(() {
-      id = [];
+      selectedEntrys = [];
     });
   }
 
@@ -45,12 +44,13 @@ class _RemoveCardsState extends State<RemoveCards> {
         appBar: AppBar(
             title: Text(
               "Karten entfernen",
-              style: TextStyle(color: Theme.of(context).focusColor),
+              style:
+                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: GenerateReloadButton(this.callBack),
+        floatingActionButton: GenerateReloadButton(this.clearView),
         body: Container(
             padding: EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Column(
@@ -60,7 +60,9 @@ class _RemoveCardsState extends State<RemoveCards> {
                     children: [
                       generateSearchButton(
                         context,
-                        this.setID,
+                        "Suchen",
+                        Icons.search,
+                        this.setSelectedEntrys,
                         searchValues,
                       ),
                       SizedBox(
@@ -120,8 +122,8 @@ class _GenerateCardsState extends State<GenerateCards> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                for (int i = 0; i < id.length; i++) {
-                  if (data![index].title == id.elementAt(i)) {
+                for (int i = 0; i < selectedEntrys.length; i++) {
+                  if (data![index].title == selectedEntrys.elementAt(i)) {
                     return GenerateCardWithoutInkWell(
                       index: index,
                       data: data,

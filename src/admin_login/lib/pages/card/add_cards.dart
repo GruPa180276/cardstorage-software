@@ -1,14 +1,15 @@
-import 'package:admin_login/pages/widget/button.dart';
 import 'package:flutter/material.dart';
 
+import 'package:admin_login/pages/widget/button.dart';
+import 'package:admin_login/pages/widget/data.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/domain/values/card_values.dart';
+import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The needs to be pushed to the API
 // Add API call to select the Card Storage
 
-Tab3StorageSettingsValuesProvider tab3SSVP =
-    new Tab3StorageSettingsValuesProvider();
+CardValues cardValues = new CardValues();
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -24,7 +25,8 @@ class _AddCardsState extends State<AddCards> {
         appBar: AppBar(
             title: Text(
               "Karte hinzufügen",
-              style: TextStyle(color: Theme.of(context).focusColor),
+              style:
+                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
@@ -32,35 +34,78 @@ class _AddCardsState extends State<AddCards> {
           child: Container(
               padding: EdgeInsets.only(top: 10),
               child: Column(
-                children: [InputFields()],
+                children: [GenerateInputFields()],
               )),
         ));
   }
 }
 
-class InputFields extends StatefulWidget {
-  const InputFields({Key? key}) : super(key: key);
+class GenerateInputFields extends StatefulWidget {
+  const GenerateInputFields({Key? key}) : super(key: key);
 
   @override
-  State<InputFields> createState() => _InputFieldsState();
+  State<GenerateInputFields> createState() => _GenerateInputFieldsState();
 }
 
-class _InputFieldsState extends State<InputFields> {
+class _GenerateInputFieldsState extends State<GenerateInputFields> {
+  late Future<List<Data>> futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  void setName(String value) {
+    cardValues.setStorage(value);
+  }
+
+  void setStorage(String value) {
+    cardValues.setStorage(value);
+  }
+
+  void setHardwareID(String value) {
+    cardValues.setHardwareID(value);
+  }
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return genereateFields(context, data);
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Center(
+            child: Container(
+                child: Column(
+          children: [
+            generateProgressIndicator(context),
+          ],
+        )));
+      },
+    );
+  }
+
+  Widget genereateFields(BuildContext context, List<Data>? data) {
     return Container(
       child: Column(children: [
-        generateListTile(
-          context,
-          "Name",
-          Icons.storage,
-          r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+        GenerateListTile(
+          labelText: "Name",
+          hintText: "",
+          icon: Icons.storage,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setName,
         ),
-        generateListTile(
-          context,
-          "Karten Tresor",
-          Icons.description,
-          r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+        GenerateListTile(
+          labelText: "Karten Tresor",
+          hintText: "",
+          icon: Icons.description,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setStorage,
         ),
         Container(
           padding: EdgeInsets.all(10),

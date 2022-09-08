@@ -1,4 +1,4 @@
-class Tab3StorageSettingsValuesProvider {
+class CardValues {
   int id = 0;
   String name = "";
   String cardStorage = "";
@@ -20,11 +20,11 @@ class Tab3StorageSettingsValuesProvider {
     return name;
   }
 
-  void setCardStorage(String cardStorage) {
+  void setStorage(String cardStorage) {
     this.cardStorage = cardStorage;
   }
 
-  String getCardStorage() {
+  String getStorage() {
     return cardStorage;
   }
 

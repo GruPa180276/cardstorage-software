@@ -151,6 +151,8 @@ Habe am refactoren weitergemacht. Ich konnte das Problem durch named Routes lös
 **7.9.2022: 7:20 -> 12:20** <br>
 Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktioniert hatte. Die App App eine Fehlermeldung geworfen, welche sagte, das die verwendete Android Version zu alt sei. Nach der neuerstellung funktioniert jetzt wieder alles. Danach habe ich weiter Refactored. Die Such Seite is jetzt auch fast fertig aufgeteilt. (5h)
 
+**8.9.2022: 7:15 -> xx** <br>
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

@@ -3,26 +3,6 @@ import 'package:flutter/cupertino.dart';
 class Validator {
   // regular expression to check if string
 
-  static double validatePassword(String pass) {
-    RegExp passvalid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
-    double passwordStrength = 0;
-
-    String password = pass.trim();
-    if (password.isEmpty) {
-    } else if (password.length < 6) {
-      passwordStrength = 1 / 4;
-    } else if (password.length < 8) {
-      passwordStrength = 2 / 4;
-    } else {
-      if (passvalid.hasMatch(password)) {
-        passwordStrength = 4 / 4;
-      } else {
-        passwordStrength = 3 / 4;
-      }
-    }
-    return passwordStrength;
-  }
-
   static bool _validateName(String name) {
     RegExp nameValid = RegExp(r"^([A-ZÖÄÜ][a-zäöüß]+)+$");
     return (nameValid.hasMatch(name));
@@ -75,5 +55,25 @@ class Validator {
         return null;
       }
     }
+  }
+
+  static double validatePassword(String pass) {
+    RegExp passvalid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
+    double passwordStrength = 0;
+
+    String password = pass.trim();
+    if (password.isEmpty) {
+    } else if (password.length < 6) {
+      passwordStrength = 1 / 4;
+    } else if (password.length < 8) {
+      passwordStrength = 2 / 4;
+    } else {
+      if (passvalid.hasMatch(password)) {
+        passwordStrength = 4 / 4;
+      } else {
+        passwordStrength = 3 / 4;
+      }
+    }
+    return passwordStrength;
   }
 }

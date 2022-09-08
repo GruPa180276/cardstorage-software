@@ -179,7 +179,13 @@ Abends habe ich dann noch versucht den Filter fertigzustellen. Allerdings stoss 
 
 **2022-09-08: 8:00 -> 9:10** 
 
-Am Vormittag hatte ich ein Meeting mit herrn zoechmann, da er hilfe beim Refactorn benoetigt hat. Ebenfalls wurden zahlreiche organisatorische Sachen bzgl besprochen.
+Am Vormittag hatte ich ein Meeting mit herrn zoechmann, da er hilfe beim Refactorn benoetigt hat. Ebenfalls wurden zahlreiche organisatorische Sachen bzgl der Diplomarbeit besprochen.
+
+
+**2022-09-08: 13:30 -> 15:30** 
+
+Am Nachmittag habe ich mit dem Errorhandling begonnen. Ich durchsuchte zahlreiche Foren um die beste Methode zufinden. Allerdings hatte ich ein Problem um fuer den Futurebuilder ein Errorhandling zu machen. nach etwas probieren schaffte ih es dann. Danach habe ich es Herrn Zoechmann gezeigt und um Ubereinstimmmung gebeten. Ebenfalls habe ich noch mein Git Project aktualisiert da ich darauf vergessen habe
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -227,5 +233,7 @@ Am Vormittag hatte ich ein Meeting mit herrn zoechmann, da er hilfe beim Refacto
 - 13:00 bis 15:00 Uhr
 - 21:00 bis 23:30 Uhr
 - 8:00 bis 9:10 Uhr
+- 13:30 bis 15:30 Uhr
+
 <!-- { "progress": false } -->
 

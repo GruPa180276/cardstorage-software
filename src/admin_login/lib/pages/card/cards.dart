@@ -11,14 +11,14 @@ import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
-class Tab3 extends StatefulWidget {
-  Tab3({Key? key}) : super(key: key);
+class CardsView extends StatefulWidget {
+  CardsView({Key? key}) : super(key: key);
 
   @override
-  State<Tab3> createState() => _Tab3State();
+  State<CardsView> createState() => _CardsViewState();
 }
 
-class _Tab3State extends State<Tab3> {
+class _CardsViewState extends State<CardsView> {
   String selectedStorage = "1";
   List<String> dropDownValues = ['1', '2', '3'];
 

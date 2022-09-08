@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
-
-import 'package:admin_login/config/values/tab2_text_values.dart';
-import 'package:admin_login/domain/values/tab2_storage_values.dart';
+import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/button.dart';
+import 'package:admin_login/pages/widget/listTile.dart';
+import 'package:admin_login/domain/values/storage.values.dart';
+import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The needs to be pushed to the API
 
-Tab2StorageValuesProvider tab2SSVP = new Tab2StorageValuesProvider();
-Tab2AddStorageDescriptionProvider tab2ASDP =
-    new Tab2AddStorageDescriptionProvider();
+StorageValues storageValues = new StorageValues();
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class _AddStorageState extends State<AddStorage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(tab2ASDP.getAppBarTitle(),
+            title: Text("Storage hinzufügen",
                 style: TextStyle(color: Theme.of(context).focusColor)),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
@@ -45,97 +44,82 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
+  late Future<List<Data>> futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  void setName(String value) {
+    storageValues.setName(value);
+  }
+
+  void setIPAdress(String value) {
+    storageValues.setIpAdress(value);
+  }
+
+  void setNumberOfCards(String value) {
+    storageValues.setNumberOfCards(value);
+  }
+
+  void setLocation(String value) {
+    storageValues.setLocation(value);
+  }
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return genereateFields(context, data);
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Center(
+            child: Container(
+                child: Column(
+          children: [
+            generateProgressIndicator(context),
+          ],
+        )));
+      },
+    );
+  }
+
+  Widget genereateFields(BuildContext context, List<Data>? data) {
     return Container(
       child: Column(children: [
-        ListTile(
-          leading: Icon(
-            Icons.description,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getNameFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            onChanged: (value) => tab2SSVP.setName(value),
-          ),
+        GenerateListTile(
+          labelText: "Name",
+          hintText: "",
+          icon: Icons.storage,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setName,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.network_wifi,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9\.])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getIpAdressFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab2SSVP.setIpAdress(value),
-          ),
+        GenerateListTile(
+          labelText: "IP Adresse",
+          hintText: "",
+          icon: Icons.network_wifi,
+          regExp: r'([0-9\.])',
+          function: this.setIPAdress,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.format_list_numbered,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getNumberOfCardsFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab2SSVP.setNumberOfCards(value),
-          ),
+        GenerateListTile(
+          labelText: "Anzahl an Karten",
+          hintText: "",
+          icon: Icons.format_list_numbered,
+          regExp: r'([0-9])',
+          function: this.setNumberOfCards,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.location_pin,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getLocationFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            onChanged: (value) => tab2SSVP.setLocation(value),
-          ),
+        GenerateListTile(
+          labelText: "Ort",
+          hintText: "",
+          icon: Icons.location_pin,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setLocation,
         ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
@@ -144,27 +128,10 @@ class _InputFieldsState extends State<InputFields> {
               height: 70,
               child: Column(children: [
                 SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (tab2SSVP.getName() != "" &&
-                            tab2SSVP.getIpAdress() != "" &&
-                            tab2SSVP.getLocation() != "" &&
-                            tab2SSVP.getNumberOfCards() != "")
-                          Navigator.pop(context);
-                      },
-                      child: Text(
-                        tab2ASDP.getButtonName(),
-                        style: TextStyle(color: Theme.of(context).focusColor),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).secondaryHeaderColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ))
+                  height: 50,
+                  width: double.infinity,
+                  child: generateButtonRectangle(context, "Storage hinzufügen"),
+                )
               ]),
             )),
       ]),

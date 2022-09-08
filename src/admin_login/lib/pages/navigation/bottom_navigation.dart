@@ -16,7 +16,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  final screens = [Home(), Tab1(), Tab3(), Tab2(), Tab4(), Menu()];
+  final screens = [Home(), Tab1(), CardsView(), StorageView(), Tab4(), Menu()];
 
   @override
   Widget build(BuildContext context) {

@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-import 'package:admin_login/config/values/tab2_text_values.dart';
-import 'package:admin_login/domain/values/tab2_storage_values.dart';
+import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/button.dart';
+import 'package:admin_login/pages/widget/listTile.dart';
+import 'package:admin_login/domain/values/storage.values.dart';
 
 // ToDo: The Api needs to be changed in the future
 
-Tab2StorageValuesProvider tab2SSVP = new Tab2StorageValuesProvider();
-Tab2AlterStorageDescriptionProvider tab2ASDP =
-    new Tab2AlterStorageDescriptionProvider();
+StorageValues storageValues = new StorageValues();
 
 class StorageSettings extends StatefulWidget {
   StorageSettings(int id, {Key? key}) : super(key: key) {
-    tab2SSVP.setID(id);
+    storageValues.setID(id);
   }
 
   @override
@@ -29,7 +24,7 @@ class _StorageSettingsState extends State<StorageSettings> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              tab2ASDP.getAppBarTitle(),
+              "Storage bearbeiten",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -38,26 +33,42 @@ class _StorageSettingsState extends State<StorageSettings> {
           child: Container(
               padding: EdgeInsets.only(top: 10),
               child: Column(
-                children: [InputFields()],
+                children: [GetDataFromAPI()],
               )),
         ));
   }
 }
 
-class InputFields extends StatefulWidget {
-  const InputFields({Key? key}) : super(key: key);
+class GetDataFromAPI extends StatefulWidget {
+  const GetDataFromAPI({Key? key}) : super(key: key);
 
   @override
-  State<InputFields> createState() => _InputFieldsState();
+  State<GetDataFromAPI> createState() => _GetDataFromAPIState();
 }
 
-class _InputFieldsState extends State<InputFields> {
+class _GetDataFromAPIState extends State<GetDataFromAPI> {
   late Future<List<Data>> futureData;
 
   @override
   void initState() {
     super.initState();
     futureData = fetchData();
+  }
+
+  void setName(String value) {
+    storageValues.setName(value);
+  }
+
+  void setIPAdress(String value) {
+    storageValues.setIpAdress(value);
+  }
+
+  void setNumberOfCards(String value) {
+    storageValues.setNumberOfCards(value);
+  }
+
+  void setLocation(String value) {
+    storageValues.setLocation(value);
   }
 
   @override
@@ -67,7 +78,7 @@ class _InputFieldsState extends State<InputFields> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Data>? data = snapshot.data;
-          return createStorage(context, data);
+          return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -85,101 +96,37 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  Widget createStorage(BuildContext context, List<Data>? data) {
+  Widget genereateFields(BuildContext context, List<Data>? data) {
     return InkWell(
         child: Container(
       child: Column(children: [
-        ListTile(
-          leading: Icon(
-            Icons.description,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getNameFieldName(),
-                hintText: data![tab2SSVP.getId()].title,
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            onChanged: (value) => tab2SSVP.setName(value),
-          ),
+        GenerateListTile(
+          labelText: "Name",
+          hintText: data![storageValues.getId()].title,
+          icon: Icons.storage,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setName,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.network_wifi,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9\.])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getIpAdressFieldName(),
-                hintText: data[tab2SSVP.getId()].id.toString(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab2SSVP.setIpAdress(value),
-          ),
+        GenerateListTile(
+          labelText: "IP Adresse",
+          hintText: data[storageValues.getId()].id.toString(),
+          icon: Icons.network_wifi,
+          regExp: r'([0-9\.])',
+          function: this.setIPAdress,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.format_list_numbered,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getNumberOfCardsFieldName(),
-                hintText: data[tab2SSVP.getId()].id.toString(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab2SSVP.setNumberOfCards(value),
-          ),
+        GenerateListTile(
+          labelText: "Anzahl an Karten",
+          hintText: data[storageValues.getId()].id.toString(),
+          icon: Icons.format_list_numbered,
+          regExp: r'([0-9])',
+          function: this.setNumberOfCards,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.location_pin,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab2ASDP.getLocationFieldName(),
-                hintText: data[tab2SSVP.getId()].title.toString(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            onChanged: (value) => tab2SSVP.setLocation(value),
-          ),
+        GenerateListTile(
+          labelText: "Ort",
+          hintText: data[storageValues.getId()].title.toString(),
+          icon: Icons.location_pin,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setLocation,
         ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
@@ -188,53 +135,14 @@ class _InputFieldsState extends State<InputFields> {
               height: 70,
               child: Column(children: [
                 SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        tab2ASDP.getButtonName(),
-                        style: TextStyle(color: Theme.of(context).focusColor),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).secondaryHeaderColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ))
+                  height: 50,
+                  width: double.infinity,
+                  child:
+                      generateButtonRectangle(context, "Änderungen speichern"),
+                )
               ]),
             )),
       ]),
     ));
-  }
-}
-
-Future<List<Data>> fetchData() async {
-  final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Data.fromJson(data)).toList();
-  } else {
-    throw Exception('Unexpected error occured!');
-  }
-}
-
-class Data {
-  final int userId;
-  final int id;
-  final String title;
-
-  Data({required this.userId, required this.id, required this.title});
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-    );
   }
 }

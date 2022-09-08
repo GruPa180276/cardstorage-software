@@ -161,9 +161,13 @@ class _ShowUsersState extends State<ShowUsers> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                for (int i = 0; i < id.length; i++) {
-                  if (data![index].title == id.elementAt(i)) {
-                    return createStorage(context, data, index);
+                if (id.length == 0) {
+                  return createStorage(context, data, index);
+                } else {
+                  for (int i = 0; i < id.length; i++) {
+                    if (data![index].title == id.elementAt(i)) {
+                      return createStorage(context, data, index);
+                    }
                   }
                 }
                 return SizedBox.shrink();

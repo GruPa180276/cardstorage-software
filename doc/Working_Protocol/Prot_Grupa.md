@@ -177,6 +177,9 @@ Am Nachmittag habe ich mich damit beschaeftigt einen Filter hinzuzufuegen. Zuers
 
 Abends habe ich dann noch versucht den Filter fertigzustellen. Allerdings stoss ich auf ein Problem, da ich leider bei meinem Konzept die flasche Liste verwendet habe. nach etwas debuugen konte ich allerdings den Fehler finden und behebe. Danach wurde noch etwas am deisgin umgeaendert
 
+**2022-09-08: 8:00 -> 9:10** 
+
+Am Vormittag hatte ich ein Meeting mit herrn zoechmann, da er hilfe beim Refactorn benoetigt hat. Ebenfalls wurden zahlreiche organisatorische Sachen bzgl besprochen.
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -223,5 +226,6 @@ Abends habe ich dann noch versucht den Filter fertigzustellen. Allerdings stoss 
 - 8:00 bis 11:15 Uhr
 - 13:00 bis 15:00 Uhr
 - 21:00 bis 23:30 Uhr
+- 8:00 bis 9:10 Uhr
 <!-- { "progress": false } -->
 

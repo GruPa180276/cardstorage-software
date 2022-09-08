@@ -1,7 +1,5 @@
 // ignore_for_file: deprecated_member_use
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
@@ -17,7 +15,6 @@ class ApiVisualizer extends StatefulWidget {
 }
 
 class _ApiVisualizerState extends State<ApiVisualizer> {
-  //TODO change for Ben as its hardcoded Cards text
   _ApiVisualizerState({required this.site});
   Future<List<Cards>>? listOfTypes;
   Future<List<Cards>>? listOfTypesSinceInit;
@@ -34,8 +31,12 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   void reloadCardList() {
     setState(() {
-      listOfTypes = Data.getData("card").then((value) =>
-          jsonDecode(value.body).map<Cards>(Cards.fromJson).toList());
+      listOfTypes = Data.getData("card").then(
+          (value) =>
+              jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
+          onError: (error) {
+        print('error');
+      });
       listOfTypesSinceInit = listOfTypes;
     });
   }
@@ -86,28 +87,36 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         listOfTypes: listOfTypesSinceInit!,
                       ).buildBottomSheet(context);
                     },
-                    icon: Icon(Icons.filter))
+                    icon: Icon(Icons.adjust))
               ],
             ),
             const SizedBox(height: 10),
             FutureBuilder<List<Cards>>(
               future: listOfTypes,
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasData) {
-                  final users = snapshot.data!;
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const CircularProgressIndicator();
+                  default:
+                    if (snapshot.hasError)
+                      return Container(
+                        padding: EdgeInsets.all(10),
+                        child: new Text(
+                            'No connection was found. Please check if you are connected!'),
+                      );
+                    else {
+                      final users = snapshot.data!;
 
-                  switch (site) {
-                    case "Reservierungen":
-                      return cardsView(
-                          users, context, 'reservation', searchString);
-                    case "Karten":
-                      return cardsView(users, context, 'cards', searchString);
-                  }
-                  return const Text('Error Type not valid');
-                } else {
-                  return Text("${snapshot.error}");
+                      switch (site) {
+                        case "Reservierungen":
+                          return cardsView(
+                              users, context, 'reservation', searchString);
+                        case "Karten":
+                          return cardsView(
+                              users, context, 'cards', searchString);
+                      }
+                      return const Text('Error Type not valid');
+                    }
                 }
               },
             ),

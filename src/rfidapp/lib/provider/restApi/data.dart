@@ -5,14 +5,18 @@ import 'dart:async';
 class Data {
   static String uri = 'http://10.0.2.2:7171/';
 
-  static Future<Response> getData(String type) async {
+  static Future<Response?> getData(String type) async {
     //on emulator: "http://10.0.2.2:7171/card"
     //http://localhost:7171/card
-    final response = await get(Uri.parse(uri + type), headers: {
-      //"key":"value" for authen.
-      "Accept": "application/json"
-    });
-    return response;
+    try {
+      final response = await get(Uri.parse(uri + type), headers: {
+        //"key":"value" for authen.
+        "Accept": "application/json"
+      });
+      return response;
+    } catch (e) {
+      print(e);
+    }
   }
 
   static void postData(

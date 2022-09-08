@@ -14,7 +14,7 @@ class PasswordForgetSecreen extends StatefulWidget {
 
 class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
   TextEditingController emailController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +69,14 @@ class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
   }
 
   void sendMail() {
-    const name = 'Firtz Bauer';
-    final email = emailController.text;
-    const subject = 'RfidApp Passwort zuruecksetzen';
-    const message =
-        'Sehr geehrter Herr $name\nSie haben angefragt Ihr Passwort zu aendern\n httpsa \n\n Beste Gruese\nIhre RfidApp Team';
-    Email.sendEmail(
-        name: name, email: email, subject: subject, message: message);
+    if (_formKey.currentState!.validate()) {
+      const name = 'Firtz Bauer';
+      final email = emailController.text;
+      const subject = 'RfidApp Passwort zuruecksetzen';
+      const message =
+          'Sehr geehrter Herr $name\nSie haben angefragt Ihr Passwort zu aendern\n httpsa \n\n Beste Gruese\nIhre RfidApp Team';
+      Email.sendEmail(
+          name: name, email: email, subject: subject, message: message);
+    }
   }
 }

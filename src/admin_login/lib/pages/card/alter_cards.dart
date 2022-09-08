@@ -12,8 +12,6 @@ import 'package:admin_login/domain/values/card_values.dart';
 
 CardValues cardValues = new CardValues();
 
-List<String> data = [];
-
 class CardSettings extends StatefulWidget {
   CardSettings(int card, {Key? key}) : super(key: key) {
     cardValues.setID(card);

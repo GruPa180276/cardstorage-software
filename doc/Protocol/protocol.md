@@ -151,7 +151,11 @@ Habe am refactoren weitergemacht. Ich konnte das Problem durch named Routes lös
 **7.9.2022: 7:20 -> 12:20** <br>
 Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktioniert hatte. Die App App eine Fehlermeldung geworfen, welche sagte, das die verwendete Android Version zu alt sei. Nach der neuerstellung funktioniert jetzt wieder alles. Danach habe ich weiter Refactored. Die Such Seite is jetzt auch fast fertig aufgeteilt. (5h)
 
-**8.9.2022: 7:15 -> xx** <br>
+**8.9.2022: 7:15 -> 12:15** <br>
+Heute habe ich weiter refactored. Fertig sind bereits der Karten und Storage Teil. Dazu habe ich den Code in mehrere Datein ausgelagert und duplikate gelöscht. (5h)
+
+**8.9.2022: 12:30 -> 13:30** <br>
+Weiters habe ich noch den User und Statistik Teil überarbeitet. Dazu habe ich den Code in mehrere Datein ausgelagert und duplikate gelöscht. (1h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -192,4 +196,6 @@ Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktionie
 - 6:45 bis 12:00 Uhr
 - 6:55 bis 12:00 Uhr
 - 7:20 bis 12:20 Uhr
+- 7:15 bis 12:15 Uhr
+- 12:30 bis 13:30 Uhr
 <!-- { "progress": false } -->

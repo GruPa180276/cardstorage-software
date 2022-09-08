@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'dart:async';
-
 import 'package:admin_login/pages/widget/data.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/listTile.dart';

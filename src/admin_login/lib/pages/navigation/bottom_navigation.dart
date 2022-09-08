@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/home/home.dart';
 import 'package:admin_login/pages/stats/stats.dart';
-import 'package:admin_login/pages/storage/storage.dart';
 import 'package:admin_login/pages/card/cards.dart';
+import 'package:admin_login/pages/storage/storage.dart';
 import 'package:admin_login/pages/user/user.dart';
 import 'package:admin_login/pages/menu/menu.dart';
 
@@ -16,7 +16,14 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  final screens = [Home(), Tab1(), CardsView(), StorageView(), Tab4(), Menu()];
+  final screens = [
+    Home(),
+    StatsView(),
+    CardsView(),
+    StorageView(),
+    UserView(),
+    Menu()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +43,23 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.query_stats),
-              label: 'Stats',
+              label: 'Statistik',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.credit_card),
-              label: 'Cards',
+              label: 'Karten',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.storage),
-              label: 'Storages',
+              label: 'Storage',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_box_rounded),
-              label: 'Users',
+              label: 'Benutzer',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu),
-              label: 'More',
+              label: 'Mehr',
             ),
           ],
         ));

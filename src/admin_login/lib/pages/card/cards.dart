@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'dart:async';
-
 import 'package:admin_login/pages/widget/data.dart';
-import 'package:admin_login/pages/widget/card.dart';
+import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
 import 'package:admin_login/pages/widget/speeddial.dart';
@@ -89,7 +87,7 @@ class _ListCardsState extends State<ListCards> {
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 if (widget.cardStorage == data![index].userId.toString()) {
-                  return GenerateCards.withArguments(
+                  return GenerateCardWithInkWell.withArguments(
                       index: index,
                       data: data,
                       icon: Icons.credit_card,

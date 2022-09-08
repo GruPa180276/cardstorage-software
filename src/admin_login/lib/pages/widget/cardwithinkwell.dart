@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/data.dart';
 
-class GenerateCards extends StatefulWidget {
+class GenerateCardWithInkWell extends StatefulWidget {
   final int index;
-  final List<Data> data;
+  final List<Data>? data;
   final IconData icon;
   final String route;
   final int argument;
 
-  const GenerateCards.withoutArguments({
+  const GenerateCardWithInkWell.withoutArguments({
     Key? key,
     required this.index,
     required this.data,
@@ -18,7 +18,7 @@ class GenerateCards extends StatefulWidget {
     this.argument = 0,
   }) : super(key: key);
 
-  const GenerateCards.withArguments(
+  const GenerateCardWithInkWell.withArguments(
       {Key? key,
       required this.index,
       required this.data,
@@ -28,10 +28,11 @@ class GenerateCards extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<GenerateCards> createState() => _GenerateCardsState();
+  State<GenerateCardWithInkWell> createState() =>
+      _GenerateCardWithInkWellState();
 }
 
-class _GenerateCardsState extends State<GenerateCards> {
+class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -48,11 +49,11 @@ class _GenerateCardsState extends State<GenerateCards> {
         child: Stack(children: [
           Positioned(
               left: 100,
-              child: Text(widget.data[widget.index].title,
+              child: Text(widget.data![widget.index].title,
                   style: TextStyle(
                       fontSize: 20, color: Theme.of(context).primaryColor))),
-          setStateOfCardStorage(widget.data[widget.index].title.toString()),
-          setCardStorageIcon(widget.data[widget.index].title.toString()),
+          setStateOfCardStorage(widget.data![widget.index].title.toString()),
+          setCardStorageIcon(widget.data![widget.index].title.toString()),
           Icon(widget.icon, size: 60, color: Theme.of(context).primaryColor)
         ]),
       ),

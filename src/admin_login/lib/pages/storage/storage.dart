@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'dart:async';
-
 import 'package:admin_login/pages/widget/data.dart';
-import 'package:admin_login/pages/widget/card.dart';
+import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
@@ -28,17 +26,13 @@ class _StorageViewState extends State<StorageView> {
             Container(
               child: Row(
                 children: [
-                  Expanded(
-                    child: generateButtonRound(
-                        context, "Hinzufügen", Icons.add, "/addStorage"),
-                  ),
+                  generateButtonRound(
+                      context, "Hinzufügen", Icons.add, "/addStorage"),
                   SizedBox(
                     width: 10,
                   ),
-                  Expanded(
-                    child: generateButtonRound(
-                        context, "Entfernen", Icons.remove, "/removeStorage"),
-                  ),
+                  generateButtonRound(
+                      context, "Entfernen", Icons.remove, "/removeStorage"),
                 ],
               ),
             ),
@@ -79,7 +73,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                return GenerateCards.withArguments(
+                return GenerateCardWithInkWell.withArguments(
                     index: index,
                     data: data!,
                     icon: Icons.credit_card,

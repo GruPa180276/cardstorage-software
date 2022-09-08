@@ -1,15 +1,15 @@
-class Tab4StorageSettingsValuesProvider {
-  String callerName = "";
+class UserValues {
+  int callerName = 0;
   String firstName = "";
   String lastName = "";
   String mail = "";
   String phoneNumber = "";
 
-  void setCallerName(String callerName) {
+  void setCallerName(int callerName) {
     this.callerName = callerName;
   }
 
-  String getCallerName() {
+  int getCallerName() {
     return callerName;
   }
 

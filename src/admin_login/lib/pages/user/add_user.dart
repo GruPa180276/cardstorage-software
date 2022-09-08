@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
-
-import 'package:admin_login/config/values/tab4_text_values.dart';
-import 'package:admin_login/domain/values/tab4_user_values.dart';
+import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/button.dart';
+import 'package:admin_login/pages/widget/listTile.dart';
+import 'package:admin_login/domain/values/user_values.dart.dart';
+import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The needs to be pushed to the API
 
-Tab4StorageSettingsValuesProvider tab4SSVP =
-    new Tab4StorageSettingsValuesProvider();
-Tab4AddStorageDescriptionProvider tab4ASDP =
-    new Tab4AddStorageDescriptionProvider();
+UserValues userValues = new UserValues();
 
 class AddUser extends StatefulWidget {
   const AddUser({Key? key}) : super(key: key);
@@ -25,7 +23,7 @@ class _AddUserState extends State<AddUser> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              tab4ASDP.getAppBarTitle(),
+              "Benutzer hinzufügen",
               style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -34,112 +32,96 @@ class _AddUserState extends State<AddUser> {
           child: Container(
               padding: EdgeInsets.only(top: 10),
               child: Column(
-                children: [InputFields()],
+                children: [GenerateInputFields()],
               )),
         ));
   }
 }
 
-class InputFields extends StatefulWidget {
-  const InputFields({Key? key}) : super(key: key);
+class GenerateInputFields extends StatefulWidget {
+  const GenerateInputFields({Key? key}) : super(key: key);
 
   @override
-  State<InputFields> createState() => _InputFieldsState();
+  State<GenerateInputFields> createState() => _GenerateInputFieldsState();
 }
 
-class _InputFieldsState extends State<InputFields> {
+class _GenerateInputFieldsState extends State<GenerateInputFields> {
+  late Future<List<Data>> futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  void setFirstName(String value) {
+    userValues.setFirstName(value);
+  }
+
+  void setLastName(String value) {
+    userValues.setLastName(value);
+  }
+
+  void setMail(String value) {
+    userValues.setUserMail(value);
+  }
+
+  void setPhoneNumber(String value) {
+    userValues.setPhoneNumber(value);
+  }
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return genereateFields(context, data);
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Center(
+            child: Container(
+                child: Column(
+          children: [
+            generateProgressIndicator(context),
+          ],
+        )));
+      },
+    );
+  }
+
+  Widget genereateFields(BuildContext context, List<Data>? data) {
     return Container(
       child: Column(children: [
-        ListTile(
-          leading: Icon(
-            Icons.description,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab4ASDP.getFirstNameFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            onChanged: (value) => tab4SSVP.setFirstName(value),
-          ),
+        GenerateListTile(
+          labelText: "Vorname",
+          hintText: "",
+          icon: Icons.description,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setFirstName,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.description,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z\-\_\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab4ASDP.getLastNameFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            onChanged: (value) => tab4SSVP.setLastName(value),
-          ),
+        GenerateListTile(
+          labelText: "Nachname",
+          hintText: "",
+          icon: Icons.description,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setLastName,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.mail,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'([A-Za-z0-9\-\_\@\.\ö\ä\ü\ß ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab4ASDP.getMailFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab4SSVP.setUserMail(value),
-          ),
+        GenerateListTile(
+          labelText: "Email",
+          hintText: "",
+          icon: Icons.mail,
+          regExp: r'([A-Za-z0-9\-\_\@\.\ö\ä\ü\ß ])',
+          function: this.setMail,
         ),
-        ListTile(
-          leading: Icon(
-            Icons.format_list_numbered,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: TextField(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'([0-9\- ])'))
-            ],
-            decoration: InputDecoration(
-                labelText: tab4ASDP.getPhoneFieldName(),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                )),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => tab4SSVP.setPhoneNumber(value),
-          ),
+        GenerateListTile(
+          labelText: "Telefonnummer",
+          hintText: "",
+          icon: Icons.phone,
+          regExp: r'([0-9\- ])',
+          function: this.setPhoneNumber,
         ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
@@ -148,27 +130,10 @@ class _InputFieldsState extends State<InputFields> {
               height: 70,
               child: Column(children: [
                 SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (tab4SSVP.getFirstName() != "" &&
-                            tab4SSVP.getLastName() != "" &&
-                            tab4SSVP.getPhoneNumber() != "" &&
-                            tab4SSVP.getUserMail() != "")
-                          Navigator.pop(context);
-                      },
-                      child: Text(
-                        tab4ASDP.getButtonName(),
-                        style: TextStyle(color: Theme.of(context).focusColor),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).secondaryHeaderColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ))
+                  height: 50,
+                  width: double.infinity,
+                  child: generateButtonRectangle(context, "User hinzufügen"),
+                )
               ]),
             )),
       ]),

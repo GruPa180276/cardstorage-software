@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import 'package:admin_login/config/values/tab1_text_values.dart';
-
 // ToDo: The actual API values should be used
-
-Tab1TextValues tab1statsTextProvider = new Tab1TextValues();
 
 class CardStats extends StatefulWidget {
   const CardStats({Key? key}) : super(key: key);
@@ -21,7 +17,7 @@ class _CardState extends State<CardStats> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            tab1statsTextProvider.getAppTitle(),
+            "Statistiken",
             style: TextStyle(color: Theme.of(context).focusColor),
           ),
           backgroundColor: Theme.of(context).secondaryHeaderColor,

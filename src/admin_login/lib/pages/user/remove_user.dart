@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/data.dart';
 import 'package:admin_login/pages/widget/button.dart';
+import 'package:admin_login/pages/widget/clearbutton.dart';
 import 'package:admin_login/pages/widget/searchfield.dart';
-import 'package:admin_login/pages/widget/reloadbutton.dart';
 import 'package:admin_login/pages/widget/cardwithoutinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
@@ -12,14 +12,14 @@ import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 List<String> searchValues = [];
 List<String> selectedEntrys = [];
 
-class RemoveCards extends StatefulWidget {
-  RemoveCards({Key? key}) : super(key: key);
+class RemoveUsers extends StatefulWidget {
+  RemoveUsers({Key? key}) : super(key: key);
 
   @override
-  State<RemoveCards> createState() => _RemoveCardsState();
+  State<RemoveUsers> createState() => _RemoveCardsState();
 }
 
-class _RemoveCardsState extends State<RemoveCards> {
+class _RemoveCardsState extends State<RemoveUsers> {
   void setSelectedEntrys(String data) {
     setState(() {
       selectedEntrys.add(data);
@@ -41,14 +41,23 @@ class _RemoveCardsState extends State<RemoveCards> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              "Karten entfernen",
-              style:
-                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+              "Benutzer entfernen",
+              style: TextStyle(color: Theme.of(context).focusColor),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: GenerateReloadButton(this.clearView),
+        floatingActionButton: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: generateReloadButton(context, this.clearView),
+              ),
+            ),
+          ],
+        ),
         body: Container(
             padding: EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Column(

@@ -151,6 +151,9 @@ Habe am refactoren weitergemacht. Ich konnte das Problem durch named Routes lös
 **7.9.2022: 7:20 -> 12:20** <br>
 Habe heute damit begonnen, die App neu zu erstellen, da sie nich mehr funktioniert hatte. Die App App eine Fehlermeldung geworfen, welche sagte, das die verwendete Android Version zu alt sei. Nach der neuerstellung funktioniert jetzt wieder alles. Danach habe ich weiter Refactored. Die Such Seite is jetzt auch fast fertig aufgeteilt. (5h)
 
+**7.9.2022: 13:30 -> 15:30** <br>
+Habe Flutter auf dem Laptop installiert und eingerichtet. (2h)
+
 **8.9.2022: 7:15 -> 12:15** <br>
 Heute habe ich weiter refactored. Fertig sind bereits der Karten und Storage Teil. Dazu habe ich den Code in mehrere Datein ausgelagert und duplikate gelöscht. (5h)
 
@@ -159,6 +162,9 @@ Weiters habe ich noch den User und Statistik Teil überarbeitet. Dazu habe ich d
 
 **8.9.2022: 14:30 -> 15:30** <br>
 Später habe ich mit Herrn Grubauer einen Call durchgrführt, wo wir einiges besprochen haben. (30min)
+
+**16.9.2022: 8:15 -> 12:30** <br>
+Haben heute in der Stunde die Diplomarbeitsdatenbank mit Inhalt befüllt. Weiters, haben wir damit begonnen, ein Pflichtenhaft zu erstellen. Zum Schluss habe ich mich noch mit GitHub Actions auseinandergesetzt, damit wird Flutter für IOS testen könnnen. (4h 15min)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -202,4 +208,6 @@ Später habe ich mit Herrn Grubauer einen Call durchgrführt, wo wir einiges bes
 - 7:15 bis 12:15 Uhr
 - 12:30 bis 13:30 Uhr
 - 14:30 bis 15:00 Uhr
+- 13:30 bis 15:30 Uhr
+- 8:15 bis 12:30 Uhr
 <!-- { "progress": false } -->

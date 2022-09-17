@@ -62,7 +62,7 @@
 - get all CardStorages 
 
   
-### Amin User
+### Admin User
 Bitte einen Amdin User anlegen!!!!!!
 
 ### Logs

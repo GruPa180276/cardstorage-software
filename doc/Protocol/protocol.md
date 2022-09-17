@@ -166,6 +166,9 @@ Später habe ich mit Herrn Grubauer einen Call durchgrführt, wo wir einiges bes
 **16.9.2022: 8:15 -> 12:30** <br>
 Haben heute in der Stunde die Diplomarbeitsdatenbank mit Inhalt befüllt. Weiters, haben wir damit begonnen, ein Pflichtenhaft zu erstellen. Zum Schluss habe ich mich noch mit GitHub Actions auseinandergesetzt, damit wird Flutter für IOS testen könnnen. (4h 15min)
 
+**17.9.2022: 8:00 -> 11:30** <br>
+Wir haben heute das Pflichtenheft erstellt und das Konzept überbeitet. Dazu haben wir ein Teams Meeting durchgeführt. (3h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -210,4 +213,5 @@ Haben heute in der Stunde die Diplomarbeitsdatenbank mit Inhalt befüllt. Weiter
 - 14:30 bis 15:00 Uhr
 - 13:30 bis 15:30 Uhr
 - 8:15 bis 12:30 Uhr
+- 8:00 bis 11:30 Uhr
 <!-- { "progress": false } -->

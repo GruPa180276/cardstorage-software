@@ -1,0 +1,190 @@
+\documentclass[a4paper]{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[backend=bibtex,style=numeric,defernumbers=true]{biblatex}
+\usepackage[margin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{svg}
+\usepackage[style=russian]{csquotes}
+\usepackage{flafter}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\titlespacing*{\section}{0pt}{4.3ex plus .2ex}{3ex}
+\titlespacing*{\subsection}{0pt}{4.3ex plus .2ex}{1.5ex}
+
+\newcommand{\DateCreated}{17. September 2022}
+
+\title{\Huge{\textbf{RFID Card Management System --- Pflichtenheft}}}
+\author{Mayrhofer Johannes, Grubauer Patrick, Zöchmann Benedikt}
+\date{\DateCreated}
+
+
+\begin{document}
+\maketitle
+
+% Platzierung des Inhaltsverzeichnisses
+\tableofcontents
+
+\newpage
+\section{Kriterien}
+\subsection{Fertigstellungszeitraum}
+Sp\"atestens bis 31.0.2022
+\subsection{DB / API}
+\begin{itemize}
+\item 
+\end{itemize}
+
+\subsection{API - Raspberry}
+\begin{itemize}
+\item 
+\end{itemize}
+
+\subsection{Login/Registrierungsseite}
+Anforderungen
+\begin{itemize}
+  \item Der User soll sich mittels Benutzerdaten einloggen
+  \item Der User soll die M\"oglichkeit haben einen neuen Account zuerstellen 
+  \item Der User soll am Terminal die M\"oglichkeit haben einen neuen Account mittels RIFD-Chip zu erstellen
+  \item Der User soll eine Registrierungbest\"atigung bei Neuanmeldung bekommen
+  \item Der User soll die M\"oglichkeit haben sicher sein Passw\'ort zu speichern
+\end{itemize}
+
+\subsection{Client Anwendung / Login}
+\begin{itemize}
+    \item Die Client-Anwendung soll ein Reservierungssystem f\"ur die Karten bieten
+    \subitem - Reservierungen sollen bearbeitbar/l\"oschbar sein
+    \subitem - Reservierungen sollen Benachrichtigungen bei bevostehenden Termin versenden
+    \item Die Client-Anwendung soll einen Shortcut bieten um Karten direkt zu holen (ohne Anmeldung am Terminal)
+    \item Die Client-Anwendung soll die M\"oglichkeit bieten Userdaten zu \"andern
+    \item Die Client-Anwendung soll eine Einstellungsseite bieten (Benachrichtigungen, Thememode, usw.)
+    \item Die Client-Anwendung soll einen Graf f\"ur die Karten-Usage anzeigen
+    \item Die Client-Anwendung soll ein System zum Chatten mit dem Admin bieten
+\end{itemize}
+
+
+\subsection{Admin Anwendung / Login}
+Die Anforderungen an die Admin App gestallten sich folgendermaßen:
+\begin{itemize}
+  \item Der Admin soll Karten anlegen / löschen / bearbeiten können.
+  \item Der Admin soll Karten Tresore anlegen / löschen / bearbeiten können.
+  \item Der Admin soll Benutzer anlegen / löschen / bearbeiten können.
+  \item Der Admin soll sich Statistiken anzeigen lassen können.
+  \item Der Admin soll sich Logs anzeigen lassen können.
+\end{itemize}
+
+
+\subsection{Raspberry - Arduino}
+Die Anforderungen an die Raspberry -  Arduino Kommunikation gestallten sich folgendermaßen:
+\begin{itemize}
+  \item Daten sollen über die Serielle Schnittstelle gesendet werden.
+  \item Am Raspberry soll sich ein Kartenleser befinden.
+  \item Am Raspberry soll sich ein Display befinden.
+  
+\end{itemize}
+
+\newpage
+\section{Teilbereiche}
+\subsection{DB / API}
+
+
+\newpage
+\subsection{Anwendung}
+Als Grundlage zur adminstrativen als auch benutzerspezifizischen Verwaltung, kommt eine Flutter App zur Anwendung. Wir haben uns für dieses Framework entschieden, da es auf verschiedenen Plattformen bzw. Betriebssystem mit einer Version der Software läuft (Native Framework). Um zu dem Admin-Login zu gelangen, wird ein eigener Login bei der Login-Seite benötigt. D.h Admin und User Anwendung teilen sich ab den Login auf.
+
+\subsubsection{Login/Registrierungsseite}
+
+  
+\subsubsection{Client Anwendung / Login}
+\paragraph{Generelle Spezifikation}\mbox{}\\
+Der User Login wird von den Lehrenden verwendet, um Karten zu beantragen, reservieren, anzufordern [...]. Weiters soll der Login am Display als auch im Web zur Verfügung gestellt, damit wirklich jeder Zugang zum Automaten hat. 
+
+\paragraph{Software}
+\begin{itemize}
+  \item Als Homepage wird eine Seite mit verschiedenen Grafiken bspw. über die aktuellen verwendeten, reservieren, benutzen Karten angezeigt. Weiters sollen Informationen, wie die durschnittliche Verwendungsdauer, meist verwendeten Karten visualisiert werden, damit der User besser einschätzen kann, ob er die Karte reservieren soll.
+  \item Es soll eine Seite mit allen Karten angezeigt werden, wobei man die angezeigten Karten, anhand der Automaten filtern kann.
+  \item Eine eigene Seite zum Reservierungsystem
+  \item Quick Card Get Möglichkeit mittels Pop-Up am Display.
+  \item Möglichkeit Nachrichten an den Admin zu senden (Feedback, Bug-report, Verbesserungen [...])
+  \item Seite zum \"andern der Benutzerdaten
+\end{itemize}
+
+
+
+\subsubsection{Admin Anwendung / Login}
+\paragraph{Generelle Spezifikation}\mbox{}\\
+Der Admin Login soll dazu verwendet werden können, direkt am Display am Automaten, administrative Aufgaben erledigen zu können z.B: Karten hinzufügen, Benutzer anlegen, Karten Tresore hinzufügen [...] Diese Anwendung soll auch als Webseite und APP zur Verfügung stehen, um solche Einstellungen nicht direkt Vorort machen zu müssen. Die Admin App wird ebenfalls mit Flutter erstellt. Um die Admin App benutzen können, wird es bestimmte Benutzer geben die sich als Admin anmelden können. 
+
+\begin{itemize}
+  \item In der App soll der User sich in einer Grafik ansehen können, welche Karten gerade verfügbar sind und welche nicht. Diese kann pro Automaten oder mit allen Karten gemachte werden. 
+  \item Weiters soll man in der App einen neuen Automaten hinzufügen können, dazu muss man einige Parameter angeben wie Name, IP-Adresse, Anzahl Karten, Ort. Danach werden diese in einer Datenbank im Hintergrund eingepflegt. 
+  \item In der App sollen auch neue Karten hinzugefügt werden können oder Karten getauscht werden, dazu wird, wenn das Fenster geöffnet wird am Automaten angezeigt, dass die Karten zum Lesegerät gehalten werden soll, damit die Karte im System gespeichert werden kann.
+  \item Eine weitere Option ist, dass man auch neue Benutzer anlegen können soll, oder auch verwalten kann.
+  \item Als letzten soll sich der Admin auch Statistiken erstellen können, damit die Auslastung im Auge behalten werden kann.
+  \item Weiters soll sich der Admin Logs zu der Datenbank und API anzeigen lassen können.
+\end{itemize}
+
+\paragraph{Software}
+\begin{itemize}
+ \item Ansicht, welche Karten Verfügbar sind
+ \item Neuen Automaten anlegen / löschen / bearbeiten 
+ \item Neue Karten hinzufügen / löschen / bearbeiten
+ \item Benutzer anlegen / löschen / bearbeiten (Daten ändern)
+ \item Statistik / Auswertungen erstellen
+ \item Logs anzeigen
+\end{itemize}
+
+\subsubsection{Hardware}
+Da ein wir ein crossplattform Framework verwenden, haben wir die M\"oglichkeit mit wenig Arbeit unsere Produkt auf allen Ger\"aten anzubieten. Hier eine Auflistung auf welchen Ger\"aten die Hardware laufen muss
+\begin{itemize}
+  \item handyHGadBetriebssysteme
+\end{itemize}
+
+\newpage
+
+\subsection{Raspberry - Arduino}
+\subsubsection{Generelle Spezifikation}
+Der Raspberry und Arduino sind dafür verantwortlich, Daten die an die API gesendet werden, an den jeweiligen Karten Tresor weiterzugeben. Die Kommunikation soll über die Serielle Schnitstelle erfolgen. Weiters soll am Raspberry ein NFC Reader und ein Display angebracht werden. Das Display soll für die User Interaktion verwendet werden. Der NFC Reader wird dafür benutzt, sich zu registrieren und die Karten zurückzugeben.
+
+\subsubsection{Raspberry}
+Der Raspberry wird dazu verwendet die Daten von der DB per MQTT zu erhalten. Mehr Beschriebung unter API - Raspberry Kommunikation. Dieser gibt die Daten per Serielle Schnittstelle an den Arduino weiter. Weiters werden die Daten vom NFC Reader an die API gesendet. Eine weitere Aufgabe des Raspberry ist, unser APP darzustellen. Weitere Information bei Hardware.
+
+\subsubsection{Arduino}
+Der Arduino hat als Aufgabe die Empfangen Daten von der Seriellen Schnittstelle auszuführen. Dies kann hier nicht genauer bescheiben werden, da der Arduino nicht von uns programmiert wird.
+
+\subsubsection{Display}
+Das Display wird dazu verwendet, die Admin und Client App darzustellen. Diese werden auf dem Raspberry im Browser laufen, und müssen etwas angepasst werden, da gewisse funktionalität der App im Browser nicht gewährleistet ist. Das Display wird per proprietärer Raspberry Schnittstelle angschlossen.
+
+\subsubsection{NFC Reader}
+Der NFC Reader wird dazu verwendet, User beim ersten mal per Chip zu authentifizeren. Dies wird dann in die Datenbank gespeichert. Eine weitere Aufgabe ist es, beim zurückgeben die Karten zu Scannen und bei dem jeweiligen User herauszulöschen. Damit ist gewährleistet, das die Karte auch von anderen Benutzer verwendet werden kann.
+
+\newpage
+\subsection{API - Raspberry}
+
+\newpage
+\section{Anwendungsbereiche / Zielgruppe}
+\subsection{Benutzer}
+Unser komplettes System ist für die Verwendung am Linzer Technikum gedacht. Dise wird dort von den Lehreren und Administratoren verwendet. Die Lehrer haben die Möglichkeit, sich Karten auszuborgen und zu reservieren. Admins können das komplette System verwalten. Admins sind fic vergebene Benutzer können sich bei der Client Anwendung nicht anmelden.
+
+
+\subsection{Einsatz Ort}
+Das System wird am Linzer Technikum eingesetzt. Dort werden im Gebäude mehrere Karten Tresore platziert. In jedem Karten Tresor befinden sich jeweils 10 Karten. Diese Karten Tresore werden nicht von uns gefertigt.
+
+
+\newpage
+
+\section{Umsetzung}
+
+\newpage
+\section{Use-Case / Sequenz Diagram}
+\begin{figure}[htbp]
+  \centering
+  \includesvg[scale=0.60,pretex=\small]{architecture_use-case.svg} 
+  \caption{Architektur des Systems in Form eines Use-Case Diagramms}
+  \label{architecture}
+\end{figure}
+
+% Abbildungsverzeichnis
+\listoffigures
+
+\end{document}

@@ -11,12 +11,12 @@
 \usepackage[style=russian]{csquotes}
 \usepackage{flafter}
 \usepackage{titlesec}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 
 \titlespacing*{\section}{0pt}{4.3ex plus .2ex}{3ex}
 \titlespacing*{\subsection}{0pt}{4.3ex plus .2ex}{1.5ex}
 
-\newcommand{\DateCreated}{24. Juni 2022\\ 6. Juli 2022\\ 16. August 2022\\ 18. August 2022}
+\newcommand{\DateCreated}{24. Juni 2022\\ 6. Juli 2022\\ 16. August 2022\\ 18. August 2022 \\ 17. September 2022}
 
 \title{\Huge{\textbf{RFID Card Management System}}}
 \author{Mayrhofer Johannes, Grubauer Patrick, Zöchmann Benedikt}
@@ -63,8 +63,8 @@ Es soll ein Tresor für NFC-Karten entwickelt werden, der NFC-Karten für spezie
 \subsection{Arbeitsaufteilung}
 \begin{itemize}
     \item Mayrhofer Johannes: Zentrale API, Datenbank, API-Raspberry-$\mu$C Kommunikation
-    \item Grubauer Patrick: Flutter App $\rightarrow$ Client-Login, Login-Page, Menu bzw. Settings, Hardware (RFID)
-    \item Zöchmann Benedikt: Flutter App $\rightarrow$ Admin-Login, Hardware (Display)
+    \item Grubauer Patrick: Flutter App $\rightarrow$ Client-Login, Login-Page, Hardware (RFID), Arduino - Raspberry Kommunikation
+    \item Zöchmann Benedikt: Flutter App $\rightarrow$ Admin-Login, Hardware (Display), Arduino - Raspberry Kommunikation
 \end{itemize}
 
 \newpage
@@ -95,7 +95,7 @@ Das Programm, welches am Mikroprozessor, in der obigen Grafik (siehe \autoref{ar
 \newpage
 
 \subsection{Client Anwendung}
-Als Grundlage zur adminstrativen als auch benutzerspezifizischen Verwaltung, kommt eine Flutter App zur Anwendung. Wir haben uns für dieses Framework entschieden, da es auf verschiedenen Plattformen bzw. Betriebssystemdn mit einer Version der Software läuft (Native Framework). Um zu dem Admin-Login zu gelangen, wird eine eigener Login, bei der Login-Seite benötigt. D.h Admin und User Anwendung teilen sich ab den Login auf.
+Als Grundlage zur adminstrativen als auch benutzerspezifizischen Verwaltung, kommt eine Flutter App zur Anwendung. Wir haben uns für dieses Framework entschieden, da es auf verschiedenen Plattformen bzw. Betriebssystem mit einer Version der Software läuft (Native Framework). Um zu dem Admin-Login zu gelangen, wird ein eigener Login bei der Login-Seite benötigt. D.h Admin und User Anwendung teilen sich ab den Login auf.
 
 \subsection{Login}
 Der Login dient dazu, um zu der Admin bzw. User Anmeldung hinzugelangen.
@@ -104,6 +104,7 @@ Der Login dient dazu, um zu der Admin bzw. User Anmeldung hinzugelangen.
   \item Neuanmeldung eines Lehrers möglich
   \item "Remember me" $\rightarrow$ Funktion welche Passwörter sicher speichern (Encrypted-Shared-Preferences)
   \item Möglichkeit sein Passwort zurückzusetzen  
+  \item Quick Login/Registrierung Möglichkeit am Terminal mittels Rfid Karte der Lehrer 
 \end{itemize}
 
 \subsection{User-Login}
@@ -115,15 +116,14 @@ Der User Login wird von den Lehrenden verwendet, um Karten zu beantragen, reserv
   \item Als Homepage wird eine Seite mit verschiedenen Grafiken bspw. über die aktuellen verwendeten, reservieren, benutzen Karten angezeigt. Weiters sollen Informationen, wie die durschnittliche Verwendungsdauer, meist verwendeten Karten visualisiert werden, damit der User besser einschätzen kann, ob er die Karte reservieren soll.
   \item Es soll eine Seite mit allen Karten angezeigt werden, wobei man die angezeigten Karten, anhand der Automaten filtern kann.
   \item Eine eigene Seite zum Reservierungsystem
-  \item Quick Login Möglichkeit, per NFC, um sich schnell am Terminal anmelden zu können. 
-  \item Quick Card Drop Möglichkeit, per NFC, um sich schnell eine Karte zu holen.
+  \item Quick Card Get Möglichkeit mittels Pop-Up am Display.
   \item Möglichkeit Nachrichten an den Admin zu senden (Feedback, Bug-report, Verbesserungen [...])
-  \item Möglichkeit um an den Besitzer eine Karte eine Push Notification zu senden, um sich die Karten abzuholen, falls sie nicht mehr verwendet wird.
+  \item Seite zum \"andern der Benutzerdaten
 \end{itemize}
 
 \subsection{Admin-Login}
 \subsubsection{Generelle Spezifikation}
-Der Admin Login soll dazu verwendet werden können, direkt am Display am Automaten, administrative Aufgaben erledigen zu können z.B: Karten hinzufügen, Benutzer anlegen [...] Diese Anwendung soll auch als Webseite zur Verfügung stehen, um solche Einstellungen nicht direkt Vorort machen zu müssen. Die Admin App wird ebenfalls mit Flutter erstellt. Um die Admin App benutzen können, wird es bestimmte Benutzer geben die sich als Admin anmelden können. 
+Der Admin Login soll dazu verwendet werden können, direkt am Display am Automaten, administrative Aufgaben erledigen zu können z.B: Karten hinzufügen, Benutzer anlegen, Karten Tresore hinzufügen [...] Diese Anwendung soll auch als Webseite und APP zur Verfügung stehen, um solche Einstellungen nicht direkt Vorort machen zu müssen. Die Admin App wird ebenfalls mit Flutter erstellt. Um die Admin App benutzen können, wird es bestimmte Benutzer geben die sich als Admin anmelden können. 
 
 \begin{itemize}
   \item In der App soll der User sich in einer Grafik ansehen können, welche Karten gerade verfügbar sind und welche nicht. Diese kann pro Automaten oder mit allen Karten gemachte werden. 
@@ -131,16 +131,17 @@ Der Admin Login soll dazu verwendet werden können, direkt am Display am Automat
   \item In der App sollen auch neue Karten hinzugefügt werden können oder Karten getauscht werden, dazu wird, wenn das Fenster geöffnet wird am Automaten angezeigt, dass die Karten zum Lesegerät gehalten werden soll, damit die Karte im System gespeichert werden kann.
   \item Eine weitere Option ist, dass man auch neue Benutzer anlegen können soll, oder auch verwalten kann.
   \item Als letzten soll sich der Admin auch Statistiken erstellen können, damit die Auslastung im Auge behalten werden kann.
+  \item Weiters soll sich der Admin Logs zu der Datenbank und API anzeigen lassen können.
 \end{itemize}
 
 \subsubsection{Funktionen}
 \begin{itemize}
  \item Ansicht, welche Karten Verfügbar sind
- \item Neuen Automaten anlegen
- \item Neue Karten hinzufügen / tauschen können, gleichzeitig Anzeige am Display, das die Karte gescannt werden soll
- \item Benutzer anlegen, Passwort ändern
+ \item Neuen Automaten anlegen / löschen / bearbeiten 
+ \item Neue Karten hinzufügen / löschen / bearbeiten
+ \item Benutzer anlegen / löschen / bearbeiten (Daten ändern)
  \item Statistik / Auswertungen erstellen
- \item Nice to have: Karten mit bestimmten Rechten erstellen / beschreiben können.
+ \item Logs anzeigen
 \end{itemize}
 
 \end{document}

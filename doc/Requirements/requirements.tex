@@ -19,7 +19,6 @@
 \author{Mayrhofer Johannes, Grubauer Patrick, Zöchmann Benedikt}
 \date{\DateCreated}
 
-
 \begin{document}
 \maketitle
 
@@ -29,7 +28,7 @@
 \newpage
 \section{Kriterien}
 \subsection{Fertigstellungszeitraum}
-Sp\"atestens bis 31.0.2022
+Sp\"atestens bis 31.3.2023
 \subsection{DB / API}
 \begin{itemize}
 \item 
@@ -41,7 +40,6 @@ Sp\"atestens bis 31.0.2022
 \end{itemize}
 
 \subsection{Login/Registrierungsseite}
-Anforderungen
 \begin{itemize}
   \item Der User soll sich mittels Benutzerdaten einloggen
   \item Der User soll die M\"oglichkeit haben einen neuen Account zuerstellen 
@@ -93,6 +91,14 @@ Die Anforderungen an die Raspberry -  Arduino Kommunikation gestallten sich folg
 Als Grundlage zur adminstrativen als auch benutzerspezifizischen Verwaltung, kommt eine Flutter App zur Anwendung. Wir haben uns für dieses Framework entschieden, da es auf verschiedenen Plattformen bzw. Betriebssystem mit einer Version der Software läuft (Native Framework). Um zu dem Admin-Login zu gelangen, wird ein eigener Login bei der Login-Seite benötigt. D.h Admin und User Anwendung teilen sich ab den Login auf.
 
 \subsubsection{Login/Registrierungsseite}
+Der Login dient dazu, um zu der Admin bzw. User Anmeldung hinzugelangen.
+\paragraph{Funktionen}
+\begin{itemize}
+  \item Neuanmeldung eines Lehrers möglich
+  \item "Remember me" $\rightarrow$ Funktion welche Passwörter sicher speichern (Encrypted-Shared-Preferences)
+  \item Möglichkeit sein Passwort zurückzusetzen  
+  \item Quick Login/Registrierung Möglichkeit am Terminal mittels Rfid Karte der Lehrer 
+\end{itemize}
 
   
 \subsubsection{Client Anwendung / Login}
@@ -137,7 +143,9 @@ Der Admin Login soll dazu verwendet werden können, direkt am Display am Automat
 \subsubsection{Hardware}
 Da ein wir ein crossplattform Framework verwenden, haben wir die M\"oglichkeit mit wenig Arbeit unsere Produkt auf allen Ger\"aten anzubieten. Hier eine Auflistung auf welchen Ger\"aten die Hardware laufen muss
 \begin{itemize}
-  \item handyHGadBetriebssysteme
+  \item Android Geräte grö\"ser API 24
+  \item Smartphones mit Betriebssystemen wie IOS,Android
+  \item Geräte die einen Browser Bieten
 \end{itemize}
 
 \newpage
@@ -170,13 +178,8 @@ Unser komplettes System ist für die Verwendung am Linzer Technikum gedacht. Dis
 \subsection{Einsatz Ort}
 Das System wird am Linzer Technikum eingesetzt. Dort werden im Gebäude mehrere Karten Tresore platziert. In jedem Karten Tresor befinden sich jeweils 10 Karten. Diese Karten Tresore werden nicht von uns gefertigt.
 
-
 \newpage
-
-\section{Umsetzung}
-
-\newpage
-\section{Use-Case / Sequenz Diagram}
+\section{Use-Case Diagramm}
 \begin{figure}[htbp]
   \centering
   \includesvg[scale=0.60,pretex=\small]{architecture_use-case.svg} 

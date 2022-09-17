@@ -190,6 +190,8 @@ Am Nachmittag habe ich mit dem Errorhandling begonnen. Ich durchsuchte zahlreich
 
 Am Freitag in der ITP Stunde mussten wir auf der Diplomarbeitsdatenbank einen Projektantrag erstellen. Danach hatten wir eine Besprechungsstunde mit Frau Hofer bezgl. der Diplomarbeit. Es wurden viel Sachen aufgeklaert. Danach habe ich eine kurze Zusammenfassung fuer ein Pflcihtenheft geschrieben und eine Artikelliste erstellt. Danach wollte ich bei der App weiterarbeiten, allerdings hatte ich zahlreiche kuriose Probleme bei der Installation. Die Vm wollte nicht laufen.
 
+**2022-09-17: 8:00 -> 11:30** 
+Heute hatten wir ein Teammeeting da wir unser Konzept ueberarbeiten wollten  und ein Pflichtenheft erstellen wollten. Es wurde alles erledigt
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -239,6 +241,6 @@ Am Freitag in der ITP Stunde mussten wir auf der Diplomarbeitsdatenbank einen Pr
 - 8:00 bis 9:10 Uhr
 - 13:30 bis 15:30 Uhr
 - 08:15 bis 12:30 Uhr
-
+- 08:00 bis 11:30 Uhr
 <!-- { "progress": false } -->
 

@@ -186,6 +186,10 @@ Am Vormittag hatte ich ein Meeting mit herrn zoechmann, da er hilfe beim Refacto
 
 Am Nachmittag habe ich mit dem Errorhandling begonnen. Ich durchsuchte zahlreiche Foren um die beste Methode zufinden. Allerdings hatte ich ein Problem um fuer den Futurebuilder ein Errorhandling zu machen. nach etwas probieren schaffte ih es dann. Danach habe ich es Herrn Zoechmann gezeigt und um Ubereinstimmmung gebeten. Ebenfalls habe ich noch mein Git Project aktualisiert da ich darauf vergessen habe
 
+**2022-09-16: 08:15 -> 12:30** 
+
+Am Freitag in der ITP Stunde mussten wir auf der Diplomarbeitsdatenbank einen Projektantrag erstellen. Danach hatten wir eine Besprechungsstunde mit Frau Hofer bezgl. der Diplomarbeit. Es wurden viel Sachen aufgeklaert. Danach habe ich eine kurze Zusammenfassung fuer ein Pflcihtenheft geschrieben und eine Artikelliste erstellt. Danach wollte ich bei der App weiterarbeiten, allerdings hatte ich zahlreiche kuriose Probleme bei der Installation. Die Vm wollte nicht laufen.
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -234,6 +238,7 @@ Am Nachmittag habe ich mit dem Errorhandling begonnen. Ich durchsuchte zahlreich
 - 21:00 bis 23:30 Uhr
 - 8:00 bis 9:10 Uhr
 - 13:30 bis 15:30 Uhr
+- 08:15 bis 12:30 Uhr
 
 <!-- { "progress": false } -->
 

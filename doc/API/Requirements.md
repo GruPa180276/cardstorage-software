@@ -62,21 +62,8 @@
 - get all CardStorages 
 
   
+### Amin User
+Bitte einen Amdin User anlegen!!!!!!
 
-## Rechte (Optional)
-
-### POST
-
-- Rechte anlegen :\[Name, Cardgroup] (Name Unique)
-
-### PUT
-
-- Rechte anlegen/bearbeiten :\[Name, Cardgroup] (Name Unique)
-
-### DELETE
-
-- Rechte loeschen: [Name]
-
-### GET
-
-- get all Rightsgroup per User (Email uebergeben)
+### Logs
+Bitte Logs bereitstellen

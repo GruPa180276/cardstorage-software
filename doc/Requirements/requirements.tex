@@ -1,6 +1,10 @@
+% https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX
+% http://latex.hpfsc.de/content/latex_tutorial/stichwortverzeichnis/
+
 \documentclass[a4paper]{article}
 
 \usepackage[ngerman]{babel}
+% \usepackage[ansinew]{inputenc}
 \usepackage[backend=bibtex,style=numeric,defernumbers=true]{biblatex}
 \usepackage[margin=3cm]{geometry}
 \usepackage[T1]{fontenc}
@@ -9,34 +13,72 @@
 \usepackage{flafter}
 \usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
+\usepackage{makeidx}
+
+
+\addbibresource{references.bib} % mention reference with \cite{<id>}
 
 \titlespacing*{\section}{0pt}{4.3ex plus .2ex}{3ex}
 \titlespacing*{\subsection}{0pt}{4.3ex plus .2ex}{1.5ex}
 
-\newcommand{\DateCreated}{17. September 2022}
+\title{\Huge{RFID Card-Management System\\ Pflichtenheft}}
+\author{
+    Diplomanden:\\
+    \textbf{Johannes Mayrhofer, Patrick Grubauer, Benedikt Z\"ochmann}\\\\
+    Betreuungslehrkraft:\\
+    \textbf{Prof. Dr. Susanne Hofer}
+}
+\date{
+    Jahrgang: 2022/23\\
+    \vspace{0.4cm}
+    17. September 2022\\
+    18. September 2022
+}
 
-\title{\Huge{\textbf{RFID Card Management System --- Pflichtenheft}}}
-\author{Mayrhofer Johannes, Grubauer Patrick, Zöchmann Benedikt}
-\date{\DateCreated}
+% \makeindex
+% \renewcommand{\indexname}{Stichwortverzeichnis}
+% Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
+% \addcontentsline{toc}{section}{Stichwortverzeichnis}
 
 \begin{document}
-\maketitle
 
-% Platzierung des Inhaltsverzeichnisses
-\tableofcontents
+\newgeometry{top=0.75cm, bottom=0.75cm}
+    \maketitle
+    \titlerule
+    \tableofcontents
+\restoregeometry
 
 \newpage
+
+\section{Use-Case Diagramm}
+\begin{figure}[htbp]
+  \centering
+  \includesvg[scale=0.60,pretex=\small]{architecture_use-case.svg} 
+  \caption{Architektur des Systems in Form eines Use-Case Diagramms}
+  \label{architecture}
+\end{figure}
+
 \section{Kriterien}
 \subsection{Fertigstellungszeitraum}
 Sp\"atestens bis 31.3.2023
-\subsection{DB / API}
+
+\subsection{Zentrale API}
+Die Zentrale API (siehe \ref{sec-central-api}) erfüllt folgende Kriterien:
 \begin{itemize}
-\item 
+    \item Anwendungsprogrammierer sollen über die API Benutzer, Karten, und Schließfächer anlegen, abrufen, ändern und löschen können
+    \item Anwendungsprogrammierer sollen die Möglichkeit haben über die API Karten als reserviert und wieder zurückgegeben zu melden
+    \item Anwendungsprogrammierer sollen Daten zur Statistischen Auswertung durch den Administrator abrufen können (Häufigkeiten von Reservierungen von Karten etc.)
+    \item Anwendungsprogrammierer sollen Daten zu Informationszwecken für den Administrator abrufen können (API-Logs: Zugriffe von Clients, etc.)
+    \item Die API soll als Softwarepaket in Form eines portablen Docker-Containers zur Verfügung stehen
+    \item Die API unterscheidet zwischen Administrator und Benutzer
+    \item Administratoraccounts sind vordefiniert und werden in der Datenbank gespeichert 
 \end{itemize}
 
-\subsection{API - Raspberry}
+\subsection{API -- Raspberry Kommunikation}
+Die Kommunikation zwischen Zentraler API und Raspberry (siehe \ref{api-raspi-communication}) erfüllt folgende Kriterien 
 \begin{itemize}
-\item 
+    \item Anwendungsprogrammierer tauschen etwaige Daten mit der API über MQTT aus
+    \item Anwendungsprogrammierer tauschen etwaige Daten mit dem Mikrokontroller mithilfe des bereitgestellten Kommunikationsmoduls (siehe \ref{raspi-arduino-comm}) aus
 \end{itemize}
 
 \subsection{Login/Registrierungsseite}
@@ -50,7 +92,7 @@ Sp\"atestens bis 31.3.2023
 
 \subsection{Client Anwendung / Login}
 \begin{itemize}
-    \item Die Client-Anwendung soll ein Reservierungssystem f\"ur die Karten bieten
+    \item Die Client-Anwendung soll ein Reservierungssyste4m f\"ur die Karten bieten
     \subitem - Reservierungen sollen bearbeitbar/l\"oschbar sein
     \subitem - Reservierungen sollen Benachrichtigungen bei bevostehenden Termin versenden
     \item Die Client-Anwendung soll einen Shortcut bieten um Karten direkt zu holen (ohne Anmeldung am Terminal)
@@ -62,7 +104,7 @@ Sp\"atestens bis 31.3.2023
 
 
 \subsection{Admin Anwendung / Login}
-Die Anforderungen an die Admin App gestallten sich folgendermaßen:
+Die Anforderungen an die Admin App gestalten sich folgendermaßen:
 \begin{itemize}
   \item Der Admin soll Karten anlegen / löschen / bearbeiten können.
   \item Der Admin soll Karten Tresore anlegen / löschen / bearbeiten können.
@@ -72,7 +114,7 @@ Die Anforderungen an die Admin App gestallten sich folgendermaßen:
 \end{itemize}
 
 
-\subsection{Raspberry - Arduino}
+\subsection{Raspberry - Arduino} \label{raspi-arduino-comm}
 Die Anforderungen an die Raspberry -  Arduino Kommunikation gestallten sich folgendermaßen:
 \begin{itemize}
   \item Daten sollen über die Serielle Schnittstelle gesendet werden.
@@ -83,8 +125,28 @@ Die Anforderungen an die Raspberry -  Arduino Kommunikation gestallten sich folg
 
 \newpage
 \section{Teilbereiche}
-\subsection{DB / API}
+\subsection{Zentrale API} \label{sec-central-api}
+Die API ist der zentrale Knotenpunkt zum Austausch von Daten zwischen Client Anwendung (Flutter App) und den Card-Storage\footnote{Schließfach, in dem die RFID Karten aufbewahrt werden}s. Die API kommuniziert mit den Card-Storages mithilfe MQTT welche jeweils ein Topic zugewiesen bekommen und so Daten senden als auch empfangen können. Die API speichert etwaige Daten in einer Datenbank. Diese Daten können ausschließlich von der API verwaltet werden. Gehostet wird diese auf einem Zentralen Server sodass der Zugriff auf die ebenfalls zentralisierte Datenbank vereinfacht wird und alle Daten synchron und konsistent miteinanander sind.
 
+\subsubsection{Hardware}
+Docker-fähiger Server mit Netzwerkzugang und zwei offenen TCP-Ports für HTTP und MQTT.
+
+\subsubsection{Sofware}
+Die oben beschriebene API wird mithilfe der Programmiersprache Go umgesetzt. SQLite wird als relationale Datenbank eingesetzt. Der Card-Storage Controller wird ebenfalls in Go umgesetzt, wobei dieser mit dem Modul der Kollegen kommuniziert welches die Kommunikation zwischen dem Raspberry Pi und dem Mikrocontroller, welcher die Hardware regelt, erledigt.
+
+\subsubsection{Zugriff als Client}
+Die Kommunikation zwischen der API und den Clients findet im Rahmen des HTTP-Protkolls mithilfe der REST (Representaional State Transfer) Architektur statt. Die Clients senden HTTP-Kommandos um Daten zu Karten, Schließfächern bzw. Benutzern, lesen, erstellen, ändern sowie löschen zu können. Um zwischen einfachen Benutzern und Administratoren zu unterscheiden sendet der Administrator einen speziellen HTTP-Header welchen die API überprüft, um dem Administrator privilegierte Daten übermitteln zu können.   
+
+% optional arg [] displayed in TOC 
+\subsubsection[Zugriff als Card-Storage Controller]{Zugriff als Card-Storage Controller\protect\footnote{Mikroprozessor (Raspberry Pi) auf welchem die Software zur Verwaltung des Schlie"sfaches läuft}}
+Die Card-Storage Einheiten kommunizieren mit der API mithilfe dem MQTT Protokoll. Das Controller Programm welches auf dem Raspberry (bzw. ein anderer Mikroprozessor) der Card-Storage läuft,
+kommuniziert mit der API, um die Kommandos welche die API von der Client bzw. Admin Anwendung erhält, auszuführen. Da API und Card-Storage, Daten möglicherweise bidirektional austauschen müssen, wäre hier das klassische Client-Server Modell unpassend. Die API weist jedem Card-Storage ein Topic zu, über welches gemeinsam kommuniziert werden kann. 
+
+\subsubsection{Datenbank}
+Jegliche Daten, die speichernswert sind, werden in der zentralen Datenbank, welche ausschließlich über die oben erläuterte API zugänglich ist, abgelegt, um diese zu einem späteren Zeitpunkt entweder von einem Administrator, einem einfachen Benutzer des Systems, oder einem Card-Storage Controller wieder abzurufen.   
+
+\subsubsection{Zusammenfassung}
+Die API ist das Herzstück des Systems. Sowohl die Client- und Admin-Anwendung als auch die Card-Storage Einheiten kommunizieren damit. Die API ist, wenn man so will, der Übersetzer zwischen den beiden. Sie übersetzt einerseits die Kommandos der Client- und Admin-Anwendung in MQTT-Befehle welche dann vom Card-Storage Controller ausgewertet und an die Schaltung weitergegeben werden. Andererseits verwaltet die API auch den Zugriff zur Datenbank, in welcher alle Card-Storages, Benutzer sowie Karten hinterlegt sind. 
 
 \newpage
 \subsection{Anwendung}
@@ -99,7 +161,6 @@ Der Login dient dazu, um zu der Admin bzw. User Anmeldung hinzugelangen.
   \item Möglichkeit sein Passwort zurückzusetzen  
   \item Quick Login/Registrierung Möglichkeit am Terminal mittels Rfid Karte der Lehrer 
 \end{itemize}
-
   
 \subsubsection{Client Anwendung / Login}
 \paragraph{Generelle Spezifikation}\mbox{}\\
@@ -140,7 +201,7 @@ Der Admin Login soll dazu verwendet werden können, direkt am Display am Automat
  \item Logs anzeigen
 \end{itemize}
 
-\subsubsection{Hardware}
+\subsubsection{Hardware} \label{hardware}
 Da ein wir ein crossplattform Framework verwenden, haben wir die M\"oglichkeit mit wenig Arbeit unsere Produkt auf allen Ger\"aten anzubieten. Hier eine Auflistung auf welchen Ger\"aten die Hardware laufen muss
 \begin{itemize}
   \item Android Geräte grö\"ser API 24
@@ -150,44 +211,43 @@ Da ein wir ein crossplattform Framework verwenden, haben wir die M\"oglichkeit m
 
 \newpage
 
+\subsection{API - Raspberry Kommunikation} \label{api-raspi-communication}
+Das Programm, welches am Mikroprozessor läuft und einerseits die Kommandos, beispielsweise die Schließfachtür per App öffnen, interpretiert und ausführt aber auch andererseits Daten an die API, wenn diese danach fragt, beispielsweise die aktuelle Anzahl der vorhandenen Schlüsselkarten im Schließfach, zurücksendet. Das Card-Storage Controller Programm kommuniziert mittels MQTT mit der API. Dieses wird mithilfe der Programmiersprache Go implementiert. Jeder Card-Storage Controller bekommt ein MQTT-Topic zugewiesen, womit dieser mit dem Broker (Zentrale API) kommunizieren kann. Um, wie oben erwähnt, Funktionen bereitstellen zu können die Hardware beinhaltet, welche von den Mechatronikern enwtickelt wird, beispielsweise die aktuelle Anzahl der vorhandenen Schlüsselkarten im Schließfach, muss der Cardstorage-Controller auch mit dem Mikrocontroller kommunizieren, welcher eben diese Hardware über die Serielle Schnittstelle steuert. \textbf{Sobald ein Konzept seitens der Mechatroniker zur Verfügung steht, (und ob die oben als Beispiel genannten Funktionen überhaupt von den Mechatronikern implementiert werden) werden Einzelheiten weiter erläutert.}
+
 \subsection{Raspberry - Arduino}
 \subsubsection{Generelle Spezifikation}
-Der Raspberry und Arduino sind dafür verantwortlich, Daten die an die API gesendet werden, an den jeweiligen Karten Tresor weiterzugeben. Die Kommunikation soll über die Serielle Schnitstelle erfolgen. Weiters soll am Raspberry ein NFC Reader und ein Display angebracht werden. Das Display soll für die User Interaktion verwendet werden. Der NFC Reader wird dafür benutzt, sich zu registrieren und die Karten zurückzugeben.
+Der Raspberry und Arduino sind dafür verantwortlich, Daten die an die API gesendet werden, an den jeweiligen Karten Tresor weiterzugeben. Die Kommunikation soll über die Serielle Schnitstelle erfolgen. Weiters soll am Raspberry ein NFC Reader und ein Display angebracht werden. Das Display soll für die User Interaktion verwendet werden. Der NFC Reader wird dafür benutzt, sich zu registrieren und die Karten zurückzugeben. 
 
 \subsubsection{Raspberry}
-Der Raspberry wird dazu verwendet die Daten von der DB per MQTT zu erhalten. Mehr Beschriebung unter API - Raspberry Kommunikation. Dieser gibt die Daten per Serielle Schnittstelle an den Arduino weiter. Weiters werden die Daten vom NFC Reader an die API gesendet. Eine weitere Aufgabe des Raspberry ist, unser APP darzustellen. Weitere Information bei Hardware.
+Der Raspberry wird dazu verwendet die Daten von der API per MQTT zu erhalten (siehe \ref{api-raspi-communication}). Dieser gibt die Daten per Serielle Schnittstelle an den Arduino weiter. Weiters werden die Daten vom NFC Reader an die API gesendet. Eine weitere Aufgabe des Raspberry ist, unsere App darzustellen. Weitere Information bei \ref{hardware} Hardware.
 
 \subsubsection{Arduino}
-Der Arduino hat als Aufgabe die Empfangen Daten von der Seriellen Schnittstelle auszuführen. Dies kann hier nicht genauer bescheiben werden, da der Arduino nicht von uns programmiert wird.
+Der Arduino hat als Aufgabe die Empfangen Daten von der Seriellen Schnittstelle auszuführen. Dies kann hier nicht genauer beschrieben werden, da der Arduino nicht von uns programmiert wird.
 
 \subsubsection{Display}
 Das Display wird dazu verwendet, die Admin und Client App darzustellen. Diese werden auf dem Raspberry im Browser laufen, und müssen etwas angepasst werden, da gewisse funktionalität der App im Browser nicht gewährleistet ist. Das Display wird per proprietärer Raspberry Schnittstelle angschlossen.
 
 \subsubsection{NFC Reader}
-Der NFC Reader wird dazu verwendet, User beim ersten mal per Chip zu authentifizeren. Dies wird dann in die Datenbank gespeichert. Eine weitere Aufgabe ist es, beim zurückgeben die Karten zu Scannen und bei dem jeweiligen User herauszulöschen. Damit ist gewährleistet, das die Karte auch von anderen Benutzer verwendet werden kann.
+Der NFC Reader wird dazu verwendet, User beim ersten mal per Chip zu authentifizieren. Dies wird dann in die Datenbank gespeichert. Eine weitere Aufgabe ist es, beim zurückgeben die Karten zu Scannen und bei dem jeweiligen User herauszulöschen. Damit ist gewährleistet, das die Karte auch von anderen Benutzer verwendet werden kann.
 
-\newpage
-\subsection{API - Raspberry}
-
-\newpage
 \section{Anwendungsbereiche / Zielgruppe}
 \subsection{Benutzer}
-Unser komplettes System ist für die Verwendung am Linzer Technikum gedacht. Dise wird dort von den Lehreren und Administratoren verwendet. Die Lehrer haben die Möglichkeit, sich Karten auszuborgen und zu reservieren. Admins können das komplette System verwalten. Admins sind fic vergebene Benutzer können sich bei der Client Anwendung nicht anmelden.
+Unser komplettes System ist für die Verwendung am Linzer Technikum gedacht. Diese wird dort von den Lehrern und Administratoren verwendet. Die Lehrer haben die Möglichkeit, sich Karten auszuborgen und zu reservieren. Administratoren können das komplette System verwalten. Administratoren sind fix vergebene Benutzer können sich bei der Client Anwendung nicht anmelden.
 
 
 \subsection{Einsatz Ort}
 Das System wird am Linzer Technikum eingesetzt. Dort werden im Gebäude mehrere Karten Tresore platziert. In jedem Karten Tresor befinden sich jeweils 10 Karten. Diese Karten Tresore werden nicht von uns gefertigt.
 
 \newpage
-\section{Use-Case Diagramm}
-\begin{figure}[htbp]
-  \centering
-  \includesvg[scale=0.60,pretex=\small]{architecture_use-case.svg} 
-  \caption{Architektur des Systems in Form eines Use-Case Diagramms}
-  \label{architecture}
-\end{figure}
 
 % Abbildungsverzeichnis
 \listoffigures
+
+% Bibliographie
+\printbibliography
+
+% Stichwortverzeichnis
+% \printindex
+
 
 \end{document}

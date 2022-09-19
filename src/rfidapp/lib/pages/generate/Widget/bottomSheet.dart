@@ -4,8 +4,8 @@ import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 class BottomSheetPop {
-  dynamic? valueStorage = '';
-  dynamic? valueAvailable = '';
+  dynamic valueStorage = '';
+  dynamic valueAvailable = '';
   List<dynamic> listOfStorageId = ['', 1117, 1118];
   List<dynamic> listofAvailable = ['', true, false];
   final Function(Future<List<Cards>>) onPressStorage;
@@ -32,15 +32,15 @@ class BottomSheetPop {
               StateSetter setState /*You can rename this!*/) {
             return Container(
                 height: 300,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
                 child: Column(children: [
-                  Text(
+                  const Text(
                     'Filter',
                     style: TextStyle(fontSize: 30),
                   ),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Storage',
                         style: TextStyle(fontSize: 17),
@@ -66,7 +66,7 @@ class BottomSheetPop {
                   ),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Verfuegabar',
                         style: TextStyle(fontSize: 17),
@@ -91,7 +91,7 @@ class BottomSheetPop {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     width: double.infinity,
                     height: 50,
                     child: buttonField(
@@ -100,6 +100,7 @@ class BottomSheetPop {
                         text: 'Filtern',
                         onPress: () {
                           listOfTypes.then((value) => print(value.length));
+                          // ignore: avoid_print
                           listOfTypes.then((value) => print(value.length));
                           //Improve logic readability
                           newListOfCards = listOfTypes.then((value) {

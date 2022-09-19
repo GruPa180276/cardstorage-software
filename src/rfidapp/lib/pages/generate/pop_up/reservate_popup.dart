@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/local_notification.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/generate/Widget/date_picker.dart';
+import 'package:rfidapp/pages/generate/widget/date_picker.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 

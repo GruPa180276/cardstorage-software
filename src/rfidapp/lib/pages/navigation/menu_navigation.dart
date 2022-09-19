@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/home/home_page.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
-import 'package:rfidapp/pages/login/Utils/app_preference.dart';
+import 'package:rfidapp/pages/login/utils/app_preference.dart';
 import 'package:rfidapp/pages/reservate/reservate_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/account/account_page.dart';

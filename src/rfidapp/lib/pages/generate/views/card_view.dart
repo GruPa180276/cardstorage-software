@@ -88,28 +88,35 @@ Widget buildCardsText(BuildContext context, Cards card) {
   );
 }
 
+
+
+
 Widget buildBottomButton(BuildContext context, String site, Cards card) {
   switch (site) {
     case 'reservation':
       return Row(
         children: [
           Expanded(
-            child: FlatButton(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              shape: Border(
-                  top: BorderSide(color: Theme.of(context).dividerColor),
-                  right: BorderSide(color: Theme.of(context).dividerColor)),
-              color: Colors.transparent,
-              splashColor: Colors.black,
-              onPressed: () {
-                card.isReserved = false;
-                Data.putData("card", card.toJson());
-                //TODO maybe change to SetState (cleaner)
-                // ignore: invalid_use_of_protected_member
-                (context as Element).reassemble();
-              },
-              child: Text('Loeschen',
-                  style: TextStyle(color: Theme.of(context).primaryColor)),
+            
+            child: DecoratedBox(
+               decoration: BoxDecoration(
+    border: Border(
+      right: BorderSide(color: Theme.of(context).cardColor),
+      left: BorderSide(color: Theme.of(context).cardColor),
+    ),
+  ),
+              child: TextButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black.withOpacity(0)), // <-- Does not work
+                onPressed: () {
+                  card.isReserved = false;
+                  Data.putData("card", card.toJson());
+                  //TODO maybe change to SetState (cleaner)
+                  // ignore: invalid_use_of_protected_member
+                  (context as Element).reassemble();
+                },
+                child: Text('Loeschen',
+                    style: TextStyle(color: Theme.of(context).primaryColor)),
+              ),
             ),
           ),
           Expanded(
@@ -125,17 +132,22 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
       );
       if (card.isAvailable!) {
         getNow = Expanded(
-          child: FlatButton(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            shape: Border(
-                top: BorderSide(color: Theme.of(context).dividerColor),
-                right: BorderSide(color: Theme.of(context).dividerColor)),
-            color: Colors.transparent,
-            splashColor: Colors.black,
-            onPressed: () => buildReservatePopUp(context, card),
-            child: Text('Jetzt holen',
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-          ),
+          child:  DecoratedBox(
+               decoration: BoxDecoration(
+    border: Border(
+      right: BorderSide(color: Theme.of(context).cardColor),
+      left: BorderSide(color: Theme.of(context).cardColor),
+    ),
+  ),
+              child: TextButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black.withOpacity(0)), // <-- Does not work
+                onPressed: () {
+                  buildReservatePopUp(context, card);
+                },
+                child: Text('Loeschen',
+                    style: TextStyle(color: Theme.of(context).primaryColor)),
+              ),
+            ),
         );
       }
       return Row(

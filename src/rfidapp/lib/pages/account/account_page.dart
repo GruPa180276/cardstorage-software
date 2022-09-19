@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/Login/login_page.dart';
+import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
@@ -97,7 +97,6 @@ class _AccountPageState extends State<AccountPage> {
                         text: 'Passwort aendern',
                         textColor: Colors.white,
                         onPress: () {
-                          print('Tbc');
                         },
                       )),
                   const SizedBox(height: 20),
@@ -134,7 +133,6 @@ class _AccountPageState extends State<AccountPage> {
                               text: 'Speichern',
                               textColor: Colors.white,
                               onPress: () {
-                                print('Tbc');
                               },
                             )),
                       ))

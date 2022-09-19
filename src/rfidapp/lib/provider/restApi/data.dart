@@ -15,7 +15,6 @@ class Data {
       });
       return response;
     } catch (e) {
-      print(e);
     }
   }
 

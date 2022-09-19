@@ -35,7 +35,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
           (value) =>
               jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
           onError: (error) {
-        print('error');
       });
       listOfTypesSinceInit = listOfTypes;
     });
@@ -87,7 +86,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         listOfTypes: listOfTypesSinceInit!,
                       ).buildBottomSheet(context);
                     },
-                    icon: Icon(Icons.adjust))
+                    icon: const Icon(Icons.adjust))
               ],
             ),
             const SizedBox(height: 10),
@@ -100,8 +99,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                   default:
                     if (snapshot.hasError)
                       return Container(
-                        padding: EdgeInsets.all(10),
-                        child: new Text(
+                        padding: const EdgeInsets.all(10),
+                        child: const Text(
                             'No connection was found. Please check if you are connected!'),
                       );
                     else {

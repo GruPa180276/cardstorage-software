@@ -169,6 +169,9 @@ Haben heute in der Stunde die Diplomarbeitsdatenbank mit Inhalt befüllt. Weiter
 **17.9.2022: 8:00 -> 11:30** <br>
 Wir haben heute das Pflichtenheft erstellt und das Konzept überbeitet. Dazu haben wir ein Teams Meeting durchgeführt. (3h 30min)
 
+**19.9.2022: 10:30 -> 14:30** <br>
+Habe heute die Settings page erstellt. Weiters habe ich Herr Grubauer bei seinem Problem, das der Emulator nicht mehr läuft, geholfen. (4h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -214,4 +217,5 @@ Wir haben heute das Pflichtenheft erstellt und das Konzept überbeitet. Dazu hab
 - 13:30 bis 15:30 Uhr
 - 8:15 bis 12:30 Uhr
 - 8:00 bis 11:30 Uhr
+- 10:30 bis 14:30 Uhr
 <!-- { "progress": false } -->

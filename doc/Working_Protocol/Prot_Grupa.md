@@ -192,6 +192,10 @@ Am Freitag in der ITP Stunde mussten wir auf der Diplomarbeitsdatenbank einen Pr
 
 **2022-09-17: 8:00 -> 11:30** 
 Heute hatten wir ein Teammeeting da wir unser Konzept ueberarbeiten wollten  und ein Pflichtenheft erstellen wollten. Es wurde alles erledigt
+
+** 19.9.2022: 10:30 -> 14:30 **
+Habe heute versucht Flutter auf meinem Laptop zum Laufen zu bekommen. Allerdings hatte ich zahlreiche Probleme bei der installation. Die IDE wurde mehrmals neu runter geladen allerdings hat das nicht geholfen. Auch nach den Besuch vopn zahlreichen Foren konnte ich keine Loesung findnen die VM zu starten. Zuhause habe ich mich dann entschieden eine ältere Version von Android studio zu verwenden, was dan schlussendlich das Problem löste. Dnach habe ich noch verschiedene Buttons neu erstellen müssen, da diese in der neuen Flutter Version nicht mehr verfuegbar sind
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -242,5 +246,6 @@ Heute hatten wir ein Teammeeting da wir unser Konzept ueberarbeiten wollten  und
 - 13:30 bis 15:30 Uhr
 - 08:15 bis 12:30 Uhr
 - 08:00 bis 11:30 Uhr
+- 10:30 bis 14:30 Uhr
 <!-- { "progress": false } -->
 

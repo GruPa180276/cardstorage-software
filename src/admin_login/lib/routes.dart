@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:admin_login/pages/navigation/bottom_navigation.dart';
+
 import 'package:admin_login/pages/card/add_cards.dart';
 import 'package:admin_login/pages/card/alter_cards.dart';
 import 'package:admin_login/pages/card/remove_cards.dart';
@@ -13,6 +15,8 @@ import 'package:admin_login/pages/user/alter_user.dart';
 import 'package:admin_login/pages/user/remove_user.dart';
 
 import 'package:admin_login/pages/stats/tab1_stats.dart';
+
+import 'package:admin_login/pages/appbar/settings.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -56,6 +60,14 @@ class RouteGenerator {
       //Stats
       case '/stats':
         return MaterialPageRoute(builder: ((context) => CardStats()));
+
+      //Settings
+      case '/settings':
+        return MaterialPageRoute(builder: ((context) => Settings()));
+
+      //Home
+      case '/home':
+        return MaterialPageRoute(builder: ((context) => BottomNavigation()));
 
       default:
         return _errorRoute();

@@ -1,51 +1,53 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
+import 'package:admin_login/provider/theme/themes.dart';
+import 'package:admin_login/config/theme/app_preference.dart';
 
-import 'package:admin_login/config/themes_old.dart';
+import 'package:admin_login/pages/widget/appbar.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<Settings> createState() => _SettingsPageState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsPageState extends State<Settings> {
+  late bool isDark;
+
+  @override
+  void initState() {
+    super.initState();
+    isDark = AppPreferences.getIsOn();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: const Text("Einstellungen"),
-            backgroundColor: Colors.blueGrey,
-            actions: []),
-        body: Container(
-          padding: EdgeInsets.all(0),
-          child: Column(children: [ChangeThemeButtonWidget()]),
-        ));
+      appBar: generateAppBar(context),
+      body: Container(
+          child: Column(
+        children: [buildChangeThemeMode(context)],
+      )),
+    );
   }
-}
 
-class ChangeThemeButtonWidget extends StatefulWidget {
-  const ChangeThemeButtonWidget({Key? key}) : super(key: key);
-
-  @override
-  State<ChangeThemeButtonWidget> createState() =>
-      _ChangeThemeButtonWidgetState();
-}
-
-class _ChangeThemeButtonWidgetState extends State<ChangeThemeButtonWidget> {
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-
+  Widget buildChangeThemeMode(BuildContext context) {
     return SwitchListTile(
-        value: themeProvider.isDarkMode,
+        activeColor: Theme.of(context).primaryColor,
+        value: isDark,
         controlAffinity: ListTileControlAffinity.trailing,
-        onChanged: (value) {
+        title: Text(
+          "Switch Theme Mode",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        onChanged: (value) async {
+          await AppPreferences.setIsOn(value);
           final provider = Provider.of<ThemeProvider>(context, listen: false);
-          provider.toggleTheme(value);
-        },
-        title: Text("Dark Mode", style: const TextStyle(fontSize: 20)));
+          isDark = value;
+          setState(() {
+            provider.toggleTheme(value);
+          });
+        });
   }
 }

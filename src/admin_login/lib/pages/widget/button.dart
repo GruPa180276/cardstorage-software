@@ -15,8 +15,8 @@ Expanded generateButtonRound(BuildContext context, String buttonText,
           borderRadius: BorderRadius.circular(30.0),
         ),
         minimumSize: Size(double.infinity, 50),
-        primary: Theme.of(context).secondaryHeaderColor,
-        onPrimary: Theme.of(context).focusColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        foregroundColor: Theme.of(context).focusColor,
       ),
       child: Wrap(
         children: <Widget>[
@@ -43,8 +43,8 @@ Expanded generateButtonRoundWithoutRoute(
           borderRadius: BorderRadius.circular(30.0),
         ),
         minimumSize: Size(double.infinity, 50),
-        primary: Theme.of(context).secondaryHeaderColor,
-        onPrimary: Theme.of(context).focusColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        foregroundColor: Theme.of(context).focusColor,
       ),
       child: Wrap(
         children: <Widget>[
@@ -72,8 +72,8 @@ Expanded generateButtonRectangle(BuildContext context, String buttonText) {
           borderRadius: BorderRadius.circular(5.0),
         ),
         minimumSize: Size(double.infinity, 50),
-        primary: Theme.of(context).secondaryHeaderColor,
-        onPrimary: Theme.of(context).focusColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        foregroundColor: Theme.of(context).focusColor,
       ),
       child: Wrap(
         children: <Widget>[
@@ -101,8 +101,8 @@ Expanded generateButtonWithDialog(BuildContext context, String buttonText) {
           borderRadius: BorderRadius.circular(5.0),
         ),
         minimumSize: Size(double.infinity, 50),
-        primary: Theme.of(context).secondaryHeaderColor,
-        onPrimary: Theme.of(context).focusColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        foregroundColor: Theme.of(context).focusColor,
       ),
       child: Wrap(
         children: <Widget>[
@@ -149,8 +149,8 @@ class _GenerateButtonWithDialogAndCallBackState
             borderRadius: BorderRadius.circular(5.0),
           ),
           minimumSize: Size(double.infinity, 50),
-          primary: Theme.of(context).secondaryHeaderColor,
-          onPrimary: Theme.of(context).focusColor,
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+          foregroundColor: Theme.of(context).focusColor,
         ),
         child: Wrap(
           children: <Widget>[
@@ -179,8 +179,8 @@ Expanded generateSearchButton(BuildContext context, String buttonText,
           borderRadius: BorderRadius.circular(30.0),
         ),
         minimumSize: Size(double.infinity, 50),
-        primary: Theme.of(context).secondaryHeaderColor,
-        onPrimary: Theme.of(context).focusColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        foregroundColor: Theme.of(context).focusColor,
       ),
       child: Wrap(
         children: <Widget>[

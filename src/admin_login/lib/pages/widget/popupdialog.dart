@@ -35,7 +35,7 @@ Widget generatePopupDialog(BuildContext context) {
                   style: TextStyle(color: Theme.of(context).focusColor),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).secondaryHeaderColor,
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

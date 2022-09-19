@@ -6,19 +6,21 @@ import 'package:rfidapp/provider/types/cards.dart';
 
 Widget buildReservateButton(BuildContext context, String text, Cards cards) {
   return Expanded(
-    child: FlatButton(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      shape: Border(
-        top: BorderSide(color: Theme.of(context).dividerColor),
-      ),
-      color: Colors.transparent,
-      splashColor: Colors.black,
-      onPressed: () {
-        //TODO make also available if its reservateed (Bearbeiten)
-        buildReservatePopUp(context, cards);
-      },
-      child:
-          Text(text, style: TextStyle(color: Theme.of(context).primaryColor)),
+    child: DecoratedBox(
+               decoration: BoxDecoration(
+    border: Border(
+      right: BorderSide(color: Theme.of(context).cardColor),
+      left: BorderSide(color: Theme.of(context).cardColor),
     ),
+  ),
+              child: TextButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black.withOpacity(0)), // <-- Does not work
+                onPressed: () {
+        buildReservatePopUp(context, cards);
+                },
+                child: Text(text,
+                    style: TextStyle(color: Theme.of(context).primaryColor)),
+              ),
+            ),
   );
 }

@@ -36,53 +36,56 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontWeight: FontWeight.w900,
                   color: Theme.of(context).primaryColor)),
         ),
-        body: Table(
-          border: TableBorder.all(color: Theme.of(context).dividerColor),
-          children: [
-            TableRow(children: [
-              buildSettingsButton("Account", Icons.person, () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AccountPage()));
-              }),
-            ]),
-            TableRow(children: [
-              buildSettingsButton("Benachrichtigungen", Icons.notifications,
-                  () {
-                AppSettings.openNotificationSettings();
-              }),
-            ]),
-            TableRow(children: [
-              buildSettingsButton("Log-Out", Icons.logout_rounded, () {
-                buildPop();
-              }),
-            ]),
-            TableRow(children: [
-              Container(
-                height: 40,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                color: Theme.of(context).cardColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: const [
-                        Icon(Icons.mode),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text('Dark-Mode',
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.w400)),
-                      ],
-                    ),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: buildChangeThemeMode(context)),
-                  ],
-                ),
-              )
-            ])
-          ],
+        body: Container(
+          color: Theme.of(context).cardColor,
+          child: Table(
+            border: TableBorder.all(color: Theme.of(context).dividerColor),
+            children: [
+              TableRow(children: [
+                buildSettingsButton("Account", Icons.person, () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AccountPage()));
+                }),
+              ]),
+              TableRow(children: [
+                buildSettingsButton("Benachrichtigungen", Icons.notifications,
+                    () {
+                  AppSettings.openNotificationSettings();
+                }),
+              ]),
+              TableRow(children: [
+                buildSettingsButton("Log-Out", Icons.logout_rounded, () {
+                  buildPop();
+                }),
+              ]),
+              TableRow(children: [
+                Container(
+                  height: 40,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  color: Theme.of(context).cardColor,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(Icons.mode),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text('Dark-Mode',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w400)),
+                        ],
+                      ),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: buildChangeThemeMode(context)),
+                    ],
+                  ),
+                )
+              ])
+            ],
+          ),
         ));
   }
 
@@ -94,24 +97,25 @@ class _SettingsPageState extends State<SettingsPage> {
           .shrinkWrap, //limits the touch area to the button area
       minWidth: double.infinity, //wraps child's width
       height: 0, //wraps child's height
-      child: RaisedButton(
-          color: Theme.of(context).cardColor,
-          onPressed: () => function(),
-          child: Align(
+              child: TextButton(
+                style: ElevatedButton.styleFrom(primary: Theme.of(context).cardColor), // <-- Does not work
+                onPressed: ()=>function(),
+                child: Align(
             alignment: Alignment.centerLeft,
             child: Row(
               children: [
-                Icon(icon),
+                Icon(icon, color: Theme.of(context).primaryColor),
                 const SizedBox(
                   width: 10,
                 ),
                 Text(
                   text,
-                  style: const TextStyle(fontSize: 19),
+                  style:  TextStyle(fontSize: 19, color: Theme.of(context).primaryColor),
                 ),
               ],
             ),
-          )), //your original button
+          )
+              ),
     );
   }
 

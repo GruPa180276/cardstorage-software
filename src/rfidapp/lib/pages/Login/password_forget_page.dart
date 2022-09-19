@@ -14,7 +14,7 @@ class PasswordForgetSecreen extends StatefulWidget {
 
 class PpasswordForgetSecreenState extends State<PasswordForgetSecreen> {
   TextEditingController emailController = TextEditingController();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

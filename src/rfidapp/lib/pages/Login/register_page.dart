@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
         child: SingleChildScrollView(
           child: Column(children: <Widget>[
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextInput(
               inputController: firstnameController,
               label: 'Vorname',
@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               validator: Validator.funcName,
               obsecureText: false,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextInput(
               inputController: lastNameController,
               label: 'Nachname',
@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               validator: Validator.funcName,
               obsecureText: false,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextInput(
               inputController: emailController,
               label: 'E-Mail',
@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             buildPassword(this.context),
             buildRepeatPassword(this.context),
             buildProgressbar(this.context),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             SizedBox(

@@ -658,3 +658,5 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/latex,flutter,c,python,go,java,c++
 
 *.db
+
+src/logs/*

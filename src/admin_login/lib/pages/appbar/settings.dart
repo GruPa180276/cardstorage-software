@@ -1,9 +1,8 @@
+import 'package:admin_login/pages/widget/appbar_back.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:admin_login/provider/theme/themes.dart';
 import 'package:admin_login/config/theme/app_preference.dart';
-
-import 'package:admin_login/pages/widget/appbar.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class _SettingsPageState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppBar(context),
+      appBar: generateAppBarBack(context),
       body: Container(
           child: Column(
         children: [buildChangeThemeMode(context)],

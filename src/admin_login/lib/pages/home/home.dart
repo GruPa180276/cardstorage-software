@@ -16,15 +16,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: generateAppBar(context),
-      body: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(children: [createWelcomePage(context)])),
+      body: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(children: [
+                createWelcomePage(context),
+              ]))),
     );
   }
 
   Widget createWelcomePage(BuildContext context) {
-    return Expanded(
-        child: Container(
+    return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
           border: Border.all(
@@ -45,8 +47,7 @@ class _HomeState extends State<Home> {
           indent: 5,
           endIndent: 5,
         ),
-        Expanded(
-            child: Container(
+        Container(
           padding: EdgeInsets.only(left: 10, right: 10),
           child: Column(children: [
             Text(
@@ -62,8 +63,8 @@ class _HomeState extends State<Home> {
                   color: Theme.of(context).primaryColor,
                 ))
           ]),
-        ))
+        )
       ]),
-    ));
+    );
   }
 }

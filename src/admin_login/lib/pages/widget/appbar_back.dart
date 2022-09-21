@@ -1,9 +1,9 @@
 import 'package:admin_login/pages/widget/iconbutton.dart';
 import 'package:flutter/material.dart';
 
-AppBar generateAppBar(BuildContext context) {
+AppBar generateAppBarBack(BuildContext context) {
   return AppBar(
-    leading: generateIconButton(context, Icons.credit_card, "/home"),
+    leading: generateIconButton(context, Icons.arrow_back, "/home"),
     toolbarHeight: 70,
     backgroundColor: Theme.of(context).secondaryHeaderColor,
     title: Text('Admin Login',
@@ -12,10 +12,5 @@ AppBar generateAppBar(BuildContext context) {
           fontWeight: FontWeight.bold,
           color: Theme.of(context).focusColor,
         )),
-    actions: [
-      generateIconButton(context, Icons.account_box_rounded, "/account"),
-      generateIconButton(context, Icons.settings, "/settings"),
-      generateIconButton(context, Icons.logout, ""),
-    ],
   );
 }

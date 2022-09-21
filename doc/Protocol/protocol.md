@@ -172,6 +172,9 @@ Wir haben heute das Pflichtenheft erstellt und das Konzept überbeitet. Dazu hab
 **19.9.2022: 10:30 -> 14:30** <br>
 Habe heute die Settings page erstellt. Weiters habe ich Herr Grubauer bei seinem Problem, das der Emulator nicht mehr läuft, geholfen. (4h)
 
+**21.9.2022: 10:10 -> 12:10** <br>
+Habe heute eine Accountinfo page hinzugefügt. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -218,4 +221,5 @@ Habe heute die Settings page erstellt. Weiters habe ich Herr Grubauer bei seinem
 - 8:15 bis 12:30 Uhr
 - 8:00 bis 11:30 Uhr
 - 10:30 bis 14:30 Uhr
+- 10:10 bis 12:10 Uhr
 <!-- { "progress": false } -->

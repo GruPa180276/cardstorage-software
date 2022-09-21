@@ -65,3 +65,4 @@
 - https://stackoverflow.com/questions/50293503/how-to-set-the-width-and-height-of-a-button-in-flutter
 - https://stackoverflow.com/questions/66642636/how-to-change-the-shape-of-my-elevatedbutton
 - https://flutterforyou.com/how-to-change-the-color-of-elevatedbutton-in-flutter/
+- https://www.fluttercampus.com/guide/155/how-to-add-border-radius-on-card-in-flutter/

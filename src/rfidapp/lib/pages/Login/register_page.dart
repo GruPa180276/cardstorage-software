@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
+import 'package:rfidapp/pages/generate/widget/createPassword.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -13,7 +14,10 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKeyPasswort = GlobalKey<FormState>();
+
   final _formKeyPasswortRepeat = GlobalKey<FormState>();
+
+  final formkey = GlobalKey<FormState>();
   Color borderColor = Colors.black;
 
   double passwordStrength = 0;
@@ -39,6 +43,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
         toolbarHeight: 100,
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -55,32 +62,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: SingleChildScrollView(
           child: Column(children: <Widget>[
             const SizedBox(height: 20),
-            TextInput(
-              inputController: firstnameController,
-              label: 'Vorname',
-              iconData: Icons.person,
-              validator: Validator.funcName,
-              obsecureText: false,
-            ),
-            const SizedBox(height: 20),
-            TextInput(
-              inputController: lastNameController,
-              label: 'Nachname',
-              iconData: Icons.person,
-              validator: Validator.funcName,
-              obsecureText: false,
-            ),
-            const SizedBox(height: 20),
-            TextInput(
-              inputController: emailController,
-              label: 'E-Mail',
-              iconData: Icons.email,
-              validator: Validator.funcEmail,
-              obsecureText: false,
-            ),
-            buildPassword(this.context),
-            buildRepeatPassword(this.context),
-            buildProgressbar(this.context),
+            Form(
+                key: formkey,
+                child: Column(children: [
+                  TextInput(
+                    inputController: firstnameController,
+                    label: 'Vorname',
+                    iconData: Icons.person,
+                    validator: Validator.funcName,
+                    obsecureText: false,
+                  ),
+                  const SizedBox(height: 20),
+                  TextInput(
+                    inputController: lastNameController,
+                    label: 'Nachname',
+                    iconData: Icons.person,
+                    validator: Validator.funcName,
+                    obsecureText: false,
+                  ),
+                  const SizedBox(height: 20),
+                  TextInput(
+                    inputController: emailController,
+                    label: 'E-Mail',
+                    iconData: Icons.email,
+                    validator: Validator.funcEmail,
+                    obsecureText: false,
+                  ),
+                ])),
+            createPassword(),
             const SizedBox(
               height: 30,
             ),
@@ -93,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   text: 'Erstelle einen Account',
                   textColor: Colors.white,
                   onPress: () {
-                    print('tbc');
+                    if (formkey.currentState!.validate()) {}
                   },
                 )),
           ]),
@@ -103,114 +112,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
 //TODO export password scaffold into own file
-  Widget buildPassword(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
-      child: Form(
-        key: _formKeyPasswort,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: passwordController,
-              decoration: const InputDecoration(
-                errorStyle: TextStyle(),
-                prefixIcon: Icon(Icons.person),
-                labelText: 'Password',
-              ),
-              onChanged: (value) {
-                _formKeyPasswort.currentState!.validate();
-                setState(() {
-                  passwordStrength = Validator.validatePassword(value);
-                });
-              },
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "Please enter password";
-                } else {
-                  //call function to check password
-
-                  if (passwordStrength == 1) {
-                    setState(() {
-                      disableRepeatPassword = false;
-                    });
-                    return null;
-                  } else {
-                    setState(() {
-                      disableRepeatPassword = true;
-                    });
-                    repeatPasswordController.text = '';
-                    return " Password should contain Capital, small letter & Number & Special";
-                  }
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildRepeatPassword(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 20, left: 0, right: 0),
-      child: Form(
-        key: _formKeyPasswortRepeat,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: repeatPasswordController,
-              readOnly: disableRepeatPassword,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.person),
-                labelText: 'Passwort wiederholen',
-              ),
-              onChanged: (value) {
-                _formKeyPasswortRepeat.currentState!.validate();
-              },
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "Please enter password";
-                } else {
-                  if (passwordController.text !=
-                      repeatPasswordController.text) {
-                    return "Die Passwoerte sind nicht ident";
-                  }
-                }
-                return null;
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-    //        readOnly: true,
-  }
-
-  Widget buildProgressbar(BuildContext context) {
-    return Stack(children: [
-      Container(
-        padding: const EdgeInsets.only(top: 40, left: 0, right: 0),
-        child: LinearProgressIndicator(
-          value: passwordStrength,
-          backgroundColor: Colors.grey[300],
-          minHeight: 5,
-          color: passwordStrength <= 1 / 4
-              ? Colors.red
-              : passwordStrength == 2 / 4
-                  ? Colors.yellow
-                  : passwordStrength == 3 / 4
-                      ? Colors.blue
-                      : Colors.green,
-        ),
-      ),
-      Container(
-          padding: const EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 0.0),
-          child: const Text('Stärke Passwort',
-              style: TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Lato")))
-    ]);
-  }
 }

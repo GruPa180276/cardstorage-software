@@ -9,8 +9,8 @@ Widget buildReservateButton(BuildContext context, String text, Cards cards) {
     child: DecoratedBox(
                decoration: BoxDecoration(
     border: Border(
-      right: BorderSide(color: Theme.of(context).cardColor),
-      left: BorderSide(color: Theme.of(context).cardColor),
+      top: BorderSide(color: Theme.of(context).dividerColor),
+      left: BorderSide(color: Theme.of(context).dividerColor),
     ),
   ),
               child: TextButton(

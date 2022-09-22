@@ -175,6 +175,9 @@ Habe heute die Settings page erstellt. Weiters habe ich Herr Grubauer bei seinem
 **21.9.2022: 10:10 -> 12:10** <br>
 Habe heute eine Accountinfo page hinzugefügt. (2h)
 
+**22.9.2022: 12:30 -> 14:30** <br>
+Habe heute das Dersign meiner App an die von Herrn Grubauer angepasst. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -222,4 +225,5 @@ Habe heute eine Accountinfo page hinzugefügt. (2h)
 - 8:00 bis 11:30 Uhr
 - 10:30 bis 14:30 Uhr
 - 10:10 bis 12:10 Uhr
+- 12:30 bis 14:30 Uhr
 <!-- { "progress": false } -->

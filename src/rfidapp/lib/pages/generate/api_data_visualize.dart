@@ -54,72 +54,75 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             bottomOpacity: 0.0,
             elevation: 0.0,
             backgroundColor: Colors.transparent,
-            title: Text('Karten',
+            title: Text(site,
                 style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor))),
-        body: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.search),
-                          hintText: 'Search Card',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                  color: Theme.of(context).dividerColor))),
-                      onChanged: ((value) {
-                        setState(() {
-                          searchString = value;
-                        });
-                      })),
-                ),
-                IconButton(
-                    onPressed: () {
-                      BottomSheetPop(
-                        onPressStorage: setListType,
-                        listOfTypes: listOfTypesSinceInit!,
-                      ).buildBottomSheet(context);
-                    },
-                    icon: const Icon(Icons.adjust))
-              ],
-            ),
-            const SizedBox(height: 10),
-            FutureBuilder<List<Cards>>(
-              future: listOfTypes,
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const CircularProgressIndicator();
-                  default:
-                    if (snapshot.hasError)
-                      return Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text(
-                            'No connection was found. Please check if you are connected!'),
-                      );
-                    else {
-                      final users = snapshot.data!;
+        body: Container(
+          margin: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search),
+                            hintText: 'Search Card',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).dividerColor))),
+                        onChanged: ((value) {
+                          setState(() {
+                            searchString = value;
+                          });
+                        })),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        BottomSheetPop(
+                          onPressStorage: setListType,
+                          listOfTypes: listOfTypesSinceInit!,
+                        ).buildBottomSheet(context);
+                      },
+                      icon: const Icon(Icons.adjust))
+                ],
+              ),
+              const SizedBox(height: 10),
+              FutureBuilder<List<Cards>>(
+                future: listOfTypes,
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return const CircularProgressIndicator();
+                    default:
+                      if (snapshot.hasError)
+                        return Container(
+                          padding: const EdgeInsets.all(10),
+                          child: const Text(
+                              'No connection was found. Please check if you are connected!'),
+                        );
+                      else {
+                        final users = snapshot.data!;
 
-                      switch (site) {
-                        case "Reservierungen":
-                          return cardsView(
-                              users, context, 'reservation', searchString);
-                        case "Karten":
-                          return cardsView(
-                              users, context, 'cards', searchString);
+                        switch (site) {
+                          case "Reservierungen":
+                            return cardsView(
+                                users, context, 'reservation', searchString);
+                          case "Karten":
+                            return cardsView(
+                                users, context, 'cards', searchString);
+                        }
+                        return const Text('Error Type not valid');
                       }
-                      return const Text('Error Type not valid');
-                    }
-                }
-              },
-            ),
-          ],
+                  }
+                },
+              ),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).secondaryHeaderColor,

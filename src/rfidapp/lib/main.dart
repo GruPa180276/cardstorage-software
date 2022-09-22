@@ -20,7 +20,7 @@ Future main() async {
   runApp(MyApp(
     rememberState: rememberState,
   ));
-}
+} 
 
 class MyApp extends StatelessWidget {
   static const String title = 'Light & Dark Theme';

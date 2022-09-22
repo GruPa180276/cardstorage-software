@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: 'Erstelle einen Account',
                   textColor: Theme.of(context).primaryColor,
                   onPress: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const RegisterScreen()));
                   },
                 ),
@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(width: 5.0),
         InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => const PasswordForgetSecreen()));
           },
           child: Text(

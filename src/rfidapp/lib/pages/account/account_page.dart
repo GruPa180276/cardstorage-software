@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/account/change_password.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
@@ -28,6 +29,9 @@ class _AccountPageState extends State<AccountPage> {
 
         //drawer: const MenuNavigationDrawer(),
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Theme.of(context).primaryColor, //change your color here
+          ),
           toolbarHeight: 100,
           bottomOpacity: 0.0,
           elevation: 0.0,
@@ -97,6 +101,9 @@ class _AccountPageState extends State<AccountPage> {
                         text: 'Passwort aendern',
                         textColor: Colors.white,
                         onPress: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  const ChangePasswordScreen()));
                         },
                       )),
                   const SizedBox(height: 20),
@@ -115,8 +122,7 @@ class _AccountPageState extends State<AccountPage> {
                               text: 'Abbrechen',
                               textColor: Theme.of(context).primaryColor,
                               onPress: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const LoginScreen()));
+                                Navigator.pop(context);
                               },
                             )),
                       )),
@@ -132,8 +138,7 @@ class _AccountPageState extends State<AccountPage> {
                               borderColor: ColorSelect.blueAccent,
                               text: 'Speichern',
                               textColor: Colors.white,
-                              onPress: () {
-                              },
+                              onPress: () {},
                             )),
                       ))
                     ],

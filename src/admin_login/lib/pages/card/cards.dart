@@ -88,11 +88,13 @@ class _ListCardsState extends State<ListCards> {
               itemBuilder: (BuildContext context, int index) {
                 if (widget.cardStorage == data![index].userId.toString()) {
                   return GenerateCardWithInkWell.withArguments(
-                      index: index,
-                      data: data,
-                      icon: Icons.credit_card,
-                      route: "/alterCards",
-                      argument: data[index].id - 1);
+                    index: index,
+                    data: data,
+                    icon: Icons.credit_card,
+                    route: "/alterCards",
+                    argument: data[index].id - 1,
+                    view: 1,
+                  );
                 } else {
                   return const SizedBox.shrink();
                 }

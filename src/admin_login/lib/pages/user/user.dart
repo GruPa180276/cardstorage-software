@@ -142,21 +142,25 @@ class _GenerateCardsState extends State<GenerateCards> {
                     itemBuilder: (BuildContext context, int index) {
                       if (selectedEntrys.length == 0) {
                         return GenerateCardWithInkWell.withArguments(
-                            index: index,
-                            data: data,
-                            icon: Icons.credit_card,
-                            route: "/alterUser",
-                            argument: data![index].id - 1);
+                          index: index,
+                          data: data,
+                          icon: Icons.account_box_rounded,
+                          route: "/alterUser",
+                          argument: data![index].id - 1,
+                          view: 2,
+                        );
                       } else {
                         for (int i = 0; i < selectedEntrys.length; i++) {
                           if (data![index].title ==
                               selectedEntrys.elementAt(i)) {
                             return GenerateCardWithInkWell.withArguments(
-                                index: index,
-                                data: data,
-                                icon: Icons.credit_card,
-                                route: "/alterUser",
-                                argument: data[index].id - 1);
+                              index: index,
+                              data: data,
+                              icon: Icons.account_box_rounded,
+                              route: "/alterUser",
+                              argument: data[index].id - 1,
+                              view: 2,
+                            );
                           }
                         }
                       }

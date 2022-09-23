@@ -74,11 +74,13 @@ class _ListCardStoragesState extends State<ListCardStorages> {
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 return GenerateCardWithInkWell.withArguments(
-                    index: index,
-                    data: data!,
-                    icon: Icons.credit_card,
-                    route: "/alterStorage",
-                    argument: data[index].id - 1);
+                  index: index,
+                  data: data!,
+                  icon: Icons.storage,
+                  route: "/alterStorage",
+                  argument: data[index].id - 1,
+                  view: 3,
+                );
               });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");

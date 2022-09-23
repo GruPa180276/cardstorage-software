@@ -26,45 +26,44 @@ class _HomeState extends State<Home> {
   }
 
   Widget createWelcomePage(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          border: Border.all(
-            width: 3,
-            color: Theme.of(context).secondaryHeaderColor,
-          ),
-          borderRadius: BorderRadius.circular(15)),
-      child: Column(children: [
-        Text("Willkommen im Admin Login",
-            style: TextStyle(
-              fontSize: 25,
-              color: Theme.of(context).primaryColor,
-            )),
-        Divider(
-          color: Theme.of(context).secondaryHeaderColor,
-          height: 10,
-          thickness: 2,
-          indent: 5,
-          endIndent: 5,
+    return Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-        Container(
-          padding: EdgeInsets.only(left: 10, right: 10),
+        child: Container(
+          padding: EdgeInsets.all(10),
           child: Column(children: [
-            Text(
-                "- Im Statistik Tab können Sie Statistiken anzeigen lassen oder exportieren.\n\n"
-                "- Im Karten Tab können Sie neue Karten hinzufügen, löschen oder bearbeiten.\n\n"
-                "- Im Storage Tab können Sie neue Kartentresore hinzufügen, löschen oder berbeiten.\n\n"
-                "- Im Storage Tab können Sie neue Kartentresore hinzufügen, löschen oder berbeiten.\n\n"
-                "- Im Benutzer Tab können Sie neue Benutzer hinzufügen, löschen oder berbeiten.\n\n"
-                "- Im Mehr Tab können Sie sich Logs und vieles mehr ansehen\n\n"
-                "Aktuelle Version: v0.5.0 Beta",
+            Text("Willkommen im Admin Login",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 25,
                   color: Theme.of(context).primaryColor,
-                ))
+                )),
+            Divider(
+              color: Theme.of(context).secondaryHeaderColor,
+              height: 10,
+              thickness: 2,
+              indent: 5,
+              endIndent: 5,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Column(children: [
+                Text(
+                    "- Im Statistik Tab können Sie Statistiken anzeigen lassen oder exportieren.\n\n"
+                    "- Im Karten Tab können Sie neue Karten hinzufügen, löschen oder bearbeiten.\n\n"
+                    "- Im Storage Tab können Sie neue Kartentresore hinzufügen, löschen oder berbeiten.\n\n"
+                    "- Im Storage Tab können Sie neue Kartentresore hinzufügen, löschen oder berbeiten.\n\n"
+                    "- Im Benutzer Tab können Sie neue Benutzer hinzufügen, löschen oder berbeiten.\n\n"
+                    "- Im Mehr Tab können Sie sich Logs und vieles mehr ansehen\n\n"
+                    "Aktuelle Version: v0.5.0 Beta",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColor,
+                    ))
+              ]),
+            )
           ]),
-        )
-      ]),
-    );
+        ));
   }
 }

@@ -73,16 +73,20 @@ class _MyAppState extends State<ListCards> {
               itemBuilder: (BuildContext context, int index) {
                 if (widget.cardStorage == data![index].userId.toString()) {
                   return GenerateCardWithInkWell.withoutArguments(
-                      index: index,
-                      data: data,
-                      icon: Icons.credit_card,
-                      route: "/stats");
+                    index: index,
+                    data: data,
+                    icon: Icons.credit_card,
+                    route: "/stats",
+                    view: 1,
+                  );
                 } else if (widget.cardStorage == "All") {
                   return GenerateCardWithInkWell.withoutArguments(
-                      index: index,
-                      data: data,
-                      icon: Icons.credit_card,
-                      route: "/stats");
+                    index: index,
+                    data: data,
+                    icon: Icons.credit_card,
+                    route: "/stats",
+                    view: 1,
+                  );
                 } else {
                   return const SizedBox.shrink();
                 }

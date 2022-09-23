@@ -50,26 +50,26 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return InkWell(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Theme.of(context).secondaryHeaderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [
-                Text(
-                  result,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                )
-              ]),
+        return Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-            onTap: () {
-              setState(matchQuery[index]);
-            });
+            child: InkWell(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin:
+                      EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+                  child: Column(children: [
+                    Text(
+                      result,
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    )
+                  ]),
+                ),
+                onTap: () {
+                  setState(matchQuery[index]);
+                }));
       },
     );
   }
@@ -86,26 +86,26 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return InkWell(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Theme.of(context).secondaryHeaderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [
-                Text(
-                  result,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                )
-              ]),
+        return Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-            onTap: () {
-              setState(matchQuery[index]);
-            });
+            child: InkWell(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin:
+                      EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+                  child: Column(children: [
+                    Text(
+                      result,
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    )
+                  ]),
+                ),
+                onTap: () {
+                  setState(matchQuery[index]);
+                }));
       },
     );
   }

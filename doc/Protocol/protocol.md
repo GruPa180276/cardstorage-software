@@ -178,6 +178,9 @@ Habe heute eine Accountinfo page hinzugefügt. (2h)
 **22.9.2022: 12:30 -> 14:30** <br>
 Habe heute das Dersign meiner App an die von Herrn Grubauer angepasst. (2h)
 
+**26.9.2022: 13:40 -> 15:15** <br>
+Heute habe ich kleine Design Änderungen an der App vorgenommen. Danach habe ich mich über den Microsoft Login informiert [Link](https://ahmadelshafee28.medium.com/flutter-auth-using-firebase-oauth-and-azure-ad-a6f01b6d584) (1h 45min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -226,4 +229,5 @@ Habe heute das Dersign meiner App an die von Herrn Grubauer angepasst. (2h)
 - 10:30 bis 14:30 Uhr
 - 10:10 bis 12:10 Uhr
 - 12:30 bis 14:30 Uhr
+- 13:40 bis 15:15 Uhr
 <!-- { "progress": false } -->

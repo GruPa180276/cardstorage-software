@@ -29,13 +29,15 @@ class MyThemes {
         //new
         dividerColor: ColorSelect.blueAccent,
         cardColor: ColorSelect.darkCardColor,
+
+        navigationBarTheme:
+            NavigationBarThemeData(backgroundColor: Colors.black),
       );
 
   static get lightTheme => ThemeData(
         fontFamily: 'Kanit',
         colorScheme:
             const ColorScheme.light().copyWith(primary: ColorSelect.blueAccent),
-
         scaffoldBackgroundColor: ColorSelect.lightBgColor,
         primaryColor: Colors.black,
         backgroundColor: Colors.black,

@@ -8,9 +8,15 @@ import 'package:admin_login/provider/theme/themes.dart';
 import 'package:admin_login/config/theme/app_preference.dart';
 import 'package:admin_login/pages/navigation/bottom_navigation.dart';
 
+import 'package:flutter/services.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.black,
+  ));
 
   runApp(const AppStart());
 }

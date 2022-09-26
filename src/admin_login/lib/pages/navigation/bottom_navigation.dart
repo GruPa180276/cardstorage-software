@@ -4,8 +4,7 @@ import 'package:admin_login/pages/home/home.dart';
 import 'package:admin_login/pages/stats/stats.dart';
 import 'package:admin_login/pages/card/cards.dart';
 import 'package:admin_login/pages/storage/storage.dart';
-import 'package:admin_login/pages/user/user.dart';
-import 'package:admin_login/pages/menu/menu.dart';
+import 'package:admin_login/pages/logs/logs.dart';
 
 class BottomNavigation extends StatefulWidget {
   BottomNavigation({Key? key}) : super(key: key);
@@ -16,14 +15,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  final screens = [
-    Home(),
-    StatsView(),
-    CardsView(),
-    StorageView(),
-    UserView(),
-    Menu()
-  ];
+  final screens = [Home(), StatsView(), CardsView(), StorageView(), Logs()];
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +46,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
               label: 'Storage',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_box_rounded),
-              label: 'Benutzer',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
-              label: 'Mehr',
+              icon: Icon(Icons.history),
+              label: 'Logs',
             ),
           ],
         ));

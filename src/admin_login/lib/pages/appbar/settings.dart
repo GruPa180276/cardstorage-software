@@ -32,21 +32,29 @@ class _SettingsPageState extends State<Settings> {
   }
 
   Widget buildChangeThemeMode(BuildContext context) {
-    return SwitchListTile(
-        activeColor: Theme.of(context).primaryColor,
-        value: isDark,
-        controlAffinity: ListTileControlAffinity.trailing,
-        title: Text(
-          "Switch Theme Mode",
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-        onChanged: (value) async {
-          await AppPreferences.setIsOn(value);
-          final provider = Provider.of<ThemeProvider>(context, listen: false);
-          isDark = value;
-          setState(() {
-            provider.toggleTheme(value);
-          });
-        });
+    return Container(
+        padding: EdgeInsets.all(5),
+        child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: SwitchListTile(
+                activeColor: Theme.of(context).primaryColor,
+                value: isDark,
+                controlAffinity: ListTileControlAffinity.trailing,
+                title: Text(
+                  "Switch Theme Mode",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+                onChanged: (value) async {
+                  await AppPreferences.setIsOn(value);
+                  final provider =
+                      Provider.of<ThemeProvider>(context, listen: false);
+                  isDark = value;
+                  setState(() {
+                    provider.toggleTheme(value);
+                  });
+                })));
   }
 }

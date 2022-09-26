@@ -4,14 +4,14 @@ import 'package:admin_login/config/theme/app_preference.dart';
 
 import 'package:admin_login/pages/widget/appbar.dart';
 
-class Menu extends StatefulWidget {
-  const Menu({Key? key}) : super(key: key);
+class Logs extends StatefulWidget {
+  const Logs({Key? key}) : super(key: key);
 
   @override
-  State<Menu> createState() => _SettingsPageState();
+  State<Logs> createState() => _LogsState();
 }
 
-class _SettingsPageState extends State<Menu> {
+class _LogsState extends State<Logs> {
   late bool isDark;
 
   @override
@@ -26,8 +26,17 @@ class _SettingsPageState extends State<Menu> {
       appBar: generateAppBar(context),
       body: Container(
           child: Column(
-        children: [],
+        children: [createLogView(context)],
       )),
+    );
+  }
+
+  Widget createLogView(BuildContext context) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
     );
   }
 }

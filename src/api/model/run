@@ -1,0 +1,3 @@
+#!/bin/sh
+
+DB=db_$(date +%s).sqlite3 && touch $DB && sqlite3 $DB < model.sqlite3.sql

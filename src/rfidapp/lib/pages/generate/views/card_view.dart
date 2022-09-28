@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/reservate_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
@@ -8,22 +7,33 @@ import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
-        Set<String> pinnedCards, String searchstring) =>
+        Set<String> pinnedCards, Function reloadPinned, String searchstring) =>
     Flexible(
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemCount: cards.length,
           itemBuilder: (context, index) {
-            print(pinnedCards);
             bool card = false;
-            if (site == 'favoriten') {
-              for (String id in pinnedCards) {
-                print(index);
 
+            if (site == 'favoriten') {
+              if (pinnedCards.isEmpty && index == cards.length - 1) {
+                return Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height / 2 - 200,
+                        horizontal: 0),
+                    child: Text(
+                      'Sie haben keine Favoriten ;)',
+                      style: TextStyle(
+                          color: Theme.of(context).dividerColor, fontSize: 20),
+                    ),
+                  ),
+                );
+              }
+              for (String id in pinnedCards) {
                 card = cards[index].id.toString().contains(id);
-                print(card);
-                print(pinnedCards);
                 if (card) {
                   break;
                 }
@@ -43,8 +53,8 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        buildCardsText(
-                            context, cards[index], site, pinnedCards),
+                        buildCardsText(context, cards[index], site, pinnedCards,
+                            reloadPinned),
                       ]),
                       buildBottomButton(context, site, cards[index])
                     ]))
@@ -52,8 +62,8 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           }),
     );
 
-Widget buildCardsText(
-    BuildContext context, Cards card, String site, Set<String> pinnedCards) {
+Widget buildCardsText(BuildContext context, Cards card, String site,
+    Set<String> pinnedCards, Function reloadPinned) {
   bool angleBool = false;
   Color colorPin = Theme.of(context).primaryColor;
   Color colorAvailable = Colors.green;
@@ -88,6 +98,8 @@ Widget buildCardsText(
                 } else {
                   colorPin = Theme.of(context).primaryColor;
                   AppPreferences.removePinnedCardAt(card.id);
+                  pinnedCards = AppPreferences.getCardsPinned();
+                  reloadPinned();
                 }
               },
             );
@@ -171,8 +183,6 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
                 onPressed: () {
                   card.isReserved = false;
                   Data.putData("card", card.toJson());
-                  //TODO maybe change to SetState (cleaner)
-                  // ignore: invalid_use_of_protected_member
                   (context as Element).reassemble();
                 },
                 child: Text('Loeschen',

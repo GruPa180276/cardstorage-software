@@ -27,5 +27,5 @@ class AppPreferences {
       await _preferences.setStringList('pinnedCard', pinnedCard.toList());
 
   static Set<String> getCardsPinned() =>
-      _preferences.getStringList('pinnedCard')?.toSet() ?? <String>{"s"};
+      _preferences.getStringList('pinnedCard')?.toSet() ?? <String>{};
 }

@@ -7,8 +7,6 @@ import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 
-import 'dart:math' as math;
-
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
         Set<String> pinnedCards, String searchstring) =>
     Flexible(
@@ -17,8 +15,13 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           scrollDirection: Axis.vertical,
           itemCount: cards.length,
           itemBuilder: (context, index) {
-            final card = cards[index].name!.contains(searchstring);
-
+            final card;
+            if (site == 'favoriten') {
+              card = cards[index].name!.contains(pinnedCards.firstWhere(
+                  (element) => element == cards[index].id.toString()));
+            } else {
+              card = cards[index].name!.contains(searchstring);
+            }
             return card
                 ? Card(
                     elevation: 0,
@@ -56,36 +59,36 @@ Widget buildCardsText(
         color: Theme.of(context).cardColor,
       ));
   if (!card.isAvailable!) {
-    if (site == "cards") {
-      pinButton = StatefulBuilder(builder: (BuildContext context,
-          StateSetter setState /*You can rename this!*/) {
-        return IconButton(
-            padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width - 160, 0, 0, 0),
-            onPressed: () {
-              setState(
-                () {
-                  angleBool = !angleBool;
-                  if (angleBool) {
-                    colorPin = Colors.yellow;
-                    AppPreferences.addCardPinned(card.id.toString());
-                  } else {
-                    colorPin = Theme.of(context).primaryColor;
-                    AppPreferences.removePinnedCardAt(card.id);
-                  }
-                },
-              );
-            },
-            splashColor: Colors.transparent,
-            splashRadius: 0.1,
-            icon: Icon(
-              Icons.star,
-              color: colorPin,
-            ));
-      });
-    }
-
     colorAvailable = Colors.red;
+  }
+
+  if (site == "cards" || site == "favoriten") {
+    pinButton = StatefulBuilder(builder:
+        (BuildContext context, StateSetter setState /*You can rename this!*/) {
+      return IconButton(
+          padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width - 160, 0, 0, 0),
+          onPressed: () {
+            setState(
+              () {
+                angleBool = !angleBool;
+                if (angleBool) {
+                  colorPin = Colors.yellow;
+                  AppPreferences.addCardPinned(card.id.toString());
+                } else {
+                  colorPin = Theme.of(context).primaryColor;
+                  AppPreferences.removePinnedCardAt(card.id);
+                }
+              },
+            );
+          },
+          splashColor: Colors.transparent,
+          splashRadius: 0.1,
+          icon: Icon(
+            Icons.star,
+            color: colorPin,
+          ));
+    });
   }
 
   return Stack(
@@ -173,6 +176,7 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
           ))
         ],
       );
+    case 'favoriten':
     case 'cards':
       Widget getNow = const SizedBox(
         width: 0,

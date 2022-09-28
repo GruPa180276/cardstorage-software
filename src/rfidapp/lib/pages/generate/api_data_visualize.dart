@@ -119,6 +119,9 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                           case "Karten":
                             return cardsView(users, context, 'cards',
                                 pinnedCards!, searchString);
+                          case "Favoriten":
+                            return cardsView(users, context, 'favoriten',
+                                pinnedCards!, searchString);
                         }
                         return const Text('Error Type not valid');
                       }

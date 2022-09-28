@@ -29,12 +29,19 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   void initState() {
     super.initState();
     reloadCardList();
-    pinnedCards = AppPreferences.getCardsPinned();
-    print(pinnedCards);
+    reloadPinnedList();
+  }
+
+  void reloadPinnedList() {
+    setState(() {
+      pinnedCards = AppPreferences.getCardsPinned();
+    });
   }
 
   void reloadCardList() {
     setState(() {
+      pinnedCards = AppPreferences.getCardsPinned();
+
       listOfTypes = Data.getData("card").then(
           (value) =>
               jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
@@ -104,9 +111,16 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     default:
                       if (snapshot.hasError) {
                         return Container(
-                          padding: const EdgeInsets.all(10),
-                          child: const Text(
-                              'No connection was found. Please check if you are connected!'),
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.of(context).size.height / 2 - 200,
+                              horizontal: 0),
+                          child: Text(
+                            'No connection was found. Please check if you are connected!',
+                            style: TextStyle(
+                                color: Theme.of(context).dividerColor,
+                                fontSize: 20),
+                          ),
                         );
                       } else {
                         final users = snapshot.data!;
@@ -115,13 +129,13 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                           //TODO change to required class
                           case "Reservierungen":
                             return cardsView(users, context, 'reservation',
-                                pinnedCards!, searchString);
+                                pinnedCards!, reloadPinnedList, searchString);
                           case "Karten":
                             return cardsView(users, context, 'cards',
-                                pinnedCards!, searchString);
+                                pinnedCards!, reloadPinnedList, searchString);
                           case "Favoriten":
                             return cardsView(users, context, 'favoriten',
-                                pinnedCards!, searchString);
+                                pinnedCards!, reloadPinnedList, searchString);
                         }
                         return const Text('Error Type not valid');
                       }

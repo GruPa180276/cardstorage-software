@@ -5,6 +5,7 @@ import 'package:rfidapp/pages/generate/widget/reservate_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
+import 'dart:math' as math;
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
         String searchstring) =>
@@ -22,7 +23,6 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    
                     child: Column(children: [
                       Row(children: [
                         const Padding(
@@ -38,57 +38,94 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
     );
 
 Widget buildCardsText(BuildContext context, Cards card) {
+  bool angleBool = false;
+  Color colorPin = Theme.of(context).primaryColor;
   Color colorAvailable = Colors.green;
-  if (!card.isAvailable!) colorAvailable = Colors.red;
+  Widget pinButton = IconButton(
+      onPressed: () {},
+      icon: Icon(
+        Icons.podcasts,
+        color: Theme.of(context).cardColor,
+      ));
+  if (!card.isAvailable!) {
+    pinButton = StatefulBuilder(builder:
+        (BuildContext context, StateSetter setState /*You can rename this!*/) {
+      return IconButton(
+          padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width - 160, 0, 0, 0),
+          onPressed: () {
+            setState(
+              () {
+                angleBool = !angleBool;
+                if (angleBool) {
+                  colorPin = Colors.yellow;
+                } else {
+                  colorPin = Theme.of(context).primaryColor;
+                }
+              },
+            );
+          },
+          splashColor: Colors.transparent,
+          splashRadius: 0.1,
+          icon: Icon(
+            Icons.star,
+            color: colorPin,
+          ));
+    });
 
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-    child: Table(
-      //border: TableBorder.all(),
+    colorAvailable = Colors.red;
+  }
 
-      columnWidths: const <int, TableColumnWidth>{
-        0: FixedColumnWidth(150),
-        1: FixedColumnWidth(100),
-      },
+  return Stack(
+    children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+        child: Table(
+          //border: TableBorder.all(),
 
-      children: [
-        TableRow(
+          columnWidths: const <int, TableColumnWidth>{
+            0: FixedColumnWidth(150),
+            1: FixedColumnWidth(100),
+          },
+
           children: [
-            const TableCell(child: Text("ID:")),
-            TableCell(child: Text(card.id.toString()))
-          ],
-        ),
-        TableRow(
-          children: [
-            const TableCell(child: Text("Name:")),
-            TableCell(child: Text(card.name.toString()))
-          ],
-        ),
-        TableRow(
-          children: [
-            const TableCell(child: Text("StorageId:")),
-            TableCell(child: Text(card.storageId.toString()))
-          ],
-        ),
-        TableRow(
-          children: [
-            const TableCell(child: Text("Verfuegbar:")),
-            TableCell(
-              child: Text(
-                card.isAvailable.toString(),
-                style: TextStyle(
-                    color: colorAvailable, fontWeight: FontWeight.bold),
-              ),
+            TableRow(
+              children: [
+                const TableCell(child: Text("ID:")),
+                TableCell(child: Text(card.id.toString()))
+              ],
+            ),
+            TableRow(
+              children: [
+                const TableCell(child: Text("Name:")),
+                TableCell(child: Text(card.name.toString()))
+              ],
+            ),
+            TableRow(
+              children: [
+                const TableCell(child: Text("StorageId:")),
+                TableCell(child: Text(card.storageId.toString()))
+              ],
+            ),
+            TableRow(
+              children: [
+                const TableCell(child: Text("Verfuegbar:")),
+                TableCell(
+                  child: Text(
+                    card.isAvailable.toString(),
+                    style: TextStyle(
+                        color: colorAvailable, fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
             )
           ],
-        )
-      ],
-    ),
+        ),
+      ),
+      pinButton,
+    ],
   );
 }
-
-
-
 
 Widget buildBottomButton(BuildContext context, String site, Cards card) {
   switch (site) {
@@ -96,16 +133,16 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
       return Row(
         children: [
           Expanded(
-            
             child: DecoratedBox(
-               decoration: BoxDecoration(
-    border: Border(
-      top: BorderSide(color: Theme.of(context).dividerColor),
-      left: BorderSide(color: Theme.of(context).dividerColor),
-    ),
-  ),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Theme.of(context).dividerColor),
+                  left: BorderSide(color: Theme.of(context).dividerColor),
+                ),
+              ),
               child: TextButton(
-                style: ElevatedButton.styleFrom(primary: Colors.black.withOpacity(0)), // <-- Does not work
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.black.withOpacity(0)), // <-- Does not work
                 onPressed: () {
                   card.isReserved = false;
                   Data.putData("card", card.toJson());
@@ -131,28 +168,33 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
       );
       if (card.isAvailable!) {
         getNow = Expanded(
-          child:  DecoratedBox(
-               decoration: BoxDecoration(
-    border: Border(
-      top: BorderSide(color: Theme.of(context).dividerColor),
-      //left: BorderSide(color: Theme.of(context).dividerColor),
-    ),
-  ),
-              child: TextButton(
-                style: ElevatedButton.styleFrom(primary: Colors.black.withOpacity(0)), // <-- Does not work
-                onPressed: () {
-                  buildReservatePopUp(context, card);
-                },
-                child: Text('Loeschen',
-                    style: TextStyle(color: Theme.of(context).primaryColor)),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Theme.of(context).dividerColor),
+                //left: BorderSide(color: Theme.of(context).dividerColor),
               ),
             ),
+            child: TextButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.black.withOpacity(0)), // <-- Does not work
+              onPressed: () {
+                buildReservatePopUp(context, card);
+              },
+              child: Text('Jetzt holen',
+                  style: TextStyle(color: Theme.of(context).primaryColor)),
+            ),
+          ),
         );
       }
-      return Row(
-        children: <Widget>[
-          getNow,
-          buildReservateButton(context, "Reservieren", card)
+      return Stack(
+        children: [
+          Row(
+            children: <Widget>[
+              getNow,
+              buildReservateButton(context, "Reservieren", card)
+            ],
+          ),
         ],
       );
   }

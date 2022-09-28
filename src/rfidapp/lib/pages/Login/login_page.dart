@@ -200,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       UserSecureStorage.setRememberState(rememberValue.toString());
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => BottomNavigation()),
+          MaterialPageRoute(builder: (context) => const BottomNavigation()),
           (Route<dynamic> route) => false);
     } //open app}
   }

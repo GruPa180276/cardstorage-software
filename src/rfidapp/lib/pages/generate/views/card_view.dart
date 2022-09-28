@@ -10,7 +10,7 @@ import 'package:rfidapp/domain/app_preferences.dart';
 import 'dart:math' as math;
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
-        List<String> pinnedCards, String searchstring) =>
+        Set<String> pinnedCards, String searchstring) =>
     Flexible(
       child: ListView.builder(
           shrinkWrap: true,
@@ -41,7 +41,7 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
     );
 
 Widget buildCardsText(
-    BuildContext context, Cards card, String site, List<String> pinnedCards) {
+    BuildContext context, Cards card, String site, Set<String> pinnedCards) {
   bool angleBool = false;
   Color colorPin = Theme.of(context).primaryColor;
   Color colorAvailable = Colors.green;
@@ -71,6 +71,7 @@ Widget buildCardsText(
                     AppPreferences.addCardPinned(card.id.toString());
                   } else {
                     colorPin = Theme.of(context).primaryColor;
+                    AppPreferences.removePinnedCardAt(card.id);
                   }
                 },
               );

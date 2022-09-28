@@ -10,23 +10,22 @@ class AppPreferences {
   static bool getIsOn() => _preferences.getBool('theme') ?? true;
 
   static Future addCardPinned(String id) async {
-    List<String> currentPins =
-        _preferences.getStringList('pinnedCard') ?? <String>[id];
-    if (currentPins.length > 1) {
-      currentPins.add(id);
-    }
-    await _preferences.setStringList('pinnedCard', currentPins);
+    Set<String> currentPins = getCardsPinned().toSet();
+    currentPins.add(id);
+    await _preferences.setStringList('pinnedCard', currentPins.toList());
   }
 
   static void removePinnedCardAt(int id) {
-    List<String>? currentPins = _preferences.getStringList('pinnedCard');
-    currentPins!.removeAt(currentPins.indexOf(id.toString()));
+    Set<String>? currentPins = getCardsPinned();
+
+    currentPins.removeWhere((element) => element == id.toString());
+    //currentPins.indexOf(id.toString())
     overritePinnedCard(currentPins);
   }
 
-  static Future overritePinnedCard(List<String> pinnedCard) async =>
-      await _preferences.setStringList('pinnedCard', pinnedCard);
+  static Future overritePinnedCard(Set<String> pinnedCard) async =>
+      await _preferences.setStringList('pinnedCard', pinnedCard.toList());
 
-  static List<String> getCardsPinned() =>
-      _preferences.getStringList('pinnedCard') ?? List.empty();
+  static Set<String> getCardsPinned() =>
+      _preferences.getStringList('pinnedCard')?.toSet() ?? <String>{"s"};
 }

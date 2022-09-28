@@ -9,6 +9,8 @@ import 'package:rfidapp/pages/account/account_page.dart';
 
 import 'package:provider/provider.dart';
 
+import '../favorites/favorites_page.dart';
+
 class MenuNavigationDrawer extends StatefulWidget {
   const MenuNavigationDrawer({Key? key}) : super(key: key);
 
@@ -120,7 +122,7 @@ class _MenuNavigationDrawerState extends State<MenuNavigationDrawer> {
         break;
       case 4:
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const ReservatePage()));
+            MaterialPageRoute(builder: (context) => const FavoritePage()));
         break;
     }
   }

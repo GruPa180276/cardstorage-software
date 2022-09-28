@@ -15,10 +15,19 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           scrollDirection: Axis.vertical,
           itemCount: cards.length,
           itemBuilder: (context, index) {
-            final card;
+            print(pinnedCards);
+            bool card = false;
             if (site == 'favoriten') {
-              card = cards[index].name!.contains(pinnedCards.firstWhere(
-                  (element) => element == cards[index].id.toString()));
+              for (String id in pinnedCards) {
+                print(index);
+
+                card = cards[index].id.toString().contains(id);
+                print(card);
+                print(pinnedCards);
+                if (card) {
+                  break;
+                }
+              }
             } else {
               card = cards[index].name!.contains(searchstring);
             }
@@ -50,6 +59,7 @@ Widget buildCardsText(
   Color colorAvailable = Colors.green;
   if (pinnedCards.contains(card.id.toString())) {
     colorPin = Colors.yellow;
+    angleBool = true;
   }
 
   Widget pinButton = IconButton(

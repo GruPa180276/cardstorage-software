@@ -19,7 +19,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
   Future<List<Cards>>? listOfTypes;
   Future<List<Cards>>? listOfTypesSinceInit;
-  List<String>? pinnedCards;
+  Set<String>? pinnedCards;
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();

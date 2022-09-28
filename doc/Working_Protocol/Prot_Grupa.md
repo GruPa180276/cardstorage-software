@@ -196,9 +196,12 @@ Heute hatten wir ein Teammeeting da wir unser Konzept ueberarbeiten wollten  und
 **2022-09-19: 10:30 -> 14:30**
 Habe heute versucht Flutter auf meinem Laptop zum Laufen zu bekommen. Allerdings hatte ich zahlreiche Probleme bei der installation. Die IDE wurde mehrmals neu runter geladen allerdings hat das nicht geholfen. Auch nach den Besuch vopn zahlreichen Foren konnte ich keine Loesung findnen die VM zu starten. Zuhause habe ich mich dann entschieden eine ältere Version von Android studio zu verwenden, was dan schlussendlich das Problem löste. Dnach habe ich noch verschiedene Buttons neu erstellen müssen, da diese in der neuen Flutter Version nicht mehr verfuegbar sind
 
-
 **2022-09-22: 11:30 -> 14:30**
 Heute habe ich bei der App neue Validations hinzugefügt. Danach habe ich die Passwort create Option in ein eigenes File ausgelagert um es genereisch generieren zu lassen. Danach habe ich mir eine neue lOgik überlegt ohne intentions das passwort zurückzusetzten. Lösung war ein ode der mittels Mail geschrieben wurde. Ebenfalls wurde eine Klasser erzeugt die diesen COde automatisch erzeugt
+
+
+**2022-09-28: 15:30 -> 20:30**
+Habe heute die Homeseite erstellt. Diese wird als FavoritenSeite fuer die Karten benutzt. Ebenfalls wurde auch die Prefernces hinzugefuegt wo ich zunaechst etwas probleme hatte. Das ganze wurde so erstellt, dass es keine Problem darstellen soll, wenn man den Karten Reminder implentieren soll. Danach habe ich im Internet etwas nach eine loesung gesucht den Login via Microsoft zu erledigen. Nach zahlreichen gescheiterten Versuchen, kam ich zu den Entschluss Firebase zu verwenden. Was sich als gute Idee herrausstelle, da ich Firebase auch fuer die Notifcation benoetige falls sich ein Wert bei der API aendert
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -251,5 +254,6 @@ Heute habe ich bei der App neue Validations hinzugefügt. Danach habe ich die Pa
 - 08:00 bis 11:30 Uhr
 - 10:30 bis 14:30 Uhr
 - 11:30 bis 14:30 Uhr
+- 15:30 bis 20:30 Uhr
 <!-- { "progress": false } -->
 

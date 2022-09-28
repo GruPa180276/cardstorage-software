@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/login/utils/app_preference.dart';
+import 'package:rfidapp/domain/app_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode =

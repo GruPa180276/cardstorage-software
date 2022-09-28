@@ -5,6 +5,7 @@ import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
+import 'package:rfidapp/domain/app_preferences.dart';
 
 class ApiVisualizer extends StatefulWidget {
   String site;
@@ -18,6 +19,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
   Future<List<Cards>>? listOfTypes;
   Future<List<Cards>>? listOfTypesSinceInit;
+  List<String>? pinnedCards;
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
@@ -27,6 +29,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   void initState() {
     super.initState();
     reloadCardList();
+    pinnedCards = AppPreferences.getCardsPinned();
+    print(pinnedCards);
   }
 
   void reloadCardList() {
@@ -34,8 +38,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
       listOfTypes = Data.getData("card").then(
           (value) =>
               jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
-          onError: (error) {
-      });
+          onError: (error) {});
       listOfTypesSinceInit = listOfTypes;
     });
   }
@@ -99,22 +102,23 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     case ConnectionState.waiting:
                       return const CircularProgressIndicator();
                     default:
-                      if (snapshot.hasError)
+                      if (snapshot.hasError) {
                         return Container(
                           padding: const EdgeInsets.all(10),
                           child: const Text(
                               'No connection was found. Please check if you are connected!'),
                         );
-                      else {
+                      } else {
                         final users = snapshot.data!;
 
                         switch (site) {
+                          //TODO change to required class
                           case "Reservierungen":
-                            return cardsView(
-                                users, context, 'reservation', searchString);
+                            return cardsView(users, context, 'reservation',
+                                pinnedCards!, searchString);
                           case "Karten":
-                            return cardsView(
-                                users, context, 'cards', searchString);
+                            return cardsView(users, context, 'cards',
+                                pinnedCards!, searchString);
                         }
                         return const Text('Error Type not valid');
                       }

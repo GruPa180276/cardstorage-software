@@ -5,10 +5,12 @@ import 'package:rfidapp/pages/generate/widget/reservate_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
+import 'package:rfidapp/domain/app_preferences.dart';
+
 import 'dart:math' as math;
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
-        String searchstring) =>
+        List<String> pinnedCards, String searchstring) =>
     Flexible(
       child: ListView.builder(
           shrinkWrap: true,
@@ -29,7 +31,8 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        buildCardsText(context, cards[index]),
+                        buildCardsText(
+                            context, cards[index], site, pinnedCards),
                       ]),
                       buildBottomButton(context, site, cards[index])
                     ]))
@@ -37,10 +40,15 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           }),
     );
 
-Widget buildCardsText(BuildContext context, Cards card) {
+Widget buildCardsText(
+    BuildContext context, Cards card, String site, List<String> pinnedCards) {
   bool angleBool = false;
   Color colorPin = Theme.of(context).primaryColor;
   Color colorAvailable = Colors.green;
+  if (pinnedCards.contains(card.id.toString())) {
+    colorPin = Colors.yellow;
+  }
+
   Widget pinButton = IconButton(
       onPressed: () {},
       icon: Icon(
@@ -48,30 +56,33 @@ Widget buildCardsText(BuildContext context, Cards card) {
         color: Theme.of(context).cardColor,
       ));
   if (!card.isAvailable!) {
-    pinButton = StatefulBuilder(builder:
-        (BuildContext context, StateSetter setState /*You can rename this!*/) {
-      return IconButton(
-          padding: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.width - 160, 0, 0, 0),
-          onPressed: () {
-            setState(
-              () {
-                angleBool = !angleBool;
-                if (angleBool) {
-                  colorPin = Colors.yellow;
-                } else {
-                  colorPin = Theme.of(context).primaryColor;
-                }
-              },
-            );
-          },
-          splashColor: Colors.transparent,
-          splashRadius: 0.1,
-          icon: Icon(
-            Icons.star,
-            color: colorPin,
-          ));
-    });
+    if (site == "cards") {
+      pinButton = StatefulBuilder(builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return IconButton(
+            padding: EdgeInsets.fromLTRB(
+                MediaQuery.of(context).size.width - 160, 0, 0, 0),
+            onPressed: () {
+              setState(
+                () {
+                  angleBool = !angleBool;
+                  if (angleBool) {
+                    colorPin = Colors.yellow;
+                    AppPreferences.addCardPinned(card.id.toString());
+                  } else {
+                    colorPin = Theme.of(context).primaryColor;
+                  }
+                },
+              );
+            },
+            splashColor: Colors.transparent,
+            splashRadius: 0.1,
+            icon: Icon(
+              Icons.star,
+              color: colorPin,
+            ));
+      });
+    }
 
     colorAvailable = Colors.red;
   }

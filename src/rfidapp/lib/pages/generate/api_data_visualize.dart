@@ -58,6 +58,39 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   @override
   Widget build(BuildContext context) {
+    Widget seachField = SizedBox(height: 0, width: 0);
+
+    if (site != "Favoriten") {
+      seachField = Row(
+        children: [
+          Expanded(
+            child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    hintText: 'Search Card',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).dividerColor))),
+                onChanged: ((value) {
+                  setState(() {
+                    searchString = value;
+                  });
+                })),
+          ),
+          IconButton(
+              onPressed: () {
+                BottomSheetPop(
+                  onPressStorage: setListType,
+                  listOfTypes: listOfTypesSinceInit!,
+                ).buildBottomSheet(context);
+              },
+              icon: const Icon(Icons.adjust))
+        ],
+      );
+    }
+
     return Scaffold(
         appBar: AppBar(
             toolbarHeight: 100,
@@ -73,34 +106,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
           margin: EdgeInsets.all(10),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            hintText: 'Search Card',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).dividerColor))),
-                        onChanged: ((value) {
-                          setState(() {
-                            searchString = value;
-                          });
-                        })),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        BottomSheetPop(
-                          onPressStorage: setListType,
-                          listOfTypes: listOfTypesSinceInit!,
-                        ).buildBottomSheet(context);
-                      },
-                      icon: const Icon(Icons.adjust))
-                ],
-              ),
+              seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<Cards>>(
                 future: listOfTypes,

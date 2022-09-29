@@ -32,7 +32,8 @@ class BottomSheetPop {
               StateSetter setState /*You can rename this!*/) {
             return Container(
                 height: 300,
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
                 child: Column(children: [
                   const Text(
                     'Filter',

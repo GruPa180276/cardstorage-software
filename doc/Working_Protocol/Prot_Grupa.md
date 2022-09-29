@@ -202,6 +202,9 @@ Heute habe ich bei der App neue Validations hinzugefügt. Danach habe ich die Pa
 
 **2022-09-28: 15:30 -> 20:30**
 Habe heute die Homeseite erstellt. Diese wird als FavoritenSeite fuer die Karten benutzt. Ebenfalls wurde auch die Prefernces hinzugefuegt wo ich zunaechst etwas probleme hatte. Das ganze wurde so erstellt, dass es keine Problem darstellen soll, wenn man den Karten Reminder implentieren soll. Danach habe ich im Internet etwas nach eine loesung gesucht den Login via Microsoft zu erledigen. Nach zahlreichen gescheiterten Versuchen, kam ich zu den Entschluss Firebase zu verwenden. Was sich als gute Idee herrausstelle, da ich Firebase auch fuer die Notifcation benoetige falls sich ein Wert bei der API aendert
+
+**2022-09-29: 11:15 -> 14:15**
+Habe heute bei der Favouriten Seite weitergearbeitet bzw. Refactort. Es wurde eine Klasse erstelle die es ermögliche automatisch die Buttons fuer eine Karten zu erstellen. Danach wurden noch ein paar Bugs gefixed und nach der Firebase impl. gesucht
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -255,5 +258,6 @@ Habe heute die Homeseite erstellt. Diese wird als FavoritenSeite fuer die Karten
 - 10:30 bis 14:30 Uhr
 - 11:30 bis 14:30 Uhr
 - 15:30 bis 20:30 Uhr
+- 11:15 bis 14:15 Uhr
 <!-- { "progress": false } -->
 

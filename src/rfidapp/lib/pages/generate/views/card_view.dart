@@ -1,5 +1,5 @@
-// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/pages/generate/widget/reservate_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
@@ -170,30 +170,18 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
       return Row(
         children: [
           Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Theme.of(context).dividerColor),
-                  left: BorderSide(color: Theme.of(context).dividerColor),
-                ),
-              ),
-              child: TextButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.black.withOpacity(0)), // <-- Does not work
-                onPressed: () {
+            child: CardButton(
+                text: 'Löschen',
+                onPress: () {
                   card.isReserved = false;
                   Data.putData("card", card.toJson());
                   (context as Element).reassemble();
-                },
-                child: Text('Loeschen',
-                    style: TextStyle(color: Theme.of(context).primaryColor)),
-              ),
-            ),
+                }),
           ),
           Expanded(
-              child: Row(
-            children: [buildReservateButton(context, "Bearbeiten", card)],
-          ))
+              child: CardButton(
+                  text: 'Bearbeiten',
+                  onPress: () => buildReservatePopUp(context, card)))
         ],
       );
     case 'favoriten':

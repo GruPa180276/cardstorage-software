@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
-import 'package:rfidapp/pages/generate/widget/reservate_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
@@ -192,31 +191,19 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
       );
       if (card.isAvailable!) {
         getNow = Expanded(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Theme.of(context).dividerColor),
-                //left: BorderSide(color: Theme.of(context).dividerColor),
-              ),
-            ),
-            child: TextButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.black.withOpacity(0)), // <-- Does not work
-              onPressed: () {
-                buildReservatePopUp(context, card);
-              },
-              child: Text('Jetzt holen',
-                  style: TextStyle(color: Theme.of(context).primaryColor)),
-            ),
-          ),
-        );
+            child: CardButton(
+                text: 'Jetzt holen',
+                onPress: () => buildReservatePopUp(context, card)));
       }
       return Stack(
         children: [
           Row(
             children: <Widget>[
               getNow,
-              buildReservateButton(context, "Reservieren", card)
+              Expanded(
+                  child: CardButton(
+                      text: 'Reservieren',
+                      onPress: () => buildReservatePopUp(context, card))),
             ],
           ),
         ],

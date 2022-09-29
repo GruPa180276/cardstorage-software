@@ -16,7 +16,6 @@ class CardButton extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(color: Theme.of(context).dividerColor),
-          //left: BorderSide(color: Theme.of(context).dividerColor),
         ),
       ),
       child: TextButton(

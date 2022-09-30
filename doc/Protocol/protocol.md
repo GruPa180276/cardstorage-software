@@ -181,6 +181,12 @@ Habe heute das Dersign meiner App an die von Herrn Grubauer angepasst. (2h)
 **26.9.2022: 13:40 -> 15:15** <br>
 Heute habe ich kleine Design Änderungen an der App vorgenommen. Danach habe ich mich über den Microsoft Login informiert [Link](https://ahmadelshafee28.medium.com/flutter-auth-using-firebase-oauth-and-azure-ad-a6f01b6d584) (1h 45min)
 
+**30.9.2022: 8:15 -> 12:00** <br>
+Habe heute kleine Änderungen an der App vorgenommen. Weiters haben wir und Gedanken über den Microsoft Login gemacht. Weiters habe wir das Pflichtenheft verbessert. (3h 45min)
+
+**30.9.2022: 16:00 -> 18:00** <br>
+Haben noch das Use Case Diagrm erstellt. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -230,4 +236,6 @@ Heute habe ich kleine Design Änderungen an der App vorgenommen. Danach habe ich
 - 10:10 bis 12:10 Uhr
 - 12:30 bis 14:30 Uhr
 - 13:40 bis 15:15 Uhr
+- 8:15 bis 12:00 Uhr
+- 16:00 bis 18:00 Uhr
 <!-- { "progress": false } -->

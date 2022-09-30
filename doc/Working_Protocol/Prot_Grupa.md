@@ -268,5 +268,7 @@ Das UC wurde ueberarbeitet
 - 11:30 bis 14:30 Uhr
 - 15:30 bis 20:30 Uhr
 - 11:15 bis 14:15 Uhr
+- 08:15 bis 11:55 Uhr
+- 16:00 bis 18:00 Uhr
 <!-- { "progress": false } -->
 

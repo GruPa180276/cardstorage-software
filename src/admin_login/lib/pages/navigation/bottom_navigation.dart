@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/home/home.dart';
 import 'package:admin_login/pages/stats/stats.dart';
 import 'package:admin_login/pages/card/cards.dart';
 import 'package:admin_login/pages/storage/storage.dart';
@@ -15,7 +14,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  final screens = [Home(), StatsView(), CardsView(), StorageView(), Logs()];
+  final screens = [StatsView(), CardsView(), StorageView(), Logs()];
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +28,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           selectedItemColor: Theme.of(context).primaryColor,
           items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.query_stats),
               label: 'Statistik',

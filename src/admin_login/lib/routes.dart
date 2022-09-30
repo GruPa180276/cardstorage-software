@@ -10,10 +10,6 @@ import 'package:admin_login/pages/storage/add_storage.dart';
 import 'package:admin_login/pages/storage/alter_storage.dart';
 import 'package:admin_login/pages/storage/remove_storage.dart';
 
-import 'package:admin_login/pages/user/add_user.dart';
-import 'package:admin_login/pages/user/alter_user.dart';
-import 'package:admin_login/pages/user/remove_user.dart';
-
 import 'package:admin_login/pages/stats/tab1_stats.dart';
 
 import 'package:admin_login/pages/appbar/settings.dart';
@@ -46,17 +42,6 @@ class RouteGenerator {
         return _errorRoute();
       case '/removeStorage':
         return MaterialPageRoute(builder: ((context) => RemoveStorage()));
-
-      // User
-      case '/addUser':
-        return MaterialPageRoute(builder: ((context) => AddUser()));
-      case '/alterUser':
-        if (args is int) {
-          return MaterialPageRoute(builder: ((context) => UserSettings(args)));
-        }
-        return _errorRoute();
-      case '/removeUser':
-        return MaterialPageRoute(builder: ((context) => RemoveUsers()));
 
       //Stats
       case '/stats':

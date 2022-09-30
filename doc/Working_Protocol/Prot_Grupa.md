@@ -205,6 +205,15 @@ Habe heute die Homeseite erstellt. Diese wird als FavoritenSeite fuer die Karten
 
 **2022-09-29: 11:15 -> 14:15**
 Habe heute bei der Favouriten Seite weitergearbeitet bzw. Refactort. Es wurde eine Klasse erstelle die es ermögliche automatisch die Buttons fuer eine Karten zu erstellen. Danach wurden noch ein paar Bugs gefixed und nach der Firebase impl. gesucht
+
+
+**2022-09-30: 8:15 -> 11:55**
+In dieser Stunde hatte ich eine heisse diskussion mit meinen Kollegen aufgrund der Authentifizierung mittel Microsoft. Ebenfalls hatten wir eine Meeting aufgrund dessen mit Frau Hofer. Danach wurde bei der App noch etwas noch am Design gaendert und eine Notify Funktion eingebaut falls die Karte wieder frei ist.
+
+
+**2022-09-30: 16:00 -> 18:00**
+Das UC wurde ueberarbeitet
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mysql < model.sql && mysql < testdata.sql && mysql CardStorageManagement

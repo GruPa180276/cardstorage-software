@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS User (
     firstname  TEXT NULL,
     lastname   TEXT NULL,
     email      TEXT NULL,
+    passwd     TEXT NULL,     -- base64 encode byte string and store as TEXT
     readerdata TEXT NOT NULL, -- base64 encode byte string and store as TEXT
     isadmin    BIT NOT NULL
 );
@@ -58,7 +59,7 @@ CREATE TABLE IF NOT EXISTS User (
 CREATE TABLE IF NOT EXISTS Session (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     fk_userid         INTEGER,
-    office365loginjwt TEXT UNIQUE NOT NULL, -- base64 encode byte string and store as TEXT
+    token             TEXT UNIQUE NOT NULL, -- base64 encode byte string and store as TEXT
 
     FOREIGN KEY (fk_userid) REFERENCES Users(id)
 );

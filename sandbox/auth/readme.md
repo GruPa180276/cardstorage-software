@@ -1,4 +1,4 @@
-# Authetification with Azure AD
+# Authentication with Azure AD
 
 ## Overview
 

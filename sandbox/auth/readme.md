@@ -22,3 +22,14 @@ Genral Approach decription: <https://medium.com/arfitect/azure-ad-authentication
 - You need Azure account (differs from Tenant Azure Ad account)
 - To understand B2C: https://www.youtube.com/watch?v=M23P7tj_bXA&t=1518s
 - Good overview: <https://medium.com/flutter-community/flutter-azure-authentication-with-ad-b2c-8b76c81dd48e>
+
+## Secure Handling of IDs and Passworts (and settings)
+
+> :warning: NEVER store client and tenant ID directly in the code (and push that to github)! BAD BAD BAD BOY! 
+
+- Use some kind of local .env file where IDs are stored, and put that in .gitignore
+  - Maybe that package is usable: <https://pub.dev/packages/flutter_dotenv>
+- If you are going to use CI/CD (github actions) then have a look at github secrets to store the information. See
+  - <https://docs.github.com/en/actions/security-guides/encrypted-secrets> 
+  - <https://docs.github.com/en/rest/actions/secrets> 
+  - if you use .env file - maye that action is worth a shot: <https://github.com/marketplace/actions/create-env-file>

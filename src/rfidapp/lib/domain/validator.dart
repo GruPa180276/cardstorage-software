@@ -1,4 +1,3 @@
-
 class Validator {
   // regular expression to check if string
 
@@ -53,6 +52,12 @@ class Validator {
       } else {
         return null;
       }
+    }
+  }
+
+  static String? funcNotEmpty(String? value) {
+    if (value!.isEmpty) {
+      return 'Please enter password';
     }
   }
 

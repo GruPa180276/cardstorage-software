@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/pages/email/email_admin_page.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
@@ -63,26 +64,49 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
 
 Widget buildCardsText(BuildContext context, Cards card, String site,
     Set<String> pinnedCards, Function reloadPinned) {
-  bool angleBool = false;
+  bool isFavorised = false;
+
   Color colorPin = Theme.of(context).primaryColor;
   Color colorAvailable = Colors.green;
   if (pinnedCards.contains(card.id.toString())) {
     colorPin = Colors.yellow;
-    angleBool = true;
+    isFavorised = true;
   }
 
-  Widget pinButton = IconButton(
+  Widget favoriteButton = IconButton(
       onPressed: () {},
       icon: Icon(
         Icons.podcasts,
         color: Theme.of(context).cardColor,
       ));
+
+  Widget emailButton = IconButton(
+      onPressed: () {},
+      icon: Icon(
+        Icons.podcasts,
+        color: Theme.of(context).cardColor,
+      ));
+
   if (!card.isAvailable!) {
     colorAvailable = Colors.red;
   }
 
   if (site == "cards" || site == "favoriten") {
-    pinButton = StatefulBuilder(builder:
+    if (!card.isAvailable!) {
+      emailButton = Padding(
+          padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width - 171, 55, 0, 0),
+          child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const EmailAdminScreen()),
+                );
+              },
+              icon: Icon(Icons.email)));
+    }
+
+    favoriteButton = StatefulBuilder(builder:
         (BuildContext context, StateSetter setState /*You can rename this!*/) {
       return IconButton(
           padding: EdgeInsets.fromLTRB(
@@ -90,8 +114,8 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
           onPressed: () {
             setState(
               () {
-                angleBool = !angleBool;
-                if (angleBool) {
+                isFavorised = !isFavorised;
+                if (isFavorised) {
                   colorPin = Colors.yellow;
                   AppPreferences.addCardPinned(card.id.toString());
                 } else {
@@ -158,7 +182,8 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
           ],
         ),
       ),
-      pinButton,
+      favoriteButton,
+      emailButton
     ],
   );
 }
@@ -189,11 +214,27 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
         width: 0,
         height: 0,
       );
-      if (card.isAvailable!) {
-        getNow = Expanded(
-            child: CardButton(
-                text: 'Jetzt holen',
-                onPress: () => buildReservatePopUp(context, card)));
+      if (!card.isAvailable!) {
+        return Row(
+          children: [
+            Expanded(
+              child: CardButton(
+                  text: 'Jetzt holen',
+                  onPress: () => buildReservatePopUp(context, card)),
+            ),
+            SizedBox(
+              width: 1,
+              height: 50,
+              child: Container(
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+            Expanded(
+                child: CardButton(
+                    text: 'Erinnere mich',
+                    onPress: () => buildReservatePopUp(context, card)))
+          ],
+        );
       }
       return Stack(
         children: [

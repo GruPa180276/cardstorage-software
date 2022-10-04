@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cat model.sql helpers.sql testdata.sql | mysql -u remote -p CardStorageManagement

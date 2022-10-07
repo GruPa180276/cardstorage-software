@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
         Set<String> pinnedCards, Function reloadPinned, String searchstring) =>
@@ -102,7 +100,15 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
               onPressed: () async {
                 // Android: Will open mail app or show native picker.
                 // iOS: Will open mail app if single mail app found.
-                var result = await OpenMailApp.openMailApp();
+
+                var result = await OpenMailApp.composeNewEmailInMailApp(
+                  emailContent: EmailContent(
+                      cc: List.filled(1, "grubauer.patrick@gmail.com"),
+                      body: "asd",
+                      bcc: List.filled(1, "grubauer.patrick@gmail.com"),
+                      to: List.filled(1, "grubauer.patrick@gmail.com"),
+                      subject: "asdads"),
+                );
 
                 // If no mail apps found, show error
                 if (!result.didOpen && !result.canOpen) {

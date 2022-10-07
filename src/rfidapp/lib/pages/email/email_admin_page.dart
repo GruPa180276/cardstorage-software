@@ -20,6 +20,7 @@ class _EmailAdminScreenState extends State<EmailAdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            toolbarHeight: 100,
             title: Text("Frage Stellen",
                 style: TextStyle(
                     fontSize: 40,
@@ -31,20 +32,24 @@ class _EmailAdminScreenState extends State<EmailAdminScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: Column(children: [
-            TextInput(
-                inputController: titleController,
-                label: "Titel EIngeben",
-                iconData: Icons.title,
-                validator: Validator.funcNotEmpty,
-                obsecureText: false),
             TextFormField(
-              minLines: 2,
-              maxLines: 5,
+              controller: titleController,
+              decoration: InputDecoration(
+                hintText: 'Problemstellung',
+                hintStyle: TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              minLines: 1,
+              maxLines: 50,
               controller: descriptionController,
               keyboardType: TextInputType.multiline,
-              decorati
-              on: InputDecoration(
-                hintText: 'descrsiption',
+              decoration: InputDecoration(
+                hintText: 'Beschreibung',
                 hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),

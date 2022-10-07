@@ -13,7 +13,7 @@ class Email {
     const userId = 'mNY4n19_gHAKfcCHy';
 
     //TODO use data package
-    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final url = Uri.parse('https://api.emailjs.com/apiapi/v1.0/email/send');
     await http.post(url,
         headers: {
           'origin': 'http://localhost',

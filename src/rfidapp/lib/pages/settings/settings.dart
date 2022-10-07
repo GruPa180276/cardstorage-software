@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
@@ -53,6 +54,31 @@ class _SettingsPageState extends State<SettingsPage> {
                 }),
               ]),
               TableRow(children: [
+                buildSettingsButton("Log-Out", Icons.logout_rounded, () async {
+                  // Android: Will open mail app or show native picker.
+                  // iOS: Will open mail app if single mail app found.
+                  var result = await OpenMailApp.openMailApp();
+
+                  // If no mail apps found, show error
+                  if (!result.didOpen && !result.canOpen) {
+                    showNoMailAppsDialog(context);
+
+                    // iOS: if multiple mail apps found, show dialog to select.
+                    // There is no native intent/default app system in iOS so
+                    // you have to do it yourself.
+                  } else if (!result.didOpen && result.canOpen) {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return MailAppPickerDialog(
+                          mailApps: result.options,
+                        );
+                      },
+                    );
+                  }
+                }),
+              ]),
+              TableRow(children: [
                 Container(
                   height: 40,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -81,6 +107,25 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
         ));
+  }
+
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Open Mail App"),
+            content: Text("No mail apps installed"),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
 
   Widget buildSettingsButton(String text, IconData icon, Function function) {

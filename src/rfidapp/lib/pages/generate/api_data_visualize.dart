@@ -113,7 +113,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return const CircularProgressIndicator();
+                      return Center(child: const CircularProgressIndicator());
                     default:
                       if (snapshot.hasError) {
                         return Container(

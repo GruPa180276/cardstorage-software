@@ -214,6 +214,15 @@ In dieser Stunde hatte ich eine heisse diskussion mit meinen Kollegen aufgrund d
 **2022-09-30: 16:00 -> 18:00**
 Das UC wurde ueberarbeitet
 
+**2022-09-30: 16:00 -> 18:00**
+Das UC wurde ueberarbeitet
+
+**2022-10-05: 12:00-> 16:00
+Es wurde ein Seite erstellt um Mails an andere Benutzer zu senden, die gerade eine Karte verwenden, die sie benötigen. Allerdings bemerekte ich dann, dass diese  Implementation falsch ist und erstellte eine Intention, die automatisch eine Liste von installierten MailApps anzeigt und, welches ausählen kann, die automatishc eine Compose erstellt. 
+
+**2022-10-08: 09:00-> 11:30
+Heute wurde eine Probebeispiel zu dem Microsoft Login erstellt. Dazu verwendete ich die DOku, die mir Hasp schickte. Ich las mir diese durch und erstellte ein Projekt, welches als Beispiel diente. Es funktionierte alles perfekt
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -270,5 +279,7 @@ Das UC wurde ueberarbeitet
 - 11:15 bis 14:15 Uhr
 - 08:15 bis 11:55 Uhr
 - 16:00 bis 18:00 Uhr
+- 12:00 bis 16:00 Uhr
+- 09:00 bis 11:30 Uhr
 <!-- { "progress": false } -->
 

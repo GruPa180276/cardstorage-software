@@ -223,6 +223,13 @@ Es wurde ein Seite erstellt um Mails an andere Benutzer zu senden, die gerade ei
 **2022-10-08: 09:00-> 11:30
 Heute wurde eine Probebeispiel zu dem Microsoft Login erstellt. Dazu verwendete ich die DOku, die mir Hasp schickte. Ich las mir diese durch und erstellte ein Projekt, welches als Beispiel diente. Es funktionierte alles perfekt
 
+**2022-10-08: 08:15 -> 10:00**
+Heute habe ich ben etwas geholfen, eine notifaciton mittels api zu erstellen. Danach habe ich den login und .env bei der rfid app hinzugefuegt
+
+**2022-10-08: 13:45 -> 15:15**
+AM nachmittag habe ich dann noch versucht, den user mittel redirect uris zu bekommen. Allerdings weiss ich immer noch nicht wie ich die email eines users bekommen
+
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -281,5 +288,7 @@ Heute wurde eine Probebeispiel zu dem Microsoft Login erstellt. Dazu verwendete 
 - 16:00 bis 18:00 Uhr
 - 12:00 bis 16:00 Uhr
 - 09:00 bis 11:30 Uhr
+- 08:15 bis 10:00 Uhr
+- 13:45 bis 15:15 Uhr
 <!-- { "progress": false } -->
 

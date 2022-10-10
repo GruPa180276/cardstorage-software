@@ -190,7 +190,7 @@ Haben noch das Use Case Diagrm erstellt. (2h)
 **10.10.2022: 8:15 -> 10:00** <br>
 Habe mich mit Background Notifications befasst. (1h 45min)
 
-**10.10.2022: 12:50 -> 13:15** <br>
+**10.10.2022: 13:45 -> 15:15** <br>
 Habe einge beiepiele für Notfications mit Firebase probiert, haben aber alle nicht funktioniert. (1h 25min)
 
 ## Arbeitszeit
@@ -245,5 +245,5 @@ Habe einge beiepiele für Notfications mit Firebase probiert, haben aber alle ni
 - 8:15 bis 12:00 Uhr
 - 16:00 bis 18:00 Uhr
 - 8:15 bis 10:00 Uhr
-- 12:50 bis 13:15 Uhr
+- 13:45 bis 15:15 Uhr
 <!-- { "progress": false } -->

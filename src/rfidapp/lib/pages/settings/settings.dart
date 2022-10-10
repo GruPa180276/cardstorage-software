@@ -27,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 125,
+          toolbarHeight: 100,
           bottomOpacity: 0.0,
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -87,14 +87,15 @@ class _SettingsPageState extends State<SettingsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        children: const [
-                          Icon(Icons.mode),
-                          SizedBox(
+                        children: [
+                          const Icon(Icons.mode),
+                          const SizedBox(
                             width: 10,
                           ),
                           Text('Dark-Mode',
                               style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w400)),
+                                  fontSize: 19,
+                                  color: Theme.of(context).primaryColor)),
                         ],
                       ),
                       Align(

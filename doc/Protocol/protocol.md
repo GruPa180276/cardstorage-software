@@ -193,6 +193,12 @@ Habe mich mit Background Notifications befasst. (1h 45min)
 **10.10.2022: 13:45 -> 15:15** <br>
 Habe einge beiepiele für Notfications mit Firebase probiert, haben aber alle nicht funktioniert. (1h 25min)
 
+**17.10.2022: 8:20 -> 11:20** <br>
+Habe begonnen, Notfications mit Firebase einzurichten, damit wir auch Benachrichtigungen senden können, wenn die App geschlossen ist. (3h)
+
+**17.10.2022: 12:30 -> 13:30** <br>
+Habe versucht, eine Lösung zu finden, um eine Benachrichtigung zu senden, wenn sich der Flag in der API verändert. Habe aber dazu noch keine Lösung gefunden. (1h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -246,4 +252,6 @@ Habe einge beiepiele für Notfications mit Firebase probiert, haben aber alle ni
 - 16:00 bis 18:00 Uhr
 - 8:15 bis 10:00 Uhr
 - 13:45 bis 15:15 Uhr
+- 8:20 bis 11:20 Uhr
+- 12:30 bis 13:30 Uhr
 <!-- { "progress": false } -->

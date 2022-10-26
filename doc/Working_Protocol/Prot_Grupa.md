@@ -230,6 +230,9 @@ Heute habe ich ben etwas geholfen, eine notifaciton mittels api zu erstellen. Da
 AM nachmittag habe ich dann noch versucht, den user mittel redirect uris zu bekommen. Allerdings weiss ich immer noch nicht wie ich die email eines users bekommen
 
 
+**2022-10-27: 10:00 -> 12:00**
+Wie mit Herrn Haslinger besprochen, habe ich mir die Doku von Microsoft Graph durchgelesen, um an die User Daten zu kommen. Danach verwendten ich den Graph explorer um die Daten von meinem eigenen AccessToken zu bekommen, was auch funktionierte. Danach wollte ich mit einer Api diese Daten holen, wo ich allerdings auf ein Problem trat. Ich habe vergessen, die Client Id anzugeben, sondern ich habe mich nur mit dem Access Token angemeldet und keine App Permission verwendet. Dazu benoetigte ich zunaechst etwas zeit. Als der Fehler gefunden wurden war die get api nun erfolgreich implentiert
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -290,5 +293,7 @@ AM nachmittag habe ich dann noch versucht, den user mittel redirect uris zu beko
 - 09:00 bis 11:30 Uhr
 - 08:15 bis 10:00 Uhr
 - 13:45 bis 15:15 Uhr
+- 10:00 bis 12:00 Uhr
+
 <!-- { "progress": false } -->
 

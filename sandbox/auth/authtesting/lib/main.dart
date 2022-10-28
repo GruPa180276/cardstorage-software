@@ -136,6 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void logout() async {
     await oauth.logout();
-    showMessage('Logged out');
+    showMessage('Log out');
   }
 }

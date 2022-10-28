@@ -73,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             leading: const Icon(Icons.launch),
             title: const Text('Login'),
             onTap: () {
+              //get access token
               login();
             },
           ),
@@ -80,6 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
             leading: const Icon(Icons.handshake),
             title: const Text('Fetch Data'),
             onTap: () async {
+              //{"error":{"code":"Authorization_RequestDenied","message":"Insufficient privileges to complete the operation.","innerError":{"date":"2022-10-28T07:25:45","request-id":"052bfbc0-e87e-4815-8473-305d93b51074","client-request-id":"052bfbc0-e87e-4815-8473-305d93b51074"}}}
+
               const String apiUrl = 'https://graph.microsoft.com/v1.0/me';
               final response = await http.get(Uri.parse(apiUrl), headers: {
                 HttpHeaders.authorizationHeader: "Bearer $accessToken"

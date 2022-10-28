@@ -42,7 +42,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
 
-      listOfTypes = Data.getData("card").then(
+      listOfTypes = Data.getCardsData("card").then(
           (value) =>
               jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
           onError: (error) {});

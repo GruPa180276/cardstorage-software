@@ -22,6 +22,8 @@ Future main() async {
   ));
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   static const String title = 'Light & Dark Theme';
   // ignore: prefer_typing_uninitialized_variables
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
             theme: MyThemes.lightTheme,
             darkTheme: MyThemes.darkTheme,
             home: const BottomNavigation(),
+            navigatorKey: navigatorKey,
           );
         }
         return MaterialApp(
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
           theme: MyThemes.lightTheme,
           darkTheme: MyThemes.darkTheme,
           home: const LoginScreen(),
+          navigatorKey: navigatorKey,
         );
       },
     );

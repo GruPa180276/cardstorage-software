@@ -15,6 +15,7 @@ import 'package:aad_oauth/model/config.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/user.dart';
+import 'package:rfidapp/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
     clientId: dotenv.env['clientId']!,
     scope: 'User.Read',
     redirectUri: 'cardstorage://auth',
-    navigatorKey: GlobalKey<NavigatorState>(),
+    navigatorKey: navigatorKey,
   );
 
   Future init() async {
@@ -228,6 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
             onError: (error) {});
         ;
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

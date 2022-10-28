@@ -4,6 +4,8 @@
 ### C ###
 # Prerequisites
 *.d
+.env
+*.env
 
 # Object files
 *.o

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
@@ -7,6 +9,12 @@ import 'package:rfidapp/pages/login/register_page.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
+
+import 'package:aad_oauth/aad_oauth.dart';
+import 'package:aad_oauth/model/config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/types/user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,12 +28,27 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  late AadOAuth oauth;
 
   @override
   // ignore: must_cal_super
   void initState() {
     init();
+    getEnv();
   }
+
+  void getEnv() async {
+    await dotenv.load(fileName: "assets/.env");
+    oauth = AadOAuth(config);
+  }
+
+  static final Config config = Config(
+    tenant: dotenv.env['tenant']!,
+    clientId: dotenv.env['clientId']!,
+    scope: 'User.Read',
+    redirectUri: 'cardstorage://auth',
+    navigatorKey: GlobalKey<NavigatorState>(),
+  );
 
   Future init() async {
     final rememberState = await UserSecureStorage.getRememberState() ?? '';
@@ -192,16 +215,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void sigIn() {
-    if (_formKey.currentState!.validate()) {
-      if (rememberValue) {
-        UserSecureStorage.setUsername(emailController.text);
-        UserSecureStorage.setPassword(passwordController.text);
+  void sigIn() async {
+    print("asdasd");
+    try {
+      await oauth.login();
+      String? accessToken = await oauth.getAccessToken();
+      print(accessToken);
+      if (accessToken!.isNotEmpty) {
+        Future<List<User>>? listOfTypes = Data.getUserData(accessToken).then(
+            (value) =>
+                jsonDecode(value!.body).map<User>(User.fromJson).toList(),
+            onError: (error) {});
+        ;
       }
-      UserSecureStorage.setRememberState(rememberValue.toString());
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const BottomNavigation()),
-          (Route<dynamic> route) => false);
-    } //open app}
+    } catch (e) {}
   }
 }

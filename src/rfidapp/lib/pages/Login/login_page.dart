@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
@@ -24,6 +25,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String? accessToken;
   bool rememberValue = false;
   bool isLoading = false;
   TextEditingController emailController = TextEditingController();
@@ -121,8 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: 'Erstelle einen Account',
                   textColor: Theme.of(context).primaryColor,
                   onPress: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const RegisterScreen()));
+                    oauth.logout();
                   },
                 ),
               ),
@@ -199,9 +200,13 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         const SizedBox(width: 5.0),
         InkWell(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const PasswordForgetSecreen()));
+          onTap: () async {
+            if (accessToken!.isNotEmpty) {
+              await Data.getUserData(accessToken!).then((value) {
+                var listOfTypes = value!.body;
+                return value;
+              });
+            }
           },
           child: Text(
             'Passwort ändern',
@@ -217,18 +222,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void sigIn() async {
-    print("asdasd");
     try {
       await oauth.login();
-      String? accessToken = await oauth.getAccessToken();
+      String? accessoken = await oauth.getAccessToken();
+      setState(() {
+        accessToken = accessoken;
+      });
       print(accessToken);
-      if (accessToken!.isNotEmpty) {
-        Future<List<User>>? listOfTypes = Data.getUserData(accessToken).then(
-            (value) =>
-                jsonDecode(value!.body).map<User>(User.fromJson).toList(),
-            onError: (error) {});
-        ;
-      }
     } catch (e) {
       print(e.toString());
     }

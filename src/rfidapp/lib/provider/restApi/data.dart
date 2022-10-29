@@ -26,6 +26,7 @@ class Data {
         HttpHeaders.authorizationHeader: "Bearer $accessToken",
         "Accept": "application/json"
       });
+
       return response;
     } catch (e) {}
   }

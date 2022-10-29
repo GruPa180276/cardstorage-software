@@ -38,7 +38,7 @@ class User {
       "mail": mail ?? "",
       "mobilePhone": mobilePhone ?? "",
       "officeLocation": officeLocation ?? "",
-      "preferredLanguage": preferredLanguage,
+      "preferredLanguage": preferredLanguage ?? "",
       "surname": surname ?? "",
       "userPrincipalName": userPrincipalName ?? "",
       "id": id ?? "",

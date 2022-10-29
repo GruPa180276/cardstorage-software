@@ -207,12 +207,11 @@ class _LoginScreenState extends State<LoginScreen> {
               //   print(value!.body);
               //   return value;
               // });
-              var asd = await Data.getUserData(accessToken!);
-              var asds = jsonDecode(asd!.body);
+              var userResponse = await Data.getUserData(accessToken!);
 
-              var adasd = User.fromJson(asds);
+              User user = User.fromJson(jsonDecode(userResponse!.body));
 
-              print(jsonDecode(asd!.body));
+              print(user.surname);
             }
           },
           child: Text(

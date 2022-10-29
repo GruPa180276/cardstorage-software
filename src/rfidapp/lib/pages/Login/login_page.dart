@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -202,10 +203,16 @@ class _LoginScreenState extends State<LoginScreen> {
         InkWell(
           onTap: () async {
             if (accessToken!.isNotEmpty) {
-              await Data.getUserData(accessToken!).then((value) {
-                var listOfTypes = value!.body;
-                return value;
-              });
+              // Data.getUserData(accessToken!).then((value) {
+              //   print(value!.body);
+              //   return value;
+              // });
+              var asd = await Data.getUserData(accessToken!);
+              var asds = jsonDecode(asd!.body);
+
+              var adasd = User.fromJson(asds);
+
+              print(jsonDecode(asd!.body));
             }
           },
           child: Text(

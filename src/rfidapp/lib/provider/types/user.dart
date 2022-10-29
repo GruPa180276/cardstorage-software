@@ -8,7 +8,7 @@ class User {
   String? mobilePhone;
   String? officeLocation;
   String? preferredLanguage;
-  String? surname;
+  String surname;
   String? userPrincipalName;
   String? id;
 
@@ -23,7 +23,7 @@ class User {
       this.mobilePhone,
       this.officeLocation,
       this.preferredLanguage,
-      this.surname,
+      required this.surname,
       this.userPrincipalName,
       this.id});
 
@@ -39,7 +39,7 @@ class User {
       "mobilePhone": mobilePhone ?? "",
       "officeLocation": officeLocation ?? "",
       "preferredLanguage": preferredLanguage ?? "",
-      "surname": surname ?? "",
+      "surname": surname,
       "userPrincipalName": userPrincipalName ?? "",
       "id": id ?? "",
     });
@@ -49,7 +49,7 @@ class User {
 
   static User fromJson(json) => User(
         context: json['@odata.context'],
-        businessPhones: json['businessPhones'],
+        //businessPhones: json['businessPhones'],
         displayName: json['displayName'],
         givenName: json['givenName'],
         jobTitle: json['jobTitle'],

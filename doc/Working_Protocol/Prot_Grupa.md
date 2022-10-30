@@ -235,8 +235,11 @@ Wie mit Herrn Haslinger besprochen, habe ich mir die Doku von Microsoft Graph du
 
 
 
-**2022-10-30: 22:00 -> 24:00**
+**2022-10-29: 22:00 -> 24:00**
 Heute habe ich die Json Respone die bei der Api zurueckgegeben wird geparsed. Dazu habe ich einen bereites von mir erstellten Parser verwendeten (Cards). Allerding shat dies dann nicht auf Anhieb funktioniert. Nach langer Zeit und debuggen habe ich mitbekommen, dass ich in meinen Json einen rechtschreibfehler hatte. Danach hatt alles funktioniert
+
+**2022-10-30: 21:00 -> 22:15**
+Es wurden aenderung am User Type (json class) gemacht und die account Seite ueberarbeitet, der den eingeloggten user anzeigt
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -300,5 +303,6 @@ Heute habe ich die Json Respone die bei der Api zurueckgegeben wird geparsed. Da
 - 13:45 bis 15:15 Uhr
 - 10:00 bis 12:00 Uhr
 - 22:00 bis 24:00 Uhr
+- 21:00 bis 22:15 Uhr
 <!-- { "progress": false } -->
 

@@ -26,7 +26,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String? accessToken;
   bool rememberValue = false;
   bool isLoading = false;
   TextEditingController emailController = TextEditingController();
@@ -110,6 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: Colors.white,
                     onPress: () {
                       sigIn();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavigation()),
+                          (Route<dynamic> route) => false);
                     },
                   )),
               const SizedBox(
@@ -201,19 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         const SizedBox(width: 5.0),
         InkWell(
-          onTap: () async {
-            if (accessToken!.isNotEmpty) {
-              // Data.getUserData(accessToken!).then((value) {
-              //   print(value!.body);
-              //   return value;
-              // });
-              var userResponse = await Data.getUserData(accessToken!);
-
-              User user = User.fromJson(jsonDecode(userResponse!.body));
-
-              print(user.surname);
-            }
-          },
+          onTap: () async {},
           child: Text(
             'Passwort ändern',
             style: TextStyle(
@@ -230,11 +221,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void sigIn() async {
     try {
       await oauth.login();
-      String? accessoken = await oauth.getAccessToken();
-      setState(() {
-        accessToken = accessoken;
-      });
-      print(accessToken);
+      String? accessToken = await oauth.getAccessToken();
+
+      var userResponse = await Data.getUserData(accessToken!);
+      User.setUserValues(jsonDecode(userResponse!.body));
     } catch (e) {
       print(e.toString());
     }

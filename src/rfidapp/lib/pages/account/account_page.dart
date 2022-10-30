@@ -5,6 +5,7 @@ import 'package:rfidapp/pages/account/change_password.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
+import 'package:rfidapp/provider/types/user.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -15,13 +16,13 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   TextEditingController emailController = TextEditingController()
-    ..text = 'Get data';
+    ..text = User.mail!;
   TextEditingController firstNameController = TextEditingController()
-    ..text = 'Get data';
+    ..text = User.givenName!;
   TextEditingController lastNameController = TextEditingController()
-    ..text = 'Get data';
-  TextEditingController birthDateController = TextEditingController()
-    ..text = 'Get data';
+    ..text = User.surname!;
+  TextEditingController officeLocationController = TextEditingController()
+    ..text = User.officeLocation!;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class _AccountPageState extends State<AccountPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.all(30),
               child: Column(
                 children: [
                   Center(
@@ -69,7 +70,8 @@ class _AccountPageState extends State<AccountPage> {
                       inputController: firstNameController,
                       label: 'Vorname',
                       obsecureText: false,
-                      validator: Validator.funcName),
+                      validator: Validator.funcName,
+                      editable: false),
                   const SizedBox(
                     height: 20,
                   ),
@@ -78,7 +80,8 @@ class _AccountPageState extends State<AccountPage> {
                       inputController: lastNameController,
                       label: 'Nachname',
                       obsecureText: false,
-                      validator: Validator.funcName),
+                      validator: Validator.funcName,
+                      editable: false),
                   const SizedBox(
                     height: 20,
                   ),
@@ -87,25 +90,21 @@ class _AccountPageState extends State<AccountPage> {
                       inputController: emailController,
                       label: 'E-Mail',
                       obsecureText: false,
-                      validator: Validator.funcEmail),
+                      validator: Validator.funcEmail,
+                      editable: false),
                   const SizedBox(
                     height: 20,
                   ),
-                  const SizedBox(height: 35),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: buttonField(
-                        bgColor: ColorSelect.blueAccent,
-                        borderColor: ColorSelect.blueAccent,
-                        text: 'Passwort aendern',
-                        textColor: Colors.white,
-                        onPress: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const ChangePasswordScreen()));
-                        },
-                      )),
+                  TextInput(
+                      iconData: Icons.email,
+                      inputController: officeLocationController,
+                      label: 'Office location',
+                      obsecureText: false,
+                      validator: Validator.funcEmail,
+                      editable: false),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const SizedBox(height: 20),
                   Row(
                     children: [
@@ -116,29 +115,13 @@ class _AccountPageState extends State<AccountPage> {
                             width: double.infinity,
                             height: 50,
                             child: buttonField(
-                              bgColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              borderColor: Theme.of(context).primaryColor,
-                              text: 'Abbrechen',
-                              textColor: Theme.of(context).primaryColor,
+                              bgColor: ColorSelect.blueAccent,
+                              borderColor: ColorSelect.blueAccent,
+                              text: 'Zurueck',
+                              textColor: Colors.white,
                               onPress: () {
                                 Navigator.pop(context);
                               },
-                            )),
-                      )),
-                      const SizedBox(width: 20),
-                      Expanded(
-                          child: SizedBox(
-                        height: 50,
-                        child: SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: buttonField(
-                              bgColor: ColorSelect.blueAccent,
-                              borderColor: ColorSelect.blueAccent,
-                              text: 'Speichern',
-                              textColor: Colors.white,
-                              onPress: () {},
                             )),
                       ))
                     ],

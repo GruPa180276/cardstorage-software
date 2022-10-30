@@ -54,28 +54,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 }),
               ]),
               TableRow(children: [
-                buildSettingsButton("Log-Out", Icons.logout_rounded, () async {
-                  // Android: Will open mail app or show native picker.
-                  // iOS: Will open mail app if single mail app found.
-                  var result = await OpenMailApp.openMailApp();
-
-                  // If no mail apps found, show error
-                  if (!result.didOpen && !result.canOpen) {
-                    showNoMailAppsDialog(context);
-
-                    // iOS: if multiple mail apps found, show dialog to select.
-                    // There is no native intent/default app system in iOS so
-                    // you have to do it yourself.
-                  } else if (!result.didOpen && result.canOpen) {
-                    showDialog(
-                      context: context,
-                      builder: (_) {
-                        return MailAppPickerDialog(
-                          mailApps: result.options,
-                        );
-                      },
-                    );
-                  }
+                buildSettingsButton("Account", Icons.person, () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AccountPage()));
                 }),
               ]),
               TableRow(children: [

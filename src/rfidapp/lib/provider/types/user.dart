@@ -1,33 +1,18 @@
 class User {
-  String? context;
-  String? businessPhones;
-  String? displayName;
-  String? givenName;
-  String? jobTitle;
-  String? mail;
-  String? mobilePhone;
-  String? officeLocation;
-  String? preferredLanguage;
-  String surname;
-  String? userPrincipalName;
-  String? id;
+  static String? context;
+  static String? businessPhones;
+  static String? displayName;
+  static String? givenName;
+  static String? jobTitle;
+  static String? mail;
+  static String? mobilePhone;
+  static String? officeLocation;
+  static String? preferredLanguage;
+  static String? surname;
+  static String? userPrincipalName;
+  static String? id;
 
-  @override
-  User(
-      {this.context,
-      this.businessPhones,
-      this.displayName,
-      this.givenName,
-      this.jobTitle,
-      this.mail,
-      this.mobilePhone,
-      this.officeLocation,
-      this.preferredLanguage,
-      required this.surname,
-      this.userPrincipalName,
-      this.id});
-
-  Map<String, dynamic> toJson() {
+  static Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonTest = <String, dynamic>{};
     jsonTest.addAll({
       "context": context ?? "",
@@ -47,18 +32,18 @@ class User {
     return jsonTest;
   }
 
-  static User fromJson(json) => User(
-        context: json['@odata.context'],
-        //businessPhones: json['businessPhones'],
-        displayName: json['displayName'],
-        givenName: json['givenName'],
-        jobTitle: json['jobTitle'],
-        mail: json['mail'],
-        mobilePhone: json['mobilePhone'],
-        officeLocation: json['officeLocation'],
-        preferredLanguage: json['preferredLanguage'],
-        surname: json['surname'],
-        userPrincipalName: json['userPrincipalName'],
-        id: json['id'],
-      );
+  static void setUserValues(dynamic json) {
+    context = json['@odata.context'];
+    //businessPhones: json['businessPhone;'],
+    displayName = json['displayName'];
+    givenName = json['givenName'];
+    jobTitle = json['jobTitle'];
+    mail = json['mail'];
+    mobilePhone = json['mobilePhone'];
+    officeLocation = json['officeLocation'];
+    preferredLanguage = json['preferredLanguage'];
+    surname = json['surname'];
+    userPrincipalName = json['userPrincipalName'];
+    id = json['id'];
+  }
 }

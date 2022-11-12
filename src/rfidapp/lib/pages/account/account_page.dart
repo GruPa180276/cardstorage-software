@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
+import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/account/change_password.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
@@ -15,14 +16,20 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  TextEditingController emailController = TextEditingController()
-    ..text = User.mail!;
-  TextEditingController firstNameController = TextEditingController()
-    ..text = User.givenName!;
-  TextEditingController lastNameController = TextEditingController()
-    ..text = User.surname!;
-  TextEditingController officeLocationController = TextEditingController()
-    ..text = User.officeLocation!;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController officeLocationController = TextEditingController();
+
+  @override
+  void initState() {
+    UserSecureStorage.getUserValues().then((value) => {
+          emailController.text = value["Email"]!,
+          firstNameController.text = value["Firstname"]!,
+          lastNameController.text = value["Lastname"]!,
+          officeLocationController.text = value["OfficeLocation"]!
+        });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
+
 class User {
   static String? context;
   static String? businessPhones;
@@ -45,5 +47,10 @@ class User {
     surname = json['surname'];
     userPrincipalName = json['userPrincipalName'];
     id = json['id'];
+
+    print(surname);
+
+    UserSecureStorage.setUserValues(
+        surname!, givenName!, mail!, officeLocation!);
   }
 }

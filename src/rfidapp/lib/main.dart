@@ -10,9 +10,10 @@ import 'package:rfidapp/pages/login/login_page.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
-  //await UserSecureStorage.setRememberState('true');
-  final rememberState = await UserSecureStorage.getRememberState() ?? 'false';
-
+  late String? rememberState;
+  await UserSecureStorage.getRememberState()
+      .then((value) => rememberState = value ?? 'false');
+  print(rememberState);
   // await SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
@@ -23,9 +24,9 @@ Future main() async {
   ));
 }
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
 class MyApp extends StatelessWidget {
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
   static const String title = 'Light & Dark Theme';
   // ignore: prefer_typing_uninitialized_variables
   final rememberState;

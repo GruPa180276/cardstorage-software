@@ -1,21 +1,16 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/login/password_forget_page.dart';
-import 'package:rfidapp/pages/login/register_page.dart';
+
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 
-import 'package:aad_oauth/aad_oauth.dart';
-import 'package:aad_oauth/model/config.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
@@ -36,11 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
   // ignore: must_cal_super
   void initState() {
     init();
-    AadAuthentication.getEnv();
   }
 
   Future init() async {
     final rememberState = await UserSecureStorage.getRememberState() ?? '';
+
     if (rememberState == "true") {
       final email = await UserSecureStorage.getUsername() ?? '';
       final password = await UserSecureStorage.getPassword() ?? '';
@@ -51,6 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
           rememberValue = true;
         }
       });
+    } else {
+      AadAuthentication.oauth.logout();
     }
   }
 
@@ -212,14 +209,12 @@ class _LoginScreenState extends State<LoginScreen> {
         var userResponse = await Data.getUserData(accessToken);
         User.setUserValues(jsonDecode(userResponse!.body));
         UserSecureStorage.setRememberState(rememberValue.toString());
-        print("Heree");
 
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const BottomNavigation()),
             (Route<dynamic> route) => false);
       } else {
         UserSecureStorage.setRememberState("false");
-        print("Hereeee");
 
         setState(() {
           rememberValue = false;

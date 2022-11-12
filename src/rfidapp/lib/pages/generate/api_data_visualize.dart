@@ -1,13 +1,17 @@
 // ignore_for_file: deprecated_member_use
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
+import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/user.dart';
+
+import 'Widget/button_create.dart';
 
 class ApiVisualizer extends StatefulWidget {
   String site;
@@ -29,25 +33,9 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   @override
   void initState() {
-    sigIn();
     super.initState();
     reloadCardList();
     reloadPinnedList();
-  }
-
-  void sigIn() async {
-    try {
-      await AadAuthentication.oauth.login();
-
-      String? accessToken = await AadAuthentication.oauth.getAccessToken();
-
-      if (accessToken != null) {
-        var userResponse = await Data.getUserData(accessToken);
-        User.setUserValues(jsonDecode(userResponse!.body));
-      }
-    } catch (e) {
-      print(e.toString());
-    }
   }
 
   void reloadPinnedList() {

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
+import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/login/password_forget_page.dart';
@@ -17,7 +18,6 @@ import 'package:aad_oauth/model/config.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/user.dart';
-import 'package:rfidapp/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -31,27 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  late AadOAuth oauth;
 
   @override
   // ignore: must_cal_super
   void initState() {
     init();
-    getEnv();
+    AadAuthentication.getEnv();
   }
-
-  void getEnv() async {
-    await dotenv.load(fileName: "assets/.env");
-    oauth = AadOAuth(config);
-  }
-
-  static final Config config = Config(
-    tenant: dotenv.env['tenant']!,
-    clientId: dotenv.env['clientId']!,
-    scope: 'User.Read',
-    redirectUri: 'cardstorage://auth',
-    navigatorKey: navigatorKey,
-  );
 
   Future init() async {
     final rememberState = await UserSecureStorage.getRememberState() ?? '';
@@ -109,10 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: Colors.white,
                     onPress: () {
                       sigIn();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const BottomNavigation()),
-                          (Route<dynamic> route) => false);
                     },
                   )),
               const SizedBox(
@@ -127,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: 'Erstelle einen Account',
                   textColor: Theme.of(context).primaryColor,
                   onPress: () {
-                    oauth.logout();
+                    AadAuthentication.oauth.logout();
                   },
                 ),
               ),
@@ -220,11 +202,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void sigIn() async {
     try {
-      await oauth.login();
-      String? accessToken = await oauth.getAccessToken();
+      UserSecureStorage.setRememberState(rememberValue.toString());
 
-      var userResponse = await Data.getUserData(accessToken!);
-      User.setUserValues(jsonDecode(userResponse!.body));
+      await AadAuthentication.oauth.login();
+
+      String? accessToken = await AadAuthentication.oauth.getAccessToken();
+
+      if (accessToken != null) {
+        var userResponse = await Data.getUserData(accessToken);
+        User.setUserValues(jsonDecode(userResponse!.body));
+        UserSecureStorage.setRememberState(rememberValue.toString());
+        print("Heree");
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const BottomNavigation()),
+            (Route<dynamic> route) => false);
+      } else {
+        UserSecureStorage.setRememberState("false");
+        print("Hereeee");
+
+        setState(() {
+          rememberValue = false;
+        });
+      }
     } catch (e) {
       print(e.toString());
     }

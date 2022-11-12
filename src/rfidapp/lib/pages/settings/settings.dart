@@ -1,7 +1,9 @@
+import 'package:aad_oauth/aad_oauth.dart';
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
+import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
@@ -155,7 +157,7 @@ class _SettingsPageState extends State<SettingsPage> {
         });
   }
 
-  Future<void> buildPop() {
+  Future<void> buildPop() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -185,7 +187,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   TextButton(
                     child: const Text('Abmelden'),
-                    onPressed: () {
+                    onPressed: () async {
+                      AadAuthentication.oauth.logout();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const LoginScreen()));
                     },

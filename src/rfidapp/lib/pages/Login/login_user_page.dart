@@ -2,10 +2,12 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
+import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
@@ -14,13 +16,13 @@ import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
-class LoginAdminScreen extends StatefulWidget {
-  const LoginAdminScreen({Key? key}) : super(key: key);
+class LoginUserScreen extends StatefulWidget {
+  const LoginUserScreen({Key? key}) : super(key: key);
   @override
-  State<LoginAdminScreen> createState() => _LoginAdminScreenState();
+  State<LoginUserScreen> createState() => _LoginUserScreenState();
 }
 
-class _LoginAdminScreenState extends State<LoginAdminScreen> {
+class _LoginUserScreenState extends State<LoginUserScreen> {
   bool rememberValue = false;
   bool isLoading = false;
   TextEditingController emailController = TextEditingController();
@@ -64,56 +66,27 @@ class _LoginAdminScreenState extends State<LoginAdminScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               buildGreeting(this.context),
-              const SizedBox(height: 20),
-              TextInput(
-                  inputController: emailController,
-                  label: 'E-Mail',
-                  iconData: Icons.email,
-                  validator: Validator.funcEmail,
-                  obsecureText: false),
-              const SizedBox(height: 20),
-              TextInput(
-                  inputController: passwordController,
-                  label: 'Password',
-                  iconData: Icons.lock,
-                  validator: Validator.funcPassword,
-                  obsecureText: true),
-              buildRememberMe(this.context),
-              const SizedBox(
-                height: 20,
-              ),
+              Spacer(),
               SizedBox(
                   width: double.infinity,
                   height: 60,
                   child: buttonField(
                     bgColor: ColorSelect.blueAccent,
                     borderColor: ColorSelect.blueAccent,
-                    text: 'SIGN IN',
+                    text: 'SIGN IN via Micrsoft',
                     textColor: Colors.white,
                     onPress: () {
                       sigIn();
                     },
                   )),
+              buildRememberMe(this.context),
               const SizedBox(
-                height: 15,
+                height: 50,
               ),
-              SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: buttonField(
-                  bgColor: Theme.of(context).scaffoldBackgroundColor,
-                  borderColor: Theme.of(context).primaryColor,
-                  text: 'Erstelle einen Account',
-                  textColor: Theme.of(context).primaryColor,
-                  onPress: () {
-                    AadAuthentication.oauth.logout();
-                  },
-                ),
-              ),
+              buildProblemsText(context),
               const SizedBox(
-                height: 15,
+                height: 30,
               ),
-              buildChangePassword(context)
             ],
           ),
         ),
@@ -128,23 +101,23 @@ class _LoginAdminScreenState extends State<LoginAdminScreen> {
           padding: const EdgeInsets.fromLTRB(0.0, 110.0, 0.0, 0.0),
           child: const Text('Guten',
               style: TextStyle(
-                  fontSize: 80.0,
+                  fontSize: 100.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: const EdgeInsets.fromLTRB(0.0, 175.0, 0.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(0.0, 200.0, 0.0, 0.0),
           child: const Text('Tag',
               style: TextStyle(
-                  fontSize: 80.0,
+                  fontSize: 100.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: const EdgeInsets.fromLTRB(130.0, 175.0, 0.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(160.0, 200.0, 0.0, 0.0),
           child: Text('.',
               style: TextStyle(
-                  fontSize: 80.0,
+                  fontSize: 100.0,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato",
                   color: Theme.of(context).secondaryHeaderColor)),
@@ -173,19 +146,22 @@ class _LoginAdminScreenState extends State<LoginAdminScreen> {
     );
   }
 
-  Widget buildChangePassword(BuildContext context) {
+  Widget buildProblemsText(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         const Text(
-          'Password vergessen?',
+          'Probleme?',
           style: TextStyle(fontFamily: 'Lato'),
         ),
         const SizedBox(width: 5.0),
         InkWell(
-          onTap: () async {},
+          onTap: () async {
+            EmailPopUp.show(
+                this.context, "grubauer.patrick@gmail.com", "Test", "Test");
+          },
           child: Text(
-            'Passwort ändern',
+            'Stelle Sie eine Frage.',
             style: TextStyle(
                 color: Theme.of(context).secondaryHeaderColor,
                 fontFamily: 'Lato',

@@ -4,6 +4,7 @@ import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
+import 'package:rfidapp/pages/Login/login_user_page.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
@@ -93,25 +94,6 @@ class _SettingsPageState extends State<SettingsPage> {
         ));
   }
 
-  void showNoMailAppsDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Open Mail App"),
-            content: Text("No mail apps installed"),
-            actions: <Widget>[
-              ElevatedButton(
-                child: Text("OK"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          );
-        });
-  }
-
   Widget buildSettingsButton(String text, IconData icon, Function function) {
     return ButtonTheme(
       padding: const EdgeInsets.symmetric(
@@ -190,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: () async {
                       AadAuthentication.oauth.logout();
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LoginScreen()));
+                          builder: (context) => const LoginUserScreen()));
                     },
                   ),
                 ])

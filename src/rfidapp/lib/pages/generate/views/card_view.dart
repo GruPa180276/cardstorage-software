@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
@@ -98,35 +99,12 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
               MediaQuery.of(context).size.width - 171, 55, 0, 0),
           child: IconButton(
               onPressed: () async {
-                // Android: Will open mail app or show native picker.
-                // iOS: Will open mail app if single mail app found.
-
-                var result = await OpenMailApp.composeNewEmailInMailApp(
-                  emailContent: EmailContent(
-                      cc: List.filled(1, "grubauer.patrick@gmail.com"),
-                      body: "asd",
-                      bcc: List.filled(1, "grubauer.patrick@gmail.com"),
-                      to: List.filled(1, "grubauer.patrick@gmail.com"),
-                      subject: "asdads"),
-                );
-
-                // If no mail apps found, show error
-                if (!result.didOpen && !result.canOpen) {
-                  showNoMailAppsDialog(context);
-
-                  // iOS: if multiple mail apps found, show dialog to select.
-                  // There is no native intent/default app system in iOS so
-                  // you have to do it yourself.
-                } else if (!result.didOpen && result.canOpen) {
-                  showDialog(
-                    context: context,
-                    builder: (_) {
-                      return MailAppPickerDialog(
-                        mailApps: result.options,
-                      );
-                    },
-                  );
-                }
+                EmailPopUp.show(
+                    //send to mail
+                    context,
+                    "grubauer.patrick@gmail.com",
+                    "Test",
+                    "Test");
               },
               icon: Icon(Icons.email)));
     }
@@ -211,25 +189,6 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
       emailButton
     ],
   );
-}
-
-void showNoMailAppsDialog(BuildContext context) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Open Mail App"),
-          content: Text("No mail apps installed"),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      });
 }
 
 Widget buildBottomButton(BuildContext context, String site, Cards card) {

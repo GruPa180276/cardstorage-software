@@ -14,13 +14,13 @@ import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginAdminScreen extends StatefulWidget {
+  const LoginAdminScreen({Key? key}) : super(key: key);
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginAdminScreen> createState() => _LoginAdminScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginAdminScreenState extends State<LoginAdminScreen> {
   bool rememberValue = false;
   bool isLoading = false;
   TextEditingController emailController = TextEditingController();

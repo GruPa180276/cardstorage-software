@@ -244,6 +244,10 @@ Es wurden aenderung am User Type (json class) gemacht und die account Seite uebe
 
 **2022-11-12: 10:00 -> 14:25**
 Heute habe ich die rememberme funktion fuer den neuen Login mittel Micrsoft implementiert. Allerdings konnte ich im initState mich nicht automatisch anmelden, deshalb suchte ich im internet nach einer loesung. Nach langer probiererei schaffte ich es alerdings nicht und loeste das problem mit einem Workarround. Nun funktioniert alles bis auf die Firebase api notification
+
+
+**2022-11-12: 10:00 -> 12:00**
+Es wurde eine Login seite für den Admin und User erstellt. Der User Login wurde überarbeitet. Weiters wurde für das Email Pop up eine generische Klasse geschrieben
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -308,5 +312,7 @@ Heute habe ich die rememberme funktion fuer den neuen Login mittel Micrsoft impl
 - 22:00 bis 24:00 Uhr
 - 21:00 bis 22:15 Uhr
 - 10:00 bis 14:25 Uhr
+- 10:00 bis 12:00 Uhr
+ 
 <!-- { "progress": false } -->
 

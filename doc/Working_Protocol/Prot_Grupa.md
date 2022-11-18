@@ -248,6 +248,9 @@ Heute habe ich die rememberme funktion fuer den neuen Login mittel Micrsoft impl
 
 **2022-11-12: 10:00 -> 12:00**
 Es wurde eine Login seite für den Admin und User erstellt. Der User Login wurde überarbeitet. Weiters wurde für das Email Pop up eine generische Klasse geschrieben
+
+**2022-11-18: 15:00 -> 16:00**
+Es wurde für den Rfid Scanner die Halterung getestet.
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -313,6 +316,6 @@ Es wurde eine Login seite für den Admin und User erstellt. Der User Login wurde
 - 21:00 bis 22:15 Uhr
 - 10:00 bis 14:25 Uhr
 - 10:00 bis 12:00 Uhr
- 
+- 15:00 bis 16:00 Uhr
 <!-- { "progress": false } -->
 

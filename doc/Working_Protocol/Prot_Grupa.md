@@ -251,6 +251,10 @@ Es wurde eine Login seite für den Admin und User erstellt. Der User Login wurde
 
 **2022-11-18: 15:00 -> 16:00**
 Es wurde für den Rfid Scanner die Halterung getestet.
+
+**2022-11-19: 09:00 -> 13:00**
+Es wurde fuer das Display die App erstellt und angepasst. Es wurde ebenfalls versucht eine APp auf Windows und nich tueber den Browser zu debuggen, allerdings ohne erfolg. Bei der Card visualiserung im browser kan ich aus irgendwelchen gruend nicht auf den localhost zugreifen. Es wrude dazu eine Frage auf Stackoverlow gestellt. Danach half ich Herrn Zoechmann bei seiner App.
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -317,5 +321,6 @@ Es wurde für den Rfid Scanner die Halterung getestet.
 - 10:00 bis 14:25 Uhr
 - 10:00 bis 12:00 Uhr
 - 15:00 bis 16:00 Uhr
+- 09:00 bis 13:00 Uhr
 <!-- { "progress": false } -->
 

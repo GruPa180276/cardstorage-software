@@ -202,7 +202,7 @@ Habe versucht, eine Lösung zu finden, um eine Benachrichtigung zu senden, wenn 
 **19.11.2022: 9:00 -> 11:30** <br>
 Habe begonnen die App auf die API umzustellen und einige kleinigkeiten behoben. (2h 30min)
 
-**17.10.2022: 12:30 -> 16:30** <br>
+**19.11.2022: 12:30 -> 16:30** <br>
 Habe das SpeedDial Child entfert und bin auf einen BottomSheet umgesteiegen, damit die Werte dynamisch befüllt werden können. (4h)
 
 ## Arbeitszeit

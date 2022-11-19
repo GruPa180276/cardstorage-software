@@ -21,6 +21,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
   Future<List<Cards>>? listOfTypes;
   Future<List<Cards>>? listOfTypesSinceInit;
+  List<Cards>? asd;
   Set<String>? pinnedCards;
   late bool isDark;
 
@@ -47,9 +48,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
       pinnedCards = AppPreferences.getCardsPinned();
 
       listOfTypes = Data.getCardsData("card").then(
-          (value) =>
-              jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
-          onError: (error) {});
+        (value) => jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
+      );
       listOfTypesSinceInit = listOfTypes;
     });
   }
@@ -72,7 +72,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 controller: searchController,
                 decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.search),
-                    hintText: 'Search Card',
+                    hintText: 'Suche Karte mittels ID',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide:

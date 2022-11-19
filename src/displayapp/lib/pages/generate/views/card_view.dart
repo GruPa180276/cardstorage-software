@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/pages/generate/pop_up/get_card_pop_up.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
@@ -21,7 +22,7 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
                         vertical: MediaQuery.of(context).size.height / 2 - 200,
                         horizontal: 0),
                     child: Text(
-                      'Sie haben keine Favoriten ;)',
+                      'Sie haben keine Favoriten)',
                       style: TextStyle(
                           color: Theme.of(context).dividerColor, fontSize: 20),
                     ),
@@ -124,7 +125,11 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
         children: [
           Expanded(
             //get card
-            child: CardButton(text: 'Jetzt holen', onPress: () {}),
+            child: CardButton(
+                text: 'Jetzt holen',
+                onPress: () {
+                  PopUp.buildGetCardPopUp(context, card);
+                }),
           ),
           SizedBox(
             width: 1,

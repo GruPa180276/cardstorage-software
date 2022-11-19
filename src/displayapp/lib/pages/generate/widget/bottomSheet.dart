@@ -4,10 +4,10 @@ import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 class BottomSheetPop {
-  dynamic valueStorage = '';
-  dynamic valueAvailable = '';
-  List<dynamic> listOfStorageId = ['', 1117, 1118];
-  List<dynamic> listofAvailable = ['', true, false];
+  dynamic valueStorage = '-';
+  dynamic valueAvailable = '-';
+  List<dynamic> listOfStorageId = ['-', 1117, 1118];
+  List<dynamic> listofAvailable = ['-', true, false];
   final Function(Future<List<Cards>>) onPressStorage;
   Future<List<Cards>> listOfTypes;
   Future<List<Cards>>? newListOfCards;
@@ -46,22 +46,26 @@ class BottomSheetPop {
                         'Storage',
                         style: TextStyle(fontSize: 17),
                       )),
-                      DropdownButton(
-                        value: valueStorage,
-                        items: listOfStorageId.map((valueItem) {
-                          return DropdownMenuItem(
-                              value: valueItem,
-                              child: Text(valueItem.toString()));
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            if (newValue != '') {
-                              valueStorage = newValue as int;
-                            } else {
-                              valueStorage = newValue as dynamic;
-                            }
-                          });
-                        },
+                      SizedBox(
+                        width: 60,
+                        child: DropdownButton(
+                          isExpanded: true,
+                          value: valueStorage,
+                          items: listOfStorageId.map((valueItem) {
+                            return DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(valueItem.toString()));
+                          }).toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              if (newValue != '-') {
+                                valueStorage = newValue as int;
+                              } else {
+                                valueStorage = newValue as dynamic;
+                              }
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -81,7 +85,7 @@ class BottomSheetPop {
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
-                            if (newValue != '') {
+                            if (newValue != '-') {
                               valueAvailable = newValue as bool;
                             } else {
                               valueAvailable = newValue as dynamic;
@@ -105,15 +109,19 @@ class BottomSheetPop {
                           listOfTypes.then((value) => print(value.length));
                           //Improve logic readability
                           newListOfCards = listOfTypes.then((value) {
-                            if (valueAvailable.toString().isEmpty &&
-                                valueStorage.toString().isEmpty) {
+                            if (valueAvailable.toString().startsWith("-") &&
+                                valueStorage.toString().startsWith("-")) {
                               return value;
-                            } else if (valueAvailable.toString().isEmpty) {
+                            } else if (valueAvailable
+                                .toString()
+                                .startsWith("-")) {
                               return value
                                   .where((element) =>
                                       element.storageId == valueStorage)
                                   .toList();
-                            } else if (valueStorage.toString().isEmpty) {
+                            } else if (valueStorage
+                                .toString()
+                                .startsWith("-")) {
                               return value
                                   .where((element) =>
                                       element.isAvailable == valueAvailable)

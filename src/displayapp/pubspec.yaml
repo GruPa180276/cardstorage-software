@@ -49,6 +49,8 @@ dependencies:
   open_mail_app: ^0.4.5
   aad_oauth: ^0.4.0
   flutter_dotenv: ^5.0.2
+  circular_countdown_timer: ^0.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

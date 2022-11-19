@@ -199,6 +199,12 @@ Habe begonnen, Notfications mit Firebase einzurichten, damit wir auch Benachrich
 **17.10.2022: 12:30 -> 13:30** <br>
 Habe versucht, eine Lösung zu finden, um eine Benachrichtigung zu senden, wenn sich der Flag in der API verändert. Habe aber dazu noch keine Lösung gefunden. (1h)
 
+**19.11.2022: 9:00 -> 11:30** <br>
+Habe begonnen die App auf die API umzustellen und einige kleinigkeiten behoben. (2h 30min)
+
+**17.10.2022: 12:30 -> 16:30** <br>
+Habe das SpeedDial Child entfert und bin auf einen BottomSheet umgesteiegen, damit die Werte dynamisch befüllt werden können. (4h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -254,4 +260,6 @@ Habe versucht, eine Lösung zu finden, um eine Benachrichtigung zu senden, wenn 
 - 13:45 bis 15:15 Uhr
 - 8:20 bis 11:20 Uhr
 - 12:30 bis 13:30 Uhr
+- 9:00 bis 11:30 Uhr
+- 12:30 bis 16:30 Uhr
 <!-- { "progress": false } -->

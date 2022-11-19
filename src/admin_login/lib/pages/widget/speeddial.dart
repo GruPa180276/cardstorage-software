@@ -1,16 +1,35 @@
+import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 import 'package:flutter/material.dart';
+
+import 'package:admin_login/pages/widget/data.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-// ignore: must_be_immutable
-class GenerateSpeedDial extends StatelessWidget {
-  late Function callBack;
+class SelectStorage extends StatefulWidget {
+  final Function callBack;
 
-  GenerateSpeedDial(Function state) {
-    callBack = state;
+  SelectStorage({Key? key, required this.callBack}) : super(key: key);
+
+  @override
+  State<SelectStorage> createState() => _SelectStorageState();
+}
+
+class _SelectStorageState extends State<SelectStorage> {
+  late Future<List<Data>> futureData;
+  List<SpeedDialChild> dial = [
+    SpeedDialChild(
+      label: 'Test',
+    )
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
+    values(context);
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 28.0),
@@ -18,35 +37,40 @@ class GenerateSpeedDial extends StatelessWidget {
       foregroundColor: Theme.of(context).focusColor,
       visible: true,
       curve: Curves.bounceInOut,
-      children: [
-        SpeedDialChild(
-          child: Icon(Icons.storage, color: Theme.of(context).focusColor),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          onTap: () => callBack("1"),
-          label: '1',
-          labelStyle: TextStyle(
-              fontWeight: FontWeight.w500, color: Theme.of(context).focusColor),
-          labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.storage, color: Theme.of(context).focusColor),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          onTap: () => callBack("2"),
-          label: '2',
-          labelStyle: TextStyle(
-              fontWeight: FontWeight.w500, color: Theme.of(context).focusColor),
-          labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.storage, color: Theme.of(context).focusColor),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          onTap: () => callBack("3"),
-          label: '3',
-          labelStyle: TextStyle(
-              fontWeight: FontWeight.w500, color: Theme.of(context).focusColor),
-          labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
-      ],
+      children: dial,
+    );
+  }
+
+  Widget values(BuildContext context) {
+    return FutureBuilder<List<Data>>(
+      future: futureData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Data>? data = snapshot.data;
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                dial.add(SpeedDialChild(
+                  child:
+                      Icon(Icons.storage, color: Theme.of(context).focusColor),
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                  onTap: () => widget.callBack(data![index].id.toString()),
+                  label: data![index].id.toString(),
+                  labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).focusColor),
+                  labelBackgroundColor: Theme.of(context).secondaryHeaderColor,
+                ));
+                return SizedBox.shrink();
+              });
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Container(
+            child: Column(
+          children: [generateProgressIndicator(context)],
+        ));
+      },
     );
   }
 }

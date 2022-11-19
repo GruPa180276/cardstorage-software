@@ -4,7 +4,6 @@ import 'package:admin_login/pages/widget/data.dart';
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
-import 'package:admin_login/pages/widget/speeddial.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: Changed the API Calls to the actual API
@@ -17,19 +16,12 @@ class CardsView extends StatefulWidget {
 }
 
 class _CardsViewState extends State<CardsView> {
-  String selectedStorage = "1";
-  List<String> dropDownValues = ['1', '2', '3'];
-
-  callBack(String storage) {
-    setState(() {
-      selectedStorage = storage;
-    });
-  }
+  String selectedStorage = "78";
+  List<String> dropDownValues = ["78", "79"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: GenerateSpeedDial(this.callBack),
         appBar: generateAppBar(context),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -47,12 +39,52 @@ class _CardsViewState extends State<CardsView> {
                 ],
               ),
             ),
+            Builder(
+              builder: (context) {
+                return Center(
+                  child: ElevatedButton(
+                    child: Text('Show Modal Bottom Sheet'),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            child: Column(children: [
+                              DropdownButton(
+                                value: selectedStorage,
+                                icon: const Icon(Icons.keyboard_arrow_down),
+                                items: dropDownValues.map((String items) {
+                                  return DropdownMenuItem(
+                                    value: items,
+                                    child: Text(items),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedStorage = newValue!;
+                                  });
+                                },
+                              ),
+                            ]),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
             Expanded(
                 child: Container(
               padding: EdgeInsets.only(top: 10),
               child: Column(
                   children: <Widget>[ListCards(cardStorage: selectedStorage)]),
-            ))
+            )),
           ]),
         ));
   }

@@ -61,7 +61,7 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
               ])),
           onTap: () {
             Navigator.of(context)
-                .pushNamed(widget.route, arguments: widget.argument);
+                .pushNamed(widget.route, arguments: widget.index);
           },
         ));
   }

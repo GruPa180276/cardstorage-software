@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/data.dart';
 import 'package:admin_login/pages/Widget/appbar.dart';
-import 'package:admin_login/pages/widget/speeddial.dart';
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
@@ -32,7 +31,7 @@ class _StatsViewState extends State<StatsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: GenerateSpeedDial(this.callBack),
+      //floatingActionButton: GenerateSpeedDial(this.callBack),
       appBar: generateAppBar(context),
       body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),

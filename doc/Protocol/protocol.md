@@ -205,6 +205,12 @@ Habe begonnen die App auf die API umzustellen und einige kleinigkeiten behoben. 
 **19.11.2022: 12:30 -> 16:30** <br>
 Habe das SpeedDial Child entfert und bin auf einen BottomSheet umgesteiegen, damit die Werte dynamisch befüllt werden können. (4h)
 
+**20.11.2022: 9:30 -> 11:30** <br>
+Habe heute den Filter fertiggestellt, es betsht aber noch ein Bug bei der Anzeige. Weiters habe ich Methoden zum Post, Put und Delete hinzugefügt. (2h)
+
+**20.11.2022: 13:00 -> 15:00** <br>
+Habe den Bug beseitigt, das bei zu hoher Skalierung ein Overflow eintritt. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -262,4 +268,6 @@ Habe das SpeedDial Child entfert und bin auf einen BottomSheet umgesteiegen, dam
 - 12:30 bis 13:30 Uhr
 - 9:00 bis 11:30 Uhr
 - 12:30 bis 16:30 Uhr
+- 9:30 bis 11:30 Uhr
+- 13:00 bis 15:00 Uhr
 <!-- { "progress": false } -->

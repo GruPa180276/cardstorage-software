@@ -16,8 +16,10 @@ class CardsView extends StatefulWidget {
 }
 
 class _CardsViewState extends State<CardsView> {
-  String selectedStorage = "78";
-  List<String> dropDownValues = ["78", "79"];
+  String selectedStorage = "-";
+  dynamic available = "-";
+  List<dynamic> dropDownValues = ["-", "78", "79"];
+  List<dynamic> availableValues = ["-", true, false];
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +43,10 @@ class _CardsViewState extends State<CardsView> {
             ),
             Builder(
               builder: (context) {
-                return Center(
+                return Align(
+                  alignment: Alignment.topRight,
                   child: ElevatedButton(
-                    child: Text('Show Modal Bottom Sheet'),
+                    child: Text('Filter'),
                     onPressed: () {
                       showModalBottomSheet(
                         shape: const RoundedRectangleBorder(
@@ -54,21 +57,65 @@ class _CardsViewState extends State<CardsView> {
                         context: context,
                         builder: (context) {
                           return Container(
+                            height: 300,
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(10),
                             child: Column(children: [
-                              DropdownButton(
-                                value: selectedStorage,
-                                icon: const Icon(Icons.keyboard_arrow_down),
-                                items: dropDownValues.map((String items) {
-                                  return DropdownMenuItem(
-                                    value: items,
-                                    child: Text(items),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedStorage = newValue!;
-                                  });
-                                },
+                              const Text(
+                                'Filter',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              Row(
+                                children: [
+                                  const Expanded(
+                                      child: Text(
+                                    'Storage',
+                                    style: TextStyle(fontSize: 17),
+                                  )),
+                                  DropdownButton(
+                                    value: selectedStorage,
+                                    items: dropDownValues.map((valueItem) {
+                                      return DropdownMenuItem(
+                                          value: valueItem,
+                                          child: Text(valueItem.toString()));
+                                    }).toList(),
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        if (newValue != '') {
+                                          selectedStorage = newValue as String;
+                                        } else {
+                                          selectedStorage = newValue as dynamic;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Expanded(
+                                      child: Text(
+                                    'Verfuegabar',
+                                    style: TextStyle(fontSize: 17),
+                                  )),
+                                  DropdownButton(
+                                    value: available,
+                                    items: availableValues.map((valueItem) {
+                                      return DropdownMenuItem(
+                                          value: valueItem,
+                                          child: Text(valueItem.toString()));
+                                    }).toList(),
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        if (newValue != '') {
+                                          available = newValue as bool;
+                                        } else {
+                                          available = newValue as dynamic;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ],
                               ),
                             ]),
                           );
@@ -82,17 +129,24 @@ class _CardsViewState extends State<CardsView> {
             Expanded(
                 child: Container(
               padding: EdgeInsets.only(top: 10),
-              child: Column(
-                  children: <Widget>[ListCards(cardStorage: selectedStorage)]),
+              child: Column(children: <Widget>[
+                ListCards(
+                  cardStorage: selectedStorage,
+                  available: available,
+                )
+              ]),
             )),
           ]),
         ));
   }
 }
 
+// ignore: must_be_immutable
 class ListCards extends StatefulWidget {
   final String cardStorage;
-  ListCards({Key? key, required this.cardStorage}) : super(key: key);
+  dynamic available;
+  ListCards({Key? key, required this.cardStorage, required this.available})
+      : super(key: key);
 
   @override
   State<ListCards> createState() => _ListCardsState();
@@ -118,6 +172,7 @@ class _ListCardsState extends State<ListCards> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
+                // ToDo: Add bool check
                 if (widget.cardStorage == data![index].userId.toString()) {
                   return GenerateCardWithInkWell.withArguments(
                     index: index,

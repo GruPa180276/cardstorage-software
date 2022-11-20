@@ -83,7 +83,10 @@ Table createCardTable(
             TableCell(
                 child: Text(
               isAvailable.toString(),
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(
+                fontSize: 20,
+                color: color,
+              ),
             ))
           ],
         )

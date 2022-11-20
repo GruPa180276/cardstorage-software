@@ -10,10 +10,9 @@ import 'package:admin_login/pages/storage/add_storage.dart';
 import 'package:admin_login/pages/storage/alter_storage.dart';
 import 'package:admin_login/pages/storage/remove_storage.dart';
 
-import 'package:admin_login/pages/stats/tab1_stats.dart';
+import 'package:admin_login/pages/stats/temp_stats.dart';
 
 import 'package:admin_login/pages/appbar/settings.dart';
-import 'package:admin_login/pages/appbar/account_info.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -50,10 +49,6 @@ class RouteGenerator {
       //Settings
       case '/settings':
         return MaterialPageRoute(builder: ((context) => Settings()));
-
-      //Account Info
-      case '/account':
-        return MaterialPageRoute(builder: ((context) => AccountInfo()));
 
       //Home
       case '/home':

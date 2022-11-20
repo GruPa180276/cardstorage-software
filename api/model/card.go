@@ -162,3 +162,4 @@ func (self *Card) Insert() error {
 	_, err := self.Exec("INSERT INTO Cards (fk_storageid, position, cardname) VALUES (?,?,?)", self.StorageId, self.Position, self.Name)
 	return err
 }
+

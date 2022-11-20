@@ -11,70 +11,83 @@ Table createCardTable(
   if (isAvailable == false) {
     color = Colors.red;
   }
-  return Table(
-    columnWidths: const <int, TableColumnWidth>{
-      0: FixedColumnWidth(140),
-      1: FixedColumnWidth(100),
-    },
-    children: [
-      TableRow(
-        children: [
-          const TableCell(
-              child: Text(
-            "ID:",
-            style: TextStyle(fontSize: 20),
-          )),
-          TableCell(
-              child: Text(
-            id.toString(),
-            style: TextStyle(fontSize: 20),
-          ))
-        ],
-      ),
-      TableRow(
-        children: [
-          const TableCell(
-              child: Text(
-            "Name:",
-            style: TextStyle(fontSize: 20),
-          )),
-          TableCell(
-              child: Text(
-            name,
-            maxLines: 1,
-            style: TextStyle(fontSize: 20),
-          ))
-        ],
-      ),
-      TableRow(
-        children: [
-          const TableCell(
-              child: Text(
-            "StorageId:",
-            style: TextStyle(fontSize: 20),
-          )),
-          TableCell(
-              child: Text(
-            storageID.toString(),
-            style: TextStyle(fontSize: 20),
-          ))
-        ],
-      ),
-      TableRow(
-        children: [
-          const TableCell(
-              child: Text(
-            "Verfügbar:",
-            style: TextStyle(fontSize: 20),
-          )),
-          TableCell(
-            child: Text(
+  return Table(defaultColumnWidth: IntrinsicColumnWidth(), children: [
+    TableRow(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          children: [
+            const TableCell(
+                child: Text(
+              "ID:",
+              style: TextStyle(fontSize: 20),
+            )),
+            Spacer(),
+            TableCell(
+                child: Text(
+              id.toString(),
+              style: TextStyle(fontSize: 20),
+            ))
+          ],
+        )
+      ],
+    ),
+    TableRow(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          children: [
+            const TableCell(
+                child: Text(
+              "Name:",
+              style: TextStyle(fontSize: 20),
+            )),
+            TableCell(
+                child: Text(
+              name,
+              style: TextStyle(fontSize: 20),
+            ))
+          ],
+        )
+      ],
+    ),
+    TableRow(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          children: [
+            const TableCell(
+                child: Text(
+              "StorageID:",
+              style: TextStyle(fontSize: 20),
+            )),
+            TableCell(
+                child: Text(
+              storageID.toString(),
+              style: TextStyle(fontSize: 20),
+            ))
+          ],
+        )
+      ],
+    ),
+    TableRow(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          children: [
+            const TableCell(
+                child: Text(
+              "Verfügbar:",
+              style: TextStyle(fontSize: 20),
+            )),
+            TableCell(
+                child: Text(
               isAvailable.toString(),
-              style: TextStyle(fontSize: 20, color: color),
-            ),
-          )
-        ],
-      )
-    ],
-  );
+              style: TextStyle(fontSize: 20),
+            ))
+          ],
+        )
+      ],
+    )
+  ]);
 }

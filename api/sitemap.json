@@ -1,0 +1,19 @@
+[
+	"GET/api",
+	"GET/api/storage-units",
+	"POST/api/storage-units",
+	"GET/api/users/id/{id:[0-9]{1,10}}",
+	"GET/api/users/email/{email:[a-zA-Z0-9.@-_]{5,100}}",
+	"GET/api/locations/id/{id:[0-9]{1,10}}",
+	"POST/api/cards",
+	"POST/api/locations",
+	"GET/api/storage-units/id/{id:[0-9]{1,10}}",
+	"GET/api/cards",
+	"GET/api/locations",
+	"GET/api/locations/name/{name:[a-zA-Z0-9-_]{3, 100}}",
+	"GET/api/storage-units/name/{name:[a-zA-Z0-9-_]{3, 100}}",
+	"GET/",
+	"GET/api/users",
+	"POST/api/users/sign-up",
+	"GET/api/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}"
+]

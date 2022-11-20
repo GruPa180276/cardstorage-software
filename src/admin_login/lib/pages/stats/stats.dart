@@ -15,7 +15,8 @@ class StatsView extends StatefulWidget {
 }
 
 class _StatsViewState extends State<StatsView> {
-  String selectedStorage = "1";
+  String selectedStorage = "-";
+  List<dynamic> dropDownValues = ["-", "78", "79"];
 
   @override
   void initState() {
@@ -31,12 +32,74 @@ class _StatsViewState extends State<StatsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //floatingActionButton: GenerateSpeedDial(this.callBack),
       appBar: generateAppBar(context),
       body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(
-            children: <Widget>[ListCards(cardStorage: selectedStorage)],
+            children: <Widget>[
+              Builder(
+                builder: (context) {
+                  return Align(
+                    alignment: Alignment.topRight,
+                    child: ElevatedButton(
+                      child: Text('Filter'),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(30),
+                            ),
+                          ),
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: 300,
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.all(10),
+                              child: Column(children: [
+                                const Text(
+                                  'Filter',
+                                  style: TextStyle(fontSize: 30),
+                                ),
+                                Row(
+                                  children: [
+                                    const Expanded(
+                                        child: Text(
+                                      'Storage',
+                                      style: TextStyle(fontSize: 17),
+                                    )),
+                                    DropdownButton(
+                                      value: selectedStorage,
+                                      items: dropDownValues.map((valueItem) {
+                                        return DropdownMenuItem(
+                                            value: valueItem,
+                                            child: Text(valueItem.toString()));
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          if (newValue != '') {
+                                            selectedStorage =
+                                                newValue as String;
+                                          } else {
+                                            selectedStorage =
+                                                newValue as dynamic;
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ]),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              ListCards(cardStorage: selectedStorage)
+            ],
           )),
     );
   }
@@ -78,7 +141,7 @@ class _MyAppState extends State<ListCards> {
                     route: "/stats",
                     view: 1,
                   );
-                } else if (widget.cardStorage == "All") {
+                } else if (widget.cardStorage == "-") {
                   return GenerateCardWithInkWell.withoutArguments(
                     index: index,
                     data: data,

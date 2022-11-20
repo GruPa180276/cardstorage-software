@@ -182,6 +182,14 @@ class _ListCardsState extends State<ListCards> {
                     argument: data[index].id - 1,
                     view: 1,
                   );
+                } else if (widget.cardStorage == "-") {
+                  return GenerateCardWithInkWell.withoutArguments(
+                    index: index,
+                    data: data,
+                    icon: Icons.credit_card,
+                    route: "/alterCards",
+                    view: 1,
+                  );
                 } else {
                   return const SizedBox.shrink();
                 }

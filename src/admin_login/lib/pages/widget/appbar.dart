@@ -14,7 +14,6 @@ AppBar generateAppBar(BuildContext context) {
           color: Theme.of(context).focusColor,
         )),
     actions: [
-      generateIconButton(context, Icons.account_box_rounded, "/account"),
       generateIconButton(context, Icons.settings, "/settings"),
       generateIconButton(context, Icons.logout, ""),
     ],

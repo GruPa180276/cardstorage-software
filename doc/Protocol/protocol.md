@@ -211,6 +211,9 @@ Habe heute den Filter fertiggestellt, es betsht aber noch ein Bug bei der Anzeig
 **20.11.2022: 13:00 -> 15:00** <br>
 Habe den Bug beseitigt, das bei zu hoher Skalierung ein Overflow eintritt. (2h)
 
+**21.11.2022: 8:30 -> 11:30** <br>
+Habe die API Klassen für Storages und Cards erstellt sowie den gesmaten Code darauf angepasst. (3h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -270,4 +273,5 @@ Habe den Bug beseitigt, das bei zu hoher Skalierung ein Overflow eintritt. (2h)
 - 12:30 bis 16:30 Uhr
 - 9:30 bis 11:30 Uhr
 - 13:00 bis 15:00 Uhr
+- 8:30 bis 11:30 Uhr
 <!-- { "progress": false } -->

@@ -18,6 +18,8 @@ import (
 )
 
 func main() {
+	os.Chdir("api")
+
 	if err := godotenv.Load(); err != nil {
 		log.Fatalln(err)
 	}

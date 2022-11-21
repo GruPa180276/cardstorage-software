@@ -44,12 +44,12 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
-  late Future<List<Data>> futureData;
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("storages") as Future<List<Storages>>;
   }
 
   void setName(String value) {
@@ -60,7 +60,7 @@ class _InputFieldsState extends State<InputFields> {
     storageValues.setIpAdress(value);
   }
 
-  void setNumberOfCards(String value) {
+  void setNumberOfCards(int value) {
     storageValues.setNumberOfCards(value);
   }
 
@@ -70,11 +70,11 @@ class _InputFieldsState extends State<InputFields> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Storages>? data = snapshot.data;
           return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -90,7 +90,7 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<Data>? data) {
+  Widget genereateFields(BuildContext context, List<Storages>? data) {
     return Container(
       child: Column(children: [
         GenerateListTile(
@@ -130,7 +130,20 @@ class _InputFieldsState extends State<InputFields> {
                 SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child: generateButtonRectangle(context, "Storage hinzufügen"),
+                  child: generateButtonRectangle(
+                    context,
+                    "Storage hinzufügen",
+                    storageValues,
+                    () {
+                      Storages newEntry = new Storages(
+                          id: storageValues.id,
+                          name: storageValues.name,
+                          ipAdress: storageValues.ipAdress,
+                          location: storageValues.location,
+                          numberOfCards: storageValues.numberOfCards);
+                      sendData("cards", newEntry.toJson());
+                    },
+                  ),
                 )
               ]),
             )),

@@ -70,3 +70,8 @@
 - https://www.fluttercampus.com/guide/155/how-to-add-border-radius-on-card-in-flutter/
 - https://codesource.io/change-navigation-bar-color-in-flutter/
 - https://flutteragency.com/how-to-set-space-between-elements-in-flutter/
+- https://stackoverflow.com/questions/56406601/how-to-encode-an-object-to-json-in-flutter
+- https://stackoverflow.com/questions/64129058/contains-function-for-int-in-flutter
+
+
+

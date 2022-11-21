@@ -9,8 +9,8 @@ import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The Api needs to be changed in the future
 
-List<String> searchValues = [];
-List<String> selectedEntrys = [];
+List<int> searchValues = [];
+List<int> selectedEntrys = [];
 
 class RemoveCards extends StatefulWidget {
   RemoveCards({Key? key}) : super(key: key);
@@ -20,9 +20,9 @@ class RemoveCards extends StatefulWidget {
 }
 
 class _RemoveCardsState extends State<RemoveCards> {
-  void setSelectedEntrys(String data) {
+  void setSelectedEntrys(int value) {
     setState(() {
-      selectedEntrys.add(data);
+      selectedEntrys.add(value);
     });
   }
 
@@ -32,7 +32,7 @@ class _RemoveCardsState extends State<RemoveCards> {
     });
   }
 
-  void setValues(String value) {
+  void setValues(int value) {
     searchValues.add(value);
   }
 
@@ -56,6 +56,7 @@ class _RemoveCardsState extends State<RemoveCards> {
                 Container(
                   child: Row(
                     children: [
+                      GenerateSearchValues(setValue: this.setValues),
                       generateSearchButton(
                         context,
                         "Suchen",
@@ -70,6 +71,11 @@ class _RemoveCardsState extends State<RemoveCards> {
                         context,
                         "Entfernen",
                         Icons.remove,
+                        searchValues,
+                        () {
+                          deleteData("cards", searchValues);
+                          Navigator.of(context).pop();
+                        },
                       ),
                     ],
                   ),
@@ -78,7 +84,6 @@ class _RemoveCardsState extends State<RemoveCards> {
                     child: Container(
                   padding: EdgeInsets.only(top: 10),
                   child: Column(children: [
-                    GenerateSearchValues(setValue: this.setValues),
                     GenerateCards(),
                   ]),
                 ))
@@ -95,7 +100,7 @@ class GenerateCards extends StatefulWidget {
 }
 
 class _GenerateCardsState extends State<GenerateCards> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
@@ -105,23 +110,23 @@ class _GenerateCardsState extends State<GenerateCards> {
 
   void reloadCardList() {
     setState(() {
-      futureData = fetchData();
+      futureData = fetchData("cards") as Future<List<Cards>>;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Data>>(
+        child: FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 for (int i = 0; i < selectedEntrys.length; i++) {
-                  if (data![index].title == selectedEntrys.elementAt(i)) {
+                  if (data![index].id == selectedEntrys.elementAt(i)) {
                     return GenerateCardWithoutInkWell(
                       index: index,
                       data: data,

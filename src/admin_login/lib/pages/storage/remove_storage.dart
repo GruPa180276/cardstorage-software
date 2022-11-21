@@ -9,8 +9,8 @@ import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The Api needs to be changed in the future
 
-List<String> searchValues = [];
-List<String> selectedEntrys = [];
+List<int> searchValues = [];
+List<int> selectedEntrys = [];
 
 class RemoveStorage extends StatefulWidget {
   RemoveStorage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class RemoveStorage extends StatefulWidget {
 }
 
 class _RemoveStorageState extends State<RemoveStorage> {
-  void setSelectedEntrys(String data) {
+  void setSelectedEntrys(int data) {
     setState(() {
       selectedEntrys.add(data);
     });
@@ -32,7 +32,7 @@ class _RemoveStorageState extends State<RemoveStorage> {
     });
   }
 
-  void setValues(String value) {
+  void setValues(int value) {
     searchValues.add(value);
   }
 
@@ -77,6 +77,11 @@ class _RemoveStorageState extends State<RemoveStorage> {
                     context,
                     "Entfernen",
                     Icons.remove,
+                    searchValues,
+                    () {
+                      deleteData("storages", searchValues);
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ],
               ),
@@ -102,7 +107,7 @@ class GenerateCards extends StatefulWidget {
 }
 
 class _GenerateCardsState extends State<GenerateCards> {
-  late Future<List<Data>> futureData;
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
@@ -112,23 +117,23 @@ class _GenerateCardsState extends State<GenerateCards> {
 
   void reloadCardList() {
     setState(() {
-      futureData = fetchData();
+      futureData = fetchData("storages") as Future<List<Storages>>;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Data>>(
+        child: FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Storages>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 for (int i = 0; i < selectedEntrys.length; i++) {
-                  if (data![index].title == selectedEntrys.elementAt(i)) {
+                  if (data![index].id == selectedEntrys.elementAt(i)) {
                     return GenerateCardWithoutInkWell(
                       index: index,
                       data: data,

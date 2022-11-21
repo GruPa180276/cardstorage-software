@@ -34,7 +34,11 @@ Expanded generateButtonRound(BuildContext context, String buttonText,
 }
 
 Expanded generateButtonRoundWithoutRoute(
-    BuildContext context, String buttonText, IconData buttonIcon) {
+    BuildContext context,
+    String buttonText,
+    IconData buttonIcon,
+    List<int> searchvalues,
+    Function()? onpressd) {
   return Expanded(
     child: ElevatedButton(
       onPressed: () {},
@@ -61,12 +65,11 @@ Expanded generateButtonRoundWithoutRoute(
   );
 }
 
-Expanded generateButtonRectangle(BuildContext context, String buttonText) {
+Expanded generateButtonRectangle(BuildContext context, String buttonText,
+    dynamic values, Function()? onpressd) {
   return Expanded(
     child: ElevatedButton(
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+      onPressed: onpressd,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
@@ -166,7 +169,7 @@ class _GenerateButtonWithDialogAndCallBackState
 }
 
 Expanded generateSearchButton(BuildContext context, String buttonText,
-    IconData buttonIcon, Function setID, List<String> searchValues) {
+    IconData buttonIcon, Function setID, List<int> searchValues) {
   return Expanded(
     child: ElevatedButton(
       onPressed: () {

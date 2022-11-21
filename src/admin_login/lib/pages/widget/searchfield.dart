@@ -1,7 +1,7 @@
 import 'package:admin_login/pages/widget/data.dart';
 import 'package:flutter/material.dart';
 
-List<String> values = [];
+List<int> values = [];
 
 class GenerateSearchValues extends StatefulWidget {
   final Function setValue;
@@ -13,7 +13,7 @@ class GenerateSearchValues extends StatefulWidget {
 }
 
 class _GenerateSearchValuesState extends State<GenerateSearchValues> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
@@ -24,17 +24,17 @@ class _GenerateSearchValuesState extends State<GenerateSearchValues> {
 
   void reloadCardList() {
     setState(() {
-      futureData = fetchData();
+      futureData = fetchData("cards") as Future<List<Cards>>;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           addValues(data!);
           return SizedBox();
         } else if (snapshot.hasError) {
@@ -45,10 +45,10 @@ class _GenerateSearchValuesState extends State<GenerateSearchValues> {
     );
   }
 
-  void addValues(List<Data> data) {
+  void addValues(List<Cards> data) {
     values.length = 0;
     for (int i = 0; i < data.length; i++) {
-      widget.setValue(data[i].title);
+      widget.setValue(data[i].id);
     }
   }
 }

@@ -1,8 +1,8 @@
 class CardValues {
   int id = 0;
   String name = "";
-  String cardStorage = "";
-  String hardwareID = "";
+  int storageID = 0;
+  int hardwareID = 0;
 
   void setID(int id) {
     this.id = id;
@@ -20,19 +20,19 @@ class CardValues {
     return name;
   }
 
-  void setStorage(String cardStorage) {
-    this.cardStorage = cardStorage;
+  void setStorage(int storageID) {
+    this.storageID = storageID;
   }
 
-  String getStorage() {
-    return cardStorage;
+  int getStorage() {
+    return storageID;
   }
 
-  void setHardwareID(String hardwareID) {
+  void setHardwareID(int hardwareID) {
     this.hardwareID = hardwareID;
   }
 
-  String getHardwareID() {
+  int getHardwareID() {
     return hardwareID;
   }
 }

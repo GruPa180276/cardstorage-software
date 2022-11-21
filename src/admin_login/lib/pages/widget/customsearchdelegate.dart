@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-List<String> values = [];
+List<int> values = [];
 
 class CustomSearchDelegate extends SearchDelegate {
   late Function setState;
 
-  CustomSearchDelegate(Function state, List<String> searchValues) {
+  CustomSearchDelegate(Function state, List<int> searchValues) {
     setState = state;
     values = searchValues;
   }
@@ -40,10 +40,10 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in values) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
+    List<int> matchQuery = [];
+    for (var x in values) {
+      if (x.toString().contains(query.toString())) {
+        matchQuery.add(x);
       }
     }
     return ListView.builder(
@@ -62,7 +62,7 @@ class CustomSearchDelegate extends SearchDelegate {
                       EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
                   child: Column(children: [
                     Text(
-                      result,
+                      result.toString(),
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     )
                   ]),
@@ -76,10 +76,10 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in values) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
+    List<int> matchQuery = [];
+    for (var x in values) {
+      if (x.toString().contains(query.toString())) {
+        matchQuery.add(x);
       }
     }
     return ListView.builder(
@@ -98,7 +98,7 @@ class CustomSearchDelegate extends SearchDelegate {
                       EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
                   child: Column(children: [
                     Text(
-                      result,
+                      result.toString(),
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     )
                   ]),

@@ -1,13 +1,10 @@
 import 'package:admin_login/pages/widget/createCard.dart';
 import 'package:admin_login/pages/widget/createStorage.dart';
-import 'package:admin_login/pages/widget/createUser.dart';
 import 'package:flutter/material.dart';
-
-import 'package:admin_login/pages/widget/data.dart';
 
 class GenerateCardWithInkWell extends StatefulWidget {
   final int index;
-  final List<Data>? data;
+  final List<dynamic>? data;
   final IconData icon;
   final String route;
   final int argument;
@@ -72,25 +69,17 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
       return createCardTable(
         context,
         widget.data![widget.index].id,
-        widget.data![widget.index].title,
-        widget.data![widget.index].id,
+        widget.data![widget.index].name,
+        widget.data![widget.index].storageID,
         false,
-      );
-    }
-    if (widget.view == 2) {
-      return createUserTable(
-        context,
-        widget.data![widget.index].id,
-        widget.data![widget.index].title.toString(),
-        widget.data![widget.index].title.toString(),
       );
     }
     if (widget.view == 3) {
       return createStorageTable(
         context,
         widget.data![widget.index].id,
-        widget.data![widget.index].title.toString(),
-        widget.data![widget.index].id,
+        widget.data![widget.index].name,
+        widget.data![widget.index].storageID,
       );
     } else {
       return SizedBox.shrink();

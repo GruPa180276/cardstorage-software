@@ -48,34 +48,33 @@ class GenerateInputFields extends StatefulWidget {
 }
 
 class _GenerateInputFieldsState extends State<GenerateInputFields> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("cards") as Future<List<Cards>>;
   }
 
   void setName(String value) {
+    cardValues.setName(value);
+  }
+
+  void setStorage(int value) {
     cardValues.setStorage(value);
   }
 
-  void setStorage(String value) {
-    cardValues.setStorage(value);
-  }
-
-  void setHardwareID(String value) {
+  void setHardwareID(int value) {
     cardValues.setHardwareID(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
-          return genereateFields(context, data);
+          return genereateFields(context);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -90,7 +89,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<Data>? data) {
+  Widget genereateFields(BuildContext context) {
     return Container(
       child: Column(children: [
         GenerateListTile(
@@ -127,7 +126,20 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                 SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child: generateButtonRectangle(context, "Karte hinzufügen"),
+                  child: generateButtonRectangle(
+                    context,
+                    "Karte hinzufügen",
+                    cardValues,
+                    () {
+                      Cards newEntry = new Cards(
+                          id: cardValues.id,
+                          name: cardValues.name,
+                          storageID: cardValues.storageID,
+                          hardwareID: cardValues.hardwareID);
+                      sendData("cards", newEntry.toJson());
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 )
               ]),
             )),

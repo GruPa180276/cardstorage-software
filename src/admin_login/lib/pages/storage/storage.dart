@@ -54,22 +54,22 @@ class ListCardStorages extends StatefulWidget {
 }
 
 class _ListCardStoragesState extends State<ListCardStorages> {
-  late Future<List<Data>> futureData;
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("storages") as Future<List<Storages>>;
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Data>>(
+        child: FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Storages>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {

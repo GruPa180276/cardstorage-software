@@ -14,7 +14,7 @@ class SelectStorage extends StatefulWidget {
 }
 
 class _SelectStorageState extends State<SelectStorage> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
   List<SpeedDialChild> dial = [
     SpeedDialChild(
       label: 'Test',
@@ -24,7 +24,7 @@ class _SelectStorageState extends State<SelectStorage> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("cards") as Future<List<Cards>>;
   }
 
   @override
@@ -42,11 +42,11 @@ class _SelectStorageState extends State<SelectStorage> {
   }
 
   Widget values(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {

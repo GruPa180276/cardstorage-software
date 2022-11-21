@@ -24,10 +24,6 @@ class _CardSettingsState extends State<CardSettings> {
     cardValues.setName(value);
   }
 
-  void setStorage(String value) {
-    cardValues.setStorage(value);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,33 +52,33 @@ class GetDataFromAPI extends StatefulWidget {
 }
 
 class _GetDataFromAPIState extends State<GetDataFromAPI> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("cards") as Future<List<Cards>>;
   }
 
   void setName(String value) {
+    cardValues.setName(value);
+  }
+
+  void setStorage(int value) {
     cardValues.setStorage(value);
   }
 
-  void setStorage(String value) {
-    cardValues.setStorage(value);
-  }
-
-  void setHardwareID(String value) {
+  void setHardwareID(int value) {
     cardValues.setHardwareID(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -101,23 +97,37 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<Data>? data) {
+  Widget genereateFields(BuildContext context, List<Cards>? data) {
     return InkWell(
         child: Container(
       child: Column(children: [
         GenerateListTile(
+          labelText: "ID",
+          hintText: data![cardValues.getId()].id.toString(),
+          icon: Icons.description,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setName,
+        ),
+        GenerateListTile(
           labelText: "Name",
-          hintText: data![cardValues.getId()].title,
+          hintText: data[cardValues.getId()].name,
           icon: Icons.description,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setName,
         ),
         GenerateListTile(
           labelText: "Karten Tresor",
-          hintText: data[cardValues.getId()].title,
+          hintText: data[cardValues.getId()].storageID.toString(),
           icon: Icons.storage,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setStorage,
+        ),
+        GenerateListTile(
+          labelText: "Karten Nummer",
+          hintText: data[cardValues.getId()].hardwareID.toString(),
+          icon: Icons.storage,
+          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          function: this.setHardwareID,
         ),
         Container(
           padding: EdgeInsets.all(10),
@@ -142,8 +152,20 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                 SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child:
-                      generateButtonRectangle(context, "Änderungen speichern"),
+                  child: generateButtonRectangle(
+                    context,
+                    "Änderungen speichern",
+                    cardValues,
+                    () {
+                      Cards updateEntry = new Cards(
+                          id: cardValues.id,
+                          name: cardValues.name,
+                          storageID: cardValues.storageID,
+                          hardwareID: cardValues.hardwareID);
+                      updateData("cards", updateEntry.toJson());
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 )
               ]),
             )),

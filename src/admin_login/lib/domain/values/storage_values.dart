@@ -3,7 +3,7 @@ class StorageValues {
   String name = "";
   String location = "";
   String ipAdress = "";
-  String numberOfCards = "";
+  int numberOfCards = 0;
 
   void setID(int id) {
     this.id = id;
@@ -37,11 +37,11 @@ class StorageValues {
     return ipAdress;
   }
 
-  void setNumberOfCards(String numberOfCards) {
+  void setNumberOfCards(int numberOfCards) {
     this.numberOfCards = numberOfCards;
   }
 
-  String getNumberOfCards() {
+  int getNumberOfCards() {
     return numberOfCards;
   }
 }

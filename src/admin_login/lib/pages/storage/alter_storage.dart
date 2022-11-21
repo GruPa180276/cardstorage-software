@@ -47,12 +47,12 @@ class GetDataFromAPI extends StatefulWidget {
 }
 
 class _GetDataFromAPIState extends State<GetDataFromAPI> {
-  late Future<List<Data>> futureData;
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("storages") as Future<List<Storages>>;
   }
 
   void setName(String value) {
@@ -63,7 +63,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     storageValues.setIpAdress(value);
   }
 
-  void setNumberOfCards(String value) {
+  void setNumberOfCards(int value) {
     storageValues.setNumberOfCards(value);
   }
 
@@ -73,11 +73,11 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Storages>? data = snapshot.data;
           return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -96,13 +96,13 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<Data>? data) {
+  Widget genereateFields(BuildContext context, List<Storages>? data) {
     return InkWell(
         child: Container(
       child: Column(children: [
         GenerateListTile(
           labelText: "Name",
-          hintText: data![storageValues.getId()].title,
+          hintText: data![storageValues.getId()].name,
           icon: Icons.storage,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setName,
@@ -123,7 +123,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
         ),
         GenerateListTile(
           labelText: "Ort",
-          hintText: data[storageValues.getId()].title.toString(),
+          hintText: data[storageValues.getId()].name.toString(),
           icon: Icons.location_pin,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setLocation,
@@ -137,8 +137,20 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                 SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child:
-                      generateButtonRectangle(context, "Änderungen speichern"),
+                  child: generateButtonRectangle(
+                    context,
+                    "Änderungen speichern",
+                    storageValues,
+                    () {
+                      Storages newEntry = new Storages(
+                          id: storageValues.id,
+                          name: storageValues.name,
+                          ipAdress: storageValues.ipAdress,
+                          location: storageValues.location,
+                          numberOfCards: storageValues.numberOfCards);
+                      sendData("cards", newEntry.toJson());
+                    },
+                  ),
                 )
               ]),
             )),

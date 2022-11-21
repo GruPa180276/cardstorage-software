@@ -178,27 +178,27 @@ class ListCards extends StatefulWidget {
 }
 
 class _ListCardsState extends State<ListCards> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("cards") as Future<List<Cards>>;
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Data>>(
+        child: FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 // ToDo: Add bool check
-                if (widget.cardStorage == data![index].userId.toString()) {
+                if (widget.cardStorage == data![index].id.toString()) {
                   return GenerateCardWithInkWell.withArguments(
                     index: index,
                     data: data,

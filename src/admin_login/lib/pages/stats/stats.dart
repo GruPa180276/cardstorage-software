@@ -15,7 +15,7 @@ class StatsView extends StatefulWidget {
 }
 
 class _StatsViewState extends State<StatsView> {
-  String selectedStorage = "-";
+  dynamic selectedStorage = "-";
   List<dynamic> dropDownValues = ["-", "78", "79"];
 
   @override
@@ -137,26 +137,26 @@ class ListCards extends StatefulWidget {
 }
 
 class _MyAppState extends State<ListCards> {
-  late Future<List<Data>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = fetchData("cards") as Future<List<Cards>>;
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Data>>(
+        child: FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Data>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].userId.toString()) {
+                if (widget.cardStorage == data![index].id) {
                   return GenerateCardWithInkWell.withoutArguments(
                     index: index,
                     data: data,

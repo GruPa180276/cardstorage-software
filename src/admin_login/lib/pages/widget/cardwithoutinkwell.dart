@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/widget/data.dart';
-
 class GenerateCardWithoutInkWell extends StatefulWidget {
   final int index;
-  final List<Data> data;
+  final List<dynamic> data;
   final IconData icon;
 
   const GenerateCardWithoutInkWell({
@@ -37,7 +35,7 @@ class _GenerateCardWithoutInkWellState
                   Positioned(
                       left: 100,
                       top: 15,
-                      child: Text(widget.data[widget.index].title,
+                      child: Text(widget.data[widget.index].name,
                           style: TextStyle(
                               fontSize: 20,
                               color: Theme.of(context).primaryColor))),

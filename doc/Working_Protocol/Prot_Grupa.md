@@ -258,6 +258,8 @@ Es wurde fuer das Display die App erstellt und angepasst. Es wurde ebenfalls ver
 **2022-11-19: 10:00 -> 17:15**
 Es wurde fuer die DisplayApp eine Pop Up erstellt welches einen Timer visualisert fuer die Zeit di9e man hat um eine Karte an den Reader zu legen. Es wurde bereits ein "Raum" fuer die zukuenftige APi erstellt
 
+**2022-11-21: 9:50 -> 13:50**
+Tutorial zu Threading wurde angesehen. Und ein Besipeil Programm wurde erzeugt. Hatte ein paar Probleme hat allerdings dann alles funktioniert. Danach wurde der Thread im Hautpprogramm implementiert und es wurde ein freier Code block fuer das Mqtt Protokoll gefertigt
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -326,5 +328,6 @@ Es wurde fuer die DisplayApp eine Pop Up erstellt welches einen Timer visualiser
 - 15:00 bis 16:00 Uhr
 - 09:00 bis 13:00 Uhr
 - 10:00 bis 17:15 Uhr
+- 09:50 bis 13:50 Uhr
 <!-- { "progress": false } -->
 

@@ -4,17 +4,19 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	mqttclient "github.com/eclipse/paho.mqtt.golang"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/response"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
-	mqtt "github.com/mochi-co/mqtt/server"
+	mqttserver "github.com/mochi-co/mqtt/server"
 	"github.com/mochi-co/mqtt/server/listeners"
 	"github.com/mochi-co/mqtt/server/listeners/auth"
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -30,16 +32,26 @@ func main() {
 
 	router := mux.NewRouter()
 
-	mqttserver := mqtt.NewServer(nil)
-	mqttserver.AddListener(listeners.NewTCP("t1", "localhost:1883"), &listeners.Config{Auth: new(auth.Allow)})
+	mqs := mqttserver.NewServer(nil)
+	mqs.AddListener(listeners.NewTCP("t1", "localhost:1883"), &listeners.Config{Auth: new(auth.Allow)})
 	go func() {
-		if err := mqttserver.Serve(); err != nil {
+		if err := mqs.Serve(); err != nil {
 			logger.Println("MQTT Error: " + err.Error())
 		}
 	}()
 
+	mqc := mqttclient.NewClient(mqttclient.NewClientOptions().
+		SetClientID("CardStorageManagementController").
+		AddBroker("tcp://localhost:1883"))
+	mqc.Connect().Wait()
+	// mqc.Publish("top/1", 1, true, []byte("hello from the controller!")).Wait()
+
 	connstring := fmt.Sprintf("%s:%s@/%s", os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"), os.Getenv("DB_NAME"))
 	db := util.Must(sql.Open(os.Getenv("DB_DRIVER"), connstring)).(*sql.DB)
+
+	o := response.Observer{mqc, logger, db}
+	time.Sleep(1 * time.Second)
+	o.Observe()
 
 	sitemap["GET/"] = router.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		response.Json(&res, http.StatusOK, "Nothing to see here yet!")
@@ -61,7 +73,7 @@ func main() {
 	sitemap["GET/api/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}"] =
 		router.HandleFunc("/api/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}", u.GetUserByReaderDataHandler).Methods("GET")
 
-	c := response.Card{db, logger}
+	c := response.Card{DB: db, Logger: logger, Client: mqc, Messages: make([]response.Message, 0)}
 	sitemap["GET/api/cards"] =
 		router.HandleFunc("/api/cards", c.GetAllCardsHandler).Methods("GET")
 	sitemap["POST/api/cards"] =
@@ -86,6 +98,9 @@ func main() {
 		router.HandleFunc("/api/storage-units/id/{id:[0-9]{1,10}}", s.GetStorageUnitByIdHandler).Methods("GET")
 	sitemap["GET/api/storage-units/name/{name:[a-zA-Z0-9-_]{3, 100}}"] =
 		router.HandleFunc("/api/storage-units/name/{name:[a-zA-Z0-9-_]{3,100}}", s.GetStorageUnitByNameHandler).Methods("GET")
+	// @todo: ping storage-unit by id
+	sitemap["GET/api/storage-units/ping/id/{id:[0-9]{1,10}}"] =
+		router.HandleFunc("/api/storage-units/ping/id/{id:[0-9]{1,10}}", s.PingStorageUnitById).Methods("GET")
 
 	logger.Println(connstring)
 

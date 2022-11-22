@@ -6,31 +6,34 @@ import (
 )
 
 const (
-	CardIdUnset       int    = -1
-	CardNameUnset     string = "<invalid:cardname>"
-	CardPositionUnset int    = -1
+	CardIdUnset         int    = -1
+	CardNameUnset       string = "<invalid:cardname>"
+	CardPositionUnset   int    = -1
+	CardReaderDataUnset string = "<invalid:readerdata>"
 )
 
 type Card struct {
-	Id        int    `json:"id,omitempty"`
-	StorageId int    `json:"storageid"`
-	Name      string `json:"name"`
-	Position  int    `json:"position"`
+	Id         int    `json:"id,omitempty"`
+	StorageId  int    `json:"storageid"`
+	Name       string `json:"name"`
+	Position   int    `json:"position"`
+	ReaderData string `json:"readerdata"`
 	*Model
 }
 
-func NewCard(model *Model, id int, storageId int, name string, position int) *Card {
+func NewCard(model *Model, id int, storageId int, name string, position int, readerdata string) *Card {
 	return &Card{
-		Id:        id,
-		StorageId: storageId,
-		Name:      name,
-		Position:  position,
-		Model:     model,
+		Id:         id,
+		StorageId:  storageId,
+		Name:       name,
+		Position:   position,
+		Model:      model,
+		ReaderData: readerdata,
 	}
 }
 
 func CopyCard(card *Card) *Card {
-	return NewCard(card.Model, card.Id, card.StorageId, card.Name, card.Position)
+	return NewCard(card.Model, card.Id, card.StorageId, card.Name, card.Position, card.ReaderData)
 }
 
 // Correctly convert UNIX Timestamp into Go's time.Time type
@@ -52,10 +55,11 @@ func (self *Card) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 	card := d.(map[string]interface{})
 
 	var (
-		idIsPresent        = false
-		storageIdIsPresent = false
-		nameIsPresent      = false
-		positionIsPresent  = false
+		idIsPresent         = false
+		storageIdIsPresent  = false
+		nameIsPresent       = false
+		positionIsPresent   = false
+		readerdataIsPresent = false
 	)
 
 	for k, v := range card {
@@ -84,6 +88,12 @@ func (self *Card) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 			}
 			self.Position = int(v.(float64))
 			positionIsPresent = true
+		case "readerdata":
+			if _, ok := v.(string); !ok {
+				return fmt.Errorf("error: converting attribute 'readerdata' from interface{} to string")
+			}
+			self.ReaderData = v.(string)
+			readerdataIsPresent = true
 		default:
 			return fmt.Errorf("Error during parsing: unknown key '%s'", k)
 		}
@@ -101,6 +111,9 @@ func (self *Card) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 	if !positionIsPresent {
 		self.Position = CardPositionUnset
 	}
+	if !readerdataIsPresent {
+		self.ReaderData = CardReaderDataUnset
+	}
 
 	return nil
 }
@@ -115,11 +128,11 @@ func (self *Card) MarshalJSON() ([]byte, error) /* implements json.Marshaler */ 
 }
 
 func (self *Card) String() string {
-	return fmt.Sprintf("model.Card(model=\"\",id=%d,storageId=%d,name=%s,position=%d)", self.Id, self.StorageId, self.Name, self.Position)
+	return fmt.Sprintf("model.Card(model=\"\",id=%d,storageId=%d,name=%s,position=%d,readerdata=%s)", self.Id, self.StorageId, self.Name, self.Position, self.ReaderData)
 }
 
 func (self *Card) SelectAll() ([]Card, error) {
-	rows, err := self.Query("SELECT id, fk_storageid, cardname, position FROM Cards")
+	rows, err := self.Query("SELECT id, fk_storageid, cardname, position, readerdata FROM Cards")
 
 	if err != nil {
 		return nil, err
@@ -130,7 +143,7 @@ func (self *Card) SelectAll() ([]Card, error) {
 	for rows.Next() {
 		c := Card{}
 
-		if err := rows.Scan(&c.Id, &c.StorageId, &c.Name, &c.Position); err != nil {
+		if err := rows.Scan(&c.Id, &c.StorageId, &c.Name, &c.Position, &c.ReaderData); err != nil {
 			return nil, err
 		}
 
@@ -141,25 +154,24 @@ func (self *Card) SelectAll() ([]Card, error) {
 }
 
 func (self *Card) SelectById() error {
-	row := self.QueryRow("SELECT fk_storageid, cardname, position FROM Cards WHERE id = ?", self.Id)
+	row := self.QueryRow("SELECT fk_storageid, cardname, position, readerdata FROM Cards WHERE id = ?", self.Id)
 
-	if err := row.Scan(&self.StorageId, &self.Name, &self.Position); err != nil {
+	if err := row.Scan(&self.StorageId, &self.Name, &self.Position, &self.ReaderData); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (self *Card) SelectByName() error {
-	row := self.QueryRow("SELECT id, fk_storageid, position FROM Cards WHERE cardname = ?", self.Name)
+	row := self.QueryRow("SELECT id, fk_storageid, position, readerdata FROM Cards WHERE cardname = ?", self.Name)
 
-	if err := row.Scan(&self.Id, &self.StorageId, &self.Position); err != nil {
+	if err := row.Scan(&self.Id, &self.StorageId, &self.Position, &self.ReaderData); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (self *Card) Insert() error {
-	_, err := self.Exec("INSERT INTO Cards (fk_storageid, position, cardname) VALUES (?,?,?)", self.StorageId, self.Position, self.Name)
+	_, err := self.Exec("INSERT INTO Cards (fk_storageid, position, cardname, readerdata) VALUES (?,?,?,?)", self.StorageId, self.Position, self.Name, self.ReaderData)
 	return err
 }
-

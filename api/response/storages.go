@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"log"
 	"net/http"
 	"strconv"
@@ -131,4 +132,8 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 		}
 		self.Println("successfully inserted " + (&storage).String())
 	}
+}
+
+func (self *StorageUnit) PingStorageUnitById(res http.ResponseWriter, req *http.Request) {
+	self.Fatalln(util.ErrNotImplemented)
 }

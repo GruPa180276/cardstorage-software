@@ -1,10 +1,14 @@
 package util
 
-import "log"
+import (
+	"fmt"
+	"log"
+	"os"
+)
 
 func Must(value interface{}, err error) interface{} {
 	if err != nil {
-		log.Fatalln(err)
+		log.New(os.Stderr, "Fatal: util.Must (intermediary): ", log.LstdFlags|log.Lshortfile).Fatalln(err)
 	}
 	return value
 }
@@ -15,6 +19,8 @@ func Keys[K comparable, V any](m map[K]V) []K {
 	for k, _ := range m {
 		keys = append(keys, k)
 	}
-	
+
 	return keys
 }
+
+var ErrNotImplemented error = fmt.Errorf("error: not (yet) implemented")

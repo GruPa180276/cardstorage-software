@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `Cards` (
     `id`                INT PRIMARY KEY AUTO_INCREMENT,
     `fk_storageid`      INT,
     `position`          INT, -- position in storage unit
-    `cardname`          VARCHAR(64) NOT NULL UNIQUE
+    `cardname`          VARCHAR(64) NOT NULL UNIQUE,
+    `readerdata`        VARCHAR(128) UNIQUE DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `Storages` (

@@ -7,45 +7,18 @@ USE `CardStorageManagement`;
  *   `#dijit_layout__LayoutWidget_0 > section > div > div > div.un-flex-pane.un-master-page__grid > div > div:nth-child(3) > div > div.un-flex-pane.un-flex-pane--scroll > table`);
  * const rooms = new Set();
  * for (const teacher of t.children[0].children) {
- *     const room = teacher.children[5].innerText; 
+ *     const room = teacher.children[5].innerText;
  *     if (room == "" || room == undefined || room == null) continue;
  *     rooms.add(room);
  * }
  * console.log(JSON.stringify(Array.from(rooms)).replaceAll(`"`, `'`).replace(`[`, `(`).replace(`]`, `)`).replaceAll(`',`, `'),`).replaceAll(`,'`, `,('`) + ";");
  * ```
  */
--- INSERT INTO `Locations` (`location`) VALUES 
---     ('L-21'),
---     ('W17M'),
---     ('0-01'),
---     ('3-05'),
---     ('0-03'),
---     ('V50W'),
---     ('3-23'),
---     ('3-27'),
---     ('W51M'),
---     ('W31M'),
---     ('1-39'),
---     ('A52L'),
---     ('1-19'),
---     ('2-13'),
---     ('1-15'),
---     ('A53L'),
---     ('3-08'),
---     ('A27'),
---     ('W12M'),
---     ('3-03'),
---     ('L-27'),
---     ('1-33'),
---     ('L-09'),
---     ('1-27'),
---     ('W4M'),
---     ('C-07'),
---     ('A51L'),
---     ('1-14'),
---     ('9-05'),
---     ('1-25'),
---     ('1-35');
+INSERT INTO `Locations` (`location`) VALUES
+     ('3-28'),
+     ('3-29'),
+     ('0-01'),
+     ('3-05');
 
 -- -- data generated with https://generatedata.com/generator
 
@@ -101,17 +74,17 @@ USE `CardStorageManagement`;
 --     ("neque.nullam@google.ca","1C7DB320-0AA7-7197-3FFA-1264B7B83223"),
 --     ("pellentesque.tincidunt@yahoo.com","FDBAAF6B-96B8-870A-4DC6-C6A1CBC42DCE");
 
--- INSERT INTO `Administrators` (`fk_userid`) VALUES 
+-- INSERT INTO `Administrators` (`fk_userid`) VALUES
 --     ((SELECT `id` FROM `Users` WHERE `email` = "in.at@outlook.com"));
 
--- INSERT INTO `Storages` (`storagename`, `fk_locid`, `ipaddr`, `capacity`) VALUES
---     ("CS_UNIT_1",(SELECT `id` from `Locations` WHERE `location` = "3-23"),"192.168.54.3",10),
---     ("CS_UNIT_2",(SELECT `id` from `Locations` WHERE `location` = "1-14"),"192.168.54.23",10),
+INSERT INTO `Storages` (`storagename`, `fk_locid`, `ipaddr`, `capacity`) VALUES
+        ("storage-unit-1" ,(SELECT `id` from `Locations` WHERE `location` = "3-28"), "192.168.54.3", 10),
+        ("storage-unit-2" ,(SELECT `id` from `Locations` WHERE `location` = "3-29"), "192.168.54.4", 10);
 --     ("CS_UNIT_3",(SELECT `id` from `Locations` WHERE `location` = "2-13"),"192.168.54.145",10),
 --     ("CS_UNIT_4",(SELECT `id` from `Locations` WHERE `location` = "0-01"),"192.168.54.143",20);
 
 
--- INSERT INTO `Cards` (`fk_storageid`, `cardname`, `reservationstotal`) VALUES 
+-- INSERT INTO `Cards` (`fk_storageid`, `cardname`, `reservationstotal`) VALUES
 --     ((SELECT `id` FROM `Storages` WHERE `storagename` = "CS_UNIT_1"),"CARD_1" ,5),
 --     ((SELECT `id` FROM `Storages` WHERE `storagename` = "CS_UNIT_1"),"CARD_2" ,6),
 --     ((SELECT `id` FROM `Storages` WHERE `storagename` = "CS_UNIT_1"),"CARD_3" ,13),
@@ -170,4 +143,4 @@ USE `CardStorageManagement`;
 -- ();
 
 -- INSERT INTO `UserSession` (`fk_userid`, `office365token`, `apiaccesstoken`) VALUES
--- (); 
+-- ();

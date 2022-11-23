@@ -1,20 +1,23 @@
 import 'dart:async';
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'dart:isolate';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:introductionisolates/mqtt_timer.dart';
 
-void main() => runApp(new MyApp());
+import 'mqtt.dart';
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Flutter Isolate Demo',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Flutter Isolates'),
+      home: MyHomePage(title: 'Flutter Isolates'),
     );
   }
 }
@@ -24,7 +27,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -32,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _start();
+    // _start();
   }
 
   late Isolate _isolate;
@@ -50,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static void _checkTimer(SendPort sendPort) async {
-    Timer.periodic(new Duration(seconds: 1), (Timer t) {
+    Timer.periodic(Duration(seconds: 1), (Timer t) {
       _counter++;
       sendPort.send(_counter.toString());
     });
@@ -78,18 +81,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
       ),
-      body: new Center(
-        child: new Column(
+      body: Center(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Text(
+            Text(
               notification,
             ),
-            ElevatedButton(onPressed: () => _start(), child: Text("data"))
+            ElevatedButton(
+                onPressed: (() async {
+                  MQTTClientManager mcm = new MQTTClientManager();
+                  await mcm.connect();
+                  mcm.publishMessage("hello", "message");
+                  //MQTTClientManager().publishMessage("hello", "message");
+                }),
+                child: Text("data"))
           ],
         ),
       ),

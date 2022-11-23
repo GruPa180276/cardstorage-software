@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: (() async {
                   MQTTClientManager mcm = new MQTTClientManager();
                   await mcm.connect();
-                  mcm.publishMessage("hello", "message");
+                  mcm.subscribe("topic");
                   //MQTTClientManager().publishMessage("hello", "message");
                 }),
                 child: Text("data"))

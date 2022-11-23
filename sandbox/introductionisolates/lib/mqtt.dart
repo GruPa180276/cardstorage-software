@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:mqtt_client/mqtt_client.dart';
@@ -6,7 +7,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 class MQTTClientManager {
   MqttServerClient client =
       MqttServerClient.withPort('127.0.0.1', 'mobile_client', 1883);
-
+  late StreamSubscription subscription;
   Future<int> connect() async {
     client.logging(on: true);
 
@@ -15,7 +16,6 @@ class MQTTClientManager {
     client.onDisconnected = onDisconnected;
     client.onSubscribed = onSubscribed;
     client.pongCallback = pong;
-
     final connMessage =
         MqttConnectMessage().startClean().withWillQos(MqttQos.atLeastOnce);
     client.connectionMessage = connMessage;
@@ -37,8 +37,16 @@ class MQTTClientManager {
     client.disconnect();
   }
 
+  void _onMessage(List<MqttReceivedMessage> event) {
+    final MqttPublishMessage recMess = event[0].payload as MqttPublishMessage;
+    final String message =
+        MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+    print(message);
+  }
+
   void subscribe(String topic) {
     client.subscribe(topic, MqttQos.atLeastOnce);
+    subscription = client.updates!.listen(_onMessage);
   }
 
   void onConnected() {

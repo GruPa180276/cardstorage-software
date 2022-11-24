@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
+import 'package:rfidapp/provider/mqtt/mqtt.dart';
 
 class ReservatePage extends StatefulWidget {
   const ReservatePage({Key? key}) : super(key: key);
@@ -9,6 +10,17 @@ class ReservatePage extends StatefulWidget {
 }
 
 class _ReservatePage extends State<ReservatePage> {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _conntectToMqtt();
+  }
+
+  void _conntectToMqtt() async {
+    await MQTTClientManager.connect();
+    MQTTClientManager.subscribe("topic", context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ApiVisualizer(

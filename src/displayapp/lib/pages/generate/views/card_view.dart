@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/generate/pop_up/get_card_pop_up.dart';
+import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
@@ -128,7 +128,13 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
             child: CardButton(
                 text: 'Jetzt holen',
                 onPress: () {
-                  PopUp.buildGetCardPopUp(context, card);
+                  MqttTimer.startTimer(context);
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => MqttTimer(
+                  //         message: "Halten Sie Ihre Karte an den Sensor!"),
+                  //   ),
+                  // );
                 }),
           ),
           SizedBox(

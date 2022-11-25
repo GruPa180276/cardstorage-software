@@ -1,7 +1,8 @@
+import 'package:admin_login/provider/Mqtt/mqtt.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/button.dart';
-import 'package:admin_login/pages/widget/cards.dart';
+import 'package:admin_login/provider/types/cards.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/domain/values/card_values.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
@@ -131,12 +132,20 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                     "Karte hinzufügen",
                     cardValues,
                     () {
+                      // TODO
+                      //MQTTClientManager.connect();
+                      //MQTTClientManager.publishMessage(
+                      //  "cardStorage1",
+                      //  "Karte hinzufügen",
+                      //);
+
                       Cards newEntry = new Cards(
                           id: cardValues.id,
                           name: cardValues.name,
                           storageId: cardValues.storageID,
                           hardwareId: cardValues.hardwareID);
                       sendData(newEntry.toJson());
+
                       Navigator.of(context).pop();
                     },
                   ),

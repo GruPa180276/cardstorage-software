@@ -1,4 +1,4 @@
-import 'package:admin_login/pages/widget/cards.dart';
+import 'package:admin_login/provider/types/cards.dart';
 import 'package:flutter/material.dart';
 
 List<int> values = [];

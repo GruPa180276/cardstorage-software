@@ -1,4 +1,4 @@
-import 'package:admin_login/pages/widget/storages.dart';
+import 'package:admin_login/provider/types/storages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/button.dart';

@@ -48,12 +48,12 @@ class GenerateInputFields extends StatefulWidget {
 }
 
 class _GenerateInputFieldsState extends State<GenerateInputFields> {
-  late Future<List<Cards>> futureData;
+  late Future<List<dynamic>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("cards") as Future<List<Cards>>;
+    futureData = fetchData("card", Cards);
   }
 
   void setName(String value) {
@@ -70,7 +70,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Cards>>(
+    return FutureBuilder<List<dynamic>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {

@@ -47,12 +47,12 @@ class GetDataFromAPI extends StatefulWidget {
 }
 
 class _GetDataFromAPIState extends State<GetDataFromAPI> {
-  late Future<List<Storages>> futureData;
+  late Future<List<dynamic>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("storages") as Future<List<Storages>>;
+    futureData = fetchData("storages", Storages);
   }
 
   void setName(String value) {
@@ -73,11 +73,11 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Storages>>(
+    return FutureBuilder<List<dynamic>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Storages>? data = snapshot.data;
+          List<dynamic>? data = snapshot.data;
           return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -96,7 +96,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<Storages>? data) {
+  Widget genereateFields(BuildContext context, List<dynamic>? data) {
     return InkWell(
         child: Container(
       child: Column(children: [

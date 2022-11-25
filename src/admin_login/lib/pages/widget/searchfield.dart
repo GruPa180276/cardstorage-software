@@ -13,7 +13,7 @@ class GenerateSearchValues extends StatefulWidget {
 }
 
 class _GenerateSearchValuesState extends State<GenerateSearchValues> {
-  late Future<List<Cards>> futureData;
+  late Future<List<dynamic>> futureData;
 
   @override
   void initState() {
@@ -24,17 +24,17 @@ class _GenerateSearchValuesState extends State<GenerateSearchValues> {
 
   void reloadCardList() {
     setState(() {
-      futureData = fetchData("cards") as Future<List<Cards>>;
+      futureData = fetchData("cards", Cards);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Cards>>(
+    return FutureBuilder<List<dynamic>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Cards>? data = snapshot.data;
+          List<dynamic>? data = snapshot.data;
           addValues(data!);
           return SizedBox();
         } else if (snapshot.hasError) {
@@ -45,7 +45,7 @@ class _GenerateSearchValuesState extends State<GenerateSearchValues> {
     );
   }
 
-  void addValues(List<Cards> data) {
+  void addValues(List<dynamic> data) {
     values.length = 0;
     for (int i = 0; i < data.length; i++) {
       widget.setValue(data[i].id);

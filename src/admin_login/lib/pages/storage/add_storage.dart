@@ -44,12 +44,12 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
-  late Future<List<Storages>> futureData;
+  late Future<List<dynamic>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("storages") as Future<List<Storages>>;
+    futureData = fetchData("storages", Storages);
   }
 
   void setName(String value) {
@@ -70,11 +70,11 @@ class _InputFieldsState extends State<InputFields> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Storages>>(
+    return FutureBuilder<List<dynamic>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Storages>? data = snapshot.data;
+          List<dynamic>? data = snapshot.data;
           return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -90,7 +90,7 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<Storages>? data) {
+  Widget genereateFields(BuildContext context, List<dynamic>? data) {
     return Container(
       child: Column(children: [
         GenerateListTile(

@@ -107,7 +107,7 @@ class GenerateCards extends StatefulWidget {
 }
 
 class _GenerateCardsState extends State<GenerateCards> {
-  late Future<List<Storages>> futureData;
+  late Future<List<dynamic>> futureData;
 
   @override
   void initState() {
@@ -117,18 +117,18 @@ class _GenerateCardsState extends State<GenerateCards> {
 
   void reloadCardList() {
     setState(() {
-      futureData = fetchData("storages") as Future<List<Storages>>;
+      futureData = fetchData("storages", Storages);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Storages>>(
+        child: FutureBuilder<List<dynamic>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Storages>? data = snapshot.data;
+          List<dynamic>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {

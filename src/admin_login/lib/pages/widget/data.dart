@@ -63,13 +63,13 @@ class Storages {
       };
 }
 
-Future<List<dynamic>> fetchData(String type) async {
+Future<List<dynamic>> fetchData(String type, dynamic t) async {
   final response = await http.get(
     Uri.parse('http://10.0.2.2:7171/' + type),
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Cards.fromJson(data)).toList();
+    return jsonResponse.map((data) => t.fromJson(data)).toList();
   } else {
     throw Exception('Unexpected error occured!');
   }

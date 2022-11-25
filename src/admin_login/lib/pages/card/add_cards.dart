@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/button.dart';
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/cards.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/domain/values/card_values.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
@@ -48,12 +48,12 @@ class GenerateInputFields extends StatefulWidget {
 }
 
 class _GenerateInputFieldsState extends State<GenerateInputFields> {
-  late Future<List<dynamic>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("card", Cards);
+    futureData = fetchData();
   }
 
   void setName(String value) {
@@ -70,7 +70,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<dynamic>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -134,9 +134,9 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                       Cards newEntry = new Cards(
                           id: cardValues.id,
                           name: cardValues.name,
-                          storageID: cardValues.storageID,
-                          hardwareID: cardValues.hardwareID);
-                      sendData("cards", newEntry.toJson());
+                          storageId: cardValues.storageID,
+                          hardwareId: cardValues.hardwareID);
+                      sendData(newEntry.toJson());
                       Navigator.of(context).pop();
                     },
                   ),

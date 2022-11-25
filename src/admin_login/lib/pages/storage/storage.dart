@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/storages.dart';
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
@@ -54,22 +54,22 @@ class ListCardStorages extends StatefulWidget {
 }
 
 class _ListCardStoragesState extends State<ListCardStorages> {
-  late Future<List<dynamic>> futureData;
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("storages", Storages);
+    futureData = fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<dynamic>>(
+        child: FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<dynamic>? data = snapshot.data;
+          List<Storages>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {

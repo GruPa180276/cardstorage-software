@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/cards.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/searchfield.dart';
 import 'package:admin_login/pages/widget/reloadbutton.dart';
@@ -73,7 +73,9 @@ class _RemoveCardsState extends State<RemoveCards> {
                         Icons.remove,
                         searchValues,
                         () {
-                          deleteData("cards", searchValues);
+                          for (int i = 0; i < searchValues.length; i++) {
+                            deleteData(searchValues[i]);
+                          }
                           Navigator.of(context).pop();
                         },
                       ),
@@ -100,7 +102,7 @@ class GenerateCards extends StatefulWidget {
 }
 
 class _GenerateCardsState extends State<GenerateCards> {
-  late Future<List<dynamic>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
@@ -110,18 +112,18 @@ class _GenerateCardsState extends State<GenerateCards> {
 
   void reloadCardList() {
     setState(() {
-      futureData = fetchData("card", Cards);
+      futureData = fetchData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<dynamic>>(
+        child: FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<dynamic>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {

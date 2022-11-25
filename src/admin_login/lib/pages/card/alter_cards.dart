@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/cards.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/domain/values/card_values.dart';
@@ -52,12 +52,12 @@ class GetDataFromAPI extends StatefulWidget {
 }
 
 class _GetDataFromAPIState extends State<GetDataFromAPI> {
-  late Future<List<dynamic>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("card", Cards);
+    futureData = fetchData();
   }
 
   void setName(String value) {
@@ -74,11 +74,11 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<dynamic>>(
+    return FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<dynamic>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -97,7 +97,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<dynamic>? data) {
+  Widget genereateFields(BuildContext context, List<Cards>? data) {
     return InkWell(
         child: Container(
       child: Column(children: [
@@ -117,14 +117,14 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
         ),
         GenerateListTile(
           labelText: "Karten Tresor",
-          hintText: data[cardValues.getId()].storageID.toString(),
+          hintText: data[cardValues.getId()].storageId.toString(),
           icon: Icons.storage,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setStorage,
         ),
         GenerateListTile(
           labelText: "Karten Nummer",
-          hintText: data[cardValues.getId()].hardwareID.toString(),
+          hintText: data[cardValues.getId()].hardwareId.toString(),
           icon: Icons.storage,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setHardwareID,
@@ -160,9 +160,9 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                       Cards updateEntry = new Cards(
                           id: cardValues.id,
                           name: cardValues.name,
-                          storageID: cardValues.storageID,
-                          hardwareID: cardValues.hardwareID);
-                      updateData("cards", updateEntry.toJson());
+                          storageId: cardValues.storageID,
+                          hardwareId: cardValues.hardwareID);
+                      updateData(updateEntry.toJson());
                       Navigator.of(context).pop();
                     },
                   ),

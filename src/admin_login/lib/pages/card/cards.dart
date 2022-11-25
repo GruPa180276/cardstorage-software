@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/cards.dart';
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
@@ -17,9 +17,8 @@ class CardsView extends StatefulWidget {
 
 class _CardsViewState extends State<CardsView> {
   String selectedStorage = "-";
-  dynamic available = "-";
-  List<dynamic> dropDownValues = ["-", "78", "79"];
-  List<dynamic> availableValues = ["-", true, false];
+  //TODO
+  List<dynamic> dropDownValues = ["-", "1117", "1118"];
 
   @override
   Widget build(BuildContext context) {
@@ -115,33 +114,6 @@ class _CardsViewState extends State<CardsView> {
                                       ),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      const Expanded(
-                                          child: Text(
-                                        'Verfuegabar',
-                                        style: TextStyle(fontSize: 17),
-                                      )),
-                                      DropdownButton(
-                                        value: available,
-                                        items: availableValues.map((valueItem) {
-                                          return DropdownMenuItem(
-                                              value: valueItem,
-                                              child:
-                                                  Text(valueItem.toString()));
-                                        }).toList(),
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            if (newValue != '') {
-                                              available = newValue as bool;
-                                            } else {
-                                              available = newValue as dynamic;
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
                                 ]),
                               );
                             },
@@ -157,7 +129,6 @@ class _CardsViewState extends State<CardsView> {
               child: Column(children: <Widget>[
                 ListCards(
                   cardStorage: selectedStorage,
-                  available: available,
                 )
               ]),
             )),
@@ -170,35 +141,34 @@ class _CardsViewState extends State<CardsView> {
 class ListCards extends StatefulWidget {
   final String cardStorage;
   dynamic available;
-  ListCards({Key? key, required this.cardStorage, required this.available})
-      : super(key: key);
+  ListCards({Key? key, required this.cardStorage}) : super(key: key);
 
   @override
   State<ListCards> createState() => _ListCardsState();
 }
 
 class _ListCardsState extends State<ListCards> {
-  late Future<List<dynamic>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("card", Cards);
+    futureData = fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<dynamic>>(
+        child: FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<dynamic>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 // ToDo: Add bool check
-                if (widget.cardStorage == data![index].id.toString()) {
+                if (widget.cardStorage == data![index].storageId.toString()) {
                   return GenerateCardWithInkWell.withArguments(
                     index: index,
                     data: data,

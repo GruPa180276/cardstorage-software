@@ -70,7 +70,7 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
         context,
         widget.data![widget.index].id,
         widget.data![widget.index].name,
-        widget.data![widget.index].storageID,
+        widget.data![widget.index].storageId,
         false,
       );
     }
@@ -79,7 +79,7 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
         context,
         widget.data![widget.index].id,
         widget.data![widget.index].name,
-        widget.data![widget.index].storageID,
+        widget.data![widget.index].storageId,
       );
     } else {
       return SizedBox.shrink();

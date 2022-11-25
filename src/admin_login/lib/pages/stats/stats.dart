@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/cards.dart';
 import 'package:admin_login/pages/Widget/appbar.dart';
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
@@ -16,7 +16,7 @@ class StatsView extends StatefulWidget {
 
 class _StatsViewState extends State<StatsView> {
   dynamic selectedStorage = "-";
-  List<dynamic> dropDownValues = ["-", "78", "79"];
+  List<dynamic> dropDownValues = ["-", "1117", "1118"];
 
   @override
   void initState() {
@@ -137,26 +137,26 @@ class ListCards extends StatefulWidget {
 }
 
 class _MyAppState extends State<ListCards> {
-  late Future<List<dynamic>> futureData;
+  late Future<List<Cards>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("card", Cards);
+    futureData = fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<dynamic>>(
+        child: FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<dynamic>? data = snapshot.data;
+          List<Cards>? data = snapshot.data;
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].id) {
+                if (widget.cardStorage == data![index].storageId.toString()) {
                   return GenerateCardWithInkWell.withoutArguments(
                     index: index,
                     data: data,

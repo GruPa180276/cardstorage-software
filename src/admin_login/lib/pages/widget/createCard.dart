@@ -4,7 +4,7 @@ Table createCardTable(
   BuildContext context,
   int id,
   String name,
-  int storageID,
+  int storageId,
   bool isAvailable,
 ) {
   Color color = Colors.green;
@@ -58,12 +58,12 @@ Table createCardTable(
           children: [
             const TableCell(
                 child: Text(
-              "StorageID:",
+              "StorageId:",
               style: TextStyle(fontSize: 20),
             )),
             TableCell(
                 child: Text(
-              storageID.toString(),
+              storageId.toString(),
               style: TextStyle(fontSize: 20),
             ))
           ],

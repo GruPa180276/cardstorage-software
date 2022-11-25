@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/storages.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/domain/values/storage_values.dart';
@@ -47,12 +47,12 @@ class GetDataFromAPI extends StatefulWidget {
 }
 
 class _GetDataFromAPIState extends State<GetDataFromAPI> {
-  late Future<List<dynamic>> futureData;
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData("storages", Storages);
+    futureData = fetchData();
   }
 
   void setName(String value) {
@@ -73,11 +73,11 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<dynamic>>(
+    return FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<dynamic>? data = snapshot.data;
+          List<Storages>? data = snapshot.data;
           return genereateFields(context, data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -96,7 +96,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<dynamic>? data) {
+  Widget genereateFields(BuildContext context, List<Storages>? data) {
     return InkWell(
         child: Container(
       child: Column(children: [
@@ -148,7 +148,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                           ipAdress: storageValues.ipAdress,
                           location: storageValues.location,
                           numberOfCards: storageValues.numberOfCards);
-                      sendData("cards", newEntry.toJson());
+                      sendData(newEntry.toJson());
                     },
                   ),
                 )

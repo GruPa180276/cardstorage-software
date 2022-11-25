@@ -1,4 +1,4 @@
-import 'package:admin_login/pages/widget/data.dart';
+import 'package:admin_login/pages/widget/cards.dart';
 import 'package:flutter/material.dart';
 
 List<int> values = [];
@@ -24,7 +24,7 @@ class _GenerateSearchValuesState extends State<GenerateSearchValues> {
 
   void reloadCardList() {
     setState(() {
-      futureData = fetchData("cards", Cards);
+      futureData = fetchData();
     });
   }
 

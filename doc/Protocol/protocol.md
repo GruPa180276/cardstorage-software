@@ -214,6 +214,9 @@ Habe den Bug beseitigt, das bei zu hoher Skalierung ein Overflow eintritt. (2h)
 **21.11.2022: 8:30 -> 11:30** <br>
 Habe die API Klassen für Storages und Cards erstellt sowie den gesmaten Code darauf angepasst. (3h)
 
+**25.11.2022: 18:30 -> 20:00** <br>
+Habe heute noch die API soweit fertig eingebunden, das die Daten von den jeweiligen Karten richtig dargestellt werden. Für die Storages konnte ich es noch nicht testen, da ich die neuste Version der API aktuell nicht starten kann. Weiters habe ich den Code für MQTT implementiert, damit neue Karten angelegt werden können. (1h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -274,4 +277,5 @@ Habe die API Klassen für Storages und Cards erstellt sowie den gesmaten Code da
 - 9:30 bis 11:30 Uhr
 - 13:00 bis 15:00 Uhr
 - 8:30 bis 11:30 Uhr
+- 18:30 bis 20:00 Uhr
 <!-- { "progress": false } -->

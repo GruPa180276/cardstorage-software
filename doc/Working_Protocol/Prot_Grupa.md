@@ -260,6 +260,17 @@ Es wurde fuer die DisplayApp eine Pop Up erstellt welches einen Timer visualiser
 
 **2022-11-21: 9:50 -> 13:50**
 Tutorial zu Threading wurde angesehen. Und ein Besipeil Programm wurde erzeugt. Hatte ein paar Probleme hat allerdings dann alles funktioniert. Danach wurde der Thread im Hautpprogramm implementiert und es wurde ein freier Code block fuer das Mqtt Protokoll gefertigt
+
+
+**2022-11-22: 10:00 -> 13:00**
+Mqtt Protokoll wurde implementiert und angepasst. Weiters half ich yöchmann bei einer Problemstellung
+
+
+**2022-11-24: 12:00 -> 14:00**
+Es wurde zum Testen des Mqtt Protokolls ein Mqtt Docker erstellt
+
+**2022-11-22: 09:30 -> 13:40**
+Es wurde ein Rapsberry aufgesetzt, der die FLutter anwendnung compilen und anzeigen soll. Ich verwendete Dazu Rasparian Os lite um ressourcen zu sparen. Allerdings fiel mir dan das Conmpilen bzw das Anzeigen der App schwer, da ich noch keinen Displaymanger hatte. Habe dazu auf Github eine Repo gefunden und habe es angwendet. Allerdings compilte das Programm auf den Raspberry nicht. nach zahlreichen versuchen fiel mir auf das Flutter bei mir nicht die letzte stable version verwendete. Ich ladete sie mir dann runter und alles funktionierte tadellose. Es wurden dann noch anpassung zwecks mqtt und api durchgenommen
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -329,5 +340,9 @@ Tutorial zu Threading wurde angesehen. Und ein Besipeil Programm wurde erzeugt. 
 - 09:00 bis 13:00 Uhr
 - 10:00 bis 17:15 Uhr
 - 09:50 bis 13:50 Uhr
+- 10:00 bis 13:00 Uhr
+- 12:00 bis 14:00 Uhr
+- 09:30 bis 13:40 Uhr
+
 <!-- { "progress": false } -->
 

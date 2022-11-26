@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'dart:async';
 
+import 'package:rfidapp/provider/types/storageproperties.dart';
+
 class Data {
-  static String uriRaspi = 'http://10.0.2.2:7171/';
-  static String uriMsGraph = 'http://10.0.2.2:7171/';
+  static String _ipAdress = StorageProperties.getIpAdress()!;
+  static String uriRaspi = 'http://$_ipAdress:7171/';
 
   static Future<Response?> getCardsData(String type) async {
     //on emulator: "http://10.0.2.2:7171/card"
     //http://localhost:7171/card
     try {
+      print(uriRaspi + type);
       final response = await get(Uri.parse(uriRaspi + type), headers: {
         //"key":"value" for authen.
         "Accept": "application/json"

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
 import 'package:rfidapp/provider/mqtt/mqtt.dart';
+import 'package:rfidapp/provider/types/storageproperties.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -19,7 +20,10 @@ class _CardPage extends State<CardPage> {
 
   void _conntectToMqtt() async {
     await MQTTClientManager.connect();
-    MQTTClientManager.subscribe("topic", context);
+    //@TODO change topic to storageid@location
+    //you can find both at your config file
+    print(StorageProperties.getStorageId()!);
+    MQTTClientManager.subscribe(StorageProperties.getStorageId()!, context);
   }
 
   @override

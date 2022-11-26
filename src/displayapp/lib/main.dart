@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mqtt_client/mqtt_client.dart';
 import 'package:provider/provider.dart';
-import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
+import 'package:rfidapp/domain/asset_files.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
-import 'package:rfidapp/provider/mqtt/mqtt.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
+  await AssetFiles.setProperties();
 
   // await SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,

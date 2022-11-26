@@ -1,14 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
+import 'package:rfidapp/provider/types/storageproperties.dart';
 
 class MQTTClientManager {
-  static MqttServerClient _client =
-      MqttServerClient.withPort('10.0.2.2', 'mobile_client', 1883);
+  static MqttServerClient _client = MqttServerClient.withPort(
+      StorageProperties.getIpAdress()!, 'mobile_client', 1883);
   static late StreamSubscription _subscription;
   static late BuildContext _context;
 
@@ -43,15 +44,22 @@ class MQTTClientManager {
 
   static void _onMessage(List<MqttReceivedMessage> event) {
     final MqttPublishMessage recMess = event[0].payload as MqttPublishMessage;
+
     final String message =
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-    print(message);
-    MqttTimer.startTimer(_context);
+    Map response = json.decode(message);
+    print(response);
+    if (response["action"] == "finished") {
+      MqttTimer.cancel();
+    } else {
+      MqttTimer.startTimer(_context);
+    }
   }
 
   static void subscribe(String topic, BuildContext buildContext) {
     _context = buildContext;
     _client.subscribe(topic, MqttQos.atLeastOnce);
+
     _subscription = _client.updates!.listen(_onMessage);
   }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/provider/types/cards.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 class MqttTimer {
+  static late BuildContext context;
+
   static Future<void> startTimer(BuildContext context) {
+    MqttTimer.context = context;
     //send Data to rfid chip, that it should start scanning
     //15seconds time
     //thread that checks if toke is here
@@ -30,7 +32,7 @@ class MqttTimer {
                     backgroundGradient: null,
                     strokeWidth: 20.0,
                     strokeCap: StrokeCap.round,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         fontSize: 33.0,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
@@ -51,10 +53,10 @@ class MqttTimer {
                     },
                   ),
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 350, 0, 0),
+                    padding: EdgeInsets.fromLTRB(0, 350, 0, 0),
                     child: Text(
                       "Halten Sie Ihre Karte an den Sensor!",
                       style: TextStyle(
@@ -68,5 +70,9 @@ class MqttTimer {
             ),
           );
         });
+  }
+
+  static void cancel() {
+    Navigator.pop(context);
   }
 }

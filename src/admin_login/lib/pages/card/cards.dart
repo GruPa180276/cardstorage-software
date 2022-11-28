@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:admin_login/provider/types/storages.dart';
+import 'package:admin_login/provider/types/storages.dart' as storage;
 import 'package:admin_login/provider/types/cards.dart';
+import 'package:admin_login/provider/types/cards.dart' as card;
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
@@ -16,15 +19,25 @@ class CardsView extends StatefulWidget {
 }
 
 class _CardsViewState extends State<CardsView> {
-  late Future<List<Cards>> futureData;
   String selectedStorage = "-";
-  //TODO
-  List<dynamic> dropDownValues = ["-", "1117", "1118"];
+  List<String> dropDownValues = ["-"];
+  List<Storages>? listOfStorages;
+
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    test();
+  }
+
+  void test() async {
+    await storage.fetchData().then((value) => listOfStorages = value);
+
+    for (int i = 0; i < listOfStorages!.length; i++) {
+      print(listOfStorages![i].id);
+      dropDownValues.add(listOfStorages![i].id.toString());
+    }
   }
 
   @override
@@ -75,56 +88,7 @@ class _CardsViewState extends State<CardsView> {
                           ],
                         ),
                         onPressed: () {
-                          showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(30),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                height: 300,
-                                padding: EdgeInsets.all(10),
-                                margin: EdgeInsets.all(10),
-                                child: Column(children: [
-                                  const Text(
-                                    'Filter',
-                                    style: TextStyle(fontSize: 30),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Expanded(
-                                          child: Text(
-                                        'Storage',
-                                        style: TextStyle(fontSize: 17),
-                                      )),
-                                      DropdownButton(
-                                        value: selectedStorage,
-                                        items: dropDownValues.map((valueItem) {
-                                          return DropdownMenuItem(
-                                              value: valueItem,
-                                              child:
-                                                  Text(valueItem.toString()));
-                                        }).toList(),
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            if (newValue != '') {
-                                              selectedStorage =
-                                                  newValue as String;
-                                            } else {
-                                              selectedStorage =
-                                                  newValue as dynamic;
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ]),
-                              );
-                            },
-                          );
+                          filter(context);
                         },
                       ),
                     );
@@ -141,6 +105,51 @@ class _CardsViewState extends State<CardsView> {
             )),
           ]),
         ));
+  }
+
+  Future<dynamic> filter(BuildContext context) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(30),
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 300,
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.all(10),
+          child: Column(children: [
+            const Text(
+              'Filter',
+              style: TextStyle(fontSize: 30),
+            ),
+            Row(
+              children: [
+                const Expanded(
+                    child: Text(
+                  'Storage',
+                  style: TextStyle(fontSize: 17),
+                )),
+                DropdownButton(
+                  value: selectedStorage,
+                  items: dropDownValues.map((valueItem) {
+                    return DropdownMenuItem(
+                        value: valueItem, child: Text(valueItem.toString()));
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedStorage = newValue as String;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ]),
+        );
+      },
+    );
   }
 }
 
@@ -160,7 +169,7 @@ class _ListCardsState extends State<ListCards> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = card.fetchData();
   }
 
   @override

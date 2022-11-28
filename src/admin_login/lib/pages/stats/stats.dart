@@ -15,12 +15,23 @@ class StatsView extends StatefulWidget {
 }
 
 class _StatsViewState extends State<StatsView> {
-  dynamic selectedStorage = "-";
-  List<dynamic> dropDownValues = ["-", "1117", "1118"];
+  String selectedStorage = "-";
+  List<dynamic> dropDownValues = ["-"];
+  List<Cards>? listOfStorages;
 
   @override
   void initState() {
     super.initState();
+    test();
+  }
+
+  void test() async {
+    await fetchData().then((value) => listOfStorages = value);
+
+    for (int i = 0; i < listOfStorages!.length; i++) {
+      print(listOfStorages![i].id);
+      dropDownValues.add(listOfStorages![i].id.toString());
+    }
   }
 
   callBack(String storage) {

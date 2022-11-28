@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+String ipadress = "http://192.168.82.162:7171/api/storage-units";
+
 class Storages {
   int id;
   String name;
   String ipAdress;
   int numberOfCards;
-  String location;
+  int location;
 
   Storages({
     required this.id,
@@ -18,11 +20,11 @@ class Storages {
 
   factory Storages.fromJson(Map<String, dynamic> json) {
     return Storages(
-        id: json['id'],
-        name: json['name'],
-        ipAdress: json['ipAdress'],
-        numberOfCards: json['numberOfCards'],
-        location: json['location']);
+        id: json['id'] ?? 0,
+        name: json['name'] ?? "",
+        ipAdress: json['ipAdress'] ?? "",
+        numberOfCards: json['numberOfCards'] ?? 0,
+        location: json['location'] ?? 0);
   }
   Map<String, dynamic> toJson() => {
         'id': id.toString(),
@@ -35,7 +37,7 @@ class Storages {
 
 Future<List<Storages>> fetchData() async {
   final response = await http.get(
-    Uri.parse('http://10.0.2.2:7171/storage/'),
+    Uri.parse(ipadress),
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -47,7 +49,7 @@ Future<List<Storages>> fetchData() async {
 
 Future<Storages> deleteData(int id) async {
   final http.Response response = await http.delete(
-    Uri.parse('http://10.0.2.2:7171/storage/'),
+    Uri.parse(ipadress),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -61,7 +63,7 @@ Future<Storages> deleteData(int id) async {
 
 Future<Storages> updateData(Map<String, dynamic> data) async {
   final http.Response response = await http.put(
-    Uri.parse('http://10.0.2.2:7171/storage/'),
+    Uri.parse(ipadress),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -77,7 +79,7 @@ Future<Storages> updateData(Map<String, dynamic> data) async {
 
 Future<Storages> sendData(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
-    Uri.parse('http://10.0.2.2:7171/storage/'),
+    Uri.parse(ipadress),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

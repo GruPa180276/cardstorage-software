@@ -64,7 +64,7 @@ class _InputFieldsState extends State<InputFields> {
     storageValues.setNumberOfCards(value);
   }
 
-  void setLocation(String value) {
+  void setLocation(int value) {
     storageValues.setLocation(value);
   }
 

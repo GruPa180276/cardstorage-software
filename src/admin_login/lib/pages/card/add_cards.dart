@@ -1,4 +1,3 @@
-import 'package:admin_login/provider/Mqtt/mqtt.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/button.dart';
@@ -133,12 +132,6 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                     cardValues,
                     () {
                       // TODO
-                      //MQTTClientManager.connect();
-                      //MQTTClientManager.publishMessage(
-                      //  "cardStorage1",
-                      //  "Karte hinzufügen",
-                      //);
-
                       Cards newEntry = new Cards(
                           id: cardValues.id,
                           name: cardValues.name,

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+String ipadress = "http://192.168.82.162:7171/api/cards";
+
 class Cards {
   int id;
   String name;
@@ -32,7 +34,7 @@ class Cards {
 
 Future<List<Cards>> fetchData() async {
   final response = await http.get(
-    Uri.parse('http://10.0.2.2:7171/card/'),
+    Uri.parse(ipadress),
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -44,7 +46,7 @@ Future<List<Cards>> fetchData() async {
 
 Future<dynamic> deleteData(int id) async {
   final http.Response response = await http.delete(
-    Uri.parse('http://10.0.2.2:7171/card/'),
+    Uri.parse(ipadress),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -58,7 +60,7 @@ Future<dynamic> deleteData(int id) async {
 
 Future<dynamic> updateData(Map<String, dynamic> data) async {
   final http.Response response = await http.put(
-    Uri.parse('http://10.0.2.2:7171/card/'),
+    Uri.parse(ipadress),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -74,7 +76,7 @@ Future<dynamic> updateData(Map<String, dynamic> data) async {
 
 Future<dynamic> sendData(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
-    Uri.parse('http://10.0.2.2:7171/card/'),
+    Uri.parse(ipadress),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

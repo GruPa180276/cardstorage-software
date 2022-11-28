@@ -1,7 +1,7 @@
 class StorageValues {
   int id = 0;
   String name = "";
-  String location = "";
+  int location = 0;
   String ipAdress = "";
   int numberOfCards = 0;
 
@@ -21,11 +21,11 @@ class StorageValues {
     return name;
   }
 
-  void setLocation(String location) {
+  void setLocation(int location) {
     this.location = location;
   }
 
-  String getLocation() {
+  int getLocation() {
     return location;
   }
 

@@ -217,6 +217,9 @@ Habe die API Klassen für Storages und Cards erstellt sowie den gesmaten Code da
 **25.11.2022: 18:30 -> 20:00** <br>
 Habe heute noch die API soweit fertig eingebunden, das die Daten von den jeweiligen Karten richtig dargestellt werden. Für die Storages konnte ich es noch nicht testen, da ich die neuste Version der API aktuell nicht starten kann. Weiters habe ich den Code für MQTT implementiert, damit neue Karten angelegt werden können. (1h 30min)
 
+**28.11.2022: 8:30 -> 11:30** <br>
+Habe heute einige Fehler beseitigt. (3h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -278,4 +281,5 @@ Habe heute noch die API soweit fertig eingebunden, das die Daten von den jeweili
 - 13:00 bis 15:00 Uhr
 - 8:30 bis 11:30 Uhr
 - 18:30 bis 20:00 Uhr
+- 8:30 bis 11:30 Uhr
 <!-- { "progress": false } -->

@@ -9,12 +9,12 @@ class Data {
   static String _ipAdress = StorageProperties.getIpAdress()!;
   static String uriRaspi = 'http://$_ipAdress:7171/';
 
-  static Future<Response?> getCardsData(String type) async {
+  static Future<Response?> getCardsData() async {
     //on emulator: "http://10.0.2.2:7171/card"
     //http://localhost:7171/card
+    print(Uri.parse(uriRaspi + "card"));
     try {
-      print(uriRaspi + type);
-      final response = await get(Uri.parse(uriRaspi + type), headers: {
+      final response = await get(Uri.parse(uriRaspi + "card"), headers: {
         //"key":"value" for authen.
         "Accept": "application/json"
       });

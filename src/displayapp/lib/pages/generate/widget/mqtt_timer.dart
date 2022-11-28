@@ -4,7 +4,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 class MqttTimer {
   static late BuildContext context;
 
-  static Future<void> startTimer(BuildContext context) {
+  static Future<void> startTimer(BuildContext context, String action) {
     MqttTimer.context = context;
     //send Data to rfid chip, that it should start scanning
     //15seconds time
@@ -42,6 +42,18 @@ class MqttTimer {
                     isTimerTextShown: true,
                     autoStart: true,
                     onComplete: (() => Navigator.pop(context)),
+                    onStart: () {
+                      if (action == "to-get-card") {
+                        //post to api
+                      }
+                    },
+                    onChange: (value) {
+                      if (action == "to-get-card") {
+                        //get card available false
+                      } else if (action == "to-sign-up") {
+                        //check if user is reigstered get
+                      }
+                    },
                     timeFormatterFunction:
                         (defaultFormatterFunction, duration) {
                       if (duration.inSeconds == 20) {

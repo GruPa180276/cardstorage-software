@@ -49,11 +49,7 @@ class MQTTClientManager {
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
     Map response = json.decode(message);
     print(response);
-    if (response["action"] == "finished") {
-      MqttTimer.cancel();
-    } else {
-      MqttTimer.startTimer(_context);
-    }
+    MqttTimer.startTimer(_context, "to-sign-up");
   }
 
   static void subscribe(String topic, BuildContext buildContext) {

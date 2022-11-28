@@ -101,7 +101,7 @@ func (self *Location) AddNewLocationHandler(res http.ResponseWriter, req *http.R
 		return
 	}
 
-	locationCopy := model.CopyLocation(&location)
+	locationCopy := model.ShallowCopyLocation(&location)
 	err := locationCopy.SelectByName()
 
 	if err != nil && err != sql.ErrNoRows {

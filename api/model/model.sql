@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `Cards` (
     `fk_storageid`      INT,
     `position`          INT, -- position in storage unit
     `cardname`          VARCHAR(64) NOT NULL UNIQUE,
-    `readerdata`        VARCHAR(128) UNIQUE DEFAULT NULL
+    `readerdata`        VARCHAR(128) DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `Storages` (
@@ -27,10 +27,10 @@ CREATE TABLE IF NOT EXISTS `Locations` (
 
 CREATE TABLE IF NOT EXISTS `CardsStatus` (
     `id`                INT PRIMARY KEY AUTO_INCREMENT,
-    `fk_cardid`         INT,
-    `fk_reservationid`  INT NULL, -- If NULL then card not reserved
-    `iscardavailable`   BOOLEAN NOT NULL,
-    `reservationstotal` INT
+    `fk_cardid`         INT NOT NULL,
+    `fk_reservationid`  INT NULL DEFAULT NULL, -- If NULL then card not reserved
+    `iscardavailable`   BOOLEAN NOT NULL DEFAULT TRUE,
+    `reservationstotal` INT DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS `CardsQueue` (
@@ -55,7 +55,6 @@ CREATE TABLE IF NOT EXISTS `Administrators` (
 CREATE TABLE IF NOT EXISTS `UserSession` (
     `id`                INT PRIMARY KEY AUTO_INCREMENT,
     `fk_userid`         INT,
-    `office365token`    VARCHAR(256) UNIQUE NOT NULL,
     `apiaccesstoken`    VARCHAR(256) UNIQUE NOT NULL
 );
 

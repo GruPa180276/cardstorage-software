@@ -27,7 +27,7 @@ func NewUser(model *Model, id int, email string, readerData string) *User {
 	}
 }
 
-func CopyUser(user *User) *User {
+func ShallowCopyUser(user *User) *User {
 	return NewUser(user.Model, user.Id, user.Email, user.ReaderData)
 }
 

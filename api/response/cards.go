@@ -1,13 +1,12 @@
 package response
 
 import (
-	"bytes"
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/google/uuid"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"log"
 	"net/http"
 )
@@ -17,7 +16,7 @@ type Card struct {
 	*log.Logger
 	mqtt.Client
 
-	Messages []Message
+	Messages map[uuid.UUID]*ObserverResult
 }
 
 func (self *Card) GetAllCardsHandler(res http.ResponseWriter, req *http.Request) {
@@ -62,7 +61,7 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 		}
 	}
 
-	cardCopy := model.CopyCard(&card)
+	cardCopy := model.ShallowCopyCard(&card)
 	err := cardCopy.SelectByName()
 
 	if err != nil && err != sql.ErrNoRows {
@@ -77,6 +76,17 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 			return
 		}
 		self.Println("successfully inserted " + (&card).String())
+		// insert new empty card-status
+		if err := card.SelectByName(); err != nil {
+			self.Println(err)
+			return
+		}
+		cs := model.CardStatus{CardId: card.Id, Model: card.Model}
+		if err := (&cs).InsertDefaultStatus(); err != nil {
+			self.Println(err)
+			return
+		}
+		self.Println("successfully inserted " + (&cs).String())
 
 		location := model.Location{Model: card.Model}
 		location.Id = storage.LocationId
@@ -86,27 +96,33 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 		}
 
 		msgid := uuid.Must(uuid.NewRandom()).String()
-		msg := []byte(fmt.Sprintf(`
-			{
-				"messageid": "%s",
-				"action": "scan-new-card-now",
-				"card": {
-					"position": %d,
-					"storageid": %d,
-					"name": "%s"
-				}
-			}
-		`, msgid, card.Position, card.StorageId, card.Name))
+		c := &ControllerMessage{
+			Id:     msgid,
+			Action: ControllerMessageActionAddNewCardToStorageUnit,
+			Card: &ControllerCard{
+				Name:      card.Name,
+				StorageId: card.StorageId,
+				Position:  card.Position,
+			},
+		}
 
-		buf := bytes.NewBuffer(make([]byte, len(msg)))
-		if err := json.Compact(buf, msg); err != nil {
+		msg, err := json.Marshal(c)
+		if err != nil {
 			self.Println(err)
 			return
 		}
 		received := make(chan bool)
 		go func() {
-			received <- self.Publish(AssembleBaseStorageTopic(&storage, &location)+"/1", 1, false, buf.Bytes()).Wait()
+			received <- self.Publish(AssembleBaseStorageTopic(&storage, &location)+"/1", 1, false, []byte(msg)).Wait()
 		}()
-		self.Messages = append(self.Messages, Message{MessageJson: string(msg), Received: received})
+		self.Messages[uuid.MustParse(c.Id)] = &ObserverResult{Data: c, MqttMessageReceived: received}
 	}
+}
+
+func (self *Card) GetCardByIdHandler(res http.ResponseWriter, req *http.Request) {
+	self.Println(util.ErrNotImplemented)
+}
+
+func (self *Card) GetCardByNameHandler(res http.ResponseWriter, req *http.Request) {
+	self.Println(util.ErrNotImplemented)
 }

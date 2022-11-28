@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// @todo: fix '<' being converted to '\u003c'
+// @todo: fix '>' being converted to '\u003e'
 const (
 	CardIdUnset         int    = -1
 	CardNameUnset       string = "<invalid:cardname>"
@@ -32,7 +34,7 @@ func NewCard(model *Model, id int, storageId int, name string, position int, rea
 	}
 }
 
-func CopyCard(card *Card) *Card {
+func ShallowCopyCard(card *Card) *Card {
 	return NewCard(card.Model, card.Id, card.StorageId, card.Name, card.Position, card.ReaderData)
 }
 

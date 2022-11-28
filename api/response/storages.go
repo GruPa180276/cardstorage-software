@@ -116,7 +116,7 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 		}
 	}
 
-	storageCopy := model.CopyStorageUnit(&storage)
+	storageCopy := model.ShallowCopyStorageUnit(&storage)
 	err := storageCopy.SelectByName()
 
 	if err != nil && err != sql.ErrNoRows {
@@ -134,6 +134,6 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 	}
 }
 
-func (self *StorageUnit) PingStorageUnitById(res http.ResponseWriter, req *http.Request) {
-	self.Fatalln(util.ErrNotImplemented)
+func (self *StorageUnit) PingStorageUnitByIdHandler(res http.ResponseWriter, req *http.Request) {
+	self.Println(util.ErrNotImplemented)
 }

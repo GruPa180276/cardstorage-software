@@ -24,7 +24,7 @@ func NewLocation(model *Model, id int, location string) *Location {
 	}
 }
 
-func CopyLocation(location *Location) *Location {
+func ShallowCopyLocation(location *Location) *Location {
 	return NewLocation(location.Model, location.Id, location.Location)
 }
 

@@ -27,7 +27,7 @@ func (self *User) SignUpHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	userCopy := model.CopyUser(&user)
+	userCopy := model.ShallowCopyUser(&user)
 	err := userCopy.SelectByEmail()
 
 	if err != nil && err != sql.ErrNoRows {

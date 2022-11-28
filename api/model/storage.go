@@ -32,7 +32,7 @@ func NewStorage(model *Model, id int, locationid int, name string, ipaddress str
 	}
 }
 
-func CopyStorageUnit(storage *StorageUnit) *StorageUnit {
+func ShallowCopyStorageUnit(storage *StorageUnit) *StorageUnit {
 	return NewStorage(storage.Model, storage.Id, storage.LocationId, storage.Name, storage.IpAddress, storage.Capacity)
 }
 

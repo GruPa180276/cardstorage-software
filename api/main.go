@@ -6,13 +6,11 @@ import (
 	"fmt"
 	mqttclient "github.com/eclipse/paho.mqtt.golang"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/response"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
-	mqttserver "github.com/mochi-co/mqtt/server"
-	"github.com/mochi-co/mqtt/server/listeners"
-	"github.com/mochi-co/mqtt/server/listeners/auth"
 	"log"
 	"net/http"
 	"os"
@@ -27,29 +25,18 @@ func main() {
 	}
 
 	sitemap := make(map[string]*mux.Route)
-
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
-
 	router := mux.NewRouter()
-
-	mqs := mqttserver.NewServer(nil)
-	mqs.AddListener(listeners.NewTCP("t1", "localhost:1883"), &listeners.Config{Auth: new(auth.Allow)})
-	go func() {
-		if err := mqs.Serve(); err != nil {
-			logger.Println("MQTT Error: " + err.Error())
-		}
-	}()
-
 	mqc := mqttclient.NewClient(mqttclient.NewClientOptions().
 		SetClientID("CardStorageManagementController").
 		AddBroker("tcp://localhost:1883"))
 	mqc.Connect().Wait()
-	// mqc.Publish("top/1", 1, true, []byte("hello from the controller!")).Wait()
-
 	connstring := fmt.Sprintf("%s:%s@/%s", os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"), os.Getenv("DB_NAME"))
 	db := util.Must(sql.Open(os.Getenv("DB_DRIVER"), connstring)).(*sql.DB)
 
-	o := response.Observer{mqc, logger, db}
+	messages := make(map[uuid.UUID]*response.ObserverResult)
+
+	o := response.Observer{mqc, logger, db, messages}
 	time.Sleep(1 * time.Second)
 	o.Observe()
 
@@ -73,11 +60,32 @@ func main() {
 	sitemap["GET/api/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}"] =
 		router.HandleFunc("/api/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}", u.GetUserByReaderDataHandler).Methods("GET")
 
-	c := response.Card{DB: db, Logger: logger, Client: mqc, Messages: make([]response.Message, 0)}
+	c := response.Card{DB: db, Logger: logger, Client: mqc, Messages: messages}
 	sitemap["GET/api/cards"] =
 		router.HandleFunc("/api/cards", c.GetAllCardsHandler).Methods("GET")
 	sitemap["POST/api/cards"] =
 		router.HandleFunc("/api/cards", c.AddNewCardHandler).Methods("POST")
+
+	// @todo
+	sitemap["GET/api/cards/id/{id:[0-9]{1,10}}"] =
+		router.HandleFunc("/api/cards/id/{id:[0-9]{1,10}}", c.GetCardByIdHandler).Methods("GET")
+	// @todo
+	sitemap["GET/api/cards/name/{name:[a-zA-Z0-9-_]{3,100}}"] =
+		router.HandleFunc("/api/cards/id/{id:[0-9]{1,10}}", c.GetCardByNameHandler).Methods("GET")
+
+	cs := response.CardStatus{DB: db, Logger: logger}
+	// @todo
+	sitemap["GET/api/cards/status"] =
+		router.HandleFunc("/api/cards/status", cs.GetAllCardsStatusHandler).Methods("GET")
+	// @todo
+	sitemap["GET/api/cards/status/id/{id:[0-9]{1,10}}"] =
+		router.HandleFunc("/api/cards/status/id/{id:[0-9]{1,10}}", cs.GetCardStatusByCardIdHandler).Methods("GET")
+	// @todo: (not really a todo) POST for cards/status not necessary as it's created automatically
+	// sitemap["POST/api/cards/status/id/{id:[0-9]{1,10}}"] =
+	//	router.HandleFunc("/api/cards/status/id/{id:[0-9]{1,10}}", cs.PostCardStatusByCardIdHandler).Methods("POST")
+	// @todo
+	sitemap["PUT/api/cards/status"] =
+		router.HandleFunc("/api/cards/status", cs.PutCardStatusByCardIdHandler).Methods("PUT")
 
 	l := response.Location{db, logger}
 	sitemap["GET/api/locations"] =
@@ -86,7 +94,7 @@ func main() {
 		router.HandleFunc("/api/locations", l.AddNewLocationHandler).Methods("POST")
 	sitemap["GET/api/locations/id/{id:[0-9]{1,10}}"] =
 		router.HandleFunc("/api/locations/id/{id:[0-9]{1,10}}", l.GetLocationByIdHandler).Methods("GET")
-	sitemap["GET/api/locations/name/{name:[a-zA-Z0-9-_]{3, 100}}"] =
+	sitemap["GET/api/locations/name/{name:[a-zA-Z0-9-_]{3,100}}"] =
 		router.HandleFunc("/api/locations/name/{name:[a-zA-Z0-9-_]{3,100}}", l.GetLocationByNameHandler).Methods("GET")
 
 	s := response.StorageUnit{db, logger}
@@ -96,11 +104,11 @@ func main() {
 		router.HandleFunc("/api/storage-units", s.AddNewStorageUnitHandler).Methods("POST")
 	sitemap["GET/api/storage-units/id/{id:[0-9]{1,10}}"] =
 		router.HandleFunc("/api/storage-units/id/{id:[0-9]{1,10}}", s.GetStorageUnitByIdHandler).Methods("GET")
-	sitemap["GET/api/storage-units/name/{name:[a-zA-Z0-9-_]{3, 100}}"] =
+	sitemap["GET/api/storage-units/name/{name:[a-zA-Z0-9-_]{3,100}}"] =
 		router.HandleFunc("/api/storage-units/name/{name:[a-zA-Z0-9-_]{3,100}}", s.GetStorageUnitByNameHandler).Methods("GET")
-	// @todo: ping storage-unit by id
+	// @todo
 	sitemap["GET/api/storage-units/ping/id/{id:[0-9]{1,10}}"] =
-		router.HandleFunc("/api/storage-units/ping/id/{id:[0-9]{1,10}}", s.PingStorageUnitById).Methods("GET")
+		router.HandleFunc("/api/storage-units/ping/id/{id:[0-9]{1,10}}", s.PingStorageUnitByIdHandler).Methods("GET")
 
 	logger.Println(connstring)
 

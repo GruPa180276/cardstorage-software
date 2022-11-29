@@ -23,4 +23,28 @@ func Keys[K comparable, V any](m map[K]V) []K {
 	return keys
 }
 
+func ContainsValue[K comparable, V comparable](m map[K]V, value V) bool {
+	if m == nil {
+		return false
+	}
+	for _, v := range m {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
+
+func ContainsKey[K comparable, V any](m map[K]V, key K) bool {
+	if m == nil {
+		return false
+	}
+	for k, _ := range m {
+		if k == key {
+			return true
+		}
+	}
+	return false
+}
+
 var ErrNotImplemented error = fmt.Errorf("error: not (yet) implemented")

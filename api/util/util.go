@@ -23,6 +23,20 @@ func Keys[K comparable, V any](m map[K]V) []K {
 	return keys
 }
 
+func Values[K comparable, V any](m map[K]V) []V {
+	if m == nil {
+		return nil
+	}
+
+	values := make([]V, 0)
+
+	for _, v := range m {
+		values = append(values, v)
+	}
+
+	return values
+}
+
 func ContainsValue[K comparable, V comparable](m map[K]V, value V) bool {
 	if m == nil {
 		return false

@@ -22,6 +22,7 @@ class RemoveStorage extends StatefulWidget {
 class _RemoveStorageState extends State<RemoveStorage> {
   void setSelectedEntrys(int data) {
     setState(() {
+      searchValues = [];
       selectedEntrys.add(data);
     });
   }
@@ -29,11 +30,16 @@ class _RemoveStorageState extends State<RemoveStorage> {
   void clearView() {
     setState(() {
       selectedEntrys = [];
+      searchValues = [];
     });
   }
 
   void setValues(int value) {
-    searchValues.add(value);
+    bool x = searchValues.contains(value);
+
+    if (x == false) {
+      searchValues.add(value);
+    }
   }
 
   @override

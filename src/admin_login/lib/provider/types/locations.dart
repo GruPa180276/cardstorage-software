@@ -1,41 +1,37 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String ipadress = "http://192.168.0.110:7171/api/cards";
+String ipadress = "http://192.168.0.110:7171/api/locations";
 
-class Cards {
+class Locations {
   int id;
-  String name;
-  int storageid;
+  String location;
 
-  Cards({
+  Locations({
     required this.id,
-    required this.name,
-    required this.storageid,
+    required this.location,
   });
 
-  factory Cards.fromJson(Map<String, dynamic> json) {
-    return Cards(
+  factory Locations.fromJson(Map<String, dynamic> json) {
+    return Locations(
       id: json['id'] ?? 0,
-      name: json['name'] ?? "",
-      storageid: json['storageid'] ?? 0,
+      location: json['location'] ?? "",
     );
   }
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
-        'storageid': storageid,
+        'location': location,
       };
 }
 
-Future<List<Cards>> fetchData() async {
+Future<List<Locations>> fetchData() async {
   final response = await http.get(
     Uri.parse(ipadress),
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Cards.fromJson(data)).toList();
+    return jsonResponse.map((data) => Locations.fromJson(data)).toList();
   } else {
     throw Exception('Unexpected error occured!');
   }
@@ -49,7 +45,7 @@ Future<dynamic> deleteData(int id) async {
     },
   );
   if (response.statusCode == 200) {
-    return Cards.fromJson(json.decode(response.body));
+    return Locations.fromJson(json.decode(response.body));
   } else {
     throw Exception('Failed to delete album.');
   }
@@ -65,7 +61,7 @@ Future<dynamic> updateData(Map<String, dynamic> data) async {
   );
 
   if (response.statusCode == 200) {
-    return Cards.fromJson(json.decode(response.body));
+    return Locations.fromJson(json.decode(response.body));
   } else {
     throw Exception('Failed to update album.');
   }
@@ -80,7 +76,7 @@ Future<dynamic> sendData(Map<String, dynamic> data) async {
     body: jsonEncode(data),
   );
   if (response.statusCode == 201) {
-    return Cards.fromJson(json.decode(response.body));
+    return Locations.fromJson(json.decode(response.body));
   } else {
     throw Exception('Failed to load album');
   }

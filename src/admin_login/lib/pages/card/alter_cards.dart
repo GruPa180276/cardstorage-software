@@ -186,7 +186,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                     "Änderungen speichern",
                     () {
                       Cards updateEntry = new Cards(
-                        id: 0,
+                        id: cardValues.id,
                         name: cardValues.name,
                         storageid: cardValues.storageID,
                       );

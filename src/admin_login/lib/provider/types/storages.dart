@@ -22,15 +22,16 @@ class Storages {
     return Storages(
         id: json['id'] ?? 0,
         name: json['name'] ?? "",
-        ipAdress: json['ipAdress'] ?? "",
-        numberOfCards: json['numberOfCards'] ?? 0,
-        location: json['location'] ?? 0);
+        ipAdress: json['ipaddress'] ?? "",
+        numberOfCards: json['capacity'] ?? 0,
+        location: json['locationid'] ?? 0);
   }
   Map<String, dynamic> toJson() => {
+        'id': id,
         'name': name,
-        'ipAdress': ipAdress,
-        'numberOfCards': numberOfCards,
-        'location': location,
+        'ipaddress': ipAdress,
+        'capacity': numberOfCards,
+        'locationid': location,
       };
 }
 

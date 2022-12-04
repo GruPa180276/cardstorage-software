@@ -1,4 +1,7 @@
+import 'package:admin_login/provider/types/storages.dart' as storage;
 import 'package:admin_login/provider/types/storages.dart';
+import 'package:admin_login/provider/types/locations.dart' as location;
+import 'package:admin_login/provider/types/locations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/button.dart';
@@ -46,10 +49,26 @@ class InputFields extends StatefulWidget {
 class _InputFieldsState extends State<InputFields> {
   late Future<List<Storages>> futureData;
 
+  String selectedStorage = "-";
+  List<Locations>? listOfLocations;
+  List<String> dropDownValues = ["-"];
+  List<String> listOfLocationNames = ["-"];
+
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = storage.fetchData();
+    test();
+  }
+
+  void test() async {
+    await location.fetchData().then((value) => listOfLocations = value);
+
+    for (int i = 0; i < listOfLocations!.length; i++) {
+      print(listOfLocations![i].id);
+      dropDownValues.add(listOfLocations![i].id.toString());
+      listOfLocationNames.add(listOfLocations![i].location.toString());
+    }
   }
 
   void setName(String value) {
@@ -74,8 +93,7 @@ class _InputFieldsState extends State<InputFields> {
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Storages>? data = snapshot.data;
-          return genereateFields(context, data);
+          return genereateFields(context);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -90,7 +108,7 @@ class _InputFieldsState extends State<InputFields> {
     );
   }
 
-  Widget genereateFields(BuildContext context, List<Storages>? data) {
+  Widget genereateFields(BuildContext context) {
     return Container(
       child: Column(children: [
         GenerateListTile(
@@ -114,12 +132,55 @@ class _InputFieldsState extends State<InputFields> {
           regExp: r'([0-9])',
           function: this.setNumberOfCards,
         ),
-        GenerateListTile(
-          labelText: "Ort",
-          hintText: "",
-          icon: Icons.location_pin,
-          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
-          function: this.setLocation,
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+          child: Column(children: [
+            DecoratedBox(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).secondaryHeaderColor,
+                    border: Border.all(
+                      color: Colors.black38,
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      5,
+                    ),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.57),
+                        blurRadius: 5,
+                      )
+                    ]),
+                child: SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: Center(
+                        child: DropdownButton(
+                      focusColor: Theme.of(context).focusColor,
+                      dropdownColor: Theme.of(context).backgroundColor,
+                      iconEnabledColor: Theme.of(context).focusColor,
+                      iconDisabledColor: Theme.of(context).focusColor,
+                      value: selectedStorage,
+                      items: listOfLocationNames.map((valueItem) {
+                        return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(
+                              valueItem.toString(),
+                              style: TextStyle(
+                                  color: Theme.of(context).focusColor),
+                            ));
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedStorage = newValue as String;
+                        });
+
+                        int i = listOfLocationNames.indexOf(newValue as String);
+                        setLocation(dropDownValues[i] as int);
+                        print(dropDownValues[i] as int);
+                      },
+                    ))))
+          ]),
         ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
@@ -135,12 +196,13 @@ class _InputFieldsState extends State<InputFields> {
                     "Storage hinzufügen",
                     () {
                       Storages newEntry = new Storages(
-                          id: storageValues.id,
+                          id: 0,
                           name: storageValues.name,
                           ipAdress: storageValues.ipAdress,
                           location: storageValues.location,
                           numberOfCards: storageValues.numberOfCards);
-                      sendData(newEntry.toJson());
+                      storage.sendData(newEntry.toJson());
+                      Navigator.of(context).pop();
                     },
                   ),
                 )

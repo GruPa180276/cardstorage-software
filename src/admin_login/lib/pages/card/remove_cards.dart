@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:admin_login/provider/types/cards.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/searchfield.dart';
-import 'package:admin_login/pages/widget/reloadbutton.dart';
 import 'package:admin_login/pages/widget/cardwithoutinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
-
-// ToDo: The Api needs to be changed in the future
 
 List<int> searchValues = [];
 List<int> selectedEntrys = [];
@@ -22,6 +19,7 @@ class RemoveCards extends StatefulWidget {
 class _RemoveCardsState extends State<RemoveCards> {
   void setSelectedEntrys(int value) {
     setState(() {
+      searchValues = [];
       selectedEntrys.add(value);
     });
   }
@@ -29,11 +27,16 @@ class _RemoveCardsState extends State<RemoveCards> {
   void clearView() {
     setState(() {
       selectedEntrys = [];
+      searchValues = [];
     });
   }
 
   void setValues(int value) {
-    searchValues.add(value);
+    bool x = searchValues.contains(value);
+
+    if (x == false) {
+      searchValues.add(value);
+    }
   }
 
   @override
@@ -47,8 +50,6 @@ class _RemoveCardsState extends State<RemoveCards> {
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: GenerateReloadButton(this.clearView),
         body: Container(
             padding: EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Column(
@@ -136,6 +137,7 @@ class _GenerateCardsState extends State<GenerateCards> {
                     );
                   }
                 }
+
                 return SizedBox.shrink();
               });
         } else if (snapshot.hasError) {

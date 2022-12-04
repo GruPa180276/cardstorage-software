@@ -41,7 +41,7 @@ Expanded generateButtonRoundWithoutRoute(
     Function()? onpressd) {
   return Expanded(
     child: ElevatedButton(
-      onPressed: () {},
+      onPressed: onpressd,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -65,8 +65,11 @@ Expanded generateButtonRoundWithoutRoute(
   );
 }
 
-Expanded generateButtonRectangle(BuildContext context, String buttonText,
-    dynamic values, Function()? onpressd) {
+Expanded generateButtonRectangle(
+  BuildContext context,
+  String buttonText,
+  Function()? onpressd,
+) {
   return Expanded(
     child: ElevatedButton(
       onPressed: onpressd,
@@ -90,15 +93,14 @@ Expanded generateButtonRectangle(BuildContext context, String buttonText,
   );
 }
 
-Expanded generateButtonWithDialog(BuildContext context, String buttonText) {
+Expanded generateButtonWithDialog(
+  BuildContext context,
+  String buttonText,
+  Function()? onpressed,
+) {
   return Expanded(
     child: ElevatedButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => generatePopupDialog(context),
-        );
-      },
+      onPressed: onpressed,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),

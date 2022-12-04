@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/provider/types/cards.dart';
+import 'package:admin_login/provider/types/cards.dart' as card;
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/domain/values/card_values.dart';
+import 'package:admin_login/provider/types/storages.dart' as storage;
+import 'package:admin_login/provider/types/storages.dart';
 
 // ToDo: The Api needs to be changed in the future
 // Add API call to select the Card Storage
@@ -54,10 +57,24 @@ class GetDataFromAPI extends StatefulWidget {
 class _GetDataFromAPIState extends State<GetDataFromAPI> {
   late Future<List<Cards>> futureData;
 
+  String selectedStorage = "-";
+  List<String> dropDownValues = ["-"];
+  List<Storages>? listOfStorages;
+
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = card.fetchData();
+    test();
+  }
+
+  void test() async {
+    await storage.fetchData().then((value) => listOfStorages = value);
+
+    for (int i = 0; i < listOfStorages!.length; i++) {
+      print(listOfStorages![i].id);
+      dropDownValues.add(listOfStorages![i].id.toString());
+    }
   }
 
   void setName(String value) {
@@ -102,45 +119,57 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
         child: Container(
       child: Column(children: [
         GenerateListTile(
-          labelText: "ID",
-          hintText: data![cardValues.getId()].id.toString(),
-          icon: Icons.description,
-          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
-          function: this.setName,
-        ),
-        GenerateListTile(
           labelText: "Name",
-          hintText: data[cardValues.getId()].name,
+          hintText: data![cardValues.getId()].name,
           icon: Icons.description,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setName,
-        ),
-        GenerateListTile(
-          labelText: "Karten Tresor",
-          hintText: data[cardValues.getId()].storageId.toString(),
-          icon: Icons.storage,
-          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
-          function: this.setStorage,
-        ),
-        GenerateListTile(
-          labelText: "Karten Nummer",
-          hintText: data[cardValues.getId()].hardwareId.toString(),
-          icon: Icons.storage,
-          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
-          function: this.setHardwareID,
         ),
         Container(
-          padding: EdgeInsets.all(10),
-          height: 70,
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           child: Column(children: [
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: GenerateButtonWithDialogAndCallBack(
-                buttonText: "Bitte Karte scannen",
-                function: this.setHardwareID,
-              ),
-            )
+            DecoratedBox(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).secondaryHeaderColor,
+                    border: Border.all(
+                      color: Colors.black38,
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      5,
+                    ),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.57),
+                        blurRadius: 5,
+                      )
+                    ]),
+                child: SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: Center(
+                        child: DropdownButton(
+                      focusColor: Theme.of(context).focusColor,
+                      dropdownColor: Theme.of(context).backgroundColor,
+                      iconEnabledColor: Theme.of(context).focusColor,
+                      iconDisabledColor: Theme.of(context).focusColor,
+                      value: selectedStorage,
+                      items: dropDownValues.map((valueItem) {
+                        return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(
+                              valueItem.toString(),
+                              style: TextStyle(
+                                  color: Theme.of(context).focusColor),
+                            ));
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedStorage = newValue as String;
+                          setStorage(newValue as int);
+                        });
+                      },
+                    ))))
           ]),
         ),
         GestureDetector(
@@ -155,14 +184,13 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                   child: generateButtonRectangle(
                     context,
                     "Änderungen speichern",
-                    cardValues,
                     () {
                       Cards updateEntry = new Cards(
-                          id: cardValues.id,
-                          name: cardValues.name,
-                          storageId: cardValues.storageID,
-                          hardwareId: cardValues.hardwareID);
-                      updateData(updateEntry.toJson());
+                        id: 0,
+                        name: cardValues.name,
+                        storageid: cardValues.storageID,
+                      );
+                      card.updateData(updateEntry.toJson());
                       Navigator.of(context).pop();
                     },
                   ),

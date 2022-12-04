@@ -167,7 +167,7 @@ class _MyAppState extends State<ListCards> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].storageId.toString()) {
+                if (widget.cardStorage == data![index].storageid.toString()) {
                   return GenerateCardWithInkWell.withoutArguments(
                     index: index,
                     data: data,

@@ -140,7 +140,6 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                   child: generateButtonRectangle(
                     context,
                     "Änderungen speichern",
-                    storageValues,
                     () {
                       Storages newEntry = new Storages(
                           id: storageValues.id,

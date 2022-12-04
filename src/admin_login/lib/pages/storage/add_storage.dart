@@ -133,7 +133,6 @@ class _InputFieldsState extends State<InputFields> {
                   child: generateButtonRectangle(
                     context,
                     "Storage hinzufügen",
-                    storageValues,
                     () {
                       Storages newEntry = new Storages(
                           id: storageValues.id,

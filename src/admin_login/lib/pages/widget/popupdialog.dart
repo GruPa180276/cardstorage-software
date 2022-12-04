@@ -27,7 +27,7 @@ Widget generatePopupDialog(BuildContext context) {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // ToDo: Implment Call, to start the Scanner
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 },
                 child: Text(

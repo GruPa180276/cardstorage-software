@@ -220,6 +220,12 @@ Habe heute noch die API soweit fertig eingebunden, das die Daten von den jeweili
 **28.11.2022: 8:30 -> 11:30** <br>
 Habe heute einige Fehler beseitigt. (3h)
 
+**3.12.2022: 9:45 bis 11:15** <br>
+Wir haben gemeinsam das Plakat erstellt und eiige Dinge besprochen (1h 30min)
+
+**4.12.2022: 8:45 bis 11:45** <br>
+Habe den Code so angepasst das jetzt die richtigen Felder eingelesen werden und an die API übetragen werden. Weiters habe ich einige Fehler behoben, unteranderm bei der Suche, das Werte doppelt angezeigt wurden. Danach habe ich noch den Code für die locations implmentiert, das man jetzt beim Storage anlegen auch aus vorhanden Storage-Locations auswählen kann. (3h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -282,4 +288,6 @@ Habe heute einige Fehler beseitigt. (3h)
 - 8:30 bis 11:30 Uhr
 - 18:30 bis 20:00 Uhr
 - 8:30 bis 11:30 Uhr
+- 9:45 bis 11:15 Uhr
+- 8:45 bis 11:45 Uhr
 <!-- { "progress": false } -->

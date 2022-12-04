@@ -72,6 +72,4 @@
 - https://flutteragency.com/how-to-set-space-between-elements-in-flutter/
 - https://stackoverflow.com/questions/56406601/how-to-encode-an-object-to-json-in-flutter
 - https://stackoverflow.com/questions/64129058/contains-function-for-int-in-flutter
-
-
-
+- https://www.fluttercampus.com/guide/211/style-dropdown-button-flutter

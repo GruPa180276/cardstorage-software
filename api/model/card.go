@@ -1,29 +1,30 @@
 package model
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 )
 
 // @todo: fix '<' being converted to '\u003c'
 // @todo: fix '>' being converted to '\u003e'
-const (
-	CardIdUnset         int    = -1
-	CardNameUnset       string = "<invalid:cardname>"
-	CardPositionUnset   int    = -1
-	CardReaderDataUnset string = "<invalid:readerdata>"
+var (
+	CardIdUnset         int            = -1
+	CardNameUnset       string         = "<invalid:cardname>"
+	CardPositionUnset   int            = -1
+	CardReaderDataUnset sql.NullString = sql.NullString{Valid: false}
 )
 
 type Card struct {
-	Id         int    `json:"id,omitempty"`
-	StorageId  int    `json:"storageid"`
-	Name       string `json:"name"`
-	Position   int    `json:"position"`
-	ReaderData string `json:"readerdata"`
+	Id         int            `json:"id,omitempty"`
+	StorageId  int            `json:"storageid"`
+	Name       string         `json:"name"`
+	Position   int            `json:"position"`
+	ReaderData sql.NullString `json:"readerdata"`
 	*Model
 }
 
-func NewCard(model *Model, id int, storageId int, name string, position int, readerdata string) *Card {
+func NewCard(model *Model, id int, storageId int, name string, position int, readerdata sql.NullString) *Card {
 	return &Card{
 		Id:         id,
 		StorageId:  storageId,
@@ -91,10 +92,14 @@ func (self *Card) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 			self.Position = int(v.(float64))
 			positionIsPresent = true
 		case "readerdata":
+			self.ReaderData = sql.NullString{}
+			if v == nil {
+				return fmt.Errorf("warning: attribute 'readerdata' is nil")
+			}
 			if _, ok := v.(string); !ok {
 				return fmt.Errorf("error: converting attribute 'readerdata' from interface{} to string")
 			}
-			self.ReaderData = v.(string)
+			self.ReaderData = sql.NullString{Valid: true, String: v.(string)}
 			readerdataIsPresent = true
 		default:
 			return fmt.Errorf("Error during parsing: unknown key '%s'", k)
@@ -121,16 +126,26 @@ func (self *Card) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 }
 
 func (self *Card) MarshalJSON() ([]byte, error) /* implements json.Marshaler */ {
+	var readerdata interface{} = self.ReaderData.String
+	if !self.ReaderData.Valid {
+		readerdata = nil
+	}
 	type Alias Card
 	return json.Marshal(&struct {
+		Readerdata interface{} `json:"readerdata"`
 		*Alias
 	}{
-		Alias: (*Alias)(self),
+		Alias:      (*Alias)(self),
+		Readerdata: readerdata,
 	})
 }
 
 func (self *Card) String() string {
-	return fmt.Sprintf("model.Card(model=\"\",id=%d,storageId=%d,name=%s,position=%d,readerdata=%s)", self.Id, self.StorageId, self.Name, self.Position, self.ReaderData)
+	var readerdata interface{} = self.ReaderData.String
+	if !self.ReaderData.Valid {
+		readerdata = nil
+	}
+	return fmt.Sprintf("model.Card(model=\"\",id=%d,storageId=%d,name=%s,position=%d,readerdata=%v)", self.Id, self.StorageId, self.Name, self.Position, readerdata)
 }
 
 func (self *Card) SelectAll() ([]Card, error) {
@@ -157,23 +172,14 @@ func (self *Card) SelectAll() ([]Card, error) {
 
 func (self *Card) SelectById() error {
 	row := self.QueryRow("SELECT fk_storageid, cardname, position, readerdata FROM Cards WHERE id = ?", self.Id)
-
-	if err := row.Scan(&self.StorageId, &self.Name, &self.Position, &self.ReaderData); err != nil {
-		return err
-	}
-	return nil
+	return row.Scan(&self.StorageId, &self.Name, &self.Position, &self.ReaderData)
 }
 
 func (self *Card) SelectByName() error {
 	row := self.QueryRow("SELECT id, fk_storageid, position, readerdata FROM Cards WHERE cardname = ?", self.Name)
-
-	if err := row.Scan(&self.Id, &self.StorageId, &self.Position, &self.ReaderData); err != nil {
-		return err
-	}
-	return nil
+	return row.Scan(&self.Id, &self.StorageId, &self.Position, &self.ReaderData)
 }
 
-func (self *Card) Insert() error {
-	_, err := self.Exec("INSERT INTO Cards (fk_storageid, position, cardname, readerdata) VALUES (?,?,?,?)", self.StorageId, self.Position, self.Name, self.ReaderData)
-	return err
+func (self *Card) Insert() (sql.Result, error) {
+	return self.Exec("INSERT INTO Cards (fk_storageid, position, cardname, readerdata) VALUES (?,?,?,?)", self.StorageId, self.Position, self.Name, self.ReaderData)
 }

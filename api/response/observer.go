@@ -49,7 +49,7 @@ func (self *Observer) Observe() {
 			if length > 1024 {
 				return
 			}
-			self.Printf("got '%s' from '%s'\n", string(msg.Payload()[:length]), msg.Topic())
+			self.Printf("got '%s' on '%s'\n", string(msg.Payload()[:length]), msg.Topic())
 
 			controllerMessage := new(ControllerMessage)
 			controllerMessage.Card = new(ControllerCard)

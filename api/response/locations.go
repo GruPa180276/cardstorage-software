@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"log"
 	"net/http"
 	"strconv"
@@ -21,11 +22,17 @@ func (self *Location) GetAllLocationsHandler(res http.ResponseWriter, req *http.
 	locations, err := location.SelectAll()
 	if err != nil {
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(locations); err != nil {
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 }
@@ -34,12 +41,12 @@ func (self *Location) GetLocationByIdHandler(res http.ResponseWriter, req *http.
 	location := model.Location{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
 	vars := mux.Vars(req)
-	self.Println(vars["id"])
+	self.Printf("trying to get card #%s by id", vars["id"])
 
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
-		Err(&res, http.StatusBadRequest, err)
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -47,18 +54,18 @@ func (self *Location) GetLocationByIdHandler(res http.ResponseWriter, req *http.
 	err = location.SelectById()
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			Err(&res, http.StatusNotFound, err)
-		} else {
-			Err(&res, http.StatusBadRequest, err)
-		}
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(location); err != nil {
-		Err(&res, http.StatusBadRequest, err)
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 }
@@ -67,45 +74,49 @@ func (self *Location) GetLocationByNameHandler(res http.ResponseWriter, req *htt
 	location := model.Location{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
 	vars := mux.Vars(req)
-	self.Println(vars["name"])
+	self.Printf("trying to get card '%s' by name", vars["name"])
 
 	location.Location = vars["name"]
 	err := location.SelectByName()
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			Err(&res, http.StatusNotFound, err)
-		} else {
-			Err(&res, http.StatusBadRequest, err)
-		}
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(location); err != nil {
-		Err(&res, http.StatusBadRequest, err)
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 }
 
 func (self *Location) AddNewLocationHandler(res http.ResponseWriter, req *http.Request) {
-	location := model.Location{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
+	location := &model.Location{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
-	if err := json.NewDecoder(req.Body).Decode(&location); err != nil {
+	if err := json.NewDecoder(req.Body).Decode(location); err != nil {
 		self.Println(err)
 		return
 	}
 
 	if location.Location == model.LocationNameUnset {
+		strerr := "error: at least one condition for adding new location not met"
+		self.Println(strerr)
+		util.HttpBasicJsonError(res, http.StatusBadRequest, strerr)
 		return
 	}
 
-	locationCopy := model.ShallowCopyLocation(&location)
+	locationCopy := model.ShallowCopyLocation(location)
 	err := locationCopy.SelectByName()
 
 	if err != nil && err != sql.ErrNoRows {
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -113,8 +124,9 @@ func (self *Location) AddNewLocationHandler(res http.ResponseWriter, req *http.R
 	if err == sql.ErrNoRows {
 		if err := location.Insert(); err != nil {
 			self.Println(err)
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 			return
 		}
-		self.Println("successfully inserted " + (&location).String())
+		self.Println("successfully inserted", location.String())
 	}
 }

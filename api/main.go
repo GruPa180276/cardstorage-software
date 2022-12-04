@@ -28,7 +28,7 @@ func main() {
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
 	router := mux.NewRouter()
 	mqc := mqttclient.NewClient(mqttclient.NewClientOptions().
-		SetClientID("CardStorageManagementController").
+		SetClientID("CSManagementController").
 		AddBroker("tcp://localhost:1883"))
 	mqc.Connect().Wait()
 	connstring := fmt.Sprintf("%s:%s@/%s", os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"), os.Getenv("DB_NAME"))
@@ -39,14 +39,6 @@ func main() {
 	o := response.Observer{mqc, logger, db, messages}
 	time.Sleep(1 * time.Second)
 	o.Observe()
-
-	sitemap["GET/"] = router.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
-		response.Json(&res, http.StatusOK, "Nothing to see here yet!")
-	}).Methods("GET")
-
-	sitemap["GET/api"] = router.HandleFunc("/api", func(res http.ResponseWriter, req *http.Request) {
-		response.Json(&res, http.StatusOK, "Nothing to see here yet!")
-	}).Methods("GET")
 
 	u := response.User{db, logger}
 	sitemap["GET/api/users"] =
@@ -71,7 +63,7 @@ func main() {
 		router.HandleFunc("/api/cards/id/{id:[0-9]{1,10}}", c.GetCardByIdHandler).Methods("GET")
 	// @todo
 	sitemap["GET/api/cards/name/{name:[a-zA-Z0-9-_]{3,100}}"] =
-		router.HandleFunc("/api/cards/id/{id:[0-9]{1,10}}", c.GetCardByNameHandler).Methods("GET")
+		router.HandleFunc("/api/cards/name/{name:[a-zA-Z0-9-_]{3,100}}", c.GetCardByNameHandler).Methods("GET")
 
 	cs := response.CardStatus{DB: db, Logger: logger}
 	// @todo

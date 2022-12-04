@@ -3,6 +3,7 @@ package response
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
@@ -22,11 +23,17 @@ func (self *StorageUnit) GetAllStorageUnitsHandler(res http.ResponseWriter, req 
 	storages, err := storage.SelectAll()
 	if err != nil {
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(storages); err != nil {
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 }
@@ -35,11 +42,11 @@ func (self *StorageUnit) GetStorageUnitByIdHandler(res http.ResponseWriter, req 
 	storage := model.StorageUnit{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
 	vars := mux.Vars(req)
-	self.Println(vars["id"])
+	self.Printf("trying to get storage-unit '%s' by id", vars["name"])
 
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
-		Err(&res, http.StatusBadRequest, err)
+		util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
 		self.Println(err)
 		return
 	}
@@ -48,18 +55,18 @@ func (self *StorageUnit) GetStorageUnitByIdHandler(res http.ResponseWriter, req 
 	err = storage.SelectById()
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			Err(&res, http.StatusNotFound, err)
-		} else {
-			Err(&res, http.StatusBadRequest, err)
-		}
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(storage); err != nil {
-		Err(&res, http.StatusBadRequest, err)
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 }
@@ -68,32 +75,32 @@ func (self *StorageUnit) GetStorageUnitByNameHandler(res http.ResponseWriter, re
 	storage := model.StorageUnit{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
 	vars := mux.Vars(req)
-	self.Println(vars["name"])
+	self.Printf("trying to get storage-unit '%s' by name", vars["name"])
 
 	storage.Name = vars["name"]
 	err := storage.SelectByName()
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			Err(&res, http.StatusNotFound, err)
-		} else {
-			Err(&res, http.StatusBadRequest, err)
-		}
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(storage); err != nil {
-		Err(&res, http.StatusBadRequest, err)
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 }
 
 func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *http.Request) {
-	storage := model.StorageUnit{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
+	storage := &model.StorageUnit{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
-	if err := json.NewDecoder(req.Body).Decode(&storage); err != nil {
+	if err := json.NewDecoder(req.Body).Decode(storage); err != nil {
 		self.Println(err)
 		return
 	}
@@ -102,6 +109,9 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 		storage.LocationId == model.LocationIdUnset ||
 		storage.IpAddress == model.StorageUnitIpAddrUnset ||
 		storage.Capacity == model.StorageUnitCapacityUnset {
+		strerr := "error: at least one condition for adding new storage-unit not met"
+		self.Println(strerr)
+		util.HttpBasicJsonError(res, http.StatusBadRequest, strerr)
 		return
 	}
 
@@ -111,16 +121,19 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 	if err := location.SelectById(); err != nil {
 		if err == sql.ErrNoRows {
 			// invalid location id
-			self.Printf("error: trying to add new storage-unit with non-existent location '%s'\n", (&location).String())
+			strerr := fmt.Sprintf("error: trying to add new card with non-existent storage '%s'", storage.String())
+			self.Printf(strerr)
+			util.HttpBasicJsonError(res, http.StatusBadRequest, strerr)
 			return
 		}
 	}
 
-	storageCopy := model.ShallowCopyStorageUnit(&storage)
+	storageCopy := model.ShallowCopyStorageUnit(storage)
 	err := storageCopy.SelectByName()
 
 	if err != nil && err != sql.ErrNoRows {
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -128,12 +141,14 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 	if err == sql.ErrNoRows {
 		if err := storage.Insert(); err != nil {
 			self.Println(err)
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 			return
 		}
-		self.Println("successfully inserted " + (&storage).String())
+		self.Println("successfully inserted " + storage.String())
 	}
 }
 
 func (self *StorageUnit) PingStorageUnitByIdHandler(res http.ResponseWriter, req *http.Request) {
 	self.Println(util.ErrNotImplemented)
+	util.HttpBasicJsonError(res, http.StatusNotImplemented)
 }

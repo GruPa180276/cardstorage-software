@@ -22,11 +22,17 @@ func (self *CardStatus) GetAllCardsStatusHandler(res http.ResponseWriter, req *h
 	csAll, err := cs.SelectAll()
 	if err != nil {
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(csAll); err != nil {
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
 		return
 	}
 }
@@ -39,8 +45,8 @@ func (self *CardStatus) GetCardStatusByCardIdHandler(res http.ResponseWriter, re
 
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
-		Err(&res, http.StatusBadRequest, err)
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -48,18 +54,18 @@ func (self *CardStatus) GetCardStatusByCardIdHandler(res http.ResponseWriter, re
 	err = cs.SelectByCardId()
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			Err(&res, http.StatusNotFound, err)
-		} else {
-			Err(&res, http.StatusBadRequest, err)
-		}
 		self.Println(err)
+		if err == sql.ErrNoRows {
+			util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		} else {
+			util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
 	if err := json.NewEncoder(res).Encode(cs); err != nil {
-		Err(&res, http.StatusBadRequest, err)
 		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
 		return
 	}
 }

@@ -1,23 +1,86 @@
 [
-	"POST/api/users/sign-up",
-	"GET/api/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}",
-	"GET/api/cards",
-	"POST/api/cards",
-	"PUT/api/cards/status",
-	"GET/api/users/email/{email:[a-zA-Z0-9.@-_]{5,100}}",
-	"GET/api/cards/status/id/{id:[0-9]{1,10}}",
-	"GET/api/locations/name/{name:[a-zA-Z0-9-_]{3,100}}",
-	"GET/api/storage-units/name/{name:[a-zA-Z0-9-_]{3,100}}",
-	"GET/api/storage-units/ping/id/{id:[0-9]{1,10}}",
-	"GET/api/users/id/{id:[0-9]{1,10}}",
-	"GET/api/cards/id/{id:[0-9]{1,10}}",
-	"GET/api/cards/name/{name:[a-zA-Z0-9-_]{3,100}}",
-	"GET/api/locations",
-	"POST/api/locations",
-	"GET/api/locations/id/{id:[0-9]{1,10}}",
-	"GET/api/storage-units",
-	"GET/api/users",
-	"GET/api/cards/status",
-	"POST/api/storage-units",
-	"GET/api/storage-units/id/{id:[0-9]{1,10}}"
+	{
+		"method": "GET",
+		"path": "/api/storage-units/name/{name:[a-zA-Z0-9-_]{3,100}}"
+	},
+	{
+		"method": "GET",
+		"path": "/api/users/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "POST",
+		"path": "/api/users/sign-up"
+	},
+	{
+		"method": "POST",
+		"path": "/api/storage-units"
+	},
+	{
+		"method": "GET",
+		"path": "/api/storage-units/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "POST",
+		"path": "/api/cards"
+	},
+	{
+		"method": "GET",
+		"path": "/api/cards/name/{name:[a-zA-Z0-9-_]{3,100}}"
+	},
+	{
+		"method": "GET",
+		"path": "/api/locations/name/{name:[a-zA-Z0-9-_]{3,100}}"
+	},
+	{
+		"method": "POST",
+		"path": "/api/locations"
+	},
+	{
+		"method": "GET",
+		"path": "/api/storage-units"
+	},
+	{
+		"method": "GET",
+		"path": "/api/users"
+	},
+	{
+		"method": "GET",
+		"path": "/api/cards/status/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "PUT",
+		"path": "/api/cards/status"
+	},
+	{
+		"method": "GET",
+		"path": "/api/locations"
+	},
+	{
+		"method": "GET",
+		"path": "/api/cards/status"
+	},
+	{
+		"method": "GET",
+		"path": "/api/locations/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "GET",
+		"path": "/api/storage-units/ping/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "GET",
+		"path": "/api/users/email/{email:[a-zA-Z0-9.@-_]{5,100}}"
+	},
+	{
+		"method": "GET",
+		"path": "/api/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}"
+	},
+	{
+		"method": "GET",
+		"path": "/api/cards"
+	},
+	{
+		"method": "GET",
+		"path": "/api/cards/id/{id:[0-9]{1,10}}"
+	}
 ]

@@ -1,7 +1,9 @@
 package util
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"os"
@@ -68,6 +70,18 @@ func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {
 		r = fmt.Sprintf(`,"reason":"%s"`, reason[0])
 	}
 	http.Error(res, fmt.Sprintf(`{"error":{"status":"%s"%s}}`, http.StatusText(code), r), code)
+}
+
+type Sitemap struct {
+	Router  *mux.Router
+	Sitemap map[*json.RawMessage]*mux.Route
+}
+
+func (self *Sitemap) AddHandler(method, path string, handler http.HandlerFunc) *Sitemap {
+	m := json.RawMessage(fmt.Sprintf(`{"method":"%s","path":"%s"}`, method, path))
+	(*self).Sitemap[&m] =
+		self.Router.HandleFunc(path, handler).Methods(method)
+	return self
 }
 
 var ErrNotImplemented error = fmt.Errorf("error: not (yet) implemented")

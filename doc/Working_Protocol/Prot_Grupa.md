@@ -280,6 +280,13 @@ Propertiers File und Json im Mqtt wurde hinzugefügt, weiters wurde der Bildschr
 Telefengespraech mit MJ ueber MQTT und API. Ebenfealls wurde das Rpasberry programm zum kommunizieren mit der API Mqtt und Maschine3nbauer erstellt
 
 
+**2022-11-24: 13:00 -> 18:00**
+App wurde an Api von Johannes umgeaendert und refactoring wurde betrieben
+
+
+**2022-12-07: 10:00 -> 13:00**
+Es wurde ein Dokument fuer die Api bzw. Mqtt erstellt. Dort wurde der Datenverkehr von App bis zu Raspberry genausten beschriben. Weiters hatten wir ein Meeting mit den Maschinenbauern
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -341,7 +348,7 @@ Telefengespraech mit MJ ueber MQTT und API. Ebenfealls wurde das Rpasberry progr
 - 08:15 bis 10:00 Uhr
 - 13:45 bis 15:15 Uhr
 - 10:00 bis 12:00 Uhr
-- 22:00 bis 24:00 Uhr
+- 22:00 bis 00:00 Uhr
 - 21:00 bis 22:15 Uhr
 - 10:00 bis 14:25 Uhr
 - 10:00 bis 12:00 Uhr
@@ -354,5 +361,7 @@ Telefengespraech mit MJ ueber MQTT und API. Ebenfealls wurde das Rpasberry progr
 - 09:30 bis 13:40 Uhr
 - 16:30 bis 17:40 Uhr
 - 18:00 bis 19:30 Uhr
+- 13:00 bis 18:00 Uhr
+- 10:00 bis 13:00 Uhr
 <!-- { "progress": false } -->
 

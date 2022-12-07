@@ -53,10 +53,13 @@ class MQTTClientManager {
   }
 
   static void subscribe(String topic, BuildContext buildContext) {
-    _context = buildContext;
-    _client.subscribe(topic, MqttQos.atLeastOnce);
-
-    _subscription = _client.updates!.listen(_onMessage);
+    try {
+      _context = buildContext;
+      _client.subscribe(topic, MqttQos.atLeastOnce);
+      _subscription = _client.updates!.listen(_onMessage);
+    } catch (e) {
+      print(e);
+    }
   }
 
   static void onConnected() {

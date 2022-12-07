@@ -4,7 +4,7 @@ import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
-         String searchstring) =>
+        String searchstring) =>
     Flexible(
       child: ListView.builder(
           shrinkWrap: true,
@@ -13,9 +13,8 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           itemBuilder: (context, index) {
             bool card = false;
 
-   
-              card = cards[index].name!.contains(searchstring);
-            
+            card = cards[index].name!.contains(searchstring);
+
             return card
                 ? Card(
                     elevation: 0,
@@ -28,8 +27,7 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        buildCardsText(context, cards[index], site
-                            ),
+                        buildCardsText(context, cards[index], site),
                       ]),
                       buildBottomButton(context, site, cards[index])
                     ]))
@@ -87,11 +85,7 @@ Widget buildCardsText(BuildContext context, Cards card, String site) {
 Widget buildBottomButton(BuildContext context, String site, Cards card) {
   switch (site) {
     case 'cards':
-      //@TODO only get cards that are available
-      Widget getNow = const SizedBox(
-        width: 0,
-        height: 0,
-      );
+
       return Row(
         children: [
           Expanded(
@@ -100,21 +94,8 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
                 text: 'Jetzt holen',
                 onPress: () {
                   MqttTimer.startTimer(context, "to-get-card");
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MqttTimer(
-                  //         message: "Halten Sie Ihre Karte an den Sensor!"),
-                  //   ),
-                  // );
                 }),
-          ),
-          SizedBox(
-            width: 1,
-            height: 50,
-            child: Container(
-              color: Theme.of(context).dividerColor,
-            ),
-          ),
+          )
         ],
       );
   }

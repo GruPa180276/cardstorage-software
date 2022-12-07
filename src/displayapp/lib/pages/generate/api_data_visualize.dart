@@ -1,9 +1,6 @@
 // ignore_for_file: deprecated_member_use
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
-import 'package:rfidapp/provider/mqtt/mqtt.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/provider/types/cards.dart';
@@ -20,11 +17,8 @@ class ApiVisualizer extends StatefulWidget {
 
 class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
-  Future<List<Cards>>? listOfTypes;
-  Future<List<Cards>>? listOfTypesSinceInit;
-  List<Cards>? asd;
-  Set<String>? pinnedCards;
-  late bool isDark;
+  Future<List<Cards>>? _cards;
+  late bool _isDark;
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
@@ -34,22 +28,20 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   void initState() {
     super.initState();
     reloadCardList();
-    isDark = AppPreferences.getIsOn();
+    _isDark = AppPreferences.getIsOn();
   }
 
 
 
   void reloadCardList() {
     setState(() {
-      pinnedCards = AppPreferences.getCardsPinned();
-      listOfTypes = Data.getCardsData();
-      listOfTypesSinceInit = listOfTypes;
+      _cards = Data.getCardsData();
     });
   }
 
-  void setListType(Future<List<Cards>> listOfTypeNew) {
+  void setListType(Future<List<Cards>> cardsNew) {
     setState(() {
-      listOfTypes = listOfTypeNew;
+      _cards = cardsNew;
     });
   }
 
@@ -76,14 +68,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                   });
                 })),
           ),
-          IconButton(
-              onPressed: () {
-                BottomSheetPop(
-                  onPressStorage: setListType,
-                  listOfTypes: listOfTypesSinceInit!,
-                ).buildBottomSheet(context);
-              },
-              icon: const Icon(Icons.adjust))
+         
         ],
       );
     }
@@ -114,7 +99,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<Cards>>(
-                future: listOfTypes,
+                future: _cards,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -135,15 +120,15 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         );
                       } else {
                         final users = snapshot.data!;
-
+print(site);
                         switch (site) {
+                          
                           //TODO change to required class
                           case "Reservierung":
                             return cardsView(users, context, 'reservation', searchString);
                           case "Karten":
                             return cardsView(users, context, 'cards', searchString);
-                          case "Favoriten":
-                            return cardsView(users, context, 'favoriten', searchString);
+                      
                         }
                         return const Text('Error Type not valid');
                       }
@@ -166,11 +151,11 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   Widget buildChangeThemeMode(BuildContext context) {
     return Switch(
         activeColor: Theme.of(context).secondaryHeaderColor,
-        value: isDark,
+        value: _isDark,
         onChanged: (value) async {
           await AppPreferences.setIsOn(value);
           final provider = Provider.of<ThemeProvider>(context, listen: false);
-          isDark = value;
+          _isDark = value;
           setState(() {
             provider.toggleTheme(value);
           });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:rfidapp/provider/restApi/data.dart';
 
 class MqttTimer {
   static late BuildContext context;
@@ -9,6 +10,7 @@ class MqttTimer {
     //send Data to rfid chip, that it should start scanning
     //15seconds time
     //thread that checks if toke is here
+    int timestamp = 0;
     return showDialog(
         context: context,
         builder: (context) {
@@ -43,25 +45,19 @@ class MqttTimer {
                     autoStart: true,
                     onComplete: (() => Navigator.pop(context)),
                     onStart: () {
-                      if (action == "to-get-card") {
-                        //post to api
-                      }
-                    },
-                    onChange: (value) {
-                      if (action == "to-get-card") {
-                        //get card available false
-                      } else if (action == "to-sign-up") {
-                        //check if user is reigstered get
-                      }
+                      //post to api
+                      //containing card inf
                     },
                     timeFormatterFunction:
                         (defaultFormatterFunction, duration) {
-                      if (duration.inSeconds == 20) {
-                        return "Start";
-                      } else {
-                        return Function.apply(
-                            defaultFormatterFunction, [duration]);
+                      if (duration.inSeconds % 3 == 0 &&
+                          duration.inSeconds != timestamp) {
+                        timestamp = duration.inSeconds;
+                        Data.getCardsData();
+                        //get isavailable of specific card see if its false...then pop
                       }
+                      return Function.apply(
+                          defaultFormatterFunction, [duration]);
                     },
                   ),
                 ),

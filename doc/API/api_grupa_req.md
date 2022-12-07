@@ -45,7 +45,7 @@
 
     User Token muss nicht überprüft werden am Raspberry, da er in der App schon fix angemedlet is
 
-    1. App senden an "/api/users/get-card"
+    1. App senden an `/api/users/get-card`
 
     ```
     {
@@ -58,8 +58,9 @@
     }
     ```
 
-    2. Server sendet Mqtt Message an storageid@location
+    2. Server sendet Mqtt Message an `storageid@location`
 
+    ```
        {
          id: msgid
          action: "get-card-phone"
@@ -68,6 +69,7 @@
               position:2
          }
        }
+    ```
 
     3.Karte droppt raspberry sendet an server
 
@@ -83,7 +85,7 @@
 
     
 
-  - Karte reservieren: "/api/users/reservate-card"
+  - Karte reservieren: `/api/users/reservate-card`
   ```
     {
       "source":"phone"
@@ -106,7 +108,7 @@
 
   Folgender Ablauf erfolgt:
 
-  <u>1.Terminal postet Json an API: /api/users/get-card</u>
+  <u>1.Terminal postet Json an API: `/api/users/get-card`</u>
 
   ```
   {
@@ -119,7 +121,7 @@
   }
   ```
 
-  <u>2.Server sendet MQTT message an Topic "storageid@location"</u> 
+  <u>2.Server sendet MQTT message an Topic `storageid@location`</u> 
 
   ```
   {
@@ -138,7 +140,7 @@
 
     
 
-  4.Rasberry sendet an MQTT Nachricht um zu wissen ob USer angemeldet ist topic:"storageid@location"
+  4.Rasberry sendet an MQTT Nachricht um zu wissen ob USer angemeldet ist topic:`storageid@location`
 
   ```
   ​	{
@@ -178,7 +180,7 @@
 
 - Karte anlegen 
 
-  1. Admin App sendet an "/api/cards", dass neue Karte angelegt wird
+  1. Admin App sendet an `/api/cards`, dass neue Karte angelegt wird
 
   ```
   ​	{
@@ -188,7 +190,7 @@
 
   
 
-  ​	2.Server sendet an MQTT "Storageid@location"
+  ​	2.Server sendet an MQTT `Storageid@location`
 
   ```
   ​	{

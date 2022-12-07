@@ -2,7 +2,7 @@
 
 
 ## Goal
-- This project / thesis is to create a vending machine for key cards.
+- THe project / thesis is about a vending machine for key cards.
 
 
 ## Contributors

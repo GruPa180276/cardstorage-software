@@ -5,6 +5,8 @@ class Cards {
   int? storageid;
   String? name;
   int? position;
+  bool? isAvailable;
+  String? storage;
 
   @override
   Cards({

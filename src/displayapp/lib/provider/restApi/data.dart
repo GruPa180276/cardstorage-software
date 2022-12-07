@@ -1,33 +1,42 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+import 'package:rfidapp/provider/restApi/api-parser.dart';
 import 'package:rfidapp/provider/types/cards-status.dart';
-import 'package:rfidapp/provider/types/cards-wrapper.dart';
 import 'package:rfidapp/provider/types/cards.dart';
+import 'package:rfidapp/provider/types/storage.dart';
 import 'dart:async';
-
 import 'package:rfidapp/provider/types/storageproperties.dart';
 
 class Data {
-  static String _ipAdress = StorageProperties.getIpAdress()!;
+  static final String _ipAdress = StorageProperties.getIpAdress()!;
   static String uriRaspi = 'http://$_ipAdress:7171/api/';
 
   static Future<List<Cards>> getCardsData() async {
     print(uriRaspi + "cards");
-    var responseCards = await get(Uri.parse(uriRaspi + "cards"), headers: {
-      //"key":"value" for authen.
-      "Accept": "application/json"
-    });
 
-    var responseCardsStatus =
-        await get(Uri.parse(uriRaspi + "cards/status"), headers: {
-      //"key":"value" for authen.
-      "Accept": "application/json"
-    });
+    var responseCards = await get(Uri.parse(uriRaspi + "cards"),
+        headers: {"Accept": "application/json"});
+    var responseCardsStatus = await get(Uri.parse(uriRaspi + "cards/status"),
+        headers: {"Accept": "application/json"});
+    var responseStorages = await get(Uri.parse(uriRaspi + "storage-units"),
+        headers: {"Accept": "application/json"});
+
+    List<Storage> storages = jsonDecode(responseStorages.body)
+        .map<Storage>(Storage.fromJson)
+        .toList();
+    List<Cards> cards =
+        jsonDecode(responseCards.body).map<Cards>(Cards.fromJson).toList();
+    List<CardsStatus> cardsStatus = jsonDecode(responseCardsStatus.body)
+        .map<CardsStatus>(CardsStatus.fromJson)
+        .toList();
+
+    ApiParser.combineCardDatas(cards, cardsStatus,storages);
+    cards;
 
     print("responseCards");
 
-    return jsonDecode(responseCards.body).map<Cards>(Cards.fromJson).toList();
+    return cards;
   }
 
   static Future<Response?> getUserData(String accessToken) async {
@@ -60,6 +69,7 @@ class Data {
         },
         body: jsonEncode(datas));
   }
+
   /*
   Es war einmal ein Capybara. Es träumte von einer Welt voller Orangen und After Partys.
   Doch als die kleine Wossasau auf solch einer Veranstaltung aufpullte nahm ihr Leben eine

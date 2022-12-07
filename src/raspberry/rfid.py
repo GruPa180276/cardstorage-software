@@ -10,9 +10,10 @@ def manager(res):
         token=scanCard()
         #check if user is already registered
         #then sen location to mechatroniker
+        #setCardStatus with rest
         #else send error message back
         #push to topic that reading was successful
-
+        
     elif(res["action"]=="register"):
         email=res["action"]["email"]
         token=scanCard()

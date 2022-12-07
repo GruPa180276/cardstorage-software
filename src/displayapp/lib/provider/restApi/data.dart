@@ -1,25 +1,33 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+import 'package:rfidapp/provider/types/cards-status.dart';
+import 'package:rfidapp/provider/types/cards-wrapper.dart';
+import 'package:rfidapp/provider/types/cards.dart';
 import 'dart:async';
 
 import 'package:rfidapp/provider/types/storageproperties.dart';
 
 class Data {
   static String _ipAdress = StorageProperties.getIpAdress()!;
-  static String uriRaspi = 'http://$_ipAdress:7171/';
+  static String uriRaspi = 'http://$_ipAdress:7171/api/';
 
-  static Future<Response?> getCardsData() async {
-    //on emulator: "http://10.0.2.2:7171/card"
-    //http://localhost:7171/card
-    print(Uri.parse(uriRaspi + "card"));
-    try {
-      final response = await get(Uri.parse(uriRaspi + "card"), headers: {
-        //"key":"value" for authen.
-        "Accept": "application/json"
-      });
-      return response;
-    } catch (e) {}
+  static Future<List<Cards>> getCardsData() async {
+    print(uriRaspi + "cards");
+    var responseCards = await get(Uri.parse(uriRaspi + "cards"), headers: {
+      //"key":"value" for authen.
+      "Accept": "application/json"
+    });
+
+    var responseCardsStatus =
+        await get(Uri.parse(uriRaspi + "cards/status"), headers: {
+      //"key":"value" for authen.
+      "Accept": "application/json"
+    });
+
+    print("responseCards");
+
+    return jsonDecode(responseCards.body).map<Cards>(Cards.fromJson).toList();
   }
 
   static Future<Response?> getUserData(String accessToken) async {
@@ -52,4 +60,9 @@ class Data {
         },
         body: jsonEncode(datas));
   }
+  /*
+  Es war einmal ein Capybara. Es träumte von einer Welt voller Orangen und After Partys.
+  Doch als die kleine Wossasau auf solch einer Veranstaltung aufpullte nahm ihr Leben eine
+  drastische Wendung.... 
+  */
 }

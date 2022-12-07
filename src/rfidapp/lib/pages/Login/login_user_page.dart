@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:rfidapp/config/palette.dart';
@@ -10,6 +12,7 @@ import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
+import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 
@@ -76,6 +79,9 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                     text: 'SIGN IN via Micrsoft',
                     textColor: Colors.white,
                     onPress: () {
+                      print(
+                          new DateTime.now().microsecondsSinceEpoch / 1000000);
+
                       sigIn();
                     },
                   )),
@@ -180,8 +186,10 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
       await AadAuthentication.oauth.login();
 
       String? accessToken = await AadAuthentication.oauth.getAccessToken();
-
-      if (accessToken != null) {
+      bool registered = false;
+      if (accessToken != null &&
+          registered) //api get// see if user is registered
+      {
         var userResponse = await Data.getUserData(accessToken);
         User.setUserValues(jsonDecode(userResponse!.body));
         UserSecureStorage.setRememberState(rememberValue.toString());
@@ -189,6 +197,20 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const BottomNavigation()),
             (Route<dynamic> route) => false);
+      } else if (accessToken != null && registered == false) {
+        //mqtt Timer
+        await MqttTimer.startTimer(context, "to-sign-up");
+        if (MqttTimer.getSuccessful()) {
+          CoolAlert.show(
+            backgroundColor: Colors.transparent,
+            confirmBtnColor: ColorSelect.blueAccent,
+            borderRadius: 50,
+            context: context,
+            type: CoolAlertType.success,
+            text: 'Registrierung erfolgreich',
+            
+          );
+        }
       } else {
         UserSecureStorage.setRememberState("false");
 

@@ -11,7 +11,7 @@ import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
-import 'Widget/button_create.dart';
+import 'widget/button_create.dart';
 
 class ApiVisualizer extends StatefulWidget {
   String site;

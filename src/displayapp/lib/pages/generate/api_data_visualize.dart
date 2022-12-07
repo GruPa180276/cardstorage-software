@@ -47,10 +47,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   void reloadCardList() {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
-
-      listOfTypes = Data.getCardsData().then(
-        (value) => jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
-      );
+      // listOfTypes = Data.getCardsData();
       listOfTypesSinceInit = listOfTypes;
     });
   }
@@ -122,7 +119,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<Cards>>(
-                future: listOfTypes,
+                future: Data.getCardsData(),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
+import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
@@ -217,14 +218,14 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
         width: 0,
         height: 0,
       );
-      if (!card.isAvailable!) {
+      if (card.isAvailable!) {
         return Row(
           children: [
             Expanded(
-              child: CardButton(
-                  text: 'Jetzt holen',
-                  onPress: () => buildReservatePopUp(context, card)),
-            ),
+                child: CardButton(
+              text: 'Jetzt holen',
+              onPress: () => MqttTimer.startTimer(context, "to-get-card"),
+            )),
             SizedBox(
               width: 1,
               height: 50,

@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'dart:async';
 
 class Data {
-  static String uriRaspi = 'http://10.0.2.2:7171/';
+  static String uriRaspi = 'http://192.168.83.84:7171/';
   static String uriMsGraph = 'http://10.0.2.2:7171/';
 
   static Future<Response?> getCardsData(String type) async {

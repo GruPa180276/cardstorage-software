@@ -104,36 +104,36 @@ class BottomSheetPop {
                         borderColor: ColorSelect.blueAccent,
                         text: 'Filtern',
                         onPress: () {
-                          listOfTypes.then((value) => print(value.length));
-                          // ignore: avoid_print
-                          listOfTypes.then((value) => print(value.length));
-                          //Improve logic readability
-                          newListOfCards = listOfTypes.then((value) {
-                            if (valueAvailable.toString().startsWith("-") &&
-                                valueStorage.toString().startsWith("-")) {
-                              return value;
-                            } else if (valueAvailable
-                                .toString()
-                                .startsWith("-")) {
-                              return value
-                                  .where((element) =>
-                                      element.storageId == valueStorage)
-                                  .toList();
-                            } else if (valueStorage
-                                .toString()
-                                .startsWith("-")) {
-                              return value
-                                  .where((element) =>
-                                      element.isAvailable == valueAvailable)
-                                  .toList();
-                            }
-                            return value
-                                .where((element) =>
-                                    element.storageId == valueStorage &&
-                                    element.isAvailable == valueAvailable)
-                                .toList();
-                          });
-                          onPressStorage(newListOfCards!);
+                          // listOfTypes.then((value) => print(value.length));
+                          // // ignore: avoid_print
+                          // listOfTypes.then((value) => print(value.length));
+                          // //Improve logic readability
+                          // newListOfCards = listOfTypes.then((value) {
+                          //   if (valueAvailable.toString().startsWith("-") &&
+                          //       valueStorage.toString().startsWith("-")) {
+                          //     return value;
+                          //   } else if (valueAvailable
+                          //       .toString()
+                          //       .startsWith("-")) {
+                          //     return value
+                          //         .where((element) =>
+                          //             element.storageId == valueStorage)
+                          //         .toList();
+                          //   } else if (valueStorage
+                          //       .toString()
+                          //       .startsWith("-")) {
+                          //     return value
+                          //         .where((element) =>
+                          //             element.isAvailable == valueAvailable)
+                          //         .toList();
+                          //   }
+                          //   return value
+                          //       .where((element) =>
+                          //           element.storageId == valueStorage &&
+                          //           element.isAvailable == valueAvailable)
+                          //       .toList();
+                          // });
+                          // onPressStorage(newListOfCards!);
                         },
                         textColor: Colors.white),
                   )

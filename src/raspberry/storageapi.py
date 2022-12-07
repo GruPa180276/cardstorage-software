@@ -14,9 +14,6 @@ def checkUserRegisterd(email):
 def updateCardStatus(cardId,status):
     return
 
-def addNewCard(cardId,status):
-    return
-
 def addNewCard():
     return
 

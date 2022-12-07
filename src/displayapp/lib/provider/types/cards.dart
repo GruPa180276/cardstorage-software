@@ -1,33 +1,28 @@
 class Cards {
   //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
-  final int id;
+  String? readerdata;
+  final int? id;
+  int? storageid;
   String? name;
-  int? storageId;
-  bool? isAvailable;
-  bool? isReserved;
-  int? reservedSince;
-  int? reservedUntil;
+  int? position;
 
   @override
-  Cards(
-      {required this.id,
-      this.name,
-      this.storageId,
-      this.isAvailable,
-      this.isReserved,
-      this.reservedSince,
-      this.reservedUntil});
+  Cards({
+    required this.id,
+    this.readerdata,
+    this.storageid,
+    this.name,
+    this.position,
+  });
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonTest = <String, dynamic>{};
     jsonTest.addAll({
       "id": id,
-      "name": name ?? "",
-      "storageId": storageId ?? 0,
-      "isAvailable": isAvailable ?? false,
-      "isReserved": isReserved ?? false,
-      "reservedSince": reservedSince ?? -62135596800,
-      "reservedUntil": reservedUntil ?? -62135596800
+      "readerdata": readerdata,
+      "storageid": storageid,
+      "name": name,
+      "position": position,
     });
 
     return jsonTest;
@@ -35,8 +30,9 @@ class Cards {
 
   static Cards fromJson(json) => Cards(
         id: json['id'],
+        readerdata: json['readerdata'],
+        storageid: json['storageid'],
         name: json['name'],
-        storageId: json['storageId'],
-        isAvailable: json['isAvailable'],
+        position: json['position'],
       );
 }

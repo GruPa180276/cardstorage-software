@@ -63,9 +63,9 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
     Set<String> pinnedCards, Function reloadPinned) {
   Color colorAvailable = Colors.green;
 
-  if (!card.isAvailable!) {
-    colorAvailable = Colors.red;
-  }
+  // if (!card.isAvailable!) {
+  //   colorAvailable = Colors.red;
+  // }
 
   return Padding(
     padding: const EdgeInsets.all(10.0),
@@ -90,24 +90,24 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
             TableCell(child: Text(card.name.toString()))
           ],
         ),
-        TableRow(
-          children: [
-            const TableCell(child: Text("StorageId:")),
-            TableCell(child: Text(card.storageId.toString()))
-          ],
-        ),
-        TableRow(
-          children: [
-            const TableCell(child: Text("Verfuegbar:")),
-            TableCell(
-              child: Text(
-                card.isAvailable.toString(),
-                style: TextStyle(
-                    color: colorAvailable, fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        )
+        // TableRow(
+        //   children: [
+        //     const TableCell(child: Text("StorageId:")),
+        //     TableCell(child: Text(card.storageId.toString()))
+        //   ],
+        // ),
+        // TableRow(
+        //   children: [
+        //     const TableCell(child: Text("Verfuegbar:")),
+        //     TableCell(
+        //       child: Text(
+        //         card.isAvailable.toString(),
+        //         style: TextStyle(
+        //             color: colorAvailable, fontWeight: FontWeight.bold),
+        //       ),
+        //     )
+        //   ],
+        // )
       ],
     ),
   );

@@ -287,6 +287,11 @@ App wurde an Api von Johannes umgeaendert und refactoring wurde betrieben
 **2022-12-07: 10:00 -> 13:00**
 Es wurde ein Dokument fuer die Api bzw. Mqtt erstellt. Dort wurde der Datenverkehr von App bis zu Raspberry genausten beschriben. Weiters hatten wir ein Meeting mit den Maschinenbauern
 
+
+
+**2022-12-07: 18:00 -> 21:45**
+Beide Programme wurden refactort und der neuen Struktur von MJ angepasst. Weiters wurde eine "Vorlage gefertigt" die erledigt werden kann wenn die API fertig ist
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -363,5 +368,6 @@ Es wurde ein Dokument fuer die Api bzw. Mqtt erstellt. Dort wurde der Datenverke
 - 18:00 bis 19:30 Uhr
 - 13:00 bis 18:00 Uhr
 - 10:00 bis 13:00 Uhr
+- 18:00 bis 21:45 Uhr
 <!-- { "progress": false } -->
 

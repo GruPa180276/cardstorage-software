@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:rfidapp/provider/restApi/api-parser.dart';
 import 'package:rfidapp/provider/types/cards-status.dart';
@@ -13,32 +14,30 @@ class Data {
   static String uriRaspi = 'http://$_ipAdress:7171/api/';
 
   static Future<List<Cards>> getCardsData() async {
-    print(uriRaspi + "cards");
+    try {
+      var responseCards = await get(Uri.parse("${uriRaspi}cards"),
+          headers: {"Accept": "application/json"});
+      var responseCardsStatus = await get(Uri.parse("${uriRaspi}cards/status"),
+          headers: {"Accept": "application/json"});
+      var responseStorages = await get(Uri.parse("${uriRaspi}storage-units"),
+          headers: {"Accept": "application/json"});
 
-    var responseCards = await get(Uri.parse(uriRaspi + "cards"),
-        headers: {"Accept": "application/json"});
-    var responseCardsStatus = await get(Uri.parse(uriRaspi + "cards/status"),
-        headers: {"Accept": "application/json"});
-    var responseStorages = await get(Uri.parse(uriRaspi + "storage-units"),
-        headers: {"Accept": "application/json"});
+      List<Storage> storages = jsonDecode(responseStorages.body)
+          .map<Storage>(Storage.fromJson)
+          .toList();
+      List<Cards> cards =
+          jsonDecode(responseCards.body).map<Cards>(Cards.fromJson).toList();
+      List<CardsStatus> cardsStatus = jsonDecode(responseCardsStatus.body)
+          .map<CardsStatus>(CardsStatus.fromJson)
+          .toList();
 
-    List<Storage> storages = jsonDecode(responseStorages.body)
-        .map<Storage>(Storage.fromJson)
-        .toList();
-    List<Cards> cards =
-        jsonDecode(responseCards.body).map<Cards>(Cards.fromJson).toList();
-    List<CardsStatus> cardsStatus = jsonDecode(responseCardsStatus.body)
-        .map<CardsStatus>(CardsStatus.fromJson)
-        .toList();
-
-    ApiParser.combineCardDatas(cards, cardsStatus,storages);
-    cards;
-
-    print("responseCards");
-
-    return cards;
+      ApiParser.combineCardDatas(cards, cardsStatus, storages);
+      return cards;
+    } catch (e) {
+      print(e);
+    }
+    return List<Cards>.empty();
   }
-
   static Future<Response?> getUserData(String accessToken) async {
     try {
       final response =

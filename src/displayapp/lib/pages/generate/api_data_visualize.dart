@@ -34,20 +34,15 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   void initState() {
     super.initState();
     reloadCardList();
-    reloadPinnedList();
     isDark = AppPreferences.getIsOn();
   }
 
-  void reloadPinnedList() {
-    setState(() {
-      pinnedCards = AppPreferences.getCardsPinned();
-    });
-  }
+
 
   void reloadCardList() {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
-      // listOfTypes = Data.getCardsData();
+      listOfTypes = Data.getCardsData();
       listOfTypesSinceInit = listOfTypes;
     });
   }
@@ -119,7 +114,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<Cards>>(
-                future: Data.getCardsData(),
+                future: listOfTypes,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -144,14 +139,11 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         switch (site) {
                           //TODO change to required class
                           case "Reservierung":
-                            return cardsView(users, context, 'reservation',
-                                pinnedCards!, reloadPinnedList, searchString);
+                            return cardsView(users, context, 'reservation', searchString);
                           case "Karten":
-                            return cardsView(users, context, 'cards',
-                                pinnedCards!, reloadPinnedList, searchString);
+                            return cardsView(users, context, 'cards', searchString);
                           case "Favoriten":
-                            return cardsView(users, context, 'favoriten',
-                                pinnedCards!, reloadPinnedList, searchString);
+                            return cardsView(users, context, 'favoriten', searchString);
                         }
                         return const Text('Error Type not valid');
                       }

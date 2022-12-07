@@ -4,7 +4,7 @@ import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 Widget cardsView(List<Cards> cards, BuildContext context, String site,
-        Set<String> pinnedCards, Function reloadPinned, String searchstring) =>
+         String searchstring) =>
     Flexible(
       child: ListView.builder(
           shrinkWrap: true,
@@ -13,31 +13,9 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           itemBuilder: (context, index) {
             bool card = false;
 
-            if (site == 'favoriten') {
-              if (pinnedCards.isEmpty && index == cards.length - 1) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height / 2 - 200,
-                        horizontal: 0),
-                    child: Text(
-                      'Sie haben keine Favoriten)',
-                      style: TextStyle(
-                          color: Theme.of(context).dividerColor, fontSize: 20),
-                    ),
-                  ),
-                );
-              }
-              for (String id in pinnedCards) {
-                card = cards[index].id.toString().contains(id);
-                if (card) {
-                  break;
-                }
-              }
-            } else {
+   
               card = cards[index].name!.contains(searchstring);
-            }
+            
             return card
                 ? Card(
                     elevation: 0,
@@ -50,8 +28,8 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        buildCardsText(context, cards[index], site, pinnedCards,
-                            reloadPinned),
+                        buildCardsText(context, cards[index], site
+                            ),
                       ]),
                       buildBottomButton(context, site, cards[index])
                     ]))
@@ -59,8 +37,7 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           }),
     );
 
-Widget buildCardsText(BuildContext context, Cards card, String site,
-    Set<String> pinnedCards, Function reloadPinned) {
+Widget buildCardsText(BuildContext context, Cards card, String site) {
   Color colorAvailable = Colors.green;
 
   if (!card.isAvailable!) {

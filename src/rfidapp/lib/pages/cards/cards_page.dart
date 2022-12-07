@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/domain/enums/cardsSiteEnum.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
 
 class CardPage extends StatefulWidget {
@@ -11,6 +12,6 @@ class CardPage extends StatefulWidget {
 class _CardPage extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
-    return ApiVisualizer(site: 'Karten');
+    return ApiVisualizer(site: CardPageTypes.Karten);
   }
 }

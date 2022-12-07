@@ -4,7 +4,7 @@ import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
-import 'package:rfidapp/pages/Login/login_user_page.dart';
+import 'package:rfidapp/pages/login/login_user_page.dart';
 import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
@@ -170,6 +170,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   TextButton(
                     child: const Text('Abmelden'),
                     onPressed: () async {
+                      await AadAuthentication.getEnv();
+
                       AadAuthentication.oauth.logout();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const LoginUserScreen()));

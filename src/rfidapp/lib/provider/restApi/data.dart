@@ -1,22 +1,40 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+import 'package:rfidapp/provider/restApi/api-parser.dart';
+import 'package:rfidapp/provider/types/cards-status.dart';
 import 'dart:async';
 
+import 'package:rfidapp/provider/types/cards.dart';
+import 'package:rfidapp/provider/types/storage.dart';
+
 class Data {
-  static String uriRaspi = 'http://192.168.83.84:7171/';
+  static String uriRaspi = 'http://10.0.2.2:7171/api/';
   static String uriMsGraph = 'http://10.0.2.2:7171/';
 
-  static Future<Response?> getCardsData(String type) async {
-    //on emulator: "http://10.0.2.2:7171/card"
-    //http://localhost:7171/card
+  static Future<List<Cards>> getCardsData() async {
     try {
-      final response = await get(Uri.parse(uriRaspi + type), headers: {
-        //"key":"value" for authen.
-        "Accept": "application/json"
-      });
-      return response;
-    } catch (e) {}
+      var responseCards = await get(Uri.parse("${uriRaspi}cards"),
+          headers: {"Accept": "application/json"});
+      var responseCardsStatus = await get(Uri.parse("${uriRaspi}cards/status"),
+          headers: {"Accept": "application/json"});
+      var responseStorages = await get(Uri.parse("${uriRaspi}storage-units"),
+          headers: {"Accept": "application/json"});
+
+      List<Storage> storages = jsonDecode(responseStorages.body)
+          .map<Storage>(Storage.fromJson)
+          .toList();
+      List<Cards> cards =
+          jsonDecode(responseCards.body).map<Cards>(Cards.fromJson).toList();
+      List<CardsStatus> cardsStatus = jsonDecode(responseCardsStatus.body)
+          .map<CardsStatus>(CardsStatus.fromJson)
+          .toList();
+      ApiParser.combineCardDatas(cards, cardsStatus, storages);
+      return cards;
+    } catch (e) {
+      print(e);
+    }
+    return List<Cards>.empty();
   }
 
   static Future<Response?> getUserData(String accessToken) async {

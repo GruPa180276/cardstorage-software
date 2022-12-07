@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:rfidapp/provider/restApi/data.dart';
 
 class MqttTimer {
   static late BuildContext context;
-  static bool _successful = true;
+  static bool _successful = false;
   static Future<void> startTimer(BuildContext context, String action) {
     MqttTimer.context = context;
+    int timestamp = 0;
+    _successful=false;
     //send Data to rfid chip, that it should start scanning
     //15seconds time
     //thread that checks if toke is here
@@ -20,7 +23,7 @@ class MqttTimer {
                 Align(
                   alignment: Alignment.center,
                   child: CircularCountDownTimer(
-                    duration: 2,
+                    duration: 20,
                     initialDuration: 0,
                     controller: CountDownController(),
                     width: MediaQuery.of(context).size.width / 2,
@@ -46,31 +49,34 @@ class MqttTimer {
                     onStart: () {
                       //maybe you need threading
                       if (action == "to-get-card") {
-                        //set successfull true false
+                        //post to Api
                       } else if (action == "to-sign-up") {
-                        //check if user is reigstered get
-                        //set successfull true false
-                      }
-                    },
-                    onChange: (value) {
-                      print(value);
-
-                      if (action == "to-get-card") {
-                        //get card available false
-                        //set successfull true false
-                      } else if (action == "to-sign-up") {
-                        //check if user is reigstered get
-                        //set successfull true false
+                        //post to api
                       }
                     },
                     timeFormatterFunction:
                         (defaultFormatterFunction, duration) {
-                      if (duration.inSeconds == 20) {
-                        return "Start";
-                      } else {
-                        return Function.apply(
-                            defaultFormatterFunction, [duration]);
+                      if (duration.inSeconds % 3 == 0 &&
+                          duration.inSeconds != timestamp) {
+                        timestamp = duration.inSeconds;
+                        if (action == "to-get-card") {
+                          //for one card
+                          Data.getCardsData();
+                          //cancel if successful
+                          cancel();
+                        } else if (action == "to-sign-up") {
+                          //see if User is in DB now
+                          //Data.isUserRegistered?();
+                          bool isRegistered=true;
+                          if(isRegistered=true){
+                            _successful=true;
+                            cancel();
+                          }
+                          
+                        }
                       }
+                      return Function.apply(
+                          defaultFormatterFunction, [duration]);
                     },
                   ),
                 ),

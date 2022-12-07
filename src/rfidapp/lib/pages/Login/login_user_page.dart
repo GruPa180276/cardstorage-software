@@ -4,18 +4,13 @@ import 'dart:convert';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
-import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
-
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
-import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
-
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
@@ -27,34 +22,10 @@ class LoginUserScreen extends StatefulWidget {
 
 class _LoginUserScreenState extends State<LoginUserScreen> {
   bool rememberValue = false;
-  bool isLoading = false;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   @override
   // ignore: must_cal_super
-  void initState() {
-    init();
-  }
-
-  Future init() async {
-    final rememberState = await UserSecureStorage.getRememberState() ?? '';
-
-    if (rememberState == "true") {
-      final email = await UserSecureStorage.getUsername() ?? '';
-      final password = await UserSecureStorage.getPassword() ?? '';
-      setState(() {
-        emailController.text = email;
-        passwordController.text = password;
-        if (rememberState == "true") {
-          rememberValue = true;
-        }
-      });
-    } else {
-      AadAuthentication.oauth.logout();
-    }
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +47,9 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                   child: buttonField(
                     bgColor: ColorSelect.blueAccent,
                     borderColor: ColorSelect.blueAccent,
-                    text: 'SIGN IN via Micrsoft',
+                    text: 'SIGN IN via Microsoft',
                     textColor: Colors.white,
                     onPress: () {
-                      print(
-                          new DateTime.now().microsecondsSinceEpoch / 1000000);
-
                       sigIn();
                     },
                   )),
@@ -182,11 +150,12 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   void sigIn() async {
     try {
       UserSecureStorage.setRememberState(rememberValue.toString());
-
+      await AadAuthentication.getEnv();
       await AadAuthentication.oauth.login();
 
       String? accessToken = await AadAuthentication.oauth.getAccessToken();
-      bool registered = false;
+      //see if user is already registered
+      bool registered = true;
       if (accessToken != null &&
           registered) //api get// see if user is registered
       {
@@ -198,18 +167,12 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
             MaterialPageRoute(builder: (context) => const BottomNavigation()),
             (Route<dynamic> route) => false);
       } else if (accessToken != null && registered == false) {
-        //mqtt Timer
         await MqttTimer.startTimer(context, "to-sign-up");
+
         if (MqttTimer.getSuccessful()) {
-          CoolAlert.show(
-            backgroundColor: Colors.transparent,
-            confirmBtnColor: ColorSelect.blueAccent,
-            borderRadius: 50,
-            context: context,
-            type: CoolAlertType.success,
-            text: 'Registrierung erfolgreich',
-            
-          );
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const BottomNavigation()),
+              (Route<dynamic> route) => false);
         }
       } else {
         UserSecureStorage.setRememberState("false");

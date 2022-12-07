@@ -7,13 +7,7 @@ import 'package:rfidapp/main.dart';
 class AadAuthentication {
   static late AadOAuth oauth;
 
-  static Future<AadOAuth> getOauth() async {
-    await dotenv.load(fileName: "assets/.env");
-    oauth = AadOAuth(config);
-    return oauth;
-  }
-
-  static void getEnv() async {
+  static Future<void> getEnv() async {
     await dotenv.load(fileName: "assets/.env");
     oauth = AadOAuth(config);
   }

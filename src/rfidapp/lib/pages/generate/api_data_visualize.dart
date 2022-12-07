@@ -1,23 +1,19 @@
 // ignore_for_file: deprecated_member_use
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/domain/authentication/authentication.dart';
-import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
+import 'package:rfidapp/domain/enums/cardsSiteEnum.dart';
 import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/types/user.dart';
 
-import 'widget/button_create.dart';
-
+// ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {
-  String site;
+  CardPageTypes site;
   ApiVisualizer({super.key, required this.site});
 
   @override
+  // ignore: no_logic_in_create_state
   State<ApiVisualizer> createState() => _ApiVisualizerState(site: site);
 }
 
@@ -29,7 +25,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
-  String site;
+  CardPageTypes site;
 
   @override
   void initState() {
@@ -48,10 +44,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
 
-      listOfTypes = Data.getCardsData("card").then(
-          (value) =>
-              jsonDecode(value!.body).map<Cards>(Cards.fromJson).toList(),
-          onError: (error) {});
+      listOfTypes = Data.getCardsData();
       listOfTypesSinceInit = listOfTypes;
     });
   }
@@ -66,7 +59,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   Widget build(BuildContext context) {
     Widget seachField = SizedBox(height: 0, width: 0);
 
-    if (site != "Favoriten") {
+    if (site != CardPageTypes.Favoriten) {
       seachField = Row(
         children: [
           Expanded(
@@ -103,7 +96,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             bottomOpacity: 0.0,
             elevation: 0.0,
             backgroundColor: Colors.transparent,
-            title: Text(site,
+            title: Text(site.toString().replaceAll("CardPageTypes.", ""),
                 style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
@@ -139,14 +132,14 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
                         switch (site) {
                           //TODO change to required class
-                          case "Reservierungen":
-                            return cardsView(users, context, 'reservation',
+                          case CardPageTypes.Reservierungen:
+                            return cardsView(users, context, site,
                                 pinnedCards!, reloadPinnedList, searchString);
-                          case "Karten":
-                            return cardsView(users, context, 'cards',
+                          case CardPageTypes.Karten:
+                            return cardsView(users, context, site,
                                 pinnedCards!, reloadPinnedList, searchString);
-                          case "Favoriten":
-                            return cardsView(users, context, 'favoriten',
+                          case CardPageTypes.Favoriten:
+                            return cardsView(users, context, site,
                                 pinnedCards!, reloadPinnedList, searchString);
                         }
                         return const Text('Error Type not valid');

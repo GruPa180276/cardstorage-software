@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:rfidapp/domain/enums/cardsSiteEnum.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
@@ -8,7 +9,7 @@ import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 
-Widget cardsView(List<Cards> cards, BuildContext context, String site,
+Widget cardsView(List<Cards> cards, BuildContext context, CardPageTypes site,
         Set<String> pinnedCards, Function reloadPinned, String searchstring) =>
     Flexible(
       child: ListView.builder(
@@ -18,7 +19,7 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           itemBuilder: (context, index) {
             bool card = false;
 
-            if (site == 'favoriten') {
+            if (site == CardPageTypes.Favoriten) {
               if (pinnedCards.isEmpty && index == cards.length - 1) {
                 return Align(
                   alignment: Alignment.center,
@@ -64,7 +65,7 @@ Widget cardsView(List<Cards> cards, BuildContext context, String site,
           }),
     );
 
-Widget buildCardsText(BuildContext context, Cards card, String site,
+Widget buildCardsText(BuildContext context, Cards card, CardPageTypes site,
     Set<String> pinnedCards, Function reloadPinned) {
   bool isFavorised = false;
 
@@ -93,7 +94,7 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
     colorAvailable = Colors.red;
   }
 
-  if (site == "cards" || site == "favoriten") {
+  if (site == CardPageTypes.Karten || site == CardPageTypes.Favoriten) {
     if (!card.isAvailable!) {
       emailButton = Padding(
           padding: EdgeInsets.fromLTRB(
@@ -124,7 +125,7 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
                   AppPreferences.addCardPinned(card.id.toString());
                 } else {
                   colorPin = Theme.of(context).primaryColor;
-                  AppPreferences.removePinnedCardAt(card.id);
+                  AppPreferences.removePinnedCardAt(card.id!);
                   pinnedCards = AppPreferences.getCardsPinned();
                   reloadPinned();
                 }
@@ -168,7 +169,7 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
             TableRow(
               children: [
                 const TableCell(child: Text("StorageId:")),
-                TableCell(child: Text(card.storageId.toString()))
+                TableCell(child: Text(card.storage.toString()))
               ],
             ),
             TableRow(
@@ -192,18 +193,16 @@ Widget buildCardsText(BuildContext context, Cards card, String site,
   );
 }
 
-Widget buildBottomButton(BuildContext context, String site, Cards card) {
+Widget buildBottomButton(BuildContext context, CardPageTypes site, Cards card) {
   switch (site) {
-    case 'reservation':
+    case CardPageTypes.Reservierungen:
       return Row(
         children: [
           Expanded(
             child: CardButton(
                 text: 'Löschen',
                 onPress: () {
-                  card.isReserved = false;
-                  Data.putData("card", card.toJson());
-                  (context as Element).reassemble();
+                  //delte reservation
                 }),
           ),
           Expanded(
@@ -212,8 +211,8 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
                   onPress: () => buildReservatePopUp(context, card)))
         ],
       );
-    case 'favoriten':
-    case 'cards':
+    case CardPageTypes.Favoriten:
+    case CardPageTypes.Karten:
       Widget getNow = const SizedBox(
         width: 0,
         height: 0,
@@ -225,6 +224,7 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
                 child: CardButton(
               text: 'Jetzt holen',
               onPress: () => MqttTimer.startTimer(context, "to-get-card"),
+
             )),
             SizedBox(
               width: 1,
@@ -235,7 +235,7 @@ Widget buildBottomButton(BuildContext context, String site, Cards card) {
             ),
             Expanded(
                 child: CardButton(
-                    text: 'Erinnere mich',
+                    text: 'Reservieren',
                     onPress: () => buildReservatePopUp(context, card)))
           ],
         );

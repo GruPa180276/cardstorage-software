@@ -111,7 +111,7 @@ class BottomSheetPop {
                             } else if (valueAvailable.toString().isEmpty) {
                               return value
                                   .where((element) =>
-                                      element.storageId == valueStorage)
+                                      element.storage == valueStorage)
                                   .toList();
                             } else if (valueStorage.toString().isEmpty) {
                               return value
@@ -121,7 +121,7 @@ class BottomSheetPop {
                             }
                             return value
                                 .where((element) =>
-                                    element.storageId == valueStorage &&
+                                    element.storage == valueStorage &&
                                     element.isAvailable == valueAvailable)
                                 .toList();
                           });

@@ -121,20 +121,20 @@ Widget buildReservateNow(BuildContext context, Cards card) {
               .isBefore(DateTime.now())) {
             Navigator.pop(context);
           } else {
-            card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
-                .millisecondsSinceEpoch;
-            card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
-                .millisecondsSinceEpoch;
-            Data.putData('card', card.toJson());
-            vonTextEdidtingcontroller.clear();
-            bisTextEdidtingcontroller.clear();
-            await service!.showScheduledNotification(
-                id: card.id,
-                title: 'Karte abholen${card.id}',
-                body: 'Bitte holen Sie sich Ihre Karte ab',
-                dateTime:
-                    DateTime.fromMillisecondsSinceEpoch(card.reservedSince!));
-            Navigator.pop(context);
+            // card.reservedSince = DateTime.parse(vonTextEdidtingcontroller.text)
+            //     .millisecondsSinceEpoch;
+            // card.reservedUntil = DateTime.parse(bisTextEdidtingcontroller.text)
+            //     .millisecondsSinceEpoch;
+            // Data.putData('card', card.toJson());
+            // vonTextEdidtingcontroller.clear();
+            // bisTextEdidtingcontroller.clear();
+            // await service!.showScheduledNotification(
+            //     id: card.id,
+            //     title: 'Karte abholen${card.id}',
+            //     body: 'Bitte holen Sie sich Ihre Karte ab',
+            //     dateTime:
+            //         DateTime.fromMillisecondsSinceEpoch(card.reservedSince!));
+            // Navigator.pop(context);
           }
         }
       },

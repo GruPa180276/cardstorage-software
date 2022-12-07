@@ -210,3 +210,11 @@
   ```
 
   4. Server legt Karte an
+
+
+### API-Get Anf.
+- Einen Benutzer getten mittels seiner Email
+- Alle Karten EINER Storageid getten
+- Eine Karte mittels ID getten
+- 
+

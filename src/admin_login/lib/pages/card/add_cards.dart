@@ -56,6 +56,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
 
   String selectedStorage = "-";
   List<String> dropDownValues = ["-"];
+  List<String> dropDownValuesNames = ["-"];
   List<Storages>? listOfStorages;
 
   @override
@@ -69,8 +70,8 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
     await storage.fetchData().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages!.length; i++) {
-      print(listOfStorages![i].id);
       dropDownValues.add(listOfStorages![i].id.toString());
+      dropDownValuesNames.add(listOfStorages![i].name.toString());
     }
   }
 
@@ -114,7 +115,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
           labelText: "Name",
           hintText: "",
           icon: Icons.storage,
-          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
         ),
         Container(
@@ -146,7 +147,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                       iconEnabledColor: Theme.of(context).focusColor,
                       iconDisabledColor: Theme.of(context).focusColor,
                       value: selectedStorage,
-                      items: dropDownValues.map((valueItem) {
+                      items: dropDownValuesNames.map((valueItem) {
                         return DropdownMenuItem(
                             value: valueItem,
                             child: Text(
@@ -159,7 +160,9 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                         setState(() {
                           selectedStorage = newValue as String;
                         });
-                        setStorage(newValue as int);
+                        int index =
+                            dropDownValuesNames.indexOf(newValue as String);
+                        setStorage(int.parse(dropDownValues[index]));
                       },
                     ))))
           ]),

@@ -26,6 +26,8 @@ class Cards {
         'id': id,
         'name': name,
         'storageid': storageid,
+        'position': 1,
+        'readerdata': "\u003cinvalid:rwwd3rdata\u022e"
       };
 }
 

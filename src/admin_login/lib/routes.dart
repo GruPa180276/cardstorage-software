@@ -1,3 +1,4 @@
+import 'package:admin_login/pages/location/add_location.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/navigation/bottom_navigation.dart';
@@ -49,6 +50,10 @@ class RouteGenerator {
       //Settings
       case '/settings':
         return MaterialPageRoute(builder: ((context) => Settings()));
+
+      //Settings
+      case '/addLocation':
+        return MaterialPageRoute(builder: ((context) => AddLocation()));
 
       //Home
       case '/home':

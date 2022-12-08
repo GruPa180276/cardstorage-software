@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:admin_login/provider/types/cards.dart' as cards;
 import 'package:admin_login/provider/types/cards.dart';
+import 'package:admin_login/provider/types/storages.dart' as storages;
+import 'package:admin_login/provider/types/storages.dart';
 import 'package:admin_login/pages/Widget/appbar.dart';
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: Changed the API Calls to the actual API
+
+late Future<List<Cards>> futureData;
 
 class StatsView extends StatefulWidget {
   StatsView({Key? key}) : super(key: key);
@@ -17,16 +22,17 @@ class StatsView extends StatefulWidget {
 class _StatsViewState extends State<StatsView> {
   String selectedStorage = "-";
   List<dynamic> dropDownValues = ["-"];
-  List<Cards>? listOfStorages;
+  List<Storages>? listOfStorages;
 
   @override
   void initState() {
     super.initState();
+    futureData = cards.fetchData();
     test();
   }
 
   void test() async {
-    await fetchData().then((value) => listOfStorages = value);
+    await storages.fetchData().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages!.length; i++) {
       print(listOfStorages![i].id);
@@ -148,12 +154,10 @@ class ListCards extends StatefulWidget {
 }
 
 class _MyAppState extends State<ListCards> {
-  late Future<List<Cards>> futureData;
-
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    futureData = cards.fetchData();
   }
 
   @override

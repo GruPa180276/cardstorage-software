@@ -11,6 +11,8 @@ import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: Changed the API Calls to the actual API
 
+late Future<List<Storages>> futureData;
+
 class CardsView extends StatefulWidget {
   CardsView({Key? key}) : super(key: key);
 
@@ -23,11 +25,10 @@ class _CardsViewState extends State<CardsView> {
   List<String> dropDownValues = ["-"];
   List<Storages>? listOfStorages;
 
-  late Future<List<Storages>> futureData;
-
   @override
   void initState() {
     super.initState();
+    futureData = storage.fetchData();
     test();
   }
 

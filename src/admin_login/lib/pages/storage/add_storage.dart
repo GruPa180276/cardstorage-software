@@ -12,6 +12,7 @@ import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 // ToDo: The needs to be pushed to the API
 
 StorageValues storageValues = new StorageValues();
+late Future<List<Storages>> futureData;
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);
@@ -21,6 +22,12 @@ class AddStorage extends StatefulWidget {
 }
 
 class _AddStorageState extends State<AddStorage> {
+  @override
+  void initState() {
+    super.initState();
+    futureData = storage.fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,12 +54,10 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
-  late Future<List<Storages>> futureData;
-
   String selectedStorage = "-";
   List<Locations>? listOfLocations;
   List<String> dropDownValues = ["-"];
-  List<String> listOfLocationNames = ["-"];
+  List<String> dropDownValuesNames = ["-"];
 
   @override
   void initState() {
@@ -67,7 +72,7 @@ class _InputFieldsState extends State<InputFields> {
     for (int i = 0; i < listOfLocations!.length; i++) {
       print(listOfLocations![i].id);
       dropDownValues.add(listOfLocations![i].id.toString());
-      listOfLocationNames.add(listOfLocations![i].location.toString());
+      dropDownValuesNames.add(listOfLocations![i].location.toString());
     }
   }
 
@@ -115,7 +120,7 @@ class _InputFieldsState extends State<InputFields> {
           labelText: "Name",
           hintText: "",
           icon: Icons.storage,
-          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
         ),
         GenerateListTile(
@@ -131,6 +136,23 @@ class _InputFieldsState extends State<InputFields> {
           icon: Icons.format_list_numbered,
           regExp: r'([0-9])',
           function: this.setNumberOfCards,
+        ),
+        Container(
+          padding: EdgeInsets.all(10),
+          height: 70,
+          child: Column(children: [
+            SizedBox(
+              height: 50,
+              width: double.infinity,
+              child: generateButtonRectangle(
+                context,
+                "Location hinzufügen",
+                () {
+                  Navigator.of(context).pushNamed("/addLocation");
+                },
+              ),
+            )
+          ]),
         ),
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -161,7 +183,7 @@ class _InputFieldsState extends State<InputFields> {
                       iconEnabledColor: Theme.of(context).focusColor,
                       iconDisabledColor: Theme.of(context).focusColor,
                       value: selectedStorage,
-                      items: listOfLocationNames.map((valueItem) {
+                      items: dropDownValuesNames.map((valueItem) {
                         return DropdownMenuItem(
                             value: valueItem,
                             child: Text(
@@ -175,9 +197,9 @@ class _InputFieldsState extends State<InputFields> {
                           selectedStorage = newValue as String;
                         });
 
-                        int i = listOfLocationNames.indexOf(newValue as String);
-                        setLocation(dropDownValues[i] as int);
-                        print(dropDownValues[i] as int);
+                        int index =
+                            dropDownValuesNames.indexOf(newValue as String);
+                        setLocation(int.parse(dropDownValues[index]));
                       },
                     ))))
           ]),
@@ -202,7 +224,7 @@ class _InputFieldsState extends State<InputFields> {
                           location: storageValues.location,
                           numberOfCards: storageValues.numberOfCards);
                       storage.sendData(newEntry.toJson());
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed("/home");
                     },
                   ),
                 )

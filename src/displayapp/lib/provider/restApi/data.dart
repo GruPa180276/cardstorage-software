@@ -30,7 +30,6 @@ class Data {
       List<CardsStatus> cardsStatus = jsonDecode(responseCardsStatus.body)
           .map<CardsStatus>(CardsStatus.fromJson)
           .toList();
-
       ApiParser.combineCardDatas(cards, cardsStatus, storages);
       return cards;
     } catch (e) {
@@ -38,6 +37,8 @@ class Data {
     }
     return List<Cards>.empty();
   }
+
+
   static Future<Response?> getUserData(String accessToken) async {
     try {
       final response =
@@ -60,14 +61,7 @@ class Data {
         body: jsonEncode(datas));
   }
 
-  static void putData(String type, Map<String, dynamic> datas) async {
-    //TODO add try catch
-    await put(Uri.parse(uriRaspi + type),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(datas));
-  }
+
 
   /*
   Es war einmal ein Capybara. Es träumte von einer Welt voller Orangen und After Partys.

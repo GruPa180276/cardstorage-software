@@ -292,7 +292,7 @@ Es wurde ein Dokument fuer die Api bzw. Mqtt erstellt. Dort wurde der Datenverke
 **2022-12-07: 18:00 -> 21:45**
 Beide Programme wurden refactort und der neuen Struktur von MJ angepasst. Weiters wurde eine "Vorlage gefertigt" die erledigt werden kann wenn die API fertig ist
 
-**2022-12-08: 18:00 -> 21:45**
+**2022-12-08: 20:00 -> 23:30**
 Es wurde beim Login das setup zum registrieren erstellt
   -Neues Pop Up
   -Neuer Timer
@@ -375,6 +375,6 @@ und an Johannes seiner api angepasst
 - 13:00 bis 18:00 Uhr
 - 10:00 bis 13:00 Uhr
 - 18:00 bis 21:45 Uhr
-- 18:00 bis 21:45 Uhr
+- 20:00 bis 23:30 Uhr
 <!-- { "progress": false } -->
 

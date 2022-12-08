@@ -5,26 +5,49 @@ type Message struct {
 	Received    chan bool
 }
 
-type BaseMessage struct {
-	Id     string `json:"messageid"`
-	Action Action `json:"action"`
+type Result struct {
+	Data                *Message
+	MqttMessageReceived chan bool
+}
+
+const HeaderTimeToLiveInitial = 5
+
+type Header struct {
+	Id         string `json:"message-id"`
+	ClientId   string `json:"client-id"`
+	TimeToLive int    `json:"ttl"`
+	Action     Action `json:"action"`
 }
 
 type Card struct {
 	Position  int    `json:"position"`
-	StorageId int    `json:"storageid"`
-	Name      string `json:"storagename"`
+	StorageId int    `json:"storage-id"`
+	Name      string `json:"storage-name"`
+}
+
+type SerializableCardMessage struct {
+	Header
+	Card `json:"card"`
+}
+
+func NewSerializableCardMessage(h Header, c Card) (message SerializableCardMessage) {
+	message.Header = h
+	message.Card = c
+	return
 }
 
 type Ping struct {
-	StorageId int `json:"storageid"`
+	StorageName string `json:"storage-name"`
+	IsAvailable bool   `json:"is-available"`
 }
 
-func NewSerializableCardMessage(b BaseMessage, c Card) (message struct {
-	BaseMessage
-	Card `json:"card"`
-}) {
-	message.BaseMessage = b
-	message.Card = c
+type SerializablePingMessage struct {
+	Header
+	Ping `json:"ping"`
+}
+
+func NewSerializablePingMessage(h Header, p Ping) (message SerializablePingMessage) {
+	message.Header = h
+	message.Ping = p
 	return
 }

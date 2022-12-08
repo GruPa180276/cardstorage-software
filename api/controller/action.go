@@ -23,5 +23,5 @@ import (
 type Action string
 
 func ActionsToJSON() ([]byte, error) {
-	return json.Marshal(util.Values(_ActionValue))
+	return json.Marshal(util.Keys(_ActionValue))
 }

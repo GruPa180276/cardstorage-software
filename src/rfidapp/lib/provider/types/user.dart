@@ -48,8 +48,6 @@ class User {
     userPrincipalName = json['userPrincipalName'];
     id = json['id'];
 
-    print(surname);
-
     UserSecureStorage.setUserValues(
         surname!, givenName!, mail!, officeLocation!);
   }

@@ -37,6 +37,12 @@ class Data {
     return List<Cards>.empty();
   }
 
+  static Future<bool> checkUserRegistered(String email) async {
+    var responseUser = await get(Uri.parse("${uriRaspi}users/email/${email}"),
+        headers: {"Accept": "application/json"});
+    return responseUser.body.isNotEmpty;
+  }
+
   static Future<Response?> getUserData(String accessToken) async {
     try {
       final response =

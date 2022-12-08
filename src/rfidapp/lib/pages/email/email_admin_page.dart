@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
-import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 
 class EmailAdminScreen extends StatefulWidget {
   const EmailAdminScreen({super.key});

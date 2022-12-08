@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
-
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
@@ -154,29 +150,32 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
       await AadAuthentication.oauth.login();
 
       String? accessToken = await AadAuthentication.oauth.getAccessToken();
-      //see if user is already registered
-      bool registered = true;
-      if (accessToken != null &&
-          registered) //api get// see if user is registered
-      {
+      bool registered = false;
+      if (accessToken!.isNotEmpty) {
         var userResponse = await Data.getUserData(accessToken);
-        User.setUserValues(jsonDecode(userResponse!.body));
-        UserSecureStorage.setRememberState(rememberValue.toString());
+        var test = jsonDecode(userResponse!.body)["mail"];
+        registered = await Data.checkUserRegistered(test);
+        if (registered) //api get// see if user is registered
+        {
+          User.setUserValues(jsonDecode(userResponse.body));
+          UserSecureStorage.setRememberState(rememberValue.toString());
 
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const BottomNavigation()),
-            (Route<dynamic> route) => false);
-      } else if (accessToken != null && registered == false) {
-        await MqttTimer.startTimer(context, "to-sign-up");
-
-        if (MqttTimer.getSuccessful()) {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const BottomNavigation()),
               (Route<dynamic> route) => false);
+        } else {
+          await MqttTimer.startTimer(context, "to-sign-up");
+          if (MqttTimer.getSuccessful()) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const BottomNavigation()),
+                (Route<dynamic> route) => false);
+            User.setUserValues(jsonDecode(userResponse.body));
+            UserSecureStorage.setRememberState(rememberValue.toString());
+          }
         }
       } else {
         UserSecureStorage.setRememberState("false");
-
         setState(() {
           rememberValue = false;
         });

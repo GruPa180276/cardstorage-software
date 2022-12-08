@@ -371,5 +371,6 @@ Es wurde beim Login das setup zum registrieren erstellt und an Johannes seiner a
 - 13:00 bis 18:00 Uhr
 - 10:00 bis 13:00 Uhr
 - 18:00 bis 21:45 Uhr
+- 18:00 bis 22:45 Uhr
 <!-- { "progress": false } -->
 

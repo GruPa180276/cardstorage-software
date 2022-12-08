@@ -40,7 +40,10 @@ class Data {
   static Future<bool> checkUserRegistered(String email) async {
     var responseUser = await get(Uri.parse("${uriRaspi}users/email/${email}"),
         headers: {"Accept": "application/json"});
-    return responseUser.body.isNotEmpty;
+    if (responseUser.statusCode != 200) {
+      return false;
+    }
+    return true;
   }
 
   static Future<Response?> getUserData(String accessToken) async {
@@ -53,6 +56,16 @@ class Data {
 
       return response;
     } catch (e) {}
+  }
+
+  static Future<List<String>> getStorageNames() async {
+      var responeStorages = await get(Uri.parse("${uriRaspi}storage-units"),
+          headers: {"Accept": "application/json"});
+
+      List<Storage> storages = jsonDecode(responeStorages.body)
+          .map<Storage>(Storage.fromJson)
+          .toList();
+      return ApiParser.getNamesOfStorages(storages);
   }
 
   static void postData(

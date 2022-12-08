@@ -6,6 +6,7 @@ import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
+import 'package:rfidapp/pages/login/storage-select-popup.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/user.dart';
@@ -145,6 +146,8 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
 
   void sigIn() async {
     try {
+      //await AadAuthentication.oauth.logout();
+
       UserSecureStorage.setRememberState(rememberValue.toString());
       await AadAuthentication.getEnv();
       await AadAuthentication.oauth.login();
@@ -164,15 +167,15 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
               MaterialPageRoute(builder: (context) => const BottomNavigation()),
               (Route<dynamic> route) => false);
         } else {
-          await MqttTimer.startTimer(context, "to-sign-up");
-          if (MqttTimer.getSuccessful()) {
+          await StorageSelectPopUp.build(context);
+          if (StorageSelectPopUp.getSuccessful()) {
+            await MqttTimer.startTimer(context, "to-sign-up");
             User.setUserValues(jsonDecode(userResponse.body));
             UserSecureStorage.setRememberState(rememberValue.toString());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => const BottomNavigation()),
                 (Route<dynamic> route) => false);
-            
           }
         }
       } else {

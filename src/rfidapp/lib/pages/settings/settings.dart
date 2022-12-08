@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/pages/login/login_user_page.dart';
-import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/account/account_page.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:app_settings/app_settings.dart';

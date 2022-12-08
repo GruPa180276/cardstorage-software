@@ -226,6 +226,12 @@ Wir haben gemeinsam das Plakat erstellt und eiige Dinge besprochen (1h 30min)
 **4.12.2022: 8:45 bis 11:45** <br>
 Habe den Code so angepasst das jetzt die richtigen Felder eingelesen werden und an die API übetragen werden. Weiters habe ich einige Fehler behoben, unteranderm bei der Suche, das Werte doppelt angezeigt wurden. Danach habe ich noch den Code für die locations implmentiert, das man jetzt beim Storage anlegen auch aus vorhanden Storage-Locations auswählen kann. (3h)
 
+**7.12.2022: 12:50 bis 13:35** <br>
+Diplomarbeitsbesprehung über Schnittstellen (45 min)
+
+**9.12.2022: 12:30 bis 15:30** <br>
+Es ist jetzt möglich die Storages beim Karten anlegen und die Location beim Storage anlegen auszuwählen. Weiters kann man jetzt auch neue Locations anlegen. Weiters habe ich einige Probleme bei der Darstellung behoben. Weiters habe ich erste POST versuche auf die API durchgeführt, welche auch funktioniert haben. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -290,4 +296,6 @@ Habe den Code so angepasst das jetzt die richtigen Felder eingelesen werden und 
 - 8:30 bis 11:30 Uhr
 - 9:45 bis 11:15 Uhr
 - 8:45 bis 11:45 Uhr
+- 12:50 bis 13:35 Uhr
+- 12:30 bis 15:30 Uhr
 <!-- { "progress": false } -->

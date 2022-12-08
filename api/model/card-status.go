@@ -7,34 +7,34 @@ import (
 )
 
 var (
-	CardStatusIdUnset                int           = -1
-	CardStatusReservationIdUnset     sql.NullInt64 = sql.NullInt64{Valid: false}
-	CardStatusIsAvailableFlagUnset   bool          = false
-	CardStatusReservationsTotalUnset int           = -1
+	CardStatusIdUnset              int           = -1
+	CardStatusReservationIdUnset   sql.NullInt64 = sql.NullInt64{Valid: false}
+	CardStatusIsAvailableFlagUnset bool          = false
+	CardStatusAccessCountUnset     int           = -1
 )
 
 type CardStatus struct {
-	Id                int           `json:"id,omitempty"`
-	CardId            int           `json:"cardid"`
-	ReservationId     sql.NullInt64 `json:"reservationid"`
-	IsCardAvailable   bool          `json:"isCardAvailable"`
-	ReservationsTotal int           `json:"reservationsTotal"`
+	Id              int           `json:"id,omitempty"`
+	CardId          int           `json:"card-id"`
+	ReservationId   sql.NullInt64 `json:"reservation-id"`
+	IsCardAvailable bool          `json:"is-card-available"`
+	AccessCount     int           `json:"access-count"`
 	*Model
 }
 
-func NewCardStatus(model *Model, id, cardId int, reservationId sql.NullInt64, reservationsTotal int, isCardAvailable bool) *CardStatus {
+func NewCardStatus(model *Model, id, cardId int, reservationId sql.NullInt64, accessCount int, isCardAvailable bool) *CardStatus {
 	return &CardStatus{
-		Id:                id,
-		CardId:            cardId,
-		ReservationId:     reservationId,
-		IsCardAvailable:   isCardAvailable,
-		ReservationsTotal: reservationsTotal,
-		Model:             model,
+		Id:              id,
+		CardId:          cardId,
+		ReservationId:   reservationId,
+		IsCardAvailable: isCardAvailable,
+		AccessCount:     accessCount,
+		Model:           model,
 	}
 }
 
 func ShallowCopyCardStatus(cs *CardStatus) *CardStatus {
-	return NewCardStatus(cs.Model, cs.Id, cs.CardId, cs.ReservationId, cs.ReservationsTotal, cs.IsCardAvailable)
+	return NewCardStatus(cs.Model, cs.Id, cs.CardId, cs.ReservationId, cs.AccessCount, cs.IsCardAvailable)
 }
 
 // Correctly convert UNIX Timestamp into Go's time.Time type
@@ -71,29 +71,29 @@ func (self *CardStatus) UnmarshalJSON(data []byte) error /* implements json.Unma
 			}
 			self.Id = int(v.(float64))
 			idIsPresent = true
-		case "cardid":
+		case "card-id":
 			if _, ok := v.(float64); !ok {
-				return fmt.Errorf("error: converting attribute 'cardid' from interface{} to float64")
+				return fmt.Errorf("error: converting attribute 'card-id' from interface{} to float64")
 			}
 			self.CardId = int(v.(float64))
 			cardIdIsPresent = true
-		case "reservationid":
+		case "reservation-id":
 			if _, ok := v.(float64); !ok {
-				return fmt.Errorf("error: converting attribute 'reservationid' from interface{} to float64")
+				return fmt.Errorf("error: converting attribute 'reservation-id' from interface{} to float64")
 			}
 			self.ReservationId = sql.NullInt64{int64(v.(float64)), true}
 			reservationIdIsPresent = true
-		case "isCardAvailable":
+		case "is-card-available":
 			if _, ok := v.(bool); !ok {
-				return fmt.Errorf("error: converting attribute 'isCardAvailable' from interface{} to bool")
+				return fmt.Errorf("error: converting attribute 'is-card-available' from interface{} to bool")
 			}
 			self.IsCardAvailable = v.(bool)
 			isCardAvailableFlagIsPresent = true
-		case "reservationsTotal":
+		case "access-count":
 			if _, ok := v.(float64); !ok {
-				return fmt.Errorf("error: converting attribute 'reservationsTotal' from interface{} to float64")
+				return fmt.Errorf("error: converting attribute 'access-count' from interface{} to float64")
 			}
-			self.ReservationsTotal = int(v.(float64))
+			self.AccessCount = int(v.(float64))
 			reservationsTotalIsPresent = true
 		default:
 			return fmt.Errorf("Error during parsing: unknown key '%s'", k)
@@ -113,7 +113,7 @@ func (self *CardStatus) UnmarshalJSON(data []byte) error /* implements json.Unma
 		self.IsCardAvailable = CardStatusIsAvailableFlagUnset
 	}
 	if !reservationsTotalIsPresent {
-		self.ReservationsTotal = CardStatusReservationsTotalUnset
+		self.AccessCount = CardStatusAccessCountUnset
 	}
 
 	return nil
@@ -125,26 +125,26 @@ func (self *CardStatus) MarshalJSON() ([]byte, error) /* implements json.Marshal
 		resid = nil
 	}
 	return json.Marshal(&struct {
-		Id                int         `json:"id,omitempty"`
-		CardId            int         `json:"cardid"`
-		ReservationId     interface{} `json:"reservationid"`
-		IsCardAvailable   bool        `json:"isCardAvailable"`
-		ReservationsTotal int         `json:"reservationsTotal"`
+		Id              int         `json:"id,omitempty"`
+		CardId          int         `json:"card-id"`
+		ReservationId   interface{} `json:"reservation-id"`
+		IsCardAvailable bool        `json:"is-card-available"`
+		AccessCount     int         `json:"access-count"`
 	}{
-		Id:                self.Id,
-		CardId:            self.CardId,
-		ReservationId:     resid,
-		IsCardAvailable:   self.IsCardAvailable,
-		ReservationsTotal: self.ReservationsTotal,
+		Id:              self.Id,
+		CardId:          self.CardId,
+		ReservationId:   resid,
+		IsCardAvailable: self.IsCardAvailable,
+		AccessCount:     self.AccessCount,
 	})
 }
 
 func (self *CardStatus) String() string {
-	return fmt.Sprintf("model.CardStatus(model=\"\",id=%d,cardid=%d,reservationid=%v,isCardAvailable=%v,reservationsTotal=%d)", self.Id, self.CardId, self.ReservationId.Int64, self.IsCardAvailable, self.ReservationsTotal)
+	return fmt.Sprintf("model.CardStatus(model=\"\",id=%d,card-id=%d,reservation-id=%v,is-card-available=%v,access-count=%d)", self.Id, self.CardId, self.ReservationId.Int64, self.IsCardAvailable, self.AccessCount)
 }
 
 func (self *CardStatus) SelectAll() ([]CardStatus, error) {
-	rows, err := self.Query("SELECT id, fk_cardid, fk_reservationid, iscardavailable, reservationstotal FROM CardsStatus")
+	rows, err := self.Query("SELECT id, fk_cardid, fk_reservationid, iscardavailable, accesscount FROM CardsStatus")
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func (self *CardStatus) SelectAll() ([]CardStatus, error) {
 	for rows.Next() {
 		cs := CardStatus{}
 
-		if err := rows.Scan(&cs.Id, &cs.CardId, &nullableReservationId, &cs.IsCardAvailable, &cs.ReservationsTotal); err != nil {
+		if err := rows.Scan(&cs.Id, &cs.CardId, &nullableReservationId, &cs.IsCardAvailable, &cs.AccessCount); err != nil {
 			return nil, err
 		}
 
@@ -169,8 +169,8 @@ func (self *CardStatus) SelectAll() ([]CardStatus, error) {
 }
 
 func (self *CardStatus) SelectByCardId() error {
-	row := self.QueryRow("SELECT id, fk_reservationid, iscardavailable, reservationstotal FROM CardsStatus WHERE fk_cardid = ?", self.CardId)
-	if err := row.Scan(&self.Id, &self.ReservationId, &self.IsCardAvailable, &self.ReservationsTotal); err != nil {
+	row := self.QueryRow("SELECT id, fk_reservationid, iscardavailable, accesscount FROM CardsStatus WHERE fk_cardid = ?", self.CardId)
+	if err := row.Scan(&self.Id, &self.ReservationId, &self.IsCardAvailable, &self.AccessCount); err != nil {
 		return err
 	}
 	return nil
@@ -183,6 +183,6 @@ func (self *CardStatus) InsertDefaultStatus() error {
 }
 
 func (self *CardStatus) UpdateByCardId() error {
-	_, err := self.Exec("UPDATE CardsStatus SET iscardavailable = ?, reservationstotal = ? WHERE fk_cardid = ?", self.IsCardAvailable, self.ReservationsTotal, self.CardId)
+	_, err := self.Exec("UPDATE CardsStatus SET iscardavailable = ?, accesscount = ? WHERE fk_cardid = ?", self.IsCardAvailable, self.AccessCount, self.CardId)
 	return err
 }

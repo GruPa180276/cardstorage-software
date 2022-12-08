@@ -17,10 +17,10 @@ var (
 
 type Card struct {
 	Id         int            `json:"id,omitempty"`
-	StorageId  int            `json:"storageid"`
+	StorageId  int            `json:"storage-id"`
 	Name       string         `json:"name"`
 	Position   int            `json:"position"`
-	ReaderData sql.NullString `json:"readerdata"`
+	ReaderData sql.NullString `json:"reader-data"`
 	*Model
 }
 
@@ -73,7 +73,7 @@ func (self *Card) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 			}
 			self.Id = int(v.(float64))
 			idIsPresent = true
-		case "storageid":
+		case "storage-id":
 			if _, ok := v.(float64); !ok {
 				return fmt.Errorf("error: converting attribute 'storageid' from interface{} to float64")
 			}
@@ -91,7 +91,7 @@ func (self *Card) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 			}
 			self.Position = int(v.(float64))
 			positionIsPresent = true
-		case "readerdata":
+		case "reader-data":
 			self.ReaderData = sql.NullString{}
 			if v == nil {
 				return fmt.Errorf("warning: attribute 'readerdata' is nil")
@@ -132,11 +132,11 @@ func (self *Card) MarshalJSON() ([]byte, error) /* implements json.Marshaler */ 
 	}
 	type Alias Card
 	return json.Marshal(&struct {
-		Readerdata interface{} `json:"readerdata"`
+		ReaderData interface{} `json:"reader-data"`
 		*Alias
 	}{
 		Alias:      (*Alias)(self),
-		Readerdata: readerdata,
+		ReaderData: readerdata,
 	})
 }
 
@@ -145,7 +145,7 @@ func (self *Card) String() string {
 	if !self.ReaderData.Valid {
 		readerdata = nil
 	}
-	return fmt.Sprintf("model.Card(model=\"\",id=%d,storageId=%d,name=%s,position=%d,readerdata=%v)", self.Id, self.StorageId, self.Name, self.Position, readerdata)
+	return fmt.Sprintf("model.Card(model=\"\",id=%d,storage-id=%d,name=%s,position=%d,reader-data=%v)", self.Id, self.StorageId, self.Name, self.Position, readerdata)
 }
 
 func (self *Card) SelectAll() ([]Card, error) {

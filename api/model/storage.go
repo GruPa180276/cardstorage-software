@@ -14,9 +14,9 @@ const (
 
 type StorageUnit struct {
 	Id         int    `json:"id,omitempty"`
-	LocationId int    `json:"locationid"`
+	LocationId int    `json:"location-id"`
 	Name       string `json:"name"`
-	IpAddress  string `json:"ipaddress"`
+	IpAddress  string `json:"ip-address"`
 	Capacity   int    `json:"capacity"`
 	*Model
 }
@@ -70,9 +70,9 @@ func (self *StorageUnit) UnmarshalJSON(data []byte) error /* implements json.Unm
 			}
 			self.Id = int(v.(float64))
 			idIsPresent = true
-		case "locationid":
+		case "location-id":
 			if _, ok := v.(float64); !ok {
-				return fmt.Errorf("error: converting attribute 'locationid' from interface{} to float64")
+				return fmt.Errorf("error: converting attribute 'location-id' from interface{} to float64")
 			}
 			self.LocationId = int(v.(float64))
 			locationIdIsPresent = true
@@ -82,9 +82,9 @@ func (self *StorageUnit) UnmarshalJSON(data []byte) error /* implements json.Unm
 			}
 			self.Name = v.(string)
 			nameIsPresent = true
-		case "ipaddress":
+		case "ip-address":
 			if _, ok := v.(string); !ok {
-				return fmt.Errorf("error: converting attribute 'ipaddress' from interface{} to string")
+				return fmt.Errorf("error: converting attribute 'ip-address' from interface{} to string")
 			}
 			self.IpAddress = v.(string)
 			ipAddrIsPresent = true
@@ -128,7 +128,7 @@ func (self *StorageUnit) MarshalJSON() ([]byte, error) /* implements json.Marsha
 }
 
 func (self *StorageUnit) String() string {
-	return fmt.Sprintf("model.StorageUnit(model=\"\",id=%d,locationid=%d,name=%s,ipaddress=%s,capacity=%d)", self.Id, self.LocationId, self.Name, self.IpAddress, self.Capacity)
+	return fmt.Sprintf("model.StorageUnit(model=\"\",id=%d,location-id=%d,name=%s,ip-address=%s,capacity=%d)", self.Id, self.LocationId, self.Name, self.IpAddress, self.Capacity)
 }
 
 func (self *StorageUnit) SelectById() error {

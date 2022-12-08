@@ -7,28 +7,28 @@ import (
 
 const (
 	UserIdUnset         int    = -1
-	UserEmailUnset      string = "<invalid:email>"
+	UserMailUnset       string = "<invalid:mail>"
 	UserReaderDataUnset string = "<invalid:readerdata>"
 )
 
 type User struct {
 	Id         int    `json:"id,omitempty"`
-	Email      string `json:"email"`
-	ReaderData string `json:"readerdata"`
+	Mail       string `json:"mail"`
+	ReaderData string `json:"reader-data"`
 	*Model
 }
 
-func NewUser(model *Model, id int, email string, readerData string) *User {
+func NewUser(model *Model, id int, mail string, readerData string) *User {
 	return &User{
 		Id:         id,
-		Email:      email,
+		Mail:       mail,
 		ReaderData: readerData,
 		Model:      model,
 	}
 }
 
 func ShallowCopyUser(user *User) *User {
-	return NewUser(user.Model, user.Id, user.Email, user.ReaderData)
+	return NewUser(user.Model, user.Id, user.Mail, user.ReaderData)
 }
 
 // Correctly convert UNIX Timestamp into Go's time.Time type
@@ -63,15 +63,15 @@ func (self *User) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 			}
 			self.Id = int(v.(float64))
 			idIsPresent = true
-		case "email":
+		case "mail":
 			if _, ok := v.(string); !ok {
-				return fmt.Errorf("error: converting attribute 'email' from interface{} to string")
+				return fmt.Errorf("error: converting attribute 'mail' from interface{} to string")
 			}
-			self.Email = v.(string)
+			self.Mail = v.(string)
 			emailIsPresent = true
-		case "readerdata":
+		case "reader-data":
 			if _, ok := v.(string); !ok {
-				return fmt.Errorf("error: converting attribute 'readerdata' from interface{} to string")
+				return fmt.Errorf("error: converting attribute 'reader-data' from interface{} to string")
 			}
 			self.ReaderData = v.(string)
 			readerDataIsPresent = true
@@ -84,7 +84,7 @@ func (self *User) UnmarshalJSON(data []byte) error /* implements json.Unmarshale
 		self.Id = UserIdUnset
 	}
 	if !emailIsPresent {
-		self.Email = UserEmailUnset
+		self.Mail = UserMailUnset
 	}
 	if !readerDataIsPresent {
 		self.ReaderData = UserReaderDataUnset
@@ -103,33 +103,33 @@ func (self *User) MarshalJSON() ([]byte, error) /* implements json.Marshaler */ 
 }
 
 func (self *User) String() string {
-	return fmt.Sprintf("model.User(model=\"\",id=%d,email=%s,readerdata=%s)", self.Id, self.Email, self.ReaderData)
+	return fmt.Sprintf("model.User(model=\"\",id=%d,mail=%s,reader-data=%s)", self.Id, self.Mail, self.ReaderData)
 }
 
 func (self *User) SelectById() error {
-	row := self.QueryRow("SELECT id, email, readerdata FROM Users WHERE id = ?", self.Id)
+	row := self.QueryRow("SELECT id, mail, readerdata FROM Users WHERE id = ?", self.Id)
 
 	if err := row.Err(); err != nil {
 		self.Println(err)
 		return err
 	}
 
-	if err := row.Scan(&self.Id, &self.Email, &self.ReaderData); err != nil {
+	if err := row.Scan(&self.Id, &self.Mail, &self.ReaderData); err != nil {
 		self.Println(err)
 		return err
 	}
 	return nil
 }
 
-func (self *User) SelectByEmail() error {
-	row := self.QueryRow("SELECT id, email, readerdata FROM Users WHERE email = ?", self.Email)
+func (self *User) SelectByMail() error {
+	row := self.QueryRow("SELECT id, mail, readerdata FROM Users WHERE mail = ?", self.Mail)
 
 	if err := row.Err(); err != nil {
 		self.Println(err)
 		return err
 	}
 
-	if err := row.Scan(&self.Id, &self.Email, &self.ReaderData); err != nil {
+	if err := row.Scan(&self.Id, &self.Mail, &self.ReaderData); err != nil {
 		// self.Println(err)
 		return err
 	}
@@ -137,14 +137,14 @@ func (self *User) SelectByEmail() error {
 }
 
 func (self *User) SelectByReaderData() error {
-	row := self.QueryRow("SELECT id, email, readerdata FROM Users WHERE readerdata = ?", self.ReaderData)
+	row := self.QueryRow("SELECT id, mail, readerdata FROM Users WHERE readerdata = ?", self.ReaderData)
 
 	if err := row.Err(); err != nil {
 		self.Println(err)
 		return err
 	}
 
-	if err := row.Scan(&self.Id, &self.Email, &self.ReaderData); err != nil {
+	if err := row.Scan(&self.Id, &self.Mail, &self.ReaderData); err != nil {
 		// self.Println(err)
 		return err
 	}
@@ -152,7 +152,7 @@ func (self *User) SelectByReaderData() error {
 }
 
 func (self *User) SelectAll() ([]User, error) {
-	rows, err := self.Query("SELECT id, email, readerdata FROM Users")
+	rows, err := self.Query("SELECT id, mail, readerdata FROM Users")
 
 	if err != nil {
 		return nil, err
@@ -163,7 +163,7 @@ func (self *User) SelectAll() ([]User, error) {
 	for rows.Next() {
 		u := User{}
 
-		if err := rows.Scan(&u.Id, &u.Email, &u.ReaderData); err != nil {
+		if err := rows.Scan(&u.Id, &u.Mail, &u.ReaderData); err != nil {
 			self.Println(err)
 			return nil, err
 		}
@@ -173,7 +173,7 @@ func (self *User) SelectAll() ([]User, error) {
 }
 
 func (self *User) Insert() error {
-	_, err := self.Exec("INSERT INTO Users (email, readerdata) VALUES (?,?)", self.Email, self.ReaderData)
+	_, err := self.Exec("INSERT INTO Users (mail, readerdata) VALUES (?,?)", self.Mail, self.ReaderData)
 	return err
 }
 

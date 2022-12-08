@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `Storages` (
     `fk_locid`          INT,
     `storagename`       VARCHAR(128) NOT NULL UNIQUE,
     `ipaddr`            CHAR(15) NOT NULL,
-    `capacity`          INT NOT NULL
+    `capacity`          INT NOT NULL DEFAULT 10
 );
 
 CREATE TABLE IF NOT EXISTS `Locations` (
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `CardsStatus` (
     `fk_cardid`         INT NOT NULL,
     `fk_reservationid`  INT NULL DEFAULT NULL, -- If NULL then card not reserved
     `iscardavailable`   BOOLEAN NOT NULL DEFAULT TRUE,
-    `reservationstotal` INT DEFAULT 0
+    `accesscount`       INT DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS `CardsQueue` (
@@ -44,12 +44,12 @@ CREATE TABLE IF NOT EXISTS `CardsQueue` (
 
 CREATE TABLE IF NOT EXISTS `Users` (
     `id`                INT PRIMARY KEY AUTO_INCREMENT,
-    `email`             VARCHAR(64) UNIQUE NOT NULL,
-    `readerdata`        VARCHAR(128) NOT NULL
+    `mail`              VARCHAR(64) UNIQUE NOT NULL,
+    `readerdata`        VARCHAR(128) UNIQUE DEFAULT NULL -- curious, but convenient none the less
 );
 
 CREATE TABLE IF NOT EXISTS `Administrators` (
-    `fk_userid`         INT
+    `fk_userid`         INT UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS `UserSession` (

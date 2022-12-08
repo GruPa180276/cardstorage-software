@@ -1,16 +1,20 @@
 package main
 
 import (
+	"io"
+	"log"
+	"os"
+
 	"github.com/mochi-co/mqtt/server"
 	"github.com/mochi-co/mqtt/server/events"
 	"github.com/mochi-co/mqtt/server/listeners"
 	"github.com/mochi-co/mqtt/server/listeners/auth"
-	"log"
-	"os"
 )
 
 func main() {
-	logger := log.New(os.Stderr, "MQS: ", log.Lshortfile|log.LstdFlags)
+	writer := io.MultiWriter(os.Stderr)
+
+	logger := log.New(writer, "Broker: ", log.Lshortfile|log.LstdFlags)
 
 	addr := "localhost:1883"
 
@@ -25,10 +29,17 @@ func main() {
 		logger.Println("MQTT Error: " + err.Error())
 	}
 
-	mqs.Events.OnMessage = func(c events.Client, p events.Packet) (events.Packet, error) {
-		logger.Printf("Client: '%s', Topic: '%s', Payload: '%s'", c.ID, p.TopicName, string(p.Payload))
-		return p, nil
+	mqs.Events.OnConnect = func(c events.Client, p events.Packet) {
+		logger.Printf("Connect> Client: %q", c.ID)
 	}
 
+	mqs.Events.OnDisconnect = func(c events.Client, _ error) {
+		logger.Printf("Disconnect> Client: %q", c.ID)
+	}
+
+	mqs.Events.OnMessage = func(c events.Client, p events.Packet) (events.Packet, error) {
+		logger.Printf("Message> Client: %q, Topic: %q, Payload: %q", c.ID, p.TopicName, string(p.Payload))
+		return p, nil
+	}
 	<-make(chan struct{})
 }

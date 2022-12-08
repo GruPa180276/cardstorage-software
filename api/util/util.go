@@ -3,10 +3,11 @@ package util
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/mux"
 )
 
 func Must(value interface{}, err error) interface{} {
@@ -74,13 +75,12 @@ func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {
 
 type Sitemap struct {
 	Router  *mux.Router
-	Sitemap map[*json.RawMessage]*mux.Route
+	Sitemap map[*json.RawMessage]http.Handler
 }
 
 func (self *Sitemap) AddHandler(method, path string, handler http.HandlerFunc) *Sitemap {
 	m := json.RawMessage(fmt.Sprintf(`{"method":"%s","path":"%s"}`, method, path))
-	(*self).Sitemap[&m] =
-		self.Router.HandleFunc(path, handler).Methods(method)
+	(*self).Sitemap[&m] = self.Router.Handle(path, handler).Methods(method).GetHandler()
 	return self
 }
 

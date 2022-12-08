@@ -1,0 +1,90 @@
+[
+	{
+		"method": "POST",
+		"path": "/locations"
+	},
+	{
+		"method": "GET",
+		"path": "/storage-units"
+	},
+	{
+		"method": "GET",
+		"path": "/users"
+	},
+	{
+		"method": "GET",
+		"path": "/users/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "GET",
+		"path": "/users/email/{email:[a-zA-Z0-9.@-_]{5,100}}"
+	},
+	{
+		"method": "POST",
+		"path": "/users/sign-up"
+	},
+	{
+		"method": "GET",
+		"path": "/cards/status"
+	},
+	{
+		"method": "GET",
+		"path": "/locations/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "POST",
+		"path": "/storage-units"
+	},
+	{
+		"method": "GET",
+		"path": "/storage-units/name/{name:[a-zA-Z0-9-_]{3,100}}"
+	},
+	{
+		"method": "GET",
+		"path": "/storage-units/ping/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "GET",
+		"path": "/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}"
+	},
+	{
+		"method": "PUT",
+		"path": "/cards/status"
+	},
+	{
+		"method": "GET",
+		"path": "/locations/name/{name:[a-zA-Z0-9-_]{3,100}}"
+	},
+	{
+		"method": "GET",
+		"path": "/storage-units/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "OPTIONS",
+		"path": "/"
+	},
+	{
+		"method": "GET",
+		"path": "/cards/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "GET",
+		"path": "/cards/name/{name:[a-zA-Z0-9-_]{3,100}}"
+	},
+	{
+		"method": "GET",
+		"path": "/cards/status/id/{id:[0-9]{1,10}}"
+	},
+	{
+		"method": "GET",
+		"path": "/cards"
+	},
+	{
+		"method": "POST",
+		"path": "/cards"
+	},
+	{
+		"method": "GET",
+		"path": "/locations"
+	}
+]

@@ -1,22 +1,27 @@
-package response
+package observer
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
+	"log"
+
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/google/uuid"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
-	"log"
 )
+
+type Result struct {
+	Data                *controller.Message
+	MqttMessageReceived chan bool
+}
 
 type Observer struct {
 	mqtt.Client
 	*log.Logger
 	*sql.DB
 
-	Messages map[uuid.UUID]*ObserverResult
+	// Messages map[uuid.UUID]*Result
 }
 
 func AssembleBaseStorageTopic(storage *model.StorageUnit, location *model.Location) string {
@@ -41,36 +46,14 @@ func (self *Observer) Observe() {
 		}
 		top := AssembleBaseStorageTopic(&unit, &locations[locationOfUnitIdx]) + "/1"
 		self.Printf("trying to ping '%s'...\n", top)
-		self.Publish(top, 1, false, []byte("ping")).Wait()
 
-		// @todo: Handle incoming MQTT data here (i.e. 'readerdata' response from response.AddNewCardHandler (card.go))
-		self.Subscribe(top, 1, func(client mqtt.Client, msg mqtt.Message) {
-			length := len(string(msg.Payload()))
-			if length > 1024 {
+		// <-self.Publish(top, 1, false, []byte("ping")).Done()
+
+		<-self.Subscribe(top, 1, func(client mqtt.Client, msg mqtt.Message) {
+			if len(string(msg.Payload())) > (1 << 10) {
 				return
 			}
-			self.Printf("got '%s' on '%s'\n", string(msg.Payload()[:length]), msg.Topic())
 
-			controllerMessage := new(ControllerMessage)
-			controllerMessage.Card = new(ControllerCard)
-			err := json.Unmarshal(msg.Payload(), controllerMessage)
-			if err != nil {
-				// @todo: handle error properly
-				self.Println(err)
-				return
-			}
-			// @todo: check self.Messages if message-id is already present
-
-			switch controllerMessage.Action {
-			case ControllerMessageActionAddNewCardToStorageUnit:
-				// @todo
-			case ControllerMessageActionBorrowCardFromMobileApplication:
-				// @todo
-			case ControllerMessageActionBorrowCardFromTerminal:
-				// @todo
-			default:
-				// invalid action
-			}
-		}).Wait()
+		}).Done()
 	}
 }

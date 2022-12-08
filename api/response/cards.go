@@ -4,12 +4,15 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/google/uuid"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"log"
 	"net/http"
+
+	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/google/uuid"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
 type Card struct {
@@ -17,7 +20,7 @@ type Card struct {
 	*log.Logger
 	mqtt.Client
 
-	Messages map[uuid.UUID]*ObserverResult
+	Messages map[uuid.UUID]*observer.Result
 }
 
 func (self *Card) GetAllCardsHandler(res http.ResponseWriter, req *http.Request) {
@@ -35,6 +38,16 @@ func (self *Card) GetAllCardsHandler(res http.ResponseWriter, req *http.Request)
 		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return
 	}
+}
+
+func (self *Card) GetCardByIdHandler(res http.ResponseWriter, req *http.Request) {
+	self.Println(util.ErrNotImplemented)
+	util.HttpBasicJsonError(res, http.StatusNotImplemented)
+}
+
+func (self *Card) GetCardByNameHandler(res http.ResponseWriter, req *http.Request) {
+	self.Println(util.ErrNotImplemented)
+	util.HttpBasicJsonError(res, http.StatusNotImplemented)
 }
 
 // @todo: DONE! Send message over MQTT to RaspiController when adding a new card to activate card-reader and send data back over MQTT Topic
@@ -103,15 +116,9 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 	}
 
 	msgid := uuid.Must(uuid.NewRandom()).String()
-	c := &ControllerMessage{
-		Id:     msgid,
-		Action: ControllerMessageActionAddNewCardToStorageUnit,
-		Card: &ControllerCard{
-			Name:      card.Name,
-			StorageId: card.StorageId,
-			Position:  card.Position,
-		},
-	}
+	c := controller.NewSerializableCardMessage(
+		controller.BaseMessage{Id: msgid, Action: controller.ActionStorageUnitNewCard},
+		controller.Card{Name: card.Name, StorageId: card.StorageId, Position: card.Position})
 
 	msg, err := json.Marshal(c)
 	if err != nil {
@@ -120,22 +127,11 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 		return
 	}
 	received := make(chan bool)
-	token := self.Publish(AssembleBaseStorageTopic(&storage, &location)+"/1", 1, false, msg)
+	token := self.Publish(observer.AssembleBaseStorageTopic(&storage, &location)+"/1", 1, false, msg)
 	go func() {
 		received <- token.Wait()
 	}()
-	self.Messages[uuid.MustParse(c.Id)] = &ObserverResult{Data: c, MqttMessageReceived: received}
+	// self.Messages[uuid.MustParse(c.Id)] = &observer.ObserverResult{Data: c, MqttMessageReceived: received}
 
 	self.Println("successfully sent request to controller to add new card")
-
-}
-
-func (self *Card) GetCardByIdHandler(res http.ResponseWriter, req *http.Request) {
-	self.Println(util.ErrNotImplemented)
-	util.HttpBasicJsonError(res, http.StatusNotImplemented)
-}
-
-func (self *Card) GetCardByNameHandler(res http.ResponseWriter, req *http.Request) {
-	self.Println(util.ErrNotImplemented)
-	util.HttpBasicJsonError(res, http.StatusNotImplemented)
 }

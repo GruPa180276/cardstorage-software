@@ -20,7 +20,7 @@ type Card struct {
 	*log.Logger
 	mqtt.Client
 
-	Messages map[uuid.UUID]*observer.Result
+	Messages map[uuid.UUID][]*controller.Result
 }
 
 func (self *Card) GetAllCardsHandler(res http.ResponseWriter, req *http.Request) {
@@ -115,9 +115,8 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 		return
 	}
 
-	msgid := uuid.Must(uuid.NewRandom()).String()
 	c := controller.NewSerializableCardMessage(
-		controller.BaseMessage{Id: msgid, Action: controller.ActionStorageUnitNewCard},
+		controller.Header{Id: uuid.Must(uuid.NewRandom()).String(), Action: controller.ActionStorageUnitNewCard},
 		controller.Card{Name: card.Name, StorageId: card.StorageId, Position: card.Position})
 
 	msg, err := json.Marshal(c)
@@ -127,11 +126,11 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 		return
 	}
 	received := make(chan bool)
-	token := self.Publish(observer.AssembleBaseStorageTopic(&storage, &location)+"/1", 1, false, msg)
+	token := self.Publish(observer.AssembleBaseStorageTopic(storage, location), 1, false, msg)
 	go func() {
 		received <- token.Wait()
 	}()
-	// self.Messages[uuid.MustParse(c.Id)] = &observer.ObserverResult{Data: c, MqttMessageReceived: received}
+	// self.Messages[uuid.MustParse(c.Id)] = &controller.Result{Data: c, MqttMessageReceived: received}
 
 	self.Println("successfully sent request to controller to add new card")
 }

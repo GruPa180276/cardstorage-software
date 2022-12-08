@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"sync"
+	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	_ "github.com/go-sql-driver/mysql"
@@ -21,7 +23,8 @@ import (
 )
 
 func main() {
-	router := mux.NewRouter().PathPrefix("/api").Subrouter()
+	prefix := "/api"
+	router := mux.NewRouter().PathPrefix(prefix).Subrouter()
 	router.Headers(
 		"Accept", "application/json",
 		"Accept-Charset", "utf-8",
@@ -31,7 +34,7 @@ func main() {
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
 
 	mqc := mqtt.NewClient(mqtt.NewClientOptions().
-		SetClientID("CSManagementController").
+		SetClientID(fmt.Sprintf("CSMC-%d", time.Now().Unix())).
 		AddBroker("tcp://localhost:1883"))
 	<-mqc.Connect().Done()
 
@@ -42,23 +45,21 @@ func main() {
 		os.Getenv("DB_NAME"))
 
 	db := util.Must(sql.Open(os.Getenv("DB_DRIVER"), connstring)).(*sql.DB)
-	// messages := make(map[uuid.UUID][]observer.Result)
 
-	(&observer.Observer{Client: mqc, Logger: logger, DB: db}).Observe()
+	messages := new(sync.Map)
+	(&observer.Observer{Client: mqc, Logger: logger, DB: db, Map: messages}).Observe()
 
 	u := response.User{DB: db, Logger: logger}
 	c := response.Card{DB: db, Logger: logger, Client: mqc}
 	t := response.CardStatus{DB: db, Logger: logger}
 	l := response.Location{DB: db, Logger: logger}
-	s := response.StorageUnit{DB: db, Logger: logger}
-
-	logger.Println(string(util.Must(controller.ActionsToJSON()).([]byte)))
+	s := response.StorageUnit{DB: db, Logger: logger, Client: mqc, Map: messages}
 
 	sitemap = sitemap.
 		AddHandler(http.MethodOptions, util.API_BASE_PATH, response.OptionsHandler).
 		AddHandler(http.MethodGet, util.API_USERS, u.GetAllUsersHandler).
 		AddHandler(http.MethodGet, util.API_USERS_FILTER_ID, u.GetUserByIdHandler).
-		AddHandler(http.MethodGet, util.API_USERS_FILTER_EMAIL, u.GetUserByEmailHandler).
+		AddHandler(http.MethodGet, util.API_USERS_FILTER_MAIL, u.GetUserByMailHandler).
 		AddHandler(http.MethodGet, util.API_USERS_FILTER_READER, u.GetUserByReaderDataHandler).
 		AddHandler(http.MethodPost, util.API_USERS_SIGN_UP, u.SignUpHandler).
 		AddHandler(http.MethodGet, util.API_CARDS, c.GetAllCardsHandler).
@@ -76,16 +77,30 @@ func main() {
 		AddHandler(http.MethodPost, util.API_STORAGEUNITS, s.AddNewStorageUnitHandler).
 		AddHandler(http.MethodGet, util.API_STORAGEUNITS_FILTER_ID, s.GetStorageUnitByIdHandler).
 		AddHandler(http.MethodGet, util.API_STORAGEUNITS_FILTER_NAME, s.GetStorageUnitByNameHandler).
-		AddHandler(http.MethodGet, util.API_STORAGEUNITS_PING_FILTER_ID, s.PingStorageUnitByIdHandler) // @todo
-
-	logger.Println(connstring)
+		AddHandler(http.MethodGet, util.API_STORAGEUNITS_PING_FILTER_NAME, s.PingStorageUnitByNameHandler) // @todo
 
 	go func() {
-		bytes := util.Must(json.MarshalIndent(util.Keys(sitemap.Sitemap), "", "\t")).([]byte)
+		keys := util.MapSlice[*json.RawMessage, *json.RawMessage](util.Keys(sitemap.Sitemap), func(path *json.RawMessage) *json.RawMessage {
+			p := make(map[string]any)
+			util.Must(nil, json.Unmarshal(*path, &p))
+			p["path"] = prefix + p["path"].(string)
+			buf := json.RawMessage(util.Must(json.Marshal(&p)).([]byte))
+			return &buf
+		})
+		buffer := util.Must(json.MarshalIndent(keys, "", "\t")).([]byte)
 		file := util.Must(os.Create("sitemap.json")).(*os.File)
-		util.Must(file.Write(bytes))
+		util.Must(file.Write(buffer))
 		util.Must(nil, file.Close())
 	}()
+
+	go func() {
+		buffer := util.Must(json.MarshalIndent(json.RawMessage(util.Must(controller.ActionsToJSON()).([]byte)), "", "\t")).([]byte)
+		file := util.Must(os.Create("actions.json")).(*os.File)
+		util.Must(file.Write(buffer))
+		util.Must(nil, file.Close())
+	}()
+
+	logger.Println("Initialization done...")
 
 	logger.Println(http.ListenAndServe("localhost:7171", handlers.LoggingHandler(logger.Writer(), router)))
 }

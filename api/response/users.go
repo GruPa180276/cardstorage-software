@@ -3,12 +3,13 @@ package response
 import (
 	"database/sql"
 	"encoding/json"
-	"github.com/gorilla/mux"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
 type User struct {
@@ -25,7 +26,7 @@ func (self *User) SignUpHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if user.Email == model.UserEmailUnset ||
+	if user.Mail == model.UserMailUnset ||
 		user.ReaderData == model.UserReaderDataUnset {
 		strerr := "error: at least one condition for adding new user not met"
 		self.Println(strerr)
@@ -34,7 +35,7 @@ func (self *User) SignUpHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	userCopy := model.ShallowCopyUser(&user)
-	err := userCopy.SelectByEmail()
+	err := userCopy.SelectByMail()
 
 	if err != nil && err != sql.ErrNoRows {
 		self.Println(err)
@@ -108,14 +109,14 @@ func (self *User) GetUserByIdHandler(res http.ResponseWriter, req *http.Request)
 	}
 }
 
-func (self *User) GetUserByEmailHandler(res http.ResponseWriter, req *http.Request) {
+func (self *User) GetUserByMailHandler(res http.ResponseWriter, req *http.Request) {
 	user := model.User{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
 	vars := mux.Vars(req)
-	self.Printf("trying to get user '%s' by email", vars["email"])
+	self.Printf("trying to get user '%s' by mail", vars["mail"])
 
-	user.Email = vars["email"]
-	err := user.SelectByEmail()
+	user.Mail = vars["mail"]
+	err := user.SelectByMail()
 
 	if err != nil {
 		self.Println(err)

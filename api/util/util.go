@@ -65,6 +65,13 @@ func ContainsKey[K comparable, V any](m map[K]V, key K) bool {
 	return false
 }
 
+func MapSlice[FromType any, ToType any](s []FromType, mapper func(FromType) ToType) (t []ToType) {
+	for _, element := range s {
+		t = append(t, mapper(element))
+	}
+	return
+}
+
 func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {
 	r := ""
 	if len(reason) > 0 {

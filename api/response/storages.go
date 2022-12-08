@@ -4,17 +4,24 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"log"
 	"net/http"
 	"strconv"
+	"sync"
+
+	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
 type StorageUnit struct {
 	*sql.DB
 	*log.Logger
+	*sync.Map
+	mqtt.Client
 }
 
 func (self *StorageUnit) GetAllStorageUnitsHandler(res http.ResponseWriter, req *http.Request) {
@@ -148,7 +155,27 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 	}
 }
 
-func (self *StorageUnit) PingStorageUnitByIdHandler(res http.ResponseWriter, req *http.Request) {
-	self.Println(util.ErrNotImplemented)
-	util.HttpBasicJsonError(res, http.StatusNotImplemented)
+func (self *StorageUnit) PingStorageUnitByNameHandler(res http.ResponseWriter, req *http.Request) {
+	name := mux.Vars(req)["name"]
+	storage := model.StorageUnit{Model: &model.Model{self.DB, self.Logger}, Name: name}
+	if err := storage.SelectByName(); err != nil {
+		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		return
+	}
+	location := model.Location{Model: storage.Model, Id: storage.LocationId}
+	if err := location.SelectById(); err != nil {
+		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
+		return
+	}
+	c := controller.Controller{Logger: self.Logger, Map: self.Map, Client: self.Client}
+	opts := self.Client.OptionsReader()
+	topic := observer.AssembleBaseStorageTopic(storage, location)
+	if err := c.PingStorageUnit(storage.Name, topic, opts.ClientID()); err != nil {
+		self.Println(err)
+		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
+		return
+	}
+	self.Printf("successfully pinged storage-unit %q", topic)
 }

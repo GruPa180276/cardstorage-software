@@ -229,8 +229,8 @@ Habe den Code so angepasst das jetzt die richtigen Felder eingelesen werden und 
 **7.12.2022: 12:50 bis 13:35** <br>
 Diplomarbeitsbesprehung über Schnittstellen (45 min)
 
-**8.12.2022: 12:30 bis 15:30** <br>
-Es ist jetzt möglich die Storages beim Karten anlegen und die Location beim Storage anlegen auszuwählen. Weiters kann man jetzt auch neue Locations anlegen. Weiters habe ich einige Probleme bei der Darstellung behoben. Weiters habe ich erste POST versuche auf die API durchgeführt, welche auch funktioniert haben. (2h)
+**8.12.2022: 12:30 bis 16:00** <br>
+Es ist jetzt möglich die Storages beim Karten anlegen und die Location beim Storage anlegen auszuwählen. Weiters kann man jetzt auch neue Locations anlegen. Weiters habe ich einige Probleme bei der Darstellung behoben. Weiters habe ich erste POST versuche auf die API durchgeführt, welche auch funktioniert haben. Hab dann noch die Anfprderungen an die API zusammengeschriben. (3h 30min)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -297,5 +297,5 @@ Es ist jetzt möglich die Storages beim Karten anlegen und die Location beim Sto
 - 9:45 bis 11:15 Uhr
 - 8:45 bis 11:45 Uhr
 - 12:50 bis 13:35 Uhr
-- 12:30 bis 15:30 Uhr
+- 12:30 bis 16:00 Uhr
 <!-- { "progress": false } -->

@@ -166,12 +166,13 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         } else {
           await MqttTimer.startTimer(context, "to-sign-up");
           if (MqttTimer.getSuccessful()) {
+            User.setUserValues(jsonDecode(userResponse.body));
+            UserSecureStorage.setRememberState(rememberValue.toString());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => const BottomNavigation()),
                 (Route<dynamic> route) => false);
-            User.setUserValues(jsonDecode(userResponse.body));
-            UserSecureStorage.setRememberState(rememberValue.toString());
+            
           }
         }
       } else {

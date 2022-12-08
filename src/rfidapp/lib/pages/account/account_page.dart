@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/account/change_password.dart';
-import 'package:rfidapp/pages/login/login_page.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/textInputField.dart';
 import 'package:rfidapp/provider/types/user.dart';

@@ -298,6 +298,10 @@ Es wurde beim Login das setup zum registrieren erstellt
   -Neuer Timer
   -Vordefinierte Zeilen falls die API fertig ist
 und an Johannes seiner api angepasst 
+
+
+**2022-12-09: 09:00-> 11:00**
+Bug beim anmeldemn wurden gefixt. Weiteras wurde das Filtern ueberarbeiter und fertigestellt
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -376,5 +380,6 @@ und an Johannes seiner api angepasst
 - 10:00 bis 13:00 Uhr
 - 18:00 bis 21:45 Uhr
 - 20:00 bis 23:30 Uhr
+- 09:00 bis 11:00 Uhr
 <!-- { "progress": false } -->
 

@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS `CardStorageManagement`; 
+DROP DATABASE IF EXISTS `CardStorageManagement`;
 
 CREATE DATABASE IF NOT EXISTS `CardStorageManagement`;
 

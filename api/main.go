@@ -33,17 +33,22 @@ func main() {
 	sitemap := &util.Sitemap{Router: router, Sitemap: make(map[*json.RawMessage]http.Handler)}
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
 
+	util.Must(nil, godotenv.Load(".env"))
+
+	connstring := fmt.Sprintf("tcp://%s:%s", os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"))
+	logger.Println(connstring)
 	mqc := mqtt.NewClient(mqtt.NewClientOptions().
 		SetClientID(fmt.Sprintf("CSMC-%d", time.Now().Unix())).
-		AddBroker("tcp://localhost:1883"))
+		AddBroker(connstring))
 	<-mqc.Connect().Done()
 
-	util.Must(nil, godotenv.Load("api/.env"))
-	connstring := fmt.Sprintf("%s:%s@/%s",
+	connstring = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWD"),
+		os.Getenv("DB_HOSTNAME"),
+		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"))
-
+	logger.Println(connstring)
 	db := util.Must(sql.Open(os.Getenv("DB_DRIVER"), connstring)).(*sql.DB)
 
 	messages := new(sync.Map)
@@ -102,5 +107,5 @@ func main() {
 
 	logger.Println("Initialization done...")
 
-	logger.Println(http.ListenAndServe("localhost:7171", handlers.LoggingHandler(logger.Writer(), router)))
+	logger.Println(http.ListenAndServe(":7171", handlers.LoggingHandler(logger.Writer(), router)))
 }

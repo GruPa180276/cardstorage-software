@@ -1,0 +1,49 @@
+# https://docs.docker.com/compose/startup-order/
+# https://medium.com/@krishnaregmi/wait-for-it-docker-compose-f0bac30f3357
+# https://github.com/vishnubob/wait-for-it
+# https://community.caribbean.dev/t/how-can-i-import-a-sql-file-once-i-start-up-my-docker-compose-file/295
+# https://stackoverflow.com/questions/55673786/connection-refused-between-containers
+# https://www.datanovia.com/en/lessons/docker-compose-wait-for-container-using-wait-tool/
+
+version: '3.6'
+
+services:
+  api:
+    build: ./api
+    depends_on:
+      - "broker"
+      - "persistent"
+    command: sh -c './wait && ./api'
+    ports:
+      - "7171:7171"
+    networks:
+      - csnet
+    environment:
+      - WAIT_HOSTS=db:3306, broker:1883
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=1
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+  persistent:
+    hostname: db
+    image: mysql:8.0.31-debian
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./persistent/model.sql:/docker-entrypoint-initdb.d/schema.sql:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=Europe/Vienna
+    networks:
+      - csnet
+  broker:
+    hostname: broker
+    build: ./mqtt-server
+    ports:
+      - "1883:1883"
+    networks:
+      - csnet
+    environment:
+      - TZ=Europe/Vienna
+networks:
+  csnet:
+    driver: bridge

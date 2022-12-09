@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"os"
+	_ "time/tzdata"
 
 	"github.com/mochi-co/mqtt/server"
 	"github.com/mochi-co/mqtt/server/events"
@@ -16,7 +17,7 @@ func main() {
 
 	logger := log.New(writer, "Broker: ", log.Lshortfile|log.LstdFlags)
 
-	addr := "localhost:1883"
+	addr := "broker:1883"
 
 	mqs := server.NewServer(nil)
 	if err := mqs.AddListener(listeners.NewTCP("t1", addr), &listeners.Config{Auth: new(auth.Allow)}); err != nil {

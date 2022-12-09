@@ -18,16 +18,6 @@ func main() {
 
 	logger := log.New(writer, "Broker: ", log.Lshortfile|log.LstdFlags)
 
-	//if len(os.Args) < 2 {
-	//	logger.Fatalln("usage: %s <path to .env>", os.Args[0])
-	//}
-	//
-	//envpath := os.Args[1]
-	//
-	//if err := godotenv.Load(envpath); err != nil {
-	//	logger.Fatalln(err)
-	//}
-
 	addr := fmt.Sprintf("%s:%s", os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"))
 
 	mqs := server.NewServer(nil)

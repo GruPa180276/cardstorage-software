@@ -1,12 +1,12 @@
 [
+	"user-fetch-token",
+	"invalid",
 	"storage-unit-new",
 	"storage-unit-new-card",
+	"user-signup-source-mobile",
 	"user-signup-source-terminal",
-	"invalid",
+	"user-existence",
 	"storage-unit-ping",
 	"storage-unit-delete-card",
-	"storage-unit-fetch-card",
-	"user-signup-source-mobile",
-	"user-fetch-token",
-	"user-existence"
+	"storage-unit-fetch-card"
 ]

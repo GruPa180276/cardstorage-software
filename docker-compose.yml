@@ -15,19 +15,28 @@ services:
       - "persistent"
     command: sh -c './wait && ./api'
     ports:
-      - "7171:7171"
+      - "${REST_PORT}:${REST_PORT}"
     networks:
       - csnet
     environment:
-      - WAIT_HOSTS=db:3306, broker:1883
+      - WAIT_HOSTS=db:3306,broker:1883
       - WAIT_HOSTS_TIMEOUT=300
       - WAIT_SLEEP_INTERVAL=1
       - WAIT_HOST_CONNECT_TIMEOUT=30
+      - DB_USER=${DB_USER}
+      - DB_PASSWD=${DB_PASSWD}
+      - DB_NAME=${DB_NAME}
+      - DB_DRIVER=${DB_DRIVER}
+      - DB_PORT=${DB_PORT}
+      - DB_HOSTNAME=${DB_HOSTNAME}
+      - BROKER_HOSTNAME=${BROKER_HOSTNAME}
+      - BROKER_PORT=${BROKER_PORT}
+      - REST_PORT=${REST_PORT}
   persistent:
-    hostname: db
+    hostname: ${DB_HOSTNAME}
     image: mysql:8.0.31-debian
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - ./persistent/model.sql:/docker-entrypoint-initdb.d/schema.sql:rw
     environment:
@@ -36,14 +45,16 @@ services:
     networks:
       - csnet
   broker:
-    hostname: broker
-    build: ./mqtt-server
+    hostname: ${BROKER_HOSTNAME}
+    build: ./broker
     ports:
-      - "1883:1883"
+      - "${BROKER_PORT}:${BROKER_PORT}"
     networks:
       - csnet
     environment:
       - TZ=Europe/Vienna
+      - BROKER_HOSTNAME=${BROKER_HOSTNAME}
+      - BROKER_PORT=${BROKER_PORT}
 networks:
   csnet:
     driver: bridge

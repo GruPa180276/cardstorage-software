@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -a
+. $1
+set +a
+
+shift # the rest of the args are interpreted as commands
+
+exec $@

@@ -15,7 +15,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/response"
@@ -32,8 +31,6 @@ func main() {
 
 	sitemap := &util.Sitemap{Router: router, Sitemap: make(map[*json.RawMessage]http.Handler)}
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
-
-	util.Must(nil, godotenv.Load(".env"))
 
 	connstring := fmt.Sprintf("tcp://%s:%s", os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"))
 	logger.Println(connstring)
@@ -107,5 +104,5 @@ func main() {
 
 	logger.Println("Initialization done...")
 
-	logger.Println(http.ListenAndServe(":7171", handlers.LoggingHandler(logger.Writer(), router)))
+	logger.Println(http.ListenAndServe(":"+os.Getenv("REST_PORT"), handlers.LoggingHandler(logger.Writer(), router)))
 }

@@ -1,4 +1,4 @@
-module mqtt-server
+module broker
 
 go 1.18
 

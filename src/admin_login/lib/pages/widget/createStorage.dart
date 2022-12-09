@@ -7,65 +7,47 @@ Table createStorageTable(
   int maxCardCount,
 ) {
   return Table(
-    defaultColumnWidth: IntrinsicColumnWidth(),
+    columnWidths: {
+      0: FractionColumnWidth(0.49),
+      1: FractionColumnWidth(0.5),
+    },
     children: [
       TableRow(
         children: [
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              const TableCell(
-                  child: Text(
-                "ID:",
-                style: TextStyle(fontSize: 20),
-              )),
-              Spacer(),
-              TableCell(
-                  child: Text(
-                id.toString(),
-                style: TextStyle(fontSize: 20),
-              ))
-            ],
+          Text(
+            "ID:",
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            id.toString(),
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.right,
           )
         ],
       ),
       TableRow(
         children: [
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              const TableCell(
-                  child: Text(
-                "Ort:",
-                style: TextStyle(fontSize: 20),
-              )),
-              Spacer(),
-              TableCell(
-                  child: Text(
-                location.toString(),
-                style: TextStyle(fontSize: 20),
-              ))
-            ],
+          Text(
+            "Ort:",
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            location.toString(),
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.right,
           )
         ],
       ),
       TableRow(
         children: [
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              const TableCell(
-                  child: Text(
-                "Anzahl Karten:",
-                style: TextStyle(fontSize: 20),
-              )),
-              Spacer(),
-              TableCell(
-                  child: Text(
-                maxCardCount.toString(),
-                style: TextStyle(fontSize: 20),
-              ))
-            ],
+          Text(
+            "Anzahl Karten:",
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            maxCardCount.toString(),
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.right,
           )
         ],
       ),

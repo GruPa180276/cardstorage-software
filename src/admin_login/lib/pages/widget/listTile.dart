@@ -8,6 +8,7 @@ class GenerateListTile extends StatefulWidget {
   final IconData icon;
   final String regExp;
   final Function function;
+  final bool state;
 
   const GenerateListTile({
     Key? key,
@@ -16,6 +17,7 @@ class GenerateListTile extends StatefulWidget {
     required this.icon,
     required this.regExp,
     required this.function,
+    required this.state,
   }) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class _GenerateListTileState extends State<GenerateListTile> {
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(widget.regExp))
         ],
+        enabled: widget.state,
         decoration: InputDecoration(
             labelText: widget.labelText,
             hintText: widget.hintText,

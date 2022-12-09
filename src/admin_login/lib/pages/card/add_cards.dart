@@ -117,6 +117,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
           icon: Icons.storage,
           regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
+          state: true,
         ),
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -173,26 +174,23 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
               padding: EdgeInsets.all(10),
               height: 70,
               child: Column(children: [
-                SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: generateButtonWithDialog(
-                      context,
-                      "Karte hinzufügen",
-                      (() {
-                        Cards newEntry = new Cards(
-                          id: 0,
-                          name: cardValues.name,
-                          storageid: cardValues.storageID,
-                        );
-                        card.sendData(newEntry.toJson());
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              generatePopupDialog(context),
-                        );
-                      }),
-                    ))
+                generateButtonWithDialog(
+                  context,
+                  "Karte hinzufügen",
+                  (() {
+                    Cards newEntry = new Cards(
+                      id: 0,
+                      name: cardValues.name,
+                      storageid: cardValues.storageID,
+                    );
+                    card.sendData(newEntry.toJson());
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          generatePopupDialog(context),
+                    );
+                  }),
+                )
               ]),
             )),
       ]),

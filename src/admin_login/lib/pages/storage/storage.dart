@@ -73,7 +73,6 @@ class _ListCardStoragesState extends State<ListCardStorages> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                print(index);
                 return GenerateCardWithInkWell.withArguments(
                   index: index,
                   data: data!,

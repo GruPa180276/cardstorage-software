@@ -47,8 +47,9 @@ class _RemoveStorageState extends State<RemoveStorage> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              "Storage entfernen",
-              style: TextStyle(color: Theme.of(context).focusColor),
+              "Storages entfernen",
+              style:
+                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),

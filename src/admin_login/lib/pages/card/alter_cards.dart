@@ -32,8 +32,9 @@ class _CardSettingsState extends State<CardSettings> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              "Karten Einstellungen",
-              style: TextStyle(color: Theme.of(context).focusColor),
+              "Karte bearbeiten",
+              style:
+                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
@@ -124,6 +125,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
           icon: Icons.description,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setName,
+          state: true,
         ),
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -178,23 +180,19 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
               padding: EdgeInsets.all(10),
               height: 70,
               child: Column(children: [
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: generateButtonRectangle(
-                    context,
-                    "Änderungen speichern",
-                    () {
-                      Cards updateEntry = new Cards(
-                        id: cardValues.id,
-                        name: cardValues.name,
-                        storageid: cardValues.storageID,
-                      );
-                      card.updateData(updateEntry.toJson());
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                )
+                generateButtonRectangle(
+                  context,
+                  "Änderungen speichern",
+                  () {
+                    Cards updateEntry = new Cards(
+                      id: cardValues.id,
+                      name: cardValues.name,
+                      storageid: cardValues.storageID,
+                    );
+                    card.updateData(updateEntry.toJson());
+                    Navigator.of(context).pop();
+                  },
+                ),
               ]),
             )),
       ]),

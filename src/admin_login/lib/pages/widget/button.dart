@@ -6,7 +6,7 @@ import 'package:admin_login/pages/widget/customsearchdelegate.dart';
 Expanded generateButtonRound(BuildContext context, String buttonText,
     IconData buttonIcon, String route) {
   return Expanded(
-    child: ElevatedButton(
+    child: ElevatedButton.icon(
       onPressed: () {
         Navigator.of(context).pushNamed(route);
       },
@@ -18,16 +18,13 @@ Expanded generateButtonRound(BuildContext context, String buttonText,
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         foregroundColor: Theme.of(context).focusColor,
       ),
-      child: Wrap(
-        children: <Widget>[
-          Icon(
-            buttonIcon,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(buttonText, style: TextStyle(fontSize: 20)),
-        ],
+      icon: Icon(
+        buttonIcon,
+        size: 24.0,
+      ),
+      label: Text(
+        buttonText,
+        style: TextStyle(fontSize: 20),
       ),
     ),
   );
@@ -40,7 +37,7 @@ Expanded generateButtonRoundWithoutRoute(
     List<int> searchvalues,
     Function()? onpressd) {
   return Expanded(
-    child: ElevatedButton(
+    child: ElevatedButton.icon(
       onPressed: onpressd,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
@@ -50,16 +47,13 @@ Expanded generateButtonRoundWithoutRoute(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         foregroundColor: Theme.of(context).focusColor,
       ),
-      child: Wrap(
-        children: <Widget>[
-          Icon(
-            buttonIcon,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(buttonText, style: TextStyle(fontSize: 20)),
-        ],
+      icon: Icon(
+        buttonIcon,
+        size: 24.0,
+      ),
+      label: Text(
+        buttonText,
+        style: TextStyle(fontSize: 20),
       ),
     ),
   );
@@ -81,14 +75,7 @@ Expanded generateButtonRectangle(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         foregroundColor: Theme.of(context).focusColor,
       ),
-      child: Wrap(
-        children: <Widget>[
-          SizedBox(
-            width: 10,
-          ),
-          Text(buttonText, style: TextStyle(fontSize: 20)),
-        ],
-      ),
+      child: Text(buttonText, style: TextStyle(fontSize: 20)),
     ),
   );
 }
@@ -109,14 +96,7 @@ Expanded generateButtonWithDialog(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         foregroundColor: Theme.of(context).focusColor,
       ),
-      child: Wrap(
-        children: <Widget>[
-          SizedBox(
-            width: 10,
-          ),
-          Text(buttonText, style: TextStyle(fontSize: 20)),
-        ],
-      ),
+      child: Text(buttonText, style: TextStyle(fontSize: 20)),
     ),
   );
 }
@@ -157,14 +137,7 @@ class _GenerateButtonWithDialogAndCallBackState
           backgroundColor: Theme.of(context).secondaryHeaderColor,
           foregroundColor: Theme.of(context).focusColor,
         ),
-        child: Wrap(
-          children: <Widget>[
-            SizedBox(
-              width: 10,
-            ),
-            Text(widget.buttonText, style: TextStyle(fontSize: 20)),
-          ],
-        ),
+        child: Text(widget.buttonText, style: TextStyle(fontSize: 20)),
       ),
     );
   }
@@ -173,7 +146,7 @@ class _GenerateButtonWithDialogAndCallBackState
 Expanded generateSearchButton(BuildContext context, String buttonText,
     IconData buttonIcon, Function setID, List<int> searchValues) {
   return Expanded(
-    child: ElevatedButton(
+    child: ElevatedButton.icon(
       onPressed: () {
         showSearch(
             context: context,
@@ -187,32 +160,14 @@ Expanded generateSearchButton(BuildContext context, String buttonText,
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         foregroundColor: Theme.of(context).focusColor,
       ),
-      child: Wrap(
-        children: <Widget>[
-          Icon(
-            buttonIcon,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(buttonText, style: TextStyle(fontSize: 20)),
-        ],
+      icon: Icon(
+        buttonIcon,
+        size: 24.0,
+      ),
+      label: Text(
+        buttonText,
+        style: TextStyle(fontSize: 20),
       ),
     ),
   );
 }
-/*Expanded generateButton(BuildContext context, String buttonText,
-    IconData buttonIcon, String route) {
-  return Expanded(
-    child: FloatingActionButton.extended(
-      label: Text(buttonText),
-      icon: Icon(buttonIcon),
-      backgroundColor: Theme.of(context).secondaryHeaderColor,
-      foregroundColor: Theme.of(context).focusColor,
-      onPressed: () {
-        Navigator.of(context).pushNamed(route);
-      },
-    ),
-  );
-}
-*/

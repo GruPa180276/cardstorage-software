@@ -11,84 +11,62 @@ Table createCardTable(
   if (isAvailable == false) {
     color = Colors.red;
   }
-  return Table(defaultColumnWidth: IntrinsicColumnWidth(), children: [
+  return Table(columnWidths: {
+    0: FractionColumnWidth(0.49),
+    1: FractionColumnWidth(0.5)
+  }, children: [
     TableRow(
       children: [
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          children: [
-            const TableCell(
-                child: Text(
-              "ID:",
-              style: TextStyle(fontSize: 20),
-            )),
-            Spacer(),
-            TableCell(
-                child: Text(
-              id.toString(),
-              style: TextStyle(fontSize: 20),
-            ))
-          ],
+        Text(
+          "ID:",
+          style: TextStyle(fontSize: 20),
+        ),
+        Text(
+          id.toString(),
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.right,
         )
       ],
     ),
     TableRow(
       children: [
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          children: [
-            const TableCell(
-                child: Text(
-              "Name:",
-              style: TextStyle(fontSize: 20),
-            )),
-            TableCell(
-                child: Text(
-              name,
-              style: TextStyle(fontSize: 20),
-            ))
-          ],
+        Text(
+          "Name:",
+          style: TextStyle(fontSize: 20),
+        ),
+        Text(
+          name,
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.right,
         )
       ],
     ),
     TableRow(
       children: [
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          children: [
-            const TableCell(
-                child: Text(
-              "StorageId:",
-              style: TextStyle(fontSize: 20),
-            )),
-            TableCell(
-                child: Text(
-              storageId.toString(),
-              style: TextStyle(fontSize: 20),
-            ))
-          ],
+        Text(
+          "StorageId:",
+          style: TextStyle(fontSize: 20),
+        ),
+        Text(
+          storageId.toString(),
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.right,
         )
       ],
     ),
     TableRow(
       children: [
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          children: [
-            const TableCell(
-                child: Text(
-              "Verfügbar:",
-              style: TextStyle(fontSize: 20),
-            )),
-            TableCell(
-                child: Text(
-              isAvailable.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                color: color,
-              ),
-            ))
-          ],
+        Text(
+          "Verfügbar:",
+          style: TextStyle(fontSize: 20),
+        ),
+        Text(
+          isAvailable.toString(),
+          style: TextStyle(
+            fontSize: 20,
+            color: color,
+          ),
+          textAlign: TextAlign.right,
         )
       ],
     )

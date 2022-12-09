@@ -87,6 +87,7 @@ class _InputFieldsState extends State<InputFields> {
           icon: Icons.storage,
           regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
+          state: true,
         ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),

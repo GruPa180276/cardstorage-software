@@ -32,8 +32,11 @@ class _AddStorageState extends State<AddStorage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("Storage hinzufügen",
-                style: TextStyle(color: Theme.of(context).focusColor)),
+            title: Text(
+              "Storage hinzufügen",
+              style:
+                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+            ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         body: SingleChildScrollView(
@@ -70,7 +73,6 @@ class _InputFieldsState extends State<InputFields> {
     await location.fetchData().then((value) => listOfLocations = value);
 
     for (int i = 0; i < listOfLocations!.length; i++) {
-      print(listOfLocations![i].id);
       dropDownValues.add(listOfLocations![i].id.toString());
       dropDownValuesNames.add(listOfLocations![i].location.toString());
     }
@@ -122,6 +124,7 @@ class _InputFieldsState extends State<InputFields> {
           icon: Icons.storage,
           regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
+          state: true,
         ),
         GenerateListTile(
           labelText: "IP Adresse",
@@ -129,6 +132,7 @@ class _InputFieldsState extends State<InputFields> {
           icon: Icons.network_wifi,
           regExp: r'([0-9\.])',
           function: this.setIPAdress,
+          state: true,
         ),
         GenerateListTile(
           labelText: "Anzahl an Karten",
@@ -136,23 +140,7 @@ class _InputFieldsState extends State<InputFields> {
           icon: Icons.format_list_numbered,
           regExp: r'([0-9])',
           function: this.setNumberOfCards,
-        ),
-        Container(
-          padding: EdgeInsets.all(10),
-          height: 70,
-          child: Column(children: [
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: generateButtonRectangle(
-                context,
-                "Location hinzufügen",
-                () {
-                  Navigator.of(context).pushNamed("/addLocation");
-                },
-              ),
-            )
-          ]),
+          state: true,
         ),
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -204,30 +192,39 @@ class _InputFieldsState extends State<InputFields> {
                     ))))
           ]),
         ),
+        Container(
+          padding: EdgeInsets.all(10),
+          height: 70,
+          child: Column(children: [
+            generateButtonRectangle(
+              context,
+              "Location hinzufügen",
+              () {
+                Navigator.of(context).pushNamed("/addLocation");
+              },
+            ),
+          ]),
+        ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Container(
               padding: EdgeInsets.all(10),
               height: 70,
               child: Column(children: [
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: generateButtonRectangle(
-                    context,
-                    "Storage hinzufügen",
-                    () {
-                      Storages newEntry = new Storages(
-                          id: 0,
-                          name: storageValues.name,
-                          ipAdress: storageValues.ipAdress,
-                          location: storageValues.location,
-                          numberOfCards: storageValues.numberOfCards);
-                      storage.sendData(newEntry.toJson());
-                      Navigator.of(context).pushNamed("/home");
-                    },
-                  ),
-                )
+                generateButtonRectangle(
+                  context,
+                  "Storage hinzufügen",
+                  () {
+                    Storages newEntry = new Storages(
+                        id: 0,
+                        name: storageValues.name,
+                        ipAdress: storageValues.ipAdress,
+                        location: storageValues.location,
+                        numberOfCards: storageValues.numberOfCards);
+                    storage.sendData(newEntry.toJson());
+                    Navigator.of(context).pop();
+                  },
+                ),
               ]),
             )),
       ]),

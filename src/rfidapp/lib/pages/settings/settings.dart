@@ -1,6 +1,4 @@
-import 'package:aad_oauth/aad_oauth.dart';
 import 'package:flutter/material.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
@@ -171,7 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: () async {
                       await AadAuthentication.getEnv();
 
-                      AadAuthentication.oauth.logout();
+                      AadAuthentication.oauth!.logout();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const LoginUserScreen()));
                     },

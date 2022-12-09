@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 import 'package:rfidapp/domain/enums/cardsSiteEnum.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/provider/types/cards.dart';
-import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 
@@ -254,5 +252,4 @@ Widget buildBottomButton(BuildContext context, CardPageTypes site, Cards card) {
         ],
       );
   }
-  return const Text('error');
 }

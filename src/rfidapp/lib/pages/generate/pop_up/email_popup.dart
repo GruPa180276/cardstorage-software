@@ -38,11 +38,11 @@ class EmailPopUp {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Open Mail App"),
-            content: Text("No mail apps installed"),
+            title: const Text("Open Mail App"),
+            content: const Text("No mail apps installed"),
             actions: <Widget>[
               ElevatedButton(
-                child: Text("OK"),
+                child: const Text("OK"),
                 onPressed: () {
                   Navigator.pop(context);
                 },

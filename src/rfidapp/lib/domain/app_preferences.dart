@@ -25,7 +25,6 @@ class AppPreferences {
 
   static Future overritePinnedCard(Set<String> pinnedCard) async =>
       await _preferences.setStringList('pinnedCard', pinnedCard.toList());
-
   static Set<String> getCardsPinned() =>
       _preferences.getStringList('pinnedCard')?.toSet() ?? <String>{};
 }

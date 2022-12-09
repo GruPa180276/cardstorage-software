@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:rfidapp/provider/restApi/api-parser.dart';
 import 'package:rfidapp/provider/types/cards-status.dart';
@@ -31,10 +33,9 @@ class Data {
           .toList();
       ApiParser.combineCardDatas(cards, cardsStatus, storages);
       return cards;
-    } catch (e) {
-      print(e);
+    } on Exception catch (_) {
+      rethrow;
     }
-    return List<Cards>.empty();
   }
 
   static Future<bool> checkUserRegistered(String email) async {
@@ -59,6 +60,7 @@ class Data {
   }
 
   static Future<List<String>> getStorageNames() async {
+    try {
       var responeStorages = await get(Uri.parse("${uriRaspi}storage-units"),
           headers: {"Accept": "application/json"});
 
@@ -66,6 +68,9 @@ class Data {
           .map<Storage>(Storage.fromJson)
           .toList();
       return ApiParser.getNamesOfStorages(storages);
+    } on Exception catch (_) {
+      rethrow;
+    }
   }
 
   static void postData(

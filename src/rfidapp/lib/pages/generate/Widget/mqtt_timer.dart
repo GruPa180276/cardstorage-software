@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 
 class MqttTimer {
@@ -9,7 +8,7 @@ class MqttTimer {
   static Future<void> startTimer(BuildContext context, String action) {
     MqttTimer.context = context;
     int timestamp = 0;
-    _successful=false;
+    _successful = false;
     //send Data to rfid chip, that it should start scanning
     //15seconds time
     //thread that checks if toke is here
@@ -67,12 +66,13 @@ class MqttTimer {
                         } else if (action == "to-sign-up") {
                           //see if User is in DB now
                           //Data.isUserRegistered?();
-                          bool isRegistered=true;
-                          if(isRegistered=true){
-                            _successful=true;
+                          bool isRegistered = true;
+                          if (isRegistered = true) {
+                            _successful = true;
                             cancel();
+                          } else {
+                            _successful = false;  
                           }
-                          
                         }
                       }
                       return Function.apply(

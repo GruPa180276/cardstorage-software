@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dart_ping/dart_ping.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
@@ -145,19 +146,16 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   }
 
   void sigIn() async {
-    try {
-      //await AadAuthentication.oauth.logout();
-
-      UserSecureStorage.setRememberState(rememberValue.toString());
+    try {    
+      //UserSecureStorage.setRememberState(rememberValue.toString());
       await AadAuthentication.getEnv();
-      await AadAuthentication.oauth.login();
-
-      String? accessToken = await AadAuthentication.oauth.getAccessToken();
-      bool registered = false;
+      await AadAuthentication.oauth!.logout();
+      await AadAuthentication.oauth!.login();
+      String? accessToken = await AadAuthentication.oauth!.getAccessToken();
       if (accessToken!.isNotEmpty) {
         var userResponse = await Data.getUserData(accessToken);
-        var test = jsonDecode(userResponse!.body)["mail"];
-        registered = await Data.checkUserRegistered(test);
+        var email = jsonDecode(userResponse!.body)["mail"];
+        bool registered = await Data.checkUserRegistered(email);
         if (registered) //api get// see if user is registered
         {
           User.setUserValues(jsonDecode(userResponse.body));
@@ -170,6 +168,10 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
           await StorageSelectPopUp.build(context);
           if (StorageSelectPopUp.getSuccessful()) {
             await MqttTimer.startTimer(context, "to-sign-up");
+          } else {
+            print("error");
+          }
+          if (MqttTimer.getSuccessful()) {
             User.setUserValues(jsonDecode(userResponse.body));
             UserSecureStorage.setRememberState(rememberValue.toString());
             Navigator.of(context).pushAndRemoveUntil(

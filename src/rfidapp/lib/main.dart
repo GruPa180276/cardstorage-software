@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/pages/login/login_user_page.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';

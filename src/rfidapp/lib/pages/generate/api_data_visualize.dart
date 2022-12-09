@@ -57,7 +57,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   @override
   Widget build(BuildContext context) {
-    Widget seachField = SizedBox(height: 0, width: 0);
+    Widget seachField = const SizedBox(height: 0, width: 0);
 
     if (site != CardPageTypes.Favoriten) {
       seachField = Row(
@@ -67,7 +67,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 controller: searchController,
                 decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.search),
-                    hintText: 'Search Card',
+                    hintText: 'Karte suchen per Name',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide:
@@ -102,7 +102,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor))),
         body: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           child: Column(
             children: [
               seachField,
@@ -112,7 +112,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return Center(child: const CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     default:
                       if (snapshot.hasError) {
                         return Container(
@@ -142,7 +142,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             return cardsView(users, context, site,
                                 pinnedCards!, reloadPinnedList, searchString);
                         }
-                        return const Text('Error Type not valid');
                       }
                   }
                 },

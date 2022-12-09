@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
+import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 class BottomSheetPop {
-  dynamic valueStorage = '';
-  dynamic valueAvailable = '';
-  List<dynamic> listOfStorageId = ['', 1117, 1118];
-  List<dynamic> listofAvailable = ['', true, false];
+  String _valueStorage = '';
+  dynamic _valueAvailable = 'alle';
   final Function(Future<List<Cards>>) onPressStorage;
   Future<List<Cards>> listOfTypes;
   Future<List<Cards>>? newListOfCards;
@@ -18,7 +17,12 @@ class BottomSheetPop {
     required this.onPressStorage,
   });
 
-  Future buildBottomSheet(BuildContext context) {
+  Future buildBottomSheet(BuildContext context) async {
+    List<String> listOfStorageId = await Data.getStorageNames();
+    List<dynamic> _listofAvailable = ['alle', true, false];
+
+    listOfStorageId.insert(0, "alle");
+    _valueStorage = listOfStorageId.first;
     //TODO getStorageIds by API
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
@@ -47,7 +51,7 @@ class BottomSheetPop {
                         style: TextStyle(fontSize: 17),
                       )),
                       DropdownButton(
-                        value: valueStorage,
+                        value: _valueStorage,
                         items: listOfStorageId.map((valueItem) {
                           return DropdownMenuItem(
                               value: valueItem,
@@ -55,11 +59,7 @@ class BottomSheetPop {
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
-                            if (newValue != '') {
-                              valueStorage = newValue as int;
-                            } else {
-                              valueStorage = newValue as dynamic;
-                            }
+                            _valueStorage = newValue as String;
                           });
                         },
                       ),
@@ -73,18 +73,18 @@ class BottomSheetPop {
                         style: TextStyle(fontSize: 17),
                       )),
                       DropdownButton(
-                        value: valueAvailable,
-                        items: listofAvailable.map((valueItem) {
+                        value: _valueAvailable,
+                        items: _listofAvailable.map((valueItem) {
                           return DropdownMenuItem(
                               value: valueItem,
                               child: Text(valueItem.toString()));
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
-                            if (newValue != '') {
-                              valueAvailable = newValue as bool;
+                            if (newValue != 'alle') {
+                              _valueAvailable = newValue as bool;
                             } else {
-                              valueAvailable = newValue as dynamic;
+                              _valueAvailable = newValue as dynamic;
                             }
                           });
                         },
@@ -100,29 +100,26 @@ class BottomSheetPop {
                         borderColor: ColorSelect.blueAccent,
                         text: 'Filtern',
                         onPress: () {
-                          listOfTypes.then((value) => print(value.length));
-                          // ignore: avoid_print
-                          listOfTypes.then((value) => print(value.length));
                           //Improve logic readability
                           newListOfCards = listOfTypes.then((value) {
-                            if (valueAvailable.toString().isEmpty &&
-                                valueStorage.toString().isEmpty) {
+                            if (_valueAvailable.toString()=="alle" &&
+                                _valueStorage.toString()=="alle") {
                               return value;
-                            } else if (valueAvailable.toString().isEmpty) {
+                            } else if (_valueAvailable.toString()=="alle") {
                               return value
                                   .where((element) =>
-                                      element.storage == valueStorage)
+                                      element.storage == _valueStorage)
                                   .toList();
-                            } else if (valueStorage.toString().isEmpty) {
+                            } else if (_valueStorage.toString()=="alle") {
                               return value
                                   .where((element) =>
-                                      element.isAvailable == valueAvailable)
+                                      element.isAvailable == _valueAvailable)
                                   .toList();
                             }
                             return value
                                 .where((element) =>
-                                    element.storage == valueStorage &&
-                                    element.isAvailable == valueAvailable)
+                                    element.storage == _valueStorage &&
+                                    element.isAvailable == _valueAvailable)
                                 .toList();
                           });
                           onPressStorage(newListOfCards!);

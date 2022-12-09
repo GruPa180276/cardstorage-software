@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rfidapp/main.dart';
 
 class AadAuthentication {
-  static late AadOAuth oauth;
+  static AadOAuth? oauth;
 
   static Future<void> getEnv() async {
     await dotenv.load(fileName: "assets/.env");

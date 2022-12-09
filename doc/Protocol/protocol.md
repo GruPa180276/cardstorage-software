@@ -232,6 +232,9 @@ Diplomarbeitsbesprehung über Schnittstellen (45 min)
 **8.12.2022: 12:30 bis 16:00** <br>
 Es ist jetzt möglich die Storages beim Karten anlegen und die Location beim Storage anlegen auszuwählen. Weiters kann man jetzt auch neue Locations anlegen. Weiters habe ich einige Probleme bei der Darstellung behoben. Weiters habe ich erste POST versuche auf die API durchgeführt, welche auch funktioniert haben. Hab dann noch die Anfprderungen an die API zusammengeschriben. (3h 30min)
 
+**9.12.2022: 9:00 bis 11:45** <br>
+Habe heute die Parental Exceptions, die auf so gut wie allen Seiten vorhanden, waren behoben. Weiters habe ich die Storage und Cards Seiten richtig gestellt, das auch die richtigen Felder und Werte angezeigt werden. (2h 45min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -298,4 +301,5 @@ Es ist jetzt möglich die Storages beim Karten anlegen und die Location beim Sto
 - 8:45 bis 11:45 Uhr
 - 12:50 bis 13:35 Uhr
 - 12:30 bis 16:00 Uhr
+- 9:00 bis 11:45 Uhr
 <!-- { "progress": false } -->

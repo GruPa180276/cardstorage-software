@@ -8,3 +8,4 @@ replace github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstora
 
 require github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util v0.0.0-00010101000000-000000000000
 
+require github.com/joho/godotenv v1.4.0 // indirect

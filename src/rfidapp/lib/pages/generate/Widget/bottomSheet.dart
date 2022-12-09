@@ -19,7 +19,7 @@ class BottomSheetPop {
 
   Future buildBottomSheet(BuildContext context) async {
     List<String> listOfStorageId = await Data.getStorageNames();
-    List<dynamic> _listofAvailable = ['alle', true, false];
+    final _listofAvailable = ['alle', true, false];
 
     listOfStorageId.insert(0, "alle");
     _valueStorage = listOfStorageId.first;
@@ -50,44 +50,50 @@ class BottomSheetPop {
                         'Storage',
                         style: TextStyle(fontSize: 17),
                       )),
-                      DropdownButton(
-                        value: _valueStorage,
-                        items: listOfStorageId.map((valueItem) {
-                          return DropdownMenuItem(
-                              value: valueItem,
-                              child: Text(valueItem.toString()));
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            _valueStorage = newValue as String;
-                          });
-                        },
+                      Expanded(
+                        child: DropdownButton(
+                          isExpanded: true,
+                          value: _valueStorage,
+                          items: listOfStorageId.map((valueItem) {
+                            return DropdownMenuItem(
+                                value: valueItem,
+                                child: Container(child: Text(valueItem.toString())));
+                          }).toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              _valueStorage = newValue as String;
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      const Expanded(
+                       Expanded(
                           child: Text(
                         'Verfuegabar',
                         style: TextStyle(fontSize: 17),
                       )),
-                      DropdownButton(
-                        value: _valueAvailable,
-                        items: _listofAvailable.map((valueItem) {
-                          return DropdownMenuItem(
-                              value: valueItem,
-                              child: Text(valueItem.toString()));
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            if (newValue != 'alle') {
-                              _valueAvailable = newValue as bool;
-                            } else {
-                              _valueAvailable = newValue as dynamic;
-                            }
-                          });
-                        },
+                      
+                      Expanded(
+                        child: DropdownButton( 
+                          value: _valueAvailable,
+                          items: _listofAvailable.map((valueItem) {
+                            return DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(valueItem.toString()));
+                          }).toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              if (newValue != 'alle') {
+                                _valueAvailable = newValue as bool;
+                              } else {
+                                _valueAvailable = newValue as dynamic;
+                              }
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),

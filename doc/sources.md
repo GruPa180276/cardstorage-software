@@ -73,3 +73,6 @@
 - https://stackoverflow.com/questions/56406601/how-to-encode-an-object-to-json-in-flutter
 - https://stackoverflow.com/questions/64129058/contains-function-for-int-in-flutter
 - https://www.fluttercampus.com/guide/211/style-dropdown-button-flutter
+- https://flutter-examples.com/flutter-textalign-property-explained/
+- https://medium.com/flutter-community/table-in-flutter-beyond-the-basics-8d31b022b451
+- https://flutterforyou.com/how-to-create-elevated-button-with-icon-and-text-in-flutter/

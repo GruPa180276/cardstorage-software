@@ -12,7 +12,7 @@ RUN apk --no-cache add tzdata
 RUN ln -s /usr/share/zoneinfo/CET /etc/localtime
 ENV TZ=Europe/Vienna
 
-# COPY --from=builder /app/.env ./.env
+# COPY --from=builder /app/global.env ./global.env
 COPY --from=builder /app/. .
 
 RUN chmod +x ./mqtt-server

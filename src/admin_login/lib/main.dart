@@ -22,6 +22,8 @@ Future main() async {
 
 // ToDo:
 // Card State
+// Fix Filter View
+// Location reload
 // State Page
 // Stats Page
 // Logs Page

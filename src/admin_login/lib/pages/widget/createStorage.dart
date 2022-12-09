@@ -8,8 +8,8 @@ Table createStorageTable(
 ) {
   return Table(
     columnWidths: {
-      0: FractionColumnWidth(0.49),
-      1: FractionColumnWidth(0.5),
+      0: FractionColumnWidth(0.39),
+      1: FractionColumnWidth(0.60),
     },
     children: [
       TableRow(

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:admin_login/provider/types/storages.dart';
 import 'package:admin_login/pages/widget/button.dart';
-import 'package:admin_login/pages/widget/searchfield.dart';
-import 'package:admin_login/pages/widget/reloadbutton.dart';
+import 'package:admin_login/pages/widget/searchfieldStorages.dart';
 import 'package:admin_login/pages/widget/cardwithoutinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
@@ -20,10 +19,10 @@ class RemoveStorage extends StatefulWidget {
 }
 
 class _RemoveStorageState extends State<RemoveStorage> {
-  void setSelectedEntrys(int data) {
+  void setSelectedEntrys(int value) {
     setState(() {
       searchValues = [];
-      selectedEntrys.add(data);
+      selectedEntrys.add(value);
     });
   }
 
@@ -53,58 +52,48 @@ class _RemoveStorageState extends State<RemoveStorage> {
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 10),
-              child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: GenerateReloadButton(this.clearView)),
-            ),
-          ],
-        ),
         body: Container(
-          padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-          child: Column(children: [
-            Container(
-              child: Row(
-                children: [
-                  generateSearchButton(
-                    context,
-                    "Suchen",
-                    Icons.search,
-                    this.setSelectedEntrys,
-                    searchValues,
+            padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+            child: Column(
+              children: [
+                Container(
+                  child: Row(
+                    children: [
+                      GenerateSearchValues(setValue: this.setValues),
+                      generateSearchButton(
+                        context,
+                        "Suchen",
+                        Icons.search,
+                        this.setSelectedEntrys,
+                        searchValues,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      generateButtonRoundWithoutRoute(
+                        context,
+                        "Entfernen",
+                        Icons.remove,
+                        searchValues,
+                        () {
+                          for (int i = 0; i < searchValues.length; i++) {
+                            deleteData(searchValues[i]);
+                          }
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  generateButtonRoundWithoutRoute(
-                    context,
-                    "Entfernen",
-                    Icons.remove,
-                    searchValues,
-                    () {
-                      for (int i = 0; i < searchValues.length; i++) {
-                        deleteData(searchValues[i]);
-                      }
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-                child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Column(children: [
-                GenerateSearchValues(setValue: this.setValues),
-                GenerateCards(),
-              ]),
-            ))
-          ]),
-        ));
+                ),
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Column(children: [
+                    GenerateCards(),
+                  ]),
+                ))
+              ],
+            )));
   }
 }
 
@@ -150,6 +139,7 @@ class _GenerateCardsState extends State<GenerateCards> {
                     );
                   }
                 }
+
                 return SizedBox.shrink();
               });
         } else if (snapshot.hasError) {

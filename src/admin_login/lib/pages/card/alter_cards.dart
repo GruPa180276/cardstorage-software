@@ -12,6 +12,7 @@ import 'package:admin_login/provider/types/storages.dart';
 // Add API call to select the Card Storage
 
 CardValues cardValues = new CardValues();
+late Future<List<Cards>> futureData;
 
 class CardSettings extends StatefulWidget {
   CardSettings(int card, {Key? key}) : super(key: key) {
@@ -25,6 +26,12 @@ class CardSettings extends StatefulWidget {
 class _CardSettingsState extends State<CardSettings> {
   void setName(String value) {
     cardValues.setName(value);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = card.fetchData();
   }
 
   @override
@@ -60,6 +67,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   String selectedStorage = "-";
   List<String> dropDownValues = ["-"];
+  List<String> dropDownValuesNames = ["-"];
   List<Storages>? listOfStorages;
 
   @override
@@ -73,8 +81,8 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     await storage.fetchData().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages!.length; i++) {
-      print(listOfStorages![i].id);
       dropDownValues.add(listOfStorages![i].id.toString());
+      dropDownValuesNames.add(listOfStorages![i].name.toString());
     }
   }
 
@@ -156,7 +164,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                       iconEnabledColor: Theme.of(context).focusColor,
                       iconDisabledColor: Theme.of(context).focusColor,
                       value: selectedStorage,
-                      items: dropDownValues.map((valueItem) {
+                      items: dropDownValuesNames.map((valueItem) {
                         return DropdownMenuItem(
                             value: valueItem,
                             child: Text(
@@ -168,8 +176,10 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                       onChanged: (newValue) {
                         setState(() {
                           selectedStorage = newValue as String;
-                          setStorage(newValue as int);
                         });
+                        int index =
+                            dropDownValuesNames.indexOf(newValue as String);
+                        setStorage(int.parse(dropDownValues[index]));
                       },
                     ))))
           ]),

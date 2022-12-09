@@ -26,6 +26,7 @@
 - https://api.flutter.dev/flutter/widgets/ListView-class.html
 - https://blog.logrocket.com/how-create-flutter-charts-with-charts-flutter/
 - https://www.geeksforgeeks.org/flutter-expanded-widget/
+- https://flutter-examples.com/flutter-textalign-property-explained/
 - https://www.youtube.com/watch?v=HSAa9yi0OMA
 - https://github.com/flutter/flutter/issues/68842
 - https://www.flutterclutter.dev/flutter/troubleshooting/widget-overflowed-by-pixels/2020/461/

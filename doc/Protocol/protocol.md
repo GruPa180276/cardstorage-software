@@ -235,6 +235,9 @@ Es ist jetzt möglich die Storages beim Karten anlegen und die Location beim Sto
 **9.12.2022: 9:00 bis 11:45** <br>
 Habe heute die Parental Exceptions, die auf so gut wie allen Seiten vorhanden, waren behoben. Weiters habe ich die Storage und Cards Seiten richtig gestellt, das auch die richtigen Felder und Werte angezeigt werden. (2h 45min)
 
+**10.12.2022: 10:00 bis 12:00** <br>
+Habe eine Status Seite für die Storages erstellt, wo ersichtlich ist ob ein Problem besteht, ob Karten noch nicht zurückgegben wurden und ob der Storage Online ist. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -302,4 +305,5 @@ Habe heute die Parental Exceptions, die auf so gut wie allen Seiten vorhanden, w
 - 12:50 bis 13:35 Uhr
 - 12:30 bis 16:00 Uhr
 - 9:00 bis 11:45 Uhr
+- 10:00 bis 12:00 Uhr
 <!-- { "progress": false } -->

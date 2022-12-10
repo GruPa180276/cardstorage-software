@@ -4,7 +4,7 @@ import 'package:admin_login/pages/widget/iconbutton.dart';
 
 AppBar generateAppBar(BuildContext context) {
   return AppBar(
-    leading: generateIconButton(context, Icons.credit_card, "/home"),
+    leading: Icon(Icons.credit_card),
     toolbarHeight: 70,
     backgroundColor: Theme.of(context).secondaryHeaderColor,
     title: Text('Admin Login',

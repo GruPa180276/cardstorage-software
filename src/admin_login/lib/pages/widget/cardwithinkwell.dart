@@ -1,4 +1,5 @@
 import 'package:admin_login/pages/widget/createCard.dart';
+import 'package:admin_login/pages/widget/createStatus.dart';
 import 'package:admin_login/pages/widget/createStorage.dart';
 import 'package:flutter/material.dart';
 
@@ -72,6 +73,22 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
         widget.data![widget.index].name,
         widget.data![widget.index].storageid,
         false,
+      );
+    }
+    if (widget.view == 2) {
+      return createStatus(
+        context,
+        // TODO: API
+        // widget.data![widget.index].status,
+        // widget.data![widget.index].numOfCards,
+        // widget.data![widget.index].capacity,
+        // widget.data![widget.index].numOfErrors,
+        // widget.data![widget.index].numOfCardsOverDate,
+        true,
+        7,
+        10,
+        5,
+        3,
       );
     }
     if (widget.view == 3) {

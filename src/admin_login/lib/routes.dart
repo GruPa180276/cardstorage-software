@@ -1,7 +1,4 @@
-import 'package:admin_login/pages/location/add_location.dart';
 import 'package:flutter/material.dart';
-
-import 'package:admin_login/pages/navigation/bottom_navigation.dart';
 
 import 'package:admin_login/pages/card/add_cards.dart';
 import 'package:admin_login/pages/card/alter_cards.dart';
@@ -10,6 +7,10 @@ import 'package:admin_login/pages/card/remove_cards.dart';
 import 'package:admin_login/pages/storage/add_storage.dart';
 import 'package:admin_login/pages/storage/alter_storage.dart';
 import 'package:admin_login/pages/storage/remove_storage.dart';
+
+import 'package:admin_login/pages/location/add_location.dart';
+
+import 'package:admin_login/pages/status/status_storage.dart';
 
 import 'package:admin_login/pages/stats/temp_stats.dart';
 
@@ -55,9 +56,9 @@ class RouteGenerator {
       case '/addLocation':
         return MaterialPageRoute(builder: ((context) => AddLocation()));
 
-      //Home
-      case '/home':
-        return MaterialPageRoute(builder: ((context) => BottomNavigation()));
+      //Status
+      case '/status':
+        return MaterialPageRoute(builder: ((context) => StatusStorage()));
 
       default:
         return _errorRoute();

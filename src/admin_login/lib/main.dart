@@ -20,13 +20,14 @@ Future main() async {
   runApp(const AppStart());
 }
 
-// ToDo:
+// TODO:
 // Card State
 // Fix Filter View
 // Location reload
 // State Page
 // Stats Page
 // Logs Page
+// Status Storage Page
 
 // Change app icon -> pubsec.yaml
 // https://pub.dev/packages/flutter_launcher_icons

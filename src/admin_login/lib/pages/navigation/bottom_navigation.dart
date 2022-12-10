@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/stats/stats.dart';
+import 'package:admin_login/pages/logs/logs.dart';
 import 'package:admin_login/pages/card/cards.dart';
 import 'package:admin_login/pages/storage/storage.dart';
-import 'package:admin_login/pages/logs/logs.dart';
+import 'package:admin_login/pages/status/status.dart';
 
 class BottomNavigation extends StatefulWidget {
   BottomNavigation({Key? key}) : super(key: key);
@@ -14,7 +14,8 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  final screens = [StatsView(), CardsView(), StorageView(), Logs()];
+  // StatsView()
+  final screens = [StatusView(), CardsView(), StorageView(), Logs()];
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           selectedItemColor: Theme.of(context).primaryColor,
           items: [
+            /*
             BottomNavigationBarItem(
               icon: Icon(Icons.query_stats),
               label: 'Statistik',
+            ),
+            */
+            BottomNavigationBarItem(
+              icon: Icon(Icons.stacked_bar_chart),
+              label: 'Status',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.credit_card),

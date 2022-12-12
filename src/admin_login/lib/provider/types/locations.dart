@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String ipadress = "http://192.168.0.110:7171/api/locations";
+String ipadress = "http://192.168.120.186:7171/api/locations";
 
 class Locations {
   int id;

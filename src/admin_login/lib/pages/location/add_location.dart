@@ -95,22 +95,18 @@ class _InputFieldsState extends State<InputFields> {
               padding: EdgeInsets.all(10),
               height: 70,
               child: Column(children: [
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: generateButtonRectangle(
-                    context,
-                    "Location hinzufügen",
-                    () {
-                      Locations newEntry = new Locations(
-                        id: 0,
-                        location: locationValues.name,
-                      );
-                      location.sendData(newEntry.toJson());
-                      Navigator.of(context).pushNamed("/addStorage");
-                    },
-                  ),
-                )
+                generateButtonRectangle(
+                  context,
+                  "Location hinzufügen",
+                  () {
+                    Locations newEntry = new Locations(
+                      id: 0,
+                      location: locationValues.name,
+                    );
+                    location.sendData(newEntry.toJson());
+                    Navigator.of(context).pushNamed("/addStorage");
+                  },
+                ),
               ]),
             )),
       ]),

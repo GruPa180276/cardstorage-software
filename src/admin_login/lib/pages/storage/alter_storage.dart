@@ -128,7 +128,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
       child: Column(children: [
         GenerateListTile(
           labelText: "Name",
-          hintText: data![storageValues.getId()].name,
+          hintText: data![index].name,
           icon: Icons.storage,
           regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
@@ -136,7 +136,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
         ),
         GenerateListTile(
           labelText: "IP Adresse",
-          hintText: data[storageValues.getId()].ipAdress,
+          hintText: data[index].ipAdress,
           icon: Icons.network_wifi,
           regExp: r'([0-9\.])',
           function: this.setIPAdress,
@@ -144,7 +144,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
         ),
         GenerateListTile(
           labelText: "Anzahl an Karten",
-          hintText: data[storageValues.getId()].numberOfCards.toString(),
+          hintText: data[index].numberOfCards.toString(),
           icon: Icons.format_list_numbered,
           regExp: r'([0-9])',
           function: this.setNumberOfCards,
@@ -153,7 +153,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
         GenerateListTile(
           labelText:
               "Location -> " + dropDownValuesNames[storageValues.getId() + 1],
-          hintText: dropDownValuesNames[storageValues.getId() + 1],
+          hintText: "",
           icon: Icons.location_pin,
           regExp: r'([0-9])',
           function: this.setLocation,

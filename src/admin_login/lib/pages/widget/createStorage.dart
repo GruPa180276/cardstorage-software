@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 Table createStorageTable(
   BuildContext context,
   int id,
-  String location,
+  String name,
+  int location,
   int maxCardCount,
 ) {
   return Table(
     columnWidths: {
-      0: FractionColumnWidth(0.39),
-      1: FractionColumnWidth(0.60),
+      0: FractionColumnWidth(0.59),
+      1: FractionColumnWidth(0.40),
     },
     children: [
       TableRow(
@@ -20,6 +21,19 @@ Table createStorageTable(
           ),
           Text(
             id.toString(),
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.right,
+          )
+        ],
+      ),
+      TableRow(
+        children: [
+          Text(
+            "Name:",
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            name.toString(),
             style: TextStyle(fontSize: 20),
             textAlign: TextAlign.right,
           )

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String ipadress = "http://192.168.0.110:7171/api/storage-units";
+String ipadress = "http://192.168.120.186:7171/api/storage-units";
 
 class Storages {
   int id;
@@ -22,16 +22,16 @@ class Storages {
     return Storages(
         id: json['id'] ?? 0,
         name: json['name'] ?? "",
-        ipAdress: json['ipaddress'] ?? "",
+        ipAdress: json['ip-address'] ?? "",
         numberOfCards: json['capacity'] ?? 0,
-        location: json['locationid'] ?? 0);
+        location: json['location-id'] ?? 0);
   }
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'ipaddress': ipAdress,
+        'ip-address': ipAdress,
         'capacity': numberOfCards,
-        'locationid': location,
+        'location-id': location,
       };
 }
 

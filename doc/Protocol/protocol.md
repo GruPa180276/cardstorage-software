@@ -4,7 +4,7 @@
 Generelle Recherche für Diplomarbeit. Unter anderem für mögliche Displays. Weiters wurde noch zur Programmierung der Anwendung für das Display recherchiert. 
 Besprechung mit Teamkollegen (2h 30min Teams Call). Wir haben uns drauf geeinigt, 2 verschiedene Anwendungen zu erstellen, eine Client und eine Admin Anwendung.
 Diese werden beide mit Flutter realisiert und sind sowohl am Smartphone, Browser und am Raspberry am Kartentresor verfügbar. Weiters wurden sich Gedanken über
-die Funktionen gemacht, welche implementiert werden sollen. Zu dem wurde ein weiter Teams Call durchgeführt (4h 30min)
+die Funktionen gemacht, welche implementiert werden sollen. Zudem wurde ein weiter Teams Call durchgeführt (4h 30min)
 
 **5.7.2022: 14:45 -> 15:45** <br>
 Teams Call mit Patrick über das Design der App. Es wurden das Design sowohl auch das Farbschema abgestimmt und es wurden sich Gedanken über das Login Layout
@@ -50,7 +50,7 @@ Hab mich damit beschäftigt, einen DarkMode umzusetzten. Dies stellte sich herau
 einem Youtube tutorial hinbekommen. (2h 35min)
 
 **26.7.2022: 7:40 -> 11:50** <br>
-Habe damit begonnen den Code zu refactoren. Habe eigene Datein für Farben und Texte erstellt. Weiters habe ich mit der Umetzung von Dynamischen Titel 
+Habe damit begonnen den Code zu refactoren. Habe eigene Datein für Farben und Texte erstellt. Weiters habe ich mit der Umsetzung von Dynamischen Titel 
 beschäftigt, habe jedoch gemerkt das das nicht so einfach möglich ist. Arbeite gerade an der Tabbar Leiste um Icons und Text anzeigen zu können, ohne das 
 ein overflow entsteht. (4h 10min)
 
@@ -59,15 +59,15 @@ Habe weiter am zweiten Tab der App gearbeitet. Dieser behandelt das hinzufügen 
 Funktionen implementiert. (1h 25min)
 
 **27.7.2022: 7:25 -> 12:25** <br>
-Habe heute an der Add Storage Seite gearbeitet. Dazu habe ich die funktionalität und das Design dafür implementiert. Weiters tratten technische problemen auf,
-der Android Emulator wollte nicht mehr starten, funktioniert jetzt aber wieder. Weiters habe ich das Git Repo etwas erweitert, die readmes mit text befüllt.
+Habe heute an der Add Storage Seite gearbeitet. Dazu habe ich die funktionalität und das Design dafür implementiert. Weiters traten technische Probleme auf,
+der Android Emulator wollte nicht mehr starten, funktioniert jetzt aber wieder. Weiters habe ich das Git Repo etwas erweitert, die Readmes mit Text befüllt.
 Danach habe ich mich noch damit beschäftigt, das die App im Querformat funktioniert, das klappt auch alles einwandfrei. (5h)
 
 **28.7.2022: 7:25 -> 12:25** <br>
 Habe an der Card Storage Settings Seite gearbeitet. Die Seite ist soweit fertig. Das komplette Layout inklusive funktionalität wurden hinzugefügt. 
-Weiters wurden auch die nötigen Vorkehrungen für die API getroffen, das funktioniert soweit auch. Weiters habe ich noch die Add Card Storage Seite bearbeite. 
-Dort habe ich auch alles auf die API umgestellt. Habe danach noch etwas Refactoring betrieben. Für jeden eine einzelne Text und Farb Datei erstellt. 
-Weiters habe ich mich noch mit der nativen Ausführung der App unter Windows beschäftigt (Nur weil es mich interessiert) [hier](https://medium.com/flutter-community/flutter-for-desktop-create-and-run-a-desktop-application-ebeb1604f1e0). (5h)
+Weiters wurden auch die nötigen Vorkehrungen für die API getroffen, das funktioniert soweit auch. Weiters habe ich noch die Add Card, Add Storage Seite bearbeitet. 
+Dort habe ich auch alles auf die API umgestellt. Habe danach noch etwas Refactoring betrieben. Für jede Seite eine einzelne Text und Farb Datei erstellt. 
+Weiters habe ich mich noch mit der nativen Ausführung der App unter Windows beschäftigt (Nur weil es mich interessiert hat) [hier](https://medium.com/flutter-community/flutter-for-desktop-create-and-run-a-desktop-application-ebeb1604f1e0). (5h)
 
 **31.7.2022: 8:15 -> 11:30** <br>
 Habe an Tab3 weitergearbeitet. Dort habe ich das komplette layout zum Karten erstellen und bearbeiten hizugefügt. Es wurde auch die komplette Logik 
@@ -99,7 +99,7 @@ werden können. (3h)
 Habe heute kleine Verbesserungen an der App vorgenommen. Habe mit Herrn Grubauer ein Meeting abgehalten. Wir haben uns über Diverse Dinge abgestimmt. 
 Danach habe wir noch die Branch Struktur auf GitHub angepasst. Weiters haben wir noch Diverse Lokale Änderungen bei Herrn Grubauer vorgenommen. 
 Danach habe ich die App noch etwas getestet. Zum Schluss habe ich noch die Settings Page mit Inhalt befüllt, dazu habe ich den Darkmode Button verschoben. 
-Weiters habe ich noch die App Info Seite mit etwas Text befüllt. Danach habe ich noch diverse typos in meine Protokollen behoben und zu jedem Tag die Studen 
+Weiters habe ich noch die App Info Seite mit etwas Text befüllt. Danach habe ich noch diverse typos in meinen Protokollen behoben und zu jedem Tag die Stunden 
 anzahl hinzugefügt. (4h)
 
 **17.8.2022: 8:00 -> 11:10** <br>
@@ -119,7 +119,7 @@ ein Meeting mit Herrn Grubauer durchgeführt, wo wir unser über das Design und 
 Habe heute das Github Project um einige Spalten erweitert. Weiters habe ich mir die Protokolle meiner Teammitglieder angeschaut, um über den aktuellen Stand bescheidzuwissen. Danach habe ich alle Protokoll files zusammengemerged. (1h)
 
 **25.8.2022: 7:25 -> 11:30** <br>
-Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt befüllt. Danach habe ich mich wieder einemal mit meinem Refresh Problem beschäftigt. Dazu habe ich einen Call mit Herrn Grubauer durchgeführt, wo wir das Problem mit meine Refresh gelöst haben. Danach hat er mir noch seinen API Handler erklärt und er hat mir noch gezeigt, wie man das Stunden Zähl tool von Johannes benutzt. (4h 5min)
+Habe eine neue Spalte für das Display im Project hinzugefügt und mit Inhalt befüllt. Danach habe ich mich wieder einemal mit meinem Refresh Problem beschäftigt. Dazu habe ich einen Call mit Herrn Grubauer durchgeführt, wo wir das Problem mit meine Refresh gelöst haben. Danach hat er mir noch seinen API Handler erklärt und er hat mir noch gezeigt, wie man das Stunden Zähl tool von Johannes  benutzt. (4h 5min)
 
 **26.8.2022: 7:15 -> 11:15** <br>
 Habe heute ich die API von Johannes im Code implementiert. Dies war auch soweit erfolgreich. Danach habe ich mit dem Refactoring vom Code begonnen, wie Herr Grubauer es will. Weiters habe ich mit Herrn Gruabuer eine Call durchgeführt, da er das Design wieder ändern will. Zum Schluss habe ich mit dem Refactoring weitergemacht. (4h)

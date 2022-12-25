@@ -54,7 +54,7 @@ func main() {
 	u := response.User{DB: db, Logger: logger}
 	c := response.Card{DB: db, Logger: logger, Client: mqc}
 	t := response.CardStatus{DB: db, Logger: logger}
-	l := response.Location{DB: db, Logger: logger}
+	//l := response.Location{DB: db, Logger: logger}
 	s := response.StorageUnit{DB: db, Logger: logger, Client: mqc, Map: messages}
 
 	sitemap = sitemap.
@@ -71,10 +71,10 @@ func main() {
 		AddHandler(http.MethodGet, util.API_CARDS_STATUS, t.GetAllCardsStatusHandler).
 		AddHandler(http.MethodGet, util.API_CARDS_STATUS_FILTER_ID, t.GetCardStatusByCardIdHandler).
 		AddHandler(http.MethodPut, util.API_CARDS_STATUS, t.PutCardStatusByCardIdHandler). // @todo
-		AddHandler(http.MethodGet, util.API_LOCATIONS, l.GetAllLocationsHandler).
-		AddHandler(http.MethodGet, util.API_LOCATIONS_FILTER_ID, l.GetLocationByIdHandler).
-		AddHandler(http.MethodGet, util.API_LOCATIONS_FILTER_NAME, l.GetLocationByNameHandler).
-		AddHandler(http.MethodPost, util.API_LOCATIONS, l.AddNewLocationHandler).
+		//AddHandler(http.MethodGet, util.API_LOCATIONS, l.GetAllLocationsHandler).
+		//AddHandler(http.MethodGet, util.API_LOCATIONS_FILTER_ID, l.GetLocationByIdHandler).
+		//AddHandler(http.MethodGet, util.API_LOCATIONS_FILTER_NAME, l.GetLocationByNameHandler).
+		//AddHandler(http.MethodPost, util.API_LOCATIONS, l.AddNewLocationHandler).
 		AddHandler(http.MethodGet, util.API_STORAGEUNITS, s.GetAllStorageUnitsHandler).
 		AddHandler(http.MethodPost, util.API_STORAGEUNITS, s.AddNewStorageUnitHandler).
 		AddHandler(http.MethodGet, util.API_STORAGEUNITS_FILTER_ID, s.GetStorageUnitByIdHandler).

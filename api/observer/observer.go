@@ -20,30 +20,19 @@ type Observer struct {
 	*sync.Map
 }
 
-func AssembleBaseStorageTopic(storage model.StorageUnit, location model.Location) string {
-	return fmt.Sprintf("%s@%s/1", storage.Name, location.Location)
+func AssembleBaseStorageTopic(storage model.StorageUnit, location string) string {
+	return fmt.Sprintf("%s@%s/1", storage.Name, location)
 }
 
 func (self *Observer) Observe() {
 	m := &model.Model{self.DB, self.Logger}
 	storage := &model.StorageUnit{Model: m}
-	location := &model.Location{Model: m}
-
 	storages := util.Must(storage.SelectAll()).([]model.StorageUnit)
-	locations := util.Must(location.SelectAll()).([]model.Location)
-
 	observerOpts := self.Client.OptionsReader()
 	self.Println("manager-id:", observerOpts.ClientID())
 
 	for _, unit := range storages {
-		locationOfUnitIdx := model.LocationIdUnset
-		for idx, loc := range locations {
-			if loc.Id != unit.LocationId {
-				continue
-			}
-			locationOfUnitIdx = idx
-		}
-		topic := AssembleBaseStorageTopic(unit, locations[locationOfUnitIdx])
+		topic := AssembleBaseStorageTopic(unit, unit.Location)
 		c := controller.Controller{Logger: self.Logger, Map: self.Map, Client: self.Client}
 
 		<-self.Subscribe(topic, 1, func(client mqtt.Client, msg mqtt.Message) {

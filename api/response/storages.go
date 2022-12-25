@@ -3,7 +3,6 @@ package response
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -113,26 +112,13 @@ func (self *StorageUnit) AddNewStorageUnitHandler(res http.ResponseWriter, req *
 	}
 
 	if storage.Name == model.StorageUnitNameUnset ||
-		storage.LocationId == model.LocationIdUnset ||
+		storage.Location == model.LocationNameUnset ||
 		storage.IpAddress == model.StorageUnitIpAddrUnset ||
 		storage.Capacity == model.StorageUnitCapacityUnset {
 		strerr := "error: at least one condition for adding new storage-unit not met"
 		self.Println(strerr)
 		util.HttpBasicJsonError(res, http.StatusBadRequest, strerr)
 		return
-	}
-
-	// check if given locationid foreign key exists
-	location := model.Location{Model: storage.Model}
-	location.Id = storage.LocationId
-	if err := location.SelectById(); err != nil {
-		if err == sql.ErrNoRows {
-			// invalid location id
-			strerr := fmt.Sprintf("error: trying to add new card with non-existent storage '%s'", storage.String())
-			self.Printf(strerr)
-			util.HttpBasicJsonError(res, http.StatusBadRequest, strerr)
-			return
-		}
 	}
 
 	storageCopy := model.ShallowCopyStorageUnit(storage)
@@ -163,15 +149,10 @@ func (self *StorageUnit) PingStorageUnitByNameHandler(res http.ResponseWriter, r
 		util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
 		return
 	}
-	location := model.Location{Model: storage.Model, Id: storage.LocationId}
-	if err := location.SelectById(); err != nil {
-		self.Println(err)
-		util.HttpBasicJsonError(res, http.StatusNotFound, err.Error())
-		return
-	}
+
 	c := controller.Controller{Logger: self.Logger, Map: self.Map, Client: self.Client}
 	opts := self.Client.OptionsReader()
-	topic := observer.AssembleBaseStorageTopic(storage, location)
+	topic := observer.AssembleBaseStorageTopic(storage, storage.Location)
 	if err := c.PingStorageUnitInvoker(storage.Name, topic, opts.ClientID()); err != nil {
 		self.Println(err)
 		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())

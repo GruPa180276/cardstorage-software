@@ -107,14 +107,6 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 	}
 	self.Println("successfully inserted " + (&cs).String())
 
-	location := model.Location{Model: card.Model}
-	location.Id = storage.LocationId
-	if err := location.SelectById(); err != nil {
-		self.Println(err)
-		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
-		return
-	}
-
 	c := controller.NewSerializableCardMessage(
 		controller.Header{Id: uuid.Must(uuid.NewRandom()).String(), Action: controller.ActionStorageUnitNewCard},
 		controller.Card{Name: card.Name, StorageId: card.StorageId, Position: card.Position})
@@ -126,7 +118,7 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 		return
 	}
 	received := make(chan bool)
-	token := self.Publish(observer.AssembleBaseStorageTopic(storage, location), 1, false, msg)
+	token := self.Publish(observer.AssembleBaseStorageTopic(storage, storage.Location), 1, false, msg)
 	go func() {
 		received <- token.Wait()
 	}()

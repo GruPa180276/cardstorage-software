@@ -13,27 +13,27 @@ const (
 )
 
 type StorageUnit struct {
-	Id         int    `json:"id,omitempty"`
-	LocationId int    `json:"location-id"`
-	Name       string `json:"name"`
-	IpAddress  string `json:"ip-address"`
-	Capacity   int    `json:"capacity"`
+	Id        int    `json:"id,omitempty"`
+	Location  string `json:"location"`
+	Name      string `json:"name"`
+	IpAddress string `json:"ip-address"`
+	Capacity  int    `json:"capacity"`
 	*Model
 }
 
-func NewStorage(model *Model, id int, locationid int, name string, ipaddress string, capacity int) *StorageUnit {
+func NewStorage(model *Model, id int, location string, name string, ipaddress string, capacity int) *StorageUnit {
 	return &StorageUnit{
-		Id:         id,
-		LocationId: locationid,
-		Name:       name,
-		IpAddress:  ipaddress,
-		Capacity:   capacity,
-		Model:      model,
+		Id:        id,
+		Location:  location,
+		Name:      name,
+		IpAddress: ipaddress,
+		Capacity:  capacity,
+		Model:     model,
 	}
 }
 
 func ShallowCopyStorageUnit(storage *StorageUnit) *StorageUnit {
-	return NewStorage(storage.Model, storage.Id, storage.LocationId, storage.Name, storage.IpAddress, storage.Capacity)
+	return NewStorage(storage.Model, storage.Id, storage.Location, storage.Name, storage.IpAddress, storage.Capacity)
 }
 
 // Correctly convert UNIX Timestamp into Go's time.Time type
@@ -70,11 +70,11 @@ func (self *StorageUnit) UnmarshalJSON(data []byte) error /* implements json.Unm
 			}
 			self.Id = int(v.(float64))
 			idIsPresent = true
-		case "location-id":
-			if _, ok := v.(float64); !ok {
-				return fmt.Errorf("error: converting attribute 'location-id' from interface{} to float64")
+		case "location":
+			if _, ok := v.(string); !ok {
+				return fmt.Errorf("error: converting attribute 'location-id' from interface{} to string")
 			}
-			self.LocationId = int(v.(float64))
+			self.Location = v.(string)
 			locationIdIsPresent = true
 		case "name":
 			if _, ok := v.(string); !ok {
@@ -103,7 +103,7 @@ func (self *StorageUnit) UnmarshalJSON(data []byte) error /* implements json.Unm
 		self.Id = StorageUnitIdUnset
 	}
 	if !locationIdIsPresent {
-		self.LocationId = LocationIdUnset
+		self.Location = LocationNameUnset
 	}
 	if !nameIsPresent {
 		self.Name = StorageUnitNameUnset
@@ -128,13 +128,13 @@ func (self *StorageUnit) MarshalJSON() ([]byte, error) /* implements json.Marsha
 }
 
 func (self *StorageUnit) String() string {
-	return fmt.Sprintf("model.StorageUnit(model=\"\",id=%d,location-id=%d,name=%s,ip-address=%s,capacity=%d)", self.Id, self.LocationId, self.Name, self.IpAddress, self.Capacity)
+	return fmt.Sprintf("model.StorageUnit(model=\"\",id=%d,location=%s,name=%s,ip-address=%s,capacity=%d)", self.Id, self.Location, self.Name, self.IpAddress, self.Capacity)
 }
 
 func (self *StorageUnit) SelectById() error {
-	row := self.QueryRow("SELECT fk_locid, storagename, ipaddr, capacity FROM Storages WHERE id = ?", self.Id)
+	row := self.QueryRow("SELECT location, storagename, ipaddr, capacity FROM Storages WHERE id = ?", self.Id)
 
-	if err := row.Scan(&self.LocationId, &self.Name, &self.IpAddress, &self.Capacity); err != nil {
+	if err := row.Scan(&self.Location, &self.Name, &self.IpAddress, &self.Capacity); err != nil {
 		return err
 	}
 
@@ -142,9 +142,9 @@ func (self *StorageUnit) SelectById() error {
 }
 
 func (self *StorageUnit) SelectByName() error {
-	row := self.QueryRow("SELECT id, fk_locid, ipaddr, capacity FROM Storages WHERE storagename = ?", self.Name)
+	row := self.QueryRow("SELECT id, location, ipaddr, capacity FROM Storages WHERE storagename = ?", self.Name)
 
-	if err := row.Scan(&self.Id, &self.LocationId, &self.IpAddress, &self.Capacity); err != nil {
+	if err := row.Scan(&self.Id, &self.Location, &self.IpAddress, &self.Capacity); err != nil {
 		return err
 	}
 
@@ -152,7 +152,7 @@ func (self *StorageUnit) SelectByName() error {
 }
 
 func (self *StorageUnit) SelectAll() ([]StorageUnit, error) {
-	rows, err := self.Query("SELECT id, storagename, fk_locid, ipaddr, capacity FROM Storages")
+	rows, err := self.Query("SELECT id, storagename, location, ipaddr, capacity FROM Storages")
 
 	if err != nil {
 		return nil, err
@@ -163,7 +163,7 @@ func (self *StorageUnit) SelectAll() ([]StorageUnit, error) {
 	for rows.Next() {
 		s := StorageUnit{}
 
-		if err := rows.Scan(&s.Id, &s.Name, &s.LocationId, &s.IpAddress, &s.Capacity); err != nil {
+		if err := rows.Scan(&s.Id, &s.Name, &s.Location, &s.IpAddress, &s.Capacity); err != nil {
 			self.Println(err)
 			return nil, err
 		}
@@ -173,6 +173,6 @@ func (self *StorageUnit) SelectAll() ([]StorageUnit, error) {
 }
 
 func (self *StorageUnit) Insert() error {
-	_, err := self.Exec("INSERT INTO Storages (fk_locid, storagename, ipaddr, capacity) VALUES (?,?,?,?)", self.LocationId, self.Name, self.IpAddress, self.Capacity)
+	_, err := self.Exec("INSERT INTO Storages (location, storagename, ipaddr, capacity) VALUES (?,?,?,?)", self.Location, self.Name, self.IpAddress, self.Capacity)
 	return err
 }

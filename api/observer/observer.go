@@ -64,13 +64,49 @@ func (self *Observer) Observe() {
 			}
 
 			switch header.Action {
+			case controller.ActionSuccess:
+				if err := c.SuccessHandler(msg); err != nil {
+					self.Println(err)
+					return
+				}
+			case controller.ActionFailure:
+				if err := c.FailureHandler(msg); err != nil {
+					self.Println(err)
+					return
+				}
+
+			case controller.ActionStorageUnitPing:
+				if err := c.PingStorageUnitHandler(msg); err != nil {
+					self.Println(err)
+					return
+				}
 			case controller.ActionStorageUnitNewCard:
 				if err := c.AddNewCardToStorageUnitHandler(msg); err != nil {
 					self.Println(err)
 					return
 				}
-			case controller.ActionStorageUnitPing:
-				if err := c.PingStorageUnitHandler(msg); err != nil {
+			case controller.ActionStorageUnitDeleteCard:
+				if err := c.DeleteCardHandler(msg); err != nil {
+					self.Println(err)
+					return
+				}
+			case controller.ActionStorageUnitFetchCardSourceMobile:
+				fallthrough
+			case controller.ActionStorageUnitFetchCardSourceTerminal:
+				if err := c.FetchCardHandler(msg); err != nil {
+					self.Println(err)
+					return
+				}
+
+			case controller.ActionUserSignupSourceMobile:
+				fallthrough
+			case controller.ActionUserSignupSourceTerminal:
+				if err := c.SignUpUserHandler(msg); err != nil {
+					self.Println(err)
+					return
+				}
+			case controller.ActionUserCheckExists:
+				if err := c.CheckUserExistenceHandler(msg); err != nil {
 					self.Println(err)
 					return
 				}

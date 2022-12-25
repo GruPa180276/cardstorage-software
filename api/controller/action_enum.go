@@ -12,8 +12,10 @@ import (
 )
 
 const (
-	// ActionInvalid is a Action of type invalid.
-	ActionInvalid Action = "invalid"
+	// ActionSuccess is a Action of type success.
+	ActionSuccess Action = "success"
+	// ActionFailure is a Action of type failure.
+	ActionFailure Action = "failure"
 	// ActionStorageUnitPing is a Action of type storage-unit-ping.
 	ActionStorageUnitPing Action = "storage-unit-ping"
 	// ActionStorageUnitNew is a Action of type storage-unit-new.
@@ -22,16 +24,16 @@ const (
 	ActionStorageUnitNewCard Action = "storage-unit-new-card"
 	// ActionStorageUnitDeleteCard is a Action of type storage-unit-delete-card.
 	ActionStorageUnitDeleteCard Action = "storage-unit-delete-card"
-	// ActionStorageUnitFetchCard is a Action of type storage-unit-fetch-card.
-	ActionStorageUnitFetchCard Action = "storage-unit-fetch-card"
+	// ActionStorageUnitFetchCardSourceMobile is a Action of type storage-unit-fetch-card-source-mobile.
+	ActionStorageUnitFetchCardSourceMobile Action = "storage-unit-fetch-card-source-mobile"
+	// ActionStorageUnitFetchCardSourceTerminal is a Action of type storage-unit-fetch-card-source-terminal.
+	ActionStorageUnitFetchCardSourceTerminal Action = "storage-unit-fetch-card-source-terminal"
 	// ActionUserSignupSourceMobile is a Action of type user-signup-source-mobile.
 	ActionUserSignupSourceMobile Action = "user-signup-source-mobile"
 	// ActionUserSignupSourceTerminal is a Action of type user-signup-source-terminal.
 	ActionUserSignupSourceTerminal Action = "user-signup-source-terminal"
-	// ActionUserFetchToken is a Action of type user-fetch-token.
-	ActionUserFetchToken Action = "user-fetch-token"
-	// ActionUserExistence is a Action of type user-existence.
-	ActionUserExistence Action = "user-existence"
+	// ActionUserCheckExists is a Action of type user-check-exists.
+	ActionUserCheckExists Action = "user-check-exists"
 )
 
 var ErrInvalidAction = errors.New("not a valid Action")
@@ -48,16 +50,17 @@ func (x Action) IsValid() bool {
 }
 
 var _ActionValue = map[string]Action{
-	"invalid":                     ActionInvalid,
-	"storage-unit-ping":           ActionStorageUnitPing,
-	"storage-unit-new":            ActionStorageUnitNew,
-	"storage-unit-new-card":       ActionStorageUnitNewCard,
-	"storage-unit-delete-card":    ActionStorageUnitDeleteCard,
-	"storage-unit-fetch-card":     ActionStorageUnitFetchCard,
-	"user-signup-source-mobile":   ActionUserSignupSourceMobile,
-	"user-signup-source-terminal": ActionUserSignupSourceTerminal,
-	"user-fetch-token":            ActionUserFetchToken,
-	"user-existence":              ActionUserExistence,
+	"success":                                 ActionSuccess,
+	"failure":                                 ActionFailure,
+	"storage-unit-ping":                       ActionStorageUnitPing,
+	"storage-unit-new":                        ActionStorageUnitNew,
+	"storage-unit-new-card":                   ActionStorageUnitNewCard,
+	"storage-unit-delete-card":                ActionStorageUnitDeleteCard,
+	"storage-unit-fetch-card-source-mobile":   ActionStorageUnitFetchCardSourceMobile,
+	"storage-unit-fetch-card-source-terminal": ActionStorageUnitFetchCardSourceTerminal,
+	"user-signup-source-mobile":               ActionUserSignupSourceMobile,
+	"user-signup-source-terminal":             ActionUserSignupSourceTerminal,
+	"user-check-exists":                       ActionUserCheckExists,
 }
 
 // ParseAction attempts to convert a string to a Action.

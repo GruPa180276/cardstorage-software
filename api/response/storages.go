@@ -172,7 +172,7 @@ func (self *StorageUnit) PingStorageUnitByNameHandler(res http.ResponseWriter, r
 	c := controller.Controller{Logger: self.Logger, Map: self.Map, Client: self.Client}
 	opts := self.Client.OptionsReader()
 	topic := observer.AssembleBaseStorageTopic(storage, location)
-	if err := c.PingStorageUnit(storage.Name, topic, opts.ClientID()); err != nil {
+	if err := c.PingStorageUnitInvoker(storage.Name, topic, opts.ClientID()); err != nil {
 		self.Println(err)
 		util.HttpBasicJsonError(res, http.StatusInternalServerError, err.Error())
 		return

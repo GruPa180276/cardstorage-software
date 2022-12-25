@@ -17,6 +17,15 @@ func Must(value interface{}, err error) interface{} {
 	return value
 }
 
+func WarnFactory(logger *log.Logger) func(interface{}, error) interface{} {
+	return func(value interface{}, err error) interface{} {
+		if err != nil {
+			logger.Println(err.Error())
+		}
+		return value
+	}
+}
+
 func Keys[K comparable, V any](m map[K]V) []K {
 	keys := make([]K, 0)
 

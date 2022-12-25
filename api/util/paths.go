@@ -16,8 +16,5 @@ const (
 	API_USERS_FILTER_ID               = `/users/id/{id:[0-9]{1,10}}`
 	API_USERS_FILTER_MAIL             = `/users/mail/{mail:[a-zA-Z0-9.@-_]{5,100}}`
 	API_USERS_FILTER_READER           = `/users/reader/{reader:[a-zA-Z0-9-_]{5,100}}`
-	//API_LOCATIONS                     = `/locations`
-	//API_LOCATIONS_FILTER_ID           = `/locations/id/{id:[0-9]{1,10}}`
-	//API_LOCATIONS_FILTER_NAME         = `/locations/name/{name:[a-zA-Z0-9-_]{3,100}}`
-	API_CHANNEL_ERROR = `/error`
+	API_CHANNEL_ERROR                 = `/error`
 )

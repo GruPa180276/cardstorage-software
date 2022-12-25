@@ -3,12 +3,13 @@ package response
 import (
 	"database/sql"
 	"encoding/json"
-	"github.com/gorilla/mux"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
 type Location struct {
@@ -128,5 +129,9 @@ func (self *Location) AddNewLocationHandler(res http.ResponseWriter, req *http.R
 			return
 		}
 		self.Println("successfully inserted", location.String())
+	} else {
+		self.Println("duplicate entry", location.String())
+		util.HttpBasicJsonError(res, http.StatusBadRequest, "duplicate entry")
+		return
 	}
 }

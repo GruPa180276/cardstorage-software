@@ -1,59 +1,54 @@
 DROP DATABASE IF EXISTS `CardStorageManagement`;
-
 CREATE DATABASE IF NOT EXISTS `CardStorageManagement`;
 
 USE `CardStorageManagement`;
 
-CREATE TABLE IF NOT EXISTS `Cards` (
-    `id`                INT PRIMARY KEY AUTO_INCREMENT,
-    `fk_storageid`      INT,
-    `position`          INT, -- position in storage unit
-    `cardname`          VARCHAR(64) NOT NULL UNIQUE,
-    `readerdata`        VARCHAR(128) DEFAULT NULL
-);
-
 CREATE TABLE IF NOT EXISTS `Storages` (
-    `id`                INT PRIMARY KEY AUTO_INCREMENT,
-    `location`          VARCHAR(32) NOT NULL,
-    `storagename`       VARCHAR(128) NOT NULL UNIQUE,
-    `ipaddr`            CHAR(15) NOT NULL,
-    `capacity`          INT NOT NULL DEFAULT 10
-);
-
-CREATE TABLE IF NOT EXISTS `CardsStatus` (
-    `id`                INT PRIMARY KEY AUTO_INCREMENT,
-    `fk_cardid`         INT NOT NULL,
-    `fk_reservationid`  INT NULL DEFAULT NULL, -- If NULL then card not reserved
-    `iscardavailable`   BOOLEAN NOT NULL DEFAULT TRUE,
-    `accesscount`       INT DEFAULT 0
-);
-
-CREATE TABLE IF NOT EXISTS `CardsQueue` (
-    `id`                INT PRIMARY KEY AUTO_INCREMENT,
-    `fk_userid`         INT,
-    `since`             INT NOT NULL,
-    `until`             INT NULL, -- if NULL, then the card might be currently borrowed but not necessarily reserved, check `reserved` flag to distinguish between already returned cards and reserved cards, `reserved` will automatically be set for reservations
-    `returned`          BOOLEAN DEFAULT FALSE,
-    `reserved`          BOOLEAN DEFAULT FALSE
+    `id`                INT          PRIMARY KEY AUTO_INCREMENT,
+    `location`          VARCHAR(32)  NOT NULL,
+    `name`              VARCHAR(128) NOT NULL UNIQUE,
+    `ipaddr`            CHAR(15)     NOT NULL,
+    `capacity`          INT          NOT NULL DEFAULT 10
 );
 
 CREATE TABLE IF NOT EXISTS `Users` (
-    `id`                INT PRIMARY KEY AUTO_INCREMENT,
-    `mail`              VARCHAR(64) UNIQUE NOT NULL,
-    `readerdata`        VARCHAR(128) UNIQUE DEFAULT NULL -- curious, but convenient none the less
+    `id`                INT          PRIMARY KEY AUTO_INCREMENT,
+    `email`             VARCHAR(64)  UNIQUE NOT NULL,
+    `readerdata`        VARCHAR(128) UNIQUE DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `Administrators` (
-    `fk_userid`         INT UNIQUE
+    `fk_userid`         INT UNIQUE,
+
+    CONSTRAINT `fkAdministratorsUsersUserid` FOREIGN KEY (`fk_userid`) REFERENCES `Users`(`id`)
 );
 
-ALTER TABLE `Cards`          ADD CONSTRAINT `fkCardsStoragesStorageid`             FOREIGN KEY (`fk_storageid`)     REFERENCES `Storages`(`id`);
-ALTER TABLE `CardsStatus`    ADD CONSTRAINT `fkCardsStatusCardsCardid`             FOREIGN KEY (`fk_cardid`)        REFERENCES `Cards`(`id`);
-ALTER TABLE `CardsStatus`    ADD CONSTRAINT `fkCardsStatusCardsQueueReservationid` FOREIGN KEY (`fk_reservationid`) REFERENCES `CardsQueue`(`id`);
-ALTER TABLE `CardsQueue`     ADD CONSTRAINT `fkCardsQueueUsersUserid`              FOREIGN KEY (`fk_userid`)        REFERENCES `Users`(`id`);
-ALTER TABLE `Administrators` ADD CONSTRAINT `fkAdministratorsUsersUserid`          FOREIGN KEY (`fk_userid`)        REFERENCES `Users`(`id`);
+CREATE TABLE IF NOT EXISTS `Cards` (
+    `id`                INT          PRIMARY KEY AUTO_INCREMENT,
+    `fk_storageid`      INT          NOT NULL,
+    `position`          INT          NOT NULL,
+    `name`              VARCHAR(64)  NOT NULL UNIQUE,
+    `readerdata`        VARCHAR(128) DEFAULT NULL,
+    `accesscount`       INT          DEFAULT 0,
+    `iscardavailable`   BOOLEAN      NOT NULL DEFAULT TRUE,
+
+    CONSTRAINT `fkCardsStoragesStorageId` FOREIGN KEY (`fk_storageid`) REFERENCES `Storages`(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `CardsQueue` (
+    `id`                INT     PRIMARY KEY AUTO_INCREMENT,
+    `fk_cardid`         INT     NOT NULL,
+    `fk_userid`         INT     NOT NULL,
+    `since`             INT     NOT NULL,
+    `until`             INT     NULL,
+    `returned`          BOOLEAN DEFAULT FALSE,
+    `reserved`          BOOLEAN DEFAULT FALSE,
+
+    CONSTRAINT `fkCardsQueueUsersUserid` FOREIGN KEY (`fk_userid`) REFERENCES `Users`(`id`),
+    CONSTRAINT `fkCardsQueueCardsCardid` FOREIGN KEY (`fk_cardid`) REFERENCES `Cards`(`id`)
+);
 
 ALTER TABLE `Cards`          AUTO_INCREMENT = 1;
-ALTER TABLE `Storages`       AUTO_INCREMENT = 1;
-ALTER TABLE `CardsStatus`    AUTO_INCREMENT = 1;
 ALTER TABLE `CardsQueue`     AUTO_INCREMENT = 1;
+ALTER TABLE `Storages`       AUTO_INCREMENT = 1;
+ALTER TABLE `Users`          AUTO_INCREMENT = 1;

@@ -1,4 +1,4 @@
-module simulator
+module controller
 
 go 1.18
 

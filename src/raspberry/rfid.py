@@ -45,7 +45,7 @@ class Rfid:
                     if(res["type"]=="request"):
                         Rfid.msgid=res["msgid"]
                         token=Rfid.scanCard()
-                        mqtt_msg=json.dumps({ "msgid":Rfid.msgid, "action": "read-token", "token":token, "type":"response"})
+                        mqtt_msg=json.dumps({ "msgid":Rfid.msgid, "action": Storage.USER_SIGNUP.value, "token":token, "type":"response"})
                         mc.client.publish(Storage.TOPIC.value,mqtt_msg)
 
                 case Storage.PING.value:

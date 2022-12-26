@@ -4,58 +4,71 @@
 import time
 import mqtt_client as mc
 import json
-import storage_enums
 from storage_enums import Storage
 
 
-def manager(res):
-    msgid=res["msgid"]
+class Rfid:
+    msgid="x"
+    card="x"
 
-    match res["action"]:
-        case Storages:
-            print("pinging")
+    def manager(res):
+        print(res)
+        #msgid=res["msgid"]
+        #print(Storage.SUCCESS.value)
+        try:
+            match res["action"]:
+                case Storage.GET_CARD_MOBILE.value:
+                    Rfid.msgid=res["msgid"]
+                    #drop card funciton made by mechatronics
+                    #if card drop successful send 
+                    mqtt_msg=json.dumps({"msgid":Rfid.msgid, "action": "success" })
+                    mc.client.publish(Storage.TOPIC.value,mqtt_msg)
 
-        case "storage-unit-fetch-card-source-mobile":
-            #drop card funciton made by mechatronics
-            #if card drop successful send 
-            mqtt_msg=json.dumps({"id":msgid, "action": "success" })
-            ("1117",mqtt_msg)
-            mc.client.publish("1117",mqtt_msg)
+                case Storage.GET_CARD_TERMINAL.value:
+                    Rfid.msgid=res["msgid"]
+                    Rfid.card= res["card"]
+                    token=Rfid.scanCard()
+                    print(Rfid.msgid)
+                    mqtt_msg=json.dumps({"msgid":Rfid.msgid,"action": Storage.USER_CHECK_EXISTS.value,"token": token, "type":"request" })
+                    mc.client.publish(Storage.TOPIC.value,mqtt_msg)
+                    print(token)
+                #--------------
+                case Storage.USER_CHECK_EXISTS.value:
+                    if(res["type"]=="response" and res["msgid"]==Rfid.msgid and res["successful"]):
+                        print( Rfid.card["name"]) 
+                        #drop card funciton made by mechatronics
+                        #if card drop successful send 
+                        mqtt_msg=json.dumps({"msgid":Rfid.msgid, "action": "success" })
+                        mc.client.publish(Storage.TOPIC.value,mqtt_msg)
+                    #print("I was here") 
 
-        case "storage-unit-fetch-card-source-terminal":
-            card= res["Card"]
-            token=scanCard()
-            mqtt_msg=json.dumps({"id":msgid,"action": "user-check-exists","token": token })
-            mc.client.publish("1117",mqtt_msg)
+                case Storage.USER_SIGNUP.value:
+                    print("I was here1") 
 
-            print(token)
+                case Storage.PING.value:
+                    print("I was here2")
+                case Storage.DELETE.value:
+                    print("I was here3")
+                case Storage.NEW_STORAGE.value:
+                    print("I was here4")
+                case Storage.NEW_CARD.value:
+                    print("I was here5")
+        except:
+            print("An exception occurred") 
+    def scanCard():
+        t_end = time.time() + 2
+        while time.time() < t_end:      
+            # reader = SimpleMFRC522()
 
-        case _:
-            print("pinging")
-
-
-        # case "storage-unit-delete-card":
-        # case "failure":
-        # case "storage-unit-new":
-        # case "storage-unit-new-card":
-        # case "user-signup-source-mobile":
-        # case "user-signup-source-terminal":
-        # case "user-check-exists":
-
-def scanCard():
-    t_end = time.time() + 20
-    while time.time() < t_end:      
-        # reader = SimpleMFRC522()
-
-        # try:
-        #         id, text = reader.read()
-        #         //if it got id return value and send apidata
-        #         print(id)
-        #         print(text)
-        # finally:
-        #         GPIO.cleanup()
-        print("scanning right now")
-    return "scanned" 
+            # try:
+            #         id, text = reader.read()
+            #         //if it got id return value and send apidata
+            #         print(id)
+            #         print(text)
+            # finally:
+            #         GPIO.cleanup()
+            print("scanning right now")
+        return "scanned" 
 
     
 

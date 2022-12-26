@@ -3,6 +3,8 @@ from enum import Enum
 # class syntax
 
 class Storage(Enum):
+    LOCATION="3-51"
+    TOPIC="1117"
     PING="storage-unit-ping"
     DELETE="storage-unit-delete-card"
     NEW_STORAGE="storage-unit-new"

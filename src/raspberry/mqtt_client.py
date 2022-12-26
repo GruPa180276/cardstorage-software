@@ -31,7 +31,7 @@ def connect_mqtt():
 def subscribe():
     def on_message(client, userdata, msg):
         res = json.loads(msg.payload.decode())
-        rfid.manager(res)
+        rfid.Rfid.manager(res)
     client.subscribe("1117")
     client.on_message = on_message
 

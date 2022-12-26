@@ -1,6 +1,7 @@
 package util
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -79,6 +80,27 @@ func MapSlice[FromType any, ToType any](s []FromType, mapper func(FromType) ToTy
 		t = append(t, mapper(element))
 	}
 	return
+}
+
+func MarshalNullableString(s sql.NullString) any {
+	if !s.Valid {
+		return nil
+	}
+	return s.String
+}
+
+func UnmarshalNullableString(v any) sql.NullString {
+	if v == nil {
+		return sql.NullString{}
+	}
+	return sql.NullString{Valid: true, String: v.(string)}
+}
+
+func NullableString(v string) sql.NullString {
+	if v == "" {
+		return sql.NullString{}
+	}
+	return sql.NullString{Valid: true, String: v}
 }
 
 func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {

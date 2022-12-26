@@ -1,35 +1,32 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"runtime"
-	"sync"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/response"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func main() {
-	prefix := "/api"
-	router := mux.NewRouter().PathPrefix(prefix).Subrouter()
+	router := mux.NewRouter().PathPrefix("/api").Subrouter()
 	router.Headers(
 		"Accept", "application/json",
 		"Accept-Charset", "utf-8",
 		"Server", fmt.Sprintf("card-management@%s", runtime.Version()))
 
-	sitemap := &util.Sitemap{Router: router, Sitemap: make(map[*json.RawMessage]http.Handler)}
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
 
 	connstring := fmt.Sprintf("tcp://%s:%s", os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"))
@@ -46,49 +43,34 @@ func main() {
 		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"))
 	logger.Println(connstring)
-	db := util.Must(sql.Open(os.Getenv("DB_DRIVER"), connstring)).(*sql.DB)
+	db := util.Must(gorm.Open(mysql.Open(connstring), &gorm.Config{})).(*gorm.DB)
+	util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
 
-	messages := new(sync.Map)
-	(&observer.Observer{Client: mqc, Logger: logger, DB: db, Map: messages}).Observe()
+	// messages := new(sync.Map)
+	// (&observer.Observer{Client: mqc, Logger: logger, DB: db, Map: messages}).Observe()
 
-	u := response.User{DB: db, Logger: logger}
-	c := response.Card{DB: db, Logger: logger, Client: mqc}
-	t := response.CardStatus{DB: db, Logger: logger}
-	s := response.StorageUnit{DB: db, Logger: logger, Client: mqc, Map: messages}
+	store := &response.DataStore{Logger: logger, DB: db}
 
-	sitemap = sitemap.
-		AddHandler(http.MethodOptions, util.API_BASE_PATH, response.OptionsHandler).
-		AddHandler(http.MethodGet, util.API_USERS, u.GetAllUsersHandler).
-		AddHandler(http.MethodGet, util.API_USERS_FILTER_ID, u.GetUserByIdHandler).
-		AddHandler(http.MethodGet, util.API_USERS_FILTER_MAIL, u.GetUserByMailHandler).
-		AddHandler(http.MethodGet, util.API_USERS_FILTER_READER, u.GetUserByReaderDataHandler).
-		AddHandler(http.MethodPost, util.API_USERS_SIGN_UP, u.SignUpHandler).
-		AddHandler(http.MethodGet, util.API_CARDS, c.GetAllCardsHandler).
-		AddHandler(http.MethodPost, util.API_CARDS, c.AddNewCardHandler).
-		AddHandler(http.MethodGet, util.API_CARDS_FILTER_ID, c.GetCardByIdHandler).     // @todo
-		AddHandler(http.MethodGet, util.API_CARDS_FILTER_NAME, c.GetCardByNameHandler). // @todo
-		AddHandler(http.MethodGet, util.API_CARDS_STATUS, t.GetAllCardsStatusHandler).
-		AddHandler(http.MethodGet, util.API_CARDS_STATUS_FILTER_ID, t.GetCardStatusByCardIdHandler).
-		AddHandler(http.MethodPut, util.API_CARDS_STATUS, t.PutCardStatusByCardIdHandler). // @todo
-		AddHandler(http.MethodGet, util.API_STORAGEUNITS, s.GetAllStorageUnitsHandler).
-		AddHandler(http.MethodPost, util.API_STORAGEUNITS, s.AddNewStorageUnitHandler).
-		AddHandler(http.MethodGet, util.API_STORAGEUNITS_FILTER_ID, s.GetStorageUnitByIdHandler).
-		AddHandler(http.MethodGet, util.API_STORAGEUNITS_FILTER_NAME, s.GetStorageUnitByNameHandler).
-		AddHandler(http.MethodGet, util.API_STORAGEUNITS_PING_FILTER_NAME, s.PingStorageUnitByNameHandler) // @todo
+	(*response.CardDataStore)(store).RegisterHandlers(router)
+	(*response.StorageDataStore)(store).RegisterHandlers(router)
+	(*response.UserDataStore)(store).RegisterHandlers(router)
+	(*response.ReservationDataStore)(store).RegisterHandlers(router)
 
-	go func() {
-		keys := util.MapSlice[*json.RawMessage, *json.RawMessage](util.Keys(sitemap.Sitemap), func(path *json.RawMessage) *json.RawMessage {
-			p := make(map[string]any)
-			util.Must(nil, json.Unmarshal(*path, &p))
-			p["path"] = prefix + p["path"].(string)
-			buf := json.RawMessage(util.Must(json.Marshal(&p)).([]byte))
-			return &buf
-		})
-		buffer := util.Must(json.MarshalIndent(keys, "", "\t")).([]byte)
-		file := util.Must(os.Create("sitemap.json")).(*os.File)
-		util.Must(file.Write(buffer))
-		util.Must(nil, file.Close())
-	}()
+	// @todo: router.Walk(...)
+	//sitemap := &util.Sitemap{Router: router, Sitemap: make(map[*json.RawMessage]http.Handler)}
+	//go func() {
+	//	keys := util.MapSlice[*json.RawMessage, *json.RawMessage](util.Keys(sitemap.Sitemap), func(path *json.RawMessage) *json.RawMessage {
+	//		p := make(map[string]any)
+	//		util.Must(nil, json.Unmarshal(*path, &p))
+	//		p["path"] = prefix + p["path"].(string)
+	//		buf := json.RawMessage(util.Must(json.Marshal(&p)).([]byte))
+	//		return &buf
+	//	})
+	//	buffer := util.Must(json.MarshalIndent(keys, "", "\t")).([]byte)
+	//	file := util.Must(os.Create("sitemap.json")).(*os.File)
+	//	util.Must(file.Write(buffer))
+	//	util.Must(nil, file.Close())
+	//}()
 
 	go func() {
 		buffer := util.Must(json.MarshalIndent(json.RawMessage(util.Must(controller.ActionsToJSON()).([]byte)), "", "\t")).([]byte)

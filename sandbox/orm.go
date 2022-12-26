@@ -1,11 +1,13 @@
 package main
 
 import (
-	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func MarshalNullableString(s sql.NullString) any {
@@ -29,19 +31,29 @@ func NullableString(v string) sql.NullString {
 	return sql.NullString{Valid: true, String: v}
 }
 
+type Metric struct {
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
 type Storage struct {
-	StorageId uint   `json:"id"       gorm:"primaryKey"`
+	StorageID uint   `json:"-"        gorm:"primaryKey"`
 	Name      string `json:"name"     gorm:"not null;unique;type:varchar(32)"`
 	Location  string `json:"location" gorm:"not null;type:varchar(32)"`
 	Address   string `json:"address"  gorm:"not null;unique;type:varchar(32)"`
 	Capacity  uint   `json:"capacity" gorm:"not null;default:10"`
+	Cards     []Card `json:"cards"    gorm:"many2many:storage_cards"`
+	Metric
 }
 
 type User struct {
-	UserId     uint           `json:"id"       gorm:"primaryKey"`
-	Email      string         `json:"email"    gorm:"not null;unique;type:varchar(64)"`
-	ReaderData sql.NullString `json:"reader"   gorm:"default:null;serializer:json"`
-	Privileged bool           `json:"privileged" gorm:"not null;default:false"`
+	UserID       uint           `json:"-"            gorm:"primaryKey"`
+	Email        string         `json:"email"        gorm:"not null;unique;type:varchar(64)"`
+	ReaderData   sql.NullString `json:"reader"       gorm:"default:null"`
+	Privileged   bool           `json:"privileged"   gorm:"not null;default:false"`
+	Reservations []Reservation  `json:"reservations" gorm:"many2many:user_reservations"`
+	Metric
 }
 
 func (self *User) MarshalJSON() ([]byte, error) {
@@ -71,13 +83,13 @@ func (self *User) UnmarshalJSON(data []byte) error {
 }
 
 type Card struct {
-	Home               Storage        `json:"home"         gorm:"foreignKey:StorageId;serializer:json"`
-	Name               string         `json:"name"         gorm:"not null;unique;type:varchar(32)"`
-	Position           uint           `json:"position"     gorm:"not null"`
-	ReaderData         sql.NullString `json:"reader"       gorm:"default:null;type:varchar(64);serializer:json"`
-	AccessCount        uint           `json:"accessed"     gorm:"not null;default:0"`
-	CurrentlyAvailable bool           `json:"available"    gorm:"not null;default:true"`
-	Reservations       []Reservation  `json:"reservations" gorm:"foreignKey:ReservationId;serializer:json"`
+	CardID             uint           `json:"-"         gorm:"primaryKey"`
+	Name               string         `json:"name"      gorm:"not null;unique;type:varchar(32);column:name"`
+	Position           uint           `json:"position"  gorm:"not null"`
+	ReaderData         sql.NullString `json:"reader"    gorm:"default:null;type:varchar(64)"`
+	AccessCount        uint           `json:"accessed"  gorm:"not null;default:0"`
+	CurrentlyAvailable bool           `json:"available" gorm:"not null;default:true"`
+	Metric
 }
 
 func (self *Card) MarshalJSON() ([]byte, error) {
@@ -94,6 +106,7 @@ func (self *Card) MarshalJSON() ([]byte, error) {
 func (self *Card) UnmarshalJSON(data []byte) error {
 	type Alias Card
 	aux := &struct {
+		ReaderData sql.NullString `json:"reader"`
 		*Alias
 	}{
 		Alias: (*Alias)(self),
@@ -106,13 +119,15 @@ func (self *Card) UnmarshalJSON(data []byte) error {
 }
 
 type Reservation struct {
-	ReservationId uint      `json:"id"             gorm:"primaryKey"`
-	Target        User      `json:"target"         gorm:"foreignKey:UserId;serializer:json"`
-	Since         time.Time `json:"since"          gorm:"not null;serializer:json"`
-	Until         time.Time `json:"until"          gorm:"default:null;serializer:json"`
-	ReturnedAt    time.Time `json:"returned-at"    gorm:"default:null;serializer:json"`
+	ReservationID uint      `json:"-" gorm:"primaryKey"`
+	CardID        uint      `json:"-"`
+	Card          Card      `json:"card"`
+	Since         time.Time `json:"since"          gorm:"not null"`
+	Until         time.Time `json:"until"          gorm:"default:null"`
+	ReturnedAt    time.Time `json:"returned-at"    gorm:"default:null"`
 	Returned      bool      `json:"returned"       gorm:"default:false"`
 	IsReservation bool      `json:"is-reservation" gorm:"default:false"`
+	Metric
 }
 
 func (self *Reservation) MarshalJSON() ([]byte, error) {
@@ -152,16 +167,87 @@ func (self *Reservation) UnmarshalJSON(data []byte) error {
 
 func main() {
 	//ioutil.WriteFile("CardStorageManagement.db", []byte{}, 0666)
-	//db, err := gorm.Open(mysql.Open("root:root@tcp(127.0.0.1:3306)/CardStorageManagement"), new(gorm.Config))
-	//if err != nil {
-	//	panic(err)
+	db, err := gorm.Open(mysql.Open("root:root@/CardStorageManagement?parseTime=true"), new(gorm.Config))
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.Debug().AutoMigrate(&Card{}, &Reservation{}, &Storage{}, &User{})
+
+	if err != nil {
+		panic(err)
+	}
+
+	db.Debug().Create(&Storage{Name: "S1", Location: "L1", Address: "192.168.1.10:8081", Cards: []Card{
+		{Name: "C1", Position: 0},
+		{Name: "C2", Position: 1},
+		{Name: "C3", Position: 2},
+		{Name: "C4", Position: 3},
+		{Name: "C5", Position: 4},
+	}})
+
+	c1 := &Card{}
+	err = db.Debug().Model(&Card{}).First(c1, "name = ?", "C1").Error
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", c1)
+
+	c2 := &Card{}
+	err = db.Debug().Model(&Card{}).First(c2, "name = ?", "C2").Error
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", c2)
+
+	c3 := &Card{}
+	err = db.Debug().Model(&Card{}).First(c3, "name = ?", "C3").Error
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", c3)
+
+	s1 := &Storage{}
+	err = db.Debug().Model(&Storage{}).Preload("Cards").First(s1, "name = ?", "S1").Error
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", s1)
+
+	db.Debug().Create(&User{Email: "a@litec.ac.at", Reservations: []Reservation{
+		{Card: *c1, Since: time.Now()},
+		{Card: *c2, Since: time.Now().Add(1 * time.Hour), IsReservation: true},
+		{Card: *c3, Since: time.Now().Add(2 * time.Hour), Until: time.Now().Add(2 * time.Hour).Add(30 * time.Minute), IsReservation: true},
+	}})
+
+	//for _, v := range c {
+	//	db.Debug().Create(v)
 	//}
+
+	//s1 := &Storage{Name: "S1", Location: "L1", Address: "192.168.1.10:8081"}
+	//s2 := &Storage{Name: "S2", Location: "L2", Address: "192.168.1.11:8081"}
+	//s3 := &Storage{Name: "S3", Location: "L3", Address: "192.168.1.12:8081"}
+	//s4 := &Storage{Name: "S4", Location: "L4", Address: "192.168.1.13:8081"}
 	//
-	//err = db.AutoMigrate(new(Storage), new(User), new(Card), new(Reservation))
+	//db.Debug().Create(s1)
+	//db.Debug().Create(s2)
+	//db.Debug().Create(s3)
+	//db.Debug().Create(s4)
 	//
-	//if err != nil {
-	//	panic(err)
-	//}
+	//u1 := &User{Email: "a@litec.ac.at"}
+	//u2 := &User{Email: "b@litec.ac.at"}
+	//u3 := &User{Email: "c@litec.ac.at"}
+	//u4 := &User{Email: "d@litec.ac.at"}
+	//
+	//db.Debug().Create(u1)
+	//db.Debug().Create(u2)
+	//db.Debug().Create(u3)
+	//db.Debug().Create(u4)
+	//db.Debug().Create(&Card{Home: *s1, Name: "C1", Position: 0, CurrentlyAvailable: true, Reservations: []Reservation{{Target: *u1}}})
+	//db.Debug().Create(&Card{Home: *s1, Name: "C2", Position: 0, CurrentlyAvailable: true, Reservations: []Reservation{}})
+	//db.Debug().Create(&Card{Home: *s1, Name: "C3", Position: 0, CurrentlyAvailable: true, Reservations: []Reservation{}})
+	//db.Debug().Create(&Card{Home: *s2, Name: "C4", Position: 0, CurrentlyAvailable: true, Reservations: []Reservation{}})
+
 	//
 	//db.Create(&Storage{Name: "abcd1", Location: "def", Address: "xyz12:71"})
 	//db.Create(&User{
@@ -190,11 +276,11 @@ func main() {
 	//json.NewEncoder(s).Encode(r)
 	//fmt.Println(s)
 
-	c := &Card{Reservations: []Reservation{{Target: User{ReaderData: NullableString("hello!")}}, {}}}
-	s := bytes.NewBufferString("")
-	json.NewEncoder(s).Encode(c)
-	o := bytes.NewBufferString("")
-	json.Indent(o, s.Bytes(), "", "  ")
-	fmt.Println(o.String())
-	
+	//c := &Card{Reservations: []Reservation{{Target: User{ReaderData: NullableString("hello!")}}, {}}}
+	//s := bytes.NewBufferString("")
+	//json.NewEncoder(s).Encode(c)
+	//o := bytes.NewBufferString("")
+	//json.Indent(o, s.Bytes(), "", "  ")
+	//fmt.Println(o.String())
+
 }

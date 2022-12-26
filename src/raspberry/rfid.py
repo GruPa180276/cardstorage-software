@@ -19,6 +19,8 @@ class Rfid:
             match res["action"]:
                 case Storage.GET_CARD_MOBILE.value:
                     Rfid.msgid=res["msgid"]
+                    Rfid.card= res["card"]
+                    location=Rfid.card["position"]
                     #drop card funciton made by mechatronics
                     #if card drop successful send 
                     mqtt_msg=json.dumps({"msgid":Rfid.msgid, "action": "success" })
@@ -28,33 +30,46 @@ class Rfid:
                     Rfid.msgid=res["msgid"]
                     Rfid.card= res["card"]
                     token=Rfid.scanCard()
-                    print(Rfid.msgid)
                     mqtt_msg=json.dumps({"msgid":Rfid.msgid,"action": Storage.USER_CHECK_EXISTS.value,"token": token, "type":"request" })
                     mc.client.publish(Storage.TOPIC.value,mqtt_msg)
-                    print(token)
-                #--------------
+
                 case Storage.USER_CHECK_EXISTS.value:
                     if(res["type"]=="response" and res["msgid"]==Rfid.msgid and res["successful"]):
-                        print( Rfid.card["name"]) 
+                        location=Rfid.card["position"]
                         #drop card funciton made by mechatronics
                         #if card drop successful send 
                         mqtt_msg=json.dumps({"msgid":Rfid.msgid, "action": "success" })
                         mc.client.publish(Storage.TOPIC.value,mqtt_msg)
-                    #print("I was here") 
 
                 case Storage.USER_SIGNUP.value:
-                    print("I was here1") 
+                    if(res["type"]=="request"):
+                        Rfid.msgid=res["msgid"]
+                        token=Rfid.scanCard()
+                        mqtt_msg=json.dumps({ "msgid":Rfid.msgid, "action": "read-token", "token":token, "type":"response"})
+                        mc.client.publish(Storage.TOPIC.value,mqtt_msg)
 
                 case Storage.PING.value:
-                    print("I was here2")
+                    Rfid.msgid=res["msgid"]
+                    mqtt_msg=json.dumps({"msgid":Rfid.msgid, "action": "success" })
+                    mc.client.publish(Storage.TOPIC.value,mqtt_msg)
+
                 case Storage.DELETE.value:
-                    print("I was here3")
+                    Rfid.msgid=res["msgid"]
+                    #drop card funciton made by mechatronics
+                    #if card drop successful send 
+                    mqtt_msg=json.dumps({"msgid":Rfid.msgid, "action": "success" })
+                    mc.client.publish(Storage.TOPIC.value,mqtt_msg)
                 case Storage.NEW_STORAGE.value:
-                    print("I was here4")
+                    print("tbc.")
+
                 case Storage.NEW_CARD.value:
-                    print("I was here5")
+                    Rfid.msgid=res["msgid"]
+                    token=Rfid.scanCard()
+                    #token wird an funktion von mechtroniker uebergeben und es dreht siech automatisch bis zur naechsten 
+                    location=1
         except:
             print("An exception occurred") 
+
     def scanCard():
         t_end = time.time() + 2
         while time.time() < t_end:      

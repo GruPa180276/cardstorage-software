@@ -1,4 +1,4 @@
-package util
+package paths
 
 const (
 	API_BASE_PATH                     = `/`

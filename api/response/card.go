@@ -1,28 +1,10 @@
 package response
 
-import (
-	"database/sql"
-	"encoding/json"
-	"fmt"
-	"log"
-	"net/http"
+type CardDataStore DataStore
 
-	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/google/uuid"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
-)
+func (self *CardDataStore)
 
-type Card struct {
-	*sql.DB
-	*log.Logger
-	mqtt.Client
-
-	Messages map[uuid.UUID][]*controller.Result
-}
-
+/*
 func (self *Card) GetAllCardsHandler(res http.ResponseWriter, req *http.Request) {
 	card := model.Card{Model: &model.Model{DB: self.DB, Logger: self.Logger}}
 
@@ -63,7 +45,7 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 	if card.Name == model.CardNameUnset ||
 		card.StorageId == model.StorageUnitIdUnset ||
 		card.Position == model.CardPositionUnset {
-		/* || card.ReaderData == model.CardReaderDataUnset { */
+		// || card.ReaderData == model.CardReaderDataUnset {
 		strerr := "error: at least one condition for adding new card not met"
 		self.Println(strerr)
 		util.HttpBasicJsonError(res, http.StatusBadRequest, strerr)
@@ -125,4 +107,4 @@ func (self *Card) AddNewCardHandler(res http.ResponseWriter, req *http.Request) 
 	// self.Messages[uuid.MustParse(c.Id)] = &controller.Result{Data: c, MqttMessageReceived: received}
 
 	self.Println("successfully sent request to controller to add new card")
-}
+}*/

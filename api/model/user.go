@@ -8,12 +8,11 @@ import (
 )
 
 type User struct {
-	UserID       uint           `json:"-"            gorm:"primaryKey"`
-	Email        string         `json:"email"        gorm:"not null;unique;type:varchar(64)"`
-	ReaderData   sql.NullString `json:"reader"       gorm:"default:null"`
-	Privileged   bool           `json:"privileged"   gorm:"not null;default:false"`
-	Reservations []Reservation  `json:"reservations" gorm:"many2many:user_reservations"`
-	Metric
+	UserID     uint           `json:"-"            gorm:"primaryKey"`
+	Email      string         `json:"email"        gorm:"not null;unique;type:varchar(64);column:email"`
+	ReaderData sql.NullString `json:"reader"       gorm:"default:null"`
+	Privileged bool           `json:"privileged"   gorm:"not null;default:false"`
+	//DeletedAt  gorm.DeletedAt `json:"-"            gorm:"index"`
 }
 
 func (self *User) MarshalJSON() ([]byte, error) {

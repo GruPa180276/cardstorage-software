@@ -7,14 +7,14 @@ import (
 
 type Reservation struct {
 	ReservationID uint      `json:"-" gorm:"primaryKey"`
-	CardID        uint      `json:"-"`
-	Card          Card      `json:"card"`
+	UserID        uint      `gorm:"constraint:OnDelete:CASCADE;"`
+	User          User      `json:"user"           gorm:"constraint:OnDelete:CASCADE"`
 	Since         time.Time `json:"since"          gorm:"not null"`
 	Until         time.Time `json:"until"          gorm:"default:null"`
 	ReturnedAt    time.Time `json:"returned-at"    gorm:"default:null"`
-	Returned      bool      `json:"returned"       gorm:"default:false"`
 	IsReservation bool      `json:"is-reservation" gorm:"default:false"`
-	Metric
+	Active        bool      `json:"active"         gorm:"default:false"`
+	//DeletedAt     gorm.DeletedAt `json:"-"              gorm:"index"`
 }
 
 func (self *Reservation) MarshalJSON() ([]byte, error) {

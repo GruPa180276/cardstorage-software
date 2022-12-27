@@ -8,13 +8,14 @@ import (
 )
 
 type Card struct {
-	CardID             uint           `json:"-"         gorm:"primaryKey"`
-	Name               string         `json:"name"      gorm:"not null;unique;type:varchar(32);column:name"`
-	Position           uint           `json:"position"  gorm:"not null"`
-	ReaderData         sql.NullString `json:"reader"    gorm:"default:null;type:varchar(64)"`
-	AccessCount        uint           `json:"accessed"  gorm:"not null;default:0"`
-	CurrentlyAvailable bool           `json:"available" gorm:"not null;default:true"`
-	Metric
+	CardID             uint           `json:"-"            gorm:"primaryKey"`
+	Name               string         `json:"name"         gorm:"not null;unique;type:varchar(32);column:name"`
+	Position           uint           `json:"position"     gorm:"not null"`
+	ReaderData         sql.NullString `json:"reader"       gorm:"default:null;type:varchar(64)"`
+	AccessCount        uint           `json:"accessed"     gorm:"not null;default:0"`
+	CurrentlyAvailable bool           `json:"available"    gorm:"not null;default:true"`
+	Reservations       []Reservation  `json:"reservations" gorm:"many2many:card_reservations;constraint:OnDelete:CASCADE;"`
+	//DeletedAt          gorm.DeletedAt `json:"-"            gorm:"index"`
 }
 
 func (self *Card) MarshalJSON() ([]byte, error) {

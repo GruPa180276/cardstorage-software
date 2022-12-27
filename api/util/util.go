@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 
@@ -82,6 +83,20 @@ func MapSlice[FromType any, ToType any](s []FromType, mapper func(FromType) ToTy
 	return
 }
 
+func RandomIntExclude(min, max int, blacklist []int) int {
+	blacklistMap := make(map[int]bool)
+	for _, v := range blacklist {
+		blacklistMap[v] = true
+	}
+	for {
+		n := min + rand.Intn(max+1)
+		if blacklistMap[n] {
+			continue
+		}
+		return n
+	}
+}
+
 func MarshalNullableString(s sql.NullString) any {
 	if !s.Valid {
 		return nil
@@ -109,6 +124,11 @@ func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {
 		r = fmt.Sprintf(`,"reason":"%s"`, reason[0])
 	}
 	http.Error(res, fmt.Sprintf(`{"error":{"status":"%s"%s}}`, http.StatusText(code), r), code)
+}
+
+func HttpBasicJsonResponse(res http.ResponseWriter, code int, value any) error {
+	res.WriteHeader(code)
+	return json.NewEncoder(res).Encode(value)
 }
 
 type Sitemap struct {

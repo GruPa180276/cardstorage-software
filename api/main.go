@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"runtime"
@@ -20,7 +21,15 @@ import (
 	"gorm.io/gorm"
 )
 
+func init() {
+	rand.Seed(time.Now().Unix())
+}
+
 func main() {
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+
 	router := mux.NewRouter().PathPrefix("/api").Subrouter()
 	router.Headers(
 		"Accept", "application/json",
@@ -44,7 +53,7 @@ func main() {
 		os.Getenv("DB_NAME"))
 	logger.Println(connstring)
 	db := util.Must(gorm.Open(mysql.Open(connstring), &gorm.Config{})).(*gorm.DB)
-	util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
+	util.Must(nil, db.Debug().AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
 
 	// messages := new(sync.Map)
 	// (&observer.Observer{Client: mqc, Logger: logger, DB: db, Map: messages}).Observe()
@@ -81,5 +90,7 @@ func main() {
 
 	logger.Println("Initialization done...")
 
-	logger.Println(http.ListenAndServe(":"+os.Getenv("REST_PORT"), handlers.LoggingHandler(logger.Writer(), router)))
+	logger.Println(http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("REST_PORT")),
+		handlers.LoggingHandler(logger.Writer(),
+			handlers.CORS(originsOk, headersOk, methodsOk)(router))))
 }

@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
-	"runtime"
 	"sync"
 	"time"
 
@@ -29,15 +30,10 @@ func init() {
 }
 
 func main() {
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
-	originsOk := handlers.AllowedOrigins([]string{"*"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
-
-	router := mux.NewRouter().PathPrefix("/api").Subrouter()
-	router.Headers(
-		"Accept", "application/json",
-		"Accept-Charset", "utf-8",
-		"Server", fmt.Sprintf("card-management@%s", runtime.Version()))
+	router := mux.NewRouter().
+		PathPrefix("/api").
+		HeadersRegexp("Content-Type", "(application|text)/json").
+		Subrouter()
 
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
 
@@ -71,21 +67,27 @@ func main() {
 	(*response.UserDataStore)(store).RegisterHandlers(router)
 	(*response.ReservationDataStore)(store).RegisterHandlers(router)
 
-	// @todo: router.Walk(...)
-	//sitemap := &util.Sitemap{Router: router, Sitemap: make(map[*json.RawMessage]http.Handler)}
-	//go func() {
-	//	keys := util.MapSlice[*json.RawMessage, *json.RawMessage](util.Keys(sitemap.Sitemap), func(path *json.RawMessage) *json.RawMessage {
-	//		p := make(map[string]any)
-	//		util.Must(nil, json.Unmarshal(*path, &p))
-	//		p["path"] = prefix + p["path"].(string)
-	//		buf := json.RawMessage(util.Must(json.Marshal(&p)).([]byte))
-	//		return &buf
-	//	})
-	//	buffer := util.Must(json.MarshalIndent(keys, "", "\t")).([]byte)
-	//	file := util.Must(os.Create("sitemap.json")).(*os.File)
-	//	util.Must(file.Write(buffer))
-	//	util.Must(nil, file.Close())
-	//}()
+	go func() {
+		routes := make([]mux.Route, 0)
+		util.Must(nil, router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+			routes = append(routes, *route)
+			return nil
+		}))
+		sitemap := make(map[string][]string)
+		sitemap[http.MethodGet] = []string{}
+		sitemap[http.MethodPut] = []string{}
+		sitemap[http.MethodPost] = []string{}
+		sitemap[http.MethodDelete] = []string{}
+		for _, r := range routes {
+			// fmt.Printf("%+v\n", r)
+			url := util.Must(r.URL("name", "NAME", "email", "USER@PROVIDER.COM", "id", "000")).(*url.URL)
+			methods := util.Must(r.GetMethods()).([]string)
+			for _, m := range methods {
+				sitemap[m] = append(sitemap[m], url.String())
+			}
+		}
+		util.Must(nil, ioutil.WriteFile("sitemap.json", util.Must(json.MarshalIndent(sitemap, "", "\t")).([]byte), 0777))
+	}()
 
 	go func() {
 		buffer := util.Must(json.MarshalIndent(json.RawMessage(util.Must(controller.ActionsToJSON()).([]byte)), "", "\t")).([]byte)
@@ -96,6 +98,9 @@ func main() {
 
 	logger.Println("Initialization done...")
 
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT"})
 	logger.Println(http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("REST_PORT")),
 		handlers.LoggingHandler(logger.Writer(),
 			handlers.CORS(originsOk, headersOk, methodsOk)(router))))

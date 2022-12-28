@@ -34,85 +34,88 @@ func (self *Observer) Observe() error {
 	observerOpts := self.Client.OptionsReader()
 	self.Println("manager-id:", observerOpts.ClientID())
 
+	c := &controller.Controller{
+		Logger:                self.Logger,
+		Map:                   self.Map,
+		Client:                self.Client,
+		ControllerInfoChannel: self.ControllerInfoChannel,
+		DB:                    self.DB,
+	}
+
 	for _, storage := range storages {
-		topic := AssembleBaseStorageTopic(storage.Name, storage.Location)
-		c := &controller.Controller{Logger: self.Logger, Map: self.Map, Client: self.Client, ControllerInfoChannel: self.ControllerInfoChannel}
+		<-self.Subscribe(AssembleBaseStorageTopic(storage.Name, storage.Location), 1,
+			func(client mqtt.Client, msg mqtt.Message) {
+				if len(string(msg.Payload())) > (1 << 10) {
+					self.Println("message rejected due to memory-footprint")
+					return
+				}
+				header := &controller.Header{}
+				if err := json.Unmarshal(msg.Payload(), header); err != nil {
+					self.Println("unable to parse message header:", err.Error())
+					return
+				}
+				if header.ClientId == observerOpts.ClientID() {
+					return
+				}
 
-		<-self.Subscribe(topic, 1, func(client mqtt.Client, msg mqtt.Message) {
-			if len(string(msg.Payload())) > (1 << 10) {
-				self.Println("message rejected due to memory-footprint")
-				return
-			}
-			header := new(controller.Header)
-			if err := json.Unmarshal(msg.Payload(), header); err != nil {
-				self.Println("unable to parse message header:", err.Error())
-				return
-			}
-			if header.ClientId == observerOpts.ClientID() {
-				return
-			}
-			if _, ok := self.Load(header.Id); !ok {
-				self.Printf("error: got unknown message-id %q", header.Id)
-				return
-			}
-
-			switch header.Action {
-			case controller.ActionSuccess:
-				if err := c.SuccessHandler(msg); err != nil {
-					self.Println(err)
+				switch header.Action {
+				case controller.ActionSuccess:
+					if err := c.SuccessHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionFailure:
+					if err := c.FailureHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionStorageUnitPing:
+					if err := c.PingStorageUnitHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionStorageUnitNewCard:
+					if err := c.AddNewCardToStorageUnitHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionStorageUnitDeleteCard:
+					if err := c.DeleteCardHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionStorageUnitFetchCardSourceMobile:
+					fallthrough
+				case controller.ActionStorageUnitFetchCardSourceTerminal:
+					if err := c.FetchCardHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionUserSignupSourceMobile:
+					fallthrough
+				case controller.ActionUserSignupSourceTerminal:
+					if err := c.SignUpUserHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionUserCheckExists:
+					if err := c.CheckUserExistenceHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				case controller.ActionStorageUnitDepositCard:
+					if err := c.DepositCardHandler(msg); err != nil {
+						self.Println(err)
+						return
+					}
+				default:
+					strerr := fmt.Sprintf("got unknown action %q from %q", header.Action, msg.Topic())
+					self.ControllerInfoChannel <- strerr
+					self.Printf(strerr)
 					return
 				}
-			case controller.ActionFailure:
-				if err := c.FailureHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			case controller.ActionStorageUnitPing:
-				if err := c.PingStorageUnitHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			case controller.ActionStorageUnitNewCard:
-				if err := c.AddNewCardToStorageUnitHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			case controller.ActionStorageUnitDeleteCard:
-				if err := c.DeleteCardHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			case controller.ActionStorageUnitFetchCardSourceMobile:
-				fallthrough
-			case controller.ActionStorageUnitFetchCardSourceTerminal:
-				if err := c.FetchCardHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			case controller.ActionUserSignupSourceMobile:
-				fallthrough
-			case controller.ActionUserSignupSourceTerminal:
-				if err := c.SignUpUserHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			case controller.ActionUserCheckExists:
-				if err := c.CheckUserExistenceHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			case controller.ActionStorageUnitDepositCard:
-				if err := c.DepositCardHandler(msg); err != nil {
-					self.Println(err)
-					return
-				}
-			default:
-				strerr := fmt.Sprintf("got unknown action %q from %q", header.Action, msg.Topic())
-				self.ControllerInfoChannel <- strerr
-				self.Printf(strerr)
-				return
-			}
-		}).Done()
+			},
+		).Done()
 	}
 
 	return nil

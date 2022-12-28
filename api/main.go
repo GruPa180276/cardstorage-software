@@ -38,19 +38,19 @@ func main() {
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
 
 	connstring := fmt.Sprintf("tcp://%s:%s", os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"))
-	logger.Println(connstring)
 	mqc := mqtt.NewClient(mqtt.NewClientOptions().
 		SetClientID(fmt.Sprintf("CSMC-%d", time.Now().Unix())).
 		AddBroker(connstring))
-	<-mqc.Connect().Done()
+	connect_token := mqc.Connect()
+	<-connect_token.Done()
+	util.Must(nil, connect_token.Error())
 
-	connstring = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+	connstring = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWD"),
 		os.Getenv("DB_HOSTNAME"),
 		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"))
-	logger.Println(connstring)
 	db := util.Must(gorm.Open(mysql.Open(connstring), &gorm.Config{})).(*gorm.DB)
 	util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
 
@@ -79,7 +79,6 @@ func main() {
 		sitemap[http.MethodPost] = []string{}
 		sitemap[http.MethodDelete] = []string{}
 		for _, r := range routes {
-			// fmt.Printf("%+v\n", r)
 			url := util.Must(r.URL("name", "NAME", "email", "USER@PROVIDER.COM", "id", "000")).(*url.URL)
 			methods := util.Must(r.GetMethods()).([]string)
 			for _, m := range methods {

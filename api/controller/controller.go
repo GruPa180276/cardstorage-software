@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -10,8 +11,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
+	"gorm.io/gorm"
 )
 
 type Controller struct {
@@ -19,6 +22,8 @@ type Controller struct {
 	*log.Logger
 	*sync.Map
 	*websocket.Upgrader
+	*gorm.DB
+	ClientId              string
 	ControllerInfoChannel chan string
 }
 
@@ -101,9 +106,39 @@ func (self *Controller) SignUpUserHandler(message mqtt.Message) error {
 }
 
 func (self *Controller) CheckUserExistenceHandler(message mqtt.Message) error {
-	return util.ErrNotImplemented
+	msg := &SerializableUserMessage{}
+	if err := json.NewDecoder(bytes.NewBuffer(message.Payload())).Decode(msg); err != nil {
+		return err
+	}
+	user := &model.User{}
+	if result := self.DB.Where("reader_data = ?", msg.ReaderData).First(user); result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			msg.ClientId = self.ClientId
+			msg.User = nil
+			buf, err := json.Marshal(msg)
+			if err != nil {
+				return err
+			}
+			<-self.Publish(message.Topic(), 1, false, buf).Done()
+			return nil
+		}
+		return result.Error
+	}
+	msg.ClientId = self.ClientId
+	msg.User = &User{ReaderData: user.ReaderData.String, Email: user.Email}
+	buf, err := json.Marshal(msg)
+	if err != nil {
+		return err
+	}
+	<-self.Publish(message.Topic(), 1, false, buf).Done()
+	return nil
 }
 
 func (self *Controller) DepositCardHandler(message mqtt.Message) error {
 	return util.ErrNotImplemented
+}
+
+func (self *Controller) idExists(id string) bool {
+	_, ok := self.Map.Load(id)
+	return ok
 }

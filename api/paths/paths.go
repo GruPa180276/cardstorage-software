@@ -5,29 +5,35 @@ import (
 )
 
 var (
-	cardNamePattern        = `[a-zA-Z0-9]{2,32}`
-	storageNamePattern     = `[a-zA-Z0-9]{2,32}`
-	storageLocationPattern = `[a-zA-Z0-9]{2,32}`
-	storageAddressPattern  = `.{2,32}`
-	storageCapacityPattern = `\d{1,2}`
-	userEmailPattern       = `[a-zA-Z0-9@._]{10,64}`
+	cardNamePattern        string = `[a-zA-Z0-9]{2,32}`
+	storageNamePattern     string = `[a-zA-Z0-9]{2,32}`
+	storageLocationPattern string = `[a-zA-Z0-9]{2,32}`
+	storageAddressPattern  string = `.{2,32}`
+	storageCapacityPattern string = `\d{1,2}`
+	userEmailPattern       string = `[a-zA-Z0-9@._]{10,64}`
+	reservationIdPattern   string = `\d{1,}`
 )
 
 var (
-	CardNameMatcher        = regexp.MustCompile(cardNamePattern)
-	StorageNameMatcher     = regexp.MustCompile(storageNamePattern)
-	StorageLocationMatcher = regexp.MustCompile(storageLocationPattern)
-	StorageAddressMatcher  = regexp.MustCompile(storageAddressPattern)
-	StorageCapacityMatcher = regexp.MustCompile(storageCapacityPattern)
-	UserEmailMatcher       = regexp.MustCompile(userEmailPattern)
+	CardNameMatcher        *regexp.Regexp = regexp.MustCompile(cardNamePattern)
+	StorageNameMatcher     *regexp.Regexp = regexp.MustCompile(storageNamePattern)
+	StorageLocationMatcher *regexp.Regexp = regexp.MustCompile(storageLocationPattern)
+	StorageAddressMatcher  *regexp.Regexp = regexp.MustCompile(storageAddressPattern)
+	StorageCapacityMatcher *regexp.Regexp = regexp.MustCompile(storageCapacityPattern)
+	UserEmailMatcher       *regexp.Regexp = regexp.MustCompile(userEmailPattern)
+	ReservationIdMatcher   *regexp.Regexp = regexp.MustCompile(reservationIdPattern)
 )
 
 var (
-	API_BASE_PATH                  = `/`
-	API_STORAGES                   = `/storages`
-	API_STORAGES_FILTER_NAME       = `/storages/name/{name:` + storageNamePattern + `}`
-	API_STORAGES_CARDS             = `/storages/cards`
-	API_STORAGES_CARDS_FILTER_NAME = `/storages/cards/name/{name:` + cardNamePattern + `}`
-	API_USERS                      = `/users`
-	API_USERS_FILTER_EMAIL         = `/users/email/{email:` + userEmailPattern + `}`
+	API_BASE_PATH                  string = `/`
+	API_STORAGES                   string = `/storages`
+	API_STORAGES_FILTER_NAME       string = `/storages/name/{name:` + storageNamePattern + `}`
+	API_STORAGES_CARDS             string = `/storages/cards`
+	API_STORAGES_CARDS_FILTER_NAME string = `/storages/cards/name/{name:` + cardNamePattern + `}`
+	API_RESERVATIONS               string = `/storages/cards/reservations`
+	API_RESERVATIONS_FILTER_USER   string = `/users/reservations/email/{email:` + userEmailPattern + `}`
+	API_RESERVATIONS_FILTER_CARD   string = `/storages/cards/reservations/card/{name:` + cardNamePattern + `}`
+	API_RESERVATIONS_FILTER_ID     string = `/storages/cards/reservations/id/{id:` + reservationIdPattern + `}`
+	API_USERS                      string = `/users`
+	API_USERS_FILTER_EMAIL         string = `/users/email/{email:` + userEmailPattern + `}`
 )

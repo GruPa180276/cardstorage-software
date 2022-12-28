@@ -241,29 +241,13 @@ func (self *CardHandler) DeleteHandler(res http.ResponseWriter, req *http.Reques
 		return fmt.Errorf("attempting to delete (currently) non-existent card '%s'", card.Name)
 	}
 
-	reservationsOk := true
-	for _, reservation := range card.Reservations {
-		if reservation.Active {
-			reservationsOk = false
-		}
-	}
-	//if len(card.Reservations) != 0 {
-	//	reservationsOk = false
-	//}
-	if !reservationsOk {
+	if len(card.Reservations) != 0 {
 		return fmt.Errorf("attempting to delete card '%s' with remaining (possibly active) reservations", card.Name)
 	}
 
-	// if err := self.DB.Model(card).Association("Reservations").Delete(card.Reservations); err != nil {
-	// 	return err
-	// }
 	if err := self.DB.Preload("Reservations").Preload("User").Select("Reservations").Delete(card).Error; err != nil {
 		return err
 	}
-
-	//if err := self.DB.Preload("Reservations").Delete(card).Error; err != nil {
-	//	return err
-	//}
 
 	return meridian.Ok
 }

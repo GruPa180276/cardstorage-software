@@ -24,3 +24,12 @@ func Reporter(handler ReportingHandlerFunc, errorHandler ReportingErrorHandlerFu
 		}
 	}
 }
+
+type StaticReporter struct {
+	ErrorHandler   ReportingErrorHandlerFunc
+	SuccessHandler ReportingSuccessHandlerFunc
+}
+
+func (self *StaticReporter) Reporter(handler ReportingHandlerFunc) http.HandlerFunc {
+	return Reporter(handler, self.ErrorHandler, self.SuccessHandler)
+}

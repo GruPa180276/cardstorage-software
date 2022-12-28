@@ -7,5 +7,4 @@ type Storage struct {
 	Address   string `json:"address"  gorm:"not null;unique;type:varchar(32)"`
 	Capacity  uint   `json:"capacity" gorm:"not null;default:10"`
 	Cards     []Card `json:"cards"    gorm:"many2many:storage_cards;constraint:OnDelete:CASCADE;"`
-	//DeletedAt gorm.DeletedAt `json:"-"        gorm:"index"`
 }

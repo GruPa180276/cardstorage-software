@@ -6,15 +6,13 @@ import (
 )
 
 type Reservation struct {
-	ReservationID uint      `json:"-" gorm:"primaryKey"`
-	UserID        uint      `gorm:"constraint:OnDelete:CASCADE;"`
-	User          User      `json:"user"           gorm:"constraint:OnDelete:CASCADE"`
+	ReservationID uint      `json:"id"             gorm:"primaryKey"`
+	UserID        uint      `json:"-"`
+	User          User      `json:"user"`
 	Since         time.Time `json:"since"          gorm:"not null"`
 	Until         time.Time `json:"until"          gorm:"default:null"`
 	ReturnedAt    time.Time `json:"returned-at"    gorm:"default:null"`
 	IsReservation bool      `json:"is-reservation" gorm:"default:false"`
-	Active        bool      `json:"active"         gorm:"default:false"`
-	//DeletedAt     gorm.DeletedAt `json:"-"              gorm:"index"`
 }
 
 func (self *Reservation) MarshalJSON() ([]byte, error) {

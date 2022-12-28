@@ -15,7 +15,6 @@ type Card struct {
 	AccessCount        uint           `json:"accessed"     gorm:"not null;default:0"`
 	CurrentlyAvailable bool           `json:"available"    gorm:"not null;default:true"`
 	Reservations       []Reservation  `json:"reservations" gorm:"many2many:card_reservations;constraint:OnDelete:CASCADE;"`
-	//DeletedAt          gorm.DeletedAt `json:"-"            gorm:"index"`
 }
 
 func (self *Card) MarshalJSON() ([]byte, error) {

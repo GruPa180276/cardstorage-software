@@ -28,6 +28,8 @@ const (
 	ActionStorageUnitFetchCardSourceMobile Action = "storage-unit-fetch-card-source-mobile"
 	// ActionStorageUnitFetchCardSourceTerminal is a Action of type storage-unit-fetch-card-source-terminal.
 	ActionStorageUnitFetchCardSourceTerminal Action = "storage-unit-fetch-card-source-terminal"
+	// ActionStorageUnitDepositCard is a Action of type storage-unit-deposit-card.
+	ActionStorageUnitDepositCard Action = "storage-unit-deposit-card"
 	// ActionUserSignupSourceMobile is a Action of type user-signup-source-mobile.
 	ActionUserSignupSourceMobile Action = "user-signup-source-mobile"
 	// ActionUserSignupSourceTerminal is a Action of type user-signup-source-terminal.
@@ -58,6 +60,7 @@ var _ActionValue = map[string]Action{
 	"storage-unit-delete-card":                ActionStorageUnitDeleteCard,
 	"storage-unit-fetch-card-source-mobile":   ActionStorageUnitFetchCardSourceMobile,
 	"storage-unit-fetch-card-source-terminal": ActionStorageUnitFetchCardSourceTerminal,
+	"storage-unit-deposit-card":               ActionStorageUnitDepositCard,
 	"user-signup-source-mobile":               ActionUserSignupSourceMobile,
 	"user-signup-source-terminal":             ActionUserSignupSourceTerminal,
 	"user-check-exists":                       ActionUserCheckExists,

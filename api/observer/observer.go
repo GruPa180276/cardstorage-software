@@ -1,7 +1,6 @@
 package observer
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -10,38 +9,43 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
+	"gorm.io/gorm"
 )
 
 type Observer struct {
 	mqtt.Client
 	*log.Logger
-	*sql.DB
+	*gorm.DB
 	*sync.Map
+	ControllerInfoChannel chan string
 }
 
-func AssembleBaseStorageTopic(storage model.StorageUnit, location string) string {
-	return fmt.Sprintf("%s@%s/1", storage.Name, location)
+func AssembleBaseStorageTopic(storage, location string) string {
+	return fmt.Sprintf("%s@%s", storage, location)
 }
 
-func (self *Observer) Observe() {
-	m := &model.Model{self.DB, self.Logger}
-	storage := &model.StorageUnit{Model: m}
-	storages := util.Must(storage.SelectAll()).([]model.StorageUnit)
+func (self *Observer) Observe() error {
+	storages := make([]model.Storage, 0)
+
+	if result := self.DB.Find(&storages); result.Error != nil {
+		return result.Error
+	}
+
 	observerOpts := self.Client.OptionsReader()
 	self.Println("manager-id:", observerOpts.ClientID())
 
-	for _, unit := range storages {
-		topic := AssembleBaseStorageTopic(unit, unit.Location)
-		c := controller.Controller{Logger: self.Logger, Map: self.Map, Client: self.Client}
+	for _, storage := range storages {
+		topic := AssembleBaseStorageTopic(storage.Name, storage.Location)
+		c := &controller.Controller{Logger: self.Logger, Map: self.Map, Client: self.Client, ControllerInfoChannel: self.ControllerInfoChannel}
 
 		<-self.Subscribe(topic, 1, func(client mqtt.Client, msg mqtt.Message) {
 			if len(string(msg.Payload())) > (1 << 10) {
+				self.Println("message rejected due to memory-footprint")
 				return
 			}
 			header := new(controller.Header)
 			if err := json.Unmarshal(msg.Payload(), header); err != nil {
-				self.Println(err)
+				self.Println("unable to parse message header:", err.Error())
 				return
 			}
 			if header.ClientId == observerOpts.ClientID() {
@@ -63,7 +67,6 @@ func (self *Observer) Observe() {
 					self.Println(err)
 					return
 				}
-
 			case controller.ActionStorageUnitPing:
 				if err := c.PingStorageUnitHandler(msg); err != nil {
 					self.Println(err)
@@ -86,7 +89,6 @@ func (self *Observer) Observe() {
 					self.Println(err)
 					return
 				}
-
 			case controller.ActionUserSignupSourceMobile:
 				fallthrough
 			case controller.ActionUserSignupSourceTerminal:
@@ -99,10 +101,19 @@ func (self *Observer) Observe() {
 					self.Println(err)
 					return
 				}
+			case controller.ActionStorageUnitDepositCard:
+				if err := c.DepositCardHandler(msg); err != nil {
+					self.Println(err)
+					return
+				}
 			default:
-				self.Printf("error: got unknown action %q", header.Action)
+				strerr := fmt.Sprintf("got unknown action %q from %q", header.Action, msg.Topic())
+				self.ControllerInfoChannel <- strerr
+				self.Printf(strerr)
 				return
 			}
 		}).Done()
 	}
+
+	return nil
 }

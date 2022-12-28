@@ -8,13 +8,16 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"sync"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/websocket"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/response"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"gorm.io/driver/mysql"
@@ -53,10 +56,13 @@ func main() {
 		os.Getenv("DB_NAME"))
 	logger.Println(connstring)
 	db := util.Must(gorm.Open(mysql.Open(connstring), &gorm.Config{})).(*gorm.DB)
-	util.Must(nil, db.Debug().AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
+	util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
 
-	// messages := new(sync.Map)
-	// (&observer.Observer{Client: mqc, Logger: logger, DB: db, Map: messages}).Observe()
+	infoChannel := make(chan string)
+	upgrader := &websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}
+
+	util.Must(nil, (&observer.Observer{Client: mqc, Logger: logger, DB: db, Map: &sync.Map{}, ControllerInfoChannel: infoChannel}).Observe())
+	(&controller.Controller{Logger: logger, Upgrader: upgrader, ControllerInfoChannel: infoChannel}).RegisterHandlers(router)
 
 	store := &response.DataStore{Logger: logger, DB: db}
 

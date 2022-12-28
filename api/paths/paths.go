@@ -36,4 +36,5 @@ var (
 	API_RESERVATIONS_FILTER_ID     string = `/storages/cards/reservations/id/{id:` + reservationIdPattern + `}`
 	API_USERS                      string = `/users`
 	API_USERS_FILTER_EMAIL         string = `/users/email/{email:` + userEmailPattern + `}`
+	API_WS_LOG_CONTROLLER_CHANNEL  string = `/log/controller`
 )

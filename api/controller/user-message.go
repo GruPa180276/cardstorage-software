@@ -10,7 +10,7 @@ type SerializableUserMessage struct {
 	*User `json:"user"`
 }
 
-func NewSerializableUserMessage(h Header, u User) (message SerializableUserMessage) {
+func NewSerializableUserMessage(h Header, u *User) (message SerializableUserMessage) {
 	message.Header = h
 	message.User = u
 	return

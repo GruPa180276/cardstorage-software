@@ -30,6 +30,8 @@ var (
 	API_STORAGES_FILTER_NAME       string = `/storages/name/{name:` + storageNamePattern + `}`
 	API_STORAGES_CARDS             string = `/storages/cards`
 	API_STORAGES_CARDS_FILTER_NAME string = `/storages/cards/name/{name:` + cardNamePattern + `}`
+	API_STORAGES_PING_FILTER_NAME  string = `/storages/ping/name/{name:` + storageNamePattern + `}`
+	API_STORAGES_FOCUS_FILTER_NAME string = `/storages/focus/name/{name:` + storageNamePattern + `}`
 	API_RESERVATIONS               string = `/storages/cards/reservations`
 	API_RESERVATIONS_FILTER_USER   string = `/users/reservations/email/{email:` + userEmailPattern + `}`
 	API_RESERVATIONS_FILTER_CARD   string = `/storages/cards/reservations/card/{name:` + cardNamePattern + `}`

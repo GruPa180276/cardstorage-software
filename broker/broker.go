@@ -40,8 +40,14 @@ func main() {
 	}
 
 	mqs.Events.OnMessage = func(c events.Client, p events.Packet) (events.Packet, error) {
-		logger.Printf("Message> Client: %q, Topic: %q, Payload: %q", c.ID, p.TopicName, string(p.Payload))
+		logger.Printf("Message> Client: %q, Topic: %q, Payload: %s", c.ID, p.TopicName, string(p.Payload))
 		return p, nil
 	}
-	<-make(chan struct{})
+
+	mqs.Events.OnSubscribe = func(filter string, cl events.Client, qos byte) {
+		logger.Printf("Subscribe> Client: %q, Topic: %q", cl.ID, filter)
+	}
+
+	for {
+	}
 }

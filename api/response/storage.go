@@ -5,18 +5,24 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
 type StorageDataStore DataStore
-type StorageHandler StorageDataStore
+type StorageHandler struct {
+	*controller.Controller
+}
 
-func (self *StorageDataStore) RegisterHandlers(router *mux.Router) {
-	handler := StorageHandler(*self)
+func (self *StorageDataStore) RegisterHandlers(router *mux.Router, controller *controller.Controller) {
+	handler := &StorageHandler{controller}
 	errHandler := ErrorHandlerFactory(self.Logger)
 	successHandler := SuccessHandlerFactory(self.Logger)
 	router.HandleFunc(paths.API_STORAGES, meridian.Reporter(handler.GetAllHandler, errHandler, successHandler)).Methods(http.MethodGet)
@@ -24,6 +30,8 @@ func (self *StorageDataStore) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_STORAGES, meridian.Reporter(handler.CreateHandler, errHandler, successHandler)).Methods(http.MethodPost)
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, meridian.Reporter(handler.UpdateHandler, errHandler, successHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, meridian.Reporter(handler.DeleteHandler, errHandler, successHandler)).Methods(http.MethodDelete)
+	router.HandleFunc(paths.API_STORAGES_PING_FILTER_NAME, meridian.Reporter(handler.PingHandler, errHandler, successHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, meridian.Reporter(handler.FocusHandler, errHandler, successHandler)).Methods(http.MethodGet)
 }
 
 func (self *StorageHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) error {
@@ -68,6 +76,8 @@ func (self *StorageHandler) GetByNameHandler(res http.ResponseWriter, req *http.
 
 	return nil
 }
+
+var createdButNotSubscribedStorages = make(map[string]bool)
 
 func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Request) error {
 	type Creator struct {
@@ -119,6 +129,8 @@ func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Req
 		self.Logger.Println(err)
 		return nil
 	}
+
+	createdButNotSubscribedStorages[s.Name] = true
 
 	return nil
 }
@@ -196,5 +208,48 @@ func (self *StorageHandler) DeleteHandler(res http.ResponseWriter, req *http.Req
 		return err
 	}
 
+	self.Unsubscribe(util.AssembleBaseStorageTopic(s.Name, s.Location))
+
 	return meridian.Ok
+}
+
+func (self *StorageHandler) PingHandler(res http.ResponseWriter, req *http.Request) error {
+	name := mux.Vars(req)["name"]
+	s := &model.Storage{}
+	if err := self.DB.Where("name = ?", name).First(s).Error; err != nil {
+		return err
+	}
+	if err := self.PingStorageUnitInvoker(s.Name, s.Location); err != nil {
+		return err
+	}
+	if err := util.HttpBasicJsonResponse(res, http.StatusOK, &struct {
+		Name string `json:"name"`
+		Time int64  `json:"time"`
+	}{
+		Name: s.Name,
+		Time: time.Now().Unix(),
+	}); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Request) error {
+	name := mux.Vars(req)["name"]
+
+	if _, ok := createdButNotSubscribedStorages[name]; !ok {
+		return fmt.Errorf("attempting to re-focus on already subscribed storage-unit")
+	}
+
+	storage := &model.Storage{}
+	if err := self.Where("name = ?", name).First(storage).Error; err != nil {
+		return err
+	}
+
+	if token := self.Subscribe(util.AssembleBaseStorageTopic(storage.Name, storage.Location), 2, observer.GetObserverHandler(self.Controller)); token.Wait() && token.Error() != nil {
+		return token.Error()
+	}
+
+	delete(createdButNotSubscribedStorages, name)
+	return nil
 }

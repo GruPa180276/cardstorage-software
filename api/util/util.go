@@ -118,6 +118,10 @@ func NullableString(v string) sql.NullString {
 	return sql.NullString{Valid: true, String: v}
 }
 
+func AssembleBaseStorageTopic(storage, location string) string {
+	return fmt.Sprintf("%s@%s/1", storage, location)
+}
+
 func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {
 	r := ""
 	if len(reason) > 0 {

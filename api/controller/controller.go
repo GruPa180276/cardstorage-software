@@ -59,18 +59,22 @@ func (self *Controller) FailureHandler(message mqtt.Message) error {
 }
 
 func (self *Controller) PingStorageUnitHandler(message mqtt.Message) error {
-	p := SerializablePingMessage{}
-	if err := json.Unmarshal(message.Payload(), &p); err != nil {
+	self.ControllerInfoChannel <- string(message.Payload())
+	self.Logger.Println(string(message.Payload()))
+
+	header := Header{}
+	if err := json.Unmarshal(message.Payload(), &header); err != nil {
 		return err
 	}
-	self.Printf("ping: %+v\n", p)
+	self.Map.LoadAndDelete(header.Id)
+
 	return nil
 }
 
-func (self *Controller) PingStorageUnitInvoker(storageName, topic, clientId string) error {
-	id := uuid.Must(uuid.NewRandom()).String()
+func (self *Controller) PingStorageUnitInvoker(storageName, location string) error {
+	id := uuid.New().String()
 	kickoff := NewSerializablePingMessage(
-		Header{Id: id, ClientId: clientId, Action: ActionStorageUnitPing, TimeToLive: HeaderTimeToLiveInitial},
+		Header{Id: id, ClientId: self.ClientId, Action: ActionStorageUnitPing},
 		Ping{StorageName: storageName})
 
 	self.Store(id, []SerializablePingMessage{kickoff})
@@ -80,7 +84,11 @@ func (self *Controller) PingStorageUnitInvoker(storageName, topic, clientId stri
 		return err
 	}
 
-	<-self.Publish(topic, 1, false, buf).Done()
+	token := self.Publish(util.AssembleBaseStorageTopic(storageName, location), 2, false, buf)
+	token.Wait()
+	if err := token.Error(); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -119,7 +127,7 @@ func (self *Controller) CheckUserExistenceHandler(message mqtt.Message) error {
 			if err != nil {
 				return err
 			}
-			<-self.Publish(message.Topic(), 1, false, buf).Done()
+			<-self.Publish(message.Topic(), 2, false, buf).Done()
 			return nil
 		}
 		return result.Error
@@ -130,7 +138,7 @@ func (self *Controller) CheckUserExistenceHandler(message mqtt.Message) error {
 	if err != nil {
 		return err
 	}
-	<-self.Publish(message.Topic(), 1, false, buf).Done()
+	<-self.Publish(message.Topic(), 2, false, buf).Done()
 	return nil
 }
 

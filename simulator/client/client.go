@@ -14,6 +14,7 @@ import (
 const url = "http://127.0.0.1:7171/api"
 
 const usage = `
+-1...StorageUnit: Ping
 0...StorageUnit: Update
 1...StorageUnit: New
 2...StorageUnit: Delete
@@ -298,6 +299,17 @@ var opts = map[int]func(){
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/users/email/%s", url, email), nil)).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("{}")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	-1: func() {
+		name := ""
+		fmt.Print("Name: ")
+		fmt.Scanln(&name)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/ping/name/%s", url, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")

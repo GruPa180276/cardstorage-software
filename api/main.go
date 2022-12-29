@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -25,19 +24,22 @@ import (
 	"gorm.io/gorm"
 )
 
-func init() {
-	rand.Seed(time.Now().Unix())
-}
-
 func connectToBroker(ct *controller.Controller, hostname, port, clientId string) (mqtt.Client, chan<- bool) {
 	connstring := fmt.Sprintf("tcp://%s:%s", hostname, port)
 	opts := mqtt.NewClientOptions().
 		SetClientID(clientId).
-		AddBroker(connstring)
+		AddBroker(connstring).
+		SetOrderMatters(true).
+		SetAutoReconnect(true)
 	mqc := mqtt.NewClient(opts)
 	if token := mqc.Connect(); token.Wait() && token.Error() != nil {
 		ct.Logger.Println("error while trying to connect to broker:", token.Error())
 	}
+
+	mqtt.CRITICAL = log.New(ct.Logger.Writer(), "[mqtt.CRITICAL]: ", log.LstdFlags)
+	mqtt.WARN = log.New(ct.Logger.Writer(), "[  mqtt.WARN  ]: ", log.LstdFlags)
+	mqtt.ERROR = log.New(ct.Logger.Writer(), "[  mqtt.ERROR ]: ", log.LstdFlags)
+	// mqtt.DEBUG = log.New(ct.Logger.Writer(), "[  mqtt.DEBUG ]: ", log.LstdFlags)
 
 	disconnectChannel := make(chan bool)
 
@@ -75,7 +77,7 @@ func connectToDatabase(user, passwd, hostname, port, dbname string) *gorm.DB {
 func createRouter() *mux.Router {
 	return mux.NewRouter().
 		PathPrefix("/api").
-		HeadersRegexp("Content-Type", "(application|text)/json").
+		// HeadersRegexp("Content-Type", "(application|text)/json").
 		Subrouter()
 }
 

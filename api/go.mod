@@ -13,7 +13,6 @@ replace (
 )
 
 require (
-	github.com/eclipse/paho.golang v0.10.0
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.5.0
@@ -27,7 +26,7 @@ require (
 )
 
 require (
-	github.com/eclipse/paho.mqtt.golang v1.4.2 // indirect
+	github.com/eclipse/paho.mqtt.golang v1.4.3-0.20221222013113-4b066a020ef4 // indirect
 	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect

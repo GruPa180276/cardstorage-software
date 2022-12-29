@@ -12,6 +12,7 @@
 		"/api/storages",
 		"/api/storages/name/NAME",
 		"/api/storages/ping/name/NAME",
+		"/api/storages/focus/name/NAME",
 		"/api/users",
 		"/api/users/email/USER@PROVIDER.COM",
 		"/api/storages/cards/reservations",

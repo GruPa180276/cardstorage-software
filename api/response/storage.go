@@ -229,7 +229,8 @@ func (self *StorageHandler) PingHandler(res http.ResponseWriter, req *http.Reque
 		Name: s.Name,
 		Time: time.Now().Unix(),
 	}); err != nil {
-		return err
+		self.Println(err)
+		return nil
 	}
 	return nil
 }

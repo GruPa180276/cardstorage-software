@@ -9,12 +9,14 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 const url = "http://127.0.0.1:7171/api"
 
 const usage = `
 -1...StorageUnit: Ping
+-2...StorageUnit: Focus
 0...StorageUnit: Update
 1...StorageUnit: New
 2...StorageUnit: Delete
@@ -30,6 +32,12 @@ const usage = `
 12...User: GetAll
 13...User: GetByName
 14...User: Delete
+15...Reservation: GetAll
+16...Reservation: GetByCardName
+17...Reservation: GetByUserEmail
+18...Reservation: New
+19...Reservation: Delete
+20...Reservation: Update
 `
 
 var l = log.New(os.Stderr, "client-simulator: ", log.LstdFlags)
@@ -129,7 +137,7 @@ var opts = map[int]func(){
 		reader := ""
 		access := ""
 		available := ""
-		fmt.Print("(type '$' to leave field unchanged) Name Position Reader AccessCount Available: ")
+		fmt.Print("(type '$' to leave field unchanged) *Name *Position *Reader *AccessCount *Available: ")
 		if _, err := fmt.Scanln(&name, &pos, &reader, &access, &available); err != nil {
 			panic(err)
 		}
@@ -175,7 +183,7 @@ var opts = map[int]func(){
 		loc := ""
 		addr := ""
 		cap := ""
-		fmt.Print("(type '$' to leave field unchanged) Name Location Address Capacity: ")
+		fmt.Print("(type '$' to leave field unchanged) *Name *Location *Address *Capacity: ")
 		if _, err := fmt.Scanln(&name, &loc, &addr, &cap); err != nil {
 			panic(err)
 		}
@@ -251,7 +259,7 @@ var opts = map[int]func(){
 		email := ""
 		reader := ""
 		priv := ""
-		fmt.Print("(type '$' to leave field unchanged) Email Reader Privilege: ")
+		fmt.Print("(type '$' to leave field unchanged) *Email *Reader *Privilege: ")
 		if _, err := fmt.Scanln(&email, &reader, &priv); err != nil {
 			panic(err)
 		}
@@ -316,20 +324,170 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
+	-2: func() {
+		name := ""
+		fmt.Print("Name: ")
+		fmt.Scanln(&name)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/focus/name/%s", url, name), nil)).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("{}")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	15: func() {
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations`", url), nil)).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	16: func() {
+		name := ""
+		fmt.Print("Name: ")
+		fmt.Scanln(&name)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/name/%s`", url, name), nil)).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	17: func() {
+		email := ""
+		fmt.Print("Email: ")
+		fmt.Scanln(&email)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/name/%s`", url, email), nil)).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	18: func() {
+		type Creator struct {
+			CardName      string `json:"card"`
+			Since         int64  `json:"since"`
+			Until         *int64 `json:"until"`
+			IsReservation *bool  `json:"is-reservation"`
+		}
+		email := ""
+		cardName := ""
+		since := ""
+		until := ""
+		isReservation := ""
+		fmt.Print("(type '%(+offset)' for 'Since' and 'Until' e.g '%+10' in 10min, '%' ... now\ntype '$' to use default value for field)\nEmail CardName Since *Until *IsReservation: ")
+		fmt.Scanln(&email, &cardName, &since, &until, &isReservation)
+		c := Creator{CardName: cardName}
+		var sinceTime time.Time
+		var untilTime time.Time
+		if since[0] == '%' {
+			sinceTime = time.Now()
+		} else if since[1] == '+' {
+			sinceTime = sinceTime.Add(must(time.ParseDuration(since[2:] + "m")).(time.Duration))
+		} else {
+			sinceTime = time.Unix(int64(must(strconv.Atoi(since)).(int)), 0)
+		}
+		c.Since = sinceTime.Unix()
+		if until != "$" {
+			if until[0] == '%' {
+				untilTime = time.Now()
+			} else if until[1] == '+' {
+				untilTime = untilTime.Add(must(time.ParseDuration(until[2:] + "m")).(time.Duration))
+			} else {
+				untilTime = time.Unix(int64(must(strconv.Atoi(until)).(int)), 0)
+			}
+			*c.Until = untilTime.Unix()
+		}
+		if isReservation != "$" {
+			*c.IsReservation = must(strconv.ParseBool(isReservation)).(bool)
+		}
+		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s`", url, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	19: func() {
+		id := ""
+		fmt.Print("Id: ")
+		fmt.Scanln(&id)
+		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/reservations/id/%s", url, id), nil)).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("{}")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	20: func() {
+		type Updater struct {
+			Until      *int64 `json:"until"`
+			ReturnedAt *int64 `json:"returned-at"`
+		}
+
+		id := ""
+		until := ""
+		returnedAt := ""
+		fmt.Print("(type '%(+offset)' for 'Since' and 'Until' e.g '%+10' in 10min, '%' ... now)\n(type '$' to leave field unchanged)\nId *Until *ReturnedAt: ")
+		fmt.Scanln(&id, &until, &returnedAt)
+
+		u := Updater{}
+		if until == "$" && returnedAt == "$" {
+			return
+		}
+
+		var untilTime time.Time
+		var returnedAtTime time.Time
+		if until != "$" {
+			if until[0] == '%' {
+				untilTime = time.Now()
+			} else if until[1] == '+' {
+				untilTime = untilTime.Add(must(time.ParseDuration(until[2:] + "m")).(time.Duration))
+			} else {
+				untilTime = time.Unix(int64(must(strconv.Atoi(until)).(int)), 0)
+			}
+			*u.Until = untilTime.Unix()
+		}
+		if returnedAt != "$" {
+			if returnedAt[0] == '%' {
+				returnedAtTime = time.Now()
+			} else if returnedAt[1] == '+' {
+				returnedAtTime = untilTime.Add(must(time.ParseDuration(returnedAt[2:] + "m")).(time.Duration))
+			} else {
+				returnedAtTime = time.Unix(int64(must(strconv.Atoi(returnedAt)).(int)), 0)
+			}
+			*u.ReturnedAt = returnedAtTime.Unix()
+		}
+
+		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/reservations/id/%s", url, id), bytes.NewBuffer(must(json.Marshal(u)).([]byte)))).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("{}")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
 }
 
 func main() {
-	i := int(0)
+
+	fmt.Println(usage)
 
 	for {
-		fmt.Fprint(os.Stderr, usage+`>>> `)
-		i = 0
-		fmt.Scanln(&i)
+		fmt.Fprint(os.Stderr, ` >>> `)
+		choice := ""
+		fmt.Scanln(&choice)
 
-		if _, ok := opts[i]; !ok {
+		id, err := strconv.Atoi(choice)
+		if err != nil {
+			fmt.Println(usage)
 			continue
 		}
-		opts[i]()
+		if _, ok := opts[id]; !ok {
+			continue
+		}
+		opts[id]()
 	}
 }
 

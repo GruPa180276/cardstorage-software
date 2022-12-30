@@ -9,20 +9,18 @@ import (
 
 //go:generate go-enum --marshal
 /* ENUM(
-	success,
-	failure,
-
 	storage-unit-ping,
-	storage-unit-new,
 
 	storage-unit-new-card,
+
 	storage-unit-delete-card,
+
 	storage-unit-fetch-card-source-mobile,
 	storage-unit-fetch-card-source-terminal,
+
 	storage-unit-deposit-card
 
-	user-signup-source-mobile,
-	user-signup-source-terminal,
+	user-signup
 	user-check-exists
 )
 */

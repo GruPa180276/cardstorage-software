@@ -93,7 +93,7 @@ func createSitemap(router *mux.Router) {
 	sitemap[http.MethodPost] = []string{}
 	sitemap[http.MethodDelete] = []string{}
 	for _, r := range routes {
-		url_ := util.Must(r.URL("name", "NAME", "email", "USER@PROVIDER.COM", "id", "000")).(*url.URL)
+		url_ := util.Must(r.URL("name", "NAME", "email", "USER@PROVIDER.COM", "id", "000", "flag", "true")).(*url.URL)
 		methods := util.Must(r.GetMethods()).([]string)
 		for _, m := range methods {
 			sitemap[m] = append(sitemap[m], url_.String())
@@ -111,12 +111,28 @@ func createActionIndex(filename string) {
 
 func initController(clientId string, db *gorm.DB, logger *log.Logger) *controller.Controller {
 	m := &sync.Map{}
-	infoChannel := make(chan string)
 	upgrader := &websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}
-	c := &controller.Controller{Logger: logger, Upgrader: upgrader, ControllerInfoChannel: infoChannel, DB: db, Map: m, ClientId: clientId}
+	c := &controller.Controller{Logger: logger, Upgrader: upgrader, DB: db, Map: m, ClientId: clientId}
 	mqc, _ := connectToBroker(c, os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"), clientId)
 	c.Client = mqc
 	return c
+}
+
+func initHandlers(router *mux.Router, c *controller.Controller) map[string]chan string {
+	chans := make(map[string]chan string)
+	chans["controller"] = make(chan string)
+	chans["card"] = make(chan string)
+	chans["storage"] = make(chan string)
+	chans["user"] = make(chan string)
+	chans["reservation"] = make(chan string)
+
+	c.ControllerLogChannel = chans["controller"]
+	(&response.CardHandler{Controller: c, CardLogChannel: chans["card"]}).RegisterHandlers(router)
+	(&response.StorageHandler{Controller: c, StorageLogChannel: chans["storage"]}).RegisterHandlers(router)
+	(&response.UserHandler{Controller: c, UserLogChannel: chans["user"]}).RegisterHandlers(router)
+	(&response.ReservationHandler{Controller: c, ReservationLogChannel: chans["reservation"]}).RegisterHandlers(router)
+
+	return chans
 }
 
 func initObserver(c *controller.Controller) {
@@ -138,19 +154,14 @@ func main() {
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
 
 	clientId := fmt.Sprintf("CSMC-%d", time.Now().Unix())
-	db := connectToDatabase(os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"), os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
+	db := connectToDatabase(os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"),
+		os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
 
 	c := initController(clientId, db, logger)
-	c.RegisterHandlers(router)
+	channels := initHandlers(router, c)
+	_ = channels
 
 	initObserver(c)
-
-	store := &response.DataStore{Logger: logger, DB: db}
-
-	(*response.CardDataStore)(store).RegisterHandlers(router)
-	(*response.StorageDataStore)(store).RegisterHandlers(router, c)
-	(*response.UserDataStore)(store).RegisterHandlers(router)
-	(*response.ReservationDataStore)(store).RegisterHandlers(router)
 
 	go createSitemap(router)
 	go createActionIndex("actions.json")

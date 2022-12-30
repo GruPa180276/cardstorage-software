@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -120,6 +121,16 @@ func NullableString(v string) sql.NullString {
 
 func AssembleBaseStorageTopic(storage, location string) string {
 	return fmt.Sprintf("%s@%s/1", storage, location)
+}
+
+func DisassembleBaseStorageTopic(topic string) (storage, location, sub string) {
+	split := strings.Split(topic, "@")
+	storage = split[0]
+	split = strings.Split(strings.Join(split[1:], ""), "/")
+	location = split[0]
+	sub = split[1]
+
+	return
 }
 
 func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {

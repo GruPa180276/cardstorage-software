@@ -16,22 +16,21 @@ import (
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
-type StorageDataStore DataStore
 type StorageHandler struct {
 	*controller.Controller
+	StorageLogChannel chan string
 }
 
-func (self *StorageDataStore) RegisterHandlers(router *mux.Router, controller *controller.Controller) {
-	handler := &StorageHandler{controller}
-	errHandler := ErrorHandlerFactory(self.Logger)
-	successHandler := SuccessHandlerFactory(self.Logger)
-	router.HandleFunc(paths.API_STORAGES, meridian.Reporter(handler.GetAllHandler, errHandler, successHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, meridian.Reporter(handler.GetByNameHandler, errHandler, successHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_STORAGES, meridian.Reporter(handler.CreateHandler, errHandler, successHandler)).Methods(http.MethodPost)
-	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, meridian.Reporter(handler.UpdateHandler, errHandler, successHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, meridian.Reporter(handler.DeleteHandler, errHandler, successHandler)).Methods(http.MethodDelete)
-	router.HandleFunc(paths.API_STORAGES_PING_FILTER_NAME, meridian.Reporter(handler.PingHandler, errHandler, successHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, meridian.Reporter(handler.FocusHandler, errHandler, successHandler)).Methods(http.MethodGet)
+func (self *StorageHandler) RegisterHandlers(router *mux.Router) {
+	s := meridian.StaticReporter{ErrorHandlerFactory(self.Logger), SuccessHandlerFactory(self.Logger)}
+	router.HandleFunc(paths.API_STORAGES, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, s.Reporter(self.GetByNameHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
+	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
+	router.HandleFunc(paths.API_STORAGES_PING_FILTER_NAME, s.Reporter(self.PingHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, s.Reporter(self.FocusHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_WS_LOG, controller.LoggerChannelHandlerFactory(self.StorageLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
 func (self *StorageHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) error {

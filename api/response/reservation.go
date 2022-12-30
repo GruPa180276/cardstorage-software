@@ -9,24 +9,27 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
 )
 
-type ReservationDataStore DataStore
-type ReservationHandler CardDataStore
+type ReservationHandler struct {
+	*controller.Controller
+	ReservationLogChannel chan string
+}
 
-func (self *ReservationDataStore) RegisterHandlers(router *mux.Router) {
-	handler := ReservationHandler(*self)
+func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
 	s := meridian.StaticReporter{ErrorHandlerFactory(self.Logger), SuccessHandlerFactory(self.Logger)}
 
-	router.HandleFunc(paths.API_RESERVATIONS, s.Reporter(handler.GetAllHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_CARD, s.Reporter(handler.GetByCardHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_USER, s.Reporter(handler.GetByUserHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_USER, s.Reporter(handler.CreateHandler)).Methods(http.MethodPost)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(handler.DeleteHandler)).Methods(http.MethodDelete)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(handler.UpdateHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_RESERVATIONS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_FILTER_CARD, s.Reporter(self.GetByCardHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.GetByUserHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
+	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
+	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, controller.LoggerChannelHandlerFactory(self.ReservationLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
 func (self *ReservationHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) error {

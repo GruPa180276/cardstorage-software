@@ -3,6 +3,7 @@ package controller
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -20,46 +21,44 @@ import (
 type Controller struct {
 	mqtt.Client
 	*log.Logger
-	*sync.Map
 	*websocket.Upgrader
 	*gorm.DB
-	ClientId              string
-	ControllerInfoChannel chan string
+	*sync.Map
+	ClientId             string
+	ControllerLogChannel chan string
 }
 
-func (self *Controller) RegisterHandlers(router *mux.Router) {
-	router.HandleFunc(paths.API_WS_LOG_CONTROLLER_CHANNEL, func(res http.ResponseWriter, req *http.Request) {
-		socket, err := self.Upgrader.Upgrade(res, req, nil)
+func LoggerChannelHandlerFactory(channel chan string, logger *log.Logger, upgrader *websocket.Upgrader) http.HandlerFunc {
+	return func(res http.ResponseWriter, req *http.Request) {
+		socket, err := upgrader.Upgrade(res, req, nil)
 		if err != nil {
-			self.Logger.Println(err)
+			logger.Println(err)
 			return
 		}
 		listen := true
 		for listen {
 			select {
-			case message, ok := <-self.ControllerInfoChannel:
+			case message, ok := <-channel:
 				if ok {
 					if err = socket.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
-						self.Println(err)
+						logger.Println(err)
 					}
 				} else {
 					listen = false
 				}
 			}
 		}
-	}).Methods(http.MethodGet)
+	}
 }
 
-func (self *Controller) SuccessHandler(message mqtt.Message) error {
-	return util.ErrNotImplemented
+func (self *Controller) RegisterHandlers(router *mux.Router) {
+	router.HandleFunc(paths.API_CONTROLLER_WS_LOG, LoggerChannelHandlerFactory(self.ControllerLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
-func (self *Controller) FailureHandler(message mqtt.Message) error {
-	return util.ErrNotImplemented
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func (self *Controller) PingStorageUnitHandler(message mqtt.Message) error {
-	self.ControllerInfoChannel <- string(message.Payload())
+	self.ControllerLogChannel <- string(message.Payload())
 	self.Logger.Println(string(message.Payload()))
 
 	header := Header{}
@@ -77,7 +76,7 @@ func (self *Controller) PingStorageUnitInvoker(storageName, location string) err
 		Header{Id: id, ClientId: self.ClientId, Action: ActionStorageUnitPing},
 		Ping{StorageName: storageName})
 
-	self.Store(id, []SerializablePingMessage{kickoff})
+	self.Store(id, kickoff)
 
 	buf, err := json.Marshal(kickoff)
 	if err != nil {
@@ -93,25 +92,81 @@ func (self *Controller) PingStorageUnitInvoker(storageName, location string) err
 	return nil
 }
 
-func (self *Controller) AddNewCardToStorageUnitHandler(message mqtt.Message) error {
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+func (self *Controller) StorageUnitAddCardHandler(message mqtt.Message) error {
 	return util.ErrNotImplemented
 }
 
-func (self *Controller) AddNewCardToStorageUnitInvoker() error {
+func (self *Controller) StorageUnitAddCardInvoker() error {
 	return util.ErrNotImplemented
 }
 
-func (self *Controller) FetchCardHandler(message mqtt.Message) error {
-	return util.ErrNotImplemented
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func (self *Controller) DeleteCardHandler(message mqtt.Message) error {
 	return util.ErrNotImplemented
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 func (self *Controller) SignUpUserHandler(message mqtt.Message) error {
-	return util.ErrNotImplemented
+	m := SerializableUserMessage{}
+	if err := json.Unmarshal(message.Payload(), &m); err != nil {
+		return err
+	}
+
+	entry, ok := self.Map.Load(m.Id)
+	if !ok {
+		return fmt.Errorf("got unknown message-id '%s' for action '%s'", m.Id, m.Action)
+	}
+	entry.(SerializableUserMessage).User.ReaderData = m.User.ReaderData
+	self.Map.Store(m.Id, entry)
+
+	if err := self.DB.Model(&model.User{}).Where("email = ?", m.Email).Update("reader_data", m.ReaderData).Error; err != nil {
+		return err
+	}
+
+	strmsg := string(util.Must(json.Marshal(&struct {
+		Action string `json:"action"`
+		Email  string `json:"email"`
+		Reader string `json:"reader"`
+	}{
+		Action: m.Action.String(),
+		Email:  m.Email,
+		Reader: m.ReaderData,
+	})).([]byte))
+
+	self.Println(strmsg)
+	self.ControllerLogChannel <- strmsg
+
+	return nil
 }
+
+func (self *Controller) SignUpUserInvoker(storageName, location, email string) error {
+	id := uuid.New().String()
+
+	kickoff := NewSerializableUserMessage(
+		Header{Id: id, ClientId: self.ClientId, Action: ActionUserSignup},
+		&User{Email: email})
+
+	self.Store(id, kickoff)
+
+	buf, err := json.Marshal(kickoff)
+	if err != nil {
+		return err
+	}
+
+	token := self.Publish(util.AssembleBaseStorageTopic(storageName, location), 2, false, buf)
+	token.Wait()
+	if err := token.Error(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func (self *Controller) CheckUserExistenceHandler(message mqtt.Message) error {
 	msg := &SerializableUserMessage{}
@@ -142,11 +197,72 @@ func (self *Controller) CheckUserExistenceHandler(message mqtt.Message) error {
 	return nil
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 func (self *Controller) DepositCardHandler(message mqtt.Message) error {
+	m := SerializableCardMessage{}
+	if err := json.Unmarshal(message.Payload(), &m); err != nil {
+		return err
+	}
+	storageName, _, _ := util.DisassembleBaseStorageTopic(message.Topic())
+	storage := model.Storage{}
+	if err := self.DB.Preload("Cards").Where("name = ?", storageName).First(&storage).Error; err != nil {
+		return err
+	}
+	var card *model.Card = nil
+	for _, c := range storage.Cards {
+		if c.Position == m.Position {
+			card = &c
+			break
+		}
+	}
+	if card == nil {
+		return fmt.Errorf("card at position %d doesn't seem to belong to storage '%s'", m.Card.Position, storage.Name)
+	}
+
+	card.CurrentlyAvailable = true
+	if err := self.DB.Save(card).Error; err != nil {
+		return err
+	}
+
+	self.ControllerLogChannel <- fmt.Sprintf("deposited card %s in %s at position %s on %d")
+
+	return nil
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+func (self *Controller) FetchCardKnownUserInvoker(storageName, location string, position uint) error {
+	id := uuid.New().String()
+
+	kickoff := NewSerializableCardMessage(
+		Header{Id: id, ClientId: self.ClientId, Action: ActionStorageUnitFetchCardSourceMobile},
+		Card{Position: position})
+
+	self.Store(id, kickoff)
+
+	buf, err := json.Marshal(kickoff)
+	if err != nil {
+		return err
+	}
+
+	self.Client.Publish(util.AssembleBaseStorageTopic(storageName, location), 2, false, buf)
+
+	return nil
+}
+
+func (self *Controller) FetchCardKnownUserHandler(message mqtt.Message) error {
+	// nothing to do here, really
+	self.ControllerLogChannel <- string(message.Payload())
+	return nil
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+func (self *Controller) FetchCardUnknownUserHandler(message mqtt.Message) error {
 	return util.ErrNotImplemented
 }
 
-func (self *Controller) idExists(id string) bool {
-	_, ok := self.Map.Load(id)
-	return ok
+func (self *Controller) FetchCardUnknownUserInvoker(message mqtt.Message) error {
+	return util.ErrNotImplemented
 }

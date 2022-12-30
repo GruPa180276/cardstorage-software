@@ -6,18 +6,21 @@
 		"/api/storages/cards/reservations/id/000"
 	],
 	"GET": [
-		"/api/log/controller",
 		"/api/storages/cards",
 		"/api/storages/cards/name/NAME",
+		"/api/controller/log",
 		"/api/storages",
 		"/api/storages/name/NAME",
 		"/api/storages/ping/name/NAME",
 		"/api/storages/focus/name/NAME",
+		"/api/controller/log",
 		"/api/users",
 		"/api/users/email/USER@PROVIDER.COM",
+		"/api/controller/log",
 		"/api/storages/cards/reservations",
 		"/api/storages/cards/reservations/card/NAME",
-		"/api/users/reservations/email/USER@PROVIDER.COM"
+		"/api/users/reservations/email/USER@PROVIDER.COM",
+		"/api/reservations/log"
 	],
 	"POST": [
 		"/api/storages/cards",
@@ -27,7 +30,9 @@
 	],
 	"PUT": [
 		"/api/storages/cards/name/NAME",
-		"/api/storages/cards/name/NAME",
+		"/api/storages/cards/name/NAME/increment",
+		"/api/storages/cards/name/NAME/decrement",
+		"/api/storages/cards/name/NAME/available/true",
 		"/api/storages/name/NAME",
 		"/api/users/email/USER@PROVIDER.COM",
 		"/api/storages/cards/reservations/id/000"

@@ -1,9 +1,7 @@
 package controller
 
 type Card struct {
-	Position  int    `json:"position"`
-	StorageId int    `json:"storage-id"`
-	Name      string `json:"storage-name"`
+	Position uint `json:"position"`
 }
 
 type SerializableCardMessage struct {

@@ -8,24 +8,26 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
-type UserDataStore DataStore
-type UserHandler UserDataStore
+type UserHandler struct {
+	*controller.Controller
+	UserLogChannel chan string
+}
 
-func (self *UserDataStore) RegisterHandlers(router *mux.Router) {
-	handler := UserHandler(*self)
-	errHandler := ErrorHandlerFactory(self.Logger)
-	successHandler := SuccessHandlerFactory(self.Logger)
-	router.HandleFunc(paths.API_USERS, meridian.Reporter(handler.GetAllHandler, errHandler, successHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, meridian.Reporter(handler.GetByEmailHandler, errHandler, successHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS, meridian.Reporter(handler.CreateHandler, errHandler, successHandler)).Methods(http.MethodPost)
-	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, meridian.Reporter(handler.UpdateHandler, errHandler, successHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, meridian.Reporter(handler.DeleteHandler, errHandler, successHandler)).Methods(http.MethodDelete)
+func (self *UserHandler) RegisterHandlers(router *mux.Router) {
+	s := meridian.StaticReporter{ErrorHandler: ErrorHandlerFactory(self.Logger), SuccessHandler: SuccessHandlerFactory(self.Logger)}
+	router.HandleFunc(paths.API_USERS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.GetByEmailHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
+	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
+	router.HandleFunc(paths.API_USERS_WS_LOG, controller.LoggerChannelHandlerFactory(self.UserLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
 func (self *UserHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) error {
@@ -71,9 +73,10 @@ func (self *UserHandler) GetByEmailHandler(res http.ResponseWriter, req *http.Re
 
 func (self *UserHandler) CreateHandler(res http.ResponseWriter, req *http.Request) error {
 	type Creator struct {
-		Email      string  `json:"email"`
-		Privileged *bool   `json:"privileged"`
-		ReaderData *string `json:"reader"`
+		Email       string  `json:"email"`
+		StorageName string  `json:"storage"`
+		Privileged  *bool   `json:"privileged"`
+		ReaderData  *string `json:"reader"`
 	}
 	c := &Creator{}
 
@@ -82,6 +85,11 @@ func (self *UserHandler) CreateHandler(res http.ResponseWriter, req *http.Reques
 	}
 	if !paths.UserEmailMatcher.MatchString(c.Email) {
 		return fmt.Errorf("attribute 'email' does not match required pattern: %s", c.Email)
+	}
+
+	s := &model.Storage{}
+	if err := self.DB.Where("name = ?", s.Name).First(s).Error; err != nil {
+		return err
 	}
 
 	u := &model.User{Email: c.Email}
@@ -93,11 +101,13 @@ func (self *UserHandler) CreateHandler(res http.ResponseWriter, req *http.Reques
 	}
 
 	if err := self.DB.Create(u).Error; err != nil {
-		self.Logger.Println(err.Error())
-
 		if strings.Contains(err.Error(), "Error 1452") {
 			return fmt.Errorf("possible duplicate user '%s'", u.Email)
 		}
+		return err
+	}
+
+	if err := self.Controller.SignUpUserInvoker(s.Name, s.Location, u.Email); err != nil {
 		return err
 	}
 

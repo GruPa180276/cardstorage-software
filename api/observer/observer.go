@@ -25,12 +25,12 @@ func (self *Observer) Observe() error {
 	self.Println("manager-id:", observerOpts.ClientID())
 
 	c := &controller.Controller{
-		Logger:                self.Logger,
-		Map:                   self.Map,
-		Client:                self.Client,
-		ControllerInfoChannel: self.ControllerInfoChannel,
-		DB:                    self.DB,
-		ClientId:              self.ClientId,
+		Logger:               self.Logger,
+		Map:                  self.Map,
+		Client:               self.Client,
+		ControllerLogChannel: self.ControllerLogChannel,
+		DB:                   self.DB,
+		ClientId:             self.ClientId,
 	}
 
 	for _, storage := range storages {
@@ -58,7 +58,7 @@ func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
 			header := &controller.Header{}
 			if err := json.Unmarshal(msg.Payload(), header); err != nil {
 				strerr := fmt.Sprintln("unable to parse message header:", err.Error())
-				c.ControllerInfoChannel <- strerr
+				c.ControllerLogChannel <- strerr
 				c.Printf(strerr)
 				return
 			}
@@ -67,23 +67,13 @@ func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
 			}
 
 			switch header.Action {
-			case controller.ActionSuccess:
-				if err := c.SuccessHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
-			case controller.ActionFailure:
-				if err := c.FailureHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
 			case controller.ActionStorageUnitPing:
 				if err := c.PingStorageUnitHandler(msg); err != nil {
 					c.Println(err)
 					return
 				}
 			case controller.ActionStorageUnitNewCard:
-				if err := c.AddNewCardToStorageUnitHandler(msg); err != nil {
+				if err := c.StorageUnitAddCardHandler(msg); err != nil {
 					c.Println(err)
 					return
 				}
@@ -93,15 +83,16 @@ func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
 					return
 				}
 			case controller.ActionStorageUnitFetchCardSourceMobile:
-				fallthrough
-			case controller.ActionStorageUnitFetchCardSourceTerminal:
-				if err := c.FetchCardHandler(msg); err != nil {
+				if err := c.FetchCardKnownUserHandler(msg); err != nil {
 					c.Println(err)
 					return
 				}
-			case controller.ActionUserSignupSourceMobile:
-				fallthrough
-			case controller.ActionUserSignupSourceTerminal:
+			case controller.ActionStorageUnitFetchCardSourceTerminal:
+				if err := c.FetchCardUnknownUserHandler(msg); err != nil {
+					c.Println(err)
+					return
+				}
+			case controller.ActionUserSignup:
 				if err := c.SignUpUserHandler(msg); err != nil {
 					c.Println(err)
 					return

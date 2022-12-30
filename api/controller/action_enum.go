@@ -12,14 +12,8 @@ import (
 )
 
 const (
-	// ActionSuccess is a Action of type success.
-	ActionSuccess Action = "success"
-	// ActionFailure is a Action of type failure.
-	ActionFailure Action = "failure"
 	// ActionStorageUnitPing is a Action of type storage-unit-ping.
 	ActionStorageUnitPing Action = "storage-unit-ping"
-	// ActionStorageUnitNew is a Action of type storage-unit-new.
-	ActionStorageUnitNew Action = "storage-unit-new"
 	// ActionStorageUnitNewCard is a Action of type storage-unit-new-card.
 	ActionStorageUnitNewCard Action = "storage-unit-new-card"
 	// ActionStorageUnitDeleteCard is a Action of type storage-unit-delete-card.
@@ -30,10 +24,8 @@ const (
 	ActionStorageUnitFetchCardSourceTerminal Action = "storage-unit-fetch-card-source-terminal"
 	// ActionStorageUnitDepositCard is a Action of type storage-unit-deposit-card.
 	ActionStorageUnitDepositCard Action = "storage-unit-deposit-card"
-	// ActionUserSignupSourceMobile is a Action of type user-signup-source-mobile.
-	ActionUserSignupSourceMobile Action = "user-signup-source-mobile"
-	// ActionUserSignupSourceTerminal is a Action of type user-signup-source-terminal.
-	ActionUserSignupSourceTerminal Action = "user-signup-source-terminal"
+	// ActionUserSignup is a Action of type user-signup.
+	ActionUserSignup Action = "user-signup"
 	// ActionUserCheckExists is a Action of type user-check-exists.
 	ActionUserCheckExists Action = "user-check-exists"
 )
@@ -52,17 +44,13 @@ func (x Action) IsValid() bool {
 }
 
 var _ActionValue = map[string]Action{
-	"success":                                 ActionSuccess,
-	"failure":                                 ActionFailure,
 	"storage-unit-ping":                       ActionStorageUnitPing,
-	"storage-unit-new":                        ActionStorageUnitNew,
 	"storage-unit-new-card":                   ActionStorageUnitNewCard,
 	"storage-unit-delete-card":                ActionStorageUnitDeleteCard,
 	"storage-unit-fetch-card-source-mobile":   ActionStorageUnitFetchCardSourceMobile,
 	"storage-unit-fetch-card-source-terminal": ActionStorageUnitFetchCardSourceTerminal,
 	"storage-unit-deposit-card":               ActionStorageUnitDepositCard,
-	"user-signup-source-mobile":               ActionUserSignupSourceMobile,
-	"user-signup-source-terminal":             ActionUserSignupSourceTerminal,
+	"user-signup":                             ActionUserSignup,
 	"user-check-exists":                       ActionUserCheckExists,
 }
 

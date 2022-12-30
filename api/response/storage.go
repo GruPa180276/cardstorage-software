@@ -247,10 +247,13 @@ func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Requ
 		return err
 	}
 
-	if token := self.Subscribe(util.AssembleBaseStorageTopic(storage.Name, storage.Location), 2, observer.GetObserverHandler(self.Controller)); token.Wait() && token.Error() != nil {
+	topic := util.AssembleBaseStorageTopic(storage.Name, storage.Location)
+	if token := self.Subscribe(topic, 2, observer.GetObserverHandler(self.Controller)); token.Wait() && token.Error() != nil {
 		return token.Error()
 	}
 
+	self.Printf("subscribed to %q", topic)
+
 	delete(createdButNotSubscribedStorages, name)
-	return nil
+	return meridian.Ok
 }

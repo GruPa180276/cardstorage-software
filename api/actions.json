@@ -1,14 +1,14 @@
 [
+	"storage-unit-fetch-card-source-terminal",
+	"user-signup-source-terminal",
 	"storage-unit-ping",
 	"storage-unit-new",
 	"storage-unit-new-card",
 	"storage-unit-delete-card",
 	"storage-unit-fetch-card-source-mobile",
 	"storage-unit-deposit-card",
-	"success",
-	"failure",
-	"user-signup-source-terminal",
+	"user-signup-source-mobile",
 	"user-check-exists",
-	"storage-unit-fetch-card-source-terminal",
-	"user-signup-source-mobile"
+	"success",
+	"failure"
 ]

@@ -6,17 +6,18 @@
 		"/api/storages/cards/reservations/id/000"
 	],
 	"GET": [
+		"/api/controller/log",
 		"/api/storages/cards",
 		"/api/storages/cards/name/NAME",
-		"/api/controller/log",
+		"/api/storages/cards/log",
 		"/api/storages",
 		"/api/storages/name/NAME",
 		"/api/storages/ping/name/NAME",
 		"/api/storages/focus/name/NAME",
-		"/api/controller/log",
+		"/api/storages/log",
 		"/api/users",
 		"/api/users/email/USER@PROVIDER.COM",
-		"/api/controller/log",
+		"/api/users/log",
 		"/api/storages/cards/reservations",
 		"/api/storages/cards/reservations/card/NAME",
 		"/api/users/reservations/email/USER@PROVIDER.COM",
@@ -24,6 +25,8 @@
 	],
 	"POST": [
 		"/api/storages/cards",
+		"/api/storages/cards/name/NAME/fetch/USER@PROVIDER.COM",
+		"/api/storages/cards/name/NAME/fetch",
 		"/api/storages",
 		"/api/users",
 		"/api/users/reservations/email/USER@PROVIDER.COM"

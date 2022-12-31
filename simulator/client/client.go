@@ -2,17 +2,22 @@ package main
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
 	"time"
+
+	ws "github.com/gorilla/websocket"
 )
 
-const url = "http://127.0.0.1:7171/api"
+const apiurl = "https://localhost:7171/api"
+const wsurl = "wss://localhost:7171/api"
 
 const usage = `
 -1...StorageUnit: Ping
@@ -50,7 +55,7 @@ var opts = map[int]func(){
 		capacity := int(0)
 		fmt.Print("Location Name Address Capacity: ")
 		fmt.Scanln(&location, &name, &ipaddr, &capacity)
-		req := must(http.NewRequest(http.MethodPost, url+"/storages", bytes.NewBuffer(must(json.Marshal(&struct {
+		req := must(http.NewRequest(http.MethodPost, apiurl+"/storages", bytes.NewBuffer(must(json.Marshal(&struct {
 			Name      string `json:"name"`
 			Location  string `json:"location"`
 			IpAddress string `json:"address"`
@@ -66,7 +71,7 @@ var opts = map[int]func(){
 		l.Println(string(must(io.ReadAll(res.Body)).([]byte)))
 	},
 	7: func() {
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards", url), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -77,7 +82,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/name/%s", url, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -89,7 +94,7 @@ var opts = map[int]func(){
 		storage := ""
 		fmt.Print("Name Storage: ")
 		fmt.Scanln(&name, &storage)
-		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/storages/cards", url), bytes.NewBuffer(must(json.Marshal(&struct {
+		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/storages/cards", apiurl), bytes.NewBuffer(must(json.Marshal(&struct {
 			Name    string `json:"name"`
 			Storage string `json:"storage"`
 		}{
@@ -103,7 +108,7 @@ var opts = map[int]func(){
 		l.Println(s.String())
 	},
 	3: func() {
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages", url), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -114,7 +119,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/name/%s", url, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -162,7 +167,7 @@ var opts = map[int]func(){
 		}
 		buf := bytes.NewBuffer(must(json.Marshal(u)).([]byte))
 		l.Println(buf.String())
-		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/name/%s", url, updateCard), buf)).(*http.Request)
+		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, updateCard), buf)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -203,7 +208,7 @@ var opts = map[int]func(){
 		}
 		buf := bytes.NewBuffer(must(json.Marshal(u)).([]byte))
 		l.Println(buf.String())
-		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/name/%s", url, updateStorage), buf)).(*http.Request)
+		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/name/%s", apiurl, updateStorage), buf)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -214,7 +219,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/name/%s", url, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")
@@ -225,7 +230,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/name/%s", url, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")
@@ -236,7 +241,7 @@ var opts = map[int]func(){
 		email := ""
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
-		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users", url), bytes.NewBuffer(must(json.Marshal(&struct {
+		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users", apiurl), bytes.NewBuffer(must(json.Marshal(&struct {
 			Email string `json:"email"`
 		}{
 			Email: email,
@@ -276,7 +281,7 @@ var opts = map[int]func(){
 		}
 		buf := bytes.NewBuffer(must(json.Marshal(u)).([]byte))
 		l.Println(buf.String())
-		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/users/email/%s", url, updateEmail), buf)).(*http.Request)
+		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/users/email/%s", apiurl, updateEmail), buf)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -284,7 +289,7 @@ var opts = map[int]func(){
 		l.Println(s.String())
 	},
 	12: func() {
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users", url), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -295,7 +300,7 @@ var opts = map[int]func(){
 		email := ""
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/email/%s", url, email), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/email/%s", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -306,7 +311,7 @@ var opts = map[int]func(){
 		email := ""
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
-		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/users/email/%s", url, email), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/users/email/%s", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")
@@ -317,7 +322,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/ping/name/%s", url, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/ping/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")
@@ -328,7 +333,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/focus/name/%s", url, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/focus/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")
@@ -336,7 +341,7 @@ var opts = map[int]func(){
 		l.Println(s.String())
 	},
 	15: func() {
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations`", url), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations`", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -347,7 +352,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/name/%s`", url, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/name/%s`", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -358,7 +363,7 @@ var opts = map[int]func(){
 		email := ""
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/name/%s`", url, email), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/name/%s`", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -403,7 +408,7 @@ var opts = map[int]func(){
 		if isReservation != "$" {
 			*c.IsReservation = must(strconv.ParseBool(isReservation)).(bool)
 		}
-		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s`", url, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
+		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s`", apiurl, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -414,7 +419,7 @@ var opts = map[int]func(){
 		id := ""
 		fmt.Print("Id: ")
 		fmt.Scanln(&id)
-		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/reservations/id/%s", url, id), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/reservations/id/%s", apiurl, id), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")
@@ -461,7 +466,7 @@ var opts = map[int]func(){
 			*u.ReturnedAt = returnedAtTime.Unix()
 		}
 
-		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/reservations/id/%s", url, id), bytes.NewBuffer(must(json.Marshal(u)).([]byte)))).(*http.Request)
+		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/reservations/id/%s", apiurl, id), bytes.NewBuffer(must(json.Marshal(u)).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("{}")
@@ -470,12 +475,81 @@ var opts = map[int]func(){
 	},
 }
 
-func main() {
+func listenOnLoggingWebsockets() {
+	logs := []string{
+		wsurl + "/controller/log",
+		wsurl + "/storages/log",
+		wsurl + "/storages/cards/log",
+		wsurl + "/reservations/log",
+		wsurl + "/users/log",
+	}
 
-	fmt.Println(usage)
+	done := make([]chan struct{}, len(logs))
+	connections := make([]*ws.Conn, 0)
+
+	// allow self-signed ssl certificate
+	dialer := *ws.DefaultDialer
+	dialer.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
+	for i, url := range logs {
+		log.Println("listening for logs on:", url)
+		conn, resp, err := dialer.Dial(url, nil)
+		if err != nil {
+			log.Printf("handshake #%d failed with status %d", i, resp.StatusCode)
+			panic(err)
+		}
+
+		connections = append(connections, conn)
+
+		go func() {
+			defer close(done[i])
+			for {
+				_, message, err := conn.ReadMessage()
+				if err != nil {
+					log.Println("ERROR ~> ", err)
+					return
+				}
+				log.Printf("~> %s\n", message)
+			}
+		}()
+	}
+
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt)
+
+	go func() {
+		c0done, c1done, c2done, c3done, c4done := false, false, false, false, false
+		for !c0done && !c1done && !c2done && !c3done && !c4done {
+			select {
+			case <-done[0]:
+				c0done = true
+			case <-done[1]:
+				c1done = true
+			case <-done[2]:
+				c2done = true
+			case <-done[3]:
+				c3done = true
+			case <-done[4]:
+				c4done = true
+			case <-interrupt:
+				for _, conn := range connections {
+					must(nil, conn.WriteMessage(ws.CloseMessage, ws.FormatCloseMessage(ws.CloseNormalClosure, "")))
+				}
+				os.Exit(1)
+			}
+		}
+	}()
+}
+
+func main() {
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
+	listenOnLoggingWebsockets()
+
+	fmt.Print(usage)
 
 	for {
-		fmt.Fprint(os.Stderr, ` >>> `)
+		fmt.Fprint(os.Stderr, `>>> `)
 		choice := ""
 		fmt.Scanln(&choice)
 

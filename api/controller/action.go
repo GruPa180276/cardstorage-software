@@ -21,7 +21,6 @@ import (
 	storage-unit-deposit-card
 
 	user-signup
-	user-check-exists
 )
 */
 type Action string

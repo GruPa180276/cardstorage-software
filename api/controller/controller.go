@@ -266,13 +266,14 @@ func (self *Controller) FetchCardUnknownUserHandler(message mqtt.Message) error 
 		return err
 	}
 	self.Publish(message.Topic(), 2, false, buf)
+	self.ControllerLogChannel <- string(buf)
 	return nil
 }
 
 func (self *Controller) FetchCardUnknownUserDispatcher(storageName, location, userWantsCardName string, userWantsCardPosition uint) error {
 	id := uuid.New().String()
 	m := NewSerializableUserCardMessage(
-		Header{Id: id, ClientId: self.ClientId, Action: ActionUserCheckExists},
+		Header{Id: id, ClientId: self.ClientId, Action: ActionStorageUnitFetchCardSourceTerminal},
 		User{},
 		Card{Name: userWantsCardName, Position: userWantsCardPosition})
 	buf, err := json.Marshal(m)

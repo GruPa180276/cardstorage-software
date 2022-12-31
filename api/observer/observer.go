@@ -97,9 +97,6 @@ func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
 			case controller.ActionUserSignup:
 				onError(onSuccess(c.SignUpUserHandler(msg)))
 				return
-			case controller.ActionUserCheckExists:
-				onError(onSuccess(c.CheckUserExistenceHandler(msg)))
-				return
 			case controller.ActionStorageUnitDepositCard:
 				onError(onSuccess(c.DepositCardHandler(msg)))
 				return

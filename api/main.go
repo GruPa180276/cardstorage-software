@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -24,13 +25,15 @@ import (
 	"gorm.io/gorm"
 )
 
-func connectToBroker(ct *controller.Controller, hostname, port, clientId string, chans map[string]chan string) (mqtt.Client, chan<- bool) {
+func connectToBroker(ct *controller.Controller, hostname, port, clientId string) (mqtt.Client, chan<- bool) {
 	connstring := fmt.Sprintf("tcp://%s:%s", hostname, port)
 	opts := mqtt.NewClientOptions().
 		SetClientID(clientId).
 		AddBroker(connstring).
 		SetOrderMatters(true).
-		SetAutoReconnect(true)
+		SetAutoReconnect(true).
+		SetUsername(os.Getenv("BROKER_USERNAME")).
+		SetPassword(os.Getenv("BROKER_PASSWD"))
 	mqc := mqtt.NewClient(opts)
 	if token := mqc.Connect(); token.Wait() && token.Error() != nil {
 		ct.Logger.Println("error while trying to connect to broker:", token.Error())
@@ -59,7 +62,7 @@ func connectToBroker(ct *controller.Controller, hostname, port, clientId string,
 				ct.Logger.Println(err)
 			}
 			for _, s := range storages {
-				mqc.Subscribe(util.AssembleBaseStorageTopic(s.Name, s.Location), 2, observer.GetObserverHandler(ct, chans))
+				mqc.Subscribe(util.AssembleBaseStorageTopic(s.Name, s.Location), 2, observer.GetObserverHandler(ct))
 			}
 		}
 	}()
@@ -109,17 +112,18 @@ func createActionIndex(filename string) {
 	util.Must(nil, file.Close())
 }
 
-func initController(clientId string, db *gorm.DB, logger *log.Logger, chans map[string]chan string) *controller.Controller {
+func initController(clientId string, db *gorm.DB, logger *log.Logger) *controller.Controller {
 	m := &sync.Map{}
 	upgrader := &websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}
 	c := &controller.Controller{Logger: logger, Upgrader: upgrader, DB: db, Map: m, ClientId: clientId}
-	mqc, _ := connectToBroker(c, os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"), clientId, chans)
+	mqc, _ := connectToBroker(c, os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"), clientId)
 	c.Client = mqc
 	return c
 }
 
 func initHandlers(router *mux.Router, c *controller.Controller, chans map[string]chan string) {
 	c.ControllerLogChannel = chans["controller"]
+	c.RegisterHandlers(router)
 	(&response.CardHandler{Controller: c, CardLogChannel: chans["card"]}).RegisterHandlers(router)
 	(&response.StorageHandler{Controller: c, StorageLogChannel: chans["storage"]}).RegisterHandlers(router)
 	(&response.UserHandler{Controller: c, UserLogChannel: chans["user"]}).RegisterHandlers(router)
@@ -140,11 +144,11 @@ func initObserver(c *controller.Controller) {
 	util.Must(nil, (&observer.Observer{c}).Observe())
 }
 
-func listenAndServe(logger *log.Logger, router *mux.Router) {
+func listenAndServeTLS(logger *log.Logger, router *mux.Router, certificateFile, keyFile string) {
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT"})
-	logger.Println(http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("REST_PORT")),
+	logger.Println(http.ListenAndServeTLS(fmt.Sprintf(":%s", os.Getenv("REST_PORT")), certificateFile, keyFile,
 		handlers.LoggingHandler(logger.Writer(),
 			handlers.CORS(originsOk, headersOk, methodsOk)(router))))
 }
@@ -158,8 +162,10 @@ func main() {
 	db := connectToDatabase(os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"),
 		os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
 
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
 	chans := initChannels()
-	c := initController(clientId, db, logger, chans)
+	c := initController(clientId, db, logger)
 
 	initHandlers(router, c, chans)
 
@@ -170,5 +176,5 @@ func main() {
 
 	logger.Println("Initialization done...")
 
-	listenAndServe(logger, router)
+	listenAndServeTLS(logger, router, "localhost.crt", "localhost.key")
 }

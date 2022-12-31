@@ -26,8 +26,6 @@ const (
 	ActionStorageUnitDepositCard Action = "storage-unit-deposit-card"
 	// ActionUserSignup is a Action of type user-signup.
 	ActionUserSignup Action = "user-signup"
-	// ActionUserCheckExists is a Action of type user-check-exists.
-	ActionUserCheckExists Action = "user-check-exists"
 )
 
 var ErrInvalidAction = errors.New("not a valid Action")
@@ -51,7 +49,6 @@ var _ActionValue = map[string]Action{
 	"storage-unit-fetch-card-source-terminal": ActionStorageUnitFetchCardSourceTerminal,
 	"storage-unit-deposit-card":               ActionStorageUnitDepositCard,
 	"user-signup":                             ActionUserSignup,
-	"user-check-exists":                       ActionUserCheckExists,
 }
 
 // ParseAction attempts to convert a string to a Action.

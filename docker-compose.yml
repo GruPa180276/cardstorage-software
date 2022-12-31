@@ -37,24 +37,25 @@ services:
     image: mysql:8.0.31-debian
     ports:
       - "${DB_PORT}:${DB_PORT}"
-    volumes:
-      - ./persistent/model.sql:/docker-entrypoint-initdb.d/schema.sql:rw
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=Europe/Vienna
     networks:
       - csnet
   broker:
-    hostname: ${BROKER_HOSTNAME}
-    build: ./broker
+    image: eclipse-mosquitto
     ports:
       - "${BROKER_PORT}:${BROKER_PORT}"
+    volumes:
+      - ./broker/volumes/config:/mosquitto/config
+      - broker_log:/mosquitto/log
+    container_name: broker
+    hostname: ${BROKER_HOSTNAME}
+    restart: unless-stopped
     networks:
       - csnet
-    environment:
-      - TZ=Europe/Vienna
-      - BROKER_HOSTNAME=${BROKER_HOSTNAME}
-      - BROKER_PORT=${BROKER_PORT}
 networks:
   csnet:
     driver: bridge
+volumes:
+  broker_log:

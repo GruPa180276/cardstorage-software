@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -33,8 +32,8 @@ func (self *CardHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_INCREMENT, s.Reporter(self.IncrementAccessCountHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_DECREMENT, s.Reporter(self.DecrementAccessCountHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_AVAILABLE, s.Reporter(self.SetCardAvailabilityHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER, s.Reporter(self.FetchCardWithKnownUserHandler)).Methods(http.MethodPost)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER, s.Reporter(self.FetchCardWithUnknownUserHandler)).Methods(http.MethodPost)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER, s.Reporter(self.FetchCardKnownUserHandler)).Methods(http.MethodPost)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER, s.Reporter(self.FetchCardUnknownUserHandler)).Methods(http.MethodPost)
 	router.HandleFunc(paths.API_STORAGES_CARDS_WS_LOG, controller.LoggerChannelHandlerFactory(self.CardLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
@@ -94,10 +93,8 @@ func (self *CardHandler) GetByNameHandler(res http.ResponseWriter, req *http.Req
 //
 func (self *CardHandler) CreateHandler(res http.ResponseWriter, req *http.Request) error {
 	type Creator struct {
-		Name      string `json:"name"`
-		Storage   string `json:"storage"`
-		Accessed  *uint  `json:"accessed"`
-		Available *bool  `json:"available"`
+		Name    string `json:"name"`
+		Storage string `json:"storage"`
 	}
 	c := &Creator{}
 
@@ -130,20 +127,8 @@ func (self *CardHandler) CreateHandler(res http.ResponseWriter, req *http.Reques
 		next = pos[len(pos)-1] + 1
 	}
 
-	card := model.Card{Name: c.Name, Position: uint(next)}
-	if c.Available != nil {
-		card.CurrentlyAvailable = *c.Available
-	}
-	if c.Accessed != nil {
-		card.AccessCount = *c.Accessed
-	}
-	if err := self.DB.Model(s).Preload("Cards").Association("Cards").Append(&card); err != nil {
-		self.Logger.Println(err.Error())
-
-		if strings.Contains(err.Error(), "Error 1452") {
-			return fmt.Errorf("possible duplicate card '%s'", card.Name)
-		}
-		return err
+	if err := self.Controller.StorageUnitAddCardDispatcher(s.Name, s.Location, c.Name, uint(next)); err != nil {
+		self.Logger.Println(err)
 	}
 
 	if err := util.HttpBasicJsonResponse(res, http.StatusOK, &struct {
@@ -152,8 +137,8 @@ func (self *CardHandler) CreateHandler(res http.ResponseWriter, req *http.Reques
 		Name     string `json:"name"`
 	}{
 		Storage:  s.Name,
-		Position: card.Position,
-		Name:     card.Name,
+		Position: uint(next),
+		Name:     c.Name,
 	}); err != nil {
 		self.Logger.Println(err)
 		return nil
@@ -253,7 +238,29 @@ func (self *CardHandler) DeleteHandler(res http.ResponseWriter, req *http.Reques
 		return fmt.Errorf("attempting to delete card '%s' with remaining (possibly active) reservations", card.Name)
 	}
 
-	if err := self.DB.Preload("Reservations").Preload("User").Select("Reservations").Delete(card).Error; err != nil {
+	storages := make([]model.Storage, 0)
+	if err := self.DB.Preload("Cards").Find(&storages).Error; err != nil {
+		return err
+	}
+	storage_name, sidx, cidx := "", -1, -1
+	for i, storage := range storages {
+		for j, c := range storage.Cards {
+			if c.Name == card.Name {
+				storage_name = c.Name
+				sidx = i
+				cidx = j
+				break
+			}
+		}
+	}
+	if storage_name == "" || sidx == -1 || cidx == -1 {
+		// should never happen!
+		return fmt.Errorf("found card that doesnt't belong to any storage-unit: %s (%s)", card.Name, name)
+	}
+	s := storages[sidx]
+	c := s.Cards[cidx]
+
+	if err := self.Controller.DeleteCardDispatcher(s.Name, s.Location, c.Name, c.Position); err != nil {
 		return err
 	}
 
@@ -328,7 +335,7 @@ func (self *CardHandler) SetCardAvailabilityHandler(res http.ResponseWriter, req
 	return meridian.Ok
 }
 
-func (self *CardHandler) FetchCardWithKnownUserHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *CardHandler) FetchCardKnownUserHandler(res http.ResponseWriter, req *http.Request) error {
 	vars := mux.Vars(req)
 	name := vars["name"]
 	email := vars["email"]
@@ -386,26 +393,24 @@ func (self *CardHandler) FetchCardWithKnownUserHandler(res http.ResponseWriter, 
 	if err := self.DB.Model(&user).Association("Reservations").Append(&reservation); err != nil {
 		return err
 	}
-	if err := self.Controller.FetchCardKnownUserInvoker(s.Name, s.Location, c.Position); err != nil {
+	if err := self.Controller.FetchCardKnownUserDispatcher(s.Name, s.Location, c.Position); err != nil {
 		return err
 	}
 
 	return meridian.Ok
 }
 
-func (self *CardHandler) FetchCardWithUnknownUserHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *CardHandler) FetchCardUnknownUserHandler(res http.ResponseWriter, req *http.Request) error {
 	vars := mux.Vars(req)
 	name := vars["name"]
-	email := vars["email"]
 
 	card := model.Card{}
 	if err := self.DB.Where("name = ?", name).First(&card).Error; err != nil {
 		return err
 	}
 
-	card.CurrentlyAvailable = false
-	if err := self.DB.Save(&card).Error; err != nil {
-		return err
+	if !card.CurrentlyAvailable {
+		return fmt.Errorf("attempting to fetch currently unavailable card! '%s'", card.Name)
 	}
 
 	storages := make([]model.Storage, 0)
@@ -432,12 +437,7 @@ func (self *CardHandler) FetchCardWithUnknownUserHandler(res http.ResponseWriter
 
 	s := storages[sidx]
 	c := s.Cards[cidx]
-	c.CurrentlyAvailable = false
-	c.AccessCount++
-	if err := self.DB.Save(&c).Error; err != nil {
-		self.Logger.Println(err)
-	}
-	if err := self.Controller.FetchCardInvoker(s.Name, s.Location, c.Position); err != nil {
+	if err := self.Controller.FetchCardUnknownUserDispatcher(s.Name, s.Location, c.Name, c.Position); err != nil {
 		return err
 	}
 

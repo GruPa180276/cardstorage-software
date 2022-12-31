@@ -48,18 +48,30 @@ func (self *Observer) Observe() error {
 }
 
 func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
+	onError := func(err error) {
+		if err == nil {
+			return
+		}
+		c.Println(err)
+		c.ControllerLogChannel <- err.Error()
+	}
+	onSuccess := func(maybe error) error {
+		if maybe != nil {
+			return maybe
+		}
+		// log success
+		return nil
+	}
 	return func(client mqtt.Client, msg mqtt.Message) {
 		go func() {
 			c.Println(msg.Topic(), string(msg.Payload()))
 			if len(string(msg.Payload())) > (1 << 10) {
-				c.Println("message rejected due to memory-footprint")
+				onError(fmt.Errorf("message rejected due to memory footprint"))
 				return
 			}
 			header := &controller.Header{}
 			if err := json.Unmarshal(msg.Payload(), header); err != nil {
-				strerr := fmt.Sprintln("unable to parse message header:", err.Error())
-				c.ControllerLogChannel <- strerr
-				c.Printf(strerr)
+				onError(fmt.Errorf("unable to parse message header: %s", err.Error()))
 				return
 			}
 			if header.ClientId == c.ClientId {
@@ -68,45 +80,29 @@ func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
 
 			switch header.Action {
 			case controller.ActionStorageUnitPing:
-				if err := c.PingStorageUnitHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.PingStorageUnitHandler(msg)))
+				return
 			case controller.ActionStorageUnitNewCard:
-				if err := c.StorageUnitAddCardHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.StorageUnitAddCardHandler(msg)))
+				return
 			case controller.ActionStorageUnitDeleteCard:
-				if err := c.DeleteCardHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.DeleteCardHandler(msg)))
+				return
 			case controller.ActionStorageUnitFetchCardSourceMobile:
-				if err := c.FetchCardKnownUserHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.FetchCardKnownUserHandler(msg)))
+				return
 			case controller.ActionStorageUnitFetchCardSourceTerminal:
-				if err := c.FetchCardUnknownUserHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.FetchCardUnknownUserHandler(msg)))
+				return
 			case controller.ActionUserSignup:
-				if err := c.SignUpUserHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.SignUpUserHandler(msg)))
+				return
 			case controller.ActionUserCheckExists:
-				if err := c.CheckUserExistenceHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.CheckUserExistenceHandler(msg)))
+				return
 			case controller.ActionStorageUnitDepositCard:
-				if err := c.DepositCardHandler(msg); err != nil {
-					c.Println(err)
-					return
-				}
+				onError(onSuccess(c.DepositCardHandler(msg)))
+				return
 			}
 		}()
 	}

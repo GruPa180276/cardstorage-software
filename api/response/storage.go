@@ -218,7 +218,7 @@ func (self *StorageHandler) PingHandler(res http.ResponseWriter, req *http.Reque
 	if err := self.DB.Where("name = ?", name).First(s).Error; err != nil {
 		return err
 	}
-	if err := self.PingStorageUnitInvoker(s.Name, s.Location); err != nil {
+	if err := self.PingStorageUnitDispatcher(s.Name, s.Location); err != nil {
 		return err
 	}
 	if err := util.HttpBasicJsonResponse(res, http.StatusOK, &struct {

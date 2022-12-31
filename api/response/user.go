@@ -107,7 +107,7 @@ func (self *UserHandler) CreateHandler(res http.ResponseWriter, req *http.Reques
 		return err
 	}
 
-	if err := self.Controller.SignUpUserInvoker(s.Name, s.Location, u.Email); err != nil {
+	if err := self.Controller.SignUpUserDispatcher(s.Name, s.Location, u.Email); err != nil {
 		return err
 	}
 

@@ -24,7 +24,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func connectToBroker(ct *controller.Controller, hostname, port, clientId string) (mqtt.Client, chan<- bool) {
+func connectToBroker(ct *controller.Controller, hostname, port, clientId string, chans map[string]chan string) (mqtt.Client, chan<- bool) {
 	connstring := fmt.Sprintf("tcp://%s:%s", hostname, port)
 	opts := mqtt.NewClientOptions().
 		SetClientID(clientId).
@@ -59,7 +59,7 @@ func connectToBroker(ct *controller.Controller, hostname, port, clientId string)
 				ct.Logger.Println(err)
 			}
 			for _, s := range storages {
-				mqc.Subscribe(util.AssembleBaseStorageTopic(s.Name, s.Location), 2, observer.GetObserverHandler(ct))
+				mqc.Subscribe(util.AssembleBaseStorageTopic(s.Name, s.Location), 2, observer.GetObserverHandler(ct, chans))
 			}
 		}
 	}()
@@ -109,29 +109,30 @@ func createActionIndex(filename string) {
 	util.Must(nil, file.Close())
 }
 
-func initController(clientId string, db *gorm.DB, logger *log.Logger) *controller.Controller {
+func initController(clientId string, db *gorm.DB, logger *log.Logger, chans map[string]chan string) *controller.Controller {
 	m := &sync.Map{}
 	upgrader := &websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}
 	c := &controller.Controller{Logger: logger, Upgrader: upgrader, DB: db, Map: m, ClientId: clientId}
-	mqc, _ := connectToBroker(c, os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"), clientId)
+	mqc, _ := connectToBroker(c, os.Getenv("BROKER_HOSTNAME"), os.Getenv("BROKER_PORT"), clientId, chans)
 	c.Client = mqc
 	return c
 }
 
-func initHandlers(router *mux.Router, c *controller.Controller) map[string]chan string {
+func initHandlers(router *mux.Router, c *controller.Controller, chans map[string]chan string) {
+	c.ControllerLogChannel = chans["controller"]
+	(&response.CardHandler{Controller: c, CardLogChannel: chans["card"]}).RegisterHandlers(router)
+	(&response.StorageHandler{Controller: c, StorageLogChannel: chans["storage"]}).RegisterHandlers(router)
+	(&response.UserHandler{Controller: c, UserLogChannel: chans["user"]}).RegisterHandlers(router)
+	(&response.ReservationHandler{Controller: c, ReservationLogChannel: chans["reservation"]}).RegisterHandlers(router)
+}
+
+func initChannels() map[string]chan string {
 	chans := make(map[string]chan string)
 	chans["controller"] = make(chan string)
 	chans["card"] = make(chan string)
 	chans["storage"] = make(chan string)
 	chans["user"] = make(chan string)
 	chans["reservation"] = make(chan string)
-
-	c.ControllerLogChannel = chans["controller"]
-	(&response.CardHandler{Controller: c, CardLogChannel: chans["card"]}).RegisterHandlers(router)
-	(&response.StorageHandler{Controller: c, StorageLogChannel: chans["storage"]}).RegisterHandlers(router)
-	(&response.UserHandler{Controller: c, UserLogChannel: chans["user"]}).RegisterHandlers(router)
-	(&response.ReservationHandler{Controller: c, ReservationLogChannel: chans["reservation"]}).RegisterHandlers(router)
-
 	return chans
 }
 
@@ -157,9 +158,10 @@ func main() {
 	db := connectToDatabase(os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"),
 		os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
 
-	c := initController(clientId, db, logger)
-	channels := initHandlers(router, c)
-	_ = channels
+	chans := initChannels()
+	c := initController(clientId, db, logger, chans)
+
+	initHandlers(router, c, chans)
 
 	initObserver(c)
 

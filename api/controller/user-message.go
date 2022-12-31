@@ -8,12 +8,14 @@ type User struct {
 
 type SerializableUserMessage struct {
 	Header
-	User `json:"user"`
+	User   `json:"user"`
+	Status `json:"status"`
 }
 
-func NewSerializableUserMessage(h Header, u User) (message SerializableUserMessage) {
+func NewSerializableUserMessage(h Header, u User, s Status) (message SerializableUserMessage) {
 	message.Header = h
 	message.User = u
+	message.Status = s
 	return
 }
 
@@ -21,11 +23,13 @@ type SerializableUserCardMessage struct {
 	Header
 	User `json:"user"`
 	Card `json:"card"`
+	Status
 }
 
-func NewSerializableUserCardMessage(h Header, u User, c Card) (message SerializableUserCardMessage) {
+func NewSerializableUserCardMessage(h Header, u User, c Card, s Status) (message SerializableUserCardMessage) {
 	message.Header = h
 	message.User = u
 	message.Card = c
+	message.Status = s
 	return
 }

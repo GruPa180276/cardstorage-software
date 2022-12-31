@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/tls"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -10,6 +11,7 @@ import (
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/joho/godotenv"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/simulator/hardware"
 )
 
 var actions = map[string]func(mqtt.Client, mqtt.Message, map[string]any){
@@ -37,8 +39,10 @@ func init() {
 	broker_username = os.Getenv("BROKER_USERNAME")
 	broker_passwd = os.Getenv("BROKER_PASSWD")
 	topic = os.Getenv("SIM_CONTROLLER_TOPIC")
-	fmt.Println(topic)
+	l = log.New(os.Stderr, clientId+": ", log.LstdFlags|log.Lshortfile)
 }
+
+var l *log.Logger
 
 func main() {
 	client := mqtt.NewClient(mqtt.NewClientOptions().
@@ -83,45 +87,171 @@ func main() {
 }
 
 func pingHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
-	fmt.Println("~>", string(m.Payload()))
+	l.Println("ACTION:", msg["action"])
+	l.Println("~>", string(m.Payload()))
 
 	msg["client-id"] = clientId
-	(msg["ping"].(map[string]any))["is-available"] = true
+	msg["status"].(map[string]any)["successful"] = true
 
-	buf, err := json.Marshal(msg)
+	buffer, err := json.Marshal(msg)
 	if err != nil {
-		log.Fatalln(err)
+		l.Fatalln(err)
 	}
 
-	fmt.Println("<~", string(buf))
+	l.Println("<~", string(buffer))
 
-	if tok := c.Publish(topic, 2, true, buf); tok.Wait() && tok.Error() != nil {
-		log.Fatalln(err)
+	if token := c.Publish(topic, 2, true, buffer); token.Wait() && token.Error() != nil {
+		l.Fatalln(token.Error())
 	}
 }
 
 func newCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
+	l.Println("ACTION:", msg["action"])
+	l.Println("~>", string(m.Payload()))
 
+	msg["client-id"] = clientId
+
+	scannedBytes, err := hardware.Scan()
+	if err != nil {
+		log.Println(err)
+	}
+	
+	msg["card"].(map[string]any)["data"] = base64.URLEncoding.EncodeToString(scannedBytes)
+
+	if err := hardware.StoreCard(msg["card"].(map[string]any)["position"].(int)); err != nil {
+		msg["status"].(map[string]any)["successful"] = false
+		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
+		l.Println(err)
+	}
+
+	msg["status"].(map[string]any)["successful"] = true
+
+	buffer := must(json.Marshal(msg)).([]byte)
+
+	fmt.Println("<~", string(buffer))
+
+	if token := c.Publish(topic, 2, false, buffer); token.Wait() && token.Error() != nil {
+		log.Fatalln(token)
+	}
 }
 
 func deleteCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
+	fmt.Println("ACTION:", msg["action"])
+	fmt.Println("~>", string(m.Payload()))
 
+	msg["client-id"] = clientId
+
+	if err := hardware.GetCard(msg["card"].(map[string]any)["position"].(int)); err != nil {
+		msg["status"].(map[string]any)["successful"] = false
+		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
+	}
+
+	msg["status"].(map[string]any)["successful"] = true
+
+	buffer := must(json.Marshal(msg)).([]byte)
+
+	fmt.Println("<~", string(buffer))
+
+	if token := c.Publish(topic, 2, false, buffer); token.Wait() && token.Error() != nil {
+		log.Println(token.Error())
+	}
 }
 
 func fetchCardMobileHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
+	fmt.Println("ACTION:", msg["action"])
+	fmt.Println("~>", string(m.Payload()))
 
+	msg["client-id"] = clientId
+
+	if err := hardware.GetCard(msg["card"].(map[string]any)["position"].(int)); err != nil {
+		msg["status"].(map[string]any)["successful"] = false
+		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
+	}
+
+	msg["status"].(map[string]any)["successful"] = true
+
+	buffer := must(json.Marshal(msg)).([]byte)
+
+	fmt.Println("<~", string(buffer))
+
+	if token := c.Publish(topic, 2, false, buffer); token.Wait() && token.Error() != nil {
+		log.Println(token.Error())
+	}
 }
 
-func fetchCardTerminalHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
+var index = make(map[string]struct{})
 
+func fetchCardTerminalHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
+	fmt.Println("ACTION:", msg["action"])
+	fmt.Println("~>", string(m.Payload()))
+
+	if _, exists := index[msg["message-id"].(string)]; !exists {
+		// check if user exists
+		msg["client-id"] = clientId
+
+		scannedBytes, err := hardware.Scan()
+
+		if err != nil {
+			l.Printf("error during scanning: %s\n", err.Error())
+			msg["status"].(map[string]any)["successful"] = false
+			msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
+		}
+		msg["status"].(map[string]any)["successful"] = true
+		msg["user"].(map[string]any)["token"] = base64.URLEncoding.EncodeToString(scannedBytes)
+
+		buffer := must(json.Marshal(msg)).([]byte)
+
+		fmt.Println("<~", string(buffer))
+
+		if token := c.Publish(topic, 2, false, buffer); token.Wait() && token.Error() != nil {
+			log.Println(token.Error())
+		}
+
+		index[msg["message-id"].(string)] = struct{}{}
+	} else {
+		// we now know that the user exists as this is the
+		// request from the server to our initial
+		// response.
+		// now: fetch card
+		fetchCardMobileHandler(c, m, msg)
+	}
 }
 
 func depositCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
+	fmt.Println("ACTION:", msg["action"])
+	fmt.Println("~>", string(m.Payload()))
+}
 
+func depositCardDispatcher() {
+	// event: card is deposited into storage-unit (how do we know that card is deposited?)
+	// 1. scan card
+	// 2. send card token to server to check if card belongs to this unit
+	// 3. if yes, deposit card; otherwise reject card and inform user
 }
 
 func userSignupHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
+	fmt.Println("ACTION:", msg["action"])
+	fmt.Println("~>", string(m.Payload()))
 
+	msg["client-id"] = clientId
+
+	buffer, err := hardware.Scan()
+	if err != nil {
+		msg["status"].(map[string]any)["successful"] = false
+		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
+		l.Println(err)
+	}
+
+	msg["status"].(map[string]any)["successful"] = true
+	msg["user"].(map[string]any)["token"] = base64.URLEncoding.EncodeToString(buffer)
+
+	buffer := must(json.Marshal(msg)).([]byte)
+
+	fmt.Println("<~", string(buffer))
+
+	if token := c.Publish(topic, 2, false, buffer); token.Wait() && token.Error() != nil {
+		log.Fatalln(token)
+	}
 }
 
 func must(value any, err error) any {

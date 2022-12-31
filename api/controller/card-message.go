@@ -17,20 +17,15 @@ func NewSerializableCardMessage(h Header, c Card) (message SerializableCardMessa
 	return
 }
 
-type CardDeleter struct {
-	DeletionSuccessful bool   `json:"successful"`
-	IfNotWhy           string `json:"reason-for-failure"`
-}
-
-type SerializableCardDeletionMessage struct {
+type SerializableCardStatusMessage struct {
 	Header
-	Card        `json:"card"`
-	CardDeleter `json:"status"`
+	Card   `json:"card"`
+	Status `json:"status"`
 }
 
-func NewSerializableCardDeletionMessage(h Header, c Card, d CardDeleter) (message SerializableCardDeletionMessage) {
+func NewSerializableCardStatusMessage(h Header, c Card, s Status) (message SerializableCardStatusMessage) {
 	message.Header = h
 	message.Card = c
-	message.CardDeleter = d
+	message.Status = s
 	return message
 }

@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
-	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
@@ -340,6 +339,11 @@ func (self *CardHandler) FetchCardKnownUserHandler(res http.ResponseWriter, req 
 	name := vars["name"]
 	email := vars["email"]
 
+	user := model.User{}
+	if err := self.DB.Where("email = ?", email).First(&user).Error; err != nil {
+		return err
+	}
+
 	card := model.Card{}
 	if err := self.DB.Where("name = ?", name).First(&card).Error; err != nil {
 		return err
@@ -378,22 +382,8 @@ func (self *CardHandler) FetchCardKnownUserHandler(res http.ResponseWriter, req 
 
 	s := storages[sidx]
 	c := s.Cards[cidx]
-	c.CurrentlyAvailable = false
-	c.AccessCount++
-	if err := self.DB.Save(&c).Error; err != nil {
-		self.Logger.Println(err)
-	}
 
-	// create reservation for user
-	user := model.User{}
-	if err := self.DB.Where("email = ?", email).First(&user).Error; err != nil {
-		return err
-	}
-	reservation := model.Reservation{UserID: user.UserID, User: user, Since: time.Now(), IsReservation: false}
-	if err := self.DB.Model(&user).Association("Reservations").Append(&reservation); err != nil {
-		return err
-	}
-	if err := self.Controller.FetchCardKnownUserDispatcher(s.Name, s.Location, c.Position); err != nil {
+	if err := self.Controller.FetchCardKnownUserDispatcher(s.Name, s.Location, c.Name, c.Position, user.Email); err != nil {
 		return err
 	}
 

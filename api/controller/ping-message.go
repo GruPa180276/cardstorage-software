@@ -7,11 +7,11 @@ type Ping struct {
 
 type SerializablePingMessage struct {
 	Header
-	Ping `json:"ping"`
+	Status `json:"status"`
 }
 
-func NewSerializablePingMessage(h Header, p Ping) (message SerializablePingMessage) {
+func NewSerializablePingMessage(h Header, s Status) (message SerializablePingMessage) {
 	message.Header = h
-	message.Ping = p
+	message.Status = s
 	return
 }

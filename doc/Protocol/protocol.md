@@ -238,6 +238,9 @@ Habe heute die Parental Exceptions, die auf so gut wie allen Seiten vorhanden, w
 **10.12.2022: 10:00 bis 12:00** <br>
 Habe eine Status Seite für die Storages erstellt, wo ersichtlich ist ob ein Problem besteht, ob Karten noch nicht zurückgegben wurden und ob der Storage Online ist. (2h)
 
+**1.1.2023: 13:00 bis 13:40** <br>
+Meeting mit Johannes über Änderungen, die an der API vorgenommen wurden und welche Sachen jetzt funktionieren. (40min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -306,4 +309,5 @@ Habe eine Status Seite für die Storages erstellt, wo ersichtlich ist ob ein Pro
 - 12:30 bis 16:00 Uhr
 - 9:00 bis 11:45 Uhr
 - 10:00 bis 12:00 Uhr
+- 13:00 bis 13:40 Uhr
 <!-- { "progress": false } -->

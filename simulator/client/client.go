@@ -4,57 +4,29 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
-	"os/signal"
+	"path"
+	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
-	ws "github.com/gorilla/websocket"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
 const apiurl = "https://localhost:7171/api"
 const wsurl = "wss://localhost:7171/api"
 
-const usage = `
--1...StorageUnit: Ping
--2...StorageUnit: Focus
-0...StorageUnit: Update
-1...StorageUnit: New
-2...StorageUnit: Delete
-3...StorageUnit: GetAll
-4...StorageUnit: GetByName
-5...Card: New
-6...Card: Delete
-7...Card: GetAll
-8...Card: GetByName
-9...Card: Update
-10...User: New
-11...User: Update
-12...User: GetAll
-13...User: GetByName
-14...User: Delete
-15...Reservation: GetAll
-16...Reservation: GetByCardName
-17...Reservation: GetByUserEmail
-18...Reservation: New
-19...Reservation: Delete
-20...Reservation: Update
-`
-
 var l = log.New(os.Stderr, "client-simulator: ", log.LstdFlags)
 
-var opts = map[int]func(){
-	1: func() {
-		location := ""
-		name := ""
-		ipaddr := ""
-		capacity := int(0)
-		fmt.Print("Location Name Address Capacity: ")
-		fmt.Scanln(&location, &name, &ipaddr, &capacity)
+var opts = map[string]interface{}{
+	"POST;loc,name,ipaddr,capacity;StorageUnit: New": func(location, name, ipaddr, capacity string) {
 		req := must(http.NewRequest(http.MethodPost, apiurl+"/storages", bytes.NewBuffer(must(json.Marshal(&struct {
 			Name      string `json:"name"`
 			Location  string `json:"location"`
@@ -64,13 +36,13 @@ var opts = map[int]func(){
 			Location:  location,
 			Name:      name,
 			IpAddress: ipaddr,
-			Capacity:  capacity,
+			Capacity:  must(strconv.Atoi(capacity)).(int),
 		})).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		l.Println(string(must(io.ReadAll(res.Body)).([]byte)))
 	},
-	7: func() {
+	"GET;;Card: GetAll": func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -78,10 +50,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	8: func() {
-		name := ""
-		fmt.Print("Name: ")
-		fmt.Scanln(&name)
+	"GET;name;Card: GetByName": func(name string) {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -89,17 +58,13 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	5: func() {
-		name := ""
-		storage := ""
-		fmt.Print("Name Storage: ")
-		fmt.Scanln(&name, &storage)
+	"POST;cardname,storagename$str;Card: New": func(cardname, storagename string) {
 		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/storages/cards", apiurl), bytes.NewBuffer(must(json.Marshal(&struct {
 			Name    string `json:"name"`
 			Storage string `json:"storage"`
 		}{
-			Name:    name,
-			Storage: storage,
+			Name:    cardname,
+			Storage: storagename,
 		})).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -107,7 +72,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	3: func() {
+	"GET;;StorageUnit: GetAll": func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -115,36 +80,22 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	4: func() {
-		name := ""
-		fmt.Print("Name: ")
-		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/name/%s", apiurl, name), nil)).(*http.Request)
+	"GET;storagename;StorageUnit: GetByName": func(storagename string) {
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/name/%s", apiurl, storagename), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	9: func() {
+	// "(type '$' to leave field unchanged) *Name *Position *Reader *AccessCount *Available: "
+	"PUT;updateCard,*name,*pos,*reader,*access,*available;Card: Update": func(updateCard, name, pos, reader, access, available string) {
 		type Updater struct {
 			Name        *string `json:"name"`
 			Position    *int    `json:"position"`
 			ReaderData  *string `json:"reader"`
 			AccessCount *int    `json:"accessed"`
 			Available   *bool   `json:"available"`
-		}
-		updateCard := ""
-		fmt.Print("CardName: ")
-		fmt.Scanln(&updateCard)
-		name := ""
-		pos := ""
-		reader := ""
-		access := ""
-		available := ""
-		fmt.Print("(type '$' to leave field unchanged) *Name *Position *Reader *AccessCount *Available: ")
-		if _, err := fmt.Scanln(&name, &pos, &reader, &access, &available); err != nil {
-			panic(err)
 		}
 		u := &Updater{}
 		if name != "$" {
@@ -174,23 +125,13 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	0: func() {
+	// "(type '$' to leave field unchanged) *Name *Location *Address *Capacity: "
+	"PUT;updateStorage,*name,*loc,*addr,*cap;StorageUnit: Update": func(updateStorage, name, loc, addr, cap string) {
 		type Updater struct {
 			Name     *string `json:"name"`
 			Location *string `json:"location"`
 			Address  *string `json:"address"`
 			Capacity *int    `json:"capacity"`
-		}
-		updateStorage := ""
-		fmt.Print("StorageName: ")
-		fmt.Scanln(&updateStorage)
-		name := ""
-		loc := ""
-		addr := ""
-		cap := ""
-		fmt.Print("(type '$' to leave field unchanged) *Name *Location *Address *Capacity: ")
-		if _, err := fmt.Scanln(&name, &loc, &addr, &cap); err != nil {
-			panic(err)
 		}
 		u := &Updater{}
 		if name != "$" {
@@ -215,10 +156,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	2: func() {
-		name := ""
-		fmt.Print("Name: ")
-		fmt.Scanln(&name)
+	"DELETE;storagename;StorageUnit: Delete": func(name string) {
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -226,10 +164,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	6: func() {
-		name := ""
-		fmt.Print("Name: ")
-		fmt.Scanln(&name)
+	"DELETE;cardname;Card: Delete": func(name string) {
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -237,10 +172,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	10: func() {
-		email := ""
-		fmt.Print("Email: ")
-		fmt.Scanln(&email)
+	"POST;email;User: New": func(email string) {
 		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users", apiurl), bytes.NewBuffer(must(json.Marshal(&struct {
 			Email string `json:"email"`
 		}{
@@ -252,19 +184,13 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	11: func() {
+	// "(type '$' to leave field unchanged) *Email *Reader *Privilege: "
+	"PUT;updateEmail,*email,*reader,*priv;User: Update": func(updateEmail, email, reader, priv string) {
 		type Updater struct {
 			Email      *string `json:"email"`
 			ReaderData *string `json:"reader"`
 			Privilege  *bool   `json:"privilege"`
 		}
-		updateEmail := ""
-		fmt.Print("Email: ")
-		fmt.Scanln(&updateEmail)
-		email := ""
-		reader := ""
-		priv := ""
-		fmt.Print("(type '$' to leave field unchanged) *Email *Reader *Privilege: ")
 		if _, err := fmt.Scanln(&email, &reader, &priv); err != nil {
 			panic(err)
 		}
@@ -288,7 +214,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	12: func() {
+	"GET;;User: GetAll": func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -296,10 +222,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	13: func() {
-		email := ""
-		fmt.Print("Email: ")
-		fmt.Scanln(&email)
+	"GET;email;User: GetByEmail": func(email string) {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/email/%s", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -307,10 +230,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	14: func() {
-		email := ""
-		fmt.Print("Email: ")
-		fmt.Scanln(&email)
+	"DELETE;email;User: Delete": func(email string) {
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/users/email/%s", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -318,10 +238,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	-1: func() {
-		name := ""
-		fmt.Print("Name: ")
-		fmt.Scanln(&name)
+	"GET;name;StorageUnit: Ping": func(name string) {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/ping/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -329,10 +246,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	-2: func() {
-		name := ""
-		fmt.Print("Name: ")
-		fmt.Scanln(&name)
+	"GET;name;StorageUnit: Focus": func(name string) {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/focus/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -340,7 +254,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	15: func() {
+	"GET;Reservation: GetAll": func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations`", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -348,10 +262,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	16: func() {
-		name := ""
-		fmt.Print("Name: ")
-		fmt.Scanln(&name)
+	"GET;name;Reservation: GetByCardName": func(name string) {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/name/%s`", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -359,10 +270,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	17: func() {
-		email := ""
-		fmt.Print("Email: ")
-		fmt.Scanln(&email)
+	"GET;email;Reservation: GetByUserEmail": func(email string) {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/name/%s`", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -370,20 +278,16 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	18: func() {
+	// "(type '%(+offset)' for 'Since' and 'Until' e.g '%+10' in 10min, '%' ... now)"
+	// "(type '$' to use default value for field)"
+	// "Email CardName Since *Until *IsReservation: "
+	"POST;email,*cardName,*since,*until,*isReservation;Reservation: New": func(email, cardName, since, until, isReservation string) {
 		type Creator struct {
 			CardName      string `json:"card"`
 			Since         int64  `json:"since"`
 			Until         *int64 `json:"until"`
 			IsReservation *bool  `json:"is-reservation"`
 		}
-		email := ""
-		cardName := ""
-		since := ""
-		until := ""
-		isReservation := ""
-		fmt.Print("(type '%(+offset)' for 'Since' and 'Until' e.g '%+10' in 10min, '%' ... now\ntype '$' to use default value for field)\nEmail CardName Since *Until *IsReservation: ")
-		fmt.Scanln(&email, &cardName, &since, &until, &isReservation)
 		c := Creator{CardName: cardName}
 		var sinceTime time.Time
 		var untilTime time.Time
@@ -415,10 +319,7 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	19: func() {
-		id := ""
-		fmt.Print("Id: ")
-		fmt.Scanln(&id)
+	"DELETE;id;Reservation: Delete": func(id string) {
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/reservations/id/%s", apiurl, id), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -426,18 +327,14 @@ var opts = map[int]func(){
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
 	},
-	20: func() {
+	// "(type '%(+offset)' for 'Since' and 'Until' e.g '%+10' in 10min, '%' ... now)"
+	// "(type '$' to leave field unchanged)" +
+	// "Id *Until *ReturnedAt: "
+	"PUT;id,*until,*returnedAt;Reservation: Update": func(id, until, returnedAt string) {
 		type Updater struct {
 			Until      *int64 `json:"until"`
 			ReturnedAt *int64 `json:"returned-at"`
 		}
-
-		id := ""
-		until := ""
-		returnedAt := ""
-		fmt.Print("(type '%(+offset)' for 'Since' and 'Until' e.g '%+10' in 10min, '%' ... now)\n(type '$' to leave field unchanged)\nId *Until *ReturnedAt: ")
-		fmt.Scanln(&id, &until, &returnedAt)
-
 		u := Updater{}
 		if until == "$" && returnedAt == "$" {
 			return
@@ -475,94 +372,72 @@ var opts = map[int]func(){
 	},
 }
 
-func listenOnLoggingWebsockets() {
-	logs := []string{
-		wsurl + "/controller/log",
-		wsurl + "/storages/log",
-		wsurl + "/storages/cards/log",
-		wsurl + "/reservations/log",
-		wsurl + "/users/log",
-	}
-
-	done := make([]chan struct{}, len(logs))
-	connections := make([]*ws.Conn, 0)
-
-	// allow self-signed ssl certificate
-	dialer := *ws.DefaultDialer
-	dialer.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-
-	for i, url := range logs {
-		log.Println("listening for logs on:", url)
-		conn, resp, err := dialer.Dial(url, nil)
-		if err != nil {
-			log.Printf("handshake #%d failed with status %d", i, resp.StatusCode)
-			panic(err)
-		}
-
-		connections = append(connections, conn)
-
-		go func() {
-			defer close(done[i])
-			for {
-				_, message, err := conn.ReadMessage()
-				if err != nil {
-					log.Println("ERROR ~> ", err)
-					return
-				}
-				log.Printf("~> %s\n", message)
-			}
-		}()
-	}
-
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt)
-
-	go func() {
-		c0done, c1done, c2done, c3done, c4done := false, false, false, false, false
-		for !c0done && !c1done && !c2done && !c3done && !c4done {
-			select {
-			case <-done[0]:
-				c0done = true
-			case <-done[1]:
-				c1done = true
-			case <-done[2]:
-				c2done = true
-			case <-done[3]:
-				c3done = true
-			case <-done[4]:
-				c4done = true
-			case <-interrupt:
-				for _, conn := range connections {
-					must(nil, conn.WriteMessage(ws.CloseMessage, ws.FormatCloseMessage(ws.CloseNormalClosure, "")))
-				}
-				os.Exit(1)
-			}
-		}
-	}()
-}
-
 func main() {
-	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	router := mux.NewRouter()
+	apirouter := router.PathPrefix("/sim/api").Subrouter()
+	logger := log.New(os.Stderr, os.Getenv("SIM_CLIENT_NAME")+": ", log.LstdFlags|log.Lshortfile)
 
-	listenOnLoggingWebsockets()
+	router.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 
-	fmt.Print(usage)
+	})
 
-	for {
-		fmt.Fprint(os.Stderr, `>>> `)
-		choice := ""
-		fmt.Scanln(&choice)
+	router.HandleFunc("/{target:.+}", func(res http.ResponseWriter, req *http.Request) {
+		target := path.Join("public", mux.Vars(req)["target"])
 
-		id, err := strconv.Atoi(choice)
-		if err != nil {
-			fmt.Println(usage)
-			continue
+		if _, err := os.Stat(target); err != nil {
+			code := http.StatusBadRequest
+
+			if errors.Is(err, os.ErrNotExist) {
+				code = http.StatusNotFound
+			}
+
+			http.Error(res, err.Error(), code)
+			logger.Println(err.Error())
+			return
 		}
-		if _, ok := opts[id]; !ok {
-			continue
+
+		res.WriteHeader(http.StatusOK)
+		res.Write(must(os.ReadFile(target)).([]byte))
+	})
+
+	for k, v := range opts {
+		fields := strings.Split(k, ";")
+		method, params, name := fields[0], fields[1], fields[2]
+		nameFields := strings.Split(name, ":")
+		target, operation := strings.TrimSpace(nameFields[0]), strings.TrimSpace(nameFields[1])
+
+		var reflectKey reflect.Value
+		for _, rkey := range reflect.ValueOf(opts).MapKeys() {
+			if rkey.String() == k {
+				reflectKey = rkey
+			}
 		}
-		opts[id]()
+
+		apirouter.HandleFunc(fmt.Sprintf("%s%s", target, operation), func(res http.ResponseWriter, req *http.Request) {
+			paramsListKeys := strings.Split(params, ",")
+			paramsListValues := make([]string, len(paramsListKeys))
+
+			for idx, key := range paramsListKeys {
+				if !req.URL.Query().Has(key) {
+					paramsListValues[idx] = "$"
+					continue
+				}
+				paramsListValues[idx] = req.URL.Query().Get(key)
+			}
+
+			reflectParamsListValues := make([]reflect.Value, len(paramsListValues))
+			for idx, _ := range paramsListValues {
+				reflectParamsListValues = append(reflectParamsListValues, reflect.ValueOf(paramsListValues).Slice(idx, idx))
+			}
+
+			reflect.ValueOf(opts).MapIndex(reflectKey).Call(reflectParamsListValues)
+
+		}).Methods(method)
 	}
+
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	logger.Fatalln(http.ListenAndServeTLS(fmt.Sprintf(":%s", os.Getenv("SIM_CLIENT_PORT")),
+		"localhost.crt", "localhost.key", handlers.LoggingHandler(logger.Writer(), router)))
 }
 
 func must(value any, err error) any {

@@ -6,6 +6,7 @@ import (
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
@@ -55,10 +56,12 @@ func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
 		c.Println(err)
 		c.ControllerLogChannel <- err.Error()
 	}
-	onSuccess := func(maybe error) error {
-		if maybe != nil {
+	onSuccess := func(maybe error, okMessage error) error {
+		if maybe != meridian.Ok {
 			return maybe
 		}
+		c.ControllerLogChannel <- okMessage.Error()
+		c.Println(okMessage.Error())
 		// log success
 		return nil
 	}

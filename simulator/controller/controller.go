@@ -115,7 +115,7 @@ func newCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 	if err != nil {
 		log.Println(err)
 	}
-	
+
 	msg["card"].(map[string]any)["data"] = base64.URLEncoding.EncodeToString(scannedBytes)
 
 	if err := hardware.StoreCard(msg["card"].(map[string]any)["position"].(int)); err != nil {
@@ -217,11 +217,13 @@ func fetchCardTerminalHandler(c mqtt.Client, m mqtt.Message, msg map[string]any)
 	}
 }
 
+// @todo
 func depositCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 	fmt.Println("ACTION:", msg["action"])
 	fmt.Println("~>", string(m.Payload()))
 }
 
+// @todo
 func depositCardDispatcher() {
 	// event: card is deposited into storage-unit (how do we know that card is deposited?)
 	// 1. scan card
@@ -235,7 +237,7 @@ func userSignupHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 
 	msg["client-id"] = clientId
 
-	buffer, err := hardware.Scan()
+	scannedBytes, err := hardware.Scan()
 	if err != nil {
 		msg["status"].(map[string]any)["successful"] = false
 		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
@@ -243,7 +245,7 @@ func userSignupHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 	}
 
 	msg["status"].(map[string]any)["successful"] = true
-	msg["user"].(map[string]any)["token"] = base64.URLEncoding.EncodeToString(buffer)
+	msg["user"].(map[string]any)["token"] = base64.URLEncoding.EncodeToString(scannedBytes)
 
 	buffer := must(json.Marshal(msg)).([]byte)
 

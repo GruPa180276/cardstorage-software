@@ -17,7 +17,7 @@ type User struct {
 func (self *User) MarshalJSON() ([]byte, error) {
 	type Alias User
 	return json.Marshal(&struct {
-		ReaderData any `json:"reader"`
+		ReaderData string `json:"reader"`
 		*Alias
 	}{
 		ReaderData: util.MarshalNullableString(self.ReaderData),
@@ -28,7 +28,7 @@ func (self *User) MarshalJSON() ([]byte, error) {
 func (self *User) UnmarshalJSON(data []byte) error {
 	type Alias User
 	aux := &struct {
-		ReaderData any `json:"reader"`
+		ReaderData sql.NullString `json:"reader"`
 		*Alias
 	}{
 		Alias: (*Alias)(self),
@@ -36,6 +36,6 @@ func (self *User) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, aux); err != nil {
 		return err
 	}
-	self.ReaderData = util.UnmarshalNullableString(aux.ReaderData)
+	self.ReaderData = util.UnmarshalNullableString(aux.ReaderData.String)
 	return nil
 }

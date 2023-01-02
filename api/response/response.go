@@ -1,6 +1,7 @@
 package response
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -13,17 +14,25 @@ type Initializer interface {
 	RegisterHandlers(*mux.Router)
 }
 
-var ErrorHandlerFactory = func(logger *log.Logger) meridian.ReportingErrorHandlerFunc {
+var ErrorHandlerFactory = func(logger *log.Logger, logChannel chan string) meridian.ReportingErrorHandlerFunc {
 	return func(err error, res http.ResponseWriter, req *http.Request) {
-		logger.Println(err.Error())
-		util.HttpBasicJsonError(res, http.StatusBadRequest, err.Error())
+		jsonErrStr := util.JsonError(http.StatusBadRequest, err.Error())
+		logger.Println(jsonErrStr)
+		logChannel <- jsonErrStr
+		http.Error(res, jsonErrStr, http.StatusBadRequest)
 	}
 }
 
 var SuccessHandlerFactory = func(logger *log.Logger) meridian.ReportingSuccessHandlerFunc {
-	return func(res http.ResponseWriter, req *http.Request) {
-		if err := util.HttpBasicJsonResponse(res, http.StatusOK, nil); err != nil {
-			logger.Println(err)
+	return func(ok *meridian.Ok, res http.ResponseWriter, req *http.Request) {
+		msg := ok.Error()
+		if ok.ToJson {
+			msg = string(util.Must(json.Marshal(msg)).([]byte))
+		}
+		logger.Println(msg)
+		res.WriteHeader(http.StatusOK)
+		if _, err2 := res.Write([]byte(msg)); err2 != nil {
+			logger.Println(err2)
 		}
 	}
 }

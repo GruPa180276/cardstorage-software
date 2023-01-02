@@ -1,7 +1,6 @@
 package response
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -13,6 +12,7 @@ import (
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 )
 
 type ReservationHandler struct {
@@ -21,7 +21,7 @@ type ReservationHandler struct {
 }
 
 func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
-	s := meridian.StaticReporter{ErrorHandlerFactory(self.Logger), SuccessHandlerFactory(self.Logger)}
+	s := meridian.StaticHttpReporter{ErrorHandlerFactory(self.Logger, self.ReservationLogChannel), SuccessHandlerFactory(self.Logger)}
 
 	router.HandleFunc(paths.API_RESERVATIONS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_RESERVATIONS_FILTER_CARD, s.Reporter(self.GetByCardHandler)).Methods(http.MethodGet)
@@ -32,90 +32,57 @@ func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, controller.LoggerChannelHandlerFactory(self.ReservationLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
-func (self *ReservationHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *ReservationHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	reservations := make([]*model.Reservation, 0)
 
 	if err := self.DB.Preload("User").Find(&reservations).Error; err != nil {
-		return err
+		return err, nil
 	}
 
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(reservations); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
-	}
-
-	return nil
+	return nil, meridian.OkayMustJson(&reservations)
 }
 
-func (self *ReservationHandler) GetByCardHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *ReservationHandler) GetByCardHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	name := mux.Vars(req)["name"]
-	card := &model.Card{}
+	card := model.Card{}
 
-	result := self.DB.Preload("Reservations").Where("name = ?", name).First(card)
-	if name != card.Name || result.RowsAffected == 0 || result.Error != nil {
-		return fmt.Errorf("card '%s' does not exists", name)
+	if result := self.DB.Preload("Reservations").Where("name = ?", name).First(&card); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("card '%s' does not exists", name), nil
 	}
 
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(card.Reservations); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
-	}
-
-	return nil
+	return nil, meridian.OkayMustJson(&card.Reservations)
 }
 
-func (self *ReservationHandler) GetByUserHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *ReservationHandler) GetByUserHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	email := mux.Vars(req)["email"]
-	allReservations := make([]model.Reservation, 0)
+	allReservations := make([]*model.Reservation, 0)
 
-	result := self.DB.Preload("User").Find(allReservations)
-	if len(allReservations) == 0 || result.RowsAffected == 0 || result.Error != nil {
-		return fmt.Errorf("user '%s' does not exists", email)
+	if result := self.DB.Preload("User").Find(allReservations); result.RowsAffected == 0 || result.Error != nil {
+		return fmt.Errorf("user '%s' does not exists", email), nil
 	}
 
-	reservations := make([]model.Reservation, 0)
+	reservations := make([]*model.Reservation, 0)
 	for _, r := range reservations {
 		if r.User.Email == email {
 			reservations = append(reservations, r)
 		}
 	}
 
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(reservations); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
-	}
-
-	return nil
+	return nil, meridian.OkayMustJson(&reservations)
 }
 
-func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	email := mux.Vars(req)["email"]
 
 	// check if user exists
 	user := &model.User{}
-	result := self.DB.Where("email = ?", email).First(user)
-	if email != user.Email || result.RowsAffected == 0 || result.Error != nil {
-		return fmt.Errorf("user '%s' does not exists", email)
+	if result := self.DB.Where("email = ?", email).First(user); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("user '%s' does not exists", email), nil
 	}
 
 	// check if user has valid readerData
 	if !user.ReaderData.Valid {
-		return fmt.Errorf("attempting to create reservation using invalid reader from user '%s'", user.Email)
+		return fmt.Errorf("attempting to create reservation using invalid reader from user '%s'", user.Email), nil
 	}
 
 	reservation := &model.Reservation{User: *user}
@@ -129,14 +96,13 @@ func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http
 
 	creator := Creator{}
 	if err := json.NewDecoder(req.Body).Decode(&creator); err != nil {
-		return err
+		return err, nil
 	}
 
 	// check if card exists
 	card := &model.Card{}
-	result = self.DB.Where("name = ?", creator.CardName).First(card)
-	if creator.CardName != card.Name || result.RowsAffected == 0 || result.Error != nil {
-		return fmt.Errorf("card '%s' does not exists", creator.CardName)
+	if result := self.DB.Where("name = ?", creator.CardName).First(card); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("card '%s' does not exists", creator.CardName), nil
 	}
 
 	reservation.Since = time.Unix(creator.Since, 0)
@@ -145,13 +111,13 @@ func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http
 		reservation.IsReservation = *creator.IsReservation
 		if *creator.IsReservation {
 			if creator.Until == nil {
-				return fmt.Errorf("attempting to reserve card '%s' with invalid return-time!", card.Name)
+				return fmt.Errorf("attempting to reserve card '%s' with invalid return time", card.Name), nil
 			}
 			reservation.Until = time.Unix(*creator.Until, 0)
 		} else {
 			// if it's not a reservation check if card currently available to borrow right now
 			if !card.CurrentlyAvailable {
-				return fmt.Errorf("attempting to immediatly borrow currently unavailable card '%s'", card.Name)
+				return fmt.Errorf("attempting to immediatly borrow currently unavailable card '%s'", card.Name), nil
 			}
 
 			// card is now unavailable
@@ -161,56 +127,47 @@ func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http
 	}
 
 	if result := self.DB.Save(card); result.Error != nil || result.RowsAffected == 0 {
-		err := "0 rows affected; "
-		if result.Error != nil {
-			err += result.Error.Error()
-		}
-		return fmt.Errorf("unable to update card: %s", err)
+		return fmt.Errorf("unable to update card: %s", result.Error), nil
 	}
 
-	err := self.DB.
+	if err := self.DB.
 		Where("name = ?", card.Name).
 		Preload("Reservations").
 		Association("Reservations").
-		Append(reservation)
-
-	if err != nil {
-		return err
+		Append(reservation); err != nil {
+		return err, nil
 	}
 
-	return nil
+	return nil, meridian.Okay()
 }
 
-func (self *ReservationHandler) DeleteHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *ReservationHandler) DeleteHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	id, _ := strconv.Atoi(mux.Vars(req)["id"])
-	result := self.DB.Where("id = ?", id).Delete(&model.Reservation{})
-	if result.Error != nil || result.RowsAffected == 0 {
-		return fmt.Errorf("reservation '%d' does not exists", id)
+	if result := self.DB.Where("id = ?", id).Delete(&model.Reservation{}); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("reservation '%d' does not exist", id), nil
 	}
 
-	return meridian.Ok
+	return nil, meridian.Okay()
 }
 
-func (self *ReservationHandler) UpdateHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *ReservationHandler) UpdateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	type Updater struct {
 		Until      *int64 `json:"until"`
 		ReturnedAt *int64 `json:"returned-at"`
 	}
 
-	id, _ := strconv.Atoi(mux.Vars(req)["id"])
-	reservation := &model.Reservation{}
-	result := self.DB.Where("id = ?", id).First(reservation)
-	if reservation.ReservationID != uint(id) || result.RowsAffected == 0 || result.Error != nil {
-		return fmt.Errorf("reservation '%d' does not exists", id)
+	id := util.Must(strconv.Atoi(mux.Vars(req)["id"])).(int)
+	reservation := model.Reservation{}
+	if result := self.DB.Where("id = ?", id).First(&reservation); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("reservation '%d' does not exists", id), nil
 	}
 
 	updateReturnTime, updateReturnedAt := false, false
 
 	u := Updater{}
 	if err := json.NewDecoder(req.Body).Decode(&u); err != nil {
-		return err
+		return err, nil
 	}
-
 	if u.Until != nil {
 		updateReturnTime = true
 		reservation.Until = time.Unix(*u.Until, 0)
@@ -221,22 +178,11 @@ func (self *ReservationHandler) UpdateHandler(res http.ResponseWriter, req *http
 		reservation.ReturnedAt = time.Unix(*u.ReturnedAt, 0)
 		self.Logger.Println("update ReturnedAt", reservation.ReturnedAt)
 	}
-
 	if updateReturnTime || updateReturnedAt {
-		if err := self.DB.Save(reservation).Error; err != nil {
-			return err
+		if err := self.DB.Save(&reservation).Error; err != nil {
+			return err, nil
 		}
 	}
 
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(reservation); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
-	}
-
-	return nil
+	return nil, meridian.OkayMustJson(&reservation)
 }

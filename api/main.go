@@ -121,23 +121,23 @@ func initController(clientId string, db *gorm.DB, logger *log.Logger) *controlle
 	return c
 }
 
-func initHandlers(router *mux.Router, c *controller.Controller, chans map[string]chan string) {
-	c.ControllerLogChannel = chans["controller"]
+func initHandlers(router *mux.Router, c *controller.Controller, chans *map[string]chan string) {
+	c.ControllerLogChannel = (*chans)["controller"]
 	c.RegisterHandlers(router)
-	(&response.CardHandler{Controller: c, CardLogChannel: chans["card"]}).RegisterHandlers(router)
-	(&response.StorageHandler{Controller: c, StorageLogChannel: chans["storage"]}).RegisterHandlers(router)
-	(&response.UserHandler{Controller: c, UserLogChannel: chans["user"]}).RegisterHandlers(router)
-	(&response.ReservationHandler{Controller: c, ReservationLogChannel: chans["reservation"]}).RegisterHandlers(router)
+	(&response.CardHandler{Controller: c, CardLogChannel: (*chans)["card"]}).RegisterHandlers(router)
+	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"]}).RegisterHandlers(router)
+	(&response.UserHandler{Controller: c, UserLogChannel: (*chans)["user"]}).RegisterHandlers(router)
+	(&response.ReservationHandler{Controller: c, ReservationLogChannel: (*chans)["reservation"]}).RegisterHandlers(router)
 }
 
-func initChannels() map[string]chan string {
+func initChannels() *map[string]chan string {
 	chans := make(map[string]chan string)
 	chans["controller"] = make(chan string)
 	chans["card"] = make(chan string)
 	chans["storage"] = make(chan string)
 	chans["user"] = make(chan string)
 	chans["reservation"] = make(chan string)
-	return chans
+	return &chans
 }
 
 func initObserver(c *controller.Controller) {
@@ -166,6 +166,14 @@ func main() {
 
 	chans := initChannels()
 	c := initController(clientId, db, logger)
+
+	//go func() {
+	//	i := 0
+	//	for range time.Tick(5 * time.Second) {
+	//		(*chans)["controller"] <- fmt.Sprintf("%d", i)
+	//		i++
+	//	}
+	//}()
 
 	initHandlers(router, c, chans)
 

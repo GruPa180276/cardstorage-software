@@ -45,7 +45,7 @@ var (
 	API_STORAGES_CARDS_FILTER_NAME_INCREMENT          string = `/storages/cards/name/{name:` + cardNamePattern + `}/increment`
 	API_STORAGES_CARDS_FILTER_NAME_DECREMENT          string = `/storages/cards/name/{name:` + cardNamePattern + `}/decrement`
 	API_STORAGES_CARDS_FILTER_NAME_AVAILABLE          string = `/storages/cards/name/{name:` + cardNamePattern + `}/available/{flag:` + availabilityPattern + `}`
-	API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER   string = `/storages/cards/name/{name:` + cardNamePattern + `}/fetch/{email:` + userEmailPattern + `}`
+	API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER   string = `/storages/cards/name/{name:` + cardNamePattern + `}/fetch/user/email/{email:` + userEmailPattern + `}`
 	API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER string = `/storages/cards/name/{name:` + cardNamePattern + `}/fetch`
 	API_STORAGES_CARDS_WS_LOG                         string = `/storages/cards/log`
 	API_RESERVATIONS                                  string = `/storages/cards/reservations`

@@ -25,19 +25,10 @@ func (self *Observer) Observe() error {
 	observerOpts := self.Client.OptionsReader()
 	self.Println("manager-id:", observerOpts.ClientID())
 
-	c := &controller.Controller{
-		Logger:               self.Logger,
-		Map:                  self.Map,
-		Client:               self.Client,
-		ControllerLogChannel: self.ControllerLogChannel,
-		DB:                   self.DB,
-		ClientId:             self.ClientId,
-	}
-
 	for _, storage := range storages {
 		topic := util.AssembleBaseStorageTopic(storage.Name, storage.Location)
 		self.Printf("subscribed to %q", topic)
-		subtoken := self.Subscribe(topic, 2, GetObserverHandler(c))
+		subtoken := self.Subscribe(topic, 2, GetObserverHandler(self.Controller))
 		<-subtoken.Done()
 		if err := subtoken.Error(); err != nil {
 			self.Println(err)
@@ -49,32 +40,47 @@ func (self *Observer) Observe() error {
 }
 
 func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
-	onError := func(err error) {
-		if err == nil {
-			return
-		}
-		c.Println(err)
-		c.ControllerLogChannel <- err.Error()
-	}
-	onSuccess := func(maybe error, okMessage error) error {
-		if maybe != meridian.Ok {
-			return maybe
-		}
-		c.ControllerLogChannel <- okMessage.Error()
-		c.Println(okMessage.Error())
-		// log success
-		return nil
+	s := &meridian.StaticMqttReporter{
+		MqttReporterErrorHandlerFunc: func(err error, _ mqtt.Message) {
+			c.Println(err.Error())
+			buf, errJson := json.Marshal(&struct {
+				ActionSuccessful  bool            `json:"successful"`
+				ControllerMessage json.RawMessage `json:"controller"`
+			}{
+				ActionSuccessful:  false,
+				ControllerMessage: json.RawMessage(err.Error()),
+			})
+			if errJson != nil {
+				buf = util.Must(json.Marshal(&struct {
+					ActionSuccessful  bool   `json:"successful"`
+					ControllerMessage string `json:"controller"`
+				}{
+					ActionSuccessful:  false,
+					ControllerMessage: err.Error(),
+				})).([]byte)
+			}
+			c.ControllerLogChannel <- string(buf)
+		},
+		MqttReporterSuccessHandlerFunc: func(ok *meridian.Ok, _ mqtt.Message) {
+			c.Println(ok.Error())
+			c.ControllerLogChannel <- string(util.Must(json.Marshal(&struct {
+				ActionSuccessful  bool            `json:"successful"`
+				ControllerMessage json.RawMessage `json:"controller"`
+			}{
+				ActionSuccessful:  true,
+				ControllerMessage: json.RawMessage(ok.Error()),
+			})).([]byte))
+		},
 	}
 	return func(client mqtt.Client, msg mqtt.Message) {
-		go func() {
-			c.Println(msg.Topic(), string(msg.Payload()))
+		go func(s *meridian.StaticMqttReporter) {
 			if len(string(msg.Payload())) > (1 << 10) {
-				onError(fmt.Errorf("message rejected due to memory footprint"))
+				s.MqttReporterErrorHandlerFunc(fmt.Errorf("message rejected due to memory footprint"), nil)
 				return
 			}
 			header := &controller.Header{}
 			if err := json.Unmarshal(msg.Payload(), header); err != nil {
-				onError(fmt.Errorf("unable to parse message header: %s", err.Error()))
+				s.MqttReporterErrorHandlerFunc(fmt.Errorf("unable to parse message header: %s", err.Error()), nil)
 				return
 			}
 			if header.ClientId == c.ClientId {
@@ -83,27 +89,27 @@ func GetObserverHandler(c *controller.Controller) mqtt.MessageHandler {
 
 			switch header.Action {
 			case controller.ActionStorageUnitPing:
-				onError(onSuccess(c.PingStorageUnitHandler(msg)))
+				s.Reporter(c.PingStorageUnitHandler)(msg)
 				return
 			case controller.ActionStorageUnitNewCard:
-				onError(onSuccess(c.StorageUnitAddCardHandler(msg)))
+				s.Reporter(c.StorageUnitAddCardHandler)(msg)
 				return
 			case controller.ActionStorageUnitDeleteCard:
-				onError(onSuccess(c.DeleteCardHandler(msg)))
+				s.Reporter(c.DeleteCardHandler)(msg)
 				return
 			case controller.ActionStorageUnitFetchCardSourceMobile:
-				onError(onSuccess(c.FetchCardKnownUserHandler(msg)))
+				s.Reporter(c.FetchCardKnownUserHandler)(msg)
 				return
 			case controller.ActionStorageUnitFetchCardSourceTerminal:
-				onError(onSuccess(c.FetchCardUnknownUserHandler(msg)))
+				s.Reporter(c.FetchCardUnknownUserHandler)(msg)
 				return
 			case controller.ActionUserSignup:
-				onError(onSuccess(c.SignUpUserHandler(msg)))
+				s.Reporter(c.SignUpUserHandler)(msg)
 				return
 			case controller.ActionStorageUnitDepositCard:
-				onError(onSuccess(c.DepositCardHandler(msg)))
+				s.Reporter(c.DepositCardHandler)(msg)
 				return
 			}
-		}()
+		}(s)
 	}
 }

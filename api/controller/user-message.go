@@ -21,9 +21,9 @@ func NewSerializableUserMessage(h Header, u User, s Status) (message Serializabl
 
 type SerializableUserCardMessage struct {
 	Header
-	User `json:"user"`
-	Card `json:"card"`
-	Status
+	User   `json:"user"`
+	Card   `json:"card"`
+	Status `json:"status"`
 }
 
 func NewSerializableUserCardMessage(h Header, u User, c Card, s Status) (message SerializableUserCardMessage) {

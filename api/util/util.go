@@ -98,18 +98,18 @@ func RandomIntExclude(min, max int, blacklist []int) int {
 	}
 }
 
-func MarshalNullableString(s sql.NullString) any {
+func MarshalNullableString(s sql.NullString) string {
 	if !s.Valid {
-		return nil
+		return ""
 	}
 	return s.String
 }
 
-func UnmarshalNullableString(v any) sql.NullString {
-	if v == nil {
+func UnmarshalNullableString(v string) sql.NullString {
+	if v == "" {
 		return sql.NullString{}
 	}
-	return sql.NullString{Valid: true, String: v.(string)}
+	return sql.NullString{Valid: true, String: v}
 }
 
 func NullableString(v string) sql.NullString {
@@ -133,12 +133,25 @@ func DisassembleBaseStorageTopic(topic string) (storage, location, sub string) {
 	return
 }
 
+func JsonError(code int, reason string) string {
+	// fmt.Sprintf(`{"error":{"status":"%s"%s}}`, http.StatusText(code), r)
+	type errStatus struct {
+		Status string `json:"status"`
+		Reason string `json:"reason"`
+	}
+	return string(Must(json.Marshal(&struct {
+		Error errStatus `json:"error"`
+	}{
+		Error: errStatus{Status: http.StatusText(code), Reason: reason},
+	})).([]byte))
+}
+
 func HttpBasicJsonError(res http.ResponseWriter, code int, reason ...string) {
 	r := ""
 	if len(reason) > 0 {
 		r = fmt.Sprintf(`,"reason":"%s"`, reason[0])
 	}
-	http.Error(res, fmt.Sprintf(`{"error":{"status":"%s"%s}}`, http.StatusText(code), r), code)
+	http.Error(res, JsonError(code, r), code)
 }
 
 func HttpBasicJsonResponse(res http.ResponseWriter, code int, value any) error {

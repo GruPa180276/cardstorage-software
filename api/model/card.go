@@ -20,7 +20,7 @@ type Card struct {
 func (self *Card) MarshalJSON() ([]byte, error) {
 	type Alias Card
 	return json.Marshal(&struct {
-		ReaderData any `json:"reader"`
+		ReaderData string `json:"reader"`
 		*Alias
 	}{
 		ReaderData: util.MarshalNullableString(self.ReaderData),
@@ -39,6 +39,6 @@ func (self *Card) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, aux); err != nil {
 		return err
 	}
-	self.ReaderData = util.UnmarshalNullableString(aux.ReaderData)
+	self.ReaderData = util.UnmarshalNullableString(aux.ReaderData.String)
 	return nil
 }

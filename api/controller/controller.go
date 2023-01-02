@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 	"sync"
 	"time"
 
@@ -44,7 +43,7 @@ func LoggerChannelHandlerFactory(channel chan string, logger *log.Logger, upgrad
 			case message, ok := <-channel:
 				if ok {
 					if err = socket.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
-						logger.Println(err)
+						logger.Println(req.URL.String(), err)
 					}
 				} else {
 					listen = false
@@ -60,7 +59,7 @@ func (self *Controller) RegisterHandlers(router *mux.Router) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func (self *Controller) PingStorageUnitHandler(message mqtt.Message) (error, error) {
+func (self *Controller) PingStorageUnitHandler(message mqtt.Message) (error, *meridian.Ok) {
 	m := SerializablePingMessage{}
 	if err := json.Unmarshal(message.Payload(), &m); err != nil {
 		return err, nil
@@ -68,7 +67,7 @@ func (self *Controller) PingStorageUnitHandler(message mqtt.Message) (error, err
 
 	self.Map.LoadAndDelete(m.Id)
 
-	return meridian.Ok, fmt.Errorf(string(message.Payload()))
+	return nil, meridian.Okay(string(message.Payload()))
 }
 
 func (self *Controller) PingStorageUnitDispatcher(storageName, location string) error {
@@ -95,7 +94,7 @@ func (self *Controller) PingStorageUnitDispatcher(storageName, location string) 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func (self *Controller) StorageUnitAddCardHandler(message mqtt.Message) (error, error) {
+func (self *Controller) StorageUnitAddCardHandler(message mqtt.Message) (error, *meridian.Ok) {
 	m := SerializableCardStatusMessage{}
 	if err := json.Unmarshal(message.Payload(), &m); err != nil {
 		return err, nil
@@ -114,16 +113,13 @@ func (self *Controller) StorageUnitAddCardHandler(message mqtt.Message) (error, 
 		return err, nil
 	}
 
-	if err := self.DB.Model(storage).Preload("Cards").Association("Cards").Append(&card); err != nil {
-		if strings.Contains(err.Error(), "Error 1452") {
-			return fmt.Errorf("possible duplicate card '%s'", card.Name), nil
-		}
+	if err := self.DB.Model(&storage).Preload("Cards").Association("Cards").Append(&card); err != nil {
 		return err, nil
 	}
 
 	self.Map.LoadAndDelete(m.Id)
 
-	return meridian.Ok, fmt.Errorf(string(message.Payload()))
+	return nil, meridian.Okay(string(message.Payload()))
 }
 
 func (self *Controller) StorageUnitAddCardDispatcher(storageName, location, cardName string, position uint) error {
@@ -146,7 +142,7 @@ func (self *Controller) StorageUnitAddCardDispatcher(storageName, location, card
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func (self *Controller) DeleteCardHandler(message mqtt.Message) (error, error) {
+func (self *Controller) DeleteCardHandler(message mqtt.Message) (error, *meridian.Ok) {
 	m := SerializableCardStatusMessage{}
 	if err := json.Unmarshal(message.Payload(), &m); err != nil {
 		return err, nil
@@ -161,7 +157,7 @@ func (self *Controller) DeleteCardHandler(message mqtt.Message) (error, error) {
 	}
 
 	self.Map.LoadAndDelete(m.Id)
-	return meridian.Ok, fmt.Errorf(string(message.Payload()))
+	return nil, meridian.Okay(string(message.Payload()))
 }
 
 func (self *Controller) DeleteCardDispatcher(storageName, location, cardName string, position uint) error {
@@ -186,14 +182,13 @@ func (self *Controller) DeleteCardDispatcher(storageName, location, cardName str
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func (self *Controller) SignUpUserHandler(message mqtt.Message) (error, error) {
+func (self *Controller) SignUpUserHandler(message mqtt.Message) (error, *meridian.Ok) {
 	m := SerializableUserMessage{}
 	if err := json.Unmarshal(message.Payload(), &m); err != nil {
 		return err, nil
 	}
 
-	_, ok := self.Map.Load(m.Id)
-	if !ok {
+	if _, ok := self.Map.Load(m.Id); !ok {
 		return fmt.Errorf("got unknown message-id '%s' for action '%s'", m.Id, m.Action), nil
 	}
 	// entry.(SerializableUserMessage).User.ReaderData = m.User.ReaderData
@@ -203,7 +198,7 @@ func (self *Controller) SignUpUserHandler(message mqtt.Message) (error, error) {
 		return err, nil
 	}
 
-	return meridian.Ok, fmt.Errorf(string(message.Payload()))
+	return nil, meridian.Okay(string(message.Payload()))
 }
 
 func (self *Controller) SignUpUserDispatcher(storageName, location, email string) error {
@@ -233,13 +228,13 @@ func (self *Controller) SignUpUserDispatcher(storageName, location, email string
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // @todo
-func (self *Controller) DepositCardHandler(message mqtt.Message) (error, error) {
-	return meridian.Ok, fmt.Errorf(string(message.Payload()))
+func (self *Controller) DepositCardHandler(message mqtt.Message) (error, *meridian.Ok) {
+	return nil, meridian.Okay(string(message.Payload()))
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func (self *Controller) FetchCardKnownUserHandler(message mqtt.Message) (error, error) {
+func (self *Controller) FetchCardKnownUserHandler(message mqtt.Message) (error, *meridian.Ok) {
 	m := SerializableUserCardMessage{}
 	if err := json.Unmarshal(message.Payload(), &m); err != nil {
 		return err, nil
@@ -253,13 +248,15 @@ func (self *Controller) FetchCardKnownUserHandler(message mqtt.Message) (error, 
 
 	self.ControllerLogChannel <- string(message.Payload())
 
-	c := model.Card{}
-	if err := self.DB.Where("name = ?", m.Card.Name).First(&c).Error; err != nil {
-		return err, nil
+	card := model.Card{}
+	if result := self.DB.Where("name = ?", m.Card.Name).First(&card); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("card '%s' doesn't exist", m.Card.Name), nil
 	}
-	c.CurrentlyAvailable = false
-	c.AccessCount++
-	if err := self.DB.Save(&c).Error; err != nil {
+
+	card.CurrentlyAvailable = false
+	card.AccessCount++
+
+	if err := self.DB.Save(&card).Error; err != nil {
 		self.Logger.Println(err)
 	}
 
@@ -268,12 +265,13 @@ func (self *Controller) FetchCardKnownUserHandler(message mqtt.Message) (error, 
 	if err := self.DB.Where("email = ?", m.User.Email).First(&user).Error; err != nil {
 		return err, nil
 	}
+
 	reservation := model.Reservation{UserID: user.UserID, User: user, Since: time.Now(), IsReservation: false}
-	if err := self.DB.Model(&user).Association("Reservations").Append(&reservation); err != nil {
+	if err := self.DB.Model(&card).Association("Reservations").Append(&reservation); err != nil {
 		return err, nil
 	}
 
-	return meridian.Ok, fmt.Errorf(string(message.Payload()))
+	return nil, meridian.Okay(string(message.Payload()))
 }
 
 func (self *Controller) FetchCardKnownUserDispatcher(storageName, location, userWantsCardName string, userWantsCardPosition uint, userEmail string) error {
@@ -299,7 +297,7 @@ func (self *Controller) FetchCardKnownUserDispatcher(storageName, location, user
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func (self *Controller) FetchCardUnknownUserHandler(message mqtt.Message) (error, error) {
+func (self *Controller) FetchCardUnknownUserHandler(message mqtt.Message) (error, *meridian.Ok) {
 	m := SerializableUserCardMessage{}
 	if err := json.NewDecoder(bytes.NewBuffer(message.Payload())).Decode(&m); err != nil {
 		return err, nil
@@ -326,20 +324,17 @@ func (self *Controller) FetchCardUnknownUserHandler(message mqtt.Message) (error
 			return err, nil
 		}
 		m.User.Exists = true
-		user := &model.User{}
-		if result := self.DB.Where("reader_data = ?", m.User.ReaderData).First(user); result.Error != nil {
+		user := model.User{}
+		if result := self.DB.Where("reader_data = ?", m.User.ReaderData).First(&user); result.Error != nil || result.RowsAffected == 0 {
 			// transaction failed
 			self.Map.Delete(m.Id)
 			m.User.Exists = false
-			self.ControllerLogChannel <- result.Error.Error()
-			if result.Error == gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to fetch card from terminal: user with reader_data '%s' doesn't exist", *m.User.ReaderData), nil
-			}
-			return result.Error, nil
+
+			return fmt.Errorf("failed to fetch card from terminal: user with reader_data '%s' doesn't exist", *m.User.ReaderData), nil
 		}
 		m.ClientId = self.ClientId
 		<-self.Client.Publish(message.Topic(), 2, false, util.Must(json.Marshal(m)).([]byte)).Done()
-		return meridian.Ok, fmt.Errorf(string(message.Payload()))
+		return nil, meridian.Okay(string(message.Payload()))
 	} else { // acknowledge of actual card-fetch
 		if !m.Status.ActionSuccessful {
 			return fmt.Errorf("failed to fetch card '%s' at '%d' from storage-unit '%s' at '%s': %s", m.Card.Name, m.Card.Position, storageName, location, m.IfNotWhy), nil
@@ -369,7 +364,7 @@ func (self *Controller) FetchCardUnknownUserHandler(message mqtt.Message) (error
 
 		self.Map.Delete(m.Id)
 
-		return meridian.Ok, fmt.Errorf(string(message.Payload()))
+		return nil, meridian.Okay(string(message.Payload()))
 	}
 }
 

@@ -35,7 +35,7 @@ var (
 func init() {
 	must(nil, godotenv.Load("../../.env"))
 	clientId = os.Getenv("SIM_CONTROLLER_CLIENT_ID")
-	broker = "tcp://" + os.Getenv("BROKER_HOSTNAME") + ":" + os.Getenv("BROKER_PORT")
+	broker = "tcp://127.0.0.1" + ":" + os.Getenv("BROKER_PORT")
 	broker_username = os.Getenv("BROKER_USERNAME")
 	broker_passwd = os.Getenv("BROKER_PASSWD")
 	topic = os.Getenv("SIM_CONTROLLER_TOPIC")
@@ -100,7 +100,7 @@ func pingHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 
 	l.Println("<~", string(buffer))
 
-	if token := c.Publish(topic, 2, true, buffer); token.Wait() && token.Error() != nil {
+	if token := c.Publish(topic, 2, false, buffer); token.Wait() && token.Error() != nil {
 		l.Fatalln(token.Error())
 	}
 }
@@ -118,7 +118,7 @@ func newCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 
 	msg["card"].(map[string]any)["data"] = base64.URLEncoding.EncodeToString(scannedBytes)
 
-	if err := hardware.StoreCard(msg["card"].(map[string]any)["position"].(int)); err != nil {
+	if err := hardware.StoreCard(int(msg["card"].(map[string]any)["position"].(float64))); err != nil {
 		msg["status"].(map[string]any)["successful"] = false
 		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
 		l.Println(err)
@@ -141,7 +141,7 @@ func deleteCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 
 	msg["client-id"] = clientId
 
-	if err := hardware.GetCard(msg["card"].(map[string]any)["position"].(int)); err != nil {
+	if err := hardware.GetCard(int(msg["card"].(map[string]any)["position"].(float64))); err != nil {
 		msg["status"].(map[string]any)["successful"] = false
 		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
 	}
@@ -163,7 +163,7 @@ func fetchCardMobileHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 
 	msg["client-id"] = clientId
 
-	if err := hardware.GetCard(msg["card"].(map[string]any)["position"].(int)); err != nil {
+	if err := hardware.GetCard(int(msg["card"].(map[string]any)["position"].(float64))); err != nil {
 		msg["status"].(map[string]any)["successful"] = false
 		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
 	}

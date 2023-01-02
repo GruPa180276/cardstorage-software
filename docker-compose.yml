@@ -19,7 +19,7 @@ services:
     networks:
       - csnet
     environment:
-      - WAIT_HOSTS=db:3306,broker:1883
+      - WAIT_HOSTS=db:${DB_PORT},broker:${BROKER_PORT}
       - WAIT_HOSTS_TIMEOUT=300
       - WAIT_SLEEP_INTERVAL=1
       - WAIT_HOST_CONNECT_TIMEOUT=30
@@ -31,6 +31,8 @@ services:
       - DB_HOSTNAME=${DB_HOSTNAME}
       - BROKER_HOSTNAME=${BROKER_HOSTNAME}
       - BROKER_PORT=${BROKER_PORT}
+      - BROKER_USERNAME=${BROKER_USERNAME}
+      - BROKER_PASSWD=${BROKER_PASSWD}
       - REST_PORT=${REST_PORT}
   persistent:
     hostname: ${DB_HOSTNAME}
@@ -40,6 +42,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=Europe/Vienna
+    volumes:
+      - ./persistent/model.sql:/docker-entrypoint-initdb.d/schema.sql:rw
     networks:
       - csnet
   broker:

@@ -1,7 +1,6 @@
 package response
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -14,6 +13,7 @@ import (
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/observer"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
+	"gorm.io/gorm/clause"
 )
 
 type StorageHandler struct {
@@ -22,7 +22,7 @@ type StorageHandler struct {
 }
 
 func (self *StorageHandler) RegisterHandlers(router *mux.Router) {
-	s := meridian.StaticReporter{ErrorHandlerFactory(self.Logger), SuccessHandlerFactory(self.Logger)}
+	s := meridian.StaticHttpReporter{ErrorHandlerFactory(self.Logger, self.StorageLogChannel), SuccessHandlerFactory(self.Logger)}
 	router.HandleFunc(paths.API_STORAGES, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, s.Reporter(self.GetByNameHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
@@ -33,52 +33,30 @@ func (self *StorageHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_STORAGES_WS_LOG, controller.LoggerChannelHandlerFactory(self.StorageLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
-func (self *StorageHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) error {
-	storages := make([]*model.Storage, 0)
+func (self *StorageHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	storages := make([]model.Storage, 0)
 
-	if err := self.DB.Preload("Cards").Find(&storages).Error; err != nil {
-		return err
+	if err := self.DB.Preload(clause.Associations).Preload("Cards.Reservations").Find(&storages).Error; err != nil {
+		return err, nil
 	}
 
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(storages); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
-	}
-
-	return nil
+	return nil, meridian.OkayMustJson(&storages)
 }
 
-func (self *StorageHandler) GetByNameHandler(res http.ResponseWriter, req *http.Request) error {
-	name, ok := mux.Vars(req)["name"]
-	if !ok {
-		return fmt.Errorf("invalid field 'name': %s", name)
-	}
-	storage := &model.Storage{}
-	if err := self.DB.Preload("Cards").Where("name = ?", name).Find(storage).Error; err != nil {
-		return err
+func (self *StorageHandler) GetByNameHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	name := mux.Vars(req)["name"]
+	storage := model.Storage{}
+	// https://github.com/go-gorm/gorm/issues/4027
+	if err := self.DB.Preload(clause.Associations).Preload("Cards.Reservations").Preload("Cards.Reservations.User").Where("name = ?", name).First(&storage).Error; err != nil {
+		return err, nil
 	}
 
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(storage); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
-	}
-
-	return nil
+	return nil, meridian.OkayMustJson(&storage)
 }
 
 var createdButNotSubscribedStorages = make(map[string]bool)
 
-func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	type Creator struct {
 		Name     string `json:"name"`
 		Location string `json:"location"`
@@ -88,171 +66,144 @@ func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Req
 	c := &Creator{}
 
 	if err := json.NewDecoder(req.Body).Decode(&c); err != nil {
-		return err
+		return err, nil
 	}
 	if !paths.StorageNameMatcher.MatchString(c.Name) {
-		return fmt.Errorf("attribute 'name' does not match required pattern: %s", c.Name)
+		return fmt.Errorf("attribute 'name' does not match required pattern: %s", c.Name), nil
 	}
 	if !paths.StorageLocationMatcher.MatchString(c.Location) {
-		return fmt.Errorf("attribute 'location' does not match required pattern: %s", c.Location)
+		return fmt.Errorf("attribute 'location' does not match required pattern: %s", c.Location), nil
 	}
 	if !paths.StorageAddressMatcher.MatchString(c.Address) {
-		return fmt.Errorf("attribute 'address' does not match required pattern: %s", c.Address)
+		return fmt.Errorf("attribute 'address' does not match required pattern: %s", c.Address), nil
 	}
 	if c.Capacity != nil {
 		if !paths.StorageCapacityMatcher.MatchString(fmt.Sprintf("%d", *c.Capacity)) {
-			return fmt.Errorf("attribute 'capacity' does not match required pattern: %s", c.Name)
+			return fmt.Errorf("attribute 'capacity' does not match required pattern: %s", c.Name), nil
 		}
 	}
 
-	s := &model.Storage{Name: c.Name, Location: c.Location, Address: c.Address}
+	s := model.Storage{Name: c.Name, Location: c.Location, Address: c.Address}
 	if c.Capacity != nil {
 		s.Capacity = *c.Capacity
 	}
 
-	if err := self.DB.Create(s).Error; err != nil {
-		return err
-	}
-
-	s2 := &model.Storage{}
-	if err := self.DB.Preload("Cards").Where("name = ?", s.Name).Find(s2).Error; err != nil {
-		return err
-	}
-
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(s2); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
+	if err := self.DB.Create(&s).Error; err != nil {
+		return err, nil
 	}
 
 	createdButNotSubscribedStorages[s.Name] = true
 
-	return nil
+	return nil, meridian.OkayMustJson(&s)
 }
 
-func (self *StorageHandler) UpdateHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *StorageHandler) UpdateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	type Updater struct {
 		Name     *string `json:"name"`
 		Location *string `json:"location"`
 		Address  *string `json:"address"`
 		Capacity *uint   `json:"capacity"`
 	}
-	s := &model.Storage{}
 	vars := mux.Vars(req)
-	if err := self.DB.Preload("Cards").Where("name = ?", vars["name"]).Find(s).Error; err != nil {
-		return fmt.Errorf("card '%s' does not exist; %s", vars["name"], err.Error())
+
+	storage := model.Storage{}
+	if result := self.DB.Preload("Cards").Where("name = ?", vars["name"]).First(&storage); result.Error != nil || result.RowsAffected == 0 {
+		err := ""
+		if result.Error != nil {
+			err = result.Error.Error()
+		}
+		return fmt.Errorf("card '%s' does not exist; %s", vars["name"], err), nil
 	}
 
 	u := Updater{}
 	if err := json.NewDecoder(req.Body).Decode(&u); err != nil {
-		return err
+		return err, nil
 	}
 
 	updateName, updateLocation, updateAddress, updateCapacity := false, false, false, false
 
 	if u.Name != nil {
 		updateName = true
-		s.Name = *u.Name
-		self.Logger.Println("update Name", s.Name)
+		storage.Name = *u.Name
+		self.Logger.Println("update Name", storage.Name)
 	}
 	if u.Location != nil {
 		updateLocation = true
-		s.Location = *u.Location
-		self.Logger.Println("update Location", s.Location)
+		storage.Location = *u.Location
+		self.Logger.Println("update Location", storage.Location)
 	}
 	if u.Address != nil {
 		updateAddress = true
-		s.Address = *u.Address
-		self.Logger.Println("update Address", s.Address)
+		storage.Address = *u.Address
+		self.Logger.Println("update Address", storage.Address)
 	}
 	if u.Capacity != nil {
 		updateCapacity = true
-		s.Capacity = *u.Capacity
-		self.Logger.Println("update Capacity", s.Capacity)
+		storage.Capacity = *u.Capacity
+		self.Logger.Println("update Capacity", storage.Capacity)
 	}
 
 	if updateName || updateLocation || updateAddress || updateCapacity {
-		if err := self.DB.Save(s).Error; err != nil {
-			return err
+		if err := self.DB.Save(&storage).Error; err != nil {
+			return err, nil
 		}
 	}
 
-	buf := bytes.NewBufferString("")
-	if err := json.NewEncoder(buf).Encode(s); err != nil {
-		return err
-	}
-
-	if _, err := res.Write(buf.Bytes()); err != nil {
-		self.Logger.Println(err)
-		return nil
-	}
-
-	return nil
+	return nil, meridian.OkayMustJson(&storage)
 }
 
-func (self *StorageHandler) DeleteHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *StorageHandler) DeleteHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	vars := mux.Vars(req)
-	s := &model.Storage{}
-	if err := self.DB.Preload("Cards").Where("name = ?", vars["name"]).Find(s).Error; err != nil {
-		return err
+	storage := model.Storage{}
+	if result := self.DB.Preload("Cards").Where("name = ?", vars["name"]).First(&storage); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("unable to get card '%s'", vars["name"]), nil
 	}
-	if len(s.Cards) != 0 {
-		return fmt.Errorf("attempting to delete non-empty storage '%s'", s.Name)
+	if len(storage.Cards) != 0 {
+		return fmt.Errorf("attempting to delete non-empty storage '%s'", storage.Name), nil
 	}
-	if err := self.DB.Delete(s).Error; err != nil {
-		return err
+	if err := self.DB.Delete(&storage).Error; err != nil {
+		return err, nil
 	}
 
-	self.Unsubscribe(util.AssembleBaseStorageTopic(s.Name, s.Location))
+	self.Unsubscribe(util.AssembleBaseStorageTopic(storage.Name, storage.Location))
 
-	return meridian.Ok
+	return nil, meridian.Okay()
 }
 
-func (self *StorageHandler) PingHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *StorageHandler) PingHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	name := mux.Vars(req)["name"]
-	s := &model.Storage{}
-	if err := self.DB.Where("name = ?", name).First(s).Error; err != nil {
-		return err
+	storage := model.Storage{}
+	if err := self.DB.Where("name = ?", name).First(&storage).Error; err != nil {
+		return err, nil
 	}
-	if err := self.PingStorageUnitDispatcher(s.Name, s.Location); err != nil {
-		return err
+	if err := self.PingStorageUnitDispatcher(storage.Name, storage.Location); err != nil {
+		return err, nil
 	}
-	if err := util.HttpBasicJsonResponse(res, http.StatusOK, &struct {
+
+	return nil, meridian.OkayMustJson(&struct {
 		Name string `json:"name"`
 		Time int64  `json:"time"`
 	}{
-		Name: s.Name,
+		Name: storage.Name,
 		Time: time.Now().Unix(),
-	}); err != nil {
-		self.Println(err)
-		return nil
-	}
-	return nil
+	})
 }
 
-func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Request) error {
+func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	name := mux.Vars(req)["name"]
 
 	if _, ok := createdButNotSubscribedStorages[name]; !ok {
-		return fmt.Errorf("attempting to re-focus on already subscribed storage-unit")
+		return fmt.Errorf("attempting to re-focus on already subscribed storage-unit"), nil
 	}
 
-	storage := &model.Storage{}
-	if err := self.Where("name = ?", name).First(storage).Error; err != nil {
-		return err
+	storage := model.Storage{}
+	if result := self.Where("name = ?", name).First(&storage); result.Error != nil || result.RowsAffected == 0 {
+		return fmt.Errorf("unable to get storage '%s'", name), nil
 	}
 
 	topic := util.AssembleBaseStorageTopic(storage.Name, storage.Location)
-	if token := self.Subscribe(topic, 2, observer.GetObserverHandler(self.Controller)); token.Wait() && token.Error() != nil {
-		return token.Error()
-	}
-
-	self.Printf("subscribed to %q", topic)
+	self.Subscribe(topic, 2, observer.GetObserverHandler(self.Controller))
 
 	delete(createdButNotSubscribedStorages, name)
-	return meridian.Ok
+	return nil, meridian.Okay(fmt.Sprintf("subscribed to %q", topic))
 }

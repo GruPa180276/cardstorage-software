@@ -6,14 +6,14 @@ String ipadress = "http://192.168.120.186:7171/api/storage-units";
 class Storages {
   int id;
   String name;
-  String ipAdress;
+  // String ipAdress;
   int numberOfCards;
   int location;
 
   Storages({
     required this.id,
     required this.name,
-    required this.ipAdress,
+    // required this.ipAdress,
     required this.numberOfCards,
     required this.location,
   });
@@ -22,14 +22,14 @@ class Storages {
     return Storages(
         id: json['id'] ?? 0,
         name: json['name'] ?? "",
-        ipAdress: json['ip-address'] ?? "",
+        // ipAdress: json['ip-address'] ?? "",
         numberOfCards: json['capacity'] ?? 0,
         location: json['location-id'] ?? 0);
   }
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'ip-address': ipAdress,
+        // 'ip-address': ipAdress,
         'capacity': numberOfCards,
         'location-id': location,
       };

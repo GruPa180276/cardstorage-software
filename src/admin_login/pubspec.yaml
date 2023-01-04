@@ -40,6 +40,9 @@ dependencies:
   flutter_launcher_icons: ^0.9.3
   # flutter_speed_dial: ^6.0.0
   shared_preferences: ^2.0.15
+  web_socket_channel: ^2.1.0
+  async: ^2.4.1
+
 
 dev_dependencies:
   flutter_test:

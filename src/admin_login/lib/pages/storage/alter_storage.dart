@@ -134,14 +134,14 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
           function: this.setName,
           state: true,
         ),
-        GenerateListTile(
+        /*GenerateListTile(
           labelText: "IP Adresse",
           hintText: data[index].ipAdress,
           icon: Icons.network_wifi,
           regExp: r'([0-9\.])',
           function: this.setIPAdress,
           state: true,
-        ),
+        ),*/
         GenerateListTile(
           labelText: "Anzahl an Karten",
           hintText: data[index].numberOfCards.toString(),
@@ -235,7 +235,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                     Storages newEntry = new Storages(
                         id: storageValues.id,
                         name: storageValues.name,
-                        ipAdress: storageValues.ipAdress,
+                        // ipAdress: storageValues.ipAdress,
                         location: storageValues.location,
                         numberOfCards: storageValues.numberOfCards);
                     storage.updateData(newEntry.toJson());

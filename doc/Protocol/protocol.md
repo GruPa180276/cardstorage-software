@@ -241,6 +241,9 @@ Habe eine Status Seite für die Storages erstellt, wo ersichtlich ist ob ein Pro
 **1.1.2023: 13:00 bis 13:40** <br>
 Meeting mit Johannes über Änderungen, die an der API vorgenommen wurden und welche Sachen jetzt funktionieren. (40min)
 
+**4.1.2023: 8:45 bis 11:30** <br>
+Habe heute versucht, die neue Version des Containers von der API laufen zu lassen. Es tratten aber immer wieder Fehler auf. Diese konnten auch durch die Hilfe von Johannes nicht gelöst werden. Habe dann noch Code für die Websockerts implementiert, um Logs anzuzeigen. Danach habe ich das komplette id basierte vorgehen im Code, auf den Namen umgestellt, da es keine ids mehr gibt. Zum Schluss habe ich noch überflüssigen Code gelöscht. (2h 45min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -310,4 +313,5 @@ Meeting mit Johannes über Änderungen, die an der API vorgenommen wurden und we
 - 9:00 bis 11:45 Uhr
 - 10:00 bis 12:00 Uhr
 - 13:00 bis 13:40 Uhr
+- 8:45 bis 11:30 Uhr
 <!-- { "progress": false } -->

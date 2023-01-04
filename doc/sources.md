@@ -77,3 +77,6 @@
 - https://flutter-examples.com/flutter-textalign-property-explained/
 - https://medium.com/flutter-community/table-in-flutter-beyond-the-basics-8d31b022b451
 - https://flutterforyou.com/how-to-create-elevated-button-with-icon-and-text-in-flutter/
+- https://blog.logrocket.com/using-websockets-flutter/
+- https://stackoverflow.com/questions/59634726/streambuilder-with-websockets-stream-in-tabbarview-bad-state-stream-has-alread
+- https://stackoverflow.com/questions/62729973/flutter-how-to-use-multiple-streams-combine

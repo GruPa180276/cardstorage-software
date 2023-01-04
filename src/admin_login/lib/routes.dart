@@ -8,8 +8,6 @@ import 'package:admin_login/pages/storage/add_storage.dart';
 import 'package:admin_login/pages/storage/alter_storage.dart';
 import 'package:admin_login/pages/storage/remove_storage.dart';
 
-import 'package:admin_login/pages/location/add_location.dart';
-
 import 'package:admin_login/pages/status/status_storage.dart';
 
 import 'package:admin_login/pages/stats/temp_stats.dart';
@@ -25,7 +23,7 @@ class RouteGenerator {
       case '/addCards':
         return MaterialPageRoute(builder: ((context) => AddCards()));
       case '/alterCards':
-        if (args is int) {
+        if (args is String) {
           return MaterialPageRoute(builder: ((context) => CardSettings(args)));
         }
         return _errorRoute();
@@ -51,10 +49,6 @@ class RouteGenerator {
       //Settings
       case '/settings':
         return MaterialPageRoute(builder: ((context) => Settings()));
-
-      //Settings
-      case '/addLocation':
-        return MaterialPageRoute(builder: ((context) => AddLocation()));
 
       //Status
       case '/status':

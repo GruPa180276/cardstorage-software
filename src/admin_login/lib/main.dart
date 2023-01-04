@@ -23,6 +23,7 @@ Future main() async {
 // TODO:
 // Fix Filter View
 // Status Storage Page
+// Logs
 
 // Change app icon -> pubsec.yaml
 // https://pub.dev/packages/flutter_launcher_icons

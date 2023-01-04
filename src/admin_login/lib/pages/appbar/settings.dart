@@ -1,7 +1,8 @@
-import 'package:admin_login/pages/widget/appbar_back.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:admin_login/provider/theme/themes.dart';
+import 'package:admin_login/pages/widget/appbar_back.dart';
 import 'package:admin_login/config/theme/app_preference.dart';
 
 class Settings extends StatefulWidget {

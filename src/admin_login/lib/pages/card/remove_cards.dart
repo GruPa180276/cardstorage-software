@@ -129,7 +129,7 @@ class _GenerateCardsState extends State<GenerateCards> {
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 for (int i = 0; i < selectedEntrys.length; i++) {
-                  if (data![index].id == selectedEntrys.elementAt(i)) {
+                  if (data![index].name == selectedEntrys.elementAt(i)) {
                     return GenerateCardWithoutInkWell(
                       index: index,
                       data: data,

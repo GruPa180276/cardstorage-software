@@ -6,7 +6,7 @@ String ipadress = "http://192.168.120.186:7171/api/storages";
 class Storages {
   String name;
   int numberOfCards;
-  int location;
+  String location;
 
   Storages({
     required this.name,

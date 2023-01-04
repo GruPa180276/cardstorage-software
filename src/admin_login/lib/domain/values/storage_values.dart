@@ -1,17 +1,7 @@
 class StorageValues {
-  int id = 0;
   String name = "";
-  int location = 0;
-  String ipAdress = "";
+  String location = "";
   int numberOfCards = 0;
-
-  void setID(int id) {
-    this.id = id;
-  }
-
-  int getId() {
-    return id;
-  }
 
   void setName(String name) {
     this.name = name;
@@ -21,20 +11,12 @@ class StorageValues {
     return name;
   }
 
-  void setLocation(int location) {
+  void setLocation(String location) {
     this.location = location;
   }
 
-  int getLocation() {
+  String getLocation() {
     return location;
-  }
-
-  void setIpAdress(String ipAdress) {
-    this.ipAdress = ipAdress;
-  }
-
-  String getIpAdress() {
-    return ipAdress;
   }
 
   void setNumberOfCards(int numberOfCards) {

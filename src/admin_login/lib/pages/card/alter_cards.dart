@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/provider/types/cards.dart';
-import 'package:admin_login/provider/types/cards.dart' as card;
 import 'package:admin_login/pages/widget/button.dart';
+import 'package:admin_login/provider/types/cards.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/domain/values/card_values.dart';
+import 'package:admin_login/provider/types/cards.dart' as card;
 import 'package:admin_login/provider/types/storages.dart' as storage;
 import 'package:admin_login/provider/types/storages.dart';
-
-// ToDo: The Api needs to be changed in the future
-// Add API call to select the Card Storage
 
 CardValues cardValues = new CardValues();
 late Future<List<Cards>> futureData;
 
 class CardSettings extends StatefulWidget {
-  CardSettings(int card, {Key? key}) : super(key: key) {
-    cardValues.setID(card);
+  CardSettings(String card, {Key? key}) : super(key: key) {
+    cardValues.setName(card);
   }
 
   @override
@@ -66,7 +63,6 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
   late Future<List<Cards>> futureData;
 
   String selectedStorage = "-";
-  List<String> dropDownValues = ["-"];
   List<String> dropDownValuesNames = ["-"];
   List<Storages>? listOfStorages;
 
@@ -91,10 +87,6 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   void setStorage(int value) {
     cardValues.setStorage(value);
-  }
-
-  void setHardwareID(int value) {
-    cardValues.setHardwareID(value);
   }
 
   @override
@@ -128,11 +120,10 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
       child: Column(children: [
         GenerateListTile(
           labelText: "Name",
-          hintText: data![cardValues.getId()].name,
+          hintText: cardValues.name,
           icon: Icons.description,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setName,
-          state: true,
         ),
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -178,7 +169,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                         });
                         int index =
                             dropDownValuesNames.indexOf(newValue as String);
-                        setStorage(int.parse(dropDownValues[index]));
+                        setStorage(int.parse(dropDownValuesNames[index]));
                       },
                     ))))
           ]),
@@ -194,7 +185,6 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                   "Änderungen speichern",
                   () {
                     Cards updateEntry = new Cards(
-                      id: cardValues.id,
                       name: cardValues.name,
                       storage: cardValues.storageID,
                     );

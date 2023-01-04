@@ -4,26 +4,22 @@ import 'package:http/http.dart' as http;
 String ipadress = "http://192.168.120.186:7171/api/storages/cards";
 
 class Cards {
-  int id;
   String name;
   int storage;
 
   Cards({
-    required this.id,
     required this.name,
     required this.storage,
   });
 
   factory Cards.fromJson(Map<String, dynamic> json) {
     return Cards(
-      id: json['id'] ?? 0,
       name: json['name'] ?? "",
       storage: json['storage-id'] ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'name': name,
         'storage': storage,
       };

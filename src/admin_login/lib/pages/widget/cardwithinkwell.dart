@@ -8,7 +8,7 @@ class GenerateCardWithInkWell extends StatefulWidget {
   final List<dynamic>? data;
   final IconData icon;
   final String route;
-  final int argument;
+  final String argument;
   final int view;
 
   const GenerateCardWithInkWell.withoutArguments({
@@ -18,7 +18,7 @@ class GenerateCardWithInkWell extends StatefulWidget {
     required this.icon,
     required this.route,
     required this.view,
-    this.argument = 0,
+    this.argument = "",
   }) : super(key: key);
 
   const GenerateCardWithInkWell.withArguments(

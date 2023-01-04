@@ -70,8 +70,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
     await storage.fetchData().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages!.length; i++) {
-      dropDownValues.add(listOfStorages![i].id.toString());
-      dropDownValuesNames.add(listOfStorages![i].name.toString());
+      dropDownValuesNames.add(listOfStorages![i].name);
     }
   }
 
@@ -181,7 +180,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                     Cards newEntry = new Cards(
                       id: 0,
                       name: cardValues.name,
-                      storageid: cardValues.storageID,
+                      storage: cardValues.storageID,
                     );
                     card.sendData(newEntry.toJson());
                     showDialog(

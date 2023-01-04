@@ -6,8 +6,8 @@ import 'package:admin_login/pages/widget/searchfieldCards.dart';
 import 'package:admin_login/pages/widget/cardwithoutinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
-List<int> searchValues = [];
-List<int> selectedEntrys = [];
+List<String> searchValues = [];
+List<String> selectedEntrys = [];
 
 class RemoveCards extends StatefulWidget {
   RemoveCards({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class RemoveCards extends StatefulWidget {
 }
 
 class _RemoveCardsState extends State<RemoveCards> {
-  void setSelectedEntrys(int value) {
+  void setSelectedEntrys(String value) {
     setState(() {
       searchValues = [];
       selectedEntrys.add(value);
@@ -31,7 +31,7 @@ class _RemoveCardsState extends State<RemoveCards> {
     });
   }
 
-  void setValues(int value) {
+  void setValues(String value) {
     bool x = searchValues.contains(value);
 
     if (x == false) {

@@ -36,8 +36,7 @@ class _CardsViewState extends State<CardsView> {
     await storage.fetchData().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages!.length; i++) {
-      print(listOfStorages![i].id);
-      dropDownValues.add(listOfStorages![i].id.toString());
+      dropDownValues.add(listOfStorages![i].name);
     }
   }
 
@@ -184,13 +183,13 @@ class _ListCardsState extends State<ListCards> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].storageid.toString()) {
+                if (widget.cardStorage == data![index].storage.toString()) {
                   return GenerateCardWithInkWell.withArguments(
                     index: index,
                     data: data,
                     icon: Icons.credit_card,
                     route: "/alterCards",
-                    argument: data[index].id - 1,
+                    argument: data[index].name,
                     view: 1,
                   );
                 } else if (widget.cardStorage == "-") {

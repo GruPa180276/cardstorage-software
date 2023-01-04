@@ -8,8 +8,8 @@ import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 // ToDo: The Api needs to be changed in the future
 
-List<int> searchValues = [];
-List<int> selectedEntrys = [];
+List<String> searchValues = [];
+List<String> selectedEntrys = [];
 
 class RemoveStorage extends StatefulWidget {
   RemoveStorage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class RemoveStorage extends StatefulWidget {
 }
 
 class _RemoveStorageState extends State<RemoveStorage> {
-  void setSelectedEntrys(int value) {
+  void setSelectedEntrys(String value) {
     setState(() {
       searchValues = [];
       selectedEntrys.add(value);
@@ -33,7 +33,7 @@ class _RemoveStorageState extends State<RemoveStorage> {
     });
   }
 
-  void setValues(int value) {
+  void setValues(String value) {
     bool x = searchValues.contains(value);
 
     if (x == false) {
@@ -131,7 +131,7 @@ class _GenerateCardsState extends State<GenerateCards> {
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
                 for (int i = 0; i < selectedEntrys.length; i++) {
-                  if (data![index].id == selectedEntrys.elementAt(i)) {
+                  if (data![index].name == selectedEntrys.elementAt(i)) {
                     return GenerateCardWithoutInkWell(
                       index: index,
                       data: data,

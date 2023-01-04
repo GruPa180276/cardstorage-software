@@ -1,37 +1,29 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String ipadress = "http://192.168.120.186:7171/api/storage-units";
+String ipadress = "http://192.168.120.186:7171/api/storages";
 
 class Storages {
-  int id;
   String name;
-  // String ipAdress;
   int numberOfCards;
   int location;
 
   Storages({
-    required this.id,
     required this.name,
-    // required this.ipAdress,
     required this.numberOfCards,
     required this.location,
   });
 
   factory Storages.fromJson(Map<String, dynamic> json) {
     return Storages(
-        id: json['id'] ?? 0,
         name: json['name'] ?? "",
-        // ipAdress: json['ip-address'] ?? "",
         numberOfCards: json['capacity'] ?? 0,
-        location: json['location-id'] ?? 0);
+        location: json['location'] ?? 0);
   }
   Map<String, dynamic> toJson() => {
-        'id': id,
         'name': name,
-        // 'ip-address': ipAdress,
         'capacity': numberOfCards,
-        'location-id': location,
+        'location': location,
       };
 }
 
@@ -43,13 +35,13 @@ Future<List<Storages>> fetchData() async {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Storages.fromJson(data)).toList();
   } else {
-    throw Exception('Unexpected error occured!');
+    throw Exception('Failed to get Storages!');
   }
 }
 
-Future<Storages> deleteData(int id) async {
+Future<Storages> deleteData(String name) async {
   final http.Response response = await http.delete(
-    Uri.parse(ipadress),
+    Uri.parse(ipadress + "/name/" + name),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -57,13 +49,13 @@ Future<Storages> deleteData(int id) async {
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to delete album.');
+    throw Exception('Failed to delete Storage!');
   }
 }
 
-Future<Storages> updateData(Map<String, dynamic> data) async {
+Future<Storages> updateData(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
-    Uri.parse(ipadress),
+    Uri.parse(ipadress + "/name/" + name),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -73,7 +65,7 @@ Future<Storages> updateData(Map<String, dynamic> data) async {
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to update album.');
+    throw Exception('Failed to update Storage!');
   }
 }
 
@@ -88,6 +80,22 @@ Future<Storages> sendData(Map<String, dynamic> data) async {
   if (response.statusCode == 201) {
     return Storages.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to load album');
+    throw Exception('Failed to add Storage!');
+  }
+}
+
+Future<Storages> focusStorage(String name) async {
+  final http.Response response = await http.put(
+    Uri.parse(ipadress + "/focus/name/" + name),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(name),
+  );
+
+  if (response.statusCode == 200) {
+    return Storages.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Failed to focus Storage!');
   }
 }

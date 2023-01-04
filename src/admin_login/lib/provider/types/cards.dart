@@ -1,31 +1,31 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String ipadress = "http://192.168.120.186:7171/api/cards";
+String ipadress = "http://192.168.120.186:7171/api/storages/cards";
 
 class Cards {
   int id;
   String name;
-  int storageid;
+  int storage;
 
   Cards({
     required this.id,
     required this.name,
-    required this.storageid,
+    required this.storage,
   });
 
   factory Cards.fromJson(Map<String, dynamic> json) {
     return Cards(
       id: json['id'] ?? 0,
       name: json['name'] ?? "",
-      storageid: json['storage-id'] ?? 0,
+      storage: json['storage-id'] ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'storage-id': storageid,
+        'storage': storage,
       };
 }
 
@@ -37,13 +37,13 @@ Future<List<Cards>> fetchData() async {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Cards.fromJson(data)).toList();
   } else {
-    throw Exception('Unexpected error occured!');
+    throw Exception('Failed to get Cards!');
   }
 }
 
-Future<dynamic> deleteData(int id) async {
+Future<dynamic> deleteData(String name) async {
   final http.Response response = await http.delete(
-    Uri.parse(ipadress),
+    Uri.parse(ipadress + "/name/" + name),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -51,13 +51,13 @@ Future<dynamic> deleteData(int id) async {
   if (response.statusCode == 200) {
     return Cards.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to delete album.');
+    throw Exception('Failed to delete Card!');
   }
 }
 
-Future<dynamic> updateData(Map<String, dynamic> data) async {
+Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
-    Uri.parse(ipadress),
+    Uri.parse(ipadress + "/name/" + name),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -67,7 +67,7 @@ Future<dynamic> updateData(Map<String, dynamic> data) async {
   if (response.statusCode == 200) {
     return Cards.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to update album.');
+    throw Exception('Failed to update Card!');
   }
 }
 
@@ -82,6 +82,6 @@ Future<dynamic> sendData(Map<String, dynamic> data) async {
   if (response.statusCode == 201) {
     return Cards.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to load album');
+    throw Exception('Failed to add Card!');
   }
 }

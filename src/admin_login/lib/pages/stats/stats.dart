@@ -35,8 +35,7 @@ class _StatsViewState extends State<StatsView> {
     await storages.fetchData().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages!.length; i++) {
-      print(listOfStorages![i].id);
-      dropDownValues.add(listOfStorages![i].id.toString());
+      dropDownValues.add(listOfStorages![i].name);
     }
   }
 
@@ -171,7 +170,7 @@ class _MyAppState extends State<ListCards> {
           return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].storageid.toString()) {
+                if (widget.cardStorage == data![index].storage.toString()) {
                   return GenerateCardWithInkWell.withoutArguments(
                     index: index,
                     data: data,

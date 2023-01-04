@@ -233,12 +233,10 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                   "Änderungen speichern",
                   () {
                     Storages newEntry = new Storages(
-                        id: storageValues.id,
                         name: storageValues.name,
-                        // ipAdress: storageValues.ipAdress,
                         location: storageValues.location,
                         numberOfCards: storageValues.numberOfCards);
-                    storage.updateData(newEntry.toJson());
+                    storage.updateData(storageValues.name, newEntry.toJson());
                     Navigator.of(context).pop();
                   },
                 ),

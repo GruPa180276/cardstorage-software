@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-List<int> values = [];
+List<String> values = [];
 
 class CustomSearchDelegate extends SearchDelegate {
   late Function setState;
 
-  CustomSearchDelegate(Function state, List<int> searchValues) {
+  CustomSearchDelegate(Function state, List<String> searchValues) {
     setState = state;
     values = searchValues;
   }
@@ -40,7 +40,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<int> matchQuery = [];
+    List<String> matchQuery = [];
     for (var x in values) {
       if (x.toString().contains(query.toString())) {
         matchQuery.add(x);
@@ -76,7 +76,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<int> matchQuery = [];
+    List<String> matchQuery = [];
     for (var x in values) {
       if (x.toString().contains(query.toString())) {
         matchQuery.add(x);

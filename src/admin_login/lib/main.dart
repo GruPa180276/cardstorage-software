@@ -21,12 +21,7 @@ Future main() async {
 }
 
 // TODO:
-// Card State
 // Fix Filter View
-// Location reload
-// State Page
-// Stats Page
-// Logs Page
 // Status Storage Page
 
 // Change app icon -> pubsec.yaml

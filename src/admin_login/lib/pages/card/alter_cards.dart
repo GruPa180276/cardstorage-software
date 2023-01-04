@@ -81,8 +81,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     await storage.fetchData().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages!.length; i++) {
-      dropDownValues.add(listOfStorages![i].id.toString());
-      dropDownValuesNames.add(listOfStorages![i].name.toString());
+      dropDownValuesNames.add(listOfStorages![i].name);
     }
   }
 
@@ -197,9 +196,9 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                     Cards updateEntry = new Cards(
                       id: cardValues.id,
                       name: cardValues.name,
-                      storageid: cardValues.storageID,
+                      storage: cardValues.storageID,
                     );
-                    card.updateData(updateEntry.toJson());
+                    card.updateData(cardValues.name, updateEntry.toJson());
                     Navigator.of(context).pop();
                   },
                 ),

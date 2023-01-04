@@ -64,7 +64,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
                   data: data!,
                   icon: Icons.storage,
                   route: "/status",
-                  argument: data[index].id - 1,
+                  argument: data[index].name,
                   view: 2,
                 );
               });

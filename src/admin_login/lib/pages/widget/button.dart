@@ -34,7 +34,7 @@ Expanded generateButtonRoundWithoutRoute(
     BuildContext context,
     String buttonText,
     IconData buttonIcon,
-    List<int> searchvalues,
+    List<String> searchvalues,
     Function()? onpressd) {
   return Expanded(
     child: ElevatedButton.icon(
@@ -144,7 +144,7 @@ class _GenerateButtonWithDialogAndCallBackState
 }
 
 Expanded generateSearchButton(BuildContext context, String buttonText,
-    IconData buttonIcon, Function setID, List<int> searchValues) {
+    IconData buttonIcon, Function setID, List<String> searchValues) {
   return Expanded(
     child: ElevatedButton.icon(
       onPressed: () {

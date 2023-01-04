@@ -216,9 +216,7 @@ class _InputFieldsState extends State<InputFields> {
                   "Storage hinzufügen",
                   () {
                     Storages newEntry = new Storages(
-                        id: 0,
                         name: storageValues.name,
-                        // ipAdress: storageValues.ipAdress,
                         location: storageValues.location,
                         numberOfCards: storageValues.numberOfCards);
                     storage.sendData(newEntry.toJson());

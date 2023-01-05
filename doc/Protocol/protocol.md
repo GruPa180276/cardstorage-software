@@ -244,6 +244,12 @@ Meeting mit Johannes über Änderungen, die an der API vorgenommen wurden und we
 **4.1.2023: 8:45 bis 11:30** <br>
 Habe heute versucht, die neue Version des Containers von der API laufen zu lassen. Es tratten aber immer wieder Fehler auf. Diese konnten auch durch die Hilfe von Johannes nicht gelöst werden. Habe dann noch Code für die Websockerts implementiert, um Logs anzuzeigen. Danach habe ich das komplette id basierte vorgehen im Code, auf den Namen umgestellt, da es keine ids mehr gibt. Zum Schluss habe ich noch überflüssigen Code gelöscht. (2h 45min)
 
+**5.1.2023: 10:00 bis 11:30** <br>
+Habe versucht, die neue Version der API zum laufen zu bekommen. Aber es gestalltette sicher schwieriger als gedacht. Da ich im Verlauf die Idee hatte, das es am Netzwerke liegen könnte. Das tatt es auch, im Hotspot funktioniert alles einwandfrei! (1h 30min)
+
+**5.1.2023: 12:30 bis 14:00** <br>
+Habe dann diverse Sachen in der App anpassen müssen, damit das meisten Sachen wieder funktionieren. Habe lange an einem Problem gehängt, da immer ein Zertifikat Fehler kam, der sich aber durch generelles Erlauben, von allen und ohne Zertifikaten lösen lies! (1h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -314,4 +320,6 @@ Habe heute versucht, die neue Version des Containers von der API laufen zu lasse
 - 10:00 bis 12:00 Uhr
 - 13:00 bis 13:40 Uhr
 - 8:45 bis 11:30 Uhr
+- 10:00 bis 11:30 Uhr
+- 12:30 bis 14:00 Uhr
 <!-- { "progress": false } -->

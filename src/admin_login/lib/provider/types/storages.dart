@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String ipadress = "http://192.168.120.186:7171/api/storages";
+String adress = "https://192.168.125.67:7171/api/storages";
 
 class Storages {
   String name;
@@ -29,7 +29,7 @@ class Storages {
 
 Future<List<Storages>> fetchData() async {
   final response = await http.get(
-    Uri.parse(ipadress),
+    Uri.parse(adress),
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -41,7 +41,7 @@ Future<List<Storages>> fetchData() async {
 
 Future<Storages> deleteData(String name) async {
   final http.Response response = await http.delete(
-    Uri.parse(ipadress + "/name/" + name),
+    Uri.parse(adress + "/name/" + name),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -55,7 +55,7 @@ Future<Storages> deleteData(String name) async {
 
 Future<Storages> updateData(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
-    Uri.parse(ipadress + "/name/" + name),
+    Uri.parse(adress + "/name/" + name),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -71,7 +71,7 @@ Future<Storages> updateData(String name, Map<String, dynamic> data) async {
 
 Future<Storages> sendData(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
-    Uri.parse(ipadress),
+    Uri.parse(adress),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -86,7 +86,7 @@ Future<Storages> sendData(Map<String, dynamic> data) async {
 
 Future<Storages> focusStorage(String name) async {
   final http.Response response = await http.put(
-    Uri.parse(ipadress + "/focus/name/" + name),
+    Uri.parse(adress + "/focus/name/" + name),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

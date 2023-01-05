@@ -48,7 +48,7 @@ class _GenerateSearchValuesState extends State<GenerateSearchValues> {
   void addValues(List<dynamic> data) {
     values.length = 0;
     for (int i = 0; i < data.length; i++) {
-      widget.setValue(data[i].id);
+      widget.setValue(data[i].name);
     }
   }
 }

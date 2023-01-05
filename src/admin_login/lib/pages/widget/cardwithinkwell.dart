@@ -69,9 +69,8 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
     if (widget.view == 1) {
       return createCardTable(
         context,
-        widget.data![widget.index].id,
         widget.data![widget.index].name,
-        widget.data![widget.index].storageid,
+        widget.data![widget.index].storage,
         false,
       );
     }
@@ -94,7 +93,6 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
     if (widget.view == 3) {
       return createStorageTable(
         context,
-        widget.data![widget.index].id,
         widget.data![widget.index].name,
         widget.data![widget.index].location,
         widget.data![widget.index].numberOfCards,

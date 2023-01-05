@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 Table createStorageTable(
   BuildContext context,
-  int id,
   String name,
-  int location,
+  String location,
   int maxCardCount,
 ) {
   return Table(
@@ -13,19 +12,6 @@ Table createStorageTable(
       1: FractionColumnWidth(0.40),
     },
     children: [
-      TableRow(
-        children: [
-          Text(
-            "ID:",
-            style: TextStyle(fontSize: 20),
-          ),
-          Text(
-            id.toString(),
-            style: TextStyle(fontSize: 20),
-            textAlign: TextAlign.right,
-          )
-        ],
-      ),
       TableRow(
         children: [
           Text(

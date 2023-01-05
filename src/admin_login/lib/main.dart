@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -9,6 +11,15 @@ import 'package:admin_login/provider/theme/themes.dart';
 import 'package:admin_login/config/theme/app_preference.dart';
 import 'package:admin_login/pages/navigation/bottom_navigation.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
@@ -16,6 +27,8 @@ Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black,
   ));
+
+  HttpOverrides.global = MyHttpOverrides();
 
   runApp(const AppStart());
 }

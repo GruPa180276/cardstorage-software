@@ -303,6 +303,12 @@ und an Johannes seiner api angepasst
 **2022-12-26: 17:00 -> 20:30**
 Es wurde das Python Programm vom Terminal fuer den Sensor programmiert. Dies war zunaechst etwas schwierig, da gewissen Vorraussetzungen noch nicht fertig programmiert wurden.
 
+**2023-01-05: 20:00 -> 23:10**
+Nach einwoechiger Pause aufgrund eine Gruppe ging es heute wieder los.
+-Besprechung mit Herrn Mayrhofer uber den akwutellen Status
+-Start der Implentation der neuen ApiVersion
+-
+
 
 **2022-12-09: 09:00-> 11:00**
 Bug beim anmeldemn wurden gefixt. Weiteras wurde das Filtern ueberarbeiter und fertigestellt
@@ -386,5 +392,6 @@ Bug beim anmeldemn wurden gefixt. Weiteras wurde das Filtern ueberarbeiter und f
 - 20:00 bis 23:30 Uhr
 - 09:00 bis 11:00 Uhr
 - 17:00 bis 20:30 Uhr
+- 20:00 bis 23:10 Uhr
 <!-- { "progress": false } -->
 

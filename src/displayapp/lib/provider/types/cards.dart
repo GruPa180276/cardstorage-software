@@ -1,40 +1,40 @@
-class Cards {
+class ReaderCards {
   //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
-  String? readerdata;
-  final int? id;
-  int? storageid;
-  String? name;
-  int? position;
-  bool? isAvailable;
-  String? storage;
+  String reader;
+  String name;
+  int position;
+  int accessed;
+  bool available;
 
   @override
-  Cards({
-    required this.id,
-    this.readerdata,
-    this.storageid,
-    this.name,
-    this.position,
+  ReaderCards({
+    required this.reader,
+    required this.name,
+    required this.position,
+    required this.accessed,
+    required this.available,
   });
 
+  ReaderCards.fromJson(Map<String, dynamic> json)
+      :reader= json['reader'],
+        name= json['name'],
+        position= json['position'],
+        accessed= json['accessed'],
+        available= json['available'];
+        
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonTest = <String, dynamic>{};
     jsonTest.addAll({
-      "id": id,
-      "readerdata": readerdata,
-      "storageid": storageid,
+      "reader": reader,
       "name": name,
       "position": position,
+      "accessed":accessed,
+      "available": available,
     });
 
     return jsonTest;
   }
 
-  static Cards fromJson(json) => Cards(
-        id: json['id'],
-        readerdata: json['readerdata'],
-        storageid: json['storageid'],
-        name: json['name'],
-        position: json['position'],
-      );
+
+      
 }

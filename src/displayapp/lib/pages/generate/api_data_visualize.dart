@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
-import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-
+import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 class ApiVisualizer extends StatefulWidget {
   String site;
   ApiVisualizer({super.key, required this.site});
 
   @override
   State<ApiVisualizer> createState() => _ApiVisualizerState(site: site);
+  
 }
 
 class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
-  Future<List<Cards>>? _cards;
+  Future<Storage?>? _cards;
   late bool _isDark;
 
   String searchString = "";
@@ -35,13 +36,13 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   void reloadCardList() {
     setState(() {
-      _cards = Data.getCardsData();
+      _cards = Data.getStorageData();
     });
   }
 
-  void setListType(Future<List<Cards>> cardsNew) {
+  void setListType(Future<Storage?> cardsNew) {
     setState(() {
-      _cards = cardsNew;
+      _cards = cardsNew as Future<Storage?>?;
     });
   }
 
@@ -68,7 +69,14 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                   });
                 })),
           ),
-         
+         IconButton(
+              onPressed: () {
+                BottomSheetPop(
+                  onPressStorage: setListType,
+                  listOfTypes: _cards!,
+                ).buildBottomSheet(context);
+              },
+              icon: const Icon(Icons.adjust))
         ],
       );
     }
@@ -98,7 +106,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             children: [
               seachField,
               const SizedBox(height: 10),
-              FutureBuilder<List<Cards>>(
+              FutureBuilder<Storage?>(
                 future: _cards,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
@@ -120,7 +128,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         );
                       } else {
                         final users = snapshot.data!;
-print(site);
                         switch (site) {
                           
                           //TODO change to required class

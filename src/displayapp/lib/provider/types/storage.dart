@@ -1,37 +1,44 @@
+import 'dart:convert';
+
+import 'package:rfidapp/provider/types/cards.dart';
+
 class Storage {
   //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
-  int? id;
-  int? locationid;
-  String? name;
-  String? ipaddress;
-  int? capacity;
+  String name;
+  String location;
+  String address;
+  int capacity;
+  List<ReaderCards>? cards;
 
   @override
   Storage({
-    required this.id,
-    this.locationid,
-    this.name,
-    this.ipaddress,
-    this.capacity,
+    required this.name,
+    required this.location,
+    required this.address,
+    required this.capacity,
+    this.cards
   });
-
+ factory Storage.fromJson(dynamic json){
+  if(json["cards"]!= null){
+        var cardsObjJson = json['cards'] as List;
+        List<ReaderCards> cards = cardsObjJson.map((tagJson) => ReaderCards.fromJson(tagJson)).toList();
+        return Storage(name: json["name"], location: json['location'], address: json['address'], capacity: json['capacity'],cards: cards);
+  }
+      return Storage(name: json["name"], location: json['location'], address: json['address'], capacity: json['capacity']);
+ }
+ 
+       
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonTest = <String, dynamic>{};
     jsonTest.addAll({
-      "id": id,
-      "locationid": locationid,
       "name": name,
-      "ipaddress": ipaddress,
+      "location": location,
+      "address": address,
       "capacity": capacity,
+      "cards":cards
     });
     return jsonTest;
   }
 
-  static Storage fromJson(json) => Storage(
-        id: json['id'],
-        locationid: json['locationid'],
-        name: json['name'],
-        ipaddress: json['ipaddress'],
-        capacity: json['capacity'],
-      );
+
 }

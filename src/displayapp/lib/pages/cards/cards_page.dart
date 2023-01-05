@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
 import 'package:rfidapp/provider/mqtt/mqtt.dart';
-import 'package:rfidapp/provider/types/storageproperties.dart';
+import 'package:rfidapp/domain/storage_properties.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);

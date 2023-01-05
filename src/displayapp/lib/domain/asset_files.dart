@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:rfidapp/provider/types/storageproperties.dart';
+import 'package:rfidapp/domain/storage_properties.dart';
+
 
 class AssetFiles {
   static Future<void> setProperties() async {
@@ -10,6 +11,6 @@ class AssetFiles {
     final data = await json.decode(response);
     StorageProperties.setIpAdress(data["ipadress"]);
     StorageProperties.setLocation(data["location"]);
-    StorageProperties.setStorageId(data["storageid"]);
+    StorageProperties.setStorageId(data["name"]);
   }
 }

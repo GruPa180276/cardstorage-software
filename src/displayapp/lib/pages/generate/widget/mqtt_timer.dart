@@ -53,7 +53,7 @@ class MqttTimer {
                       if (duration.inSeconds % 3 == 0 &&
                           duration.inSeconds != timestamp) {
                         timestamp = duration.inSeconds;
-                        Data.getCardsData();
+                        //@TODO check card satsus if available during timeperiod
                         //get isavailable of specific card see if its false...then pop
                       }
                       return Function.apply(

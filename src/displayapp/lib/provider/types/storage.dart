@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:rfidapp/provider/types/cards.dart';
 
 class Storage {

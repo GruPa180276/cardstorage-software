@@ -95,6 +95,9 @@ class CardView extends StatelessWidget {
   }
 
   static Widget _buildCardsButton(BuildContext context, ReaderCards card) {
+    if (card.available) {
+      return Container();
+    }
     return Row(
       children: [
         Expanded(

@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:rfidapp/domain/storage_properties.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
+
 import 'dart:async';
 
 class Data {
@@ -25,15 +24,9 @@ class Data {
     }
   }
 
-  static Future<Response?> getUserData(String accessToken) async {
-    try {
-      final response =
-          await get(Uri.parse("https://graph.microsoft.com/v1.0/me"), headers: {
-        HttpHeaders.authorizationHeader: "Bearer $accessToken",
-        "Accept": "application/json"
-      });
+  static Future<int> postGetCardNow(ReaderCards readerCard) async {
+    String readerCards = jsonEncode(readerCard.toJson());
 
-      return response;
-    } catch (e) {}
+    return 1;
   }
 }

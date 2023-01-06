@@ -3,9 +3,9 @@ import 'package:rfidapp/provider/types/reservation.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 
 class ReservateView extends StatelessWidget {
-  Storage storage;
-  BuildContext context;
-  String searchstring;
+  final Storage storage;
+  final BuildContext context;
+  final String searchstring;
 
   ReservateView(
       {Key? key,

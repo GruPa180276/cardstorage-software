@@ -16,16 +16,16 @@ class _CardPage extends State<CardPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _conntectToMqtt();
+    // _conntectToMqtt();
   }
 
-  void _conntectToMqtt() async {
-    await MQTTClientManager.connect();
-    //@TODO change topic to storageid@location
-    //you can find both at your config file
-    print(StorageProperties.getStorageId()!);
-    MQTTClientManager.subscribe(StorageProperties.getStorageId()!, context);
-  }
+  // void _conntectToMqtt() async {
+  //   await MQTTClientManager.connect();
+  //   //@TODO change topic to storageid@location
+  //   //you can find both at your config file
+  //   print(StorageProperties.getStorageId()!);
+  //   MQTTClientManager.subscribe(StorageProperties.getStorageId()!, context);
+  // }
 
   @override
   Widget build(BuildContext context) {

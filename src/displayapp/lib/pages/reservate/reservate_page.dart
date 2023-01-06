@@ -15,13 +15,13 @@ class _ReservatePage extends State<ReservatePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _conntectToMqtt();
+    // _conntectToMqtt();
   }
 
-  void _conntectToMqtt() async {
-    await MQTTClientManager.connect();
-    MQTTClientManager.subscribe(StorageProperties.getStorageId()!, context);
-  }
+  // void _conntectToMqtt() async {
+  //   await MQTTClientManager.connect();
+  //   MQTTClientManager.subscribe(StorageProperties.getStorageId()!, context);
+  // }
 
   @override
   Widget build(BuildContext context) {

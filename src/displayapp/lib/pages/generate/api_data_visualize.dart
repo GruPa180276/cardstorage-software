@@ -8,13 +8,13 @@ import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
+
 class ApiVisualizer extends StatefulWidget {
   CardPageType site;
   ApiVisualizer({super.key, required this.site});
 
   @override
   State<ApiVisualizer> createState() => _ApiVisualizerState(site: site);
-  
 }
 
 class _ApiVisualizerState extends State<ApiVisualizer> {
@@ -33,8 +33,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     _isDark = AppPreferences.getIsOn();
   }
 
-
-
   void reloadCardList() {
     setState(() {
       _cards = Data.getStorageData();
@@ -50,35 +48,34 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   @override
   Widget build(BuildContext context) {
     Widget seachField = SizedBox(height: 0, width: 0);
-      seachField = Row(
-        children: [
-          Expanded(
-            child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    hintText: 'Suche Karte mittels ID',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide:
-                            BorderSide(color: Theme.of(context).dividerColor))),
-                onChanged: ((value) {
-                  setState(() {
-                    searchString = value;
-                  });
-                })),
-          ),
-         IconButton(
-              onPressed: () {
-                BottomSheetPop(
-                  onPressStorage: setListType,
-                  listOfTypes: _cards!,
-                ).buildBottomSheet(context);
-              },
-              icon: const Icon(Icons.adjust))
-        ],
-      );
-    
+    seachField = Row(
+      children: [
+        Expanded(
+          child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: 'Suche Karte mittels ID',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide:
+                          BorderSide(color: Theme.of(context).dividerColor))),
+              onChanged: ((value) {
+                setState(() {
+                  searchString = value;
+                });
+              })),
+        ),
+        IconButton(
+            onPressed: () {
+              BottomSheetPop(
+                onPressStorage: setListType,
+                listOfTypes: _cards!,
+              ).buildBottomSheet(context);
+            },
+            icon: const Icon(Icons.adjust))
+      ],
+    );
 
     return Scaffold(
         appBar: AppBar(
@@ -129,11 +126,14 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         final users = snapshot.data!;
                         switch (site) {
                           //TODO change to required class
-                          case CardPageType.Reservierungen:
-                            return cardsView(users, context, CardPageType.Reservierungen, searchString);
                           case CardPageType.Karten:
-                            return cardsView(users, context, CardPageType.Karten, searchString);
-                      
+                            return CardView(
+                                context: context,
+                                searchstring: searchString,
+                                storage: users);
+                          case CardPageType.Karten:
+                          // return CardView.cardsView(users, context,
+                          //     CardPageType.Karten, searchString);
                         }
                         return const Text('Error Type not valid');
                       }

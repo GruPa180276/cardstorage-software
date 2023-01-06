@@ -13,12 +13,13 @@ class Reservation {
   // 					"is-reservation": false
 
 //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
-  DateTime since;
-  DateTime until;
-  DateTime returndate;
+  int since;
+  int until;
+  int returndate;
   int id;
   User user;
   bool isreservation;
+  String? cardName;
 
   @override
   Reservation(
@@ -30,13 +31,15 @@ class Reservation {
       required this.isreservation});
 
   factory Reservation.fromJson(dynamic json) {
+    User user = User.fromJson(json["user"]);
+    print("here");
     return Reservation(
         id: json["id"],
-        isreservation: json["isreservation"],
-        returndate: json["returndate"],
+        isreservation: json["is-reservation"],
+        returndate: json["returned-at"],
         since: json["since"],
         until: json["until"],
-        user: json["user"]);
+        user: user);
   }
 
   Map<String, dynamic> toJson() {

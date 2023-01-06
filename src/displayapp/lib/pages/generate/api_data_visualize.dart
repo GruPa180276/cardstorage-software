@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/config/cardSiteEnum.dart';
+import 'package:rfidapp/pages/generate/views/reservate_view.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
@@ -19,9 +20,10 @@ class ApiVisualizer extends StatefulWidget {
 
 class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
-  Future<Storage?>? _cards;
-  late bool _isDark;
+  Future<Storage?>? _defaultStorage; //is only here to filter
+  Future<Storage?>? _modifiedStorage;
 
+  late bool _isDark;
   String searchString = "";
   TextEditingController searchController = TextEditingController();
   CardPageType site;
@@ -35,13 +37,14 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   void reloadCardList() {
     setState(() {
-      _cards = Data.getStorageData();
+      _defaultStorage = Data.getStorageData();
+      _modifiedStorage = _defaultStorage;
     });
   }
 
   void setListType(Future<Storage?> cardsNew) {
     setState(() {
-      _cards = cardsNew as Future<Storage?>?;
+      _modifiedStorage = cardsNew as Future<Storage?>?;
     });
   }
 
@@ -55,7 +58,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               controller: searchController,
               decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
-                  hintText: 'Suche Karte mittels ID',
+                  hintText: 'Suche Karte mittel Email',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                       borderSide:
@@ -68,10 +71,12 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
         ),
         IconButton(
             onPressed: () {
+              _defaultStorage = Data.getStorageData();
               BottomSheetPop(
-                onPressStorage: setListType,
-                listOfTypes: _cards!,
-              ).buildBottomSheet(context);
+                      onPressStorage: setListType,
+                      defaultStorage: _defaultStorage!,
+                      cardPageType: site)
+                  .buildBottomSheet(context);
             },
             icon: const Icon(Icons.adjust))
       ],
@@ -103,7 +108,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<Storage?>(
-                future: _cards,
+                future: _modifiedStorage,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -131,9 +136,11 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                                 context: context,
                                 searchstring: searchString,
                                 storage: users);
-                          case CardPageType.Karten:
-                          // return CardView.cardsView(users, context,
-                          //     CardPageType.Karten, searchString);
+                          case CardPageType.Reservierungen:
+                            return ReservateView(
+                                context: context,
+                                searchstring: searchString,
+                                storage: users);
                         }
                         return const Text('Error Type not valid');
                       }

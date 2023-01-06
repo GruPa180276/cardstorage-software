@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:rfidapp/config/cardSiteEnum.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
@@ -17,6 +14,7 @@ class CardView extends StatelessWidget {
       required this.storage,
       required this.context,
       required this.searchstring});
+
   @override
   Widget build(BuildContext context) => Flexible(
         child: ListView.builder(
@@ -49,11 +47,9 @@ class CardView extends StatelessWidget {
 
   static Widget _buildCardsText(BuildContext context, ReaderCards card) {
     Color colorAvailable = Colors.green;
-
     if (!card.available) {
       colorAvailable = Colors.red;
     }
-
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Table(
@@ -68,7 +64,7 @@ class CardView extends StatelessWidget {
           TableRow(
             children: [
               const TableCell(child: Text("Name:")),
-              TableCell(child: Text(card.name.toString()))
+              TableCell(child: Text(card.name))
             ],
           ),
           TableRow(

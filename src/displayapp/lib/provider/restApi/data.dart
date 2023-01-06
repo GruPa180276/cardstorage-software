@@ -12,17 +12,18 @@ class Data {
 
   static Future<Storage?> getStorageData() async {
     try {
-      var cardsResponse = await get(Uri.parse("${uriRaspi}storages/name/${StorageProperties.getStorageId()}"),
+      var cardsResponse = await get(
+          Uri.parse(
+              "${uriRaspi}storages/name/${StorageProperties.getStorageId()}"),
           headers: {"Accept": "application/json"});
-      var jsonStorage=jsonDecode(cardsResponse.body);
+      var jsonStorage = jsonDecode(cardsResponse.body);
       Storage cards = Storage.fromJson(jsonStorage);
 
       return cards;
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
-
 
   static Future<Response?> getUserData(String accessToken) async {
     try {
@@ -35,5 +36,4 @@ class Data {
       return response;
     } catch (e) {}
   }
-
 }

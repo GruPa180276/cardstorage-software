@@ -11,23 +11,31 @@ class Storage {
   List<ReaderCards>? cards;
 
   @override
-  Storage({
-    required this.name,
-    required this.location,
-    required this.address,
-    required this.capacity,
-    this.cards
-  });
- factory Storage.fromJson(dynamic json){
-  if(json["cards"]!= null){
-        var cardsObjJson = json['cards'] as List;
-        List<ReaderCards> cards = cardsObjJson.map((tagJson) => ReaderCards.fromJson(tagJson)).toList();
-        return Storage(name: json["name"], location: json['location'], address: json['address'], capacity: json['capacity'],cards: cards);
+  Storage(
+      {required this.name,
+      required this.location,
+      required this.address,
+      required this.capacity,
+      this.cards});
+  factory Storage.fromJson(dynamic json) {
+    if (json["cards"] != null) {
+      var cardsObjJson = json['cards'] as List;
+      List<ReaderCards> cards =
+          cardsObjJson.map((tagJson) => ReaderCards.fromJson(tagJson)).toList();
+      return Storage(
+          name: json["name"],
+          location: json['location'],
+          address: json['address'],
+          capacity: json['capacity'],
+          cards: cards);
+    }
+    return Storage(
+        name: json["name"],
+        location: json['location'],
+        address: json['address'],
+        capacity: json['capacity']);
   }
-      return Storage(name: json["name"], location: json['location'], address: json['address'], capacity: json['capacity']);
- }
- 
-       
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonTest = <String, dynamic>{};
     jsonTest.addAll({
@@ -35,10 +43,8 @@ class Storage {
       "location": location,
       "address": address,
       "capacity": capacity,
-      "cards":cards
+      "cards": cards
     });
     return jsonTest;
   }
-
-
 }

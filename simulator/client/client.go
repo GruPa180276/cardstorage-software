@@ -415,10 +415,12 @@ var opts = map[int]func(){
 			} else {
 				untilTime = time.Unix(int64(must(strconv.Atoi(until)).(int)), 0)
 			}
-			*c.Until = untilTime.Unix()
+			untilptr := untilTime.Unix()
+			c.Until = &untilptr
 		}
 		if isReservation != "$" {
-			*c.IsReservation = must(strconv.ParseBool(isReservation)).(bool)
+			reservarionFlagPtr := must(strconv.ParseBool(isReservation)).(bool) 
+			c.IsReservation = &reservarionFlagPtr 
 		}
 		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s`", apiurl, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
@@ -465,7 +467,8 @@ var opts = map[int]func(){
 			} else {
 				untilTime = time.Unix(int64(must(strconv.Atoi(until)).(int)), 0)
 			}
-			*u.Until = untilTime.Unix()
+			untilptr := untilTime.Unix()
+			c.Until = &untilptr
 		}
 		if returnedAt != "$" {
 			if returnedAt[0] == '%' {
@@ -475,7 +478,8 @@ var opts = map[int]func(){
 			} else {
 				returnedAtTime = time.Unix(int64(must(strconv.Atoi(returnedAt)).(int)), 0)
 			}
-			*u.ReturnedAt = returnedAtTime.Unix()
+			returnptr := returnedAtTime.Unix()
+			u.ReturnedAt = &returnptr 
 		}
 
 		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/reservations/id/%s", apiurl, id), bytes.NewBuffer(must(json.Marshal(u)).([]byte)))).(*http.Request)

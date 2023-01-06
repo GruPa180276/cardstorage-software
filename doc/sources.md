@@ -80,3 +80,4 @@
 - https://blog.logrocket.com/using-websockets-flutter/
 - https://stackoverflow.com/questions/59634726/streambuilder-with-websockets-stream-in-tabbarview-bad-state-stream-has-alread
 - https://stackoverflow.com/questions/62729973/flutter-how-to-use-multiple-streams-combine
+- https://stackoverflow.com/questions/54285172/how-to-solve-flutter-certificate-verify-failed-error-while-performing-a-post-req

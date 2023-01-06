@@ -9,11 +9,11 @@ import 'package:admin_login/domain/values/storage_values.dart';
 
 StorageValues storageValues = new StorageValues();
 late Future<List<Storages>> futureData;
-int index = 0;
+String storageName = "";
 
 class StorageSettings extends StatefulWidget {
-  StorageSettings(int id, {Key? key}) : super(key: key) {
-    index = id;
+  StorageSettings(String storage, {Key? key}) : super(key: key) {
+    storageName = storage;
   }
 
   @override
@@ -38,12 +38,15 @@ class _StorageSettingsState extends State<StorageSettings> {
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
-        body: SingleChildScrollView(
-          child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Column(
-                children: [GetDataFromAPI()],
-              )),
+        body: Container(
+          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Column(children: [
+            Expanded(
+              child: Container(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(children: [GetDataFromAPI()])),
+            )
+          ]),
         ));
   }
 }
@@ -76,12 +79,21 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Storages>>(
+    return Expanded(
+        child: FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Storages>? data = snapshot.data;
-          return genereateFields(context, data);
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (data![index].name == storageName) {
+                  return genereateFields(context, data[index]);
+                } else {
+                  return const SizedBox.shrink();
+                }
+              });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -96,30 +108,30 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
           ],
         )));
       },
-    );
+    ));
   }
 
-  Widget genereateFields(BuildContext context, List<Storages>? data) {
+  Widget genereateFields(BuildContext context, Storages data) {
     return InkWell(
         child: Container(
       child: Column(children: [
         GenerateListTile(
           labelText: "Name",
-          hintText: data![index].name,
+          hintText: data.name,
           icon: Icons.storage,
           regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
         ),
         GenerateListTile(
           labelText: "Standort",
-          hintText: data[index].location,
+          hintText: data.location,
           icon: Icons.storage,
           regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setLocation,
         ),
         GenerateListTile(
           labelText: "Anzahl an Karten",
-          hintText: data[index].numberOfCards.toString(),
+          hintText: data.numberOfCards.toString(),
           icon: Icons.format_list_numbered,
           regExp: r'([0-9])',
           function: this.setNumberOfCards,

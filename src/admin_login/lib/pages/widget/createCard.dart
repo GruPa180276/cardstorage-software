@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Table createCardTable(
   BuildContext context,
   String name,
-  int storageId,
+  String storageId,
   bool isAvailable,
 ) {
   Color color = Colors.green;

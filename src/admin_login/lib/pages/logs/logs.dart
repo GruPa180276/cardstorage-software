@@ -22,15 +22,15 @@ class _LogsState extends State<Logs> {
   late Stream websocketData;
 
   final channelControler = WebSocketChannel.connect(
-      Uri.parse('wss://localhost:7171/api/controller/log'));
+      Uri.parse('wss://192.168.0.173:7171/api/controller/log'));
   final channelCard =
       WebSocketChannel.connect(Uri.parse('wss://localhost:7171/api/cards/log'));
   final channelStorage = WebSocketChannel.connect(
-      Uri.parse('wss://localhost:7171/api/storages/log'));
+      Uri.parse('wss://192.168.0.173:7171/api/storages/log'));
   final channelUser =
       WebSocketChannel.connect(Uri.parse('wss://localhost:7171/users/log'));
   final channelReservation = WebSocketChannel.connect(
-      Uri.parse('wss://localhost:7171/api/reservations/log'));
+      Uri.parse('wss://192.168.0.173:7171/api/reservations/log'));
 
   @override
   void initState() {

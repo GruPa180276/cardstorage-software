@@ -75,10 +75,10 @@ class _ListCardStoragesState extends State<ListCardStorages> {
               itemBuilder: (BuildContext context, int index) {
                 return GenerateCardWithInkWell.withArguments(
                   index: index,
-                  data: data!,
+                  data: data,
                   icon: Icons.storage,
                   route: "/alterStorage",
-                  argument: data[index].name,
+                  argument: data![index].name,
                   view: 3,
                 );
               });

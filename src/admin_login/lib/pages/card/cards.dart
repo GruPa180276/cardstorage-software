@@ -156,7 +156,6 @@ class _CardsViewState extends State<CardsView> {
 // ignore: must_be_immutable
 class ListCards extends StatefulWidget {
   final String cardStorage;
-  dynamic available;
   ListCards({Key? key, required this.cardStorage}) : super(key: key);
 
   @override
@@ -193,11 +192,12 @@ class _ListCardsState extends State<ListCards> {
                     view: 1,
                   );
                 } else if (widget.cardStorage == "-") {
-                  return GenerateCardWithInkWell.withoutArguments(
+                  return GenerateCardWithInkWell.withArguments(
                     index: index,
                     data: data,
                     icon: Icons.credit_card,
                     route: "/alterCards",
+                    argument: data[index].name,
                     view: 1,
                   );
                 } else {

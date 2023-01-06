@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String adress = "https://192.168.125.67:7171/api/storages";
+String adress = "https://192.168.0.173:7171/api/storages";
 
 class Storages {
   String name;
@@ -36,6 +36,17 @@ Future<List<Storages>> fetchData() async {
     return jsonResponse.map((data) => Storages.fromJson(data)).toList();
   } else {
     throw Exception('Failed to get Storages!');
+  }
+}
+
+Future<Storages> focusStorage(String name) async {
+  final response = await http.get(
+    Uri.parse(adress + "/focus/name/" + name),
+  );
+  if (response.statusCode == 200) {
+    return Storages.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Failed to focus Storage!');
   }
 }
 
@@ -81,21 +92,5 @@ Future<Storages> sendData(Map<String, dynamic> data) async {
     return Storages.fromJson(json.decode(response.body));
   } else {
     throw Exception('Failed to add Storage!');
-  }
-}
-
-Future<Storages> focusStorage(String name) async {
-  final http.Response response = await http.put(
-    Uri.parse(adress + "/focus/name/" + name),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(name),
-  );
-
-  if (response.statusCode == 200) {
-    return Storages.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Failed to focus Storage!');
   }
 }

@@ -34,7 +34,7 @@ class RouteGenerator {
       case '/addStorage':
         return MaterialPageRoute(builder: ((context) => AddStorage()));
       case '/alterStorage':
-        if (args is int) {
+        if (args is String) {
           return MaterialPageRoute(
               builder: ((context) => StorageSettings(args)));
         }
@@ -52,7 +52,11 @@ class RouteGenerator {
 
       //Status
       case '/status':
-        return MaterialPageRoute(builder: ((context) => StatusStorage()));
+        if (args is String) {
+          return MaterialPageRoute(
+              builder: ((context) => StatusStorage(name: args)));
+        }
+        return _errorRoute();
 
       default:
         return _errorRoute();

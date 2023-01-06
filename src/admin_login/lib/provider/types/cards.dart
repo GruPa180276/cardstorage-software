@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String adress = "https://192.168.125.67:7171/api/storages/cards";
+String adress = "https://192.168.0.173:7171/api/storages/cards";
 
 class Cards {
   String name;

@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/provider/types/cards.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
+import 'package:admin_login/provider/types/storages.dart';
 import 'package:admin_login/domain/values/card_values.dart';
 import 'package:admin_login/provider/types/cards.dart' as card;
 import 'package:admin_login/provider/types/storages.dart' as storage;
-import 'package:admin_login/provider/types/storages.dart';
 
 CardValues cardValues = new CardValues();
 late Future<List<Cards>> futureData;
+String cardName = "";
 
 class CardSettings extends StatefulWidget {
   CardSettings(String card, {Key? key}) : super(key: key) {
-    cardValues.setName(card);
+    cardName = card;
   }
 
   @override
@@ -42,12 +43,15 @@ class _CardSettingsState extends State<CardSettings> {
             ),
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
-        body: SingleChildScrollView(
-          child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Column(
-                children: [GetDataFromAPI()],
-              )),
+        body: Container(
+          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Column(children: [
+            Expanded(
+              child: Container(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(children: [GetDataFromAPI()])),
+            )
+          ]),
         ));
   }
 }
@@ -60,8 +64,6 @@ class GetDataFromAPI extends StatefulWidget {
 }
 
 class _GetDataFromAPIState extends State<GetDataFromAPI> {
-  late Future<List<Cards>> futureData;
-
   String selectedStorage = "-";
   List<String> dropDownValuesNames = ["-"];
   List<Storages>? listOfStorages;
@@ -91,12 +93,21 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Cards>>(
+    return Expanded(
+        child: FutureBuilder<List<Cards>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Cards>? data = snapshot.data;
-          return genereateFields(context, data);
+          return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (data![index].name == cardName) {
+                  return genereateFields(context, data[index]);
+                } else {
+                  return const SizedBox.shrink();
+                }
+              });
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -111,16 +122,16 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
           ],
         )));
       },
-    );
+    ));
   }
 
-  Widget genereateFields(BuildContext context, List<Cards>? data) {
+  Widget genereateFields(BuildContext context, Cards data) {
     return InkWell(
         child: Container(
       child: Column(children: [
         GenerateListTile(
           labelText: "Name",
-          hintText: cardValues.name,
+          hintText: data.name,
           icon: Icons.description,
           regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
           function: this.setName,

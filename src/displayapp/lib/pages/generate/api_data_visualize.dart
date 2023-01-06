@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rfidapp/config/cardSiteEnum.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
@@ -8,7 +9,7 @@ import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 class ApiVisualizer extends StatefulWidget {
-  String site;
+  CardPageType site;
   ApiVisualizer({super.key, required this.site});
 
   @override
@@ -23,7 +24,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
-  String site;
+  CardPageType site;
 
   @override
   void initState() {
@@ -49,8 +50,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   @override
   Widget build(BuildContext context) {
     Widget seachField = SizedBox(height: 0, width: 0);
-
-    if (site != "Favoriten") {
       seachField = Row(
         children: [
           Expanded(
@@ -79,7 +78,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               icon: const Icon(Icons.adjust))
         ],
       );
-    }
+    
 
     return Scaffold(
         appBar: AppBar(
@@ -89,7 +88,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             backgroundColor: Colors.transparent,
             title: Stack(
               children: [
-                Text(site,
+                Text(site.toString().replaceAll("CardPageType.", ""),
                     style: TextStyle(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
@@ -129,12 +128,11 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                       } else {
                         final users = snapshot.data!;
                         switch (site) {
-                          
                           //TODO change to required class
-                          case "Reservierung":
-                            return cardsView(users, context, 'reservation', searchString);
-                          case "Karten":
-                            return cardsView(users, context, 'cards', searchString);
+                          case CardPageType.Reservierungen:
+                            return cardsView(users, context, CardPageType.Reservierungen, searchString);
+                          case CardPageType.Karten:
+                            return cardsView(users, context, CardPageType.Karten, searchString);
                       
                         }
                         return const Text('Error Type not valid');

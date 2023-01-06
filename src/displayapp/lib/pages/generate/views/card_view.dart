@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/config/cardSiteEnum.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 
-Widget cardsView(Storage storage, BuildContext context, String site,
+Widget cardsView(Storage storage, BuildContext context, CardPageType site,
 
 
         String searchstring) =>
@@ -38,7 +39,7 @@ Widget cardsView(Storage storage, BuildContext context, String site,
           }),
     );
 
-Widget buildCardsText(BuildContext context, ReaderCards card, String site) {
+Widget buildCardsText(BuildContext context, ReaderCards card, CardPageType site) {
   Color colorAvailable = Colors.green;
 
   if (!card.available) {
@@ -91,10 +92,9 @@ Widget buildCardsText(BuildContext context, ReaderCards card, String site) {
   );
 }
 
-Widget buildBottomButton(BuildContext context, String site, ReaderCards card) {
+Widget buildBottomButton(BuildContext context, CardPageType site, ReaderCards card) {
   switch (site) {
-    case 'cards':
-
+    case CardPageType.Karten:
       return Row(
         children: [
           Expanded(

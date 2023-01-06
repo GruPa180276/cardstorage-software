@@ -250,6 +250,13 @@ Habe versucht, die neue Version der API zum laufen zu bekommen. Aber es gestallt
 **5.1.2023: 12:30 bis 14:00** <br>
 Habe dann diverse Sachen in der App anpassen müssen, damit das meisten Sachen wieder funktionieren. Habe lange an einem Problem gehängt, da immer ein Zertifikat Fehler kam, der sich aber durch generelles Erlauben, von allen und ohne Zertifikaten lösen lies! (1h 30min)
 
+**6.1.2023: 10:30 bis 12:00** <br>
+Habe heute die Pink und Focus Funktionen implementiert, welche auch bereits funktionieren. (1h 30min)
+
+**6.1.2023: 12:30 bis 17:00** <br>
+Habe die Struktur der Typen Cards, Storages und Ping geändert, damit alle Felder gelesen werden können. Danach habe ich noch die Option, beim Storage hinzugefügt das auch Arrays von Karten zugelassen werden. Danach habe ich noch die Status Seite erstellt, wo man pingen, focus und Satistiken sehen kann.
+(4h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -322,4 +329,6 @@ Habe dann diverse Sachen in der App anpassen müssen, damit das meisten Sachen w
 - 8:45 bis 11:30 Uhr
 - 10:00 bis 11:30 Uhr
 - 12:30 bis 14:00 Uhr
+- 10:30 bis 12.00 Uhr
+- 12:30 bis 17:00 Uhr
 <!-- { "progress": false } -->

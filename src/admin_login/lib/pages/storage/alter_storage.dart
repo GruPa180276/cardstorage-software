@@ -147,9 +147,11 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                   "Änderungen speichern",
                   () {
                     Storages newEntry = new Storages(
-                        name: storageValues.name,
-                        location: storageValues.location,
-                        numberOfCards: storageValues.numberOfCards);
+                      name: storageValues.name,
+                      location: storageValues.location,
+                      numberOfCards: storageValues.numberOfCards,
+                      cards: [],
+                    );
                     updateData(storageValues.name, newEntry.toJson());
                     Navigator.of(context).pop();
                   },

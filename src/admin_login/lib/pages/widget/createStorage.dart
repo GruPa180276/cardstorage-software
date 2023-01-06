@@ -41,7 +41,7 @@ Table createStorageTable(
       TableRow(
         children: [
           Text(
-            "Anzahl Karten:",
+            "Kapazität:",
             style: TextStyle(fontSize: 20),
           ),
           Text(

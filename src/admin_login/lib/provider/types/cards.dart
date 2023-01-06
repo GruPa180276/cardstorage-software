@@ -6,16 +6,25 @@ String adress = "https://192.168.0.173:7171/api/storages/cards";
 class Cards {
   String name;
   int storage;
+  int position;
+  int accessed;
+  bool available;
 
   Cards({
     required this.name,
     required this.storage,
+    required this.position,
+    required this.accessed,
+    required this.available,
   });
 
   factory Cards.fromJson(Map<String, dynamic> json) {
     return Cards(
       name: json['name'] ?? "",
       storage: json['storage'] ?? 0,
+      position: json['position'] ?? 0,
+      accessed: json['accessed'] ?? 0,
+      available: json['available'] ?? 0,
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Table createCardTable(
   BuildContext context,
   String name,
-  String storageId,
+  int accessed,
   bool isAvailable,
 ) {
   Color color = Colors.green;
@@ -30,11 +30,11 @@ Table createCardTable(
     TableRow(
       children: [
         Text(
-          "StorageId:",
+          "Verwendet:",
           style: TextStyle(fontSize: 20),
         ),
         Text(
-          storageId.toString(),
+          accessed.toString(),
           style: TextStyle(fontSize: 20),
           textAlign: TextAlign.right,
         )

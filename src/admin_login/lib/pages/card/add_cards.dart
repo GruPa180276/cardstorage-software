@@ -169,9 +169,11 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                   "Karte hinzufügen",
                   (() {
                     Cards newEntry = new Cards(
-                      name: cardValues.name,
-                      storage: cardValues.storageID,
-                    );
+                        name: cardValues.name,
+                        storage: cardValues.storageID,
+                        position: 0,
+                        accessed: 0,
+                        available: false);
                     card.sendData(newEntry.toJson());
                     showDialog(
                       context: context,

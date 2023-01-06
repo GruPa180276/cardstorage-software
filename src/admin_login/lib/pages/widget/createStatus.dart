@@ -8,10 +8,9 @@ String textStatus = "-";
 Table createStatus(
   BuildContext context,
   bool status,
+  String name,
   int cardsInStorage,
   int capacity,
-  int numOfErrors,
-  int cardsOverDate,
 ) {
   if (status == false) {
     colorStatus = Colors.red;
@@ -19,18 +18,6 @@ Table createStatus(
   } else if (status == true) {
     colorStatus = Colors.green;
     textStatus = "Online";
-  }
-
-  if (numOfErrors > 0) {
-    colorError = Colors.red;
-  } else if (numOfErrors == 0) {
-    colorError = Colors.green;
-  }
-
-  if (cardsOverDate > 0) {
-    colorCardsOverDate = Colors.red;
-  } else if (cardsOverDate == 0) {
-    colorCardsOverDate = Colors.green;
   }
   return Table(
     columnWidths: {
@@ -57,44 +44,28 @@ Table createStatus(
       TableRow(
         children: [
           Text(
+            "Name:",
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 20,
+              color: colorStatus,
+            ),
+            textAlign: TextAlign.right,
+          )
+        ],
+      ),
+      TableRow(
+        children: [
+          Text(
             "Karten vorhanden:",
             style: TextStyle(fontSize: 20),
           ),
           Text(
             cardsInStorage.toString() + "/" + capacity.toString(),
             style: TextStyle(fontSize: 20),
-            textAlign: TextAlign.right,
-          )
-        ],
-      ),
-      TableRow(
-        children: [
-          Text(
-            "Errors:",
-            style: TextStyle(fontSize: 20),
-          ),
-          Text(
-            numOfErrors.toString(),
-            style: TextStyle(
-              fontSize: 20,
-              color: colorError,
-            ),
-            textAlign: TextAlign.right,
-          )
-        ],
-      ),
-      TableRow(
-        children: [
-          Text(
-            "Karten überzogen:",
-            style: TextStyle(fontSize: 20),
-          ),
-          Text(
-            cardsOverDate.toString(),
-            style: TextStyle(
-              fontSize: 20,
-              color: colorCardsOverDate,
-            ),
             textAlign: TextAlign.right,
           )
         ],

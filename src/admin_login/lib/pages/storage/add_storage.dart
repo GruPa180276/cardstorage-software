@@ -128,7 +128,8 @@ class _InputFieldsState extends State<InputFields> {
                     Storages newEntry = new Storages(
                         name: storageValues.name,
                         location: storageValues.location,
-                        numberOfCards: storageValues.numberOfCards);
+                        numberOfCards: storageValues.numberOfCards,
+                        cards: []);
                     sendData(newEntry.toJson());
                     Navigator.of(context).pop();
                   },

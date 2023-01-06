@@ -1,6 +1,8 @@
 import 'package:admin_login/pages/widget/createCard.dart';
 import 'package:admin_login/pages/widget/createStatus.dart';
 import 'package:admin_login/pages/widget/createStorage.dart';
+import 'package:admin_login/provider/types/ping.dart';
+import 'package:admin_login/provider/types/storages.dart';
 import 'package:flutter/material.dart';
 
 class GenerateCardWithInkWell extends StatefulWidget {
@@ -37,6 +39,36 @@ class GenerateCardWithInkWell extends StatefulWidget {
 }
 
 class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
+  late Ping ping;
+  late Storages storage;
+  int count = 0;
+  bool pingWorked = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void pingNow(String name) async {
+    await pingStorage(name).then((value) => ping = value);
+
+    if (ping.time != 0) {
+      pingWorked = true;
+    }
+  }
+
+  void getNumberOfCardsInStorage(String name) async {
+    await getAllCardsPerStorage(name).then((value) => storage = value);
+
+    count = 0;
+
+    for (int i = 0; i < storage.cards.length; i++) {
+      if (storage.cards[i].available == true) {
+        count++;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -70,18 +102,20 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
       return createCardTable(
         context,
         widget.data![widget.index].name,
-        widget.data![widget.index].name,
-        false,
+        widget.data![widget.index].accessed,
+        widget.data![widget.index].available,
       );
     }
     if (widget.view == 2) {
+      getNumberOfCardsInStorage(widget.data![widget.index].name);
+      pingNow(widget.data![widget.index].name);
+
       return createStatus(
         context,
-        true,
-        7,
-        10,
-        5,
-        3,
+        pingWorked,
+        widget.data![widget.index].name,
+        count,
+        widget.data![widget.index].numberOfCards,
       );
     }
     if (widget.view == 3) {

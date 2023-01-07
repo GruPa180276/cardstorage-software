@@ -6,7 +6,7 @@ class Storage {
   String location;
   String address;
   int capacity;
-  List<ReaderCards>? cards;
+  List<ReaderCard>? cards;
 
   @override
   Storage(
@@ -18,8 +18,8 @@ class Storage {
   factory Storage.fromJson(dynamic json) {
     if (json["cards"] != null) {
       var cardsObjJson = json['cards'] as List;
-      List<ReaderCards> cards =
-          cardsObjJson.map((tagJson) => ReaderCards.fromJson(tagJson)).toList();
+      List<ReaderCard> cards =
+          cardsObjJson.map((tagJson) => ReaderCard.fromJson(tagJson)).toList();
       return Storage(
           name: json["name"],
           location: json['location'],

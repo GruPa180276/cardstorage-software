@@ -52,6 +52,7 @@ dependencies:
   circular_countdown_timer: ^0.2.3
   mqtt_client: ^9.7.2
   virtual_keyboard_multi_language: ^1.0.3
+  web_socket_channel: ^2.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

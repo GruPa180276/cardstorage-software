@@ -61,7 +61,7 @@ class Rfid:
                     mc.client.publish(Storage.TOPIC.value,mqtt_msg)
                 case Storage.NEW_STORAGE.value:
                     print("tbc.")
-
+                    
                 case Storage.NEW_CARD.value:
                     Rfid.msgid=res["msgid"]
                     token=Rfid.scanCard()
@@ -83,7 +83,7 @@ class Rfid:
             # finally:
             #         GPIO.cleanup()
             print("scanning right now")
-        return "scanned" 
+        return "111-xxx-222" 
 
     
 

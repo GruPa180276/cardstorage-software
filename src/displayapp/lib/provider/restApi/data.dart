@@ -24,9 +24,15 @@ class Data {
     }
   }
 
-  static Future<int> postGetCardNow(ReaderCards readerCard) async {
-    String readerCards = jsonEncode(readerCard.toJson());
+  static Future<Response> postGetCardNow(ReaderCard readerCard) async {
+    // "/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
+    // "/api/storages/cards/name/NAME/fetch",
 
-    return 1;
+    String readerCards = jsonEncode(readerCard.toJson());
+    return put(
+        Uri.parse('${uriRaspi}storages/cards/name/${readerCard.name}/fetch'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
   }
 }

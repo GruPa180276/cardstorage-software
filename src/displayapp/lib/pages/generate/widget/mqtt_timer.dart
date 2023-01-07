@@ -1,11 +1,21 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/types/cards.dart';
 
 class MqttTimer {
   static late BuildContext context;
 
-  static Future<void> startTimer(BuildContext context, String action) {
+  static Future<void> startTimer(BuildContext context, ReaderCard readerCard) {
+    var channel = IOWebSocketChannel.connect(
+      Uri.parse('wss://localhost:7171/api/controller/log'),
+    );
+    channel.stream.listen((event) {
+      print("smth here");
+    });
     MqttTimer.context = context;
     //send Data to rfid chip, that it should start scanning
     //15seconds time
@@ -44,9 +54,12 @@ class MqttTimer {
                     isTimerTextShown: true,
                     autoStart: true,
                     onComplete: (() => Navigator.pop(context)),
-                    onStart: () {
-                      //post to api
-                      //containing card inf
+                    onStart: () async {
+                      var response = await Data.postGetCardNow(readerCard);
+                      if (response != "200") {
+                        cancel();
+                      }
+                      print(response.statusCode);
                     },
                     timeFormatterFunction:
                         (defaultFormatterFunction, duration) {

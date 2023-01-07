@@ -16,7 +16,7 @@ class ReservateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (storage.cards == null) {
-      return Text("Error");
+      return const Text("Error");
     }
     var reservations = _parseToReservationList();
 
@@ -50,7 +50,6 @@ class ReservateView extends StatelessWidget {
 
   static Widget _buildCardsText(
       BuildContext context, Reservation reserveration) {
-    Color colorAvailable = Colors.green;
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -83,7 +82,7 @@ class ReservateView extends StatelessWidget {
                   DateTime.fromMillisecondsSinceEpoch(
                           reserveration.since * 1000)
                       .toString(),
-                  style: TextStyle(color: Colors.green),
+                  style: const TextStyle(color: Colors.green),
                 ),
               )
             ],
@@ -95,7 +94,7 @@ class ReservateView extends StatelessWidget {
                 child: Text(
                   DateTime.fromMillisecondsSinceEpoch(reserveration.until)
                       .toString(),
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
               )
             ],

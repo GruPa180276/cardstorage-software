@@ -3,6 +3,7 @@ import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class CardView extends StatelessWidget {
   Storage storage;
@@ -45,7 +46,7 @@ class CardView extends StatelessWidget {
             }),
       );
 
-  static Widget _buildCardsText(BuildContext context, ReaderCards card) {
+  static Widget _buildCardsText(BuildContext context, ReaderCard card) {
     Color colorAvailable = Colors.green;
     if (!card.available) {
       colorAvailable = Colors.red;
@@ -94,8 +95,8 @@ class CardView extends StatelessWidget {
     );
   }
 
-  static Widget _buildCardsButton(BuildContext context, ReaderCards card) {
-    if (card.available) {
+  static Widget _buildCardsButton(BuildContext context, ReaderCard card) {
+    if (!card.available) {
       return Container();
     }
     return Row(
@@ -105,7 +106,7 @@ class CardView extends StatelessWidget {
           child: CardButton(
               text: 'Jetzt holen',
               onPress: () {
-                MqttTimer.startTimer(context, "to-get-card");
+                MqttTimer.startTimer(context, card);
               }),
         )
       ],

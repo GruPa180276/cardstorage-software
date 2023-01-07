@@ -8,7 +8,7 @@ import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/domain/storage_properties.dart';
 
 class MQTTClientManager {
-  static MqttServerClient _client = MqttServerClient.withPort(
+  static final MqttServerClient _client = MqttServerClient.withPort(
       StorageProperties.getIpAdress()!, 'mobile_client', 1883);
   static late StreamSubscription _subscription;
   static late BuildContext _context;
@@ -49,7 +49,7 @@ class MQTTClientManager {
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
     Map response = json.decode(message);
     print(response);
-    MqttTimer.startTimer(_context, "to-sign-up");
+    //MqttTimer.startTimer(_context, "to-sign-up");
   }
 
   static void subscribe(String topic, BuildContext buildContext) {

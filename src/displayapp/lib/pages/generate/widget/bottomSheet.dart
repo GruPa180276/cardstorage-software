@@ -3,7 +3,6 @@ import 'package:rfidapp/config/cardSiteEnum.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
-import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 
 class BottomSheetPop {
@@ -23,7 +22,6 @@ class BottomSheetPop {
       required this.cardPageType});
 
   Future buildBottomSheet(BuildContext context) async {
-    final _listofAvailable = ['alle', true, false];
     switch (cardPageType) {
       case CardPageType.Karten:
         return _buildCardPage(context);
@@ -56,7 +54,7 @@ class BottomSheetPop {
                   ),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Verfuegabar',
                         style: TextStyle(fontSize: 17),
@@ -106,6 +104,7 @@ class BottomSheetPop {
                             } else if (_valueAvailable.toString() == "alle") {
                               return value;
                             }
+                            return null;
                           });
                           onPressStorage(_modifiedStorage!);
                         },
@@ -146,7 +145,7 @@ class BottomSheetPop {
                   ),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Verfuegabar',
                         style: TextStyle(fontSize: 17),

@@ -1,6 +1,6 @@
 import 'package:rfidapp/provider/types/reservation.dart';
 
-class ReaderCards {
+class ReaderCard {
   //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
   String reader;
   String name;
@@ -10,7 +10,7 @@ class ReaderCards {
   List<Reservation>? reservation;
 
   @override
-  ReaderCards(
+  ReaderCard(
       {required this.reader,
       required this.name,
       required this.position,
@@ -18,13 +18,13 @@ class ReaderCards {
       required this.available,
       this.reservation});
 
-  factory ReaderCards.fromJson(Map<String, dynamic> json) {
+  factory ReaderCard.fromJson(Map<String, dynamic> json) {
     if (json["reservations"] != null) {
       print(json['name']);
       var cardsObjJson = json['reservations'] as List;
       List<Reservation> cards =
           cardsObjJson.map((tagJson) => Reservation.fromJson(tagJson)).toList();
-      return ReaderCards(
+      return ReaderCard(
           reader: json['reader'],
           name: json['name'],
           position: json['position'],
@@ -32,7 +32,7 @@ class ReaderCards {
           available: json['available'],
           reservation: cards);
     }
-    return ReaderCards(
+    return ReaderCard(
         reader: json['reader'],
         name: json['name'],
         position: json['position'],

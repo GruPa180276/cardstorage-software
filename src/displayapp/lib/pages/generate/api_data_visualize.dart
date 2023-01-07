@@ -44,13 +44,13 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   void setListType(Future<Storage?> cardsNew) {
     setState(() {
-      _modifiedStorage = cardsNew as Future<Storage?>?;
+      _modifiedStorage = cardsNew;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget seachField = SizedBox(height: 0, width: 0);
+    Widget seachField = const SizedBox(height: 0, width: 0);
     seachField = Row(
       children: [
         Expanded(
@@ -96,13 +96,13 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor)),
                 Container(
-                    padding: EdgeInsets.fromLTRB(0, 11, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
                     alignment: Alignment.bottomRight,
                     child: buildChangeThemeMode(context)),
               ],
             )),
         body: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           child: Column(
             children: [
               seachField,
@@ -112,7 +112,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return Center(child: const CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     default:
                       if (snapshot.hasError) {
                         return Container(
@@ -142,7 +142,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                                 searchstring: searchString,
                                 storage: users);
                         }
-                        return const Text('Error Type not valid');
                       }
                   }
                 },

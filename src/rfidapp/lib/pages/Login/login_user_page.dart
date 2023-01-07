@@ -131,8 +131,14 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         const SizedBox(width: 5.0),
         InkWell(
           onTap: () async {
-            EmailPopUp.show(
-                this.context, "grubauer.patrick@gmail.com", "Test", "Test");
+            EmailPopUp(
+                    context: context,
+                    to: "admin@gmail.com",
+                    subject: "Frage bei Rfid CardManagement App",
+                    body: " Guten Tag Admin,")
+                .show(
+                    //send to mail
+                    );
           },
           child: Text(
             'Stelle Sie eine Frage.',
@@ -149,28 +155,30 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
 
   void sigIn() async {
     try {
-      //UserSecureStorage.setRememberState(rememberValue.toString());
-      // await AadAuthentication.getEnv();
-      // await AadAuthentication.oauth!.logout();
-      // await AadAuthentication.oauth!.login();
-      // String? accessToken = await AadAuthentication.oauth!.getAccessToken();
-      // if (accessToken!.isNotEmpty) {
-      //   var userResponse = await Data.getUserData(accessToken);
-      //   var email = jsonDecode(userResponse!.body)["mail"];
-      //   bool registered = await Data.checkUserRegistered(email);
-
-      if (true) {
-        bool registered = false;
+      UserSecureStorage.setRememberState(rememberValue.toString());
+      await AadAuthentication.getEnv();
+      await AadAuthentication.oauth!.logout();
+      await AadAuthentication.oauth!.login();
+      String? accessToken = await AadAuthentication.oauth!.getAccessToken();
+      if (accessToken!.isNotEmpty) {
+        var userResponse = await Data.getUserData(accessToken);
+        var email = jsonDecode(userResponse!.body)["mail"];
+        bool registered = await Data.checkUserRegistered(email);
         if (registered) //api get// see if user is registered
         {
-          MicrosoftUser.setUserValues(jsonDecode("userResponse.body"));
+          MicrosoftUser.setUserValues(jsonDecode(userResponse.body));
           UserSecureStorage.setRememberState(rememberValue.toString());
 
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const BottomNavigation()),
               (Route<dynamic> route) => false);
         } else {
-          var x = MqttTimer(context: context, action: TimerAction.SIGNUP);
+          //@TODO s4 hardcoded
+          var x = MqttTimer(
+              context: context,
+              action: TimerAction.SIGNUP,
+              email: email,
+              storagename: "S4");
           await StorageSelectPopUp.build(context);
           if (StorageSelectPopUp.getSuccessful()) {
             await x.startTimer();
@@ -178,7 +186,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
             print("error");
           }
           if (x.getSuccessful()) {
-            MicrosoftUser.setUserValues(jsonDecode("userResponse.body"));
+            MicrosoftUser.setUserValues(jsonDecode(userResponse.body));
             UserSecureStorage.setRememberState(rememberValue.toString());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(

@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+import 'package:rfidapp/provider/restApi/uitls.dart';
 import 'dart:async';
 
 import 'package:rfidapp/provider/types/readercards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/types/user.dart';
 
 class Data {
   static String uriRaspi = 'https://10.0.2.2:7171/api/';
 
-  static Future<List<Storage>?> getStorageData() async {
+  static Future<List<ReaderCard>?> getStorageData() async {
     try {
       var cardsResponse = await get(Uri.parse("${uriRaspi}storages"),
           headers: {"Accept": "appliction/json"});
@@ -18,7 +20,7 @@ class Data {
       List<Storage> storages =
           jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
 
-      return storages;
+      return Utils.parseToReaderCards(storages);
     } catch (e) {
       print(e.toString());
     }
@@ -27,10 +29,9 @@ class Data {
   static Future<bool> checkUserRegistered(String email) async {
     var responseUser = await get(Uri.parse("${uriRaspi}users/email/${email}"),
         headers: {"Accept": "application/json"});
-    print(
-        "--------------------------------------------------------------------------------");
 
-    if (responseUser.statusCode != 200) {
+    if (responseUser.statusCode != 200 ||
+        jsonDecode(responseUser.body)["email"].toString().isEmpty) {
       return false;
     }
     return true;
@@ -50,15 +51,9 @@ class Data {
 
   static Future<Response> postCreateNewUser(
       String email, String storageName) async {
-    // "/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
-    // "/api/storages/cards/name/NAME/fetch",
-    print('${uriRaspi}/users');
-    Map data = {"email": email, "storage": storageName};
-    var x = post(Uri.parse('${uriRaspi}users'),
+    return post(Uri.parse('${uriRaspi}users'),
         headers: <String, String>{'Content-Type': 'application/json'},
-        body: jsonEncode(data));
-    var s = await x;
-    print(s.statusCode);
-    return x;
+        body: jsonEncode({"email": email, "storage": storageName}));
+    ;
   }
 }

@@ -8,14 +8,14 @@ import 'package:rfidapp/provider/types/storage.dart';
 class BottomSheetPop {
   String _valueStorage = '';
   dynamic _valueAvailable = 'alle';
-  final Function(Future<List<Storage>?>?) onPressStorage;
-  Future<List<Storage>?>? defaultStorage;
-  Future<List<Storage>?>? modifiedStorage;
+  final Function(Future<List<ReaderCard>?>) setReaderCards;
+  final Future<List<ReaderCard>?> defaultCards;
+  late Future<List<ReaderCard>?> modifiedCards;
 
   BottomSheetPop({
     Key? key,
-    required this.defaultStorage,
-    required this.onPressStorage,
+    required this.defaultCards,
+    required this.setReaderCards,
   });
 
   Future buildBottomSheet(BuildContext context) async {
@@ -108,28 +108,31 @@ class BottomSheetPop {
                         text: 'Filtern',
                         onPress: () {
                           //Improve logic readability
-                          modifiedStorage = defaultStorage!.then((value) {
+                          modifiedCards = defaultCards.then((value) {
                             if (_valueAvailable.toString() == "alle" &&
                                 _valueStorage.toString() == "alle") {
                               return value;
                             } else if (_valueAvailable.toString() == "alle") {
                               return value!
                                   .where((element) =>
-                                      element.name == _valueStorage)
+                                      element.storageName == _valueStorage)
                                   .toList();
                             } else if (_valueStorage.toString() == "alle") {
-                              return value;
-                              // .where((element) =>
-                              //     element.cards.map((e) => e.available==_valueAvailable))
-                              // .toList();
+                              var x = value!
+                                  .where((element) =>
+                                      element.available == _valueAvailable)
+                                  .toList();
+
+                              return x;
                             }
-                            return value;
-                            //       .where((element) =>
-                            //           element.name == _valueStorage &&
-                            //           element.available == _valueAvailable)
-                            //       .toList();
+                            return value!
+                                .where((element) =>
+                                    element.name == _valueStorage &&
+                                    element.available == _valueAvailable)
+                                .toList();
                           });
-                          onPressStorage(modifiedStorage);
+
+                          setReaderCards(modifiedCards);
                         },
                         textColor: Colors.white),
                   )
@@ -139,8 +142,12 @@ class BottomSheetPop {
   }
 
   Future<List<String>> _getStorageNames() async {
-    var storages = await defaultStorage;
-    List<String> storagenames = storages!.map((e) => e.name).toList();
-    return storagenames;
+    var readerCards = await defaultCards;
+    Set<String> storagenames = <String>{};
+
+    for (ReaderCard readerCard in readerCards!) {
+      storagenames.add(readerCard.storageName!);
+    }
+    return storagenames.toList();
   }
 }

@@ -9,6 +9,8 @@ class ReaderCard {
   bool available;
   List<Reservation>? reservation;
   String? storageName;
+  String? location;
+
   @override
   ReaderCard(
       {required this.reader,

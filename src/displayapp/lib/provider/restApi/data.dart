@@ -15,6 +15,7 @@ class Data {
           Uri.parse(
               "${uriRaspi}storages/name/${StorageProperties.getStorageId()}"),
           headers: {"Accept": "application/json"});
+
       var jsonStorage = jsonDecode(cardsResponse.body);
       Storage cards = Storage.fromJson(jsonStorage);
 

@@ -48,7 +48,7 @@ class FavoriteView extends StatelessWidget {
                 );
               }
               for (String id in pinnedCards) {
-                card = cards[index].name.toString().contains(id);
+                card = (cards[index].name.toString() == id);
                 if (card) {
                   break;
                 }
@@ -66,88 +66,39 @@ class FavoriteView extends StatelessWidget {
                             padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                             child: Icon(Icons.credit_card_outlined, size: 35),
                           ),
-                          buildCardsText(
-                              context, cards[index], pinnedCards, reloadPinned),
+                          _buildCardsText(context, cards[index]),
                         ]),
-                        buildBottomButton(context, cards[index])
+                        _buildBottomButton(context, cards[index])
                       ]))
                   : Container();
             }),
       );
 
-  Widget buildCardsText(BuildContext context, ReaderCard card,
-      Set<String> pinnedCards, Function reloadPinned) {
-    bool isFavorised = false;
-
-    Color colorPin = Theme.of(context).primaryColor;
-    Color colorAvailable = Colors.green;
-    if (pinnedCards.contains(card.name.toString())) {
-      colorPin = Colors.yellow;
-      isFavorised = true;
-    }
-
-    Widget favoriteButton = IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.podcasts,
-          color: Theme.of(context).cardColor,
-        ));
-
-    Widget emailButton = IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.podcasts,
-          color: Theme.of(context).cardColor,
-        ));
-
-    if (!card.available) {
-      colorAvailable = Colors.red;
-    }
-
-    if (!card.available) {
-      emailButton = Padding(
-          padding: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.width - 171, 55, 0, 0),
-          child: IconButton(
-              onPressed: () async {
-                EmailPopUp.show(
-                    //send to mail
-                    context,
-                    "grubauer.patrick@gmail.com",
-                    "Test",
-                    "Test");
-              },
-              icon: Icon(Icons.email)));
-    }
-
-    favoriteButton = StatefulBuilder(builder:
-        (BuildContext context, StateSetter setState /*You can rename this!*/) {
-      return IconButton(
-          padding: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.width - 160, 0, 0, 0),
-          onPressed: () {
-            setState(
-              () {
-                isFavorised = !isFavorised;
-                if (isFavorised) {
-                  colorPin = Colors.yellow;
-                  AppPreferences.addCardPinned(card.name.toString());
-                } else {
-                  colorPin = Theme.of(context).primaryColor;
-                  AppPreferences.removePinnedCardAt(card.name);
-                  pinnedCards = AppPreferences.getCardsPinned();
-                  reloadPinned();
-                }
-              },
-            );
-          },
-          splashColor: Colors.transparent,
-          splashRadius: 0.1,
-          icon: Icon(
-            Icons.star,
-            color: colorPin,
-          ));
-    });
+  Widget _buildCardsText(BuildContext context, ReaderCard card) {
+    Widget emailButton = (!card.available)
+        ? Padding(
+            padding: EdgeInsets.fromLTRB(
+                MediaQuery.of(context).size.width - 171, 55, 0, 0),
+            child: IconButton(
+                onPressed: () async {
+                  var asd = card.reservation!
+                      .firstWhere((element) => element.isreservation == false)
+                      .user;
+                  EmailPopUp(
+                          context: context,
+                          to: card.reservation!
+                              .firstWhere(
+                                  (element) => element.isreservation == false)
+                              .user
+                              .email,
+                          subject: card.name,
+                          body: card.name + " Frage.")
+                      .show(
+                          //send to mail
+                          );
+                },
+                icon: Icon(Icons.email)))
+        : SizedBox.shrink();
 
     return Stack(
       children: [
@@ -165,13 +116,13 @@ class FavoriteView extends StatelessWidget {
               TableRow(
                 children: [
                   const TableCell(child: Text("Name:")),
-                  TableCell(child: Text(card.name.toString()))
+                  TableCell(child: Text(card.name))
                 ],
               ),
               TableRow(
                 children: [
                   const TableCell(child: Text("Storage:")),
-                  TableCell(child: Text(card.storageName.toString()))
+                  TableCell(child: Text(card.storageName!))
                 ],
               ),
               TableRow(
@@ -181,62 +132,78 @@ class FavoriteView extends StatelessWidget {
                     child: Text(
                       card.available.toString(),
                       style: TextStyle(
-                          color: colorAvailable, fontWeight: FontWeight.bold),
+                          color: (!card.available) ? Colors.red : Colors.green,
+                          fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
-              )
+              ),
+              TableRow(
+                children: [
+                  const TableCell(child: Text("Position:")),
+                  TableCell(
+                    child: Text(
+                      card.position.toString(),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         ),
-        favoriteButton,
+        favoriteButton(card),
         emailButton
       ],
     );
   }
 
-  Widget buildBottomButton(BuildContext context, ReaderCard card) {
-    Widget getNow = const SizedBox(
-      width: 0,
-      height: 0,
-    );
-    if (card.available) {
-      return Row(
-        children: [
-          Expanded(
-              child: CardButton(
-                  text: 'Jetzt holen',
-                  onPress: () => MqttTimer(
-                          context: context,
-                          action: TimerAction.GETCARD,
-                          card: card)
-                      .startTimer())),
-          SizedBox(
-            width: 1,
-            height: 50,
-            child: Container(
-              color: Theme.of(context).dividerColor,
-            ),
-          ),
-          Expanded(
-              child: CardButton(
-                  text: 'Reservieren',
-                  onPress: () => buildReservatePopUp(context, card)))
-        ],
-      );
-    }
-    return Stack(
-      children: [
-        Row(
-          children: <Widget>[
-            getNow,
-            Expanded(
+  static Widget _buildBottomButton(BuildContext context, ReaderCard card) {
+    return (!card.available)
+        ? SizedBox.shrink()
+        : Row(
+            children: [
+              Expanded(
+                //get card
                 child: CardButton(
-                    text: 'Reservieren',
-                    onPress: () => buildReservatePopUp(context, card))),
-          ],
-        ),
-      ],
-    );
+                    text: 'Jetzt holen',
+                    onPress: () {
+                      MqttTimer(context: context, action: TimerAction.GETCARD)
+                          .startTimer();
+                    }),
+              )
+            ],
+          );
+  }
+
+  Widget favoriteButton(ReaderCard card) {
+    var colorPin = (pinnedCards.contains(card.name.toString())
+        ? Colors.yellow
+        : Theme.of(context).primaryColor);
+
+    return StatefulBuilder(builder:
+        (BuildContext context, StateSetter setState /*You can rename this!*/) {
+      return IconButton(
+        padding: EdgeInsets.fromLTRB(
+            MediaQuery.of(context).size.width - 160, 0, 0, 0),
+        onPressed: () {
+          setState(
+            () {
+              if (!(pinnedCards.contains(card.name.toString()))) {
+                colorPin = Colors.yellow;
+                AppPreferences.addCardPinned(card.name.toString());
+              } else {
+                AppPreferences.removePinnedCardAt(card.name);
+                pinnedCards = AppPreferences.getCardsPinned();
+                colorPin = Theme.of(context).primaryColor;
+              }
+              reloadPinned();
+            },
+          );
+        },
+        icon: Icon(Icons.star, color: colorPin),
+        splashColor: Colors.transparent,
+        splashRadius: 0.1,
+      );
+    });
   }
 }

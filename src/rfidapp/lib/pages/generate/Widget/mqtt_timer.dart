@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rfidapp/domain/enums/TimerActions.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/readercards.dart';
+import 'package:web_socket_channel/io.dart';
 
 class MqttTimer {
   bool _successful = false;
@@ -10,12 +13,26 @@ class MqttTimer {
   BuildContext context;
   TimerAction action;
   ReaderCard? card;
+  String? email;
+  String? storagename;
 
-  MqttTimer({Key? key, required this.context, required this.action, this.card});
+  MqttTimer(
+      {Key? key,
+      required this.context,
+      required this.action,
+      this.card,
+      this.email,
+      this.storagename});
 
   Future<void> startTimer() {
+    final channel = IOWebSocketChannel.connect(
+      'wss://10.0.2.2:7171/api/controller/log',
+    );
+    streamListener(channel);
+
     int timestamp = 0;
     _successful = false;
+
     //send Data to rfid chip, that it should start scanning
     //15seconds time
     //thread that checks if toke is here
@@ -57,8 +74,9 @@ class MqttTimer {
                       if (action == TimerAction.GETCARD) {
                         //post to Api
                       } else if (action == TimerAction.SIGNUP) {
-                        var response = await Data.postCreateNewUser(
-                            "test1@gmail.com", "S4");
+                        var response =
+                            await Data.postCreateNewUser(email!, storagename!);
+
                         if (response.statusCode != 200) {
                           cancel();
                         }
@@ -96,5 +114,16 @@ class MqttTimer {
 
   void cancel() {
     Navigator.pop(context);
+  }
+
+  streamListener(IOWebSocketChannel channel) {
+    channel.stream.listen((message) {
+      channel.sink.close();
+      Map getData = jsonDecode(message);
+      print(getData["successful"]);
+      _successful = getData["successful"];
+      cancel();
+      channel.sink.close();
+    });
   }
 }

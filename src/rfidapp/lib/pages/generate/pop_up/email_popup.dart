@@ -3,24 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 
 class EmailPopUp {
-  static void show(
-      BuildContext context, String to, String subject, String body) async {
+  final BuildContext context;
+  final String to;
+  final String subject;
+  final String body;
+
+  EmailPopUp(
+      {required this.context,
+      required this.to,
+      required this.subject,
+      required this.body});
+
+  void show() async {
     var result = await OpenMailApp.composeNewEmailInMailApp(
-      emailContent: EmailContent(
-          cc: List.filled(1, "grubauer.patrick@gmail.com"),
-          body: body,
-          bcc: List.filled(1, "grubauer.patrick@gmail.com"),
-          to: List.filled(1, to),
-          subject: subject),
+      emailContent:
+          EmailContent(body: body, to: List.filled(1, to), subject: subject),
     );
 
     // If no mail apps found, show error
     if (!result.didOpen && !result.canOpen) {
       _showNoMailAppsDialog(context);
-
-      // iOS: if multiple mail apps found, show dialog to select.
-      // There is no native intent/default app system in iOS so
-      // you have to do it yourself.
     } else if (!result.didOpen && result.canOpen) {
       showDialog(
         context: context,

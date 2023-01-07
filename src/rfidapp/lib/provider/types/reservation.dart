@@ -1,18 +1,6 @@
 import 'package:rfidapp/provider/types/user.dart';
 
 class Reservation {
-  // "since": 1673000473,
-  // 					"until": -62135596800,
-  // 					"returned-at": -62135596800,
-  // 					"id": 1,
-  // 					"user": {
-  // 						"reader": "",
-  // 						"email": "",
-  // 						"privileged": false
-  // 					},
-  // 					"is-reservation": false
-
-//final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
   int since;
   int until;
   int returndate;

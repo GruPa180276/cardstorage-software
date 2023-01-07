@@ -1,11 +1,13 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardsSiteEnum.dart';
+import 'package:rfidapp/pages/generate/views/favorite_view.dart';
 import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
-import 'package:rfidapp/provider/types/cards.dart';
+import 'package:rfidapp/provider/types/readercards.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
+import 'package:rfidapp/provider/types/storage.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {
@@ -19,8 +21,8 @@ class ApiVisualizer extends StatefulWidget {
 
 class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
-  Future<List<Cards>>? listOfTypes;
-  Future<List<Cards>>? listOfTypesSinceInit;
+  Future<List<Storage>?>? defaultStorage;
+  Future<List<Storage>?>? modifiedStorage;
   Set<String>? pinnedCards;
 
   String searchString = "";
@@ -44,14 +46,14 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
 
-      listOfTypes = Data.getCardsData();
-      listOfTypesSinceInit = listOfTypes;
+      defaultStorage = Data.getStorageData();
+      modifiedStorage = defaultStorage;
     });
   }
 
-  void setListType(Future<List<Cards>> listOfTypeNew) {
+  void setListType(Future<List<Storage>?>? newStorageList) {
     setState(() {
-      listOfTypes = listOfTypeNew;
+      modifiedStorage = newStorageList;
     });
   }
 
@@ -82,7 +84,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               onPressed: () {
                 BottomSheetPop(
                   onPressStorage: setListType,
-                  listOfTypes: listOfTypesSinceInit!,
+                  defaultStorage: defaultStorage,
                 ).buildBottomSheet(context);
               },
               icon: const Icon(Icons.adjust))
@@ -107,8 +109,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             children: [
               seachField,
               const SizedBox(height: 10),
-              FutureBuilder<List<Cards>>(
-                future: listOfTypes,
+              FutureBuilder<List<Storage>?>(
+                future: defaultStorage,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -132,17 +134,31 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
                         switch (site) {
                           //TODO change to required class
-                          case CardPageTypes.Reservierungen:
-                            return cardsView(users, context, site,
-                                pinnedCards!, reloadPinnedList, searchString);
+                          // case CardPageTypes.Reservierungen:
+                          //   return cardsView(users, context, site, pinnedCards!,
+                          //       reloadPinnedList, searchString);
                           case CardPageTypes.Karten:
-                            return cardsView(users, context, site,
-                                pinnedCards!, reloadPinnedList, searchString);
+                            return CardView(
+                                context: context,
+                                searchstring: searchString,
+                                storages: users);
                           case CardPageTypes.Favoriten:
-                            return cardsView(users, context, site,
-                                pinnedCards!, reloadPinnedList, searchString);
+                            List<ReaderCard>? readercards =
+                                List.empty(growable: true);
+                            for (var element in users) {
+                              readercards + element.cards;
+                            }
+                            return FavoriteView(
+                                cards: readercards,
+                                context: context,
+                                pinnedCards: pinnedCards!,
+                                reloadPinned: reloadPinnedList,
+                                searchstring: searchString);
+
+                          //users.map((e) => e.cards).toList()
                         }
                       }
+                      return Text("Error");
                   }
                 },
               ),

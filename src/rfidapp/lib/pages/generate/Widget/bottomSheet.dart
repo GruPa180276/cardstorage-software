@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
-import 'package:rfidapp/provider/types/cards.dart';
+import 'package:rfidapp/provider/types/readercards.dart';
+import 'package:rfidapp/provider/types/storage.dart';
 
 class BottomSheetPop {
   String _valueStorage = '';
   dynamic _valueAvailable = 'alle';
-  final Function(Future<List<Cards>>) onPressStorage;
-  Future<List<Cards>> listOfTypes;
-  Future<List<Cards>>? newListOfCards;
+  final Function(Future<List<Storage>?>?) onPressStorage;
+  Future<List<Storage>?>? defaultStorage;
+  Future<List<Storage>?>? modifiedStorage;
 
   BottomSheetPop({
     Key? key,
-    required this.listOfTypes,
+    required this.defaultStorage,
     required this.onPressStorage,
   });
 
   Future buildBottomSheet(BuildContext context) async {
-    List<String> listOfStorageId = await Data.getStorageNames();
+    List<String> listOfStorageId = await _getStorageNames();
     final _listofAvailable = ['alle', true, false];
 
     listOfStorageId.insert(0, "alle");
@@ -57,7 +58,8 @@ class BottomSheetPop {
                           items: listOfStorageId.map((valueItem) {
                             return DropdownMenuItem(
                                 value: valueItem,
-                                child: Container(child: Text(valueItem.toString())));
+                                child: Container(
+                                    child: Text(valueItem.toString())));
                           }).toList(),
                           onChanged: (newValue) {
                             setState(() {
@@ -70,14 +72,13 @@ class BottomSheetPop {
                   ),
                   Row(
                     children: [
-                       Expanded(
+                      Expanded(
                           child: Text(
                         'Verfuegabar',
                         style: TextStyle(fontSize: 17),
                       )),
-                      
                       Expanded(
-                        child: DropdownButton( 
+                        child: DropdownButton(
                           value: _valueAvailable,
                           items: _listofAvailable.map((valueItem) {
                             return DropdownMenuItem(
@@ -107,33 +108,39 @@ class BottomSheetPop {
                         text: 'Filtern',
                         onPress: () {
                           //Improve logic readability
-                          newListOfCards = listOfTypes.then((value) {
-                            if (_valueAvailable.toString()=="alle" &&
-                                _valueStorage.toString()=="alle") {
+                          modifiedStorage = defaultStorage!.then((value) {
+                            if (_valueAvailable.toString() == "alle" &&
+                                _valueStorage.toString() == "alle") {
                               return value;
-                            } else if (_valueAvailable.toString()=="alle") {
-                              return value
+                            } else if (_valueAvailable.toString() == "alle") {
+                              return value!
                                   .where((element) =>
-                                      element.storage == _valueStorage)
+                                      element.name == _valueStorage)
                                   .toList();
-                            } else if (_valueStorage.toString()=="alle") {
-                              return value
-                                  .where((element) =>
-                                      element.isAvailable == _valueAvailable)
-                                  .toList();
+                            } else if (_valueStorage.toString() == "alle") {
+                              return value;
+                              // .where((element) =>
+                              //     element.cards.map((e) => e.available==_valueAvailable))
+                              // .toList();
                             }
-                            return value
-                                .where((element) =>
-                                    element.storage == _valueStorage &&
-                                    element.isAvailable == _valueAvailable)
-                                .toList();
+                            return value;
+                            //       .where((element) =>
+                            //           element.name == _valueStorage &&
+                            //           element.available == _valueAvailable)
+                            //       .toList();
                           });
-                          onPressStorage(newListOfCards!);
+                          onPressStorage(modifiedStorage);
                         },
                         textColor: Colors.white),
                   )
                 ]));
           });
         });
+  }
+
+  Future<List<String>> _getStorageNames() async {
+    var storages = await defaultStorage;
+    List<String> storagenames = storages!.map((e) => e.name).toList();
+    return storagenames;
   }
 }

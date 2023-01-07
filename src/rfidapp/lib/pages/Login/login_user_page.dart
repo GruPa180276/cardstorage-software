@@ -10,6 +10,7 @@ import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/pages/login/storage-select-popup.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/types/microsoft_user.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
 class LoginUserScreen extends StatefulWidget {
@@ -146,33 +147,37 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   }
 
   void sigIn() async {
-    try {    
+    try {
       //UserSecureStorage.setRememberState(rememberValue.toString());
-      await AadAuthentication.getEnv();
-      await AadAuthentication.oauth!.logout();
-      await AadAuthentication.oauth!.login();
-      String? accessToken = await AadAuthentication.oauth!.getAccessToken();
-      if (accessToken!.isNotEmpty) {
-        var userResponse = await Data.getUserData(accessToken);
-        var email = jsonDecode(userResponse!.body)["mail"];
-        bool registered = await Data.checkUserRegistered(email);
+      // await AadAuthentication.getEnv();
+      // await AadAuthentication.oauth!.logout();
+      // await AadAuthentication.oauth!.login();
+      // String? accessToken = await AadAuthentication.oauth!.getAccessToken();
+      // if (accessToken!.isNotEmpty) {
+      //   var userResponse = await Data.getUserData(accessToken);
+      //   var email = jsonDecode(userResponse!.body)["mail"];
+      //   bool registered = await Data.checkUserRegistered(email);
+
+      if (true) {
+        bool registered = false;
         if (registered) //api get// see if user is registered
         {
-          User.setUserValues(jsonDecode(userResponse.body));
+          MicrosoftUser.setUserValues(jsonDecode("userResponse.body"));
           UserSecureStorage.setRememberState(rememberValue.toString());
 
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const BottomNavigation()),
               (Route<dynamic> route) => false);
         } else {
+          var x = MqttTimer(context: context, action: "to-sign-up");
           await StorageSelectPopUp.build(context);
           if (StorageSelectPopUp.getSuccessful()) {
-            await MqttTimer.startTimer(context, "to-sign-up");
+            await x.startTimer();
           } else {
             print("error");
           }
-          if (MqttTimer.getSuccessful()) {
-            User.setUserValues(jsonDecode(userResponse.body));
+          if (x.getSuccessful()) {
+            MicrosoftUser.setUserValues(jsonDecode("userResponse.body"));
             UserSecureStorage.setRememberState(rememberValue.toString());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(

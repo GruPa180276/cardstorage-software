@@ -15,7 +15,7 @@ class AppPreferences {
     await _preferences.setStringList('pinnedCard', currentPins.toList());
   }
 
-  static void removePinnedCardAt(int id) {
+  static void removePinnedCardAt(String id) {
     Set<String>? currentPins = getCardsPinned();
 
     currentPins.removeWhere((element) => element == id.toString());

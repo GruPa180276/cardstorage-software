@@ -1,46 +1,36 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:rfidapp/provider/restApi/api-parser.dart';
-import 'package:rfidapp/provider/types/cards-status.dart';
 import 'dart:async';
 
-import 'package:rfidapp/provider/types/cards.dart';
+import 'package:rfidapp/provider/types/readercards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 
 class Data {
-  static String uriRaspi = 'http://10.0.2.2:7171/api/';
-  static String uriMsGraph = 'http://10.0.2.2:7171/';
+  static String uriRaspi = 'https://10.0.2.2:7171/api/';
+  static String uriMsGraph = 'https://10.0.2.2:7171/';
 
-  static Future<List<Cards>> getCardsData() async {
+  static Future<List<Storage>?> getStorageData() async {
     try {
-      var responseCards = await get(Uri.parse("${uriRaspi}cards"),
-          headers: {"Accept": "application/json"});
-      var responseCardsStatus = await get(Uri.parse("${uriRaspi}cards/status"),
-          headers: {"Accept": "application/json"});
-      var responseStorages = await get(Uri.parse("${uriRaspi}storage-units"),
-          headers: {"Accept": "application/json"});
+      var cardsResponse = await get(Uri.parse("${uriRaspi}storages"),
+          headers: {"Accept": "appliction/json"});
 
-      List<Storage> storages = jsonDecode(responseStorages.body)
-          .map<Storage>(Storage.fromJson)
-          .toList();
-      List<Cards> cards =
-          jsonDecode(responseCards.body).map<Cards>(Cards.fromJson).toList();
-      List<CardsStatus> cardsStatus = jsonDecode(responseCardsStatus.body)
-          .map<CardsStatus>(CardsStatus.fromJson)
-          .toList();
-      ApiParser.combineCardDatas(cards, cardsStatus, storages);
-      return cards;
-    } on Exception catch (_) {
-      rethrow;
+      var jsonStorage = jsonDecode(cardsResponse.body) as List;
+      List<Storage> storages =
+          jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
+
+      return storages;
+    } catch (e) {
+      print(e.toString());
     }
   }
 
   static Future<bool> checkUserRegistered(String email) async {
     var responseUser = await get(Uri.parse("${uriRaspi}users/email/${email}"),
         headers: {"Accept": "application/json"});
+    print(
+        "--------------------------------------------------------------------------------");
+
     if (responseUser.statusCode != 200) {
       return false;
     }
@@ -57,20 +47,6 @@ class Data {
 
       return response;
     } catch (e) {}
-  }
-
-  static Future<List<String>> getStorageNames() async {
-    try {
-      var responeStorages = await get(Uri.parse("${uriRaspi}storage-units"),
-          headers: {"Accept": "application/json"});
-
-      List<Storage> storages = jsonDecode(responeStorages.body)
-          .map<Storage>(Storage.fromJson)
-          .toList();
-      return ApiParser.getNamesOfStorages(storages);
-    } on Exception catch (_) {
-      rethrow;
-    }
   }
 
   static void postData(

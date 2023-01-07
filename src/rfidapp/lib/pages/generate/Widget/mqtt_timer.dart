@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/types/readercards.dart';
 
 class MqttTimer {
-  static late BuildContext context;
-  static bool _successful = false;
-  static Future<void> startTimer(BuildContext context, String action) {
-    MqttTimer.context = context;
+  bool _successful = false;
+
+  BuildContext context;
+  String action;
+  ReaderCard? card;
+
+  MqttTimer({Key? key, required this.context, required this.action, this.card});
+
+  Future<void> startTimer() {
     int timestamp = 0;
     _successful = false;
     //send Data to rfid chip, that it should start scanning
@@ -55,26 +61,6 @@ class MqttTimer {
                     },
                     timeFormatterFunction:
                         (defaultFormatterFunction, duration) {
-                      if (duration.inSeconds % 3 == 0 &&
-                          duration.inSeconds != timestamp) {
-                        timestamp = duration.inSeconds;
-                        if (action == "to-get-card") {
-                          //for one card
-                          Data.getCardsData();
-                          //cancel if successful
-                          cancel();
-                        } else if (action == "to-sign-up") {
-                          //see if User is in DB now
-                          //Data.isUserRegistered?();
-                          bool isRegistered = true;
-                          if (isRegistered = true) {
-                            _successful = true;
-                            cancel();
-                          } else {
-                            _successful = false;  
-                          }
-                        }
-                      }
                       return Function.apply(
                           defaultFormatterFunction, [duration]);
                     },
@@ -99,11 +85,11 @@ class MqttTimer {
         });
   }
 
-  static bool getSuccessful() {
+  bool getSuccessful() {
     return _successful;
   }
 
-  static void cancel() {
+  void cancel() {
     Navigator.pop(context);
   }
 }

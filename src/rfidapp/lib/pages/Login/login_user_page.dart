@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
+import 'package:rfidapp/domain/enums/TimerActions.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
@@ -169,7 +170,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
               MaterialPageRoute(builder: (context) => const BottomNavigation()),
               (Route<dynamic> route) => false);
         } else {
-          var x = MqttTimer(context: context, action: "to-sign-up");
+          var x = MqttTimer(context: context, action: TimerAction.SIGNUP);
           await StorageSelectPopUp.build(context);
           if (StorageSelectPopUp.getSuccessful()) {
             await x.startTimer();

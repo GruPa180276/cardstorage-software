@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:rfidapp/domain/enums/TimerActions.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/readercards.dart';
 
@@ -7,7 +8,7 @@ class MqttTimer {
   bool _successful = false;
 
   BuildContext context;
-  String action;
+  TimerAction action;
   ReaderCard? card;
 
   MqttTimer({Key? key, required this.context, required this.action, this.card});
@@ -51,12 +52,16 @@ class MqttTimer {
                     isTimerTextShown: true,
                     autoStart: true,
                     onComplete: (() => Navigator.pop(context)),
-                    onStart: () {
+                    onStart: () async {
                       //maybe you need threading
-                      if (action == "to-get-card") {
+                      if (action == TimerAction.GETCARD) {
                         //post to Api
-                      } else if (action == "to-sign-up") {
-                        //post to api
+                      } else if (action == TimerAction.SIGNUP) {
+                        var response = await Data.postCreateNewUser(
+                            "test1@gmail.com", "S4");
+                        if (response.statusCode != 200) {
+                          cancel();
+                        }
                       }
                     },
                     timeFormatterFunction:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/domain/enums/TimerActions.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/readercards.dart';
@@ -112,7 +113,8 @@ class CardView extends StatelessWidget {
           child: CardButton(
               text: 'Jetzt holen',
               onPress: () {
-                MqttTimer(context: context, action: "@TODO").startTimer();
+                MqttTimer(context: context, action: TimerAction.GETCARD)
+                    .startTimer();
               }),
         )
       ],

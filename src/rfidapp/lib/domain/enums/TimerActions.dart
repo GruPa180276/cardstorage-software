@@ -1,0 +1,4 @@
+enum TimerAction {
+  GETCARD,
+  SIGNUP,
+}

@@ -8,7 +8,6 @@ import 'package:rfidapp/provider/types/storage.dart';
 
 class Data {
   static String uriRaspi = 'https://10.0.2.2:7171/api/';
-  static String uriMsGraph = 'https://10.0.2.2:7171/';
 
   static Future<List<Storage>?> getStorageData() async {
     try {
@@ -49,22 +48,17 @@ class Data {
     } catch (e) {}
   }
 
-  static void postData(
-      String type, Map<String, dynamic> datas, String adress) async {
-    //TODO add try catch
-    await post(Uri.parse(uriRaspi + type),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(datas));
-  }
-
-  static void putData(String type, Map<String, dynamic> datas) async {
-    //TODO add try catch
-    await put(Uri.parse(uriRaspi + type),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(datas));
+  static Future<Response> postCreateNewUser(
+      String email, String storageName) async {
+    // "/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
+    // "/api/storages/cards/name/NAME/fetch",
+    print('${uriRaspi}/users');
+    Map data = {"email": email, "storage": storageName};
+    var x = post(Uri.parse('${uriRaspi}users'),
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(data));
+    var s = await x;
+    print(s.statusCode);
+    return x;
   }
 }

@@ -28,6 +28,7 @@ class MqttTimer {
     final channel = IOWebSocketChannel.connect(
       'wss://10.0.2.2:7171/api/controller/log',
     );
+
     streamListener(channel);
 
     int timestamp = 0;
@@ -72,7 +73,10 @@ class MqttTimer {
                     onStart: () async {
                       //maybe you need threading
                       if (action == TimerAction.GETCARD) {
-                        //post to Api
+                        var response = await Data.postGetCardNow(card!, email!);
+                        if (response != "200") {
+                          cancel();
+                        }
                       } else if (action == TimerAction.SIGNUP) {
                         var response =
                             await Data.postCreateNewUser(email!, storagename!);

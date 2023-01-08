@@ -46,7 +46,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
 
-      defaultReaderCards = Data.getStorageData();
+      defaultReaderCards = Data.getReaderCards();
       modifiedReaderCards = defaultReaderCards;
     });
   }

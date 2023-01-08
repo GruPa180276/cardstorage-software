@@ -11,7 +11,7 @@ import 'package:rfidapp/provider/types/user.dart';
 class Data {
   static String uriRaspi = 'https://10.0.2.2:7171/api/';
 
-  static Future<List<ReaderCard>?> getStorageData() async {
+  static Future<List<ReaderCard>?> getReaderCards() async {
     try {
       var cardsResponse = await get(Uri.parse("${uriRaspi}storages"),
           headers: {"Accept": "appliction/json"});
@@ -54,6 +54,20 @@ class Data {
     return post(Uri.parse('${uriRaspi}users'),
         headers: <String, String>{'Content-Type': 'application/json'},
         body: jsonEncode({"email": email, "storage": storageName}));
-    ;
+  }
+
+  static Future<Response> postGetCardNow(
+      ReaderCard readerCard, String email) async {
+    // "/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
+    // "/api/storages/cards/name/NAME/fetch",
+    print(Uri.parse(
+        '${uriRaspi}storages/cards/name/${readerCard.name}/fetch/user/email/${email}'));
+    String readerCards = jsonEncode(readerCard.toJson());
+    return put(
+        Uri.parse(
+            '${uriRaspi}storages/cards/name/${readerCard.name}/fetch/user/email/${email}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
   }
 }

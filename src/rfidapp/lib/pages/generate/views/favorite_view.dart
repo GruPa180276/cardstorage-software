@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/TimerActions.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
+import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
+import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
+import 'package:rfidapp/pages/generate/widget/cards/readercards_buttons.dart';
 import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
 import 'package:rfidapp/provider/types/readercards.dart';
@@ -68,38 +71,13 @@ class FavoriteView extends StatelessWidget {
                           ),
                           _buildCardsText(context, cards[index]),
                         ]),
-                        _buildBottomButton(context, cards[index])
+                        ReaderCardButtons(card: cards[index])
                       ]))
                   : Container();
             }),
       );
 
   Widget _buildCardsText(BuildContext context, ReaderCard card) {
-    Widget emailButton = (!card.available)
-        ? Padding(
-            padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width - 171, 55, 0, 0),
-            child: IconButton(
-                onPressed: () async {
-                  var asd = card.reservation!
-                      .firstWhere((element) => element.isreservation == false)
-                      .user;
-                  EmailPopUp(
-                          context: context,
-                          to: card.reservation!
-                              .firstWhere(
-                                  (element) => element.isreservation == false)
-                              .user
-                              .email,
-                          subject: card.name,
-                          body: card.name + " Frage.")
-                      .show(
-                          //send to mail
-                          );
-                },
-                icon: Icon(Icons.email)))
-        : SizedBox.shrink();
-
     return Stack(
       children: [
         Padding(
@@ -151,59 +129,10 @@ class FavoriteView extends StatelessWidget {
             ],
           ),
         ),
-        favoriteButton(card),
-        emailButton
+        FavoriteButton(
+            card: card, reloadPinned: reloadPinned, pinnedCards: pinnedCards),
+        EmailButton(card: card)
       ],
     );
-  }
-
-  static Widget _buildBottomButton(BuildContext context, ReaderCard card) {
-    return (!card.available)
-        ? SizedBox.shrink()
-        : Row(
-            children: [
-              Expanded(
-                //get card
-                child: CardButton(
-                    text: 'Jetzt holen',
-                    onPress: () {
-                      MqttTimer(context: context, action: TimerAction.GETCARD)
-                          .startTimer();
-                    }),
-              )
-            ],
-          );
-  }
-
-  Widget favoriteButton(ReaderCard card) {
-    var colorPin = (pinnedCards.contains(card.name.toString())
-        ? Colors.yellow
-        : Theme.of(context).primaryColor);
-
-    return StatefulBuilder(builder:
-        (BuildContext context, StateSetter setState /*You can rename this!*/) {
-      return IconButton(
-        padding: EdgeInsets.fromLTRB(
-            MediaQuery.of(context).size.width - 160, 0, 0, 0),
-        onPressed: () {
-          setState(
-            () {
-              if (!(pinnedCards.contains(card.name.toString()))) {
-                colorPin = Colors.yellow;
-                AppPreferences.addCardPinned(card.name.toString());
-              } else {
-                AppPreferences.removePinnedCardAt(card.name);
-                pinnedCards = AppPreferences.getCardsPinned();
-                colorPin = Theme.of(context).primaryColor;
-              }
-              reloadPinned();
-            },
-          );
-        },
-        icon: Icon(Icons.star, color: colorPin),
-        splashColor: Colors.transparent,
-        splashRadius: 0.1,
-      );
-    });
   }
 }

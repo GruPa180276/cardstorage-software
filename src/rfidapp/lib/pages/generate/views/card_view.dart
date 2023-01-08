@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
-import 'package:rfidapp/domain/enums/TimerActions.dart';
-import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/readercards_buttons.dart';
-import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
-import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
 import 'package:rfidapp/provider/types/readercards.dart';
-import 'package:rfidapp/provider/types/storage.dart';
 
 class CardView extends StatelessWidget {
   List<ReaderCard> readercards;

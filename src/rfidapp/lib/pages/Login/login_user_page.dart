@@ -7,12 +7,11 @@ import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/TimerActions.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
-import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
-import 'package:rfidapp/pages/login/storage-select-popup.dart';
+import 'package:rfidapp/pages/generate/widget/request_timer.dart';
+import 'package:rfidapp/pages/login/storage_select.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/microsoft_user.dart';
-import 'package:rfidapp/provider/types/user.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({Key? key}) : super(key: key);

@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rfidapp/domain/enums/TimerActions.dart';
+import 'package:rfidapp/pages/generate/api_data_visualize.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
-import 'package:rfidapp/provider/types/readercards.dart';
+import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:web_socket_channel/io.dart';
+
+import 'circular_timer/circular_countdown_timer.dart';
 
 class MqttTimer {
   bool _successful = false;
@@ -15,9 +18,16 @@ class MqttTimer {
   ReaderCard? card;
   String? email;
   String? storagename;
+  Map? _responseData;
+  var timerController = CountDownController();
+  bool messageReceived = false;
+  int timerDuration = 20;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  late CircularCountDownTimer timer;
 
   MqttTimer(
       {Key? key,
+      required this.scaffoldKey,
       required this.context,
       required this.action,
       this.card,
@@ -37,62 +47,68 @@ class MqttTimer {
     //send Data to rfid chip, that it should start scanning
     //15seconds time
     //thread that checks if toke is here
+
     return showDialog(
+        //useRootNavigator: false,
         context: context,
-        builder: (context) {
+        builder: (BuildContext buildContext) {
           return Scaffold(
+            key: scaffoldKey,
             backgroundColor: Colors.transparent,
             body: Stack(
               children: [
                 Align(
-                  alignment: Alignment.center,
-                  child: CircularCountDownTimer(
-                    duration: 20,
-                    initialDuration: 0,
-                    controller: CountDownController(),
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.height / 2,
-                    ringColor: Colors.green[300]!,
-                    ringGradient: null,
-                    fillColor: Colors.green[100]!,
-                    fillGradient: null,
-                    backgroundColor: Colors.green[500],
-                    backgroundGradient: null,
-                    strokeWidth: 20.0,
-                    strokeCap: StrokeCap.round,
-                    textStyle: const TextStyle(
-                        fontSize: 33.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                    textFormat: CountdownTextFormat.S,
-                    isReverse: false,
-                    isReverseAnimation: false,
-                    isTimerTextShown: true,
-                    autoStart: true,
-                    onComplete: (() => Navigator.pop(context)),
-                    onStart: () async {
-                      //maybe you need threading
-                      if (action == TimerAction.GETCARD) {
-                        var response = await Data.postGetCardNow(card!, email!);
-                        if (response != "200") {
-                          cancel();
-                        }
-                      } else if (action == TimerAction.SIGNUP) {
-                        var response =
-                            await Data.postCreateNewUser(email!, storagename!);
+                    alignment: Alignment.center,
+                    child: CircularCountDownTimer(
+                      duration: timerDuration,
+                      initialDuration: 0,
+                      controller: timerController,
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.height / 2,
+                      ringColor: Colors.green[300]!,
+                      ringGradient: null,
+                      fillColor: Colors.green[100]!,
+                      fillGradient: null,
+                      backgroundColor: Colors.green[500],
+                      backgroundGradient: null,
+                      strokeWidth: 20.0,
+                      strokeCap: StrokeCap.round,
+                      textStyle: const TextStyle(
+                          fontSize: 33.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      textFormat: CountdownTextFormat.S,
+                      isReverse: false,
+                      isReverseAnimation: false,
+                      isTimerTextShown: true,
+                      autoStart: true,
+                      onComplete: (() {
+                        Navigator.of(context).maybePop();
+                      }),
+                      onStart: () async {
+                        //maybe you need threading
+                        if (action == TimerAction.GETCARD) {
+                          var response =
+                              await Data.postGetCardNow(card!, email!);
+                          if (response.statusCode != 200) {
+                            cancel();
+                          }
+                        } else if (action == TimerAction.SIGNUP) {
+                          var response = await Data.postCreateNewUser(
+                              email!, storagename!);
 
-                        if (response.statusCode != 200) {
-                          cancel();
+                          if (response.statusCode != 200) {
+                            sleep(Duration(seconds: 1));
+                            cancel();
+                          }
                         }
-                      }
-                    },
-                    timeFormatterFunction:
-                        (defaultFormatterFunction, duration) {
-                      return Function.apply(
-                          defaultFormatterFunction, [duration]);
-                    },
-                  ),
-                ),
+                      },
+                      timeFormatterFunction:
+                          (defaultFormatterFunction, duration) {
+                        return Function.apply(
+                            defaultFormatterFunction, [duration]);
+                      },
+                    )),
                 const Align(
                   alignment: Alignment.center,
                   child: Padding(
@@ -116,18 +132,23 @@ class MqttTimer {
     return _successful;
   }
 
+  Map getResponse() {
+    return _responseData ?? {"Error": "No Message received"};
+  }
+
   void cancel() {
     Navigator.pop(context);
   }
 
   streamListener(IOWebSocketChannel channel) {
-    channel.stream.listen((message) {
+    channel.stream.listen((message) async {
       channel.sink.close();
-      Map getData = jsonDecode(message);
-      print(getData["successful"]);
-      _successful = getData["successful"];
-      cancel();
-      channel.sink.close();
+      _responseData = jsonDecode(message);
+      _successful = _responseData!["successful"] ??
+          _responseData!["status"]["successful"];
+      print(_successful);
+      await channel.sink.close();
+      timerController.restart(duration: 0);
     });
   }
 }

@@ -1,10 +1,10 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/enums/cardsSiteEnum.dart';
+import 'package:rfidapp/domain/enums/cardpage_site.dart';
 import 'package:rfidapp/pages/generate/views/favorite_view.dart';
-import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
+import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
-import 'package:rfidapp/provider/types/readercards.dart';
+import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/storage.dart';
@@ -24,6 +24,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   late Future<List<ReaderCard>?> defaultReaderCards;
   late Future<List<ReaderCard>?> modifiedReaderCards;
   Set<String>? pinnedCards;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
@@ -131,27 +132,33 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         );
                       } else {
                         final cards = snapshot.data!;
-
                         switch (site) {
+
                           //TODO change to required class
                           // case CardPageTypes.Reservierungen:
                           //   return cardsView(users, context, site, pinnedCards!,
                           //       reloadPinnedList, searchString);
                           case CardPageTypes.Karten:
                             return CardView(
+                              scaffoldKey: _scaffoldKey,
                               context: context,
                               searchstring: searchString,
                               readercards: cards,
                               pinnedCards: pinnedCards!,
                               reloadPinned: reloadPinnedList,
+                              reloadCard: reloadReaderCards,
+                              setState: setState,
                             );
                           case CardPageTypes.Favoriten:
                             return FavoriteView(
-                                cards: cards,
-                                context: context,
-                                pinnedCards: pinnedCards!,
-                                reloadPinned: reloadPinnedList,
-                                searchstring: searchString);
+                              scaffoldKey: _scaffoldKey,
+                              cards: cards,
+                              context: context,
+                              pinnedCards: pinnedCards!,
+                              reloadPinned: reloadPinnedList,
+                              searchstring: searchString,
+                              reloadCard: reloadReaderCards,
+                            );
 
                           //users.map((e) => e.cards).toList()
                         }

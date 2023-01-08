@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/readercards_buttons.dart';
-import 'package:rfidapp/provider/types/readercards.dart';
+import 'package:rfidapp/provider/types/readercard.dart';
 
 class CardView extends StatelessWidget {
   List<ReaderCard> readercards;
@@ -10,13 +10,20 @@ class CardView extends StatelessWidget {
   String searchstring;
   Set<String> pinnedCards;
   void Function() reloadPinned;
+  void Function() reloadCard;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final void Function(void Function()) setState;
+
   CardView(
       {Key? key,
       required this.readercards,
       required this.context,
       required this.searchstring,
       required this.pinnedCards,
-      required this.reloadPinned});
+      required this.reloadPinned,
+      required this.reloadCard,
+      required this.scaffoldKey,
+      required this.setState});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,12 @@ class CardView extends StatelessWidget {
                         ),
                         _buildCardsText(context, readercards[index]),
                       ]),
-                      ReaderCardButtons(card: readercards[index])
+                      ReaderCardButtons(
+                          scaffoldKey: scaffoldKey,
+                          key: key,
+                          card: readercards[index],
+                          reloadCard: reloadCard,
+                          setState: setState)
                     ]))
                 : Container();
           }),

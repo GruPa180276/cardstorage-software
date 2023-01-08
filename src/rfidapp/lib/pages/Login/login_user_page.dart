@@ -12,6 +12,7 @@ import 'package:rfidapp/pages/login/storage_select.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/restApi/data.dart';
 import 'package:rfidapp/provider/types/microsoft_user.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({Key? key}) : super(key: key);
@@ -22,6 +23,8 @@ class LoginUserScreen extends StatefulWidget {
 class _LoginUserScreenState extends State<LoginUserScreen> {
   bool rememberValue = false;
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   // ignore: must_cal_super
   void initState() {}
@@ -30,6 +33,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   Widget build(BuildContext context) {
     // ignore: unnecessary_new
     return new Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
@@ -174,6 +178,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         } else {
           //@TODO s4 hardcoded
           var x = MqttTimer(
+              scaffoldKey: _scaffoldKey,
               context: context,
               action: TimerAction.SIGNUP,
               email: email,

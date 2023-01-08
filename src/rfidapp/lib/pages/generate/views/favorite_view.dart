@@ -4,9 +4,9 @@ import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/readercards_buttons.dart';
-import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
-import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
-import 'package:rfidapp/provider/types/readercards.dart';
+import 'package:rfidapp/pages/generate/widget/cards/button.dart';
+import 'package:rfidapp/pages/generate/widget/request_timer.dart';
+import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 
@@ -16,6 +16,8 @@ class FavoriteView extends StatelessWidget {
   Set<String> pinnedCards;
   Function reloadPinned;
   String searchstring;
+  void Function() reloadCard;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   FavoriteView({
     Key? key,
@@ -24,6 +26,8 @@ class FavoriteView extends StatelessWidget {
     required this.pinnedCards,
     required this.reloadPinned,
     required this.searchstring,
+    required this.reloadCard,
+    required this.scaffoldKey,
   });
 
   @override
@@ -71,7 +75,12 @@ class FavoriteView extends StatelessWidget {
                           ),
                           _buildCardsText(context, cards[index]),
                         ]),
-                        ReaderCardButtons(card: cards[index])
+                        ReaderCardButtons(
+                          scaffoldKey: scaffoldKey,
+                          key: key,
+                          card: cards[index],
+                          reloadCard: reloadPinned,
+                        )
                       ]))
                   : Container();
             }),

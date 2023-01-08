@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:rfidapp/provider/restApi/uitls.dart';
 import 'dart:async';
 
-import 'package:rfidapp/provider/types/readercards.dart';
+import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 import 'package:rfidapp/provider/types/user.dart';
 

@@ -3,7 +3,7 @@ import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
-import 'package:rfidapp/pages/generate/widget/textInputField.dart';
+import 'package:rfidapp/pages/generate/widget/text_field.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);

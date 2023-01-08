@@ -140,7 +140,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                           //       reloadPinnedList, searchString);
                           case CardPageTypes.Karten:
                             return CardView(
-                              scaffoldKey: _scaffoldKey,
                               context: context,
                               searchstring: searchString,
                               readercards: cards,
@@ -151,7 +150,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             );
                           case CardPageTypes.Favoriten:
                             return FavoriteView(
-                              scaffoldKey: _scaffoldKey,
                               cards: cards,
                               context: context,
                               pinnedCards: pinnedCards!,

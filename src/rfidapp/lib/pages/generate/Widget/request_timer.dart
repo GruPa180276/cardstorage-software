@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/TimerActions.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
@@ -22,12 +23,10 @@ class MqttTimer {
   var timerController = CountDownController();
   bool messageReceived = false;
   int timerDuration = 20;
-  final GlobalKey<ScaffoldState> scaffoldKey;
   late CircularCountDownTimer timer;
 
   MqttTimer(
       {Key? key,
-      required this.scaffoldKey,
       required this.context,
       required this.action,
       this.card,
@@ -53,7 +52,6 @@ class MqttTimer {
         context: context,
         builder: (BuildContext buildContext) {
           return Scaffold(
-            key: scaffoldKey,
             backgroundColor: Colors.transparent,
             body: Stack(
               children: [
@@ -83,7 +81,36 @@ class MqttTimer {
                       isTimerTextShown: true,
                       autoStart: true,
                       onComplete: (() {
-                        Navigator.of(context).maybePop();
+                        var snackBar;
+                        if (_successful) {
+                          snackBar = SnackBar(
+                              elevation: 0,
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              content: AwesomeSnackbarContent(
+                                title: 'Karte wird heruntergelassen!',
+                                message: '',
+
+                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                contentType: ContentType.success,
+                              ));
+                        } else {
+                          snackBar = SnackBar(
+                              elevation: 0,
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              content: AwesomeSnackbarContent(
+                                title: 'Etwas ist schiefgelaufen!',
+                                message: _responseData.toString(),
+
+                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                contentType: ContentType.failure,
+                              ));
+                        }
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        try {
+                          Navigator.of(context).maybePop();
+                        } catch (e) {}
                       }),
                       onStart: () async {
                         //maybe you need threading
@@ -146,7 +173,7 @@ class MqttTimer {
       _responseData = jsonDecode(message);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
-      print(_successful);
+
       await channel.sink.close();
       timerController.restart(duration: 0);
     });

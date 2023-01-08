@@ -11,7 +11,6 @@ class CardView extends StatelessWidget {
   Set<String> pinnedCards;
   void Function() reloadPinned;
   void Function() reloadCard;
-  final GlobalKey<ScaffoldState> scaffoldKey;
   final void Function(void Function()) setState;
 
   CardView(
@@ -22,7 +21,6 @@ class CardView extends StatelessWidget {
       required this.pinnedCards,
       required this.reloadPinned,
       required this.reloadCard,
-      required this.scaffoldKey,
       required this.setState});
 
   @override
@@ -51,7 +49,6 @@ class CardView extends StatelessWidget {
                         _buildCardsText(context, readercards[index]),
                       ]),
                       ReaderCardButtons(
-                          scaffoldKey: scaffoldKey,
                           key: key,
                           card: readercards[index],
                           reloadCard: reloadCard,

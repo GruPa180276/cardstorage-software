@@ -178,7 +178,6 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         } else {
           //@TODO s4 hardcoded
           var x = MqttTimer(
-              scaffoldKey: _scaffoldKey,
               context: context,
               action: TimerAction.SIGNUP,
               email: email,

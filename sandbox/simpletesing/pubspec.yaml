@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   virtual_keyboard_multi_language: ^1.0.3
   web_socket_channel: ^2.2.0
+  shelf_web_socket: ^1.0.3
+  socket_io_client: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 void main() {
+  HttpOverrides.global = new MyHttpOverrides();
   runApp(const MaterialApp(
       debugShowCheckedModeBanner: false, home: WebsocketDemo()));
 }
@@ -17,59 +18,36 @@ class WebsocketDemo extends StatefulWidget {
 }
 
 class _WebsocketDemoState extends State<WebsocketDemo> {
-  String btcUsdtPrice = "0";
-  final channel = WebSocketChannel.connect(
-      Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
-
+  final channel = IOWebSocketChannel.connect(
+    'wss://10.0.2.2:7171/api/controller/log',
+  );
   @override
   void initState() {
     super.initState();
-    try {
-      streamListener();
-    } catch (e) {
-      print(e);
-    }
+    streamListener();
   }
 
   streamListener() {
     channel.stream.listen((message) {
       // channel.sink.add('received!');
       // channel.sink.close(status.goingAway);
-      setState(() {
-        print("object");
-      });
-      // print(getData['p']);
+      Map getData = jsonDecode(message);
+      setState(() {});
+      print(getData);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueAccent,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "BTC/USDT Price",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 30),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                btcUsdtPrice,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 250, 194, 25),
-                    fontSize: 30),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return Scaffold(backgroundColor: Colors.blueAccent, body: Icon(Icons.abc));
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

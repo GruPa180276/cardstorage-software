@@ -10,14 +10,9 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 class ReaderCardButtons extends StatelessWidget {
   final ReaderCard card;
   final Function reloadCard;
-  final GlobalKey<ScaffoldState> scaffoldKey;
   void Function(void Function() p1)? setState;
   ReaderCardButtons(
-      {super.key,
-      required this.card,
-      required this.reloadCard,
-      required this.scaffoldKey,
-      this.setState});
+      {super.key, required this.card, required this.reloadCard, this.setState});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +27,6 @@ class ReaderCardButtons extends StatelessWidget {
                     text: 'Jetzt holen',
                     onPress: () async {
                       var req = MqttTimer(
-                          scaffoldKey: scaffoldKey,
                           context: context,
                           action: TimerAction.GETCARD,
                           card: card,
@@ -44,32 +38,6 @@ class ReaderCardButtons extends StatelessWidget {
                             this.card.available = false;
                           },
                         );
-
-                        final snackBar = SnackBar(
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: 'Karte wird heruntergelassen!',
-                              message: '',
-
-                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                              contentType: ContentType.success,
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      } else {
-                        final snackBar = SnackBar(
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: 'Etwas ist schiefgelaufen!',
-                              message: req.getResponse().toString(),
-
-                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                              contentType: ContentType.failure,
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     }),
               )

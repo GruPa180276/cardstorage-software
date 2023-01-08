@@ -17,7 +17,6 @@ class FavoriteView extends StatelessWidget {
   Function reloadPinned;
   String searchstring;
   void Function() reloadCard;
-  final GlobalKey<ScaffoldState> scaffoldKey;
 
   FavoriteView({
     Key? key,
@@ -27,7 +26,6 @@ class FavoriteView extends StatelessWidget {
     required this.reloadPinned,
     required this.searchstring,
     required this.reloadCard,
-    required this.scaffoldKey,
   });
 
   @override
@@ -76,7 +74,6 @@ class FavoriteView extends StatelessWidget {
                           _buildCardsText(context, cards[index]),
                         ]),
                         ReaderCardButtons(
-                          scaffoldKey: scaffoldKey,
                           key: key,
                           card: cards[index],
                           reloadCard: reloadPinned,

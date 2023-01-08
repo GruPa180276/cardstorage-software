@@ -9,10 +9,11 @@ class StorageSelectPopUp {
   static var _successful = false;
   static String _dropdownValue = "";
   static Future<void> build(BuildContext buildcontext) async {
-    var storages = await Data.getReaderCards();
-    List<String> sotrageNames = storages!.map((e) => e.name).toList();
+    var readercards = await Data.getReaderCards();
+    List<String> storages =
+        readercards!.map((e) => e.storageName!).toSet().toList();
 
-    _dropdownValue = sotrageNames.first;
+    _dropdownValue = storages.first;
 
     return showDialog(
         context: buildcontext,
@@ -44,7 +45,7 @@ class StorageSelectPopUp {
                               _dropdownValue = value!;
                             });
                           },
-                          items: sotrageNames
+                          items: storages
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

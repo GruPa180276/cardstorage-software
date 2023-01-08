@@ -36,7 +36,7 @@ func (self *StorageHandler) RegisterHandlers(router *mux.Router) {
 func (self *StorageHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	storages := make([]model.Storage, 0)
 
-	if err := self.DB.Preload(clause.Associations).Preload("Cards.Reservations").Find(&storages).Error; err != nil {
+	if err := self.DB.Preload(clause.Associations).Preload("Cards.Reservations").Preload("Cards.Reservations.User").Find(&storages).Error; err != nil {
 		return err, nil
 	}
 

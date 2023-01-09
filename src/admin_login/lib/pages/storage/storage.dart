@@ -6,8 +6,6 @@ import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
-// ToDo: Changed the API Calls to the actual API
-
 class StorageView extends StatefulWidget {
   StorageView({Key? key}) : super(key: key);
 

@@ -28,6 +28,7 @@ class _StatusStorageState extends State<StatusStorage> {
   void initState() {
     super.initState();
     fetchCards();
+    pingNow();
   }
 
   void pingNow() async {
@@ -40,6 +41,8 @@ class _StatusStorageState extends State<StatusStorage> {
 
   void fetchCards() async {
     await cards.fetchData().then((value) => listOfCards = value);
+
+    setState(() {});
   }
 
   @override
@@ -148,7 +151,7 @@ class _StatusStorageState extends State<StatusStorage> {
                                   Text(
                                     "Der Storage " +
                                         widget.name +
-                                        "wird ins System augneommen ...",
+                                        " wird ins System augneommen ...",
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor),
                                   ),

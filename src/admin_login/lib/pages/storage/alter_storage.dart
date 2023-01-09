@@ -5,8 +5,6 @@ import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/provider/types/storages.dart';
 import 'package:admin_login/domain/values/storage_values.dart';
 
-// ToDo: The Api needs to be changed in the future
-
 StorageValues storageValues = new StorageValues();
 late Future<List<Storages>> futureData;
 String storageName = "";
@@ -54,7 +52,6 @@ class _StorageSettingsState extends State<StorageSettings> {
 class GetDataFromAPI extends StatefulWidget {
   const GetDataFromAPI({Key? key}) : super(key: key);
 
-  @override
   State<GetDataFromAPI> createState() => _GetDataFromAPIState();
 }
 

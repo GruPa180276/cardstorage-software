@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color colorError = Colors.white;
 Color colorStatus = Colors.white;
-Color colorCardsOverDate = Colors.white;
 String textStatus = "-";
 
 Table createStatus(
@@ -51,7 +49,6 @@ Table createStatus(
             name,
             style: TextStyle(
               fontSize: 20,
-              color: colorStatus,
             ),
             textAlign: TextAlign.right,
           )

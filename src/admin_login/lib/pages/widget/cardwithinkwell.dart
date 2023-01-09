@@ -47,26 +47,32 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
   @override
   void initState() {
     super.initState();
+    pingNow();
+    getNumberOfCardsInStorage();
   }
 
-  void pingNow(String name) async {
-    await pingStorage(name).then((value) => ping = value);
+  void pingNow() async {
+    await pingStorage(widget.data![widget.index].name)
+        .then((value) => ping = value);
 
     if (ping.time != 0) {
       pingWorked = true;
     }
   }
 
-  void getNumberOfCardsInStorage(String name) async {
-    await getAllCardsPerStorage(name).then((value) => storage = value);
+  void getNumberOfCardsInStorage() async {
+    await getAllCardsPerStorage(widget.data![widget.index].name)
+        .then((value) => storage = value);
 
     count = 0;
 
-    for (int i = 0; i < storage.cards.length; i++) {
-      if (storage.cards[i].available == true) {
-        count++;
+    setState(() {
+      for (int i = 0; i < storage.cards.length; i++) {
+        if (storage.cards[i].available == true) {
+          count++;
+        }
       }
-    }
+    });
   }
 
   @override
@@ -107,9 +113,6 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
       );
     }
     if (widget.view == 2) {
-      getNumberOfCardsInStorage(widget.data![widget.index].name);
-      pingNow(widget.data![widget.index].name);
-
       return createStatus(
         context,
         pingWorked,

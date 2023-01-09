@@ -9,8 +9,6 @@ import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
-// ToDo: Changed the API Calls to the actual API
-
 late Future<List<Storages>> futureData;
 
 class CardsView extends StatefulWidget {

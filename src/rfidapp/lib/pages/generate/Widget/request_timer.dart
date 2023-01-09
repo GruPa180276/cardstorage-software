@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/enums/TimerActions.dart';
+import 'package:rfidapp/domain/enums/timer_actions.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
-import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 import 'circular_timer/circular_countdown_timer.dart';
 
@@ -42,10 +42,6 @@ class MqttTimer {
 
     int timestamp = 0;
     _successful = false;
-
-    //send Data to rfid chip, that it should start scanning
-    //15seconds time
-    //thread that checks if toke is here
 
     return showDialog(
         //useRootNavigator: false,

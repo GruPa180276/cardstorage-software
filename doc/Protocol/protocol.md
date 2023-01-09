@@ -257,6 +257,9 @@ Habe heute die Pink und Focus Funktionen implementiert, welche auch bereits funk
 Habe die Struktur der Typen Cards, Storages und Ping geändert, damit alle Felder gelesen werden können. Danach habe ich noch die Option, beim Storage hinzugefügt das auch Arrays von Karten zugelassen werden. Danach habe ich noch die Status Seite erstellt, wo man pingen, focus und Satistiken sehen kann.
 (4h 30min)
 
+**9.1.2023: 12:00 bis 13:30** <br>
+Habe heute einige Probleme in der App behoben. Als erstes, das die Status Seite nicht richtig geladen wurde und noch kleiner Fehler behoben. (1h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -331,4 +334,5 @@ Habe die Struktur der Typen Cards, Storages und Ping geändert, damit alle Felde
 - 12:30 bis 14:00 Uhr
 - 10:30 bis 12.00 Uhr
 - 12:30 bis 17:00 Uhr
+- 12:00 bis 13:30 Uhr
 <!-- { "progress": false } -->

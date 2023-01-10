@@ -10,8 +10,6 @@ import 'package:admin_login/pages/storage/remove_storage.dart';
 
 import 'package:admin_login/pages/status/status_storage.dart';
 
-import 'package:admin_login/pages/stats/temp_stats.dart';
-
 import 'package:admin_login/pages/appbar/settings.dart';
 
 class RouteGenerator {
@@ -41,10 +39,6 @@ class RouteGenerator {
         return _errorRoute();
       case '/removeStorage':
         return MaterialPageRoute(builder: ((context) => RemoveStorage()));
-
-      //Stats
-      case '/stats':
-        return MaterialPageRoute(builder: ((context) => CardStats()));
 
       //Settings
       case '/settings':

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/appbar.dart';
+import 'package:admin_login/config/adress.dart' as adres;
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Logs extends StatefulWidget {
@@ -11,16 +12,13 @@ class Logs extends StatefulWidget {
 }
 
 class _LogsState extends State<Logs> {
-  final channelControler = WebSocketChannel.connect(
-      Uri.parse('wss://192.168.85.9:7171/api/controller/log'));
-  final channelCard =
-      WebSocketChannel.connect(Uri.parse('wss://localhost:7171/api/cards/log'));
-  final channelStorage = WebSocketChannel.connect(
-      Uri.parse('wss://192.168.85.9:7171/api/storages/log'));
-  final channelUser =
-      WebSocketChannel.connect(Uri.parse('wss://localhost:7171/users/log'));
-  final channelReservation = WebSocketChannel.connect(
-      Uri.parse('wss://192.168.85.9:7171/api/reservations/log'));
+  final channelControler =
+      WebSocketChannel.connect(Uri.parse(adres.wssControler));
+  final channelCard = WebSocketChannel.connect(Uri.parse(adres.wssCard));
+  final channelStorage = WebSocketChannel.connect(Uri.parse(adres.wssStorage));
+  final channelUser = WebSocketChannel.connect(Uri.parse(adres.wssUser));
+  final channelReservation =
+      WebSocketChannel.connect(Uri.parse(adres.wssReservation));
 
   @override
   void initState() {

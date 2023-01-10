@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:admin_login/provider/types/storages.dart';
 import 'package:admin_login/provider/types/storages.dart' as storage;
 import 'package:admin_login/provider/types/cards.dart';
-import 'package:admin_login/provider/types/cards.dart' as card;
 import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/appbar.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
-
-late Future<List<Storages>> futureData;
 
 class CardsView extends StatefulWidget {
   CardsView({Key? key}) : super(key: key);
@@ -19,7 +16,8 @@ class CardsView extends StatefulWidget {
 }
 
 class _CardsViewState extends State<CardsView> {
-  String selectedStorage = "-";
+  late Future<List<Storages>> futureData;
+  late String selectedStorage = "-";
   List<String> dropDownValues = ["-"];
   List<Storages>? listOfStorages;
 
@@ -82,11 +80,36 @@ class _CardsViewState extends State<CardsView> {
                             SizedBox(
                               width: 10,
                             ),
-                            Text("Filter", style: TextStyle(fontSize: 20)),
+                            Text("Filter: " + selectedStorage,
+                                style: TextStyle(fontSize: 20)),
                           ],
                         ),
                         onPressed: () {
-                          filter(context);
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text("Filter Storage"),
+                              actions: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: DropdownButtonFormField(
+                                    value: selectedStorage,
+                                    items: dropDownValues.map((valueItem) {
+                                      return DropdownMenuItem(
+                                          value: valueItem,
+                                          child: Text(valueItem.toString()));
+                                    }).toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        selectedStorage = newValue!;
+                                        Navigator.of(ctx).pop();
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       ),
                     );
@@ -104,51 +127,6 @@ class _CardsViewState extends State<CardsView> {
           ]),
         ));
   }
-
-  Future<dynamic> filter(BuildContext context) {
-    return showModalBottomSheet(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30),
-        ),
-      ),
-      context: context,
-      builder: (context) {
-        return Container(
-          height: 300,
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(10),
-          child: Column(children: [
-            const Text(
-              'Filter',
-              style: TextStyle(fontSize: 30),
-            ),
-            Row(
-              children: [
-                const Expanded(
-                    child: Text(
-                  'Storage',
-                  style: TextStyle(fontSize: 17),
-                )),
-                DropdownButton(
-                  value: selectedStorage,
-                  items: dropDownValues.map((valueItem) {
-                    return DropdownMenuItem(
-                        value: valueItem, child: Text(valueItem.toString()));
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedStorage = newValue as String;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ]),
-        );
-      },
-    );
-  }
 }
 
 // ignore: must_be_immutable
@@ -161,47 +139,53 @@ class ListCards extends StatefulWidget {
 }
 
 class _ListCardsState extends State<ListCards> {
-  late Future<List<Cards>> futureData;
+  late Future<List<Storages>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = card.fetchData();
+    futureData = storage.fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Cards>>(
+        child: FutureBuilder<List<Storages>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Cards>? data = snapshot.data;
-          return ListView.builder(
-              itemCount: data?.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (widget.cardStorage == data![index].storage.toString()) {
-                  return GenerateCardWithInkWell.withArguments(
-                    index: index,
-                    data: data,
-                    icon: Icons.credit_card,
-                    route: "/alterCards",
-                    argument: data[index].name,
-                    view: 1,
-                  );
-                } else if (widget.cardStorage == "-") {
-                  return GenerateCardWithInkWell.withArguments(
-                    index: index,
-                    data: data,
-                    icon: Icons.credit_card,
-                    route: "/alterCards",
-                    argument: data[index].name,
-                    view: 1,
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
-              });
+          for (int i = 0; i < snapshot.data!.length; i++) {
+            List<Cards>? data = snapshot.data![i].cards;
+            if (snapshot.data![i].name == widget.cardStorage) {
+              return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GenerateCardWithInkWell.withArguments(
+                      index: index,
+                      data: data,
+                      icon: Icons.credit_card,
+                      route: "/alterCards",
+                      argument: data[index].name,
+                      view: 1,
+                    );
+                  });
+            } else if (widget.cardStorage == "-") {
+              return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GenerateCardWithInkWell.withArguments(
+                      index: index,
+                      data: data,
+                      icon: Icons.credit_card,
+                      route: "/alterCards",
+                      argument: data[index].name,
+                      view: 1,
+                    );
+                  });
+            } else {
+              return SizedBox.shrink();
+            }
+          }
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }

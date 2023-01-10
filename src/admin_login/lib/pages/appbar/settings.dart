@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:admin_login/provider/theme/themes.dart';
-import 'package:admin_login/pages/widget/appbar_back.dart';
 import 'package:admin_login/config/theme/app_preference.dart';
 
 class Settings extends StatefulWidget {
@@ -24,7 +23,13 @@ class _SettingsPageState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppBarBack(context),
+      appBar: AppBar(
+          title: Text(
+            "Karte hinzufügen",
+            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+          ),
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+          actions: []),
       body: Container(
           child: Column(
         children: [buildChangeThemeMode(context)],

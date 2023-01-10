@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-String adress = "https://10.0.2.2:7171/api/storages";
+import 'package:admin_login/config/adress.dart' as adres;
 
 class Ping {
   String name;
@@ -26,7 +25,7 @@ class Ping {
 
 Future<Ping> pingStorage(String name) async {
   final response = await http.get(
-    Uri.parse(adress + "/ping/name/" + name),
+    Uri.parse(adres.pingAdress + "/ping/name/" + name),
   );
   if (response.statusCode == 200) {
     dynamic jsonResponse = json.decode(response.body);

@@ -33,6 +33,8 @@ class _StatusStorageState extends State<StatusStorage> {
 
   void pingNow() async {
     await pingStorage(widget.name).then((value) => ping = value);
+
+    setState(() {});
   }
 
   void focus() {
@@ -43,6 +45,8 @@ class _StatusStorageState extends State<StatusStorage> {
     await storages
         .getAllCardsPerStorage(widget.name)
         .then((value) => listOfCards = value.cards);
+
+    setState(() {});
   }
 
   @override

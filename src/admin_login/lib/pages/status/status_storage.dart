@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/provider/types/ping.dart';
-import 'package:admin_login/provider/types/cards.dart' as cards;
+import 'package:admin_login/provider/types/storages.dart' as storages;
 import 'package:admin_login/provider/types/cards.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:admin_login/provider/types/storages.dart';
-
-List<Cards> listOfCards = [];
 
 class StatusStorage extends StatefulWidget {
   final String name;
@@ -22,7 +20,9 @@ class StatusStorage extends StatefulWidget {
 }
 
 class _StatusStorageState extends State<StatusStorage> {
-  Ping? ping;
+  late Storages storage;
+  late List<Cards> listOfCards = [];
+  late Ping ping;
 
   @override
   void initState() {
@@ -40,9 +40,9 @@ class _StatusStorageState extends State<StatusStorage> {
   }
 
   void fetchCards() async {
-    await cards.fetchData().then((value) => listOfCards = value);
-
-    setState(() {});
+    await storages
+        .getAllCardsPerStorage(widget.name)
+        .then((value) => listOfCards = value.cards);
   }
 
   @override
@@ -84,10 +84,10 @@ class _StatusStorageState extends State<StatusStorage> {
                                 children: <Widget>[
                                   Text(
                                     "Der Storage " +
-                                        ping!.name +
+                                        ping.name +
                                         " wird gepinged ... \n\n" +
                                         "Benötigte Zeit: " +
-                                        ping!.time.toString(),
+                                        ping.time.toString(),
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor),
                                   ),
@@ -189,21 +189,26 @@ class _StatusStorageState extends State<StatusStorage> {
                 ),
               ]),
             ),
-            DeveloperChart(),
+            DeveloperChart(
+              cards: listOfCards,
+            ),
           ]),
         ));
   }
 }
 
+// ignore: must_be_immutable
 class DeveloperChart extends StatelessWidget {
-  const DeveloperChart({Key? key}) : super(key: key);
+  late List<Cards> cards;
+
+  DeveloperChart({required this.cards, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<charts.Series<Cards, String>> series = [
       charts.Series(
-        id: "developers",
-        data: listOfCards,
+        id: "cards",
+        data: cards,
         domainFn: (Cards series, _) => series.name,
         measureFn: (Cards series, _) => series.accessed,
         colorFn: (Cards series, _) => charts.ColorUtil.fromDartColor(

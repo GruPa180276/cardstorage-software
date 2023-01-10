@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String adress = "https://192.168.85.9:7171/api/storages";
+String adress = "https://10.0.2.2:7171/api/storages";
 
 class Ping {
   String name;

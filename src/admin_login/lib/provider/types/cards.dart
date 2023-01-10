@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String adress = "https://192.168.85.9:7171/api/storages/cards";
+String adress = "https://10.0.2.2:7171/api/storages/cards";
 
 class Cards {
   String name;
@@ -24,7 +24,7 @@ class Cards {
       storage: json['storage'] ?? 0,
       position: json['position'] ?? 0,
       accessed: json['accessed'] ?? 0,
-      available: json['available'] ?? 0,
+      available: json['available'] ?? false,
     );
   }
 

@@ -74,7 +74,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
     cardValues.setName(value);
   }
 
-  void setStorage(int value) {
+  void setStorage(String value) {
     cardValues.setStorage(value);
   }
 
@@ -128,34 +128,28 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                         blurRadius: 5,
                       )
                     ]),
-                child: SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: Center(
-                        child: DropdownButton(
-                      focusColor: Theme.of(context).focusColor,
-                      dropdownColor: Theme.of(context).backgroundColor,
-                      iconEnabledColor: Theme.of(context).focusColor,
-                      iconDisabledColor: Theme.of(context).focusColor,
-                      value: selectedStorage,
-                      items: dropDownValuesNames.map((valueItem) {
-                        return DropdownMenuItem(
-                            value: valueItem,
-                            child: Text(
-                              valueItem.toString(),
-                              style: TextStyle(
-                                  color: Theme.of(context).focusColor),
-                            ));
-                      }).toList(),
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedStorage = newValue as String;
-                        });
-                        int index =
-                            dropDownValuesNames.indexOf(newValue as String);
-                        setStorage(int.parse(dropDownValuesNames[index]));
-                      },
-                    ))))
+                child: Center(
+                    child: DropdownButton(
+                  focusColor: Theme.of(context).focusColor,
+                  dropdownColor: Theme.of(context).backgroundColor,
+                  iconEnabledColor: Theme.of(context).focusColor,
+                  iconDisabledColor: Theme.of(context).focusColor,
+                  value: selectedStorage,
+                  items: dropDownValuesNames.map((valueItem) {
+                    return DropdownMenuItem(
+                        value: valueItem,
+                        child: Text(
+                          valueItem.toString(),
+                          style: TextStyle(color: Theme.of(context).focusColor),
+                        ));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedStorage = newValue!;
+                    });
+                    setStorage(newValue!);
+                  },
+                )))
           ]),
         ),
         GestureDetector(
@@ -170,7 +164,7 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                   (() {
                     Cards newEntry = new Cards(
                         name: cardValues.name,
-                        storage: cardValues.storageID,
+                        storage: cardValues.storageName,
                         position: 0,
                         accessed: 0,
                         available: false);

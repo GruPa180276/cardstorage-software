@@ -66,8 +66,8 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     storageValues.setName(value);
   }
 
-  void setNumberOfCards(int value) {
-    storageValues.setNumberOfCards(value);
+  void setNumberOfCards(String value) {
+    storageValues.setNumberOfCards(int.parse(value));
   }
 
   void setLocation(String value) {

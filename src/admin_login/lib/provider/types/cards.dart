@@ -4,7 +4,7 @@ import 'package:admin_login/config/adress.dart' as adres;
 
 class Cards {
   String name;
-  int storage;
+  String storage;
   int position;
   int accessed;
   bool available;
@@ -20,7 +20,7 @@ class Cards {
   factory Cards.fromJson(Map<String, dynamic> json) {
     return Cards(
       name: json['name'] ?? "",
-      storage: json['storage'] ?? 0,
+      storage: json['storage'] ?? "",
       position: json['position'] ?? 0,
       accessed: json['accessed'] ?? 0,
       available: json['available'] ?? false,

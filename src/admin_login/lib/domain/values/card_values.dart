@@ -1,6 +1,6 @@
 class CardValues {
   String name = "";
-  int storageID = 0;
+  String storageName = "";
 
   void setName(String name) {
     this.name = name;
@@ -10,11 +10,11 @@ class CardValues {
     return name;
   }
 
-  void setStorage(int storageID) {
-    this.storageID = storageID;
+  void setStorage(String storageName) {
+    this.storageName = storageName;
   }
 
-  int getStorage() {
-    return storageID;
+  String getStorage() {
+    return storageName;
   }
 }

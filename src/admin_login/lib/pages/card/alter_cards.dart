@@ -87,7 +87,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     cardValues.setName(value);
   }
 
-  void setStorage(int value) {
+  void setStorage(String value) {
     cardValues.setStorage(value);
   }
 
@@ -133,7 +133,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
           labelText: "Name",
           hintText: data.name,
           icon: Icons.description,
-          regExp: r'([A-Za-z\-\_\ö\ä\ü\ß ])',
+          regExp: r'([A-Za-z0-91\-\_\ö\ä\ü\ß ])',
           function: this.setName,
         ),
         Container(
@@ -174,13 +174,11 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                                   color: Theme.of(context).focusColor),
                             ));
                       }).toList(),
-                      onChanged: (newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          selectedStorage = newValue as String;
+                          selectedStorage = newValue!;
                         });
-                        int index =
-                            dropDownValuesNames.indexOf(newValue as String);
-                        setStorage(int.parse(dropDownValuesNames[index]));
+                        setStorage(newValue!);
                       },
                     ))))
           ]),
@@ -197,7 +195,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                   () {
                     Cards updateEntry = new Cards(
                         name: cardValues.name,
-                        storage: cardValues.storageID,
+                        storage: cardValues.storageName,
                         position: 0,
                         accessed: 0,
                         available: false);

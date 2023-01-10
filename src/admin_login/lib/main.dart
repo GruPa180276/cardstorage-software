@@ -34,9 +34,7 @@ Future main() async {
 }
 
 // TODO:
-// Fix Filter View
-// Status Storage Page
-// Logs
+// Search for diffrent delete Option. Because all gets deleted when only selected one Storage.
 
 // Change app icon -> pubsec.yaml
 // https://pub.dev/packages/flutter_launcher_icons

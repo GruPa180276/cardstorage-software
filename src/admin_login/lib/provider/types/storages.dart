@@ -5,14 +5,14 @@ import 'package:admin_login/config/adress.dart' as adres;
 
 class Storages {
   String name;
-  int numberOfCards;
   String location;
+  int numberOfCards;
   List<Cards> cards;
 
   Storages({
     required this.name,
-    required this.numberOfCards,
     required this.location,
+    required this.numberOfCards,
     required this.cards,
   });
 
@@ -23,14 +23,15 @@ class Storages {
 
     return Storages(
         name: json['name'] ?? "",
-        numberOfCards: json['capacity'] ?? 0,
         location: json['location'] ?? 0,
+        numberOfCards: json['capacity'] ?? 0,
         cards: _users);
   }
   Map<String, dynamic> toJson() => {
         'name': name,
-        'capacity': numberOfCards,
         'location': location,
+        'capacity': numberOfCards,
+        'address': "192.168.0.100",
       };
 }
 

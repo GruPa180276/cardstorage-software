@@ -84,3 +84,7 @@
 - https://stackoverflow.com/questions/56997940/flutter-how-to-initialize-an-empty-list-for-every-object-in-an-array
 - https://medium.com/flutter-community/flutter-charts-and-graphs-demystified-72b1282e6882
 - https://www.bezkoder.com/dart-flutter-parse-json-string-array-to-object-list/
+- https://stackoverflow.com/questions/51735906/drop-down-button-in-flutter-not-switching-values-to-the-selected-value
+- https://www.geeksforgeeks.org/alert-dialog-box-in-flutter/
+- https://www.fluttercampus.com/guide/194/how-to-convert-string-to-int-double-in-dart-flutter/
+- https://flutter-tutorial.com/flutter-listview-search-tutorial

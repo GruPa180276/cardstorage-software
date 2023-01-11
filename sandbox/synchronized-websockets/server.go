@@ -20,26 +20,38 @@ func init() {
 func main() {
 	upgrader := &websocket.Upgrader{}
 	cond := &sync.Cond{L: &sync.Mutex{}}
+	wg := &sync.WaitGroup{}
+	lock := &sync.Mutex{}
 
 	message := "A"
 	connections := 0
 
 	http.HandleFunc("/ws", func(res http.ResponseWriter, req *http.Request) {
-		socket := must(upgrader.Upgrade(res, req, nil)).(*websocket.Conn)
+		socket := Must(upgrader.Upgrade(res, req, nil)).(*websocket.Conn)
+		lock.Lock()
 		connections++
-		fmt.Println(connections)
-		socket.SetCloseHandler(func(_ int, _ string) error {
-			connections--
-			return nil
-		})
+		lock.Unlock()
 
-		for { // break if ws connection is interrupted/closed!
+		go func() { // break if the there was an error while reading or if the client closed the connection
+			wg.Add(1)
+			for {
+				if _, _, err := socket.ReadMessage(); err != nil {
+					lock.Lock()
+					connections--
+					lock.Unlock()
+					return
+				}
+			}
+		}()
+
+		for { // break if there was an error while writing
 			cond.L.Lock()
 			cond.Wait()
 			err := socket.WriteMessage(websocket.TextMessage, []byte("message: "+message))
 			if err != nil {
 				websocket.IsCloseError(err)
 				cond.L.Unlock()
+				wg.Done()
 				break
 			}
 			cond.L.Unlock()
@@ -56,15 +68,9 @@ func main() {
 			cond.L.Unlock()
 			cond.Broadcast()
 			interval = time.Second * time.Duration(rand.Intn(3)+1)
+			fmt.Println(connections)
 		}
 	}()
 
-	must(nil, http.ListenAndServe(":7173", handlers.LoggingHandler(os.Stderr, http.DefaultServeMux)))
-}
-
-func must(v any, err error) any {
-	if err != nil {
-		panic(err)
-	}
-	return v
+	Must(nil, http.ListenAndServe(":7173", handlers.LoggingHandler(os.Stderr, http.DefaultServeMux)))
 }

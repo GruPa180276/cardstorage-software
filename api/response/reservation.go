@@ -14,6 +14,7 @@ import (
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
+	"gorm.io/gorm/clause"
 )
 
 type ReservationHandler struct {
@@ -49,7 +50,7 @@ func (self *ReservationHandler) GetByCardHandler(res http.ResponseWriter, req *h
 	name := mux.Vars(req)["name"]
 	card := model.Card{}
 
-	if result := self.DB.Preload("Reservations").Where("name = ?", name).First(&card); result.Error != nil || result.RowsAffected == 0 {
+	if result := self.DB.Preload("Reservations").Preload("Reservations.User").Where("name = ?", name).First(&card); result.Error != nil || result.RowsAffected == 0 {
 		return fmt.Errorf("card '%s' does not exists", name), nil
 	}
 
@@ -58,18 +59,31 @@ func (self *ReservationHandler) GetByCardHandler(res http.ResponseWriter, req *h
 
 func (self *ReservationHandler) GetByUserHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	email := mux.Vars(req)["email"]
-	allReservations := make([]*model.Reservation, 0)
-
-	if result := self.DB.Preload("User").Find(allReservations); result.RowsAffected == 0 || result.Error != nil {
-		return fmt.Errorf("user '%s' does not exists", email), nil
-	}
-
 	reservations := make([]*model.Reservation, 0)
-	for _, r := range reservations {
-		if r.User.Email == email {
-			reservations = append(reservations, r)
-		}
+
+	user := model.User{}
+	if err := self.DB.Where("email = ?", email).First(&user).Error; err != nil {
+		return err, nil
 	}
+
+	if err := self.DB.
+		Model(&model.Reservation{}).
+		Preload("User").
+		Where("user_id = ?", user.UserID).
+		Find(&reservations).Error; err != nil {
+		return err, nil
+	}
+
+	//if result := self.DB.Preload("User").Find(&allReservations); result.Error != nil {
+	//	return result.Error, nil
+	//}
+	//
+	//reservations := make([]*model.Reservation, 0)
+	//for _, r := range reservations {
+	//	if r.User.Email == email {
+	//		reservations = append(reservations, r)
+	//	}
+	//}
 
 	return nil, meridian.OkayMustJson(&reservations)
 }
@@ -88,7 +102,7 @@ func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http
 		return fmt.Errorf("attempting to create reservation using invalid reader from user '%s'", user.Email), nil
 	}
 
-	reservation := &model.Reservation{User: *user}
+	reservation := &model.Reservation{User: *user, UserID: user.UserID, IsReservation: false, Until: time.Time{}}
 
 	type Creator struct {
 		CardName      string `json:"card"`
@@ -99,6 +113,7 @@ func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http
 
 	creator := Creator{}
 	if err := json.NewDecoder(req.Body).Decode(&creator); err != nil {
+		self.Println("DECODING ERROR")
 		return err, nil
 	}
 
@@ -129,15 +144,17 @@ func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http
 		}
 	}
 
-	if result := self.DB.Save(card); result.Error != nil || result.RowsAffected == 0 {
+	if result := self.DB.Save(card); result.Error != nil {
 		return fmt.Errorf("unable to update card: %s", result.Error), nil
 	}
 
 	if err := self.DB.
-		Where("name = ?", card.Name).
-		Preload("Reservations").
+		Model(card).
+		Preload(clause.Associations).
+		Preload("Reservations.User").
 		Association("Reservations").
 		Append(reservation); err != nil {
+		self.Printf("DB ERROR! %+v, %+v\n", card, reservation)
 		return err, nil
 	}
 

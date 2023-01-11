@@ -373,7 +373,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/name/%s", apiurl, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/card/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -384,7 +384,7 @@ var opts = map[int]func(){
 		email := ""
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/name/%s", apiurl, email), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/email/%s", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -410,8 +410,11 @@ var opts = map[int]func(){
 		var untilTime time.Time
 		if since[0] == '%' {
 			sinceTime = time.Now()
-		} else if since[1] == '+' {
-			sinceTime = sinceTime.Add(must(time.ParseDuration(since[2:] + "m")).(time.Duration))
+			if len(since) > 1 {
+				if since[1] == '+' {
+					sinceTime = sinceTime.Add(must(time.ParseDuration(since[2:] + "m")).(time.Duration))
+				}
+			}
 		} else {
 			sinceTime = time.Unix(int64(must(strconv.Atoi(since)).(int)), 0)
 		}
@@ -419,8 +422,11 @@ var opts = map[int]func(){
 		if until != "$" {
 			if until[0] == '%' {
 				untilTime = time.Now()
-			} else if until[1] == '+' {
-				untilTime = untilTime.Add(must(time.ParseDuration(until[2:] + "m")).(time.Duration))
+				if len(until) > 1 {
+					if until[1] == '+' {
+						untilTime = untilTime.Add(must(time.ParseDuration(until[2:] + "m")).(time.Duration))
+					}
+				}
 			} else {
 				untilTime = time.Unix(int64(must(strconv.Atoi(until)).(int)), 0)
 			}
@@ -431,7 +437,9 @@ var opts = map[int]func(){
 			reservarionFlagPtr := must(strconv.ParseBool(isReservation)).(bool)
 			c.IsReservation = &reservarionFlagPtr
 		}
-		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s", apiurl, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
+		buf := bytes.NewBuffer(must(json.Marshal(c)).([]byte))
+		fmt.Println("DEBUG:", buf.String())
+		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/email/%s", apiurl, email), buf)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -471,8 +479,11 @@ var opts = map[int]func(){
 		if until != "$" {
 			if until[0] == '%' {
 				untilTime = time.Now()
-			} else if until[1] == '+' {
-				untilTime = untilTime.Add(must(time.ParseDuration(until[2:] + "m")).(time.Duration))
+				if len(until) > 1 {
+					if until[1] == '+' {
+						untilTime = untilTime.Add(must(time.ParseDuration(until[2:] + "m")).(time.Duration))
+					}
+				}
 			} else {
 				untilTime = time.Unix(int64(must(strconv.Atoi(until)).(int)), 0)
 			}
@@ -482,8 +493,11 @@ var opts = map[int]func(){
 		if returnedAt != "$" {
 			if returnedAt[0] == '%' {
 				returnedAtTime = time.Now()
-			} else if returnedAt[1] == '+' {
-				returnedAtTime = untilTime.Add(must(time.ParseDuration(returnedAt[2:] + "m")).(time.Duration))
+				if len(returnedAt) > 1 {
+					if returnedAt[1] == '+' {
+						returnedAtTime = untilTime.Add(must(time.ParseDuration(returnedAt[2:] + "m")).(time.Duration))
+					}
+				}
 			} else {
 				returnedAtTime = time.Unix(int64(must(strconv.Atoi(returnedAt)).(int)), 0)
 			}

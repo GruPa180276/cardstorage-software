@@ -6,8 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/joho/godotenv"
@@ -33,6 +35,7 @@ var (
 )
 
 func init() {
+	rand.Seed(time.Now().Unix())
 	must(nil, godotenv.Load("../../.env"))
 	clientId = os.Getenv("SIM_CONTROLLER_CLIENT_ID")
 	broker = "tcp://127.0.0.1" + ":" + os.Getenv("BROKER_PORT")

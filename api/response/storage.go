@@ -61,10 +61,10 @@ var createdButNotSubscribedStorages = make(map[string]bool, 0)
 
 func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	type Creator struct {
-		Name     string `json:"name"`
-		Location string `json:"location"`
-		Address  string `json:"address"`
-		Capacity *uint  `json:"capacity"`
+		Name     string  `json:"name"`
+		Location string  `json:"location"`
+		Address  *string `json:"address"`
+		Capacity *uint   `json:"capacity"`
 	}
 	c := &Creator{}
 
@@ -77,8 +77,10 @@ func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Req
 	if !paths.StorageLocationMatcher.MatchString(c.Location) {
 		return fmt.Errorf("attribute 'location' does not match required pattern: %s", c.Location), nil
 	}
-	if !paths.StorageAddressMatcher.MatchString(c.Address) {
-		return fmt.Errorf("attribute 'address' does not match required pattern: %s", c.Address), nil
+	if c.Address != nil {
+		if !paths.StorageAddressMatcher.MatchString(*c.Address) {
+			return fmt.Errorf("attribute 'address' does not match required pattern: %s", c.Address), nil
+		}
 	}
 	if c.Capacity != nil {
 		if !paths.StorageCapacityMatcher.MatchString(fmt.Sprintf("%d", *c.Capacity)) {
@@ -86,9 +88,12 @@ func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Req
 		}
 	}
 
-	s := model.Storage{Name: c.Name, Location: c.Location, Address: c.Address}
+	s := model.Storage{Name: c.Name, Location: c.Location}
 	if c.Capacity != nil {
 		s.Capacity = *c.Capacity
+	}
+	if c.Address != nil {
+		s.Address = *c.Address
 	}
 
 	if err := self.DB.Create(&s).Error; err != nil {
@@ -207,17 +212,17 @@ func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Requ
 	topic := util.AssembleBaseStorageTopic(storage.Name, storage.Location)
 	self.Subscribe(topic, 2, observer.GetObserverHandler(self.Controller))
 
-	self.Locker.Unlock()
-	delete(createdButNotSubscribedStorages, name)
 	self.Locker.Lock()
+	delete(createdButNotSubscribedStorages, name)
+	self.Locker.Unlock()
 
 	return nil, meridian.Okay(fmt.Sprintf("subscribed to %q", topic))
 }
 
 func (self *StorageHandler) GetAllUnfocusedStorages(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
-	self.Locker.RLock()
+	self.Locker.Lock()
 	var keys []string = util.Keys(createdButNotSubscribedStorages)
-	self.Locker.RUnlock()
+	self.Locker.Unlock()
 
 	return nil, meridian.OkayMustJson(keys)
 }

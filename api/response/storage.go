@@ -29,7 +29,8 @@ func (self *StorageHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
 	router.HandleFunc(paths.API_STORAGES_PING_FILTER_NAME, s.Reporter(self.PingHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, s.Reporter(self.FocusHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, s.Reporter(self.FocusHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, s.Reporter(self.GetUnfocusedStorages)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_WS_LOG, controller.LoggerChannelHandlerFactory(self.StorageLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
@@ -206,4 +207,8 @@ func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Requ
 
 	delete(createdButNotSubscribedStorages, name)
 	return nil, meridian.Okay(fmt.Sprintf("subscribed to %q", topic))
+}
+
+func (self *StorageHandler) GetUnfocusedStorages(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	return nil, meridian.OkayMustJson(util.Must(json.Marshal(util.Keys(createdButNotSubscribedStorages))).([]byte))
 }

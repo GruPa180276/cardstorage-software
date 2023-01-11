@@ -1,3 +1,4 @@
+import 'package:admin_login/pages/widget/reloadbutton.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/provider/types/storages.dart';
@@ -36,9 +37,16 @@ class _CardsViewState extends State<CardsView> {
     }
   }
 
+  void reload() {
+    setState(() {
+      futureData = storage.fetchData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: GenerateReloadButton(this.reload),
         appBar: generateAppBar(context),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -121,6 +129,7 @@ class _CardsViewState extends State<CardsView> {
               child: Column(children: <Widget>[
                 ListCards(
                   cardStorage: selectedStorage,
+                  cards: futureData,
                 )
               ]),
             )),
@@ -132,68 +141,73 @@ class _CardsViewState extends State<CardsView> {
 // ignore: must_be_immutable
 class ListCards extends StatefulWidget {
   final String cardStorage;
-  ListCards({Key? key, required this.cardStorage}) : super(key: key);
+  Future<List<Storages>> cards;
+
+  ListCards({
+    Key? key,
+    required this.cardStorage,
+    required this.cards,
+  }) : super(key: key);
 
   @override
   State<ListCards> createState() => _ListCardsState();
 }
 
 class _ListCardsState extends State<ListCards> {
-  late Future<List<Storages>> futureData;
-
   @override
   void initState() {
     super.initState();
-    futureData = storage.fetchData();
+    widget.cards = storage.fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: FutureBuilder<List<Storages>>(
-      future: futureData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          for (int i = 0; i < snapshot.data!.length; i++) {
-            List<Cards>? data = snapshot.data![i].cards;
-            if (snapshot.data![i].name == widget.cardStorage) {
-              return ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GenerateCardWithInkWell.withArguments(
-                      index: index,
-                      data: data,
-                      icon: Icons.credit_card,
-                      route: "/alterCards",
-                      argument: data[index].name,
-                      view: 1,
-                    );
-                  });
-            } else if (widget.cardStorage == "-") {
-              return ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GenerateCardWithInkWell.withArguments(
-                      index: index,
-                      data: data,
-                      icon: Icons.credit_card,
-                      route: "/alterCards",
-                      argument: data[index].name,
-                      view: 1,
-                    );
-                  });
-            } else {
-              return SizedBox.shrink();
+      child: FutureBuilder<List<Storages>>(
+        future: widget.cards,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            for (int i = 0; i < snapshot.data!.length; i++) {
+              List<Cards>? data = snapshot.data![i].cards;
+              if (snapshot.data![i].name == widget.cardStorage) {
+                return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GenerateCardWithInkWell.withArguments(
+                        index: index,
+                        data: data,
+                        icon: Icons.credit_card,
+                        route: "/alterCards",
+                        argument: data[index].name,
+                        view: 1,
+                      );
+                    });
+              } else if (widget.cardStorage == "-") {
+                return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GenerateCardWithInkWell.withArguments(
+                        index: index,
+                        data: data,
+                        icon: Icons.credit_card,
+                        route: "/alterCards",
+                        argument: data[index].name,
+                        view: 1,
+                      );
+                    });
+              } else {
+                return SizedBox.shrink();
+              }
             }
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
           }
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return Container(
-            child: Column(
-          children: [generateProgressIndicator(context)],
-        ));
-      },
-    ));
+          return Container(
+              child: Column(
+            children: [generateProgressIndicator(context)],
+          ));
+        },
+      ),
+    );
   }
 }

@@ -5,6 +5,7 @@ Table createStorageTable(
   String name,
   String location,
   int maxCardCount,
+  bool focus,
 ) {
   return Table(
     columnWidths: {
@@ -46,6 +47,19 @@ Table createStorageTable(
           ),
           Text(
             maxCardCount.toString(),
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.right,
+          )
+        ],
+      ),
+      TableRow(
+        children: [
+          Text(
+            "Focus:",
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            focus.toString(),
             style: TextStyle(fontSize: 20),
             textAlign: TextAlign.right,
           )

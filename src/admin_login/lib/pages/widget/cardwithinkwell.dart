@@ -1,6 +1,7 @@
 import 'package:admin_login/pages/widget/createCard.dart';
 import 'package:admin_login/pages/widget/createStatus.dart';
 import 'package:admin_login/pages/widget/createStorage.dart';
+import 'package:admin_login/provider/types/focus.dart';
 import 'package:admin_login/provider/types/ping.dart';
 import 'package:admin_login/provider/types/storages.dart';
 import 'package:flutter/material.dart';
@@ -43,12 +44,15 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
   late Storages storage;
   int count = 0;
   bool pingWorked = false;
+  bool focus = false;
+  late List<FocusS> listOfStorages;
 
   @override
   void initState() {
     super.initState();
     pingNow();
     getNumberOfCardsInStorage();
+    checkFocus();
   }
 
   void pingNow() async {
@@ -73,6 +77,24 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
         }
       }
     });
+  }
+
+  void checkFocus() async {
+    await getAllUnfocusedStorages().then((value) => listOfStorages = value);
+
+    for (int i = 0; i < listOfStorages.length; i++) {
+      print(listOfStorages[i]);
+      if (listOfStorages[i].name == widget.argument) {
+        focus = false;
+      } else {
+        focus = true;
+      }
+    }
+    if (listOfStorages.length == 0) {
+      focus = true;
+    }
+
+    setState(() {});
   }
 
   @override
@@ -127,6 +149,7 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
         widget.data![widget.index].name,
         widget.data![widget.index].location,
         widget.data![widget.index].numberOfCards,
+        focus,
       );
     } else {
       return SizedBox.shrink();

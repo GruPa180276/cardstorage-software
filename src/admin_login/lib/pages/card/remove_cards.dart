@@ -1,3 +1,4 @@
+import 'package:admin_login/pages/widget/cardwithoutinkwell.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/provider/types/cards.dart';
@@ -52,7 +53,9 @@ class HomePageState extends State<RemoveCards> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Flutter Tutorial"),
+        title: Text("Karten entfernen",
+            style:
+                TextStyle(color: Theme.of(context).focusColor, fontSize: 25)),
       ),
       body: Column(
           mainAxisSize: MainAxisSize.max,
@@ -60,14 +63,11 @@ class HomePageState extends State<RemoveCards> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("List view search",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(height: 10),
                   TextFormField(
                     controller: txtQuery,
                     onChanged: search,
@@ -94,21 +94,21 @@ class HomePageState extends State<RemoveCards> {
           ]),
     );
   }
-}
 
-Widget _listView(List<Cards> persons) {
-  return Expanded(
-    child: ListView.builder(
-        itemCount: persons.length,
-        itemBuilder: (context, index) {
-          var person = persons[index];
-          return ListTile(
-            leading: CircleAvatar(
-              child: Icon(Icons.credit_card),
-            ),
-            title: Text(person.name),
-            subtitle: Text("Name: " + person.name),
-          );
-        }),
-  );
+  Widget _listView(List<Cards> persons) {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: persons.length,
+          itemBuilder: (context, index) {
+            Cards person = persons[index];
+            return GenerateCardWithoutInkWell(
+              name: person.name,
+              icon: Icons.credit_card,
+              onpressd: () {
+                deleteData(person.name);
+              },
+            );
+          }),
+    );
+  }
 }

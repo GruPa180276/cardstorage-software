@@ -81,6 +81,8 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
     for (int i = 0; i < listOfStorages!.length; i++) {
       dropDownValuesNames.add(listOfStorages![i].name);
     }
+
+    setState(() {});
   }
 
   void setName(String value) {

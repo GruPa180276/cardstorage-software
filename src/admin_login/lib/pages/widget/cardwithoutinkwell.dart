@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class GenerateCardWithoutInkWell extends StatefulWidget {
-  final int index;
-  final List<dynamic> data;
   final IconData icon;
+  final String name;
+  final Function() onpressd;
 
-  const GenerateCardWithoutInkWell({
-    Key? key,
-    required this.index,
-    required this.data,
-    required this.icon,
-  }) : super(key: key);
+  const GenerateCardWithoutInkWell(
+      {Key? key,
+      required this.icon,
+      required this.name,
+      required this.onpressd})
+      : super(key: key);
 
   @override
   State<GenerateCardWithoutInkWell> createState() =>
@@ -35,7 +35,7 @@ class _GenerateCardWithoutInkWellState
                   Positioned(
                       left: 100,
                       top: 15,
-                      child: Text(widget.data[widget.index].name,
+                      child: Text(widget.name,
                           style: TextStyle(
                               fontSize: 20,
                               color: Theme.of(context).primaryColor))),
@@ -43,6 +43,7 @@ class _GenerateCardWithoutInkWellState
                       size: 60, color: Theme.of(context).primaryColor)
                 ]),
               ),
+              onTap: widget.onpressd,
             )));
   }
 }

@@ -68,6 +68,8 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
     for (int i = 0; i < listOfStorages!.length; i++) {
       dropDownValuesNames.add(listOfStorages![i].name);
     }
+
+    setState(() {});
   }
 
   void setName(String value) {

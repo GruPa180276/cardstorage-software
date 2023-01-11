@@ -31,7 +31,7 @@ class Storages {
         'name': name,
         'location': location,
         'capacity': numberOfCards,
-        'address': "192.168.0.100",
+        'address': "0.0.0.0",
       };
 }
 
@@ -58,14 +58,29 @@ Future<Storages> getAllCardsPerStorage(String name) async {
   }
 }
 
-Future<Storages> focusStorage(String name) async {
+Future<Storages> getUnfocusedStorage(String name) async {
   final response = await http.get(
     Uri.parse(adres.storageAdress + "/focus/name/" + name),
   );
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to focus Storage!');
+    throw Exception('Failed to get all unfocused Storages!');
+  }
+}
+
+Future<Storages> focusStorage(String name) async {
+  final http.Response response = await http.put(
+    Uri.parse(adres.storageAdress + "/focus/name/" + name),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    return Storages.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Failed to update Storage!');
   }
 }
 

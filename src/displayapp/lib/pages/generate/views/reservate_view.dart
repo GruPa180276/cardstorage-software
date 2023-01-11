@@ -50,56 +50,57 @@ class ReservateView extends StatelessWidget {
 
   static Widget _buildCardsText(
       BuildContext context, Reservation reserveration) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Table(
+          //border: TableBorder.all(),
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Table(
-        //border: TableBorder.all(),
+          columnWidths: const <int, TableColumnWidth>{
+            0: FractionColumnWidth(0.2),
+            1: FractionColumnWidth(0.7),
+          },
 
-        columnWidths: const <int, TableColumnWidth>{
-          0: FixedColumnWidth(100),
-          1: FixedColumnWidth(190),
-        },
-
-        children: [
-          TableRow(
-            children: [
-              const TableCell(child: Text("Karte:")),
-              TableCell(child: Text(reserveration.cardName.toString()))
-            ],
-          ),
-          TableRow(
-            children: [
-              const TableCell(child: Text("Email:")),
-              TableCell(child: Text(reserveration.user.email.toString()))
-            ],
-          ),
-          TableRow(
-            children: [
-              const TableCell(child: Text("Von:")),
-              TableCell(
-                child: Text(
-                  DateTime.fromMillisecondsSinceEpoch(
-                          reserveration.since * 1000)
-                      .toString(),
-                  style: const TextStyle(color: Colors.green),
-                ),
-              )
-            ],
-          ),
-          TableRow(
-            children: [
-              const TableCell(child: Text("Bis:")),
-              TableCell(
-                child: Text(
-                  DateTime.fromMillisecondsSinceEpoch(reserveration.until)
-                      .toString(),
-                  style: const TextStyle(color: Colors.red),
-                ),
-              )
-            ],
-          )
-        ],
+          children: [
+            TableRow(
+              children: [
+                const TableCell(child: Text("Karte:")),
+                TableCell(child: Text(reserveration.cardName.toString()))
+              ],
+            ),
+            TableRow(
+              children: [
+                const TableCell(child: Text("Email:")),
+                TableCell(child: Text(reserveration.user.email.toString()))
+              ],
+            ),
+            TableRow(
+              children: [
+                const TableCell(child: Text("Von:")),
+                TableCell(
+                  child: Text(
+                    DateTime.fromMillisecondsSinceEpoch(
+                            reserveration.since * 1000)
+                        .toString(),
+                    style: const TextStyle(color: Colors.green),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              children: [
+                const TableCell(child: Text("Bis:")),
+                TableCell(
+                  child: Text(
+                    DateTime.fromMillisecondsSinceEpoch(reserveration.until)
+                        .toString(),
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

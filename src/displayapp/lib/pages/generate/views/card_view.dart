@@ -53,46 +53,50 @@ class CardView extends StatelessWidget {
     if (!card.available) {
       colorAvailable = Colors.red;
     }
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Table(
-        //border: TableBorder.all(),
+    return Container(
+      child: Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Table(
+            //border: TableBorder.all(),
 
-        columnWidths: const <int, TableColumnWidth>{
-          0: FixedColumnWidth(150),
-          1: FixedColumnWidth(100),
-        },
+            columnWidths: const <int, TableColumnWidth>{
+              0: FractionColumnWidth(0.59),
+              1: FractionColumnWidth(0.4),
+            },
 
-        children: [
-          TableRow(
             children: [
-              const TableCell(child: Text("Name:")),
-              TableCell(child: Text(card.name))
-            ],
-          ),
-          TableRow(
-            children: [
-              const TableCell(child: Text("Verfuegbar:")),
-              TableCell(
-                child: Text(
-                  card.available.toString(),
-                  style: TextStyle(
-                      color: colorAvailable, fontWeight: FontWeight.bold),
-                ),
+              TableRow(
+                children: [
+                  const TableCell(child: Text("Name:")),
+                  TableCell(child: Text(card.name))
+                ],
+              ),
+              TableRow(
+                children: [
+                  const TableCell(child: Text("Verfuegbar:")),
+                  TableCell(
+                    child: Text(
+                      card.available.toString(),
+                      style: TextStyle(
+                          color: colorAvailable, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              ),
+              TableRow(
+                children: [
+                  const TableCell(child: Text("Position:")),
+                  TableCell(
+                    child: Text(
+                      card.position.toString(),
+                    ),
+                  )
+                ],
               )
             ],
           ),
-          TableRow(
-            children: [
-              const TableCell(child: Text("Position:")),
-              TableCell(
-                child: Text(
-                  card.position.toString(),
-                ),
-              )
-            ],
-          )
-        ],
+        ),
       ),
     );
   }

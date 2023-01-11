@@ -51,7 +51,7 @@ class RequestTimer {
                     isTimerTextShown: true,
                     autoStart: true,
                     onComplete: (() {
-                      if (_timerType == _TimerType.Breaktimer && i == 0) {
+                      if (i == 0) {
                         i++;
                         try {
                           print("seco");

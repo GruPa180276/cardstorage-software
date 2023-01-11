@@ -7,7 +7,7 @@ import 'package:rfidapp/provider/types/storage.dart';
 import 'dart:async';
 
 class Data {
-  static String uriRaspi = 'https://10.0.2.2:7171/api/';
+  static String uriRaspi = 'https://192.168.83.84:7171/api/';
 
   static Future<Storage?> getStorageData() async {
     try {

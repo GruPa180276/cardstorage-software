@@ -1,14 +1,14 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rfidapp/config/cardSiteEnum.dart';
+import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/pages/generate/views/reservate_view.dart';
-import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/storage.dart';
-import 'package:rfidapp/pages/generate/widget/bottomSheet.dart';
+import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
 
 class ApiVisualizer extends StatefulWidget {
   CardPageType site;
@@ -133,6 +133,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                           //TODO change to required class
                           case CardPageType.Karten:
                             return CardView(
+                                setState: setState,
                                 context: context,
                                 searchstring: searchString,
                                 storage: users);

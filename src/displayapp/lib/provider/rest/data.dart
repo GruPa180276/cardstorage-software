@@ -30,6 +30,7 @@ class Data {
     // "/api/storages/cards/name/NAME/fetch",
 
     String readerCards = jsonEncode(readerCard.toJson());
+    print(Uri.parse('${uriRaspi}storages/cards/name/${readerCard.name}/fetch'));
     return put(
         Uri.parse('${uriRaspi}storages/cards/name/${readerCard.name}/fetch'),
         headers: <String, String>{

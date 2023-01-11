@@ -6,12 +6,14 @@ import 'package:rfidapp/domain/asset_files.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
+import 'package:rfidapp/provider/websocket.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   await AssetFiles.setProperties();
   HttpOverrides.global = MyHttpOverrides();
+  Websocket.connect();
   // await SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,

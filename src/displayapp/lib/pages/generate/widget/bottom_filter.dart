@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/config/cardSiteEnum.dart';
+import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
-import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 
 class BottomSheetPop {

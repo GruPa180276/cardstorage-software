@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
-import 'package:rfidapp/pages/generate/widget/createCardButton.dart';
+import 'package:rfidapp/pages/generate/widget/request_timer.dart';
+import 'package:rfidapp/pages/generate/widget/card_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -9,12 +9,13 @@ class CardView extends StatelessWidget {
   Storage storage;
   BuildContext context;
   String searchstring;
-
+  final Function setState;
   CardView(
       {Key? key,
       required this.storage,
       required this.context,
-      required this.searchstring});
+      required this.searchstring,
+      required this.setState});
 
   @override
   Widget build(BuildContext context) => Flexible(
@@ -40,7 +41,8 @@ class CardView extends StatelessWidget {
                           ),
                           _buildCardsText(context, storage.cards![index]),
                         ]),
-                        _buildCardsButton(context, storage.cards![index])
+                        _buildCardsButton(
+                            context, storage.cards![index], setState)
                       ]))
                   : Container();
             }),
@@ -95,7 +97,8 @@ class CardView extends StatelessWidget {
     );
   }
 
-  static Widget _buildCardsButton(BuildContext context, ReaderCard card) {
+  static Widget _buildCardsButton(
+      BuildContext context, ReaderCard card, Function setState) {
     if (!card.available) {
       return Container();
     }
@@ -105,8 +108,17 @@ class CardView extends StatelessWidget {
           //get card
           child: CardButton(
               text: 'Jetzt holen',
-              onPress: () {
-                MqttTimer.startTimer(context, card);
+              onPress: () async {
+                try {
+                  await RequestTimer.startTimer(context, card);
+                  if (!RequestTimer.getSuccessful()) {
+                    setState(
+                      () {
+                        card.available = false;
+                      },
+                    );
+                  }
+                } catch (e) {}
               }),
         )
       ],

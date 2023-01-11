@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:rfidapp/pages/generate/widget/mqtt_timer.dart';
+import 'package:rfidapp/pages/generate/widget/request_timer.dart';
 import 'package:rfidapp/domain/storage_properties.dart';
 
 class MQTTClientManager {

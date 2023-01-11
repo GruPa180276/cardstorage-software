@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/config/cardSiteEnum.dart';
+import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
 import 'package:rfidapp/provider/mqtt/mqtt.dart';
 import 'package:rfidapp/domain/storage_properties.dart';

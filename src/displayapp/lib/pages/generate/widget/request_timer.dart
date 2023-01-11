@@ -1,29 +1,26 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:rfidapp/domain/enum/snackbar_type.dart';
+import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
-class MqttTimer {
-  static late BuildContext context;
-
-  static Future<void> startTimer(BuildContext context, ReaderCard readerCard) {
-    var channel = IOWebSocketChannel.connect(
-      Uri.parse('wss://localhost:7171/api/controller/log'),
-    );
-    channel.stream.listen((event) {
-      print("smth here");
-    });
-    MqttTimer.context = context;
-    //send Data to rfid chip, that it should start scanning
-    //15seconds time
-    //thread that checks if toke is here
+class RequestTimer {
+  static Map? _responseData;
+  static var timerController = CountDownController();
+  static late bool _successful = false;
+  static late _TimerType _timerType;
+  static int i = 0;
+  static Future<void> startTimer(BuildContext context, ReaderCard card) {
+    _timerType = _TimerType.InitTimer;
+    i = 0;
     int timestamp = 0;
     return showDialog(
         context: context,
-        builder: (context) {
+        builder: (BuildContext buildContext) {
           return Scaffold(
             backgroundColor: Colors.transparent,
             body: Stack(
@@ -33,7 +30,7 @@ class MqttTimer {
                   child: CircularCountDownTimer(
                     duration: 20,
                     initialDuration: 0,
-                    controller: CountDownController(),
+                    controller: timerController,
                     width: MediaQuery.of(context).size.width / 2,
                     height: MediaQuery.of(context).size.height / 2,
                     ringColor: Colors.green[300]!,
@@ -53,22 +50,25 @@ class MqttTimer {
                     isReverseAnimation: false,
                     isTimerTextShown: true,
                     autoStart: true,
-                    onComplete: (() => Navigator.pop(context)),
-                    onStart: () async {
-                      var response = await Data.postGetCardNow(readerCard);
-                      if (response != "200") {
-                        cancel();
+                    onComplete: (() {
+                      if (_timerType == _TimerType.Breaktimer && i == 0) {
+                        i++;
+                        try {
+                          print("seco");
+                          SnackbarBuilder.build(SnackbarType.Karten, context,
+                              _successful, _responseData);
+                        } catch (e) {}
                       }
-                      print(response.statusCode);
+                      Navigator.of(context).maybePop();
+                    }),
+                    onStart: () async {
+                      var response = await Data.postGetCardNow(card);
+                      if (response.statusCode != 200) {
+                        Navigator.maybePop(context);
+                      }
                     },
                     timeFormatterFunction:
                         (defaultFormatterFunction, duration) {
-                      if (duration.inSeconds % 3 == 0 &&
-                          duration.inSeconds != timestamp) {
-                        timestamp = duration.inSeconds;
-                        //@TODO check card satsus if available during timeperiod
-                        //get isavailable of specific card see if its false...then pop
-                      }
                       return Function.apply(
                           defaultFormatterFunction, [duration]);
                     },
@@ -93,7 +93,19 @@ class MqttTimer {
         });
   }
 
-  static void cancel() {
-    Navigator.pop(context);
+  static bool getSuccessful() {
+    return _successful;
+  }
+
+  static streamListener(IOWebSocketChannel channel) {
+    channel.stream.listen((message) async {
+      _responseData = jsonDecode(message);
+      _successful = _responseData!["successful"] ??
+          _responseData!["status"]["successful"];
+      _timerType = _TimerType.Breaktimer;
+      timerController.restart(duration: 0);
+    });
   }
 }
+
+enum _TimerType { InitTimer, Breaktimer }

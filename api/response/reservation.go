@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -17,6 +18,7 @@ import (
 
 type ReservationHandler struct {
 	*controller.Controller
+	*sync.Cond
 	ReservationLogChannel chan string
 }
 
@@ -29,7 +31,8 @@ func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
 	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
 	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, controller.LoggerChannelHandlerFactory(self.ReservationLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
+	w := &controller.DataWrapper{self.ReservationLogChannel, self.Cond, self.Logger, self.Upgrader}
+	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
 }
 
 func (self *ReservationHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

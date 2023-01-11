@@ -26,35 +26,107 @@ type Controller struct {
 	*websocket.Upgrader
 	*gorm.DB
 	*sync.Map
+	*sync.Cond
 	ClientId             string
 	ControllerLogChannel chan string
 }
 
-func LoggerChannelHandlerFactory(channel chan string, logger *log.Logger, upgrader *websocket.Upgrader) http.HandlerFunc {
+func LoggerChannelHandlerFactory(channel chan string, cond *sync.Cond, logger *log.Logger, upgrader *websocket.Upgrader) http.HandlerFunc {
+	message := ""
+
+	go func() {
+		for {
+			select {
+			case msg, _ := <-channel:
+				cond.L.Lock()
+				message = msg
+				cond.L.Unlock()
+				cond.Broadcast()
+			}
+		}
+	}()
+
 	return func(res http.ResponseWriter, req *http.Request) {
 		socket, err := upgrader.Upgrade(res, req, nil)
 		if err != nil {
 			logger.Println(err)
 			return
 		}
-		listen := true
-		for listen {
-			select {
-			case message, ok := <-channel:
-				if ok {
-					if err = socket.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
-						logger.Println(req.URL.String(), err)
-					}
-				} else {
-					listen = false
+		go func() { // break if the there was an error while reading or if the client closed the connection
+			for {
+				if _, _, err := socket.ReadMessage(); err != nil {
+					return
 				}
 			}
+		}()
+
+		for { // break if there was an error while writing
+			cond.L.Lock()
+			cond.Wait()
+			err := socket.WriteMessage(websocket.TextMessage, []byte(message))
+			if err != nil {
+				websocket.IsCloseError(err)
+				cond.L.Unlock()
+				break
+			}
+			cond.L.Unlock()
+		}
+	}
+}
+
+type DataWrapper struct {
+	Channel  chan string
+	Cond     *sync.Cond
+	Logger   *log.Logger
+	Upgrader *websocket.Upgrader
+}
+
+func (self *DataWrapper) LoggerChannelHandlerFactory() http.HandlerFunc {
+	message := ""
+
+	go func() {
+		for {
+			select {
+			case msg, _ := <-self.Channel:
+				self.Cond.L.Lock()
+				message = msg
+				self.Cond.L.Unlock()
+				self.Cond.Broadcast()
+			}
+		}
+	}()
+
+	return func(res http.ResponseWriter, req *http.Request) {
+		socket, err := self.Upgrader.Upgrade(res, req, nil)
+		if err != nil {
+			self.Logger.Println(err)
+			return
+		}
+		go func() { // break if the there was an error while reading or if the client closed the connection
+			for {
+				if _, _, err := socket.ReadMessage(); err != nil {
+					return
+				}
+			}
+		}()
+
+		for { // break if there was an error while writing
+			self.Cond.L.Lock()
+			self.Cond.Wait()
+			err := socket.WriteMessage(websocket.TextMessage, []byte(message))
+			if err != nil {
+				websocket.IsCloseError(err)
+				self.Cond.L.Unlock()
+				break
+			}
+			self.Cond.L.Unlock()
 		}
 	}
 }
 
 func (self *Controller) RegisterHandlers(router *mux.Router) {
-	router.HandleFunc(paths.API_CONTROLLER_WS_LOG, LoggerChannelHandlerFactory(self.ControllerLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
+	w := &DataWrapper{Channel: self.ControllerLogChannel, Cond: self.Cond, Logger: self.Logger, Upgrader: self.Upgrader}
+	router.HandleFunc(paths.API_CONTROLLER_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

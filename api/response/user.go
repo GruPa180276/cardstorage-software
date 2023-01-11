@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"sync"
 
 	"github.com/gorilla/mux"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
@@ -16,6 +17,7 @@ import (
 
 type UserHandler struct {
 	*controller.Controller
+	*sync.Cond
 	UserLogChannel chan string
 }
 
@@ -26,7 +28,8 @@ func (self *UserHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_USERS, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
 	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
-	router.HandleFunc(paths.API_USERS_WS_LOG, controller.LoggerChannelHandlerFactory(self.UserLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
+	w := &controller.DataWrapper{self.UserLogChannel, self.Cond, self.Logger, self.Upgrader}
+	router.HandleFunc(paths.API_USERS_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
 }
 
 func (self *UserHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

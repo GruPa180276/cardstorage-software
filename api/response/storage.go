@@ -19,7 +19,8 @@ import (
 
 type StorageHandler struct {
 	*controller.Controller
-	Locker            *sync.RWMutex
+	Locker *sync.RWMutex
+	*sync.Cond
 	StorageLogChannel chan string
 }
 
@@ -33,7 +34,8 @@ func (self *StorageHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_STORAGES_PING_FILTER_NAME, s.Reporter(self.PingHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, s.Reporter(self.FocusHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_FOCUS, s.Reporter(self.GetAllUnfocusedStorages)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_STORAGES_WS_LOG, controller.LoggerChannelHandlerFactory(self.StorageLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
+	w := &controller.DataWrapper{self.StorageLogChannel, self.Cond, self.Logger, self.Upgrader}
+	router.HandleFunc(paths.API_STORAGES_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
 }
 
 func (self *StorageHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

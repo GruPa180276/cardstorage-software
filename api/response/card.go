@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
+	"sync"
 
 	"github.com/gorilla/mux"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
@@ -17,6 +18,7 @@ import (
 
 type CardHandler struct {
 	*controller.Controller
+	*sync.Cond
 	CardLogChannel chan string
 }
 
@@ -32,7 +34,8 @@ func (self *CardHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_AVAILABLE, s.Reporter(self.SetCardAvailabilityHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER, s.Reporter(self.FetchCardKnownUserHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER, s.Reporter(self.FetchCardUnknownUserHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_CARDS_WS_LOG, controller.LoggerChannelHandlerFactory(self.CardLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
+	w := &controller.DataWrapper{self.CardLogChannel, self.Cond, self.Logger, self.Upgrader}
+	router.HandleFunc(paths.API_STORAGES_CARDS_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
 }
 
 func (self *CardHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

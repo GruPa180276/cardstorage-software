@@ -207,9 +207,9 @@ func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Requ
 	topic := util.AssembleBaseStorageTopic(storage.Name, storage.Location)
 	self.Subscribe(topic, 2, observer.GetObserverHandler(self.Controller))
 
-	self.Locker.Lock()
-	delete(createdButNotSubscribedStorages, name)
 	self.Locker.Unlock()
+	delete(createdButNotSubscribedStorages, name)
+	self.Locker.Lock()
 
 	return nil, meridian.Okay(fmt.Sprintf("subscribed to %q", topic))
 }

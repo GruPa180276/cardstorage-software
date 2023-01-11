@@ -307,11 +307,34 @@ Es wurde das Python Programm vom Terminal fuer den Sensor programmiert. Dies war
 Nach einwoechiger Pause aufgrund eine Gruppe ging es heute wieder los.
 -Besprechung mit Herrn Mayrhofer uber den akwutellen Status
 -Start der Implentation der neuen ApiVersion
--
 
 
-**2022-12-09: 09:00-> 11:00**
-Bug beim anmeldemn wurden gefixt. Weiteras wurde das Filtern ueberarbeiter und fertigestellt
+**2023-01-06: 09:00 -> 14:00**
+Neu implementation der neuen APi Struktur von Johannes. Vollständige Codebase refactoring in Displayapp. 
+
+
+**2023-01-06: 17:00 -> 20:00**
+Start neuer App fuer Websockt. Lesen von online Doku
+
+
+**2023-01-07: 09:00-> 13:00**
+Implementation neue Api Struktur in zweite App. Volltändige Codebase refactoring in RfidApp.
+Implementation von Websocket
+
+**2023-01-07: 17:00-> 20:00**
+Websocket Testing und Codeanpassung. Ebenfalls wurde Simulator von Johannes umgeschrieben. Leider sties ich auf ein Problem da MJ noch keine Websocket Multiclient impolementiert hat
+
+**2023-01-08: 10:00-> 12:00**
+Aufgrund eines Problem mit dem Circular Timer wurde das Package heruntergeladen und erweitert
+
+**2023-01-10: 10:00-> 11:00**
+Umprogrammierung des Websocket, das proStart der App eine Verbindung gestartet wir und nicht durchgehen
+
+**2023-01-11: 11:00-> 12:00**
+Umprogrammierung des Websocket, das proStart der App eine Verbindung gestartet wir und nicht durchgehen und umprogrammieren in ein responsive Programm
+
+
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -393,5 +416,12 @@ Bug beim anmeldemn wurden gefixt. Weiteras wurde das Filtern ueberarbeiter und f
 - 09:00 bis 11:00 Uhr
 - 17:00 bis 20:30 Uhr
 - 20:00 bis 23:10 Uhr
+- 09:00 bis 14:00 Uhr
+- 17:00 bis 20:00 Uhr
+- 09:00 bis 13:00 Uhr
+- 17:00 bis 20:00 Uhr
+- 10:00 bis 12:00 Uhr
+- 10:00 bis 11:00 Uhr
+- 11:00 bis 12:00 Uhr
 <!-- { "progress": false } -->
 

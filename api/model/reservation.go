@@ -7,7 +7,7 @@ import (
 
 type Reservation struct {
 	ReservationID uint      `json:"id"             gorm:"primaryKey"`
-	UserID        uint      `json:"-"`
+	UserID        uint      `json:"-"              gorm:"column:user_id"`
 	User          User      `json:"user"`
 	Since         time.Time `json:"since"          gorm:"not null"`
 	Until         time.Time `json:"until"          gorm:"default:null"`

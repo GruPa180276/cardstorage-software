@@ -22,6 +22,7 @@ const wsurl = "wss://localhost:7171/api"
 const usage = `
 -1...StorageUnit: Ping
 -2...StorageUnit: Focus
+-4...StorageUnit: GetUnfocused
 0...StorageUnit: Update
 1...StorageUnit: New
 2...StorageUnit: Delete
@@ -419,8 +420,8 @@ var opts = map[int]func(){
 			c.Until = &untilptr
 		}
 		if isReservation != "$" {
-			reservarionFlagPtr := must(strconv.ParseBool(isReservation)).(bool) 
-			c.IsReservation = &reservarionFlagPtr 
+			reservarionFlagPtr := must(strconv.ParseBool(isReservation)).(bool)
+			c.IsReservation = &reservarionFlagPtr
 		}
 		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s`", apiurl, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
@@ -468,7 +469,7 @@ var opts = map[int]func(){
 				untilTime = time.Unix(int64(must(strconv.Atoi(until)).(int)), 0)
 			}
 			untilptr := untilTime.Unix()
-			c.Until = &untilptr
+			u.Until = &untilptr
 		}
 		if returnedAt != "$" {
 			if returnedAt[0] == '%' {
@@ -479,7 +480,7 @@ var opts = map[int]func(){
 				returnedAtTime = time.Unix(int64(must(strconv.Atoi(returnedAt)).(int)), 0)
 			}
 			returnptr := returnedAtTime.Unix()
-			u.ReturnedAt = &returnptr 
+			u.ReturnedAt = &returnptr
 		}
 
 		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/reservations/id/%s", apiurl, id), bytes.NewBuffer(must(json.Marshal(u)).([]byte)))).(*http.Request)
@@ -499,6 +500,14 @@ var opts = map[int]func(){
 			urlPath += fmt.Sprintf("/user/email/%s", email)
 		}
 		req := must(http.NewRequest(http.MethodPut, urlPath, nil)).(*http.Request)
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		s := bytes.NewBufferString("")
+		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
+		l.Println(s.String())
+	},
+	-4: func() {
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/focus", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")

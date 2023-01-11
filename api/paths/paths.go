@@ -39,6 +39,7 @@ var (
 	API_STORAGES_FILTER_NAME                          string = `/storages/name/{name:` + storageNamePattern + `}`
 	API_STORAGES_PING_FILTER_NAME                     string = `/storages/ping/name/{name:` + storageNamePattern + `}`
 	API_STORAGES_FOCUS_FILTER_NAME                    string = `/storages/focus/name/{name:` + storageNamePattern + `}`
+	API_STORAGES_FOCUS                                string = `/storages/focus`
 	API_STORAGES_WS_LOG                               string = `/storages/log`
 	API_STORAGES_CARDS                                string = `/storages/cards`
 	API_STORAGES_CARDS_FILTER_NAME                    string = `/storages/cards/name/{name:` + cardNamePattern + `}`

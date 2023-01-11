@@ -362,7 +362,7 @@ var opts = map[int]func(){
 		l.Println(s.String())
 	},
 	15: func() {
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations`", apiurl), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations", apiurl), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -373,7 +373,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/name/%s`", apiurl, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -384,7 +384,7 @@ var opts = map[int]func(){
 		email := ""
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/name/%s`", apiurl, email), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/name/%s", apiurl, email), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -431,7 +431,7 @@ var opts = map[int]func(){
 			reservarionFlagPtr := must(strconv.ParseBool(isReservation)).(bool)
 			c.IsReservation = &reservarionFlagPtr
 		}
-		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s`", apiurl, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
+		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/name/%s", apiurl, email), bytes.NewBuffer(must(json.Marshal(c)).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")

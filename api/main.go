@@ -125,7 +125,7 @@ func initHandlers(router *mux.Router, c *controller.Controller, chans *map[strin
 	c.ControllerLogChannel = (*chans)["controller"]
 	c.RegisterHandlers(router)
 	(&response.CardHandler{Controller: c, CardLogChannel: (*chans)["card"]}).RegisterHandlers(router)
-	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"]}).RegisterHandlers(router)
+	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"], Locker: &sync.RWMutex{}}).RegisterHandlers(router)
 	(&response.UserHandler{Controller: c, UserLogChannel: (*chans)["user"]}).RegisterHandlers(router)
 	(&response.ReservationHandler{Controller: c, ReservationLogChannel: (*chans)["reservation"]}).RegisterHandlers(router)
 }

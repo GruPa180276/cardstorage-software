@@ -53,20 +53,28 @@ var opts = map[int]func(){
 	1: func() {
 		location := ""
 		name := ""
-		ipaddr := ""
+		addr := ""
+		var addrptr *string
 		capacity := int(0)
+		var capptr *int
 		fmt.Print("Location Name Address Capacity: ")
-		fmt.Scanln(&location, &name, &ipaddr, &capacity)
+		fmt.Scanln(&location, &name, &addr, &capacity)
+		if addr != "" {
+			addrptr = &addr
+		}
+		if capacity != 0 {
+			capptr = &capacity
+		}
 		req := must(http.NewRequest(http.MethodPost, apiurl+"/storages", bytes.NewBuffer(must(json.Marshal(&struct {
-			Name      string `json:"name"`
-			Location  string `json:"location"`
-			IpAddress string `json:"address"`
-			Capacity  int    `json:"capacity"`
+			Name      string  `json:"name"`
+			Location  string  `json:"location"`
+			IpAddress *string `json:"address"`
+			Capacity  *int    `json:"capacity"`
 		}{
 			Location:  location,
 			Name:      name,
-			IpAddress: ipaddr,
-			Capacity:  capacity,
+			IpAddress: addrptr,
+			Capacity:  capptr,
 		})).([]byte)))).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
@@ -346,7 +354,7 @@ var opts = map[int]func(){
 		name := ""
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
-		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/focus/name/%s", apiurl, name), nil)).(*http.Request)
+		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/focus/name/%s", apiurl, name), nil)).(*http.Request)
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")

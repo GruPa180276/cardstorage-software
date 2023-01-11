@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -18,6 +19,7 @@ import (
 
 type StorageHandler struct {
 	*controller.Controller
+	Locker            *sync.RWMutex
 	StorageLogChannel chan string
 }
 
@@ -30,7 +32,7 @@ func (self *StorageHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
 	router.HandleFunc(paths.API_STORAGES_PING_FILTER_NAME, s.Reporter(self.PingHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, s.Reporter(self.FocusHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, s.Reporter(self.GetUnfocusedStorages)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_FOCUS, s.Reporter(self.GetAllUnfocusedStorages)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_WS_LOG, controller.LoggerChannelHandlerFactory(self.StorageLogChannel, self.Logger, self.Upgrader)).Methods(http.MethodGet)
 }
 
@@ -55,7 +57,7 @@ func (self *StorageHandler) GetByNameHandler(res http.ResponseWriter, req *http.
 	return nil, meridian.OkayMustJson(&storage)
 }
 
-var createdButNotSubscribedStorages = make(map[string]bool)
+var createdButNotSubscribedStorages = make(map[string]bool, 0)
 
 func (self *StorageHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	type Creator struct {
@@ -205,10 +207,17 @@ func (self *StorageHandler) FocusHandler(res http.ResponseWriter, req *http.Requ
 	topic := util.AssembleBaseStorageTopic(storage.Name, storage.Location)
 	self.Subscribe(topic, 2, observer.GetObserverHandler(self.Controller))
 
+	self.Locker.Lock()
 	delete(createdButNotSubscribedStorages, name)
+	self.Locker.Unlock()
+
 	return nil, meridian.Okay(fmt.Sprintf("subscribed to %q", topic))
 }
 
-func (self *StorageHandler) GetUnfocusedStorages(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
-	return nil, meridian.OkayMustJson(util.Must(json.Marshal(util.Keys(createdButNotSubscribedStorages))).([]byte))
+func (self *StorageHandler) GetAllUnfocusedStorages(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	self.Locker.RLock()
+	var keys []string = util.Keys(createdButNotSubscribedStorages)
+	self.Locker.RUnlock()
+
+	return nil, meridian.OkayMustJson(keys)
 }

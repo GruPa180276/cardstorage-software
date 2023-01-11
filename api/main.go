@@ -123,11 +123,12 @@ func initController(clientId string, db *gorm.DB, logger *log.Logger) *controlle
 
 func initHandlers(router *mux.Router, c *controller.Controller, chans *map[string]chan string) {
 	c.ControllerLogChannel = (*chans)["controller"]
+	c.Cond = &sync.Cond{L: &sync.Mutex{}}
 	c.RegisterHandlers(router)
-	(&response.CardHandler{Controller: c, CardLogChannel: (*chans)["card"]}).RegisterHandlers(router)
-	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"], Locker: &sync.RWMutex{}}).RegisterHandlers(router)
-	(&response.UserHandler{Controller: c, UserLogChannel: (*chans)["user"]}).RegisterHandlers(router)
-	(&response.ReservationHandler{Controller: c, ReservationLogChannel: (*chans)["reservation"]}).RegisterHandlers(router)
+	(&response.CardHandler{Controller: c, CardLogChannel: (*chans)["card"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
+	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"], Locker: &sync.RWMutex{}, Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
+	(&response.UserHandler{Controller: c, UserLogChannel: (*chans)["user"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
+	(&response.ReservationHandler{Controller: c, ReservationLogChannel: (*chans)["reservation"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
 }
 
 func initChannels() *map[string]chan string {

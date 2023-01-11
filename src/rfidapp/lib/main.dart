@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
@@ -7,13 +6,14 @@ import 'package:rfidapp/pages/login/login_user_page.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
+import 'package:rfidapp/provider/connection/websocket.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   late String? rememberState;
   HttpOverrides.global = MyHttpOverrides();
-
+  Websocket.connect();
   await UserSecureStorage.getRememberState()
       .then((value) => rememberState = value ?? 'false');
 

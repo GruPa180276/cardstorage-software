@@ -10,7 +10,7 @@ import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/pages/generate/widget/request_timer.dart';
 import 'package:rfidapp/pages/login/storage_select.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
-import 'package:rfidapp/provider/restApi/data.dart';
+import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/microsoft_user.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
@@ -177,18 +177,15 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
               (Route<dynamic> route) => false);
         } else {
           //@TODO s4 hardcoded
-          var x = MqttTimer(
-              context: context,
-              action: TimerAction.SIGNUP,
-              email: email,
-              storagename: "S4");
+
           await StorageSelectPopUp.build(context);
           if (StorageSelectPopUp.getSuccessful()) {
-            await x.startTimer();
+            await RequestTimer.startTimer(
+                context, TimerAction.SIGNUP, null, email, "S4");
           } else {
             print("error");
           }
-          if (x.getSuccessful()) {
+          if (RequestTimer.getSuccessful()) {
             MicrosoftUser.setUserValues(jsonDecode(userResponse.body));
             UserSecureStorage.setRememberState(rememberValue.toString());
             Navigator.of(context).pushAndRemoveUntil(

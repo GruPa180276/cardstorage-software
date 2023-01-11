@@ -26,13 +26,13 @@ class ReaderCardButtons extends StatelessWidget {
                 child: CardButton(
                     text: 'Jetzt holen',
                     onPress: () async {
-                      var req = MqttTimer(
-                          context: context,
-                          action: TimerAction.GETCARD,
-                          card: card,
-                          email: await UserSecureStorage.getUserEmail());
-                      await req.startTimer();
-                      if (req.getSuccessful()) {
+                      await RequestTimer.startTimer(
+                          context,
+                          TimerAction.GETCARD,
+                          card,
+                          await UserSecureStorage.getUserEmail(),
+                          null);
+                      if (RequestTimer.getSuccessful()) {
                         setState!(
                           () {
                             this.card.available = false;

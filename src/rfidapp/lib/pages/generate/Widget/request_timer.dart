@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:rfidapp/domain/enums/cardpage_site.dart';
+import 'package:rfidapp/domain/enums/snackbar_type.dart';
 import 'package:rfidapp/domain/enums/timer_actions.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
+import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:web_socket_channel/io.dart';
@@ -11,36 +14,16 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 import 'circular_timer/circular_countdown_timer.dart';
 
-class MqttTimer {
-  bool _successful = false;
+class RequestTimer {
+  static Map? _responseData;
+  static var timerController = CountDownController();
+  static late bool _successful = false;
+  static late _TimerType _timerType;
+  static int i = 0;
 
-  BuildContext context;
-  TimerAction action;
-  ReaderCard? card;
-  String? email;
-  String? storagename;
-  Map? _responseData;
-  var timerController = CountDownController();
-  bool messageReceived = false;
-  int timerDuration = 20;
-  late CircularCountDownTimer timer;
-
-  MqttTimer(
-      {Key? key,
-      required this.context,
-      required this.action,
-      this.card,
-      this.email,
-      this.storagename});
-
-  Future<void> startTimer() {
-    final channel = IOWebSocketChannel.connect(
-      'wss://10.0.2.2:7171/api/controller/log',
-    );
-
-    streamListener(channel);
-
-    int timestamp = 0;
+  static Future<void> startTimer(BuildContext context, TimerAction action,
+      ReaderCard? card, String? email, String? storagename) {
+    i = 0;
     _successful = false;
 
     return showDialog(
@@ -54,7 +37,7 @@ class MqttTimer {
                 Align(
                     alignment: Alignment.center,
                     child: CircularCountDownTimer(
-                      duration: timerDuration,
+                      duration: 20,
                       initialDuration: 0,
                       controller: timerController,
                       width: MediaQuery.of(context).size.width / 2,
@@ -77,33 +60,26 @@ class MqttTimer {
                       isTimerTextShown: true,
                       autoStart: true,
                       onComplete: (() {
-                        var snackBar;
-                        if (_successful) {
-                          snackBar = SnackBar(
-                              elevation: 0,
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.transparent,
-                              content: AwesomeSnackbarContent(
-                                title: 'Karte wird heruntergelassen!',
-                                message: '',
-
-                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                contentType: ContentType.success,
-                              ));
-                        } else {
-                          snackBar = SnackBar(
-                              elevation: 0,
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.transparent,
-                              content: AwesomeSnackbarContent(
-                                title: 'Etwas ist schiefgelaufen!',
-                                message: _responseData.toString(),
-
-                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                contentType: ContentType.failure,
-                              ));
+                        if (i == 0) {
+                          i++;
+                          if (card != null) {
+                            if (_successful) {
+                              SnackbarBuilder.build(SnackbarType.Karten,
+                                  context, _successful, _responseData);
+                            } else {
+                              SnackbarBuilder.build(SnackbarType.Karten,
+                                  context, _successful, _responseData);
+                            }
+                          } else if (storagename != null) {
+                            if (_successful) {
+                              SnackbarBuilder.build(SnackbarType.User, context,
+                                  _successful, _responseData);
+                            } else {
+                              SnackbarBuilder.build(SnackbarType.User, context,
+                                  _successful, _responseData);
+                            }
+                          }
                         }
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         try {
                           Navigator.of(context).maybePop();
                         } catch (e) {}
@@ -114,15 +90,14 @@ class MqttTimer {
                           var response =
                               await Data.postGetCardNow(card!, email!);
                           if (response.statusCode != 200) {
-                            cancel();
+                            Navigator.maybePop(context);
                           }
                         } else if (action == TimerAction.SIGNUP) {
                           var response = await Data.postCreateNewUser(
                               email!, storagename!);
 
                           if (response.statusCode != 200) {
-                            sleep(Duration(seconds: 1));
-                            cancel();
+                            Navigator.maybePop(context);
                           }
                         }
                       },
@@ -151,27 +126,23 @@ class MqttTimer {
         });
   }
 
-  bool getSuccessful() {
+  static bool getSuccessful() {
     return _successful;
   }
 
-  Map getResponse() {
+  static Map getResponse() {
     return _responseData ?? {"Error": "No Message received"};
   }
 
-  void cancel() {
-    Navigator.pop(context);
-  }
-
-  streamListener(IOWebSocketChannel channel) {
+  static streamListener(IOWebSocketChannel channel) {
     channel.stream.listen((message) async {
-      channel.sink.close();
       _responseData = jsonDecode(message);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
-
-      await channel.sink.close();
+      _timerType = _TimerType.Breaktimer;
       timerController.restart(duration: 0);
     });
   }
 }
+
+enum _TimerType { InitTimer, Breaktimer }

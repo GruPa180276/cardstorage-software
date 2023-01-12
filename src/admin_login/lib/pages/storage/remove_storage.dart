@@ -1,3 +1,4 @@
+import 'package:admin_login/pages/widget/reloadbutton.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/provider/types/storages.dart';
@@ -49,9 +50,16 @@ class HomePageState extends State<RemoveStorage> {
     loadData();
   }
 
+  void reload() {
+    setState(() {
+      loadData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: GenerateReloadButton(this.reload),
       appBar: AppBar(
         title: Text("Storages entfernen",
             style:

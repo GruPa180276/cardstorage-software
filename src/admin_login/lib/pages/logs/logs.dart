@@ -1,72 +1,47 @@
 import 'package:flutter/material.dart';
-
-import 'package:admin_login/pages/widget/appbar.dart';
-import 'package:admin_login/config/adress.dart' as adres;
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
 
 class Logs extends StatefulWidget {
-  const Logs({Key? key}) : super(key: key);
+  WebSocketChannel channel =
+      IOWebSocketChannel.connect("wss://192.168.0.173:7171/api/controller/log");
 
   @override
-  State<Logs> createState() => _LogsState();
+  MyHomePageState createState() {
+    return MyHomePageState();
+  }
 }
 
-class _LogsState extends State<Logs> {
-  final channelControler =
-      WebSocketChannel.connect(Uri.parse(adres.wssControler));
-  final channelCard = WebSocketChannel.connect(Uri.parse(adres.wssCard));
-  final channelStorage = WebSocketChannel.connect(Uri.parse(adres.wssStorage));
-  final channelUser = WebSocketChannel.connect(Uri.parse(adres.wssUser));
-  final channelReservation =
-      WebSocketChannel.connect(Uri.parse(adres.wssReservation));
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class MyHomePageState extends State<Logs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppBar(context),
-      body: Container(
-          child: Column(
-        children: [
-          StreamBuilder(
-            stream: channelControler.stream,
-            builder: (context, snapshot) {
-              return Text(snapshot.hasData ? '${snapshot.data}' : '');
-            },
-          ),
-          StreamBuilder(
-            stream: channelCard.stream,
-            builder: (context, snapshot) {
-              return Text(snapshot.hasData ? '${snapshot.data}' : '');
-            },
-          ),
-          StreamBuilder(
-            stream: channelUser.stream,
-            builder: (context, snapshot) {
-              return Text(snapshot.hasData ? '${snapshot.data}' : '');
-            },
-          ),
-          StreamBuilder(
-            stream: channelReservation.stream,
-            builder: (context, snapshot) {
-              return Text(snapshot.hasData ? '${snapshot.data}' : '');
-            },
-          )
-        ],
-      )),
+      appBar: AppBar(
+        title: Text("Web Socket"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            StreamBuilder(
+              stream: widget.channel.stream,
+              builder: (context, snapshot) {
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
+                );
+              },
+            )
+          ],
+        ),
+      ),
     );
   }
 
   @override
   void dispose() {
-    channelControler.sink.close();
-    channelCard.sink.close();
-    channelUser.sink.close();
-    channelReservation.sink.close();
+    widget.channel.sink.close();
     super.dispose();
   }
 }

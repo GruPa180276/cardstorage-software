@@ -1,3 +1,4 @@
+import 'package:admin_login/pages/widget/reloadbutton.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/appbar.dart';
@@ -21,10 +22,17 @@ class _StatusViewState extends State<StatusView> {
     futureData = fetchData();
   }
 
+  void reload() {
+    setState(() {
+      futureData = fetchData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: generateAppBar(context),
+        floatingActionButton: GenerateReloadButton(this.reload),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(children: [

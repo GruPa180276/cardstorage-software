@@ -23,7 +23,7 @@ class GenerateReloadButton extends StatelessWidget {
                 callBack();
               },
               child: Icon(
-                Icons.clear,
+                Icons.refresh,
                 color: Theme.of(context).focusColor,
               ),
             ),

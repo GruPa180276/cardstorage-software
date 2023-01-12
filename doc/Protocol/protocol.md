@@ -266,6 +266,9 @@ Habe heute die Bugs der Status Seite behoben. Weiters habe ich die Filter Funkti
 **11.1.2023: 17:00 bis 20:00** <br>
 Habe heute die Methode des Focus von GET auf PUT geändert. Danach habe ich delete Seite der Karten und des Storages fertiggestellt. Weiters habe ich noch einen Refresh Button eingebaut. Zuletzt habe ich den focus Zustand des Storages noch hinzugefügt. (3h)
 
+**12.1.2023: 16:30 bis 18:30** <br>
+Habe heute reload buttons auf allen Seiten hinzugefügt. Danach habe ich versucht die WSS zu implmentieren, habe es jedoch nicht geschafft. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -343,4 +346,5 @@ Habe heute die Methode des Focus von GET auf PUT geändert. Danach habe ich dele
 - 12:00 bis 13:30 Uhr
 - 16:00 bis 20:00 Uhr
 - 17:00 bis 20:00 Uhr
+- 16:30 bis 18:30 Uhr
 <!-- { "progress": false } -->

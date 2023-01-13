@@ -50,6 +50,7 @@ var (
 	API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER string = `/storages/cards/name/{name:` + cardNamePattern + `}/fetch`
 	API_STORAGES_CARDS_WS_LOG                         string = `/storages/cards/log`
 	API_RESERVATIONS                                  string = `/storages/cards/reservations`
+	API_RESERVATIONS_DETAILED                         string = `/storages/cards/reservations/details`
 	API_RESERVATIONS_FILTER_CARD                      string = `/storages/cards/reservations/card/{name:` + cardNamePattern + `}`
 	API_RESERVATIONS_FILTER_ID                        string = `/storages/cards/reservations/id/{id:` + reservationIdPattern + `}`
 	API_RESERVATIONS_WS_LOG                           string = `/reservations/log`

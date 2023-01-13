@@ -27,6 +27,7 @@ func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
 	s := meridian.StaticHttpReporter{ErrorHandlerFactory(self.Logger, self.ReservationLogChannel), SuccessHandlerFactory(self.Logger)}
 
 	router.HandleFunc(paths.API_RESERVATIONS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_DETAILED, s.Reporter(self.GetDetailedReservations)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_RESERVATIONS_FILTER_CARD, s.Reporter(self.GetByCardHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.GetByUserHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
@@ -74,18 +75,53 @@ func (self *ReservationHandler) GetByUserHandler(res http.ResponseWriter, req *h
 		return err, nil
 	}
 
-	//if result := self.DB.Preload("User").Find(&allReservations); result.Error != nil {
-	//	return result.Error, nil
-	//}
+	// if result := self.DB.Preload("User").Find(&allReservations); result.Error != nil {
+	// 		return result.Error, nil
+	// }
 	//
-	//reservations := make([]*model.Reservation, 0)
-	//for _, r := range reservations {
-	//	if r.User.Email == email {
-	//		reservations = append(reservations, r)
-	//	}
-	//}
+	// reservations := make([]*model.Reservation, 0)
+	// for _, r := range reservations {
+	// 		if r.User.Email == email {
+	// 			 reservations = append(reservations, r)
+	// 		}
+	// }
 
 	return nil, meridian.OkayMustJson(&reservations)
+}
+
+func (self *ReservationHandler) GetDetailedReservations(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	storages := make([]*model.Storage, 0)
+	if err := self.DB.
+		Preload("Cards").
+		Preload("Cards.Reservations").
+		Preload("Cards.Reservations.User").
+		Find(&storages).Error; err != nil {
+		return err, nil
+	}
+
+	type detailedReservation struct {
+		Reservation *model.Reservation `json:"reservation"`
+		CardName    string             `json:"cardName"`
+		StorageName string             `json:"storageName"`
+	}
+
+	dreservations := make([]detailedReservation, 0)
+
+	for _, s := range storages {
+		for _, c := range s.Cards {
+			for _, r := range c.Reservations {
+				dreservations = append(dreservations, detailedReservation{
+					StorageName: s.Name,
+					CardName:    c.Name,
+					Reservation: &r,
+				})
+			}
+		}
+	}
+
+	self.Println("[DEBUG]: ", dreservations)
+
+	return nil, meridian.OkayMustJson(dreservations)
 }
 
 func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

@@ -28,6 +28,8 @@ func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
 
 	router.HandleFunc(paths.API_RESERVATIONS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_RESERVATIONS_DETAILED, s.Reporter(self.GetDetailedReservations)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_DETAILED_FILTER_STORAGE, s.Reporter(self.GetDetailedReservationsByStorage)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_DETAILED_FILTER_USER, s.Reporter(self.GetDetailedReservationsByUser)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_RESERVATIONS_FILTER_CARD, s.Reporter(self.GetByCardHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.GetByUserHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
@@ -89,6 +91,12 @@ func (self *ReservationHandler) GetByUserHandler(res http.ResponseWriter, req *h
 	return nil, meridian.OkayMustJson(&reservations)
 }
 
+type DetailedReservation struct {
+	Reservation *model.Reservation `json:"reservation"`
+	CardName    string             `json:"cardName"`
+	StorageName string             `json:"storageName"`
+}
+
 func (self *ReservationHandler) GetDetailedReservations(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	storages := make([]*model.Storage, 0)
 	if err := self.DB.
@@ -99,18 +107,12 @@ func (self *ReservationHandler) GetDetailedReservations(res http.ResponseWriter,
 		return err, nil
 	}
 
-	type detailedReservation struct {
-		Reservation *model.Reservation `json:"reservation"`
-		CardName    string             `json:"cardName"`
-		StorageName string             `json:"storageName"`
-	}
-
-	dreservations := make([]detailedReservation, 0)
+	dreservations := make([]*DetailedReservation, 0)
 
 	for _, s := range storages {
 		for _, c := range s.Cards {
 			for _, r := range c.Reservations {
-				dreservations = append(dreservations, detailedReservation{
+				dreservations = append(dreservations, &DetailedReservation{
 					StorageName: s.Name,
 					CardName:    c.Name,
 					Reservation: &r,
@@ -119,9 +121,40 @@ func (self *ReservationHandler) GetDetailedReservations(res http.ResponseWriter,
 		}
 	}
 
-	self.Println("[DEBUG]: ", dreservations)
+	return nil, meridian.OkayMustJson(&dreservations)
+}
+
+func (self *ReservationHandler) GetDetailedReservationsByStorage(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	storageName := mux.Vars(req)["name"]
+
+	storage := &model.Storage{}
+	if err := self.DB.
+		Preload("Cards").
+		Preload("Cards.Reservations").
+		Preload("Cards.Reservations.User").
+		Where("name = ?", storageName).
+		First(&storage).Error; err != nil {
+		return err, nil
+	}
+
+	dreservations := make([]DetailedReservation, 0)
+
+	for _, c := range storage.Cards {
+		for _, r := range c.Reservations {
+			dreservations = append(dreservations, DetailedReservation{
+				StorageName: storage.Name,
+				CardName:    c.Name,
+				Reservation: &r,
+			})
+		}
+	}
 
 	return nil, meridian.OkayMustJson(dreservations)
+}
+
+// @todo GetDetailedReservationsByUser
+func (self *ReservationHandler) GetDetailedReservationsByUser(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	return nil, meridian.Okay(util.ErrNotImplemented.Error())
 }
 
 func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

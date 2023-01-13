@@ -51,6 +51,8 @@ var (
 	API_STORAGES_CARDS_WS_LOG                         string = `/storages/cards/log`
 	API_RESERVATIONS                                  string = `/storages/cards/reservations`
 	API_RESERVATIONS_DETAILED                         string = `/storages/cards/reservations/details`
+	API_RESERVATIONS_DETAILED_FILTER_STORAGE          string = `/storages/cards/reservations/details/storage/name/{name:` + storageNamePattern + `}`
+	API_RESERVATIONS_DETAILED_FILTER_USER             string = `/storages/cards/reservations/details/user/email/{email:` + userEmailPattern + `}`
 	API_RESERVATIONS_FILTER_CARD                      string = `/storages/cards/reservations/card/{name:` + cardNamePattern + `}`
 	API_RESERVATIONS_FILTER_ID                        string = `/storages/cards/reservations/id/{id:` + reservationIdPattern + `}`
 	API_RESERVATIONS_WS_LOG                           string = `/reservations/log`

@@ -5,11 +5,12 @@ import 'package:rfidapp/provider/connection/api/uitls.dart';
 import 'dart:async';
 
 import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/types/reservation.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
 class Data {
-  static String uriRaspi = 'https://10.0.2.2:7171/api/';
+  static String uriRaspi = 'https://192.168.82.184:7171/api/';
 
   static Future<List<ReaderCard>?> getReaderCards() async {
     try {
@@ -46,6 +47,22 @@ class Data {
       });
 
       return response;
+    } catch (e) {}
+  }
+
+  static Future<List<Reservation>?> getAllReservationUser() async {
+    try {
+      var cardsResponse = await get(
+          Uri.parse(
+              "${uriRaspi}storages/cards/reservations/details/storage/name/S4"),
+          headers: {"Accept": "appliction/json"});
+
+      var jsonReservation = jsonDecode(cardsResponse.body) as List;
+      List<Reservation> reservations = jsonReservation
+          .map((tagJson) => Reservation.fromJson(tagJson))
+          .toList();
+
+      return reservations;
     } catch (e) {}
   }
 

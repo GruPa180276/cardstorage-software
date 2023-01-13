@@ -6,7 +6,7 @@ class Websocket {
   static connect() {
     try {
       channel = IOWebSocketChannel.connect(
-          Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
+          Uri.parse('wss://192.168.82.184:7171/api/controller/log'));
 
       RequestTimer.streamListener(channel!);
     } catch (e) {}

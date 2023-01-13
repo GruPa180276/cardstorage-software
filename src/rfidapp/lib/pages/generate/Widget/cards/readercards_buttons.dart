@@ -26,19 +26,21 @@ class ReaderCardButtons extends StatelessWidget {
                 child: CardButton(
                     text: 'Jetzt holen',
                     onPress: () async {
-                      await RequestTimer.startTimer(
-                          context,
-                          TimerAction.GETCARD,
-                          card,
-                          await UserSecureStorage.getUserEmail(),
-                          null);
-                      if (RequestTimer.getSuccessful()) {
-                        setState!(
-                          () {
-                            this.card.available = false;
-                          },
-                        );
-                      }
+                      try {
+                        await RequestTimer.startTimer(
+                            context,
+                            TimerAction.GETCARD,
+                            card,
+                            await UserSecureStorage.getUserEmail(),
+                            null);
+                        if (RequestTimer.getSuccessful()) {
+                          setState!(
+                            () {
+                              this.card.available = false;
+                            },
+                          );
+                        }
+                      } catch (e) {}
                     }),
               )
             ],

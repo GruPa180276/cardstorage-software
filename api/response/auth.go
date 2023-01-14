@@ -1,19 +1,9 @@
 package response
 
 import (
-	"fmt"
 	"log"
-	"net/http"
-	"os"
-	"strconv"
 	"sync"
 
-	"github.com/gorilla/mux"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/auth"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
-	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util"
 	"gorm.io/gorm"
 )
 
@@ -24,9 +14,10 @@ type AuthenticationHandler struct {
 	Tokens         *sync.Map
 }
 
+/*
 func (self *AuthenticationHandler) RegisterHandlers(router *mux.Router) {
 	ignored := make(chan string)
-	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, ignored), SuccessHandler: SuccessHandlerFactory(self.Logger, ignored)}
+	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, ignored), SuccessHandler: SuccessHandlerFactory(self.Logger)}
 	router.HandleFunc(paths.API_AUTHENTICATE_USER, r.Reporter(self.AuthHandler)).Methods("POST")
 }
 
@@ -46,3 +37,4 @@ func (self *AuthenticationHandler) AuthHandler(res http.ResponseWriter, req *htt
 		util.Must(strconv.Atoi(os.Getenv("API_AUTH_TOKEN_VALID_FOR_HOURS"))).(uint),
 		os.Getenv("API_AUTH_TOKEN_SECRET"))
 }
+*/

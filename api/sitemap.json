@@ -13,12 +13,15 @@
 		"/api/storages",
 		"/api/storages/name/NAME",
 		"/api/storages/ping/name/NAME",
-		"/api/storages/focus/name/NAME",
+		"/api/storages/focus",
 		"/api/storages/log",
 		"/api/users",
 		"/api/users/email/USER@PROVIDER.COM",
 		"/api/users/log",
 		"/api/storages/cards/reservations",
+		"/api/storages/cards/reservations/details",
+		"/api/storages/cards/reservations/details/storage/name/NAME",
+		"/api/storages/cards/reservations/details/user/email/USER@PROVIDER.COM",
 		"/api/storages/cards/reservations/card/NAME",
 		"/api/users/reservations/email/USER@PROVIDER.COM",
 		"/api/reservations/log"
@@ -37,6 +40,7 @@
 		"/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
 		"/api/storages/cards/name/NAME/fetch",
 		"/api/storages/name/NAME",
+		"/api/storages/focus/name/NAME",
 		"/api/users/email/USER@PROVIDER.COM",
 		"/api/storages/cards/reservations/id/000"
 	]

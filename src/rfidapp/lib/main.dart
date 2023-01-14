@@ -13,9 +13,8 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   late String? rememberState;
+  Data.getAllReservationUser();
   HttpOverrides.global = MyHttpOverrides();
-  Websocket.connect();
-  await Data.getAllReservationUser();
   await UserSecureStorage.getRememberState()
       .then((value) => rememberState = value ?? 'false');
 

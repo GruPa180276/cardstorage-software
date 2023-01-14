@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_site.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
 import 'package:rfidapp/domain/enums/timer_actions.dart';
-import 'package:rfidapp/pages/generate/api_data_visualize.dart';
+import 'package:rfidapp/pages/generate/visualize/cards_visualize.dart';
 import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/readercard.dart';

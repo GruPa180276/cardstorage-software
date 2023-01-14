@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
-import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
-import 'package:rfidapp/pages/generate/widget/cards/readercards_buttons.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
 
-class FavoriteView extends StatelessWidget {
-  List<ReaderCard> cards;
+import 'package:rfidapp/provider/types/reservation.dart';
+
+class ReservationView extends StatelessWidget {
+  List<Reservation> cards;
   BuildContext context;
-  Set<String> pinnedCards;
-  Function reloadPinned;
-  String searchstring;
-  void Function() reloadCard;
 
-  FavoriteView({
+  String searchstring;
+
+  ReservationView({
     Key? key,
     required this.cards,
     required this.context,
-    required this.pinnedCards,
-    required this.reloadPinned,
     required this.searchstring,
-    required this.reloadCard,
   });
 
   @override
@@ -30,29 +23,7 @@ class FavoriteView extends StatelessWidget {
             itemCount: cards.length,
             itemBuilder: (context, index) {
               bool card = false;
-
-              if (pinnedCards.isEmpty && index == cards.length - 1) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height / 2 - 200,
-                        horizontal: 0),
-                    child: Text(
-                      'Sie haben keine Favoriten ;)',
-                      style: TextStyle(
-                          color: Theme.of(context).dividerColor, fontSize: 20),
-                    ),
-                  ),
-                );
-              }
-              for (String id in pinnedCards) {
-                card = (cards[index].name.toString() == id);
-                if (card) {
-                  break;
-                }
-              }
-
+              card = cards[index].cardName!.contains(searchstring);
               return card
                   ? Card(
                       elevation: 0,
@@ -67,72 +38,70 @@ class FavoriteView extends StatelessWidget {
                           ),
                           _buildCardsText(context, cards[index]),
                         ]),
-                        ReaderCardButtons(
-                          key: key,
-                          card: cards[index],
-                          reloadCard: reloadPinned,
-                        )
+                        _buildBottomCards()
                       ]))
                   : Container();
             }),
       );
 
-  Widget _buildCardsText(BuildContext context, ReaderCard card) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-          child: Table(
-            //border: TableBorder.all(),
+  Widget _buildCardsText(BuildContext context, Reservation card) {
+    return Expanded(
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+            child: Table(
+              //border: TableBorder.all(),
 
-            columnWidths: const <int, TableColumnWidth>{
-              0: FixedColumnWidth(150),
-              1: FixedColumnWidth(100),
-            },
+              columnWidths: const <int, TableColumnWidth>{
+                0: FractionColumnWidth(0.59),
+                1: FractionColumnWidth(0.4),
+              },
 
-            children: [
-              TableRow(
-                children: [
-                  const TableCell(child: Text("Name:")),
-                  TableCell(child: Text(card.name))
-                ],
-              ),
-              TableRow(
-                children: [
-                  const TableCell(child: Text("Storage:")),
-                  TableCell(child: Text(card.storageName!))
-                ],
-              ),
-              TableRow(
-                children: [
-                  const TableCell(child: Text("Verfuegbar:")),
-                  TableCell(
-                    child: Text(
-                      card.available.toString(),
-                      style: TextStyle(
-                          color: (!card.available) ? Colors.red : Colors.green,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-              TableRow(
-                children: [
-                  const TableCell(child: Text("Position:")),
-                  TableCell(
-                    child: Text(
-                      card.position.toString(),
-                    ),
-                  )
-                ],
-              ),
-            ],
+              children: [
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Name:")),
+                    TableCell(child: Text(card.cardName!))
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Storage:")),
+                    TableCell(child: Text(card.storageName!))
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Von:")),
+                    TableCell(
+                      child: Text(
+                        card.since.toString(),
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    )
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Bis:")),
+                    TableCell(
+                      child: Text(
+                        card.since.toString(),
+                        style: TextStyle(color: Colors.green),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        FavoriteButton(
-            card: card, reloadPinned: reloadPinned, pinnedCards: pinnedCards),
-        EmailButton(card: card)
-      ],
+        ],
+      ),
     );
+  }
+
+  Widget _buildBottomCards() {
+    return Container();
   }
 }

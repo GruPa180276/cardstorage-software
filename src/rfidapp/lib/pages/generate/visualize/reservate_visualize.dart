@@ -2,28 +2,29 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_site.dart';
 import 'package:rfidapp/pages/generate/views/favorite_view.dart';
+import 'package:rfidapp/pages/generate/views/reservate_view.dart';
 import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
+import 'package:rfidapp/provider/connection/websocket.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/types/reservation.dart';
 
 // ignore: must_be_immutable
-class ApiVisualizer extends StatefulWidget {
+class ReservationVisualizer extends StatefulWidget {
   CardPageTypes site;
-  ApiVisualizer({super.key, required this.site});
+  ReservationVisualizer({super.key, required this.site});
 
   @override
   // ignore: no_logic_in_create_state
-  State<ApiVisualizer> createState() => _ApiVisualizerState(site: site);
+  State<ReservationVisualizer> createState() =>
+      _ReservationVisualizerState(site: site);
 }
 
-class _ApiVisualizerState extends State<ApiVisualizer> {
-  _ApiVisualizerState({required this.site});
-  late Future<List<ReaderCard>?> defaultReaderCards;
-  late Future<List<ReaderCard>?> modifiedReaderCards;
-  Set<String>? pinnedCards;
+class _ReservationVisualizerState extends State<ReservationVisualizer> {
+  _ReservationVisualizerState({required this.site});
+  late Future<List<Reservation>?> reservations;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String searchString = "";
@@ -33,28 +34,13 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   @override
   void initState() {
     super.initState();
+    Websocket.connect();
     reloadReaderCards();
-    reloadPinnedList();
-  }
-
-  void reloadPinnedList() {
-    setState(() {
-      pinnedCards = AppPreferences.getCardsPinned();
-    });
   }
 
   void reloadReaderCards() {
     setState(() {
-      pinnedCards = AppPreferences.getCardsPinned();
-
-      defaultReaderCards = Data.getReaderCards();
-      modifiedReaderCards = defaultReaderCards;
-    });
-  }
-
-  void setReaderCards(Future<List<ReaderCard>?> newStorageList) {
-    setState(() {
-      modifiedReaderCards = newStorageList;
+      reservations = Data.getAllReservationUser();
     });
   }
 
@@ -81,14 +67,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                   });
                 })),
           ),
-          IconButton(
-              onPressed: () {
-                BottomSheetPop(
-                  setReaderCards: setReaderCards,
-                  defaultCards: defaultReaderCards,
-                ).buildBottomSheet(context);
-              },
-              icon: const Icon(Icons.adjust))
         ],
       );
     }
@@ -110,8 +88,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             children: [
               seachField,
               const SizedBox(height: 10),
-              FutureBuilder<List<ReaderCard>?>(
-                future: modifiedReaderCards,
+              FutureBuilder<List<Reservation>?>(
+                future: reservations,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -130,38 +108,26 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                                 fontSize: 20),
                           ),
                         );
+                      } else if (snapshot.data == null) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.of(context).size.height / 2 - 200,
+                              horizontal: 0),
+                          child: Text(
+                            'No Data',
+                            style: TextStyle(
+                                color: Theme.of(context).dividerColor,
+                                fontSize: 20),
+                          ),
+                        );
                       } else {
                         final cards = snapshot.data!;
-                        switch (site) {
-
-                          //TODO change to required class
-                          // case CardPageTypes.Reservierungen:
-                          //   return cardsView(users, context, site, pinnedCards!,
-                          //       reloadPinnedList, searchString);
-                          case CardPageTypes.Karten:
-                            return CardView(
-                              context: context,
-                              searchstring: searchString,
-                              readercards: cards,
-                              pinnedCards: pinnedCards!,
-                              reloadPinned: reloadPinnedList,
-                              reloadCard: reloadReaderCards,
-                              setState: setState,
-                            );
-                          case CardPageTypes.Favoriten:
-                            return FavoriteView(
-                              cards: cards,
-                              context: context,
-                              pinnedCards: pinnedCards!,
-                              reloadPinned: reloadPinnedList,
-                              searchstring: searchString,
-                              reloadCard: reloadReaderCards,
-                            );
-
-                          //users.map((e) => e.cards).toList()
-                        }
+                        return ReservationView(
+                            cards: cards,
+                            context: context,
+                            searchstring: searchString);
                       }
-                      return Text("Error");
                   }
                 },
               ),

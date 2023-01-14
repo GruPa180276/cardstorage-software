@@ -27,6 +27,7 @@ class FavoriteButton extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(
             MediaQuery.of(context).size.width - 160, 0, 0, 0),
         onPressed: () {
+          print("asd");
           setState(
             () {
               if (!(pinnedCards!.contains(card.name.toString()))) {

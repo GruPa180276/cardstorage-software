@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/provider/connection/api/uitls.dart';
 import 'dart:async';
 
@@ -54,7 +55,7 @@ class Data {
     try {
       var cardsResponse = await get(
           Uri.parse(
-              "${uriRaspi}storages/cards/reservations/details/storage/name/S4"),
+              "${uriRaspi}storages/cards/reservations/details/user/email/${await UserSecureStorage.getUserEmail()}"),
           headers: {"Accept": "appliction/json"});
 
       var jsonReservation = jsonDecode(cardsResponse.body) as List;

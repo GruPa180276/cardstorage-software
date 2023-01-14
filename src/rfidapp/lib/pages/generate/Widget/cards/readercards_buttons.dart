@@ -26,6 +26,7 @@ class ReaderCardButtons extends StatelessWidget {
                 child: CardButton(
                     text: 'Jetzt holen',
                     onPress: () async {
+                      print("asd");
                       try {
                         await RequestTimer.startTimer(
                             context,

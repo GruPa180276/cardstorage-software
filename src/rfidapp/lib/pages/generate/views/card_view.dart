@@ -49,7 +49,6 @@ class CardView extends StatelessWidget {
                         _buildCardsText(context, readercards[index]),
                       ]),
                       ReaderCardButtons(
-                          key: key,
                           card: readercards[index],
                           reloadCard: reloadCard,
                           setState: setState)

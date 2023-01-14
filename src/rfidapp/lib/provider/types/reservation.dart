@@ -22,9 +22,9 @@ class Reservation {
       this.storageName});
 
   factory Reservation.fromJson(dynamic json) {
-    User user = User.fromJson(json["reservation"]["user"]);
-
     if (json["cardName"] == null) {
+      User user = User.fromJson(json["user"]);
+
       return Reservation(
           id: json["id"],
           isreservation: json["is-reservation"],
@@ -33,6 +33,7 @@ class Reservation {
           until: json["until"],
           user: user);
     }
+    User user = User.fromJson(json["reservation"]["user"]);
     return Reservation(
         id: json["reservation"]["id"],
         isreservation: json["reservation"]["is-reservation"],

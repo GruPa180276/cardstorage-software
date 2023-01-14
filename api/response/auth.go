@@ -45,4 +45,6 @@ func (self *AuthenticationHandler) AuthHandler(res http.ResponseWriter, req *htt
 	tok := auth.NewToken(email,
 		util.Must(strconv.Atoi(os.Getenv("API_AUTH_TOKEN_VALID_FOR_HOURS"))).(uint),
 		os.Getenv("API_AUTH_TOKEN_SECRET"))
+	
+	return nil, nil
 }

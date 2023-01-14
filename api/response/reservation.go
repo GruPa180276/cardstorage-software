@@ -154,7 +154,35 @@ func (self *ReservationHandler) GetDetailedReservationsByStorage(res http.Respon
 
 // @todo GetDetailedReservationsByUser
 func (self *ReservationHandler) GetDetailedReservationsByUser(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
-	return nil, meridian.Okay(util.ErrNotImplemented.Error())
+	email := mux.Vars(req)["email"]
+
+	// @todo return err only if err != gorm.ErrRecordNotFound
+	storages := make([]*model.Storage, 0)
+	if err := self.DB.
+		Preload("Cards").
+		Preload("Cards.Reservations").
+		Preload("Cards.Reservations.User").
+		Find(&storages).Error; err != nil {
+		return err, nil
+	}
+
+	dreservations := make([]*DetailedReservation, 0)
+
+	for _, s := range storages {
+		for _, c := range s.Cards {
+			for _, r := range c.Reservations {
+				if r.User.Email == email {
+					dreservations = append(dreservations, &DetailedReservation{
+						StorageName: s.Name,
+						CardName:    c.Name,
+						Reservation: &r,
+					})
+				}
+			}
+		}
+	}
+
+	return nil, meridian.OkayMustJson(&dreservations)
 }
 
 func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

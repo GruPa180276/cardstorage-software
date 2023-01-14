@@ -24,6 +24,7 @@ type AuthenticationHandler struct {
 	Tokens         *sync.Map
 }
 
+/*
 func (self *AuthenticationHandler) RegisterHandlers(router *mux.Router) {
 	ignored := make(chan string)
 	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, ignored), SuccessHandler: SuccessHandlerFactory(self.Logger, ignored)}
@@ -48,3 +49,4 @@ func (self *AuthenticationHandler) AuthHandler(res http.ResponseWriter, req *htt
 	
 	return nil, nil
 }
+*/

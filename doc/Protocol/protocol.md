@@ -269,6 +269,9 @@ Habe heute die Methode des Focus von GET auf PUT geändert. Danach habe ich dele
 **12.1.2023: 16:30 bis 18:30** <br>
 Habe heute reload buttons auf allen Seiten hinzugefügt. Danach habe ich versucht die WSS zu implmentieren, habe es jedoch nicht geschafft. (2h)
 
+**21.1.2023: 12:45 bis 14:45** <br>
+Habe heute die Logs Seite fertiggestellt. Die Websockets werden 1 mal bei start der App verbunden und bleiben dann auch bis zum schließen verbunden. Weiters werden die Nachrichten über die gesamte Zeit, bis die App gschlossen wird, gespeichert. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

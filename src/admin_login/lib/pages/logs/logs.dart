@@ -1,47 +1,51 @@
+import 'package:admin_login/pages/widget/appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/io.dart';
 
+// ignore: must_be_immutable
 class Logs extends StatefulWidget {
-  WebSocketChannel channel =
-      IOWebSocketChannel.connect("wss://192.168.0.173:7171/api/controller/log");
+  late List<String> messages;
+  late Function handle;
+
+  Logs({
+    required this.messages,
+    required this.handle,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  MyHomePageState createState() {
-    return MyHomePageState();
-  }
+  _MultiWebSocketsState createState() => _MultiWebSocketsState();
 }
 
-class MyHomePageState extends State<Logs> {
+class _MultiWebSocketsState extends State<Logs> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Web Socket"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            StreamBuilder(
-              stream: widget.channel.stream,
-              builder: (context, snapshot) {
-                return Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
-                );
-              },
+        appBar: generateAppBar(context),
+        body: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: widget.messages.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(widget.messages[index]),
+                      ));
+                },
+              ),
             )
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    widget.channel.sink.close();
-    super.dispose();
+          ]),
+        ));
   }
 }

@@ -5,7 +5,7 @@ String storageAdress = adress + "/api/storages";
 String cardAdress = adress + "/api/storages/cards";
 String pingAdress = adress + "/api/storages";
 
-String wssCard = wss + "/api/cards/log";
+String wssCard = wss + "/api/storages/cards/log";
 String wssStorage = wss + "/api/storages/log";
 String wssReservation = wss + "/api/reservations/log";
 String wssControler = wss + "/api/controller/log";

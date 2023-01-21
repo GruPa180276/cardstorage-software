@@ -64,6 +64,7 @@ class _StorageViewState extends State<StorageView> {
   }
 }
 
+// ignore: must_be_immutable
 class ListCardStorages extends StatefulWidget {
   Future<List<Storages>> storages;
 

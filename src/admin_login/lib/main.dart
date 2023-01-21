@@ -10,7 +10,6 @@ import 'package:admin_login/routes.dart';
 import 'package:admin_login/provider/theme/themes.dart';
 import 'package:admin_login/config/theme/app_preference.dart';
 import 'package:admin_login/pages/navigation/bottom_navigation.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -31,18 +30,7 @@ Future main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
-  final channel = WebSocketChannel.connect(
-    Uri.parse('wss://192.168.0.173:7171/api/controller/log'),
-  );
-
-  channel.stream.listen(
-    (data) {
-      print(data);
-    },
-    onError: (error) => print(error),
-  );
-
-  runApp(const AppStart());
+  runApp(AppStart());
 }
 
 // Change app icon -> pubsec.yaml
@@ -70,7 +58,7 @@ class AppStart extends StatelessWidget {
             theme: MyThemes.lightTheme,
             darkTheme: MyThemes.darkTheme,
             debugShowCheckedModeBanner: false,
-            home: const SplashScreen(),
+            home: SplashScreen(),
             onGenerateRoute: RouteGenerator.generateRoute,
           );
         });
@@ -89,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        const Duration(seconds: 3),
+        Duration(seconds: 3),
         () => Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => BottomNavigation())));
   }

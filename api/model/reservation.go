@@ -6,7 +6,7 @@ import (
 )
 
 type Reservation struct {
-	ReservationID uint      `json:"id"             gorm:"primaryKey"`
+	ReservationID uint      `json:"id"             gorm:"primaryKey;column:reservation_id"`
 	UserID        uint      `json:"-"              gorm:"column:user_id"`
 	User          User      `json:"user"`
 	Since         time.Time `json:"since"          gorm:"not null"`

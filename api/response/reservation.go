@@ -264,7 +264,7 @@ func (self *ReservationHandler) CreateHandler(res http.ResponseWriter, req *http
 
 func (self *ReservationHandler) DeleteHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	id, _ := strconv.Atoi(mux.Vars(req)["id"])
-	if result := self.DB.Where("id = ?", id).Delete(&model.Reservation{}); result.Error != nil || result.RowsAffected == 0 {
+	if result := self.DB.Where("reservation_id = ?", id).Delete(&model.Reservation{}); result.Error != nil || result.RowsAffected == 0 {
 		return fmt.Errorf("reservation '%d' does not exist", id), nil
 	}
 
@@ -279,7 +279,7 @@ func (self *ReservationHandler) UpdateHandler(res http.ResponseWriter, req *http
 
 	id := util.Must(strconv.Atoi(mux.Vars(req)["id"])).(int)
 	reservation := model.Reservation{}
-	if result := self.DB.Where("id = ?", id).First(&reservation); result.Error != nil || result.RowsAffected == 0 {
+	if result := self.DB.Where("reservation_id = ?", id).First(&reservation); result.Error != nil || result.RowsAffected == 0 {
 		return fmt.Errorf("reservation '%d' does not exists", id), nil
 	}
 

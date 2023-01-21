@@ -1,18 +1,24 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
+import 'package:rfidapp/provider/connection/api/data.dart';
 
 import 'package:rfidapp/provider/types/reservation.dart';
 
 class ReservationView extends StatelessWidget {
-  List<Reservation> cards;
+  List<Reservation> reservations;
   BuildContext context;
+  final void Function(void Function()) setState;
 
   String searchstring;
 
   ReservationView({
     Key? key,
-    required this.cards,
+    required this.reservations,
     required this.context,
     required this.searchstring,
+    required this.setState,
   });
 
   @override
@@ -20,10 +26,10 @@ class ReservationView extends StatelessWidget {
         child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
-            itemCount: cards.length,
+            itemCount: reservations.length,
             itemBuilder: (context, index) {
               bool card = false;
-              card = cards[index].cardName!.contains(searchstring);
+              card = reservations[index].cardName!.contains(searchstring);
               return card
                   ? Card(
                       elevation: 0,
@@ -36,9 +42,9 @@ class ReservationView extends StatelessWidget {
                             padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                             child: Icon(Icons.credit_card_outlined, size: 35),
                           ),
-                          _buildCardsText(context, cards[index]),
+                          _buildCardsText(context, reservations[index]),
                         ]),
-                        _buildBottomCards()
+                        _buildBottomCards(context, reservations[index])
                       ]))
                   : Container();
             }),
@@ -76,7 +82,10 @@ class ReservationView extends StatelessWidget {
                     const TableCell(child: Text("Von:")),
                     TableCell(
                       child: Text(
-                        card.since.toString(),
+                        DateFormat('yyyy-MM-dd HH:mm')
+                            .format(DateTime.fromMicrosecondsSinceEpoch(
+                                card.since * 1000000))
+                            .toString(),
                         style: TextStyle(color: Colors.red),
                       ),
                     )
@@ -87,7 +96,12 @@ class ReservationView extends StatelessWidget {
                     const TableCell(child: Text("Bis:")),
                     TableCell(
                       child: Text(
-                        card.since.toString(),
+                        (card.isreservation)
+                            ? DateFormat('yyyy-MM-dd HH:mm')
+                                .format(DateTime.fromMicrosecondsSinceEpoch(
+                                    card.until * 1000000))
+                                .toString()
+                            : "In Benutzung",
                         style: TextStyle(color: Colors.green),
                       ),
                     )
@@ -101,7 +115,37 @@ class ReservationView extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomCards() {
-    return Container();
+  Widget _buildBottomCards(BuildContext context, Reservation reservation) {
+    return (reservation.isreservation)
+        ? Row(
+            children: [
+              Expanded(
+                  child: CardButton(
+                onPress: () async {
+                  var response = await Data.deleteReservation(reservation);
+                  if (response.statusCode != 200) {
+                    var snackBar = SnackBar(
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                          title: 'Etwas ist schiefgelaufen!',
+                          message: response.statusCode.toString(),
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                          contentType: ContentType.failure,
+                        ));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    setState(() {
+                      reservations.remove(reservation);
+                    });
+                  }
+                },
+                text: "Loeschen",
+              ))
+            ],
+          )
+        : SizedBox.shrink();
   }
 }

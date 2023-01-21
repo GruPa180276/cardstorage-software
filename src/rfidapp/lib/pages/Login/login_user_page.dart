@@ -7,7 +7,7 @@ import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/timer_actions.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
-import 'package:rfidapp/pages/generate/widget/request_timer.dart';
+import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
 import 'package:rfidapp/pages/login/storage_select.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
@@ -176,23 +176,27 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
               MaterialPageRoute(builder: (context) => const BottomNavigation()),
               (Route<dynamic> route) => false);
         } else {
-          //@TODO s4 hardcoded
-
           await StorageSelectPopUp.build(context);
           if (StorageSelectPopUp.getSuccessful()) {
-            await RequestTimer.startTimer(
-                context, TimerAction.SIGNUP, null, email, "S4");
+            var reqTimer = RequestTimer(
+                context: context,
+                action: TimerAction.SIGNUP,
+                email: email,
+                storagename: StorageSelectPopUp.getSelectedStorage());
+            await reqTimer.startTimer();
+
+            if (reqTimer.getSuccessful()) {
+              MicrosoftUser.setUserValues(jsonDecode(userResponse.body));
+              UserSecureStorage.setRememberState(rememberValue.toString());
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNavigation()),
+                  (Route<dynamic> route) => false);
+            }
           } else {
             print("error");
           }
-          if (RequestTimer.getSuccessful()) {
-            MicrosoftUser.setUserValues(jsonDecode(userResponse.body));
-            UserSecureStorage.setRememberState(rememberValue.toString());
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (context) => const BottomNavigation()),
-                (Route<dynamic> route) => false);
-          }
+          //removed here
         }
       } else {
         UserSecureStorage.setRememberState("false");

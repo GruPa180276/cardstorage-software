@@ -11,7 +11,7 @@ import 'package:rfidapp/provider/types/storage.dart';
 import 'package:rfidapp/provider/types/user.dart';
 
 class Data {
-  static String uriRaspi = 'https://192.168.82.184:7171/api/';
+  static String uriRaspi = 'https://10.0.2.2:7171/api/';
 
   static Future<List<ReaderCard>?> getReaderCards() async {
     try {
@@ -88,4 +88,48 @@ class Data {
           'Content-Type': 'application/json; charset=UTF-8',
         });
   }
+
+  static Future<List<Reservation>> getReservationsOfCard(
+      ReaderCard card) async {
+    https: //localhost:7171/api/storages/cards/reservations/card/Card1
+    var reservationResponse = await get(
+        Uri.parse("${uriRaspi}storages/cards/reservations/card/${card.name}"),
+        headers: {"Accept": "appliction/json"});
+
+    var jsonReservation = jsonDecode(reservationResponse.body) as List;
+    List<Reservation> reservations = jsonReservation
+        .map((tagJson) => Reservation.fromJson(tagJson))
+        .toList();
+
+    return reservations;
+  }
+
+  static Future<Response> newReservation(
+      String CardName, int since, int till) async {
+    //https://localhost:7171/api/users/reservations/email/40146720180276@litec.ac.at
+    var reservationResponse = await post(
+        Uri.parse(
+            "${uriRaspi}users/reservations/email/${await UserSecureStorage.getUserEmail()}"),
+        headers: {"Accept": "appliction/json"},
+        body: jsonEncode({
+          "card": CardName,
+          "since": since,
+          "until": till,
+          "is-reservation": true
+        }));
+
+    return reservationResponse;
+  }
+
+  static Future<Response> deleteReservation(Reservation reservation) async {
+    //https://localhost:7171/api/users/reservations/email/40146720180276@litec.ac.at
+    var reservationResponse = await delete(
+      Uri.parse("${uriRaspi}storages/cards/reservations/id/${reservation.id}"),
+      headers: {"Accept": "appliction/json"},
+    );
+
+    return reservationResponse;
+  }
+
+  ///api/users/reservations/email/USER@PROVIDER.COM
 }

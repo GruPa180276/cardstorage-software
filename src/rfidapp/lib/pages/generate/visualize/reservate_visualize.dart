@@ -1,14 +1,8 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_site.dart';
-import 'package:rfidapp/pages/generate/views/favorite_view.dart';
 import 'package:rfidapp/pages/generate/views/reservate_view.dart';
-import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/connection/websocket.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
-import 'package:rfidapp/pages/generate/views/card_view.dart';
-import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/reservation.dart';
 
 // ignore: must_be_immutable
@@ -34,7 +28,6 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
   @override
   void initState() {
     super.initState();
-    Websocket.connect();
     reloadReaderCards();
   }
 
@@ -124,9 +117,10 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
                       } else {
                         final cards = snapshot.data!;
                         return ReservationView(
-                            cards: cards,
+                            reservations: cards,
                             context: context,
-                            searchstring: searchString);
+                            searchstring: searchString,
+                            setState: setState);
                       }
                   }
                 },

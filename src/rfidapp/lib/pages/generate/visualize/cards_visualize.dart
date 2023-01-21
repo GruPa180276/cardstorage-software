@@ -2,9 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_site.dart';
 import 'package:rfidapp/pages/generate/views/favorite_view.dart';
-import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
+import 'package:rfidapp/pages/generate/pop_up/bottom_filter.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/connection/websocket.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
@@ -34,7 +33,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   @override
   void initState() {
     super.initState();
-    Websocket.connect();
     reloadReaderCards();
     reloadPinnedList();
   }

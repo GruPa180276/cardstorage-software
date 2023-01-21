@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 
-void buildDateTimePicker(String text, TextEditingController editingController,
-    BuildContext context) {
+void buildDateTimePicker(
+    TextEditingController editingController, BuildContext context) {
   DatePicker.showDateTimePicker(context,
       minTime: DateTime.now().add(const Duration(hours: 0)),
       theme: DatePickerTheme(

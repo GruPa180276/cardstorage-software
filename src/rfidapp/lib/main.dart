@@ -7,7 +7,6 @@ import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/connection/websocket.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

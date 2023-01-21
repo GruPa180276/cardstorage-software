@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
-import 'package:rfidapp/pages/generate/widget/cards/readercards_buttons.dart';
+import 'package:rfidapp/pages/generate/widget/cards/card_bottom_row.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 
 class CardView extends StatelessWidget {

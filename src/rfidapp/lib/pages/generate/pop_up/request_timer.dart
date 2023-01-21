@@ -12,20 +12,34 @@ import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
-import 'circular_timer/circular_countdown_timer.dart';
+import '../widget/circular_timer/circular_countdown_timer.dart';
 
 class RequestTimer {
-  static Map? _responseData;
-  static var timerController = CountDownController();
-  static late bool _successful = false;
-  static late _TimerType _timerType;
-  static int i = 0;
+  Map? _responseData;
+  var timerController = CountDownController();
+  late bool _successful = false;
+  late _TimerType _timerType;
+  int i = 0;
+  late IOWebSocketChannel channel;
+  final BuildContext context;
+  final TimerAction action;
+  final ReaderCard? card;
+  final String? email;
+  final String? storagename;
 
-  static Future<void> startTimer(BuildContext context, TimerAction action,
-      ReaderCard? card, String? email, String? storagename) {
+  RequestTimer(
+      {required this.context,
+      required this.action,
+      this.card,
+      this.email,
+      this.storagename});
+
+  Future<void> startTimer() async {
     i = 0;
     _successful = false;
-
+    channel = IOWebSocketChannel.connect(
+        Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
+    streamListener();
     return showDialog(
         //useRootNavigator: false,
         context: context,
@@ -126,21 +140,22 @@ class RequestTimer {
         });
   }
 
-  static bool getSuccessful() {
+  bool getSuccessful() {
     return _successful;
   }
 
-  static Map getResponse() {
+  Map getResponse() {
     return _responseData ?? {"Error": "No Message received"};
   }
 
-  static streamListener(IOWebSocketChannel channel) {
+  streamListener() {
     channel.stream.listen((message) async {
       _responseData = jsonDecode(message);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
       _timerType = _TimerType.Breaktimer;
       timerController.restart(duration: 0);
+      channel.sink.close();
     });
   }
 }

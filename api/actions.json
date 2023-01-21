@@ -1,9 +1,9 @@
 [
-	"storage-unit-new-card",
-	"storage-unit-delete-card",
-	"storage-unit-fetch-card-source-mobile",
 	"storage-unit-fetch-card-source-terminal",
 	"storage-unit-deposit-card",
 	"user-signup",
-	"storage-unit-ping"
+	"storage-unit-ping",
+	"storage-unit-new-card",
+	"storage-unit-delete-card",
+	"storage-unit-fetch-card-source-mobile"
 ]

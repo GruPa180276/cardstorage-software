@@ -96,7 +96,7 @@ func createSitemap(router *mux.Router) {
 	sitemap[http.MethodPost] = []string{}
 	sitemap[http.MethodDelete] = []string{}
 	for _, r := range routes {
-		url_ := util.Must(r.URL("name", "NAME", "email", "USER@PROVIDER.COM", "id", "000", "flag", "true")).(*url.URL)
+		url_ := util.Must(r.URL("name", "NAME", "email", "USER@PROVIDER.COM", "id", "000", "flag", "true", "hours", "1234")).(*url.URL)
 		methods := util.Must(r.GetMethods()).([]string)
 		for _, m := range methods {
 			sitemap[m] = append(sitemap[m], url_.String())

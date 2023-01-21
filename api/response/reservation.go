@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -35,6 +36,9 @@ func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
 	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
 	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_RESERVATIONS_TIME, s.Reporter(self.GetReservationTime)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_TIME_HOURS, s.Reporter(self.UpdateReservationTime)).Methods(http.MethodPut)
+
 	w := &controller.DataWrapper{self.ReservationLogChannel, self.Cond, self.Logger, self.Upgrader}
 	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
 }
@@ -302,4 +306,29 @@ func (self *ReservationHandler) UpdateHandler(res http.ResponseWriter, req *http
 	}
 
 	return nil, meridian.OkayMustJson(&reservation)
+}
+
+var reservationTimeHours atomic.Value
+
+func init() {
+	reservationTimeHours.Store(float64(0.5))
+}
+
+func (self *ReservationHandler) GetReservationTime(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	return nil, meridian.OkayMustJson(&struct {
+		ReservationTime float64 `json:"time"`
+		Unit            string  `json:"unit"`
+	}{
+		ReservationTime: reservationTimeHours.Load().(float64),
+		Unit:            "hours",
+	})
+}
+
+func (self *ReservationHandler) UpdateReservationTime(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	time, err := strconv.ParseFloat(mux.Vars(req)["hours"], 64)
+	if err != nil {
+		return err, nil
+	}
+	reservationTimeHours.Store(time)
+	return nil, meridian.Okay()
 }

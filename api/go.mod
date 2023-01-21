@@ -10,11 +10,11 @@ replace (
 	github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths => ./paths
 	github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/response => ./response
 	github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/util => ./util
+	github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/auth => ./auth
 )
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.4.3-0.20221222013113-4b066a020ef4
-	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.5.0

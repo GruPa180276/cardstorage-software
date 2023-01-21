@@ -24,6 +24,7 @@
 		"/api/storages/cards/reservations/details/user/email/USER@PROVIDER.COM",
 		"/api/storages/cards/reservations/card/NAME",
 		"/api/users/reservations/email/USER@PROVIDER.COM",
+		"/api/storages/cards/reservations/time",
 		"/api/reservations/log"
 	],
 	"POST": [
@@ -42,6 +43,7 @@
 		"/api/storages/name/NAME",
 		"/api/storages/focus/name/NAME",
 		"/api/users/email/USER@PROVIDER.COM",
-		"/api/storages/cards/reservations/id/000"
+		"/api/storages/cards/reservations/id/000",
+		"/api/storages/cards/reservations/time/hours/1234"
 	]
 }

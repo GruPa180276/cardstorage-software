@@ -14,6 +14,7 @@ const (
 	reservationIdPattern     string = `\d{1,}`
 	availabilityPattern      string = `(?:true|false)`
 	applicationOriginPattern string = `(?:mobile|terminal)`
+	reservationsTimePattern  string = `\d{1,}\.?\d*`
 )
 
 const (
@@ -51,6 +52,8 @@ var (
 	API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER string = `/storages/cards/name/{name:` + cardNamePattern + `}/fetch`
 	API_STORAGES_CARDS_WS_LOG                         string = `/storages/cards/log`
 	API_RESERVATIONS                                  string = `/storages/cards/reservations`
+	API_RESERVATIONS_TIME                             string = `/storages/cards/reservations/time`
+	API_RESERVATIONS_TIME_HOURS                       string = `/storages/cards/reservations/time/hours/{hours:` + reservationsTimePattern + `}`
 	API_RESERVATIONS_DETAILED                         string = `/storages/cards/reservations/details`
 	API_RESERVATIONS_DETAILED_FILTER_STORAGE          string = `/storages/cards/reservations/details/storage/name/{name:` + storageNamePattern + `}`
 	API_RESERVATIONS_DETAILED_FILTER_USER             string = `/storages/cards/reservations/details/user/email/{email:` + userEmailPattern + `}`

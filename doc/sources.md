@@ -88,3 +88,5 @@
 - https://www.geeksforgeeks.org/alert-dialog-box-in-flutter/
 - https://www.fluttercampus.com/guide/194/how-to-convert-string-to-int-double-in-dart-flutter/
 - https://flutter-tutorial.com/flutter-listview-search-tutorial
+- https://stackoverflow.com/questions/50252569/vertical-viewport-was-given-unbounded-height
+- https://stackoverflow.com/questions/51579546/how-to-format-datetime-in-flutter

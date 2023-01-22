@@ -272,6 +272,12 @@ Habe heute reload buttons auf allen Seiten hinzugefügt. Danach habe ich versuch
 **21.1.2023: 12:45 bis 14:45** <br>
 Habe heute die Logs Seite fertiggestellt. Die Websockets werden 1 mal bei start der App verbunden und bleiben dann auch bis zum schließen verbunden. Weiters werden die Nachrichten über die gesamte Zeit, bis die App gschlossen wird, gespeichert. (2h)
 
+**22.1.2023: 10:00 bis 11:30** <br>
+Habe begonnen, die Reservierungen in der App zu implementieren (1h 30min)
+
+**22.1.2023: 12:30 bis 15:00** <br>
+Dann bin ich auf ein Problem gestoßen, das die Reservierungen nicht richtig angezeigt werden. Konnte ich dann durch einen verschachtelten ListView Builder lösen. (2h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -350,4 +356,6 @@ Habe heute die Logs Seite fertiggestellt. Die Websockets werden 1 mal bei start 
 - 16:00 bis 20:00 Uhr
 - 17:00 bis 20:00 Uhr
 - 16:30 bis 18:30 Uhr
+- 10:00 bis 11:30 Uhr
+- 12:30 bis 15:00 Uhr
 <!-- { "progress": false } -->

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_login/pages/logs/logs.dart';
+import 'package:admin_login/pages/log/logs.dart';
 import 'package:admin_login/pages/card/cards.dart';
 import 'package:admin_login/pages/status/status.dart';
 import 'package:admin_login/pages/storage/storage.dart';

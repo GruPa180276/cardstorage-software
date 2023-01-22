@@ -15,6 +15,7 @@ AppBar generateAppBar(BuildContext context) {
         )),
     actions: [
       generateIconButton(context, Icons.settings, "/settings"),
+      generateIconButton(context, Icons.bookmark, "/reservations"),
       generateIconButton(context, Icons.logout, ""),
     ],
   );

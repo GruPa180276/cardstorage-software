@@ -155,12 +155,6 @@ class ListCards extends StatefulWidget {
 
 class _ListCardsState extends State<ListCards> {
   @override
-  void initState() {
-    super.initState();
-    widget.cards = storage.fetchData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder<List<Storages>>(

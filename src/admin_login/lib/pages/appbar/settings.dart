@@ -25,7 +25,7 @@ class _SettingsPageState extends State<Settings> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            "Karte hinzufügen",
+            "Einstellungen",
             style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
           ),
           backgroundColor: Theme.of(context).secondaryHeaderColor,

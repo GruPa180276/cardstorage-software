@@ -18,14 +18,14 @@ class Storages {
 
   factory Storages.fromJson(Map<String, dynamic> json) {
     var tagObjsJson = json['cards'] as List;
-    List<Cards> _users =
+    List<Cards> _cards =
         tagObjsJson.map((tagJson) => Cards.fromJson(tagJson)).toList();
 
     return Storages(
         name: json['name'] ?? "",
         location: json['location'] ?? 0,
         numberOfCards: json['capacity'] ?? 0,
-        cards: _users);
+        cards: _cards);
   }
   Map<String, dynamic> toJson() => {
         'name': name,

@@ -26,21 +26,19 @@ class _AddStorageState extends State<AddStorage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              "Storage hinzufügen",
-              style:
-                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-            ),
-            backgroundColor: Theme.of(context).secondaryHeaderColor,
-            actions: []),
-        body: SingleChildScrollView(
-          child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Column(
-                children: [InputFields()],
-              )),
-        ));
+      appBar: AppBar(
+          title: Text(
+            "Storage hinzufügen",
+            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+          ),
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+          actions: []),
+      body: Container(
+          padding: EdgeInsets.only(top: 10),
+          child: Column(
+            children: [InputFields()],
+          )),
+    );
   }
 }
 

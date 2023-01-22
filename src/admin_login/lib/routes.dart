@@ -8,6 +8,8 @@ import 'package:admin_login/pages/storage/add_storage.dart';
 import 'package:admin_login/pages/storage/alter_storage.dart';
 import 'package:admin_login/pages/storage/remove_storage.dart';
 
+import 'package:admin_login/pages/reservation/reservations.dart';
+
 import 'package:admin_login/pages/status/status_storage.dart';
 
 import 'package:admin_login/pages/appbar/settings.dart';
@@ -43,6 +45,10 @@ class RouteGenerator {
       //Settings
       case '/settings':
         return MaterialPageRoute(builder: ((context) => Settings()));
+
+      //Reservations
+      case '/reservations':
+        return MaterialPageRoute(builder: ((context) => Reservations()));
 
       //Status
       case '/status':

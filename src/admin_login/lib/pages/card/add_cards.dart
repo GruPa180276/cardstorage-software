@@ -23,21 +23,19 @@ class _AddCardsState extends State<AddCards> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              "Karte hinzufügen",
-              style:
-                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-            ),
-            backgroundColor: Theme.of(context).secondaryHeaderColor,
-            actions: []),
-        body: SingleChildScrollView(
-          child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Column(
-                children: [GenerateInputFields()],
-              )),
-        ));
+      appBar: AppBar(
+          title: Text(
+            "Karte hinzufügen",
+            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+          ),
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+          actions: []),
+      body: Container(
+          padding: EdgeInsets.only(top: 10),
+          child: Column(
+            children: [GenerateInputFields()],
+          )),
+    );
   }
 }
 

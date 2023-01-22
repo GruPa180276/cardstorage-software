@@ -40,7 +40,7 @@ func (self *CardHandler) RegisterHandlers(router *mux.Router) {
 
 func (self *CardHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	cards := make([]*model.Card, 0)
-	if err := self.DB.Preload("Reservations").Find(&cards).Error; err != nil {
+	if err := self.DB.Preload("Reservations").Preload("Reservations.User").Find(&cards).Error; err != nil {
 		return err, nil
 	}
 
@@ -50,7 +50,7 @@ func (self *CardHandler) GetAllHandler(res http.ResponseWriter, req *http.Reques
 func (self *CardHandler) GetByNameHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	name := mux.Vars(req)["name"]
 	card := model.Card{}
-	if err := self.DB.Preload("Reservations").Where("name = ?", name).First(&card).Error; err != nil {
+	if err := self.DB.Preload("Reservations").Preload("Reservations.User").Where("name = ?", name).First(&card).Error; err != nil {
 		return err, nil
 	}
 

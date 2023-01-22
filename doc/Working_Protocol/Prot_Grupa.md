@@ -330,10 +330,19 @@ Aufgrund eines Problem mit dem Circular Timer wurde das Package heruntergeladen 
 **2023-01-10: 10:00-> 11:00**
 Umprogrammierung des Websocket, das proStart der App eine Verbindung gestartet wir und nicht durchgehen
 
-**2023-01-11: 11:00-> 12:00**
+**2023-01-11: 8:15-> 12:00**
 Umprogrammierung des Websocket, das proStart der App eine Verbindung gestartet wir und nicht durchgehen und umprogrammieren in ein responsive Programm
 
 
+**2023-01-13: 13:00-> 17:00**
+Tag der offenen Tuer
+
+**2023-01-14: 08:15-> 13:00**
+Tag der offenen Tuer
+
+
+**2023-01-21: 14:00-> 18:00**
+Implementation des Reservierungsystems
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -423,5 +432,8 @@ Umprogrammierung des Websocket, das proStart der App eine Verbindung gestartet w
 - 10:00 bis 12:00 Uhr
 - 10:00 bis 11:00 Uhr
 - 11:00 bis 12:00 Uhr
+- 13:00 bis 17:00 Uhr
+- 08:15 bis 13:00 Uhr
+- 14:00 bis 18:00 Uhr
 <!-- { "progress": false } -->
 

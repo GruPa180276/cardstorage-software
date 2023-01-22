@@ -63,7 +63,7 @@ class ReaderCardButtons extends StatelessWidget {
                           if (reqTimer.getSuccessful()) {
                             setState!(
                               () {
-                                this.card.available = false;
+                                card.available = false;
                               },
                             );
                           }

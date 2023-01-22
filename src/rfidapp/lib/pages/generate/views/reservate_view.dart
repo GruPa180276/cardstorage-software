@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rfidapp/domain/local_notification.dart';
 import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
 
@@ -137,9 +138,22 @@ class ReservationView extends StatelessWidget {
                         ));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   } else {
+                    var snackBar = SnackBar(
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                          title: 'Reservierung wurde geloescht!',
+                          message: "",
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                          contentType: ContentType.success,
+                        ));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     setState(() {
                       reservations.remove(reservation);
                     });
+                    LocalNotificationService.cancel(reservation.since);
                   }
                 },
                 text: "Loeschen",

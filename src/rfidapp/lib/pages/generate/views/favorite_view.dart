@@ -17,6 +17,7 @@ class FavoriteView extends StatelessWidget {
   Function reloadPinned;
   String searchstring;
   void Function() reloadCard;
+  final void Function(void Function()) setState;
 
   FavoriteView({
     Key? key,
@@ -26,6 +27,7 @@ class FavoriteView extends StatelessWidget {
     required this.reloadPinned,
     required this.searchstring,
     required this.reloadCard,
+    required this.setState,
   });
 
   @override
@@ -45,9 +47,9 @@ class FavoriteView extends StatelessWidget {
                         vertical: MediaQuery.of(context).size.height / 2 - 200,
                         horizontal: 0),
                     child: Text(
-                      'Sie haben keine Favoriten ;)',
+                      'Sie haben keine Favoriten',
                       style: TextStyle(
-                          color: Theme.of(context).dividerColor, fontSize: 20),
+                          color: Theme.of(context).cardColor, fontSize: 20),
                     ),
                   ),
                 );
@@ -77,6 +79,7 @@ class FavoriteView extends StatelessWidget {
                           key: key,
                           card: cards[index],
                           reloadCard: reloadPinned,
+                          setState: setState,
                         )
                       ]))
                   : Container();

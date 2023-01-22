@@ -19,8 +19,7 @@ class ReservationPopUp {
   ReservationPopUp(this.context, this.card);
 
   Future<void> build() async {
-    service = LocalNotificationService();
-    service!.intialize();
+    await LocalNotificationService.intialize();
     listenToNotification();
 
     vonTextEdidtingcontroller.clear;
@@ -156,9 +155,11 @@ class ReservationPopUp {
                         .millisecondsSinceEpoch ~/
                     1000);
             if (response.statusCode == 200) {
-              await service!.showScheduledNotification(
+              await LocalNotificationService.showScheduledNotification(
                   dateTime: DateTime.parse(vonTextEdidtingcontroller.text),
-                  id: 1,
+                  id: DateTime.parse(vonTextEdidtingcontroller.text)
+                          .millisecondsSinceEpoch ~/
+                      1000,
                   title: 'Reservierung',
                   body: 'Reservierung ${card.name}');
 
@@ -171,8 +172,6 @@ class ReservationPopUp {
                   content: AwesomeSnackbarContent(
                     title: 'Etwas ist schiefgelaufen!',
                     message: response.statusCode.toString(),
-
-                    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
                     contentType: ContentType.failure,
                   ));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -191,7 +190,8 @@ class ReservationPopUp {
   }
 
   void listenToNotification() =>
-      service!.onNotificationClick.stream.listen(onNoticationListener);
+      LocalNotificationService.onNotificationClick.stream
+          .listen(onNoticationListener);
 
   void onNoticationListener(String? payload) {
     if (payload != null && payload.isNotEmpty) {}

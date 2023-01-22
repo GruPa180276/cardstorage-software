@@ -127,8 +127,8 @@ class BottomSheetPop {
                             }
                             return value!
                                 .where((element) =>
-                                    element.name == _valueStorage &&
-                                    element.available == _valueAvailable)
+                                    (element.storageName == _valueStorage &&
+                                        element.available == _valueAvailable))
                                 .toList();
                           });
 

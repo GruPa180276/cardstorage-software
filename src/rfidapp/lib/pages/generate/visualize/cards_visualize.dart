@@ -158,6 +158,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             );
                           case CardPageTypes.Favoriten:
                             return FavoriteView(
+                              setState: setState,
                               cards: cards,
                               context: context,
                               pinnedCards: pinnedCards!,

@@ -4,19 +4,17 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 class LocalNotificationService {
-  LocalNotificationService();
+  static final _localNotificationService = FlutterLocalNotificationsPlugin();
 
-  final _localNotificationService = FlutterLocalNotificationsPlugin();
+  static final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
 
-  final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
-
-  Future<void> intialize() async {
+  static Future<void> intialize() async {
     tz.initializeTimeZones();
     const AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
     IOSInitializationSettings iosInitializationSettings =
-        IOSInitializationSettings(
+        const IOSInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
@@ -34,7 +32,7 @@ class LocalNotificationService {
     );
   }
 
-  Future<NotificationDetails> _notificationDetails() async {
+  static Future<NotificationDetails> _notificationDetails() async {
     const AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails('channel_id', 'channel_name',
             channelDescription: 'description',
@@ -51,7 +49,7 @@ class LocalNotificationService {
     );
   }
 
-  Future<void> showNotification({
+  static Future<void> showNotification({
     required int id,
     required String title,
     required String body,
@@ -60,7 +58,7 @@ class LocalNotificationService {
     await _localNotificationService.show(id, title, body, details);
   }
 
-  Future<void> showScheduledNotification(
+  static Future<void> showScheduledNotification(
       {required int id,
       required String title,
       required String body,
@@ -81,7 +79,7 @@ class LocalNotificationService {
     );
   }
 
-  Future<void> showNotificationWithPayload(
+  static Future<void> showNotificationWithPayload(
       {required int id,
       required String title,
       required String body,
@@ -91,13 +89,16 @@ class LocalNotificationService {
         payload: payload);
   }
 
-  void onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) {
-  }
+  static void onDidReceiveLocalNotification(
+      int id, String? title, String? body, String? payload) {}
 
-  void onSelectNotification(String? payload) {
+  static void onSelectNotification(String? payload) {
     if (payload != null && payload.isNotEmpty) {
       onNotificationClick.add(payload);
     }
+  }
+
+  static void cancel(int id) {
+    _localNotificationService.cancel(id);
   }
 }

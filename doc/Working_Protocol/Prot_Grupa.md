@@ -344,6 +344,9 @@ Tag der offenen Tuer
 **2023-01-21: 14:00-> 18:00**
 Implementation des Reservierungsystems
 
+
+**2023-01-22: 20:00-> 21:40**
+Es wwurden Bugs bei den Reservierungen behoben. Die RiidApp ist soweit fertig.
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -435,5 +438,6 @@ Implementation des Reservierungsystems
 - 13:00 bis 17:00 Uhr
 - 08:15 bis 13:00 Uhr
 - 14:00 bis 18:00 Uhr
+- 20:00 bis 21:40 Uhr
 <!-- { "progress": false } -->
 

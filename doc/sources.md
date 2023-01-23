@@ -91,3 +91,4 @@
 - https://stackoverflow.com/questions/50252569/vertical-viewport-was-given-unbounded-height
 - https://stackoverflow.com/questions/51579546/how-to-format-datetime-in-flutter
 - https://stackoverflow.com/questions/50252569/vertical-viewport-was-given-unbounded-height
+- https://www.woolha.com/tutorials/dart-convert-string-to-double-int-and-vice-versa

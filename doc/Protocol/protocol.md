@@ -353,7 +353,7 @@ Habe heute eine Bugs behoben, die bei der Darstellung aufgetreten sind. (1h 45mi
 - 8:45 bis 11:30 Uhr
 - 10:00 bis 11:30 Uhr
 - 12:30 bis 14:00 Uhr
-- 10:30 bis 12.00 Uhr
+- 10:30 bis 12:00 Uhr
 - 12:30 bis 17:00 Uhr
 - 12:00 bis 13:30 Uhr
 - 16:00 bis 20:00 Uhr

@@ -123,7 +123,7 @@ func newCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 
 	if err := hardware.StoreCard(int(msg["card"].(map[string]any)["position"].(float64))); err != nil {
 		msg["status"].(map[string]any)["successful"] = false
-		msg["status"].(map[string]any)["reasonx-for-failure"] = err.Error()
+		msg["status"].(map[string]any)["reason-for-failure"] = err.Error()
 		l.Println(err)
 	}
 

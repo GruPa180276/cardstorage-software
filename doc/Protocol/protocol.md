@@ -281,6 +281,12 @@ Dann bin ich auf ein Problem gestoßen, das die Reservierungen nicht richtig ang
 **23.1.2023: 8:15 bis 10:00** <br>
 Habe heute eine Bugs behoben, die bei der Darstellung aufgetreten sind. (1h 45min)
 
+**23.1.2023: 10:30 bis 12:00** <br>
+Habe begonen damit, das man die Zeit, wann man eine Reservierung nicht mehr abholen kann, zu implementieren. Das funktioniert auch so weit (1h 30min)
+
+**23.1.2023: 12:00 bis 13:30** <br>
+Danach habe ich noch implementiert, das man einen User zu einem Admin machen kann. Funktioniert auch soweit. (1h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -361,4 +367,7 @@ Habe heute eine Bugs behoben, die bei der Darstellung aufgetreten sind. (1h 45mi
 - 16:30 bis 18:30 Uhr
 - 10:00 bis 11:30 Uhr
 - 12:30 bis 15:00 Uhr
+- 8:15 bis 10:00 Uhr
+- 10:30 bis 12:00 Uhr
+- 12:00 bis 13:30 Uhr
 <!-- { "progress": false } -->

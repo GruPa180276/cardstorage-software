@@ -278,6 +278,9 @@ Habe begonnen, die Reservierungen in der App zu implementieren (1h 30min)
 **22.1.2023: 12:30 bis 15:00** <br>
 Dann bin ich auf ein Problem gestoßen, das die Reservierungen nicht richtig angezeigt werden. Konnte ich dann durch einen verschachtelten ListView Builder lösen. (2h 30min)
 
+**23.1.2023: 8:15 bis 10:00** <br>
+Habe heute eine Bugs behoben, die bei der Darstellung aufgetreten sind. (1h 45min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

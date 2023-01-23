@@ -7,7 +7,7 @@ AppBar generateAppBar(BuildContext context) {
     leading: Icon(Icons.credit_card),
     toolbarHeight: 70,
     backgroundColor: Theme.of(context).secondaryHeaderColor,
-    title: Text('Admin Login',
+    title: Text('Admin',
         style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold,
@@ -16,6 +16,7 @@ AppBar generateAppBar(BuildContext context) {
     actions: [
       generateIconButton(context, Icons.settings, "/settings"),
       generateIconButton(context, Icons.bookmark, "/reservations"),
+      generateIconButton(context, Icons.account_box, "/users"),
       generateIconButton(context, Icons.logout, ""),
     ],
   );

@@ -18,7 +18,6 @@ class Users {
     );
   }
   Map<String, dynamic> toJson() => {
-        'email': email,
         'privileged': privileged,
       };
 }
@@ -32,5 +31,21 @@ Future<List<Users>> fetchData() async {
     return jsonResponse.map((data) => Users.fromJson(data)).toList();
   } else {
     throw Exception('Failed to get Storages!');
+  }
+}
+
+Future<dynamic> updateData(String email, Map<String, dynamic> data) async {
+  final http.Response response = await http.put(
+    Uri.parse(adres.usersAdress + "/email/" + email),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(data),
+  );
+
+  if (response.statusCode == 200) {
+    return Users.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Failed to update Card!');
   }
 }

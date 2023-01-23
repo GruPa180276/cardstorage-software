@@ -1,8 +1,13 @@
+import 'dart:ffi';
+
+import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/createReservationTable.dart';
+import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/provider/types/cardReservation.dart'
     as cardReservation;
 import 'package:admin_login/provider/types/cardReservation.dart';
 import 'package:admin_login/provider/types/reservations.dart';
+import 'package:admin_login/provider/types/time.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/reloadbutton.dart';
@@ -17,17 +22,30 @@ class Reservations extends StatefulWidget {
 
 class _SettingsPageState extends State<Reservations> {
   late Future<List<CardReservation>> futureData;
+  late ReservationTime resTime = new ReservationTime(time: 0, unit: "hours");
+  double time = 0;
 
   @override
   void initState() {
     super.initState();
+    loadData();
     futureData = cardReservation.fetchData();
+  }
+
+  void loadData() async {
+    await getReservationLatestGetTime().then((value) => resTime = value);
+
+    setState(() {});
   }
 
   void reload() {
     setState(() {
       futureData = cardReservation.fetchData();
     });
+  }
+
+  void setTime(String time) {
+    this.time = double.parse(time);
   }
 
   @override
@@ -42,8 +60,28 @@ class _SettingsPageState extends State<Reservations> {
           backgroundColor: Theme.of(context).secondaryHeaderColor,
           actions: []),
       body: Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 10, left: 10, right: 10),
         child: Column(children: [
+          GenerateListTile(
+            labelText: "Name",
+            hintText: resTime.time.toString(),
+            icon: Icons.description,
+            regExp: r'([0-9\. ])',
+            function: this.setTime,
+          ),
+          Container(
+            height: 80,
+            child: Column(children: [
+              generateButtonRectangle(
+                context,
+                "Änderungen speichern",
+                () {
+                  changeReservationLatestGetTime(time);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]),
+          ),
           ListCards(
             cards: futureData,
           )

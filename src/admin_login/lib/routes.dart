@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:admin_login/pages/user/users.dart';
 import 'package:admin_login/pages/card/add_cards.dart';
 import 'package:admin_login/pages/card/alter_cards.dart';
 import 'package:admin_login/pages/card/remove_cards.dart';
@@ -49,6 +50,10 @@ class RouteGenerator {
       //Reservations
       case '/reservations':
         return MaterialPageRoute(builder: ((context) => Reservations()));
+
+      //Users
+      case '/users':
+        return MaterialPageRoute(builder: ((context) => UsersSettings()));
 
       //Status
       case '/status':

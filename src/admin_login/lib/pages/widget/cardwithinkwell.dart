@@ -44,7 +44,7 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
   late Storages storage;
   int count = 0;
   bool pingWorked = false;
-  bool focus = false;
+  bool focus = true;
   late List<FocusS> listOfStorages;
 
   @override
@@ -83,17 +83,10 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
     await getAllUnfocusedStorages().then((value) => listOfStorages = value);
 
     for (int i = 0; i < listOfStorages.length; i++) {
-      print(listOfStorages[i]);
       if (listOfStorages[i].name == widget.argument) {
         focus = false;
-      } else {
-        focus = true;
       }
     }
-    if (listOfStorages.length == 0) {
-      focus = true;
-    }
-
     setState(() {});
   }
 

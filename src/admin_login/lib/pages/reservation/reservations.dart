@@ -83,6 +83,7 @@ class _ListCardsState extends State<ListCards> {
                   cardReservation.CardReservation c = snapshot.data![index];
                   return ListView.builder(
                       shrinkWrap: true,
+                      physics: ScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(

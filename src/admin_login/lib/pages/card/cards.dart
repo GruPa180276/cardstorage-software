@@ -161,38 +161,45 @@ class _ListCardsState extends State<ListCards> {
         future: widget.cards,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            for (int i = 0; i < snapshot.data!.length; i++) {
-              List<Cards>? data = snapshot.data![i].cards;
-              if (snapshot.data![i].name == widget.cardStorage) {
-                return ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GenerateCardWithInkWell.withArguments(
-                        index: index,
-                        data: data,
-                        icon: Icons.credit_card,
-                        route: "/alterCards",
-                        argument: data[index].name,
-                        view: 1,
-                      );
-                    });
-              } else if (widget.cardStorage == "-") {
-                return ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GenerateCardWithInkWell.withArguments(
-                        index: index,
-                        data: data,
-                        icon: Icons.credit_card,
-                        route: "/alterCards",
-                        argument: data[index].name,
-                        view: 1,
-                      );
-                    });
-              } else {
-                return SizedBox.shrink();
-              }
-            }
+            return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  List<Cards>? data = snapshot.data![index].cards;
+                  if (snapshot.data![index].name == widget.cardStorage) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        physics: ScrollPhysics(),
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GenerateCardWithInkWell.withArguments(
+                            index: index,
+                            data: data,
+                            icon: Icons.credit_card,
+                            route: "/alterCards",
+                            argument: data[index].name,
+                            view: 1,
+                          );
+                        });
+                  } else if (widget.cardStorage == "-") {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        physics: ScrollPhysics(),
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GenerateCardWithInkWell.withArguments(
+                            index: index,
+                            data: data,
+                            icon: Icons.credit_card,
+                            route: "/alterCards",
+                            argument: data[index].name,
+                            view: 1,
+                          );
+                        });
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                });
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }

@@ -333,16 +333,17 @@ Umprogrammierung des Websocket, das proStart der App eine Verbindung gestartet w
 **2023-01-11: 8:15-> 12:00**
 Umprogrammierung des Websocket, das proStart der App eine Verbindung gestartet wir und nicht durchgehen und umprogrammieren in ein responsive Programm
 
-
 **2023-01-13: 13:00-> 17:00**
 Tag der offenen Tuer
 
 **2023-01-14: 08:15-> 13:00**
 Tag der offenen Tuer
 
-
 **2023-01-21: 14:00-> 18:00**
 Implementation des Reservierungsystems
+
+**2023-01-31: 15:00-> 19:00**
+Heute wurde der RequestTimer bei der DisplayApp erstellt falls eine Mqttnachricht mit der action "user-sign-up" kommt, d.h wenn ein User sich Registrieren moechte erscheint nun ein PopUp am Display. Allerdings hatte ich ziemliche Schwierigkeiten, und musste von Der Logik her viel aendern. Schlussendlich musste ich sogar an der zweiten App noch etwas Logik bei der Websocket impl aendearn 
 
 
 **2023-01-22: 20:00-> 21:40**
@@ -439,5 +440,6 @@ Es wwurden Bugs bei den Reservierungen behoben. Die RiidApp ist soweit fertig.
 - 08:15 bis 13:00 Uhr
 - 14:00 bis 18:00 Uhr
 - 20:00 bis 21:40 Uhr
+- 15:00 bis 19:00 Uhr
 <!-- { "progress": false } -->
 

@@ -1,0 +1,8 @@
+% user-specific fancyhdr header & footer config
+\newcommand\GpAbbreviation{Grubauer P.}
+\newcommand\titlePageFullNameGp{Patrick Grubauer}
+
+\newcommand\GpSec[2][]{\AuthoredSection{#1}{#2\hfill\small(\textit{\GpAbbreviation})}{1}}
+\newcommand\GpSSec[2][]{\AuthoredSection{#1}{#2\hfill\small(\textit{\GpAbbreviation})}{2}}
+
+\fancypagestyle{hdrGp}{\AuthoredHeader{\GpAbbreviation}{debug-gp}}

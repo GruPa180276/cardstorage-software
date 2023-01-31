@@ -1,14 +1,37 @@
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
+% silence babel/polyglossia warning
+\usepackage{csquotes} 
 \usepackage[backend=biber,style=ieee]{biblatex}
+% https://tex.stackexchange.com/questions/258969/hyperref-not-working-it-goes-to-wrong-page
+\usepackage[pdftex,pdfauthor={\DocumentAuthor},pdftitle={\DocumentTitle},pdfsubject={\DocumentSubject},pdfkeywords={\DocumentKeywords}]{hyperref}
 \usepackage{graphicx}
 \usepackage{xcolor}
-\usepackage{setspace} % https://tex.stackexchange.com/questions/83855/change-line-spacing-inside-the-document
-\usepackage[paper=a4paper,margin=2.5cm]{geometry}
+% https://tex.stackexchange.com/questions/83855/change-line-spacing-inside-the-document
+\usepackage{setspace} 
+\usepackage[paper=a4paper,
+            top=1.5cm,
+            bottom=1.5cm,
+            right=2.5cm,
+            left=2.5cm,
+            includeheadfoot]{geometry}
 \usepackage{lmodern} 
-\usepackage{fancyhdr} % de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_fancyhdr
-\usepackage{multicol} % overleaf.com/learn/latex/Multiple_columns
-\usepackage{amsmath}
-\usepackage{lipsum}
+% de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_fancyhdr
+\usepackage{fancyhdr} 
+% overleaf.com/learn/latex/Multiple_columns
+\usepackage{multicol} 
 \usepackage{dashrule}
+% https://tex.stackexchange.com/questions/246907/remove-the-header-in-the-table-of-contents
 \usepackage[toc,page]{appendix}
+\usepackage{listings}
+\usepackage{tikzpagenodes}
+\usepackage{amsmath}
+% set section & chapter color color 
+\usepackage{sectsty}
+% https://texblog.org/2012/07/03/fancy-latex-chapter-styles/
+% \usepackage[Bjarne]{fncychap}
+\usepackage{titlesec}
+%%%%%% debug packages %%%%%%  
+\usepackage{blindtext}
+\usepackage{lipsum}
+% \usepackage{showframe}

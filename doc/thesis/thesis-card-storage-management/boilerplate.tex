@@ -1,10 +1,12 @@
 % https://stackoverflow.com/questions/56301839/signature-page-in-latex
 \newcommand\signature[1]{% Name
-\begin{center}\begin{minipage}{8cm}
+\begin{center}\begin{minipage}{10cm}
     \centering
     \vspace{3cm}\par
-    \rule{10cm}{0.5pt}\par
-    \textbf{#1}\par
+    \noindent
+    \hspace{1.5cm}\rule{10cm}{0.5pt}\par
+    \noindent
+    \hspace{3cm}\textbf{#1}
 \end{minipage}\end{center}}
 
 \section{Sperrvermerk}
@@ -24,9 +26,9 @@
 \noindent
 \textbf{Linz, im Juni 20xx}
 
-\signature{Name}
-\signature{Name}
-\signature{Name}
+\signature{\titlePageFullNameGp}
+\signature{\titlePageFullNameMj}
+\signature{\titlePageFullNameZb}
 
 \newpage
 
@@ -36,7 +38,7 @@
 \newpage
 
 \section{Einleitung}
-\lipsum[1]
+Dokument wurde mit \LaTeX{} gesetzt.
 
 \newpage
 

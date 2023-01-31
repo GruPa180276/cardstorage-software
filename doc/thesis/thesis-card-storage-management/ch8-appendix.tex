@@ -1,12 +1,30 @@
-\appendix
+\cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{Listings}
+\lstlistoflistings{\thispagestyle{footerOnly}}
 
-\chapter{Arbeitsprotokolle}
-\input{MJ/ch8-appendix.tex}
-\input{GP/ch8-appendix.tex}
-\input{ZB/ch8-appendix.tex}
+\chapter[Arbeitsprotokolle]{Arbeitsprotokolle}\chaptermark{Arbeitsprotokolle}
+
+{
+\pagestyle{hdrMj}
+\include{MJ/ch8-appendix.tex}
+}
+
+{
+\pagestyle{hdrGp}
+\include{GP/ch8-appendix.tex}
+}
+
+{
+\pagestyle{hdrZb}
+\include{ZB/ch8-appendix.tex}
+}
 
 \chapter{Pflichtenheft}
 \input{specification.tex}
 
 \chapter{Benutzerhandbuch}
+\blindtext[1]
+\newpage
+\section{A}
+\blindtext[1]
+
 \chapter{API-Dokumentation}

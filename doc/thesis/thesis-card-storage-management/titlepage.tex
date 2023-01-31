@@ -1,25 +1,26 @@
 
-\newgeometry{top=2cm,bottom=1cm}
+% \newgeometry{top=2cm,bottom=1cm}
 
 \begin{titlepage}
-
 \begin{center}
 
-% \vspace*{-2cm}
-\includegraphics[scale=0.95]{assets/litec-logo-center.png}
+\vspace*{-15mm}
+% \includegraphics[scale=0.95]{assets/litec-logo-center.png}
+% \includegraphics[scale=0.35]{assets/litec-logo.png}
+\includegraphics[scale=0.15]{assets/litec-logo-high-res.png}
 
-\vspace{0.5cm}
+\vspace*{0.35cm}
 
 {
 \Large
 \begin{spacing}{1.5}
 Höhere Technische Bundeslehranstalt\\
-Höhere Lehranstalt für$\ldots$ \textit{Text siehe übernächste Seite}\\
-Ausbildungsschwerpunkt$\ldots$ \textit{Text siehe übernächste Seite}
+Höhere Lehranstalt für Informationstechnologie%
+% Ausbildungsschwerpunkt IT
 \end{spacing}
 }
 
-\vspace{1cm}
+\vspace{1.75cm}
 
 {
 \Huge
@@ -31,51 +32,55 @@ Ausbildungsschwerpunkt$\ldots$ \textit{Text siehe übernächste Seite}
 
 {
 \Huge
-\textit{Diplomarbeitsthema-Thema einfügen}
+\textit{\ThesisTitle}
 }
 
-\vspace{1cm}
+\vspace{0.9cm}
 
 \begin{spacing}{3}
 \textbf{ausgeführt im}\\
 {
 \Huge
 \color{litec-blue}
-Schuljahr 20xx/xx
+{Schuljahr 2022/23}
 }\\
+\vspace{0.5cm}
 \textbf{eingereicht von}
 \end{spacing}
 
-\vspace{-0.5cm}
+\vspace{-0.6cm}
 
 \begin{spacing}{1.5}
 \hfill
 \begin{minipage}{\dimexpr\textwidth-5cm}
 \Large
-\begin{tabular}{l@{\hskip 4cm}l}
-Name & Klasse \\
-Name & Klasse \\
-Name & Klasse
+\begin{tabular}{l@{\hskip 2.5cm}l}
+\titlePageFullNameGp & \Grade \\
+\titlePageFullNameMj & \Grade \\
+\titlePageFullNameZb & \Grade
 \end{tabular}
-\xdef\tpd{\the\prevdepth}
+% \xdef\tpd{\the\prevdepth}
 \end{minipage}
 \end{spacing}
-\prevdepth\tpd
+% \prevdepth\tpd
 
 \end{center}
 
 \vspace{1cm}
 \noindent
 \Large
-Betreuungslehrkraft$\ldots$
+Betreuungslehrkraft\hspace{1.15cm}\Supervisor
 
 \begin{center}
-\vfill
-\includegraphics[scale=0.15]{assets/htl-bildung-mit-zukunft-logo.jpg}
+% \vspace*{5mm}
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\node[yshift=-2.5cm]{\includegraphics[scale=0.15]{assets/htl-bildung-mit-zukunft-logo.jpg}};
+\end{tikzpicture}
+
+
 \end{center}
 
 
 \end{titlepage}
-
-\newgeometry{margin=2.5cm}
-\addtocounter{page}{1}

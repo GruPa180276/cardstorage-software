@@ -1,0 +1,8 @@
+% user-specific fancyhdr header & footer config
+\newcommand\MjAbbreviation{Mayrhofer J.}
+\newcommand\titlePageFullNameMj{Johannes Leopold Mayrhofer}
+
+\newcommand\MjSec[2][]{\AuthoredSection{#1}{#2\hfill\small(\textit{\MjAbbreviation})}{1}}
+\newcommand\MjSSec[2][]{\AuthoredSection{#1}{#2\hfill\small(\textit{\MjAbbreviation})}{2}}
+
+\fancypagestyle{hdrMj}{\AuthoredHeader{\MjAbbreviation}{debug-mj}}

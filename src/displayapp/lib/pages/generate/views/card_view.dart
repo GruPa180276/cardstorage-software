@@ -114,8 +114,9 @@ class CardView extends StatelessWidget {
               text: 'Jetzt holen',
               onPress: () async {
                 try {
-                  await RequestTimer.startTimer(context, card);
-                  if (!RequestTimer.getSuccessful()) {
+                  var req = RequestTimer(context: context, card: card);
+                  await req.build();
+                  if (!req.getSuccessful()) {
                     setState(
                       () {
                         card.available = false;

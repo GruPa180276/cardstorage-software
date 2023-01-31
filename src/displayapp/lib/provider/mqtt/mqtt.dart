@@ -8,8 +8,8 @@ import 'package:rfidapp/pages/generate/widget/request_timer.dart';
 import 'package:rfidapp/domain/storage_properties.dart';
 
 class MQTTClientManager {
-  static final MqttServerClient _client = MqttServerClient.withPort(
-      StorageProperties.getIpAdress()!, 'mobile_client', 1883);
+  static final MqttServerClient _client =
+      MqttServerClient.withPort("10.0.2.2", 'test', 1884);
   static late StreamSubscription _subscription;
   static late BuildContext _context;
 
@@ -26,7 +26,7 @@ class MQTTClientManager {
     _client.connectionMessage = connMessage;
 
     try {
-      await _client.connect("mqtt", "eclipse");
+      await _client.connect("CardStorageManagement", "CardStorageManagement");
     } on NoConnectionException catch (e) {
       print('MQTTClient::Client exception - $e');
       _client.disconnect();

@@ -3,6 +3,8 @@ import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/provider/rest/data.dart';
+import 'package:rfidapp/provider/types/cards.dart';
+import 'package:rfidapp/provider/types/reservation.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 
 class BottomSheetPop {
@@ -13,6 +15,7 @@ class BottomSheetPop {
   Future<Storage?>? _modifiedStorage;
   List<String> _dropDownCardValues = ['alle'];
   final _dropDownAvailable = ['alle', true, false];
+  final _dropDownReservationType = ['alle', "Reservierung", "In Benutzung"];
 
   CardPageType cardPageType;
   BottomSheetPop(
@@ -147,7 +150,7 @@ class BottomSheetPop {
                     children: [
                       const Expanded(
                           child: Text(
-                        'Verfuegabar',
+                        'Karten',
                         style: TextStyle(fontSize: 17),
                       )),
                       Expanded(
@@ -171,6 +174,37 @@ class BottomSheetPop {
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      const Expanded(
+                          child: Text(
+                        'Verfuegabar',
+                        style: TextStyle(fontSize: 17),
+                      )),
+                      Expanded(
+                        child: DropdownButton(
+                          value: _valueAvailable,
+                          items: _dropDownReservationType.map((valueItem) {
+                            return DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(valueItem.toString()));
+                          }).toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              if (newValue != 'alle') {
+                                _valueAvailable = newValue as String;
+                              } else {
+                                _valueAvailable = newValue as String;
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     width: double.infinity,
@@ -182,7 +216,11 @@ class BottomSheetPop {
                         onPress: () {
                           //Improve logic readability
                           _modifiedStorage = defaultStorage.then((value) {
-                            if (_valueCard.toString() != "alle") {
+                            if (_dropDownReservationType.toString() == "alle" &&
+                                _valueCard.toString() == "alle") {
+                              return value;
+                            } else if (_dropDownReservationType.toString() ==
+                                "alle") {
                               return Storage(
                                   name: value!.name,
                                   location: value.location,
@@ -190,11 +228,26 @@ class BottomSheetPop {
                                   capacity: value.capacity,
                                   cards: value.cards
                                       ?.where((element) =>
-                                          element.name == _valueCard)
+                                          (element.name == _valueCard))
                                       .toList());
-                            } else {
-                              return value;
+                            } else if (_valueCard.toString() == "alle") {
+                              return Storage(
+                                  name: value!.name,
+                                  location: value.location,
+                                  address: value.address,
+                                  capacity: value.capacity,
+                                  cards: getFilteredReservations(value));
                             }
+                            return Storage(
+                                name: value!.name,
+                                location: value.location,
+                                address: value.address,
+                                capacity: value.capacity,
+                                cards: getFilteredReservations(value)
+                                    .where(
+                                        (element) => element.name == _valueCard)
+                                    .toList());
+                            ;
                           });
                           onPressStorage(_modifiedStorage!);
                         },
@@ -203,5 +256,28 @@ class BottomSheetPop {
                 ]));
           });
         });
+  }
+
+  List<ReaderCard> getFilteredReservations(Storage value) {
+    List<ReaderCard> sortedCards = List.empty(growable: true);
+    for (var karten in value!.cards!) {
+      var card = new ReaderCard(
+        reader: karten.reader,
+        name: karten.name,
+        position: karten.position,
+        accessed: karten.accessed,
+        available: karten.available,
+        reservation: List<Reservation>.empty(growable: true),
+      );
+      for (var element in karten.reservation!) {
+        if (element.isreservation == (_valueAvailable == "In Benutzung")
+            ? false
+            : true) {
+          card.reservation!.add(element);
+          sortedCards.add(card);
+        }
+      }
+    }
+    return sortedCards;
   }
 }

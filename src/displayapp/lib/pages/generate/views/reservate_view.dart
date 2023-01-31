@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rfidapp/provider/types/reservation.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 
@@ -79,8 +80,9 @@ class ReservateView extends StatelessWidget {
                 const TableCell(child: Text("Von:")),
                 TableCell(
                   child: Text(
-                    DateTime.fromMillisecondsSinceEpoch(
-                            reserveration.since * 1000)
+                    DateFormat('yyyy-MM-dd HH:mm')
+                        .format(DateTime.fromMillisecondsSinceEpoch(
+                            reserveration.since * 1000))
                         .toString(),
                     style: const TextStyle(color: Colors.green),
                   ),
@@ -92,8 +94,12 @@ class ReservateView extends StatelessWidget {
                 const TableCell(child: Text("Bis:")),
                 TableCell(
                   child: Text(
-                    DateTime.fromMillisecondsSinceEpoch(reserveration.until)
-                        .toString(),
+                    (reserveration.isreservation)
+                        ? DateFormat('yyyy-MM-dd HH:mm')
+                            .format(DateTime.fromMillisecondsSinceEpoch(
+                                reserveration.until * 1000))
+                            .toString()
+                        : "Wird benutzt",
                     style: const TextStyle(color: Colors.red),
                   ),
                 )

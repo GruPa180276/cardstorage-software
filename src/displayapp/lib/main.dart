@@ -2,23 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:rfidapp/domain/asset_files.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
+import 'package:rfidapp/provider/mqtt/mqtt.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/websocket.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   await AssetFiles.setProperties();
   HttpOverrides.global = MyHttpOverrides();
-  Websocket.connect();
-  // await SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  //   DeviceOrientation.portraitDown,
-  // ]);r
-
   runApp(const MyApp());
 }
 
@@ -31,6 +26,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MQTTClientManager.connect();
+    MQTTClientManager.subscribe("S4@L4/1", context);
+
     return ChangeNotifierProvider(
         create: (context) => ThemeProvider(),
         builder: (context, _) {

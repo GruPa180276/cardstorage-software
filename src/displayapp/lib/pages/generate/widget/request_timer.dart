@@ -9,14 +9,22 @@ import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 
 class RequestTimer {
-  static Map? _responseData;
-  static var timerController = CountDownController();
-  static late bool _successful = false;
-  static late _TimerType _timerType;
-  static int i = 0;
-  static Future<void> startTimer(BuildContext context, ReaderCard card) {
+  Map? _responseData;
+  var timerController = CountDownController();
+  late bool _successful = false;
+  late _TimerType _timerType;
+  int i = 0;
+  BuildContext context;
+  ReaderCard card;
+  late IOWebSocketChannel? channel;
+  RequestTimer({required this.context, required this.card});
+
+  Future<void> build() {
     _timerType = _TimerType.InitTimer;
     i = 0;
+    channel = IOWebSocketChannel.connect(
+        Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
+    streamListener();
     int timestamp = 0;
     return showDialog(
         context: context,
@@ -93,16 +101,17 @@ class RequestTimer {
         });
   }
 
-  static bool getSuccessful() {
+  bool getSuccessful() {
     return _successful;
   }
 
-  static streamListener(IOWebSocketChannel channel) {
-    channel.stream.listen((message) async {
+  streamListener() {
+    channel?.stream.listen((message) async {
       _responseData = jsonDecode(message);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
       _timerType = _TimerType.Breaktimer;
+      channel!.sink.close();
       timerController.restart(duration: 0);
     });
   }

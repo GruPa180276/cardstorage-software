@@ -12,7 +12,6 @@ class CardPage extends StatefulWidget {
 class _CardPage extends State<CardPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // _conntectToMqtt();
   }

@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
-import 'package:rfidapp/domain/enums/timer_actions.dart';
+import 'package:rfidapp/domain/enums/timer_actions_type.dart';
 import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
@@ -17,7 +17,6 @@ class ReaderCardButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return (!card.available)
         ? Row(
             children: [
@@ -30,7 +29,7 @@ class ReaderCardButtons extends StatelessWidget {
               ),
             ],
           )
-        : Container(
+        : SizedBox(
             height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -32,7 +32,6 @@ class Reservation {
 
   factory Reservation.fromJson(dynamic json) {
     User user = User.fromJson(json["user"]);
-    print("here");
     return Reservation(
         id: json["id"],
         isreservation: json["is-reservation"],

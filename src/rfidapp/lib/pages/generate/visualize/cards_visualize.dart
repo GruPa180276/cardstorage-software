@@ -1,13 +1,15 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/enums/cardpage_site.dart';
+import 'package:rfidapp/domain/authentication/authentication.dart';
+import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
+import 'package:rfidapp/domain/enums/cardpage_type.dart';
 import 'package:rfidapp/pages/generate/views/favorite_view.dart';
 import 'package:rfidapp/pages/generate/pop_up/bottom_filter.dart';
+import 'package:rfidapp/pages/login/login_user_page.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/types/storage.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {
@@ -23,8 +25,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
   late Future<List<ReaderCard>?> defaultReaderCards;
   late Future<List<ReaderCard>?> modifiedReaderCards;
+  late String _email;
   Set<String>? pinnedCards;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
@@ -35,6 +37,18 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     super.initState();
     reloadReaderCards();
     reloadPinnedList();
+    checkUserRegistered();
+  }
+
+  void checkUserRegistered() async {
+    var data = await UserSecureStorage.getUserValues();
+    var isRegistered = await Data.checkUserRegistered(data["Email"]!);
+    if (!isRegistered) {
+      await AadAuthentication.getEnv();
+      AadAuthentication.oauth!.logout();
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginUserScreen()));
+    }
   }
 
   void reloadPinnedList() {
@@ -168,9 +182,11 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             );
 
                           //users.map((e) => e.cards).toList()
+                          case CardPageTypes.Reservierungen:
+                            break;
                         }
                       }
-                      return Text("Error");
+                      return const Text("Error");
                   }
                 },
               ),

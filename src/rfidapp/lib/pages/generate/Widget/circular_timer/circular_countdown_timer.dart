@@ -321,6 +321,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   @override
   void dispose() {
     _controller!.stop();
+
     _controller!.dispose();
     super.dispose();
   }

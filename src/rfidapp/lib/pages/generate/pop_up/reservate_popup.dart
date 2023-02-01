@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -63,10 +65,7 @@ class ReservationPopUp {
       SizedBox(
         width: 40,
         child: Text(
-          timeChooseFieldType
-                  .toString()
-                  .replaceAll("_TimeChooseFieldType.", "") +
-              ":",
+          "${timeChooseFieldType.toString().replaceAll("_TimeChooseFieldType.", "")}:",
           style: const TextStyle(fontSize: 18),
         ),
       ),
@@ -117,6 +116,7 @@ class ReservationPopUp {
                       }
                     }
                   }
+                  return null;
                 },
                 controller: editingController,
                 readOnly: true,

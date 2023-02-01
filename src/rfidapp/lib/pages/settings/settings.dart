@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
@@ -101,7 +103,8 @@ class _SettingsPageState extends State<SettingsPage> {
       height: 0, //wraps child's height
       child: TextButton(
           style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).cardColor), // <-- Does not work
+              backgroundColor:
+                  Theme.of(context).cardColor), // <-- Does not work
           onPressed: () => function(),
           child: Align(
             alignment: Alignment.centerLeft,
@@ -168,9 +171,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: const Text('Abmelden'),
                     onPressed: () async {
                       await AadAuthentication.getEnv();
-
                       AadAuthentication.oauth!.logout();
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => const LoginUserScreen()));
                     },
                   ),

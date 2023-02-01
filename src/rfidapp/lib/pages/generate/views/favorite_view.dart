@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/enums/timer_actions.dart';
-import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/card_bottom_row.dart';
-import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
-import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
-import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
-import 'package:rfidapp/domain/app_preferences.dart';
 
 class FavoriteView extends StatelessWidget {
-  List<ReaderCard> cards;
-  BuildContext context;
-  Set<String> pinnedCards;
-  Function reloadPinned;
-  String searchstring;
-  void Function() reloadCard;
+  final List<ReaderCard> cards;
+  final BuildContext context;
+  final Set<String> pinnedCards;
+  final Function reloadPinned;
+  final String searchstring;
+  final void Function() reloadCard;
   final void Function(void Function()) setState;
 
-  FavoriteView({
-    Key? key,
+  const FavoriteView({
+    super.key,
     required this.cards,
     required this.context,
     required this.pinnedCards,

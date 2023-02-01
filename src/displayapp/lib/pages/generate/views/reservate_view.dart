@@ -8,8 +8,8 @@ class ReservateView extends StatelessWidget {
   final BuildContext context;
   final String searchstring;
 
-  ReservateView(
-      {Key? key,
+  const ReservateView(
+      {super.key,
       required this.storage,
       required this.context,
       required this.searchstring});

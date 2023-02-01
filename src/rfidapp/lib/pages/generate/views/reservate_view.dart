@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,14 +10,14 @@ import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/reservation.dart';
 
 class ReservationView extends StatelessWidget {
-  List<Reservation> reservations;
-  BuildContext context;
+  final List<Reservation> reservations;
+  final BuildContext context;
   final void Function(void Function()) setState;
 
-  String searchstring;
+  final String searchstring;
 
-  ReservationView({
-    Key? key,
+  const ReservationView({
+    super.key,
     required this.reservations,
     required this.context,
     required this.searchstring,
@@ -87,7 +89,7 @@ class ReservationView extends StatelessWidget {
                             .format(DateTime.fromMicrosecondsSinceEpoch(
                                 card.since * 1000000))
                             .toString(),
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     )
                   ],
@@ -103,7 +105,7 @@ class ReservationView extends StatelessWidget {
                                     card.until * 1000000))
                                 .toString()
                             : "In Benutzung",
-                        style: TextStyle(color: Colors.green),
+                        style: const TextStyle(color: Colors.green),
                       ),
                     )
                   ],
@@ -160,6 +162,6 @@ class ReservationView extends StatelessWidget {
               ))
             ],
           )
-        : SizedBox.shrink();
+        : const SizedBox.shrink();
   }
 }

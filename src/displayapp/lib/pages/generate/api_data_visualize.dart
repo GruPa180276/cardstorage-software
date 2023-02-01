@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/pages/generate/views/reservate_view.dart';
+import 'package:rfidapp/provider/mqtt/mqtt.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
@@ -24,16 +25,19 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   Future<Storage?>? _modifiedStorage;
 
   late bool _isDark;
-  String searchString = "";
-  TextEditingController searchController = TextEditingController();
+  String _searchString = "";
+  TextEditingController _searchController = TextEditingController();
   CardPageType site;
 
   @override
   void initState() {
     super.initState();
     reloadCardList();
+    connectMqtt();
     _isDark = AppPreferences.getIsOn();
   }
+
+  void connectMqtt() {}
 
   void reloadCardList() {
     setState(() {
@@ -55,7 +59,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
       children: [
         Expanded(
           child: TextField(
-              controller: searchController,
+              controller: _searchController,
               decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
                   hintText: 'Suche Karte mittel Email',
@@ -65,7 +69,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                           BorderSide(color: Theme.of(context).dividerColor))),
               onChanged: ((value) {
                 setState(() {
-                  searchString = value;
+                  _searchString = value;
                 });
               })),
         ),
@@ -81,6 +85,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             icon: const Icon(Icons.adjust))
       ],
     );
+    MQTTClientManager.connect(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -127,20 +132,32 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                                 fontSize: 20),
                           ),
                         );
+                      } else if (snapshot.data == null) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.of(context).size.height / 2 - 200,
+                              horizontal: 0),
+                          child: Text(
+                            'No Data received!',
+                            style: TextStyle(
+                                color: Theme.of(context).dividerColor,
+                                fontSize: 20),
+                          ),
+                        );
                       } else {
                         final users = snapshot.data!;
                         switch (site) {
-                          //TODO change to required class
                           case CardPageType.Karten:
                             return CardView(
                                 setState: setState,
                                 context: context,
-                                searchstring: searchString,
+                                searchstring: _searchString,
                                 storage: users);
                           case CardPageType.Reservierungen:
                             return ReservateView(
                                 context: context,
-                                searchstring: searchString,
+                                searchstring: _searchString,
                                 storage: users);
                         }
                       }

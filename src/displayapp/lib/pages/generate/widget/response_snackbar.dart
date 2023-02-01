@@ -6,7 +6,7 @@ import 'package:rfidapp/domain/enum/snackbar_type.dart';
 class SnackbarBuilder {
   static void build(SnackbarType snackbarType, BuildContext context,
       bool successful, dynamic content) {
-    var snackBar;
+    late SnackBar snackBar;
     if (successful && SnackbarType.User == snackbarType) {
       snackBar = SnackBar(
           elevation: 0,
@@ -30,7 +30,6 @@ class SnackbarBuilder {
             ));
       }
     } else {
-      print("inf fun");
       snackBar = SnackBar(
           elevation: 0,
           behavior: SnackBarBehavior.floating,

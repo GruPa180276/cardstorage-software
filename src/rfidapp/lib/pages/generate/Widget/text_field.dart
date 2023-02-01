@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/utils/AlwaysDisabledFocusNode.dart';
 
@@ -20,10 +22,10 @@ class TextInput extends StatelessWidget {
   bool? editable;
   @override
   Widget build(BuildContext context) {
-    var temp;
+    AlwaysDisabledFocusNode? temp;
     editable = editable ?? true;
     if (!editable!) {
-      temp = new AlwaysDisabledFocusNode();
+      temp = AlwaysDisabledFocusNode();
     }
 
     return TextFormField(

@@ -20,7 +20,7 @@ class CardButton extends StatelessWidget {
       ),
       child: TextButton(
         style: ElevatedButton.styleFrom(
-            primary: Colors.black.withOpacity(0)), // <-- Does not work
+            backgroundColor: Colors.black.withOpacity(0)), // <-- Does not work
         onPressed: onPress,
         child:
             Text(text, style: TextStyle(color: Theme.of(context).primaryColor)),

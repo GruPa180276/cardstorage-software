@@ -1,6 +1,6 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, no_logic_in_create_state
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/enums/cardpage_site.dart';
+import 'package:rfidapp/domain/enums/cardpage_type.dart';
 import 'package:rfidapp/pages/generate/views/reservate_view.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/reservation.dart';
@@ -11,7 +11,6 @@ class ReservationVisualizer extends StatefulWidget {
   ReservationVisualizer({super.key, required this.site});
 
   @override
-  // ignore: no_logic_in_create_state
   State<ReservationVisualizer> createState() =>
       _ReservationVisualizerState(site: site);
 }
@@ -19,7 +18,6 @@ class ReservationVisualizer extends StatefulWidget {
 class _ReservationVisualizerState extends State<ReservationVisualizer> {
   _ReservationVisualizerState({required this.site});
   late Future<List<Reservation>?> reservations;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();

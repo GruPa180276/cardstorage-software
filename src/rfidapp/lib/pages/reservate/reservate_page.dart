@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/enums/cardpage_site.dart';
-import 'package:rfidapp/pages/generate/visualize/cards_visualize.dart';
+import 'package:rfidapp/domain/enums/cardpage_type.dart';
 import 'package:rfidapp/pages/generate/visualize/reservate_visualize.dart';
 
 class ReservatePage extends StatefulWidget {

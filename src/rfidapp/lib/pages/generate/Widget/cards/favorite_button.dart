@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
@@ -16,7 +17,6 @@ class FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     var colorPin = (pinnedCards!.contains(card.name.toString())
         ? Colors.yellow
         : Theme.of(context).primaryColor);
@@ -27,7 +27,6 @@ class FavoriteButton extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(
             MediaQuery.of(context).size.width - 160, 0, 0, 0),
         onPressed: () {
-          print("asd");
           setState(
             () {
               if (!(pinnedCards!.contains(card.name.toString()))) {

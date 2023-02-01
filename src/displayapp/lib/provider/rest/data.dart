@@ -20,17 +20,10 @@ class Data {
       Storage cards = Storage.fromJson(jsonStorage);
 
       return cards;
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   static Future<Response> postGetCardNow(ReaderCard readerCard) async {
-    // "/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
-    // "/api/storages/cards/name/NAME/fetch",
-
-    String readerCards = jsonEncode(readerCard.toJson());
-    print(Uri.parse('${uriRaspi}storages/cards/name/${readerCard.name}/fetch'));
     return put(
         Uri.parse('${uriRaspi}storages/cards/name/${readerCard.name}/fetch'),
         headers: <String, String>{

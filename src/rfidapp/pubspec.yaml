@@ -54,6 +54,7 @@ dependencies:
   dart_ping: ^7.0.2
   web_socket_channel: ^2.2.0
   awesome_snackbar_content: ^0.1.0
+  tuple: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -20,7 +20,6 @@ class ReaderCard {
 
   factory ReaderCard.fromJson(Map<String, dynamic> json) {
     if (json["reservations"] != null) {
-      print(json['name']);
       var cardsObjJson = json['reservations'] as List;
       List<Reservation> cards =
           cardsObjJson.map((tagJson) => Reservation.fromJson(tagJson)).toList();

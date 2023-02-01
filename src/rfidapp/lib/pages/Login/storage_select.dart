@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
-import 'package:rfidapp/pages/generate/widget/button_create.dart';
+import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
 
 import 'package:rfidapp/provider/connection/api/data.dart';
 
@@ -56,7 +56,7 @@ class StorageSelectPopUp {
                         ConstrainedBox(
                           constraints:
                               const BoxConstraints(minWidth: double.infinity),
-                          child: buttonField(
+                          child: DefaultCustomButton(
                               bgColor: ColorSelect.blueAccent,
                               borderColor: ColorSelect.blueAccent,
                               text: 'Weiter',
@@ -69,7 +69,7 @@ class StorageSelectPopUp {
                         ConstrainedBox(
                           constraints:
                               const BoxConstraints(minWidth: double.infinity),
-                          child: buttonField(
+                          child: DefaultCustomButton(
                             bgColor: ColorSelect.blueAccent,
                             borderColor: ColorSelect.blueAccent,
                             text: 'Abbrechen',

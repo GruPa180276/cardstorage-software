@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
@@ -14,7 +16,7 @@ class CardView extends StatelessWidget {
   final void Function(void Function()) setState;
 
   CardView(
-      {Key? key,
+      {super.key,
       required this.readercards,
       required this.context,
       required this.searchstring,
@@ -59,67 +61,63 @@ class CardView extends StatelessWidget {
   }
 
   Widget _buildCardsText(BuildContext context, ReaderCard card) {
-    return Container(
-      child: Expanded(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-              child: Table(
-                //border: TableBorder.all(),
+    return Expanded(
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+            child: Table(
+              //border: TableBorder.all(),
 
-                columnWidths: const <int, TableColumnWidth>{
-                  0: FractionColumnWidth(0.59),
-                  1: FractionColumnWidth(0.4),
-                },
+              columnWidths: const <int, TableColumnWidth>{
+                0: FractionColumnWidth(0.59),
+                1: FractionColumnWidth(0.4),
+              },
 
-                children: [
-                  TableRow(
-                    children: [
-                      const TableCell(child: Text("Name:")),
-                      TableCell(child: Text(card.name))
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      const TableCell(child: Text("Storage:")),
-                      TableCell(child: Text(card.storageName!))
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      const TableCell(child: Text("Verfuegbar:")),
-                      TableCell(
-                        child: Text(
-                          card.available.toString(),
-                          style: TextStyle(
-                              color:
-                                  (!card.available) ? Colors.red : Colors.green,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      const TableCell(child: Text("Position:")),
-                      TableCell(
-                        child: Text(
-                          card.position.toString(),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+              children: [
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Name:")),
+                    TableCell(child: Text(card.name))
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Storage:")),
+                    TableCell(child: Text(card.storageName!))
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Verfuegbar:")),
+                    TableCell(
+                      child: Text(
+                        card.available.toString(),
+                        style: TextStyle(
+                            color:
+                                (!card.available) ? Colors.red : Colors.green,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    const TableCell(child: Text("Position:")),
+                    TableCell(
+                      child: Text(
+                        card.position.toString(),
+                      ),
+                    )
+                  ],
+                ),
+              ],
             ),
-            FavoriteButton(
-                card: card,
-                reloadPinned: reloadPinned,
-                pinnedCards: pinnedCards),
-            EmailButton(card: card)
-          ],
-        ),
+          ),
+          FavoriteButton(
+              card: card, reloadPinned: reloadPinned, pinnedCards: pinnedCards),
+          EmailButton(card: card)
+        ],
       ),
     );
   }

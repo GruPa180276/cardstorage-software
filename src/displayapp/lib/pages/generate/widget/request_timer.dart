@@ -12,15 +12,13 @@ class RequestTimer {
   Map? _responseData;
   var timerController = CountDownController();
   late bool _successful = false;
-  late _TimerType _timerType;
   int i = 0;
   BuildContext context;
-  ReaderCard card;
-  late IOWebSocketChannel? channel;
-  RequestTimer({required this.context, required this.card});
+  ReaderCard? card;
+  IOWebSocketChannel? channel;
+  RequestTimer({required this.context, this.card});
 
   Future<void> build() {
-    _timerType = _TimerType.InitTimer;
     i = 0;
     channel = IOWebSocketChannel.connect(
         Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
@@ -28,7 +26,7 @@ class RequestTimer {
     int timestamp = 0;
     return showDialog(
         context: context,
-        builder: (BuildContext buildContext) {
+        builder: (BuildContext context) {
           return Scaffold(
             backgroundColor: Colors.transparent,
             body: Stack(
@@ -59,20 +57,26 @@ class RequestTimer {
                     isTimerTextShown: true,
                     autoStart: true,
                     onComplete: (() {
-                      if (i == 0) {
-                        i++;
-                        try {
-                          print("seco");
-                          SnackbarBuilder.build(SnackbarType.Karten, context,
-                              _successful, _responseData);
-                        } catch (e) {}
+                      channel!.sink.close();
+
+                      if (card != null && i == 0) {
+                        SnackbarBuilder.build(SnackbarType.Karten, context,
+                            _successful, _responseData);
+                        Navigator.maybePop(context);
+                      } else if (i == 0) {
+                        SnackbarBuilder.build(SnackbarType.User, context,
+                            _successful, _responseData);
+                        Navigator.maybePop(context);
                       }
-                      Navigator.of(context).maybePop();
+                      i++;
                     }),
                     onStart: () async {
-                      var response = await Data.postGetCardNow(card);
-                      if (response.statusCode != 200) {
-                        Navigator.maybePop(context);
+                      this.context = context;
+                      if (card != null) {
+                        var response = await Data.postGetCardNow(card!);
+                        if (response.statusCode != 200) {
+                          Navigator.maybePop(context);
+                        }
                       }
                     },
                     timeFormatterFunction:
@@ -106,13 +110,23 @@ class RequestTimer {
   }
 
   streamListener() {
-    channel?.stream.listen((message) async {
+    channel?.stream.listen((message) {
       _responseData = jsonDecode(message);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
-      _timerType = _TimerType.Breaktimer;
       channel!.sink.close();
+      i++;
       timerController.restart(duration: 0);
+
+      if (card != null) {
+        SnackbarBuilder.build(
+            SnackbarType.Karten, context, _successful, _responseData);
+      } else {
+        SnackbarBuilder.build(
+            SnackbarType.User, context, _successful, _responseData);
+      }
+      print("This print is required");
+      Navigator.maybePop(context);
     });
   }
 }

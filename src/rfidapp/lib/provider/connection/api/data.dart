@@ -1,3 +1,5 @@
+// ignore_for_file: body_might_complete_normally_nullable, empty_catches
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
@@ -8,7 +10,6 @@ import 'dart:async';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/provider/types/reservation.dart';
 import 'package:rfidapp/provider/types/storage.dart';
-import 'package:rfidapp/provider/types/user.dart';
 
 class Data {
   static String uriRaspi = 'https://10.0.2.2:7171/api/';
@@ -23,13 +24,11 @@ class Data {
           jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
 
       return Utils.parseToReaderCards(storages);
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   static Future<bool> checkUserRegistered(String email) async {
-    var responseUser = await get(Uri.parse("${uriRaspi}users/email/${email}"),
+    var responseUser = await get(Uri.parse("${uriRaspi}users/email/$email"),
         headers: {"Accept": "application/json"});
 
     if (responseUser.statusCode != 200 ||
@@ -78,12 +77,9 @@ class Data {
       ReaderCard readerCard, String email) async {
     // "/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
     // "/api/storages/cards/name/NAME/fetch",
-    print(Uri.parse(
-        '${uriRaspi}storages/cards/name/${readerCard.name}/fetch/user/email/${email}'));
-    String readerCards = jsonEncode(readerCard.toJson());
     return put(
         Uri.parse(
-            '${uriRaspi}storages/cards/name/${readerCard.name}/fetch/user/email/${email}'),
+            '${uriRaspi}storages/cards/name/${readerCard.name}/fetch/user/email/$email'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
@@ -91,7 +87,6 @@ class Data {
 
   static Future<List<Reservation>> getReservationsOfCard(
       ReaderCard card) async {
-    https: //localhost:7171/api/storages/cards/reservations/card/Card1
     var reservationResponse = await get(
         Uri.parse("${uriRaspi}storages/cards/reservations/card/${card.name}"),
         headers: {"Accept": "appliction/json"});
@@ -105,14 +100,13 @@ class Data {
   }
 
   static Future<Response> newReservation(
-      String CardName, int since, int till) async {
-    //https://localhost:7171/api/users/reservations/email/40146720180276@litec.ac.at
+      String cardname, int since, int till) async {
     var reservationResponse = await post(
         Uri.parse(
             "${uriRaspi}users/reservations/email/${await UserSecureStorage.getUserEmail()}"),
         headers: {"Accept": "appliction/json"},
         body: jsonEncode({
-          "card": CardName,
+          "card": cardname,
           "since": since,
           "until": till,
           "is-reservation": true
@@ -131,5 +125,4 @@ class Data {
     return reservationResponse;
   }
 
-  ///api/users/reservations/email/USER@PROVIDER.COM
 }

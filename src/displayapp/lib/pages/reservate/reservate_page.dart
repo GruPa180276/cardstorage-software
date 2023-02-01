@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/pages/generate/api_data_visualize.dart';
-import 'package:rfidapp/provider/mqtt/mqtt.dart';
-import 'package:rfidapp/domain/storage_properties.dart';
 
 class ReservatePage extends StatefulWidget {
   const ReservatePage({Key? key}) : super(key: key);
@@ -13,7 +11,6 @@ class ReservatePage extends StatefulWidget {
 
 class _ReservatePage extends State<ReservatePage> {
   void initState() {
-    // TODO: implement initState
     super.initState();
     // _conntectToMqtt();
   }

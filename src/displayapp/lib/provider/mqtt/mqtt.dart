@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -5,17 +7,15 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:rfidapp/pages/generate/widget/request_timer.dart';
-import 'package:rfidapp/domain/storage_properties.dart';
 
 class MQTTClientManager {
   static final MqttServerClient _client =
       MqttServerClient.withPort("10.0.2.2", 'test', 1884);
-  static late StreamSubscription _subscription;
-  static late BuildContext _context;
-
-  static Future<int> connect() async {
+  static BuildContext? _context;
+  static Future<int> connect(BuildContext context) async {
     _client.logging(on: true);
-
+    _context = context;
+    _client.disconnect();
     _client.keepAlivePeriod = 60;
     _client.onConnected = onConnected;
     _client.onDisconnected = onDisconnected;
@@ -27,6 +27,8 @@ class MQTTClientManager {
 
     try {
       await _client.connect("CardStorageManagement", "CardStorageManagement");
+      _client.subscribe("S4@L4/1", MqttQos.atLeastOnce);
+      _client.updates!.listen(_onMessage);
     } on NoConnectionException catch (e) {
       print('MQTTClient::Client exception - $e');
       _client.disconnect();
@@ -34,7 +36,6 @@ class MQTTClientManager {
       print('MQTTClient::Socket exception - $e');
       _client.disconnect();
     }
-
     return 0;
   }
 
@@ -42,23 +43,14 @@ class MQTTClientManager {
     _client.disconnect();
   }
 
-  static void _onMessage(List<MqttReceivedMessage> event) {
+  static void _onMessage(List<MqttReceivedMessage> event) async {
     final MqttPublishMessage recMess = event[0].payload as MqttPublishMessage;
-
     final String message =
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
     Map response = json.decode(message);
-    print(response);
-    //MqttTimer.startTimer(_context, "to-sign-up");
-  }
-
-  static void subscribe(String topic, BuildContext buildContext) {
-    try {
-      _context = buildContext;
-      _client.subscribe(topic, MqttQos.atLeastOnce);
-      _subscription = _client.updates!.listen(_onMessage);
-    } catch (e) {
-      print(e);
+    if (response["action"] == "user-signup" &&
+        response["client-id"].toString().contains("CSMC")) {
+      await RequestTimer(context: _context!).build();
     }
   }
 

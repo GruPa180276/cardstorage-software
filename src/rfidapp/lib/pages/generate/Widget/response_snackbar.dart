@@ -1,13 +1,12 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
 
 class SnackbarBuilder {
   static void build(SnackbarType snackbarType, BuildContext context,
       bool successful, dynamic content) {
-    var snackBar;
-    if (successful && SnackbarType.User == snackbarType) {
+    SnackBar snackBar;
+    if (successful && SnackbarType.USER == snackbarType) {
       snackBar = SnackBar(
           elevation: 0,
           behavior: SnackBarBehavior.floating,
@@ -17,7 +16,7 @@ class SnackbarBuilder {
             message: '',
             contentType: ContentType.success,
           ));
-    } else if (successful && SnackbarType.Karten == snackbarType) {
+    } else if (successful && SnackbarType.CARD == snackbarType) {
       snackBar = SnackBar(
           elevation: 0,
           behavior: SnackBarBehavior.floating,
@@ -34,7 +33,9 @@ class SnackbarBuilder {
           backgroundColor: Colors.transparent,
           content: AwesomeSnackbarContent(
             title: 'Etwas ist schiefgelaufen!',
-            message: content.toString(),
+            message: (content == null)
+                ? content.toString()
+                : "Anmeldung nicht erfolgreich",
 
             /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
             contentType: ContentType.failure,

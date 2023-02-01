@@ -31,11 +31,9 @@ class BottomSheetPop {
       case CardPageType.Reservierungen:
         return _buildReservationPage(context);
     }
-    //TODO getStorageIds by API
   }
 
   Future _buildCardPage(BuildContext context) {
-    //TODO getStorageIds by API
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -126,7 +124,6 @@ class BottomSheetPop {
       }
     }
 
-    //TODO getStorageIds by API
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

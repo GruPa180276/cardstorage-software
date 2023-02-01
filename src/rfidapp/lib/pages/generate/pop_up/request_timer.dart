@@ -1,16 +1,15 @@
+// ignore_for_file: constant_identifier_names, use_build_context_synchronously
+
+import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:rfidapp/domain/enums/cardpage_site.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
-import 'package:rfidapp/domain/enums/timer_actions.dart';
-import 'package:rfidapp/pages/generate/visualize/cards_visualize.dart';
+import 'package:rfidapp/domain/enums/timer_actions_type.dart';
 import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 import '../widget/circular_timer/circular_countdown_timer.dart';
 
@@ -18,9 +17,8 @@ class RequestTimer {
   Map? _responseData;
   var timerController = CountDownController();
   late bool _successful = false;
-  late _TimerType _timerType;
   int i = 0;
-  late IOWebSocketChannel channel;
+  IOWebSocketChannel? channel;
   final BuildContext context;
   final TimerAction action;
   final ReaderCard? card;
@@ -35,7 +33,6 @@ class RequestTimer {
       this.storagename});
 
   Future<void> startTimer() async {
-    i = 0;
     _successful = false;
     channel = IOWebSocketChannel.connect(
         Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
@@ -74,29 +71,17 @@ class RequestTimer {
                       isTimerTextShown: true,
                       autoStart: true,
                       onComplete: (() {
-                        if (i == 0) {
-                          i++;
-                          if (card != null) {
-                            if (_successful) {
-                              SnackbarBuilder.build(SnackbarType.Karten,
-                                  context, _successful, _responseData);
-                            } else {
-                              SnackbarBuilder.build(SnackbarType.Karten,
-                                  context, _successful, _responseData);
-                            }
-                          } else if (storagename != null) {
-                            if (_successful) {
-                              SnackbarBuilder.build(SnackbarType.User, context,
-                                  _successful, _responseData);
-                            } else {
-                              SnackbarBuilder.build(SnackbarType.User, context,
-                                  _successful, _responseData);
-                            }
-                          }
-                        }
-                        try {
+                        i++;
+                        channel!.sink.close();
+                        if (card != null && i == 0) {
+                          SnackbarBuilder.build(SnackbarType.CARD, context,
+                              _successful, _responseData);
                           Navigator.of(context).maybePop();
-                        } catch (e) {}
+                        } else if (storagename != null && i == 0) {
+                          SnackbarBuilder.build(SnackbarType.USER, context,
+                              _successful, _responseData);
+                          Navigator.of(context).maybePop();
+                        }
                       }),
                       onStart: () async {
                         //maybe you need threading
@@ -149,15 +134,31 @@ class RequestTimer {
   }
 
   streamListener() {
-    channel.stream.listen((message) async {
+    channel!.stream.listen((message) async {
       _responseData = jsonDecode(message);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
-      _timerType = _TimerType.Breaktimer;
+      i++;
       timerController.restart(duration: 0);
-      channel.sink.close();
+      channel!.sink.close();
+      if (card != null) {
+        if (_successful) {
+          SnackbarBuilder.build(
+              SnackbarType.CARD, context, _successful, _responseData);
+        } else {
+          SnackbarBuilder.build(
+              SnackbarType.CARD, context, _successful, _responseData);
+        }
+      } else if (storagename != null) {
+        if (_successful) {
+          SnackbarBuilder.build(
+              SnackbarType.USER, context, _successful, _responseData);
+        } else {
+          SnackbarBuilder.build(
+              SnackbarType.USER, context, _successful, _responseData);
+        }
+      }
+      Navigator.of(context).maybePop();
     });
   }
 }
-
-enum _TimerType { InitTimer, Breaktimer }

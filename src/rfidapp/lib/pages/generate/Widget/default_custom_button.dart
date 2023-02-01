@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class buttonField extends StatelessWidget {
+class DefaultCustomButton extends StatelessWidget {
   final Color bgColor;
   final Color borderColor;
   final Color textColor;
   final String text;
   final void Function()? onPress;
 
-  const buttonField(
+  const DefaultCustomButton(
       {super.key,
       required this.bgColor,
       required this.borderColor,

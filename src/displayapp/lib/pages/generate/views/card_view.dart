@@ -3,7 +3,6 @@ import 'package:rfidapp/pages/generate/widget/request_timer.dart';
 import 'package:rfidapp/pages/generate/widget/card_button.dart';
 import 'package:rfidapp/provider/types/cards.dart';
 import 'package:rfidapp/provider/types/storage.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class CardView extends StatelessWidget {
   Storage storage;

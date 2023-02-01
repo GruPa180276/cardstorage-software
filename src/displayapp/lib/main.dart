@@ -13,6 +13,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   await AssetFiles.setProperties();
+
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
@@ -26,9 +27,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MQTTClientManager.connect();
-    MQTTClientManager.subscribe("S4@L4/1", context);
-
     return ChangeNotifierProvider(
         create: (context) => ThemeProvider(),
         builder: (context, _) {

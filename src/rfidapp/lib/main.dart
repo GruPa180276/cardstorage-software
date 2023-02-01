@@ -17,11 +17,6 @@ Future main() async {
   await UserSecureStorage.getRememberState()
       .then((value) => rememberState = value ?? 'false');
 
-  // await SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  //   DeviceOrientation.portraitDown,
-  // ]);
-
   runApp(MyApp(
     rememberState: rememberState,
   ));
@@ -30,7 +25,7 @@ Future main() async {
 class MyApp extends StatelessWidget {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
-  static const String title = 'Light & Dark Theme';
+  static const String title = 'Rfid Card Management App';
   // ignore: prefer_typing_uninitialized_variables
   final rememberState;
   const MyApp({this.rememberState, Key? key}) : super(key: key);

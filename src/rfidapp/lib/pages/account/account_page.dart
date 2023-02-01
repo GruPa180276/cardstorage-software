@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/generate/widget/button_create.dart';
+import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
 import 'package:rfidapp/pages/generate/widget/text_field.dart';
 
 class AccountPage extends StatefulWidget {
@@ -20,6 +20,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   void initState() {
+    super.initState();
     UserSecureStorage.getUserValues().then((value) => {
           emailController.text = value["Email"]!,
           firstNameController.text = value["Firstname"]!,
@@ -118,7 +119,7 @@ class _AccountPageState extends State<AccountPage> {
                         child: SizedBox(
                             width: double.infinity,
                             height: 50,
-                            child: buttonField(
+                            child: DefaultCustomButton(
                               bgColor: ColorSelect.blueAccent,
                               borderColor: ColorSelect.blueAccent,
                               text: 'Zurueck',

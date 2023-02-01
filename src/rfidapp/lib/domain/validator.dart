@@ -30,6 +30,7 @@ class Validator {
     } else if (!Validator._validateEmail(value)) {
       return "Email nicht korrekt";
     }
+    return null;
   }
 
   static String? funcName(String? value) {
@@ -59,6 +60,7 @@ class Validator {
     if (value!.isEmpty) {
       return 'Please enter password';
     }
+    return null;
   }
 
   static double validatePassword(String pass) {

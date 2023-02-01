@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/generate/widget/button_create.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
+import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
-import 'package:rfidapp/provider/types/storage.dart';
 
 class BottomSheetPop {
   String _valueStorage = '';
@@ -20,11 +18,9 @@ class BottomSheetPop {
 
   Future buildBottomSheet(BuildContext context) async {
     List<String> listOfStorageId = await _getStorageNames();
-    final _listofAvailable = ['alle', true, false];
-
+    final listofAvailable = ['alle', true, false];
     listOfStorageId.insert(0, "alle");
     _valueStorage = listOfStorageId.first;
-    //TODO getStorageIds by API
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -58,8 +54,7 @@ class BottomSheetPop {
                           items: listOfStorageId.map((valueItem) {
                             return DropdownMenuItem(
                                 value: valueItem,
-                                child: Container(
-                                    child: Text(valueItem.toString())));
+                                child: Text(valueItem.toString()));
                           }).toList(),
                           onChanged: (newValue) {
                             setState(() {
@@ -72,7 +67,7 @@ class BottomSheetPop {
                   ),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Verfuegabar',
                         style: TextStyle(fontSize: 17),
@@ -80,7 +75,7 @@ class BottomSheetPop {
                       Expanded(
                         child: DropdownButton(
                           value: _valueAvailable,
-                          items: _listofAvailable.map((valueItem) {
+                          items: listofAvailable.map((valueItem) {
                             return DropdownMenuItem(
                                 value: valueItem,
                                 child: Text(valueItem.toString()));
@@ -102,7 +97,7 @@ class BottomSheetPop {
                     margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     width: double.infinity,
                     height: 50,
-                    child: buttonField(
+                    child: DefaultCustomButton(
                         bgColor: ColorSelect.blueAccent,
                         borderColor: ColorSelect.blueAccent,
                         text: 'Filtern',

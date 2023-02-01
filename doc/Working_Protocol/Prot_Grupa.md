@@ -342,12 +342,17 @@ Tag der offenen Tuer
 **2023-01-21: 14:00-> 18:00**
 Implementation des Reservierungsystems
 
+**2023-01-22: 20:00-> 21:40**
+Es wwurden Bugs bei den Reservierungen behoben. Die RiidApp ist soweit fertig.
+
 **2023-01-31: 15:00-> 19:00**
 Heute wurde der RequestTimer bei der DisplayApp erstellt falls eine Mqttnachricht mit der action "user-sign-up" kommt, d.h wenn ein User sich Registrieren moechte erscheint nun ein PopUp am Display. Allerdings hatte ich ziemliche Schwierigkeiten, und musste von Der Logik her viel aendern. Schlussendlich musste ich sogar an der zweiten App noch etwas Logik bei der Websocket impl aendearn 
 
 
-**2023-01-22: 20:00-> 21:40**
-Es wwurden Bugs bei den Reservierungen behoben. Die RiidApp ist soweit fertig.
+**2023-02-01: 18:00-> 20:00**
+Heute musste ich ein paar Fehler beheben. Zunaechst wurde etwas beim Login geaendert. Danach leoste ich die Problems die mir VsCode anzeigte.
+
+
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
 - 11:20 bis 14:20 Uhr
@@ -441,5 +446,6 @@ Es wwurden Bugs bei den Reservierungen behoben. Die RiidApp ist soweit fertig.
 - 14:00 bis 18:00 Uhr
 - 20:00 bis 21:40 Uhr
 - 15:00 bis 19:00 Uhr
+- 18:00 bis 20:00 Uhr
 <!-- { "progress": false } -->
 

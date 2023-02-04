@@ -62,48 +62,50 @@ class _StorageViewState extends State<UsersSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: GenerateReloadButton(this.reload),
-      appBar: AppBar(
-        title: Text("Karten entfernen",
-            style:
-                TextStyle(color: Theme.of(context).focusColor, fontSize: 25)),
-      ),
-      body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    controller: txtQuery,
-                    onChanged: search,
-                    decoration: InputDecoration(
-                      hintText: "Search",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0)),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black)),
-                      prefixIcon: Icon(Icons.search),
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: () {
-                          txtQuery.text = '';
-                          search(txtQuery.text);
-                        },
+        floatingActionButton: GenerateReloadButton(this.reload),
+        appBar: AppBar(
+          title: Text("Karten entfernen",
+              style:
+                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25)),
+        ),
+        body: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        controller: txtQuery,
+                        onChanged: search,
+                        decoration: InputDecoration(
+                          hintText: "Search",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          prefixIcon: Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              txtQuery.text = '';
+                              search(txtQuery.text);
+                            },
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            _listView(persons)
-          ]),
-    );
+                ),
+                _listView(persons)
+              ]),
+        ));
   }
 
   Widget _listView(List<Users> persons) {

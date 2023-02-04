@@ -20,6 +20,10 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
+// User löschen
+// Input Handling, überprüfen ob der jeweilige Parameter noch nicht vorhande ist
+// Error Handling über API Response
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();

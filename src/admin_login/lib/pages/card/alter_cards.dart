@@ -44,12 +44,10 @@ class _CardSettingsState extends State<CardSettings> {
             backgroundColor: Theme.of(context).secondaryHeaderColor,
             actions: []),
         body: Container(
-          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+          padding: const EdgeInsets.only(top: 10, left: 0, right: 0),
           child: Column(children: [
             Expanded(
-              child: Container(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Column(children: [GetDataFromAPI()])),
+              child: Container(child: Column(children: [GetDataFromAPI()])),
             )
           ]),
         ));
@@ -139,7 +137,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
           function: this.setName,
         ),
         Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           child: Column(children: [
             DecoratedBox(
                 decoration: BoxDecoration(
@@ -157,39 +155,35 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                         blurRadius: 5,
                       )
                     ]),
-                child: SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: Center(
-                        child: DropdownButton(
-                      focusColor: Theme.of(context).focusColor,
-                      dropdownColor: Theme.of(context).backgroundColor,
-                      iconEnabledColor: Theme.of(context).focusColor,
-                      iconDisabledColor: Theme.of(context).focusColor,
-                      value: selectedStorage,
-                      items: dropDownValuesNames.map((valueItem) {
-                        return DropdownMenuItem(
-                            value: valueItem,
-                            child: Text(
-                              valueItem.toString(),
-                              style: TextStyle(
-                                  color: Theme.of(context).focusColor),
-                            ));
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedStorage = newValue!;
-                        });
-                        setStorage(newValue!);
-                      },
-                    ))))
+                child: Center(
+                    child: DropdownButton(
+                  focusColor: Theme.of(context).focusColor,
+                  dropdownColor: Theme.of(context).backgroundColor,
+                  iconEnabledColor: Theme.of(context).focusColor,
+                  iconDisabledColor: Theme.of(context).focusColor,
+                  value: selectedStorage,
+                  items: dropDownValuesNames.map((valueItem) {
+                    return DropdownMenuItem(
+                        value: valueItem,
+                        child: Text(
+                          valueItem.toString(),
+                          style: TextStyle(color: Theme.of(context).focusColor),
+                        ));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedStorage = newValue!;
+                    });
+                    setStorage(newValue!);
+                  },
+                )))
           ]),
         ),
         GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Container(
-              padding: EdgeInsets.all(10),
-              height: 70,
+              padding: EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
+              height: 50,
               child: Column(children: [
                 generateButtonRectangle(
                   context,

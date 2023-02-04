@@ -24,6 +24,7 @@ class MyHttpOverrides extends HttpOverrides {
 // Input Handling, überprüfen ob der jeweilige Parameter noch nicht vorhande ist
 // Error Handling über API Response
 // Error Handling when deleting Users
+// Add CircularProgressIndicator
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

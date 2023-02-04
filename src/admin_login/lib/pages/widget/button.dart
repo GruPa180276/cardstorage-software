@@ -12,9 +12,9 @@ Expanded generateButtonRound(BuildContext context, String buttonText,
       },
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        minimumSize: Size(double.infinity, 50),
+        minimumSize: Size(double.infinity, 60),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         foregroundColor: Theme.of(context).focusColor,
       ),

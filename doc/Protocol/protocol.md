@@ -287,6 +287,9 @@ Habe begonen damit, das man die Zeit, wann man eine Reservierung nicht mehr abho
 **23.1.2023: 12:00 bis 13:30** <br>
 Danach habe ich noch implementiert, das man einen User zu einem Admin machen kann. Funktioniert auch soweit. (1h 30min)
 
+**4.2.2023: 9:00 bis 12:00** <br>
+Habe heute die Rservierungs Seite angepasst. Es kann jetzt nach Reservierungen gesucht werden. Generell wurde das Layout überarbeitett. Des weiteren habe ich noch die User Seite überabeitett, man bekommt jetzt auch angezeigt, ob der User bereits ein Admin ist. Neu ist auch noch das man User jetzt löschen kann. (3h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -370,4 +373,5 @@ Danach habe ich noch implementiert, das man einen User zu einem Admin machen kan
 - 8:15 bis 10:00 Uhr
 - 10:30 bis 12:00 Uhr
 - 12:00 bis 13:30 Uhr
+- 9:00 bis 12:00 Uhr
 <!-- { "progress": false } -->

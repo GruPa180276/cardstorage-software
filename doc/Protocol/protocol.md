@@ -290,6 +290,9 @@ Danach habe ich noch implementiert, das man einen User zu einem Admin machen kan
 **4.2.2023: 9:00 bis 12:00** <br>
 Habe heute die Rservierungs Seite angepasst. Es kann jetzt nach Reservierungen gesucht werden. Generell wurde das Layout überarbeitett. Des weiteren habe ich noch die User Seite überabeitett, man bekommt jetzt auch angezeigt, ob der User bereits ein Admin ist. Neu ist auch noch das man User jetzt löschen kann. (3h)
 
+**4.2.2023: 12.15 bis 15:30** <br>
+Habe auf der Karten Seite noch eine Suche hinzugefügt. Diese funktioniert auch mit dem Filter. Generell habe ich noch das Design der Seite überarbeitet. Der Verfügbarkeitssatus einer Karte wird jetzt rechts angezeigt. (3h 15min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -374,4 +377,5 @@ Habe heute die Rservierungs Seite angepasst. Es kann jetzt nach Reservierungen g
 - 10:30 bis 12:00 Uhr
 - 12:00 bis 13:30 Uhr
 - 9:00 bis 12:00 Uhr
+- 12:15 bis 15:30 Uhr
 <!-- { "progress": false } -->

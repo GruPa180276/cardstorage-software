@@ -6,10 +6,6 @@ Table createCardTable(
   int accessed,
   bool isAvailable,
 ) {
-  Color color = Colors.green;
-  if (isAvailable == false) {
-    color = Colors.red;
-  }
   return Table(columnWidths: {
     0: FractionColumnWidth(0.39),
     1: FractionColumnWidth(0.60)
@@ -40,21 +36,5 @@ Table createCardTable(
         )
       ],
     ),
-    TableRow(
-      children: [
-        Text(
-          "Verfügbar:",
-          style: TextStyle(fontSize: 20),
-        ),
-        Text(
-          isAvailable.toString(),
-          style: TextStyle(
-            fontSize: 20,
-            color: color,
-          ),
-          textAlign: TextAlign.right,
-        )
-      ],
-    )
   ]);
 }

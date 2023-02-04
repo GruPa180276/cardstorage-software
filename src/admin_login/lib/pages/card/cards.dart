@@ -16,7 +16,6 @@ class CardsView extends StatefulWidget {
 }
 
 class _CardsViewState extends State<CardsView> {
-  late Future<List<Storages>> futureData;
   late String selectedStorage = "-";
   List<String> dropDownValues = ["-"];
   List<Storages>? listOfStorages;
@@ -25,16 +24,6 @@ class _CardsViewState extends State<CardsView> {
   List<Storages> persons = [];
   List<Storages> original = [];
   TextEditingController txtQuery = new TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    futureData = storage.fetchData();
-    test();
-
-    loadData();
-  }
 
   void test() async {
     await storage.fetchData().then((value) => listOfStorages = value);
@@ -50,12 +39,6 @@ class _CardsViewState extends State<CardsView> {
     persons = listOfCards;
     original = listOfCards;
     setState(() {});
-  }
-
-  void reload() {
-    setState(() {
-      loadData();
-    });
   }
 
   void search(String query) {
@@ -83,6 +66,21 @@ class _CardsViewState extends State<CardsView> {
     persons = result!;
 
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    test();
+
+    loadData();
+  }
+
+  void reload() {
+    setState(() {
+      loadData();
+    });
   }
 
   @override

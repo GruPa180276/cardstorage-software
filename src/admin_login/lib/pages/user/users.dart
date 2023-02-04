@@ -69,38 +69,43 @@ class _StorageViewState extends State<UsersSettings> {
                   TextStyle(color: Theme.of(context).focusColor, fontSize: 25)),
         ),
         body: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(5),
           child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: txtQuery,
-                        onChanged: search,
-                        decoration: InputDecoration(
-                          hintText: "Search",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                          prefixIcon: Icon(Icons.search),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.clear),
-                            onPressed: () {
-                              txtQuery.text = '';
-                              search(txtQuery.text);
-                            },
+                Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: txtQuery,
+                            onChanged: search,
+                            decoration: InputDecoration(
+                              hintText: "Search",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              prefixIcon: Icon(Icons.search),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.clear),
+                                onPressed: () {
+                                  txtQuery.text = '';
+                                  search(txtQuery.text);
+                                },
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    )),
                 _listView(persons)
               ]),
         ));

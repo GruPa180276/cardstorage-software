@@ -88,9 +88,13 @@ func (self *UserHandler) CreateHandler(res http.ResponseWriter, req *http.Reques
 		return err, nil
 	}
 
-	if err := self.Controller.SignUpUserDispatcher(storage.Name, storage.Location, user.Email); err != nil {
+	intercepted, err := self.Controller.SignUpUserDispatcher(storage.Name, storage.Location, user.Email)
+	if err != nil {
 		return err, nil
 	}
+
+	intercepted.ClientId = util.AssembleBaseStorageTopic(storage.Name, storage.Location)
+	self.UserLogChannel <- string(util.Must(json.Marshal(intercepted)).([]byte))
 
 	return nil, meridian.OkayMustJson(&struct {
 		Email string `json:"email"`

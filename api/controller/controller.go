@@ -273,7 +273,7 @@ func (self *Controller) SignUpUserHandler(message mqtt.Message) (error, *meridia
 	return nil, meridian.Okay(string(message.Payload()))
 }
 
-func (self *Controller) SignUpUserDispatcher(storageName, location, email string) error {
+func (self *Controller) SignUpUserDispatcher(storageName, location, email string) (*SerializableUserMessage, error) {
 	id := uuid.New().String()
 
 	kickoff := NewSerializableUserMessage(
@@ -285,16 +285,16 @@ func (self *Controller) SignUpUserDispatcher(storageName, location, email string
 
 	buf, err := json.Marshal(kickoff)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	token := self.Publish(util.AssembleBaseStorageTopic(storageName, location), 2, false, buf)
 	token.Wait()
 	if err := token.Error(); err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return &kickoff, nil
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -346,7 +346,7 @@ func (self *Controller) FetchCardKnownUserHandler(message mqtt.Message) (error, 
 	return nil, meridian.Okay(string(message.Payload()))
 }
 
-func (self *Controller) FetchCardKnownUserDispatcher(storageName, location, userWantsCardName string, userWantsCardPosition uint, userEmail string) error {
+func (self *Controller) FetchCardKnownUserDispatcher(storageName, location, userWantsCardName string, userWantsCardPosition uint, userEmail string) (*SerializableUserCardMessage, error) {
 	id := uuid.New().String()
 
 	kickoff := NewSerializableUserCardMessage(
@@ -359,12 +359,12 @@ func (self *Controller) FetchCardKnownUserDispatcher(storageName, location, user
 
 	buf, err := json.Marshal(kickoff)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	self.Client.Publish(util.AssembleBaseStorageTopic(storageName, location), 2, false, buf)
 
-	return nil
+	return &kickoff, nil
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,7 +440,7 @@ func (self *Controller) FetchCardUnknownUserHandler(message mqtt.Message) (error
 	}
 }
 
-func (self *Controller) FetchCardUnknownUserDispatcher(storageName, location, userWantsCardName string, userWantsCardPosition uint) error {
+func (self *Controller) FetchCardUnknownUserDispatcher(storageName, location, userWantsCardName string, userWantsCardPosition uint) (*SerializableUserCardMessage, error) {
 	id := uuid.New().String()
 	m := NewSerializableUserCardMessage(
 		Header{Id: id, ClientId: self.ClientId, Action: ActionStorageUnitFetchCardSourceTerminal},
@@ -449,11 +449,11 @@ func (self *Controller) FetchCardUnknownUserDispatcher(storageName, location, us
 		Status{})
 	buf, err := json.Marshal(m)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	self.Client.Publish(util.AssembleBaseStorageTopic(storageName, location), 2, false, buf)
 
 	self.Map.Store(m.Id, m)
 
-	return nil
+	return &m, nil
 }

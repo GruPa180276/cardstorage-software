@@ -333,9 +333,13 @@ func (self *CardHandler) FetchCardKnownUserHandler(res http.ResponseWriter, req 
 	s := storages[sidx]
 	c := s.Cards[cidx]
 
-	if err := self.Controller.FetchCardKnownUserDispatcher(s.Name, s.Location, c.Name, c.Position, user.Email); err != nil {
+	intercepted, err := self.Controller.FetchCardKnownUserDispatcher(s.Name, s.Location, c.Name, c.Position, user.Email)
+	if err != nil {
 		return err, nil
 	}
+
+	intercepted.ClientId = util.AssembleBaseStorageTopic(s.Name, s.Location)
+	self.CardLogChannel <- string(util.Must(json.Marshal(intercepted)).([]byte))
 
 	return nil, meridian.Okay()
 }
@@ -377,9 +381,13 @@ func (self *CardHandler) FetchCardUnknownUserHandler(res http.ResponseWriter, re
 
 	s := storages[sidx]
 	c := s.Cards[cidx]
-	if err := self.Controller.FetchCardUnknownUserDispatcher(s.Name, s.Location, c.Name, c.Position); err != nil {
+	intercepted, err := self.Controller.FetchCardUnknownUserDispatcher(s.Name, s.Location, c.Name, c.Position)
+	if err != nil {
 		return err, nil
 	}
+
+	intercepted.ClientId = util.AssembleBaseStorageTopic(s.Name, s.Location)
+	self.CardLogChannel <- string(util.Must(json.Marshal(intercepted)).([]byte))
 
 	return nil, meridian.Okay()
 }

@@ -277,7 +277,7 @@ var opts = map[int]func(){
 		type Updater struct {
 			Email      *string `json:"email"`
 			ReaderData *string `json:"reader"`
-			Privilege  *bool   `json:"privilege"`
+			Privilege  *bool   `json:"privileged"`
 		}
 		updateEmail := ""
 		fmt.Print("Email: ")
@@ -285,7 +285,7 @@ var opts = map[int]func(){
 		email := ""
 		reader := ""
 		priv := ""
-		fmt.Print("(type '$' to leave field unchanged) *Email *Reader *Privilege: ")
+		fmt.Print("(type '$' to leave field unchanged) *Email *Reader *Privileged: ")
 		if _, err := fmt.Scanln(&email, &reader, &priv); err != nil {
 			panic(err)
 		}

@@ -103,7 +103,7 @@ func (self *UserHandler) UpdateHandler(res http.ResponseWriter, req *http.Reques
 	type Updater struct {
 		Email      *string `json:"email"`
 		ReaderData *string `json:"reader"`
-		Privilege  *bool   `json:"privilege"`
+		Privileged *bool   `json:"privileged"`
 	}
 	user := model.User{}
 	vars := mux.Vars(req)
@@ -128,9 +128,9 @@ func (self *UserHandler) UpdateHandler(res http.ResponseWriter, req *http.Reques
 		user.ReaderData = util.NullableString(*u.ReaderData)
 		self.Logger.Println("update ReaderData", user.ReaderData)
 	}
-	if u.Privilege != nil {
+	if u.Privileged != nil {
 		updatePriv = true
-		user.Privileged = *u.Privilege
+		user.Privileged = *u.Privileged
 		self.Logger.Println("update Privileged", user.Privileged)
 	}
 

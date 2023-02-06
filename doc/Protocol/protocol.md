@@ -290,8 +290,17 @@ Danach habe ich noch implementiert, das man einen User zu einem Admin machen kan
 **4.2.2023: 9:00 bis 12:00** <br>
 Habe heute die Rservierungs Seite angepasst. Es kann jetzt nach Reservierungen gesucht werden. Generell wurde das Layout überarbeitett. Des weiteren habe ich noch die User Seite überabeitett, man bekommt jetzt auch angezeigt, ob der User bereits ein Admin ist. Neu ist auch noch das man User jetzt löschen kann. (3h)
 
-**4.2.2023: 12.15 bis 15:30** <br>
+**4.2.2023: 12:15 bis 15:30** <br>
 Habe auf der Karten Seite noch eine Suche hinzugefügt. Diese funktioniert auch mit dem Filter. Generell habe ich noch das Design der Seite überarbeitet. Der Verfügbarkeitssatus einer Karte wird jetzt rechts angezeigt. (3h 15min)
+
+**5.2.2023: 11:00 bis 13:00** <br>
+Habe heute mit der Dokumentation begonnen. Dazu habe ich mir eine grobe Struktur überlegt, was alles enthalten sein soll. Als erstes werde ich generelle Dinge zum Admin-Login erklären. Danch wird die Implementierung folgen. Weiters werde ich dann noch erklären, falls die Diplomarbeit in Zukunft noch weiter entwickelt werden soll, wie man die Arbeitsumgebung erstllt. Zum Schluss werde ich die Installation der App erklären und das Benutzerhandbuch erstellen. (2h)
+
+**5.2.2023: 12:30 bis 15:40** <br>
+Habe danch mit der Dokumentation begonnen. Dazu habe ich als erstes die Theoretischen Grundlagen formuliert. Welche Aufgaben der Admin Login hat, welche Benutzer Zugriff haben, wie man sich anmeldet, die navigation in der App, welche Funktionen die App bietet und ein Abluaf Diagram erstellt. (3h 10min)
+
+**5.2.2023: 16:00 bis 17:30** <br>
+Habe mit Herrn Grubauer die Struktur der Dokumentation besprochen, welche Sachen wir gemeinsam erklären sollten. (1h 30min)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -378,4 +387,7 @@ Habe auf der Karten Seite noch eine Suche hinzugefügt. Diese funktioniert auch 
 - 12:00 bis 13:30 Uhr
 - 9:00 bis 12:00 Uhr
 - 12:15 bis 15:30 Uhr
+- 11:00 bis 13:00 Uhr
+- 12:30 bis 15:40 Uhr
+- 16:00 bis 17:30 Uhr
 <!-- { "progress": false } -->

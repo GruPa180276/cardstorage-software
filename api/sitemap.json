@@ -7,6 +7,7 @@
 	],
 	"GET": [
 		"/api/controller/log",
+		"/api/auth/user/email/USER@PROVIDER.COM",
 		"/api/storages/cards",
 		"/api/storages/cards/name/NAME",
 		"/api/storages/cards/log",

@@ -29,9 +29,11 @@ Future main() async {
     systemNavigationBarColor: Colors.black,
   ));
 
-  SecureStorage.storage.deleteAll();
-
   HttpOverrides.global = MyHttpOverrides();
+
+  SecureStorage.storage.deleteAll();
+  SecureStorage.setToken();
+
   runApp(AppStart());
 }
 

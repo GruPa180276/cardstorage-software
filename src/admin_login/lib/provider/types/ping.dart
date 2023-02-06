@@ -37,6 +37,9 @@ Future<Ping> pingStorage(String name) async {
   if (response.statusCode == 200) {
     dynamic jsonResponse = json.decode(response.body);
     return Ping.fromJson(jsonResponse);
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return pingStorage(name);
   } else {
     throw Exception('Failed to ping Storage!');
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:admin_login/config/token_manager.dart';
+import 'package:admin_login/provider/types/focus.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_login/provider/types/cards.dart';
 import 'package:admin_login/config/adress.dart' as adres;
@@ -49,6 +50,9 @@ Future<List<Storages>> fetchData() async {
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Storages.fromJson(data)).toList();
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return fetchData();
   } else {
     throw Exception('Failed to get Storages!');
   }
@@ -65,6 +69,9 @@ Future<Storages> getAllCardsPerStorage(String name) async {
   );
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return getAllCardsPerStorage(name);
   } else {
     throw Exception('Failed to get Cards of Storage!');
   }
@@ -81,6 +88,9 @@ Future<Storages> getUnfocusedStorage(String name) async {
   );
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return getUnfocusedStorage(name);
   } else {
     throw Exception('Failed to get all unfocused Storages!');
   }
@@ -98,6 +108,9 @@ Future<Storages> focusStorage(String name) async {
 
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return focusStorage(name);
   } else {
     throw Exception('Failed to update Storage!');
   }
@@ -114,6 +127,9 @@ Future<Storages> deleteData(String name) async {
   );
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return deleteData(name);
   } else {
     throw Exception('Failed to delete Storage!');
   }
@@ -129,9 +145,11 @@ Future<Storages> updateData(String name, Map<String, dynamic> data) async {
     },
     body: jsonEncode(data),
   );
-
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return updateData(name, data);
   } else {
     throw Exception('Failed to update Storage!');
   }
@@ -149,6 +167,9 @@ Future<Storages> sendData(Map<String, dynamic> data) async {
   );
   if (response.statusCode == 201) {
     return Storages.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return sendData(data);
   } else {
     throw Exception('Failed to add Storage!');
   }

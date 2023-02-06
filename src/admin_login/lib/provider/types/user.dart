@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:admin_login/config/token_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_login/config/adress.dart' as adres;
@@ -36,6 +37,9 @@ Future<List<Users>> fetchData() async {
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Users.fromJson(data)).toList();
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return fetchData();
   } else {
     throw Exception('Failed to get Users!');
   }
@@ -54,6 +58,9 @@ Future<dynamic> updateData(String email, Map<String, dynamic> data) async {
 
   if (response.statusCode == 200) {
     return Users.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return updateData(email, data);
   } else {
     throw Exception('Failed to update User!');
   }
@@ -70,6 +77,9 @@ Future<dynamic> deleteData(String email) async {
   );
   if (response.statusCode == 200) {
     return Users.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return deleteData(email);
   } else {
     throw Exception('Failed to delete User!');
   }

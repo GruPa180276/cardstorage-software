@@ -55,6 +55,9 @@ Future<List<CardReservation>> fetchData() async {
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => CardReservation.fromJson(data)).toList();
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return fetchData();
   } else {
     throw Exception('Failed to get Card Reservation!');
   }
@@ -71,6 +74,9 @@ Future<CardReservation> deleteData(String name) async {
   );
   if (response.statusCode == 200) {
     return CardReservation.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return deleteData(name);
   } else {
     throw Exception('Failed to delete Card Reservation!');
   }

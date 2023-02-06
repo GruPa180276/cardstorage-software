@@ -33,6 +33,9 @@ Future<List<FocusS>> getAllUnfocusedStorages() async {
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => FocusS.fromJson(data)).toList();
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return getAllUnfocusedStorages();
   } else {
     throw Exception('Failed to focus Storage!');
   }

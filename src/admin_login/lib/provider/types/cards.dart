@@ -47,6 +47,9 @@ Future<List<Cards>> fetchData() async {
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Cards.fromJson(data)).toList();
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return fetchData();
   } else {
     throw Exception('Failed to get Cards!');
   }
@@ -63,6 +66,9 @@ Future<dynamic> deleteData(String name) async {
   );
   if (response.statusCode == 200) {
     return Cards.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return deleteData(name);
   } else {
     throw Exception('Failed to delete Card!');
   }
@@ -81,6 +87,9 @@ Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
 
   if (response.statusCode == 200) {
     return Cards.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return updateData(name, data);
   } else {
     throw Exception('Failed to update Card!');
   }
@@ -98,6 +107,9 @@ Future<dynamic> sendData(Map<String, dynamic> data) async {
   );
   if (response.statusCode == 201) {
     return Cards.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return sendData(data);
   } else {
     throw Exception('Failed to add Card!');
   }

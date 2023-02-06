@@ -38,6 +38,9 @@ Future<ReservationTime> getReservationLatestGetTime() async {
     dynamic jsonResponse = json.decode(response.body);
     print(jsonResponse);
     return ReservationTime.fromJson(jsonResponse);
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return getReservationLatestGetTime();
   } else {
     throw Exception('Failed to get Time!');
   }
@@ -54,6 +57,9 @@ Future<ReservationTime> changeReservationLatestGetTime(double time) async {
   );
   if (response.statusCode == 200) {
     return ReservationTime.fromJson(json.decode(response.body));
+  } else if (response.statusCode == 401) {
+    SecureStorage.setToken();
+    return changeReservationLatestGetTime(time);
   } else {
     throw Exception('Failed to change Time!');
   }

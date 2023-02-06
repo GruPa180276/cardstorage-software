@@ -1,3 +1,4 @@
+//go:generate swagger generate spec -o ../doc/spec.json
 package main
 
 import (
@@ -126,10 +127,10 @@ func initController(clientId string, db *gorm.DB, logger *log.Logger) *controlle
 }
 
 func initHandlers(router *mux.Router, c *controller.Controller, chans *map[string]chan string) {
+	secret := os.Getenv("API_AUTH_TOKEN_SECRET")
 	c.ControllerLogChannel = (*chans)["controller"]
 	c.Cond = &sync.Cond{L: &sync.Mutex{}}
-	c.RegisterHandlers(router)
-	secret := os.Getenv("API_AUTH_TOKEN_SECRET")
+	c.RegisterHandlers(router, secret)
 	(&response.AuthenticationHandler{Logger: c.Logger, DB: c.DB}).RegisterHandlers(router, secret)
 	(&response.CardHandler{Controller: c, CardLogChannel: (*chans)["card"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router, secret)
 	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"], Locker: &sync.RWMutex{}, Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router, secret)

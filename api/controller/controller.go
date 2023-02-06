@@ -13,6 +13,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/auth"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/paths"
@@ -124,9 +125,11 @@ func (self *DataWrapper) LoggerChannelHandlerFactory() http.HandlerFunc {
 	}
 }
 
-func (self *Controller) RegisterHandlers(router *mux.Router) {
+func (self *Controller) RegisterHandlers(router *mux.Router, secret string) {
 	w := &DataWrapper{Channel: self.ControllerLogChannel, Cond: self.Cond, Logger: self.Logger, Upgrader: self.Upgrader}
-	router.HandleFunc(paths.API_CONTROLLER_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
+
+	authUser := meridian.StaticHttpReporterValidator{ValidatorFunc: auth.ValidateUser(secret)}
+	router.HandleFunc(paths.API_CONTROLLER_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

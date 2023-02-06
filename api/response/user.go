@@ -27,15 +27,16 @@ func (self *UserHandler) RegisterHandlers(router *mux.Router, secret string) {
 
 	authUser := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateUser(secret)}
 	authAdmin := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAdministrator(secret)}
+	authAnonymous := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAnonymous(secret)}
 
 	router.HandleFunc(paths.API_USERS, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authUser.ReporterValidator(self.GetByEmailHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS, authUser.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
+	router.HandleFunc(paths.API_USERS, authAnonymous.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
 	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authUser.ReporterValidator(self.UpdateHandler)).Methods(http.MethodPut).HeadersRegexp("Content-Type", "(text|application)/json")
 	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authAdmin.ReporterValidator(self.DeleteHandler)).Methods(http.MethodDelete)
 
 	w := &controller.DataWrapper{self.UserLogChannel, self.Cond, self.Logger, self.Upgrader}
-	router.HandleFunc(paths.API_USERS_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_WS_LOG, authAnonymous.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 func (self *UserHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

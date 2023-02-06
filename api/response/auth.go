@@ -25,6 +25,7 @@ func (self *AuthenticationHandler) RegisterHandlers(router *mux.Router, _ string
 	ignored := make(chan string)
 	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, ignored), SuccessHandler: SuccessHandlerFactory(self.Logger)}
 	router.HandleFunc(paths.API_AUTHENTICATE_USER, r.Reporter(self.AuthHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_AUTHENTICATE_ANONYMOUS, r.Reporter(self.AuthAnonymousHandler)).Methods(http.MethodGet)
 }
 
 func (self *AuthenticationHandler) AuthHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
@@ -35,8 +36,24 @@ func (self *AuthenticationHandler) AuthHandler(res http.ResponseWriter, req *htt
 		return fmt.Errorf("attempting to authenticate non-existent user '%s': %s", email, result.Error.Error()), nil
 	}
 
+	privilege := auth.PrivilegeUser
+	if user.Privileged {
+		privilege = auth.PrivilegeAdmin
+	}
+
 	tok, err := auth.NewToken(os.Getenv("API_AUTH_TOKEN_SECRET"), os.Getenv("API_AUTH_TOKEN_ISSUER"),
-		email, uint(util.Must(strconv.Atoi(os.Getenv("API_AUTH_TOKEN_VALID_FOR_HOURS"))).(int)), user.Privileged)
+		email, uint(util.Must(strconv.Atoi(os.Getenv("API_AUTH_TOKEN_VALID_FOR_MINUTES"))).(int)), privilege)
+
+	if err != nil {
+		return err, nil
+	}
+
+	return nil, meridian.Okay(tok).Jsonify(false)
+}
+
+func (self *AuthenticationHandler) AuthAnonymousHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
+	tok, err := auth.NewToken(os.Getenv("API_AUTH_TOKEN_SECRET"), os.Getenv("API_AUTH_TOKEN_ISSUER"),
+		"anonymous", uint(util.Must(strconv.Atoi(os.Getenv("API_AUTH_TOKEN_VALID_FOR_MINUTES"))).(int)), auth.PrivilegeAnonymous)
 
 	if err != nil {
 		return err, nil

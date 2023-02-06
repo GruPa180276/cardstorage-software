@@ -10,13 +10,13 @@ import (
 )
 
 // see https://www.rfc-editor.org/rfc/rfc7519#section-4.1
-func NewToken(secret, issuer, email string, validHours uint, privileged bool) (string, error) {
+func NewToken(secret, issuer, email string, validMinutes uint, privileged string) (string, error) {
 	claims := jwt.MapClaims{}
 	now := time.Now()
 	claims["sub"] = email
-	claims["priv"] = getAudience(privileged)
+	claims["priv"] = privileged
 	claims["iss"] = issuer
-	claims["exp"] = now.Add(time.Duration(validHours) * time.Hour).Unix()
+	claims["exp"] = now.Add(time.Duration(validMinutes) * time.Minute).Unix()
 	claims["iat"] = now.Unix()
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -27,31 +27,11 @@ func NewToken(secret, issuer, email string, validHours uint, privileged bool) (s
 // @todo validation of admin: parse token in header and check if "aud" == "Administrator"
 func ValidateAdministrator(secret string) meridian.ValidatorFunc {
 	return func(_ http.ResponseWriter, req *http.Request) bool {
-		headerFull := strings.Join(req.Header["Authorization"], " ")
-		if headerFull == "" {
-			return false
-		}
-		headerParts := strings.Fields(headerFull)
-		if len(headerParts) < 2 {
-			return false
-		}
-		authType := headerParts[0]
-		if "bearer" != strings.ToLower(authType) {
-			return false
-		}
-		token, err := parse(headerParts[1], secret)
-		if err != nil {
-			println(err.Error())
-			return false
-		}
-		if !token.Valid {
-			return false
-		}
-		claims, ok := token.Claims.(jwt.MapClaims)
+		ok, claims := basicValidation(req.Header["Authorization"], secret)
 		if !ok {
 			return false
 		}
-		if "Administrator" != claims["priv"] {
+		if !isAdmin((*claims)["priv"].(string)) {
 			return false
 		}
 		return true
@@ -60,53 +40,77 @@ func ValidateAdministrator(secret string) meridian.ValidatorFunc {
 
 func ValidateUser(secret string) meridian.ValidatorFunc {
 	return func(_ http.ResponseWriter, req *http.Request) bool {
-		headerFull := strings.Join(req.Header["Authorization"], " ")
-		if headerFull == "" {
-			return false
-		}
-		headerParts := strings.Fields(headerFull)
-		if len(headerParts) < 2 {
-			return false
-		}
-		authType := headerParts[0]
-		if "bearer" != strings.ToLower(authType) {
-			return false
-		}
-		token, err := parse(headerParts[1], secret)
-		if err != nil {
-			println(err.Error())
-			return false
-		}
-		if !token.Valid {
-			return false
-		}
-		claims, ok := token.Claims.(jwt.MapClaims)
+		ok, claims := basicValidation(req.Header["Authorization"], secret)
 		if !ok {
 			return false
 		}
-		if "Administrator" != claims["priv"] && "User" != claims["priv"] {
+		if !isAdmin((*claims)["priv"].(string)) &&
+			!isUser((*claims)["priv"].(string)) {
 			return false
 		}
 		return true
 	}
 }
 
-func getAudience(privileged bool) (audience string) {
-	if privileged {
-		audience = "Administrator"
-	} else {
-		audience = "User"
+func ValidateAnonymous(secret string) meridian.ValidatorFunc {
+	return func(_ http.ResponseWriter, req *http.Request) bool {
+		ok, claims := basicValidation(req.Header["Authorization"], secret)
+		if !ok {
+			return false
+		}
+		if !isAnonymous((*claims)["priv"].(string)) &&
+			!isAdmin((*claims)["priv"].(string)) &&
+			!isUser((*claims)["priv"].(string)) {
+			return false
+		}
+		return true
 	}
-	return
 }
 
-func fromPermission(audience string) (privileged bool) {
-	if audience == "Administrator" {
-		privileged = true
-	} else {
-		privileged = false
+const (
+	PrivilegeAdmin     = "Administrator"
+	PrivilegeUser      = "User"
+	PrivilegeAnonymous = "Anonymous"
+)
+
+func basicValidation(authHeader []string, secret string) (bool, *jwt.MapClaims) {
+	headerFull := strings.Join(authHeader, " ")
+	if headerFull == "" {
+		return false, nil
 	}
-	return
+	headerParts := strings.Fields(headerFull)
+	if len(headerParts) < 2 {
+		return false, nil
+	}
+	authType := headerParts[0]
+	if "bearer" != strings.ToLower(authType) {
+		return false, nil
+	}
+	token, err := parse(headerParts[1], secret)
+	if err != nil {
+		println(err.Error())
+		return false, nil
+	}
+	if !token.Valid {
+		return false, nil
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return false, nil
+	}
+	return true, &claims
+}
+
+func isAdmin(privileged string) bool {
+	return PrivilegeAdmin == strings.Trim(privileged, "\n ")
+}
+
+func isUser(privileged string) bool {
+	return PrivilegeUser == strings.Trim(privileged, "\n ")
+}
+
+func isAnonymous(privileged string) bool {
+	return PrivilegeAnonymous == strings.Trim(privileged, "\n ")
 }
 
 func parse(token, secret string) (*jwt.Token, error) {

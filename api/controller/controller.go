@@ -128,8 +128,8 @@ func (self *DataWrapper) LoggerChannelHandlerFactory() http.HandlerFunc {
 func (self *Controller) RegisterHandlers(router *mux.Router, secret string) {
 	w := &DataWrapper{Channel: self.ControllerLogChannel, Cond: self.Cond, Logger: self.Logger, Upgrader: self.Upgrader}
 
-	authUser := meridian.StaticHttpReporterValidator{ValidatorFunc: auth.ValidateUser(secret)}
-	router.HandleFunc(paths.API_CONTROLLER_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
+	authAnonymous := meridian.StaticHttpReporterValidator{ValidatorFunc: auth.ValidateAnonymous(secret)}
+	router.HandleFunc(paths.API_CONTROLLER_WS_LOG, authAnonymous.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

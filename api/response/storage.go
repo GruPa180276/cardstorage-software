@@ -29,8 +29,9 @@ func (self *StorageHandler) RegisterHandlers(router *mux.Router, secret string) 
 	r := meridian.StaticHttpReporter{ErrorHandlerFactory(self.Logger, self.StorageLogChannel), SuccessHandlerFactory(self.Logger)}
 	authUser := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateUser(secret)}
 	authAdmin := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAdministrator(secret)}
+	authAnonymous := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAnonymous(secret)}
 
-	router.HandleFunc(paths.API_STORAGES, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES, authAnonymous.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, authUser.ReporterValidator(self.GetByNameHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES, authAdmin.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
 	router.HandleFunc(paths.API_STORAGES_FILTER_NAME, authAdmin.ReporterValidator(self.UpdateHandler)).Methods(http.MethodPut).HeadersRegexp("Content-Type", "(text|application)/json")
@@ -39,7 +40,7 @@ func (self *StorageHandler) RegisterHandlers(router *mux.Router, secret string) 
 	router.HandleFunc(paths.API_STORAGES_FOCUS_FILTER_NAME, authAdmin.ReporterValidator(self.FocusHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_FOCUS, authAdmin.ReporterValidator(self.GetAllUnfocusedStorages)).Methods(http.MethodGet)
 	w := &controller.DataWrapper{self.StorageLogChannel, self.Cond, self.Logger, self.Upgrader}
-	router.HandleFunc(paths.API_STORAGES_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_WS_LOG, authAnonymous.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 func (self *StorageHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

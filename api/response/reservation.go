@@ -28,6 +28,7 @@ type ReservationHandler struct {
 func (self *ReservationHandler) RegisterHandlers(router *mux.Router, secret string) {
 	r := meridian.StaticHttpReporter{ErrorHandlerFactory(self.Logger, self.ReservationLogChannel), SuccessHandlerFactory(self.Logger)}
 	authUser := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateUser(secret)}
+	authAnonymous := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAnonymous(secret)}
 
 	router.HandleFunc(paths.API_RESERVATIONS, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_RESERVATIONS_DETAILED, authUser.ReporterValidator(self.GetDetailedReservations)).Methods(http.MethodGet)
@@ -42,7 +43,7 @@ func (self *ReservationHandler) RegisterHandlers(router *mux.Router, secret stri
 	router.HandleFunc(paths.API_RESERVATIONS_TIME_HOURS, authUser.ReporterValidator(self.UpdateReservationTime)).Methods(http.MethodPut)
 
 	w := &controller.DataWrapper{self.ReservationLogChannel, self.Cond, self.Logger, self.Upgrader}
-	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, authAnonymous.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 func (self *ReservationHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

@@ -1,3 +1,8 @@
+// Package response
+//
+// RESTful HTTP interface
+//
+// swagger:meta
 package response
 
 import (

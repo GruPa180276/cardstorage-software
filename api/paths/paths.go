@@ -37,6 +37,7 @@ var (
 var (
 	API_BASE_PATH                                     string = `/`
 	API_AUTHENTICATE_USER                             string = `/auth/user/email/{email:` + userEmailPattern + `}`
+	API_AUTHENTICATE_ANONYMOUS                        string = `/auth`
 	API_STORAGES                                      string = `/storages`
 	API_STORAGES_FILTER_NAME                          string = `/storages/name/{name:` + storageNamePattern + `}`
 	API_STORAGES_PING_FILTER_NAME                     string = `/storages/ping/name/{name:` + storageNamePattern + `}`

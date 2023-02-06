@@ -27,6 +27,8 @@ func (self *CardHandler) RegisterHandlers(router *mux.Router, secret string) {
 	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, self.CardLogChannel), SuccessHandler: SuccessHandlerFactory(self.Logger)}
 	authUser := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateUser(secret)}
 	authAdmin := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAdministrator(secret)}
+	authAnonymous := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAnonymous(secret)}
+
 	router.HandleFunc(paths.API_STORAGES_CARDS, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME, authUser.ReporterValidator(self.GetByNameHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_STORAGES_CARDS, authUser.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
@@ -38,7 +40,7 @@ func (self *CardHandler) RegisterHandlers(router *mux.Router, secret string) {
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER, authUser.ReporterValidator(self.FetchCardKnownUserHandler)).Methods(http.MethodPut)
 	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER, authUser.ReporterValidator(self.FetchCardUnknownUserHandler)).Methods(http.MethodPut)
 	w := &controller.DataWrapper{self.CardLogChannel, self.Cond, self.Logger, self.Upgrader}
-	router.HandleFunc(paths.API_STORAGES_CARDS_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_CARDS_WS_LOG, authAnonymous.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 func (self *CardHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

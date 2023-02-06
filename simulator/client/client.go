@@ -48,6 +48,7 @@ const usage = `
 19...Reservation: Delete
 20...Reservation: Update
 21...Authenticate: UserEmail
+22...Authenticate: Anonymous
 `
 
 var l = log.New(os.Stderr, "client-simulator: ", log.LstdFlags)
@@ -343,6 +344,7 @@ var opts = map[int]func(){
 		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
+
 		s := bytes.NewBufferString("")
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
@@ -604,6 +606,14 @@ var opts = map[int]func(){
 		Token = string(must(io.ReadAll(res.Body)).([]byte))
 		l.Println("token:\n", Token)
 	},
+	22: func() {
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/auth", apiurl), nil)).(*http.Request)
+		req.Header.Set("Content-Type", "text/json")
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		Token = string(must(io.ReadAll(res.Body)).([]byte))
+		l.Println("token:\n", Token)
+	},
 }
 
 func listenOnLoggingWebsockets() {
@@ -622,7 +632,6 @@ func listenOnLoggingWebsockets() {
 	dialer := *ws.DefaultDialer
 	dialer.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
-	fmt.Println(Token)
 	for i, url := range logs {
 		log.Println("listening for logs on:", url)
 		conn, resp, err := dialer.Dial(url, map[string][]string{"Content-Type": {"text/json"}, "Authorization": {"Bearer", Token}})
@@ -674,11 +683,7 @@ func listenOnLoggingWebsockets() {
 }
 
 func authenticate() {
-	req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/auth/user/email/%s", apiurl, defaultEmail), nil)).(*http.Request)
-	req.Header.Set("Content-Type", "text/json")
-	res := must(new(http.Client).Do(req)).(*http.Response)
-	l.Println(res.Status)
-	Token = string(must(io.ReadAll(res.Body)).([]byte))
+	opts[22]()
 }
 
 func main() {
@@ -709,7 +714,8 @@ func main() {
 
 func must(value any, err error) any {
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(os.Stderr, "ERROR: %s", err.Error())
+		os.Exit(1)
 	}
 	return value
 }

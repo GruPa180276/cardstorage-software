@@ -37,6 +37,7 @@ Future<List<Users>> fetchData() async {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Users.fromJson(data)).toList();
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return fetchData();
   } else {
@@ -50,7 +51,7 @@ Future<dynamic> updateData(String email, Map<String, dynamic> data) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
     body: jsonEncode(data),
   );
@@ -58,6 +59,7 @@ Future<dynamic> updateData(String email, Map<String, dynamic> data) async {
   if (response.statusCode == 200) {
     return Users.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return updateData(email, data);
   } else {
@@ -77,6 +79,7 @@ Future<dynamic> deleteData(String email) async {
   if (response.statusCode == 200) {
     return Users.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return deleteData(email);
   } else {

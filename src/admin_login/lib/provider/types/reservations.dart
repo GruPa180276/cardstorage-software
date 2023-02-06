@@ -50,6 +50,7 @@ Future<List<ReservationOfCards>> fetchData() async {
         .map((data) => ReservationOfCards.fromJson(data))
         .toList();
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return fetchData();
   } else {
@@ -69,6 +70,7 @@ Future<ReservationOfCards> deleteReservation(int id) async {
   if (response.statusCode == 200) {
     return ReservationOfCards.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return deleteReservation(id);
   } else {

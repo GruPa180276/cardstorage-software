@@ -48,6 +48,7 @@ Future<List<Cards>> fetchData() async {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Cards.fromJson(data)).toList();
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return fetchData();
   } else {
@@ -67,6 +68,7 @@ Future<dynamic> deleteData(String name) async {
   if (response.statusCode == 200) {
     return Cards.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return deleteData(name);
   } else {
@@ -80,7 +82,7 @@ Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
     body: jsonEncode(data),
   );
@@ -88,6 +90,7 @@ Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
   if (response.statusCode == 200) {
     return Cards.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return updateData(name, data);
   } else {
@@ -101,13 +104,14 @@ Future<dynamic> sendData(Map<String, dynamic> data) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
     body: jsonEncode(data),
   );
   if (response.statusCode == 201) {
     return Cards.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return sendData(data);
   } else {

@@ -50,6 +50,7 @@ Future<List<Storages>> fetchData() async {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Storages.fromJson(data)).toList();
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return fetchData();
   } else {
@@ -69,6 +70,7 @@ Future<Storages> getAllCardsPerStorage(String name) async {
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return getAllCardsPerStorage(name);
   } else {
@@ -88,6 +90,7 @@ Future<Storages> getUnfocusedStorage(String name) async {
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return getUnfocusedStorage(name);
   } else {
@@ -108,6 +111,7 @@ Future<Storages> focusStorage(String name) async {
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return focusStorage(name);
   } else {
@@ -127,6 +131,7 @@ Future<Storages> deleteData(String name) async {
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return deleteData(name);
   } else {
@@ -147,6 +152,7 @@ Future<Storages> updateData(String name, Map<String, dynamic> data) async {
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return updateData(name, data);
   } else {
@@ -167,6 +173,7 @@ Future<Storages> sendData(Map<String, dynamic> data) async {
   if (response.statusCode == 201) {
     return Storages.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return sendData(data);
   } else {

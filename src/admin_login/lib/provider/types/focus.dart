@@ -34,6 +34,7 @@ Future<List<FocusS>> getAllUnfocusedStorages() async {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => FocusS.fromJson(data)).toList();
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return getAllUnfocusedStorages();
   } else {

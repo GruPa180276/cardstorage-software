@@ -38,6 +38,7 @@ Future<ReservationTime> getReservationLatestGetTime() async {
     dynamic jsonResponse = json.decode(response.body);
     return ReservationTime.fromJson(jsonResponse);
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return getReservationLatestGetTime();
   } else {
@@ -51,12 +52,13 @@ Future<ReservationTime> changeReservationLatestGetTime(double time) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
   );
   if (response.statusCode == 200) {
     return ReservationTime.fromJson(json.decode(response.body));
   } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return changeReservationLatestGetTime(time);
   } else {

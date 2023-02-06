@@ -6,7 +6,7 @@ class SecureStorage {
   static late String auth;
 
   static void setToken() async {
-    await authAdminLogin("40146720180320@litec.ac.at")
+    await authAdminLogin("card_storage_admin@default.com")
         .then((value) => auth = value);
     storage.write(key: "jwt", value: auth);
   }

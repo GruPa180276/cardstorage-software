@@ -302,6 +302,12 @@ Habe danch mit der Dokumentation begonnen. Dazu habe ich als erstes die Theoreti
 **5.2.2023: 16:00 bis 17:30** <br>
 Habe mit Herrn Grubauer die Struktur der Dokumentation besprochen, welche Sachen wir gemeinsam erklären sollten. (1h 30min)
 
+**6.2.2023: 8:20 bis 12:00** <br>
+Habe damit begonnen die API Authentifizierung zu implementieren. Stellte sich als schwirieger als Gedach heraus. Habe das mit einem SecureStorage gelöst, in dem die Teokens gespeichert werden. Danach habe ich mich noch damit befasst, wenn ein Token abläuft, das ein neuer generiert wird. (3h 40min)
+
+**6.2.2023: 12:30 bis 15:30** <br>
+Weiters habe ich dann noch den Token bei den Websockets implementiert. Zum Schluss habe ich dann noch das Design der Storage Seite, auf das der Karten Seite angepasst. (3h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -390,4 +396,6 @@ Habe mit Herrn Grubauer die Struktur der Dokumentation besprochen, welche Sachen
 - 11:00 bis 13:00 Uhr
 - 12:30 bis 15:40 Uhr
 - 16:00 bis 17:30 Uhr
+- 8:20 bis 12:00 Uhr
+- 12:30 bis 15:30 Uhr
 <!-- { "progress": false } -->

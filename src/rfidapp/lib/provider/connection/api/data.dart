@@ -12,10 +12,10 @@ class Data {
 
   static Future<Response> check(
       Function function, Map<String, dynamic>? args) async {
+    Response response;
     if (bearerToken == null) {
       await _generateToken();
     }
-    Response response;
     if (args != null) {
       response = await function(args);
     } else {
@@ -139,8 +139,6 @@ class Data {
   }
 
   static Future<void> _generateToken() async {
-    print(Uri.parse(
-        "${uriRaspi}auth${(await UserSecureStorage.getUserEmail() == null) ? "" : "/user/email/${await UserSecureStorage.getUserEmail()}"}"));
     var response = await get(
         Uri.parse(
             "${uriRaspi}auth${(await UserSecureStorage.getUserEmail() == null) ? "" : "/user/email/${await UserSecureStorage.getUserEmail()}"}"),

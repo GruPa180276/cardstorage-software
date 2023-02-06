@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
@@ -35,7 +36,11 @@ class RequestTimer {
   Future<void> startTimer() async {
     _successful = false;
     channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
+        Uri.parse('wss://10.0.2.2:7171/api/controller/log'),
+        headers: {
+          "Accept": "application/json",
+          HttpHeaders.authorizationHeader: "Bearer ${Data.bearerToken}",
+        });
     streamListener();
     return showDialog(
         //useRootNavigator: false,
@@ -136,6 +141,7 @@ class RequestTimer {
   streamListener() {
     channel!.stream.listen((message) async {
       _responseData = jsonDecode(message);
+      print(_responseData);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
       i++;

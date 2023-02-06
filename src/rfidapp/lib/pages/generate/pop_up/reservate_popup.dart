@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names, library_private_types_in_public_api, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -144,7 +146,14 @@ class ReservationPopUp {
           borderRadius: BorderRadius.circular(32),
         ))),
         onPressed: () async {
-          reservations = await Data.getReservationsOfCard(card);
+          var reservationsResponse =
+              await Data.check(Data.getReservationsOfCard, card.name);
+
+          var jsonReservation = jsonDecode(reservationsResponse!.body) as List;
+          reservations = jsonReservation
+              .map((tagJson) => Reservation.fromJson(tagJson))
+              .toList();
+
           if (_formKey.currentState!.validate()) {
             var response = await Data.newReservation(
                 card.name,

@@ -17,8 +17,15 @@ class Login {
       if (accessToken!.isNotEmpty) {
         var userResponse = await Data.getUserData(accessToken);
         var email = jsonDecode(userResponse!.body)["mail"];
-        bool registered = await Data.checkUserRegistered(email);
-        if (registered) //api get// see if user is registered
+        var response = await Data.check(Data.checkUserRegistered, email);
+        var isRegistered;
+        if (response.statusCode != 200 ||
+            jsonDecode(response.body)["email"].toString().isEmpty) {
+          isRegistered = false;
+        } else {
+          isRegistered = true;
+        }
+        if (isRegistered) //api get// see if user is registered
         {
           MicrosoftUser.setUserValues(jsonDecode(userResponse.body));
           UserSecureStorage.setRememberState(rememberValue.toString());

@@ -1,4 +1,6 @@
 // ignore_for_file: deprecated_member_use
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
@@ -7,9 +9,11 @@ import 'package:rfidapp/pages/generate/views/favorite_view.dart';
 import 'package:rfidapp/pages/generate/pop_up/bottom_filter.dart';
 import 'package:rfidapp/pages/login/login_user_page.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
+import 'package:rfidapp/provider/connection/api/uitls.dart';
 import 'package:rfidapp/provider/types/readercard.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
+import 'package:rfidapp/provider/types/storage.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {
@@ -41,8 +45,16 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   }
 
   void checkUserRegistered() async {
+    var isRegistered;
     var data = await UserSecureStorage.getUserValues();
-    var isRegistered = await Data.checkUserRegistered(data["Email"]!);
+    var response = await Data.check(Data.check, data["Email"]);
+    if (response.statusCode != 200 ||
+        jsonDecode(response.body)["email"].toString().isEmpty) {
+      isRegistered = false;
+    } else {
+      isRegistered = true;
+    }
+
     if (!isRegistered) {
       await AadAuthentication.getEnv();
       AadAuthentication.oauth!.logout();
@@ -57,11 +69,19 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     });
   }
 
-  void reloadReaderCards() {
+  void reloadReaderCards() async {
+    var cardsResponse = await Data.check(Data.getReaderCards, null);
+
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
 
-      defaultReaderCards = Data.getReaderCards();
+      var jsonStorage = jsonDecode(cardsResponse.body) as List;
+      List<Storage> storages =
+          jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
+
+      Utils.parseToReaderCards(storages);
+      defaultReaderCards = Future.value(Utils.parseToReaderCards(storages));
+
       modifiedReaderCards = defaultReaderCards;
     });
   }
@@ -125,7 +145,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<ReaderCard>?>(
-                future: modifiedReaderCards,
+                future: defaultReaderCards,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:

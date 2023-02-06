@@ -1,8 +1,11 @@
 // ignore_for_file: deprecated_member_use, no_logic_in_create_state
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_type.dart';
 import 'package:rfidapp/pages/generate/views/reservate_view.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
+import 'package:rfidapp/provider/connection/api/uitls.dart';
 import 'package:rfidapp/provider/types/reservation.dart';
 
 // ignore: must_be_immutable
@@ -17,7 +20,7 @@ class ReservationVisualizer extends StatefulWidget {
 
 class _ReservationVisualizerState extends State<ReservationVisualizer> {
   _ReservationVisualizerState({required this.site});
-  late Future<List<Reservation>?> reservations;
+  late Future<List<Reservation>?> futureReservations;
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
@@ -29,9 +32,15 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
     reloadReaderCards();
   }
 
-  void reloadReaderCards() {
-    setState(() {
-      reservations = Data.getAllReservationUser();
+  void reloadReaderCards() async {
+    var reservationsResponse =
+        await Data.check(Data.getAllReservationUser, null);
+    setState(() async {
+      var jsonReservation = jsonDecode(reservationsResponse.body) as List;
+      List<Reservation> reservations = jsonReservation
+          .map((tagJson) => Reservation.fromJson(tagJson))
+          .toList();
+      futureReservations = Future.value(reservations);
     });
   }
 
@@ -80,7 +89,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<Reservation>?>(
-                future: reservations,
+                future: futureReservations,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:

@@ -125,7 +125,8 @@ class ReservationView extends StatelessWidget {
               Expanded(
                   child: CardButton(
                 onPress: () async {
-                  var response = await Data.deleteReservation(reservation);
+                  var response = await Data.check(
+                      Data.deleteReservation, reservation.id.toString());
                   if (response.statusCode != 200) {
                     var snackBar = SnackBar(
                         elevation: 0,

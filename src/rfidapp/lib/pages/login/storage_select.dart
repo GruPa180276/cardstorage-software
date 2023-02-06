@@ -1,17 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
-
 import 'package:rfidapp/provider/connection/api/data.dart';
+import 'package:rfidapp/provider/types/storage.dart';
 
 class StorageSelectPopUp {
   static var _successful = false;
   static String _dropdownValue = "";
   static Future<void> build(BuildContext buildcontext) async {
-    var readercards = await Data.getReaderCards();
-    List<String> storages =
-        readercards!.map((e) => e.storageName!).toSet().toList();
+    var responseStorage = await Data.check(Data.getReaderCards, null);
+
+    var storagesJson = jsonDecode(responseStorage!.body) as List;
+    List<Storage> storageList =
+        storagesJson.map((tagJson) => Storage.fromJson(tagJson)).toList();
+
+    var storages = storageList.map((e) => e.name).toSet();
+
+    // List<String> storages =
+    //     readercards!.map((e) => e.storageName!).toSet().toList();
 
     _dropdownValue = storages.first;
 

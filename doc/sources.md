@@ -94,3 +94,8 @@
 - https://www.woolha.com/tutorials/dart-convert-string-to-double-int-and-vice-versa
 - https://stackoverflow.com/questions/55316539/rounded-corner-card-widget-with-right-border-in-flutter
 - https://www.flutterbeads.com/card-border-in-flutter/
+- https://stackoverflow.com/questions/50244416/how-to-pass-basic-auth-credentials-in-api-call-for-a-flutter-mobile-application
+- https://stackoverflow.com/questions/55035587/whats-the-best-way-to-save-jwt-tokens-in-flutter-apps
+- https://stackoverflow.com/questions/57521056/how-to-use-jwt-with-websocketchannel-in-flutter
+- https://stackoverflow.com/questions/69663243/could-not-create-task-this-and-base-files-have-different-roots
+- https://stackoverflow.com/questions/53834085/not-able-to-sync-dependency-in-build-gradle-in-flutter

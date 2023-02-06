@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
+	"strings"
 	"time"
 
 	ws "github.com/gorilla/websocket"
@@ -18,6 +19,7 @@ import (
 
 const apiurl = "https://localhost:7171/api"
 const wsurl = "wss://localhost:7171/api"
+const defaultEmail = "card_storage_admin@default.com"
 
 const usage = `
 -1...StorageUnit: Ping
@@ -45,9 +47,11 @@ const usage = `
 18...Reservation: New
 19...Reservation: Delete
 20...Reservation: Update
+21...Authenticate: UserEmail
 `
 
 var l = log.New(os.Stderr, "client-simulator: ", log.LstdFlags)
+var Token string = ""
 
 var opts = map[int]func(){
 	1: func() {
@@ -76,12 +80,16 @@ var opts = map[int]func(){
 			IpAddress: addrptr,
 			Capacity:  capptr,
 		})).([]byte)))).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		l.Println(string(must(io.ReadAll(res.Body)).([]byte)))
 	},
 	7: func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards", apiurl), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -93,6 +101,8 @@ var opts = map[int]func(){
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, name), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -111,6 +121,8 @@ var opts = map[int]func(){
 			Name:    name,
 			Storage: storage,
 		})).([]byte)))).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -119,6 +131,8 @@ var opts = map[int]func(){
 	},
 	3: func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages", apiurl), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -130,6 +144,8 @@ var opts = map[int]func(){
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/name/%s", apiurl, name), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -178,6 +194,8 @@ var opts = map[int]func(){
 		buf := bytes.NewBuffer(must(json.Marshal(u)).([]byte))
 		l.Println(buf.String())
 		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, updateCard), buf)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -219,6 +237,8 @@ var opts = map[int]func(){
 		buf := bytes.NewBuffer(must(json.Marshal(u)).([]byte))
 		l.Println(buf.String())
 		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/name/%s", apiurl, updateStorage), buf)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -230,6 +250,8 @@ var opts = map[int]func(){
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/name/%s", apiurl, name), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -241,6 +263,8 @@ var opts = map[int]func(){
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/name/%s", apiurl, name), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -267,6 +291,8 @@ var opts = map[int]func(){
 			Storage:    storageName,
 			Privileged: pptr,
 		})).([]byte)))).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -303,6 +329,8 @@ var opts = map[int]func(){
 		buf := bytes.NewBuffer(must(json.Marshal(u)).([]byte))
 		l.Println(buf.String())
 		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/users/email/%s", apiurl, updateEmail), buf)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -311,6 +339,8 @@ var opts = map[int]func(){
 	},
 	12: func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users", apiurl), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -322,6 +352,8 @@ var opts = map[int]func(){
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/email/%s", apiurl, email), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -333,6 +365,8 @@ var opts = map[int]func(){
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/users/email/%s", apiurl, email), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -344,6 +378,8 @@ var opts = map[int]func(){
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/ping/name/%s", apiurl, name), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -355,6 +391,8 @@ var opts = map[int]func(){
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
 		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/focus/name/%s", apiurl, name), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -363,6 +401,8 @@ var opts = map[int]func(){
 	},
 	15: func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations", apiurl), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -374,6 +414,8 @@ var opts = map[int]func(){
 		fmt.Print("Name: ")
 		fmt.Scanln(&name)
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/cards/reservations/card/%s", apiurl, name), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -385,6 +427,8 @@ var opts = map[int]func(){
 		fmt.Print("Email: ")
 		fmt.Scanln(&email)
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/reservations/email/%s", apiurl, email), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -440,6 +484,8 @@ var opts = map[int]func(){
 		buf := bytes.NewBuffer(must(json.Marshal(c)).([]byte))
 		fmt.Println("DEBUG:", buf.String())
 		req := must(http.NewRequest(http.MethodPost, fmt.Sprintf("%s/users/reservations/email/%s", apiurl, email), buf)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -451,6 +497,8 @@ var opts = map[int]func(){
 		fmt.Print("Id: ")
 		fmt.Scanln(&id)
 		req := must(http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/storages/cards/reservations/id/%s", apiurl, id), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -506,6 +554,8 @@ var opts = map[int]func(){
 		}
 
 		req := must(http.NewRequest(http.MethodPut, fmt.Sprintf("%s/storages/cards/reservations/id/%s", apiurl, id), bytes.NewBuffer(must(json.Marshal(u)).([]byte)))).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -522,6 +572,8 @@ var opts = map[int]func(){
 			urlPath += fmt.Sprintf("/user/email/%s", email)
 		}
 		req := must(http.NewRequest(http.MethodPut, urlPath, nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
@@ -530,11 +582,27 @@ var opts = map[int]func(){
 	},
 	-4: func() {
 		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/storages/focus", apiurl), nil)).(*http.Request)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", Token))
+		req.Header.Set("Content-Type", "text/json")
 		res := must(new(http.Client).Do(req)).(*http.Response)
 		l.Println(res.Status)
 		s := bytes.NewBufferString("")
 		must(nil, json.Indent(s, must(io.ReadAll(res.Body)).([]byte), "", "  "))
 		l.Println(s.String())
+	},
+	21: func() {
+		email := ""
+		fmt.Println("UserEmail: ")
+		fmt.Scanln(&email)
+		if strings.Trim(email, " \n") == "" {
+			email = defaultEmail
+		}
+		req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/auth/user/email/%s", apiurl, email), nil)).(*http.Request)
+		req.Header.Set("Content-Type", "text/json")
+		res := must(new(http.Client).Do(req)).(*http.Response)
+		l.Println(res.Status)
+		Token = string(must(io.ReadAll(res.Body)).([]byte))
+		l.Println("token:\n", Token)
 	},
 }
 
@@ -554,9 +622,10 @@ func listenOnLoggingWebsockets() {
 	dialer := *ws.DefaultDialer
 	dialer.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
+	fmt.Println(Token)
 	for i, url := range logs {
 		log.Println("listening for logs on:", url)
-		conn, resp, err := dialer.Dial(url, nil)
+		conn, resp, err := dialer.Dial(url, map[string][]string{"Content-Type": {"text/json"}, "Authorization": {"Bearer", Token}})
 		if err != nil {
 			log.Printf("handshake #%d failed with status %d", i, resp.StatusCode)
 			panic(err)
@@ -604,8 +673,18 @@ func listenOnLoggingWebsockets() {
 	}()
 }
 
+func authenticate() {
+	req := must(http.NewRequest(http.MethodGet, fmt.Sprintf("%s/auth/user/email/%s", apiurl, defaultEmail), nil)).(*http.Request)
+	req.Header.Set("Content-Type", "text/json")
+	res := must(new(http.Client).Do(req)).(*http.Response)
+	l.Println(res.Status)
+	Token = string(must(io.ReadAll(res.Body)).([]byte))
+}
+
 func main() {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
+	authenticate()
 
 	listenOnLoggingWebsockets()
 

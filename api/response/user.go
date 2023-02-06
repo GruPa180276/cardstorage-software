@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/auth"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
@@ -21,15 +22,20 @@ type UserHandler struct {
 	UserLogChannel chan string
 }
 
-func (self *UserHandler) RegisterHandlers(router *mux.Router) {
-	s := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, self.UserLogChannel), SuccessHandler: SuccessHandlerFactory(self.Logger)}
-	router.HandleFunc(paths.API_USERS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.GetByEmailHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
-	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
+func (self *UserHandler) RegisterHandlers(router *mux.Router, secret string) {
+	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, self.UserLogChannel), SuccessHandler: SuccessHandlerFactory(self.Logger)}
+
+	authUser := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateUser(secret)}
+	authAdmin := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAdministrator(secret)}
+
+	router.HandleFunc(paths.API_USERS, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authUser.ReporterValidator(self.GetByEmailHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS, authUser.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
+	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authUser.ReporterValidator(self.UpdateHandler)).Methods(http.MethodPut).HeadersRegexp("Content-Type", "(text|application)/json")
+	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authAdmin.ReporterValidator(self.DeleteHandler)).Methods(http.MethodDelete)
+
 	w := &controller.DataWrapper{self.UserLogChannel, self.Cond, self.Logger, self.Upgrader}
-	router.HandleFunc(paths.API_USERS_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 func (self *UserHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

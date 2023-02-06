@@ -74,13 +74,17 @@ func connectToDatabase(user, passwd, hostname, port, dbname string) *gorm.DB {
 	connstring := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, passwd, hostname, port, dbname)
 	db := util.Must(gorm.Open(mysql.Open(connstring), &gorm.Config{})).(*gorm.DB)
 	util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
+
+	if result := db.Where("privileged = ?", true).Find(&model.User{}); result.RowsAffected == 0 {
+		db.Create(&model.User{Email: os.Getenv("MANAGEMENT_ADMIN_DEFAULT"), Privileged: true})
+	}
+
 	return db
 }
 
 func createRouter() *mux.Router {
 	return mux.NewRouter().
 		PathPrefix("/api").
-		// HeadersRegexp("Content-Type", "(application|text)/json").
 		Subrouter()
 }
 
@@ -125,10 +129,12 @@ func initHandlers(router *mux.Router, c *controller.Controller, chans *map[strin
 	c.ControllerLogChannel = (*chans)["controller"]
 	c.Cond = &sync.Cond{L: &sync.Mutex{}}
 	c.RegisterHandlers(router)
-	(&response.CardHandler{Controller: c, CardLogChannel: (*chans)["card"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
-	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"], Locker: &sync.RWMutex{}, Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
-	(&response.UserHandler{Controller: c, UserLogChannel: (*chans)["user"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
-	(&response.ReservationHandler{Controller: c, ReservationLogChannel: (*chans)["reservation"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router)
+	secret := os.Getenv("API_AUTH_TOKEN_SECRET")
+	(&response.AuthenticationHandler{Logger: c.Logger, DB: c.DB}).RegisterHandlers(router, secret)
+	(&response.CardHandler{Controller: c, CardLogChannel: (*chans)["card"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router, secret)
+	(&response.StorageHandler{Controller: c, StorageLogChannel: (*chans)["storage"], Locker: &sync.RWMutex{}, Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router, secret)
+	(&response.UserHandler{Controller: c, UserLogChannel: (*chans)["user"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router, secret)
+	(&response.ReservationHandler{Controller: c, ReservationLogChannel: (*chans)["reservation"], Cond: &sync.Cond{L: &sync.Mutex{}}}).RegisterHandlers(router, secret)
 }
 
 func initChannels() *map[string]chan string {
@@ -147,8 +153,8 @@ func initObserver(c *controller.Controller) {
 
 func listenAndServeTLS(logger *log.Logger, router *mux.Router, certificateFile, keyFile string) {
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
-	originsOk := handlers.AllowedOrigins([]string{"*"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT"})
+	originsOk := handlers.AllowedOrigins([]string{})
+	methodsOk := handlers.AllowedMethods([]string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodHead})
 	logger.Println(http.ListenAndServeTLS(fmt.Sprintf(":%s", os.Getenv("REST_PORT")), certificateFile, keyFile,
 		handlers.LoggingHandler(logger.Writer(),
 			handlers.CORS(originsOk, headersOk, methodsOk)(router))))
@@ -167,14 +173,6 @@ func main() {
 
 	chans := initChannels()
 	c := initController(clientId, db, logger)
-
-	//go func() {
-	//	i := 0
-	//	for range time.Tick(5 * time.Second) {
-	//		(*chans)["controller"] <- fmt.Sprintf("%d", i)
-	//		i++
-	//	}
-	//}()
 
 	initHandlers(router, c, chans)
 

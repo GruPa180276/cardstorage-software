@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"sync"
 	"time"
@@ -47,6 +48,7 @@ func main() {
 		}
 
 		tok := must(NewToken(email, validForHours, secret, privileged)).(string)
+		fmt.Println(tok)
 		users[email] = &tok
 		http.Error(res, tok, http.StatusOK)
 		return
@@ -67,8 +69,15 @@ func NewToken(email string, validForHours uint, secret string, privileged bool) 
 	return token.SignedString([]byte(secret))
 }
 
-func Validate(token string) bool {
-	return true
+func Validate(token, secret string) (*jwt.Token, error) {
+	_, err := jwt.Parse(token, func(parsedToken *jwt.Token) (interface{}, error) {
+		return secret, nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
 }
 
 func StillValid(token string) bool {

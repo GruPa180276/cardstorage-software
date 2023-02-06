@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/auth"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
@@ -24,23 +25,24 @@ type ReservationHandler struct {
 	ReservationLogChannel chan string
 }
 
-func (self *ReservationHandler) RegisterHandlers(router *mux.Router) {
-	s := meridian.StaticHttpReporter{ErrorHandlerFactory(self.Logger, self.ReservationLogChannel), SuccessHandlerFactory(self.Logger)}
+func (self *ReservationHandler) RegisterHandlers(router *mux.Router, secret string) {
+	r := meridian.StaticHttpReporter{ErrorHandlerFactory(self.Logger, self.ReservationLogChannel), SuccessHandlerFactory(self.Logger)}
+	authUser := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateUser(secret)}
 
-	router.HandleFunc(paths.API_RESERVATIONS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_DETAILED, s.Reporter(self.GetDetailedReservations)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_DETAILED_FILTER_STORAGE, s.Reporter(self.GetDetailedReservationsByStorage)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_DETAILED_FILTER_USER, s.Reporter(self.GetDetailedReservationsByUser)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_CARD, s.Reporter(self.GetByCardHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.GetByUserHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
-	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_RESERVATIONS_TIME, s.Reporter(self.GetReservationTime)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_RESERVATIONS_TIME_HOURS, s.Reporter(self.UpdateReservationTime)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_RESERVATIONS, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_DETAILED, authUser.ReporterValidator(self.GetDetailedReservations)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_DETAILED_FILTER_STORAGE, authUser.ReporterValidator(self.GetDetailedReservationsByStorage)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_DETAILED_FILTER_USER, authUser.ReporterValidator(self.GetDetailedReservationsByUser)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_FILTER_CARD, authUser.ReporterValidator(self.GetByCardHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, authUser.ReporterValidator(self.GetByUserHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_RESERVATIONS_FILTER_USER, authUser.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
+	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, authUser.ReporterValidator(self.DeleteHandler)).Methods(http.MethodDelete)
+	router.HandleFunc(paths.API_RESERVATIONS_FILTER_ID, authUser.ReporterValidator(self.UpdateHandler)).Methods(http.MethodPut).HeadersRegexp("Content-Type", "(text|application)/json")
+	router.HandleFunc(paths.API_RESERVATIONS_TIME, authUser.ReporterValidator(self.GetReservationTime)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_TIME_HOURS, authUser.ReporterValidator(self.UpdateReservationTime)).Methods(http.MethodPut)
 
 	w := &controller.DataWrapper{self.ReservationLogChannel, self.Cond, self.Logger, self.Upgrader}
-	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_RESERVATIONS_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 func (self *ReservationHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

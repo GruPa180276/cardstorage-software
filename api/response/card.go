@@ -9,6 +9,7 @@ import (
 	"sync"
 
 	"github.com/gorilla/mux"
+	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/auth"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/controller"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/meridian"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/api/model"
@@ -22,20 +23,22 @@ type CardHandler struct {
 	CardLogChannel chan string
 }
 
-func (self *CardHandler) RegisterHandlers(router *mux.Router) {
-	s := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, self.CardLogChannel), SuccessHandler: SuccessHandlerFactory(self.Logger)}
-	router.HandleFunc(paths.API_STORAGES_CARDS, s.Reporter(self.GetAllHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME, s.Reporter(self.GetByNameHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_STORAGES_CARDS, s.Reporter(self.CreateHandler)).Methods(http.MethodPost)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME, s.Reporter(self.DeleteHandler)).Methods(http.MethodDelete)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME, s.Reporter(self.UpdateHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_INCREMENT, s.Reporter(self.IncrementAccessCountHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_DECREMENT, s.Reporter(self.DecrementAccessCountHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_AVAILABLE, s.Reporter(self.SetCardAvailabilityHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER, s.Reporter(self.FetchCardKnownUserHandler)).Methods(http.MethodPut)
-	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER, s.Reporter(self.FetchCardUnknownUserHandler)).Methods(http.MethodPut)
+func (self *CardHandler) RegisterHandlers(router *mux.Router, secret string) {
+	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, self.CardLogChannel), SuccessHandler: SuccessHandlerFactory(self.Logger)}
+	authUser := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateUser(secret)}
+	authAdmin := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAdministrator(secret)}
+	router.HandleFunc(paths.API_STORAGES_CARDS, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME, authUser.ReporterValidator(self.GetByNameHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_CARDS, authUser.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME, authAdmin.ReporterValidator(self.DeleteHandler)).Methods(http.MethodDelete)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME, authUser.ReporterValidator(self.UpdateHandler)).Methods(http.MethodPut).HeadersRegexp("Content-Type", "(text|application)/json")
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_INCREMENT, authAdmin.ReporterValidator(self.IncrementAccessCountHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_DECREMENT, authAdmin.ReporterValidator(self.DecrementAccessCountHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_AVAILABLE, authUser.ReporterValidator(self.SetCardAvailabilityHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_KNOWN_USER, authUser.ReporterValidator(self.FetchCardKnownUserHandler)).Methods(http.MethodPut)
+	router.HandleFunc(paths.API_STORAGES_CARDS_FILTER_NAME_FETCH_UNKNOWN_USER, authUser.ReporterValidator(self.FetchCardUnknownUserHandler)).Methods(http.MethodPut)
 	w := &controller.DataWrapper{self.CardLogChannel, self.Cond, self.Logger, self.Upgrader}
-	router.HandleFunc(paths.API_STORAGES_CARDS_WS_LOG, w.LoggerChannelHandlerFactory()).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_STORAGES_CARDS_WS_LOG, authUser.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
 func (self *CardHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {

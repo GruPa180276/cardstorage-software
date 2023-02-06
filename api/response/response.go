@@ -11,7 +11,7 @@ import (
 )
 
 type Initializer interface {
-	RegisterHandlers(*mux.Router)
+	RegisterHandlers(router *mux.Router, validationSecret string)
 }
 
 var ErrorHandlerFactory = func(logger *log.Logger, logChannel chan string) meridian.ReportingErrorHandlerFunc {

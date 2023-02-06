@@ -11,7 +11,7 @@ type User struct {
 	UserID     uint           `json:"-"            gorm:"primaryKey"`
 	Email      string         `json:"email"        gorm:"not null;unique;type:varchar(64);column:email"`
 	ReaderData sql.NullString `json:"reader"       gorm:"default:null;column:reader_data"`
-	Privileged bool           `json:"privileged"   gorm:"not null;default:false"`
+	Privileged bool           `json:"privileged"   gorm:"not null;default:false;column:privileged"`
 }
 
 func (self *User) MarshalJSON() ([]byte, error) {

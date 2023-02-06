@@ -54,7 +54,7 @@ class _StatusStorageState extends State<StatusStorage> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              "Status Storage",
+              "Statistiken",
               style:
                   TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
             ),
@@ -63,136 +63,6 @@ class _StatusStorageState extends State<StatusStorage> {
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(children: [
-            Container(
-              height: 70,
-              padding: EdgeInsets.only(bottom: 5),
-              child: Column(children: [
-                generateButtonWithDialog(
-                  context,
-                  "Storage pingen",
-                  (() {
-                    pingNow();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              title: Text(
-                                'Storage wird gepinged ...',
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              content: new Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Der Storage " +
-                                        ping.name +
-                                        " wird gepinged ... \n\n" +
-                                        "Benötigte Zeit: " +
-                                        ping.time.toString(),
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                ],
-                              ),
-                              actions: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: 70,
-                                  child: Column(children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text(
-                                        "Beenden",
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).focusColor),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Theme.of(context)
-                                            .secondaryHeaderColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
-                                ),
-                              ],
-                            ));
-                  }),
-                ),
-              ]),
-            ),
-            Container(
-              height: 70,
-              padding: EdgeInsets.only(top: 5),
-              child: Column(children: [
-                generateButtonWithDialog(
-                  context,
-                  "Focus Storage",
-                  (() {
-                    focus();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              title: Text(
-                                'Karte hinzufügen',
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              content: new Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Der Storage " +
-                                        widget.name +
-                                        " wird ins System augneommen ...",
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                ],
-                              ),
-                              actions: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: 70,
-                                  child: Column(children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text(
-                                        "Abschließen",
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).focusColor),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Theme.of(context)
-                                            .secondaryHeaderColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
-                                ),
-                              ],
-                            ));
-                  }),
-                ),
-              ]),
-            ),
             DeveloperChart(
               cards: listOfCards,
             ),

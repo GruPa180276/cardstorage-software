@@ -1,40 +1,82 @@
+import 'package:admin_login/pages/widget/createStatus.dart';
 import 'package:admin_login/pages/widget/createStorage.dart';
+import 'package:admin_login/provider/types/ping.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_login/provider/types/storages.dart';
 
-class GenerateStorage extends StatefulWidget {
+class GenerateStatus extends StatefulWidget {
   final int index;
   final List<dynamic>? data;
   final IconData icon;
   final String route;
   final String argument;
-  final bool focus;
 
-  final Color c;
-
-  const GenerateStorage(
-      {Key? key,
-      required this.index,
-      required this.data,
-      required this.icon,
-      required this.route,
-      required this.argument,
-      required this.c,
-      required this.focus})
-      : super(key: key);
+  const GenerateStatus({
+    Key? key,
+    required this.index,
+    required this.data,
+    required this.icon,
+    required this.route,
+    required this.argument,
+  }) : super(key: key);
 
   @override
-  State<GenerateStorage> createState() => _GenerateCardState();
+  State<GenerateStatus> createState() => _GenerateCardState();
 }
 
-class _GenerateCardState extends State<GenerateStorage> {
+class _GenerateCardState extends State<GenerateStatus> {
+  late Ping ping;
+  late Storages storage;
+  int count = 0;
+  bool pingWorked = false;
+  bool focus = true;
+
   @override
   void initState() {
     super.initState();
+    pingNow();
+    getNumberOfCardsInStorage();
+  }
+
+  void pingNow() async {
+    await pingStorage(widget.data![widget.index].name)
+        .then((value) => ping = value);
+
+    if (ping.time != 0) {
+      pingWorked = true;
+    }
+  }
+
+  void getNumberOfCardsInStorage() async {
+    await getAllCardsPerStorage(widget.data![widget.index].name)
+        .then((value) => storage = value);
+
+    count = 0;
+
+    setState(() {
+      for (int i = 0; i < storage.cards.length; i++) {
+        if (storage.cards[i].available == true) {
+          count++;
+        }
+      }
+    });
+  }
+
+  void pingNowNow() async {
+    await pingStorage(widget.data![widget.index].name)
+        .then((value) => ping = value);
+
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    Color color = Colors.green;
+
+    if (pingWorked == false) {
+      color = Colors.red;
+    }
+
     return SingleChildScrollView(
         child: Card(
             shape: RoundedRectangleBorder(
@@ -49,7 +91,7 @@ class _GenerateCardState extends State<GenerateStorage> {
                       decoration: BoxDecoration(
                           border: Border(
                         right: BorderSide(
-                          color: widget.c,
+                          color: color,
                           width: 10,
                         ),
                       )),
@@ -63,12 +105,13 @@ class _GenerateCardState extends State<GenerateStorage> {
                           child: Icon(widget.icon, size: 50),
                         ),
                         Expanded(
-                            child: createStorageTable(
-                                context,
-                                widget.data![widget.index].name,
-                                widget.data![widget.index].location,
-                                widget.data![widget.index].numberOfCards,
-                                widget.focus)),
+                            child: createStatus(
+                          context,
+                          pingWorked,
+                          widget.data![widget.index].name,
+                          count,
+                          widget.data![widget.index].numberOfCards,
+                        )),
                       ])),
                   onTap: () {
                     showDialog(
@@ -77,7 +120,7 @@ class _GenerateCardState extends State<GenerateStorage> {
                               backgroundColor:
                                   Theme.of(context).scaffoldBackgroundColor,
                               title: Text(
-                                'Storage bearbeiten',
+                                'Storage anzeigen',
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor),
                               ),
@@ -100,12 +143,12 @@ class _GenerateCardState extends State<GenerateStorage> {
                                         Row(children: [
                                           ElevatedButton(
                                             onPressed: () {
-                                              Navigator.of(context).pushNamed(
-                                                  widget.route,
-                                                  arguments: widget.argument);
+                                              focusStorage(
+                                                widget.data![widget.index].name,
+                                              );
                                             },
                                             child: Text(
-                                              "Storage bearbeiten",
+                                              "Focus",
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .focusColor),
@@ -122,12 +165,10 @@ class _GenerateCardState extends State<GenerateStorage> {
                                           Spacer(),
                                           ElevatedButton(
                                             onPressed: () {
-                                              deleteData(widget
-                                                  .data![widget.index].name);
-                                              Navigator.of(context).pop();
+                                              pingNow();
                                             },
                                             child: Text(
-                                              "Storage löschen",
+                                              "Ping",
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .focusColor),
@@ -140,7 +181,31 @@ class _GenerateCardState extends State<GenerateStorage> {
                                                     BorderRadius.circular(10),
                                               ),
                                             ),
-                                          )
+                                          ),
+                                          Spacer(),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pushNamed(
+                                                "/status",
+                                                arguments: widget
+                                                    .data![widget.index].name,
+                                              );
+                                            },
+                                            child: Text(
+                                              "Statistik",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .focusColor),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Theme.of(context)
+                                                  .secondaryHeaderColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
                                         ]),
                                         ElevatedButton(
                                           onPressed: () {

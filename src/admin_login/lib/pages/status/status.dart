@@ -1,4 +1,6 @@
+import 'package:admin_login/pages/status/statusInkwell.dart';
 import 'package:admin_login/pages/widget/reloadbutton.dart';
+import 'package:admin_login/provider/types/ping.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/appbar.dart';
@@ -45,13 +47,12 @@ class _StatusViewState extends State<StatusView> {
                   return ListView.builder(
                       itemCount: data?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return GenerateCardWithInkWell.withArguments(
+                        return GenerateStatus(
                           index: index,
                           data: data!,
                           icon: Icons.storage,
                           route: "/status",
                           argument: data[index].name,
-                          view: 2,
                         );
                       });
                 } else if (snapshot.hasError) {

@@ -158,10 +158,12 @@ class _ListCardStoragesState extends State<ListCardStorages> {
             itemCount: widget.storages.length,
             itemBuilder: (BuildContext context, int index) {
               Color c = Colors.green;
+              bool focus = true;
 
               for (int i = 0; i < widget.focus.length; i++) {
                 if (widget.focus[i].name == widget.storages[index].name) {
                   c = Colors.red;
+                  focus = false;
                 }
               }
 
@@ -172,6 +174,7 @@ class _ListCardStoragesState extends State<ListCardStorages> {
                 route: "/alterStorage",
                 argument: widget.storages[index].name,
                 c: c,
+                focus: focus,
               );
             }));
   }

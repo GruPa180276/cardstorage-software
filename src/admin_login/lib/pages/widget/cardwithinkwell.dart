@@ -135,14 +135,6 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
         count,
         widget.data![widget.index].numberOfCards,
       );
-    }
-    if (widget.view == 3) {
-      return createStorageTable(
-        context,
-        widget.data![widget.index].name,
-        widget.data![widget.index].location,
-        widget.data![widget.index].numberOfCards,
-      );
     } else {
       return SizedBox.shrink();
     }

@@ -117,138 +117,166 @@ class _StorageViewState extends State<UsersSettings> {
           itemBuilder: (context, index) {
             Users person = persons[index];
             String mail = person.email;
+            Color color = Colors.green;
+
+            if (person.privileged == false) {
+              color = Colors.red;
+            }
             return Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: InkWell(
-                    child: Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 0,
-                              right: 15,
-                            ),
-                            child: Icon(Icons.account_box_outlined, size: 50),
-                          ),
-                          Expanded(
-                            child: createUserTable(
-                              context,
-                              person.email,
-                              person.privileged,
-                            ),
-                          ),
-                        ])),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                title: Text(
-                                  'Berechtigungen ändern',
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
+                child: ClipPath(
+                    clipper: ShapeBorderClipper(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5))),
+                    child: InkWell(
+                        child: Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                              right: BorderSide(
+                                color: color,
+                                width: 10,
+                              ),
+                            )),
+                            padding: EdgeInsets.all(15),
+                            child: Row(children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 0,
+                                  right: 15,
                                 ),
-                                content: new Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Wollen Sie diesen Benutzer zu einem Admin machen?",
+                                child:
+                                    Icon(Icons.account_box_outlined, size: 50),
+                              ),
+                              Expanded(
+                                child: createUserTable(
+                                  context,
+                                  person.email,
+                                  person.privileged,
+                                ),
+                              ),
+                            ])),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    backgroundColor: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    title: Text(
+                                      'Berechtigungen ändern',
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor),
                                     ),
-                                  ],
-                                ),
-                                actions: <Widget>[
-                                  Container(
-                                      padding: EdgeInsets.all(10),
-                                      height: 70,
-                                      child: Column(
-                                        children: [
-                                          Row(children: [
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Users user = new Users(
-                                                  email: person.email,
-                                                  privileged: true,
-                                                );
+                                    content: new Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          "Wollen Sie diesen Benutzer zu einem Admin machen?",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: <Widget>[
+                                      Container(
+                                          padding: EdgeInsets.all(10),
+                                          height: 70,
+                                          child: Column(
+                                            children: [
+                                              Row(children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Users user = new Users(
+                                                      email: person.email,
+                                                      privileged: true,
+                                                    );
 
-                                                updateData(person.email,
-                                                    user.toJson());
+                                                    updateData(person.email,
+                                                        user.toJson());
 
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                "Ja",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .focusColor),
-                                              ),
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Theme.of(context)
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "Ja",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .focusColor),
+                                                  ),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Theme.of(
+                                                            context)
                                                         .secondaryHeaderColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                deleteData(mail);
+                                                Spacer(),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    deleteData(mail);
 
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                "Löschen",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .focusColor),
-                                              ),
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Theme.of(context)
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "Löschen",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .focusColor),
+                                                  ),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Theme.of(
+                                                            context)
                                                         .secondaryHeaderColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                "Nein",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .focusColor),
-                                              ),
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Theme.of(context)
+                                                Spacer(),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "Nein",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .focusColor),
+                                                  ),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Theme.of(
+                                                            context)
                                                         .secondaryHeaderColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ]),
-                                        ],
-                                      )),
-                                ],
-                              ));
-                    }));
+                                              ]),
+                                            ],
+                                          )),
+                                    ],
+                                  ));
+                        })));
           }),
     );
   }

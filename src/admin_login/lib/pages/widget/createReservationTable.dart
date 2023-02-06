@@ -10,6 +10,14 @@ Table createReservationTable(
   int until,
   int returnedAt,
 ) {
+  String back = "";
+
+  if (returnedAt < 0) {
+    back = "-";
+  } else {
+    back = DateFormat('kk:mm, dd-MM-yyyy')
+        .format(DateTime.fromMillisecondsSinceEpoch(returnedAt * 1000));
+  }
   return Table(
     columnWidths: {
       0: FractionColumnWidth(0.39),
@@ -77,8 +85,7 @@ Table createReservationTable(
             style: TextStyle(fontSize: 20),
           ),
           Text(
-            DateFormat('kk:mm, dd-MM-yyyy')
-                .format(DateTime.fromMillisecondsSinceEpoch(returnedAt * 1000)),
+            back,
             style: TextStyle(fontSize: 20),
             textAlign: TextAlign.right,
           )

@@ -165,125 +165,157 @@ class _SettingsPageState extends State<Reservations> {
                   physics: ScrollPhysics(),
                   itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: InkWell(
-                          child: Container(
-                              padding: EdgeInsets.all(15),
-                              child: Row(children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 0,
-                                    right: 15,
-                                  ),
-                                  child: Icon(Icons.bookmark, size: 50),
-                                ),
-                                Expanded(
-                                    child: createReservationTable(
-                                  context,
-                                  c.name,
-                                  data[index].users.email,
-                                  data[index].since,
-                                  data[index].until,
-                                  data[index].returnedAt,
-                                )),
-                              ])),
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      title: Text(
-                                        'Reservierung löschen',
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      ),
-                                      content: new Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "Wollen Sie diese Reservierung löschen?",
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                          ),
-                                        ],
-                                      ),
-                                      actions: <Widget>[
-                                        Container(
-                                            padding: EdgeInsets.all(10),
-                                            height: 70,
-                                            child: Column(
-                                              children: [
-                                                Row(children: [
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
+                    Color col = Colors.green;
+                    if (data[index].until * 1000 <
+                        DateTime.now().millisecondsSinceEpoch) {
+                      col = Colors.red;
+                    }
 
-                                                      deleteReservation(
-                                                          data[index].id);
-                                                    },
-                                                    child: Text(
-                                                      "Ja",
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .focusColor),
-                                                    ),
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor: Theme.of(
-                                                              context)
-                                                          .secondaryHeaderColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                      ),
-                                                    ),
+                    return Container(
+                      child: Column(children: [
+                        Card(
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: ClipPath(
+                                clipper: ShapeBorderClipper(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5))),
+                                child: InkWell(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                        right: BorderSide(
+                                          color: col,
+                                          width: 10,
+                                        ),
+                                      )),
+                                      padding: EdgeInsets.all(15),
+                                      child: Row(children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 0,
+                                            right: 15,
+                                          ),
+                                          child: Icon(Icons.bookmark, size: 50),
+                                        ),
+                                        Expanded(
+                                            child: createReservationTable(
+                                          context,
+                                          c.name,
+                                          data[index].users.email,
+                                          data[index].since,
+                                          data[index].until,
+                                          data[index].returnedAt,
+                                        )),
+                                      ])),
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                              backgroundColor: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              title: Text(
+                                                'Reservierung löschen',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
+                                              ),
+                                              content: new Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Wollen Sie diese Reservierung löschen?",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor),
                                                   ),
-                                                  Spacer(),
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text(
-                                                      "Nein",
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .focusColor),
-                                                    ),
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor: Theme.of(
-                                                              context)
-                                                          .secondaryHeaderColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ]),
+                                                ],
+                                              ),
+                                              actions: <Widget>[
+                                                Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    height: 70,
+                                                    child: Column(
+                                                      children: [
+                                                        Row(children: [
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+
+                                                              deleteReservation(
+                                                                  data[index]
+                                                                      .id);
+                                                            },
+                                                            child: Text(
+                                                              "Ja",
+                                                              style: TextStyle(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .focusColor),
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .secondaryHeaderColor,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text(
+                                                              "Nein",
+                                                              style: TextStyle(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .focusColor),
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .secondaryHeaderColor,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ]),
+                                                      ],
+                                                    )),
                                               ],
-                                            )),
-                                      ],
-                                    ));
-                          },
-                        ));
+                                            ));
+                                  },
+                                )))
+                      ]),
+                    );
                   });
             }));
   }

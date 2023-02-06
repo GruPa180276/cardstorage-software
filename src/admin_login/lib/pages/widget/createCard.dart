@@ -36,5 +36,18 @@ Table createCardTable(
         )
       ],
     ),
+    TableRow(
+      children: [
+        Text(
+          "Verwendet:",
+          style: TextStyle(fontSize: 20),
+        ),
+        Text(
+          isAvailable.toString(),
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.right,
+        )
+      ],
+    ),
   ]);
 }

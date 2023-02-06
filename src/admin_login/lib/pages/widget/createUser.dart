@@ -9,8 +9,8 @@ Table createUserTable(
 
   return Table(
     columnWidths: {
-      0: FractionColumnWidth(0.39),
-      1: FractionColumnWidth(0.60),
+      0: FractionColumnWidth(0.36),
+      1: FractionColumnWidth(0.63),
     },
     children: [
       TableRow(

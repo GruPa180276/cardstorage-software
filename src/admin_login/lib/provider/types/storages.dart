@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:admin_login/config/token_manager.dart';
-import 'package:admin_login/provider/types/focus.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_login/provider/types/cards.dart';
 import 'package:admin_login/config/adress.dart' as adres;

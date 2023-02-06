@@ -30,7 +30,6 @@ class HomePageState extends State<RemoveStorage> {
     }
 
     query = query.toLowerCase();
-    print(query);
     List<Storages> result = [];
     for (int i = 0; i < persons.length; i++) {
       var name = persons[i].name.toString().toLowerCase();

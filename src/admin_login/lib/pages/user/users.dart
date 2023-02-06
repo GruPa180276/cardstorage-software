@@ -33,7 +33,6 @@ class _StorageViewState extends State<UsersSettings> {
     }
 
     query = query.toLowerCase();
-    print(query);
     List<Users> result = [];
     for (int i = 0; i < persons.length; i++) {
       var name = persons[i].email.toString().toLowerCase();

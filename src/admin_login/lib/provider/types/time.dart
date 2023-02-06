@@ -36,7 +36,6 @@ Future<ReservationTime> getReservationLatestGetTime() async {
   );
   if (response.statusCode == 200) {
     dynamic jsonResponse = json.decode(response.body);
-    print(jsonResponse);
     return ReservationTime.fromJson(jsonResponse);
   } else if (response.statusCode == 401) {
     SecureStorage.setToken();

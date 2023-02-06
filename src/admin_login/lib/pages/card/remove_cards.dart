@@ -30,7 +30,6 @@ class HomePageState extends State<RemoveCards> {
     }
 
     query = query.toLowerCase();
-    print(query);
     List<Cards> result = [];
     for (int i = 0; i < persons.length; i++) {
       var name = persons[i].name.toString().toLowerCase();

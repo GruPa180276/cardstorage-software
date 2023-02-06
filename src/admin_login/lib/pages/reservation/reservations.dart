@@ -46,7 +46,6 @@ class _SettingsPageState extends State<Reservations> {
     }
 
     query = query.toLowerCase();
-    print(query);
     List<CardReservation> result = [];
     for (int i = 0; i < persons.length; i++) {
       var name = persons[i].name.toString().toLowerCase();

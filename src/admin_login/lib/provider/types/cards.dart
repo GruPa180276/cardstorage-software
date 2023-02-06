@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:admin_login/config/token_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_login/config/adress.dart' as adres;
 
@@ -36,6 +38,11 @@ class Cards {
 Future<List<Cards>> fetchData() async {
   final response = await http.get(
     Uri.parse(adres.cardAdress),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -48,8 +55,10 @@ Future<List<Cards>> fetchData() async {
 Future<dynamic> deleteData(String name) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.cardAdress + "/name/" + name),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
   );
   if (response.statusCode == 200) {
@@ -62,8 +71,10 @@ Future<dynamic> deleteData(String name) async {
 Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
     Uri.parse(adres.cardAdress + "/name/" + name),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
     body: jsonEncode(data),
   );
@@ -78,8 +89,10 @@ Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
 Future<dynamic> sendData(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
     Uri.parse(adres.cardAdress),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
     body: jsonEncode(data),
   );

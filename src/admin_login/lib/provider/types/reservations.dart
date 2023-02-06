@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:admin_login/config/token_manager.dart';
 import 'package:admin_login/provider/types/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_login/config/adress.dart' as adres;
@@ -36,6 +38,11 @@ class ReservationOfCards {
 Future<List<ReservationOfCards>> fetchData() async {
   final response = await http.get(
     Uri.parse(adres.reservationAdress),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -43,20 +50,22 @@ Future<List<ReservationOfCards>> fetchData() async {
         .map((data) => ReservationOfCards.fromJson(data))
         .toList();
   } else {
-    throw Exception('Failed to get Storages!');
+    throw Exception('Failed to get Reservations!');
   }
 }
 
 Future<ReservationOfCards> deleteReservation(int id) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.reservationAdress + "/id/" + id.toString()),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
   );
   if (response.statusCode == 200) {
     return ReservationOfCards.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to delete Storage!');
+    throw Exception('Failed to delete Reservation!');
   }
 }

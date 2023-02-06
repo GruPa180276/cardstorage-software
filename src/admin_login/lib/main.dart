@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:admin_login/config/token_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -20,12 +21,6 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-// User löschen
-// Input Handling, überprüfen ob der jeweilige Parameter noch nicht vorhande ist
-// Error Handling über API Response
-// Error Handling when deleting Users
-// Add CircularProgressIndicator
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
@@ -35,6 +30,8 @@ Future main() async {
   ));
 
   HttpOverrides.global = MyHttpOverrides();
+
+  SecureStorage.setToken();
 
   runApp(AppStart());
 }

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:admin_login/config/token_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_login/config/adress.dart' as adres;
 
@@ -26,6 +28,11 @@ class Ping {
 Future<Ping> pingStorage(String name) async {
   final response = await http.get(
     Uri.parse(adres.pingAdress + "/ping/name/" + name),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
   );
   if (response.statusCode == 200) {
     dynamic jsonResponse = json.decode(response.body);

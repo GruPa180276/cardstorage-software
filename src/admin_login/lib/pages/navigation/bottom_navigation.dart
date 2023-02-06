@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:admin_login/config/token_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/log/logs.dart';
 import 'package:admin_login/pages/card/cards.dart';
 import 'package:admin_login/pages/status/status.dart';
 import 'package:admin_login/pages/storage/storage.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -30,7 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     });
   }
 
-  void _setupWebSockets() {
+  void _setupWebSockets() async {
     List<String> urls = [
       'wss://10.0.2.2:7171/api/controller/log',
       'wss://10.0.2.2:7171/api/storages/log',
@@ -40,8 +44,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
     ];
 
     for (String url in urls) {
-      WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(url))
-        ..stream.listen((data) => handleMessage(data));
+      IOWebSocketChannel channel = IOWebSocketChannel.connect(
+        headers: {
+          HttpHeaders.authorizationHeader:
+              "Bearer ${await SecureStorage.getToken()}",
+          "Accept": "application/json"
+        },
+        Uri.parse(url),
+      )..stream.listen((data) => handleMessage(data));
       _channels.add(channel);
     }
 

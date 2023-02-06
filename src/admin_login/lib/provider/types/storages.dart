@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:admin_login/config/token_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_login/provider/types/cards.dart';
 import 'package:admin_login/config/adress.dart' as adres;
@@ -38,6 +40,11 @@ class Storages {
 Future<List<Storages>> fetchData() async {
   final response = await http.get(
     Uri.parse(adres.storageAdress),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
   );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -50,6 +57,11 @@ Future<List<Storages>> fetchData() async {
 Future<Storages> getAllCardsPerStorage(String name) async {
   final response = await http.get(
     Uri.parse(adres.storageAdress + "/name/" + name),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
   );
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
@@ -61,6 +73,11 @@ Future<Storages> getAllCardsPerStorage(String name) async {
 Future<Storages> getUnfocusedStorage(String name) async {
   final response = await http.get(
     Uri.parse(adres.storageAdress + "/focus/name/" + name),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
   );
   if (response.statusCode == 200) {
     return Storages.fromJson(json.decode(response.body));
@@ -72,8 +89,10 @@ Future<Storages> getUnfocusedStorage(String name) async {
 Future<Storages> focusStorage(String name) async {
   final http.Response response = await http.put(
     Uri.parse(adres.storageAdress + "/focus/name/" + name),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
   );
 
@@ -87,8 +106,10 @@ Future<Storages> focusStorage(String name) async {
 Future<Storages> deleteData(String name) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.storageAdress + "/name/" + name),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
   );
   if (response.statusCode == 200) {
@@ -101,8 +122,10 @@ Future<Storages> deleteData(String name) async {
 Future<Storages> updateData(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
     Uri.parse(adres.storageAdress + "/name/" + name),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
     body: jsonEncode(data),
   );
@@ -117,8 +140,10 @@ Future<Storages> updateData(String name, Map<String, dynamic> data) async {
 Future<Storages> sendData(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
     Uri.parse(adres.storageAdress),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
     },
     body: jsonEncode(data),
   );

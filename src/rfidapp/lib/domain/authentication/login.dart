@@ -15,9 +15,11 @@ class Login {
       await AadAuthentication.oauth!.login();
       String? accessToken = await AadAuthentication.oauth!.getAccessToken();
       if (accessToken!.isNotEmpty) {
-        var userResponse = await Data.getUserData(accessToken);
-        var email = jsonDecode(userResponse!.body)["mail"];
-        var response = await Data.check(Data.checkUserRegistered, email);
+        var userResponse = await Data.getUserData({"accesstoken": accessToken});
+        var jsonObject = jsonDecode(userResponse!.body);
+        String mail = jsonObject["mail"];
+        var response =
+            await Data.check(Data.checkUserRegistered, {"email": mail});
         var isRegistered;
         if (response.statusCode != 200 ||
             jsonDecode(response.body)["email"].toString().isEmpty) {

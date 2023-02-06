@@ -146,23 +146,25 @@ class ReservationPopUp {
           borderRadius: BorderRadius.circular(32),
         ))),
         onPressed: () async {
-          var reservationsResponse =
-              await Data.check(Data.getReservationsOfCard, card.name);
+          var reservationsResponse = await Data.check(
+              Data.getReservationsOfCard, {"cardname": card.name});
 
-          var jsonReservation = jsonDecode(reservationsResponse!.body) as List;
+          var jsonReservation = jsonDecode(reservationsResponse.body) as List;
           reservations = jsonReservation
               .map((tagJson) => Reservation.fromJson(tagJson))
               .toList();
 
           if (_formKey.currentState!.validate()) {
-            var response = await Data.newReservation(
-                card.name,
-                DateTime.parse(vonTextEdidtingcontroller.text)
-                        .millisecondsSinceEpoch ~/
-                    1000,
-                DateTime.parse(bisTextEdidtingcontroller.text)
-                        .millisecondsSinceEpoch ~/
-                    1000);
+            var response = await Data.newReservation({
+              "cardname": card.name,
+              "since": (DateTime.parse(vonTextEdidtingcontroller.text)
+                      .millisecondsSinceEpoch ~/
+                  1000),
+              "until": (DateTime.parse(bisTextEdidtingcontroller.text)
+                      .millisecondsSinceEpoch ~/
+                  1000)
+            });
+
             if (response.statusCode == 200) {
               await LocalNotificationService.showScheduledNotification(
                   dateTime: DateTime.parse(vonTextEdidtingcontroller.text),
@@ -171,7 +173,16 @@ class ReservationPopUp {
                       1000,
                   title: 'Reservierung',
                   body: 'Reservierung ${card.name}');
-
+              var snackBar = SnackBar(
+                  elevation: 0,
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'Reservierung abgeschlossen!',
+                    message: '',
+                    contentType: ContentType.success,
+                  ));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
               Navigator.pop(context);
             } else {
               var snackBar = SnackBar(

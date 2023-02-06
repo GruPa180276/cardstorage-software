@@ -76,29 +76,29 @@ class RequestTimer {
                       isTimerTextShown: true,
                       autoStart: true,
                       onComplete: (() {
-                        i++;
-                        channel!.sink.close();
                         if (card != null && i == 0) {
                           SnackbarBuilder.build(SnackbarType.CARD, context,
                               _successful, _responseData);
                           Navigator.of(context).maybePop();
+                          channel!.sink.close();
                         } else if (storagename != null && i == 0) {
                           SnackbarBuilder.build(SnackbarType.USER, context,
                               _successful, _responseData);
                           Navigator.of(context).maybePop();
+                          channel!.sink.close();
                         }
                       }),
                       onStart: () async {
                         //maybe you need threading
                         if (action == TimerAction.GETCARD) {
-                          var response =
-                              await Data.postGetCardNow(card!, email!);
+                          var response = await Data.postGetCardNow(
+                              {"cardname": card!.name, "email": email!});
                           if (response.statusCode != 200) {
                             Navigator.maybePop(context);
                           }
                         } else if (action == TimerAction.SIGNUP) {
                           var response = await Data.postCreateNewUser(
-                              email!, storagename!);
+                              {"storagename": storagename!, "email": email!});
 
                           if (response.statusCode != 200) {
                             Navigator.maybePop(context);
@@ -147,7 +147,7 @@ class RequestTimer {
       i++;
       timerController.restart(duration: 0);
       channel!.sink.close();
-      if (card != null) {
+      if (card != null && i == 1) {
         if (_successful) {
           SnackbarBuilder.build(
               SnackbarType.CARD, context, _successful, _responseData);
@@ -155,7 +155,7 @@ class RequestTimer {
           SnackbarBuilder.build(
               SnackbarType.CARD, context, _successful, _responseData);
         }
-      } else if (storagename != null) {
+      } else if (storagename != null && i == 1) {
         if (_successful) {
           SnackbarBuilder.build(
               SnackbarType.USER, context, _successful, _responseData);

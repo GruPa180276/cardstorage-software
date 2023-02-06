@@ -10,9 +10,10 @@ class Data {
   static String? bearerToken;
   static String uriRaspi = 'https://10.0.2.2:7171/api/';
 
-  static Future<Response> check(Function function, String? args) async {
+  static Future<Response> check(
+      Function function, Map<String, dynamic>? args) async {
     if (bearerToken == null) {
-      await generateToken();
+      await _generateToken();
     }
     Response response;
     if (args != null) {
@@ -21,7 +22,7 @@ class Data {
       response = await function();
     }
     if (response.statusCode == 401) {
-      await generateToken();
+      await _generateToken();
 
       if (args != null) {
         response = await function(args);
@@ -43,25 +44,23 @@ class Data {
     }
   }
 
-  static Future<Response?> checkUserRegistered(String email) async {
-    var responseUser =
-        await get(Uri.parse("${uriRaspi}users/email/${email}"), headers: {
-      "Accept": "application/json",
-      HttpHeaders.authorizationHeader: "Bearer $bearerToken",
-    });
+  static Future<Response?> checkUserRegistered(
+      Map<String, dynamic> args) async {
+    var responseUser = await get(
+        Uri.parse("${uriRaspi}users/email/${args["email"]}"),
+        headers: {
+          "Accept": "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $bearerToken",
+        });
     return responseUser;
   }
 
-  static Future<Response?> getUserData(String accessToken) async {
-    try {
-      final response =
-          await get(Uri.parse("https://graph.microsoft.com/v1.0/me"), headers: {
-        HttpHeaders.authorizationHeader: "Bearer $accessToken",
-        "Accept": "application/json"
-      });
-
-      return response;
-    } catch (e) {}
+  static Future<Response?> getUserData(Map<String, String> args) async {
+    return await get(Uri.parse("https://graph.microsoft.com/v1.0/me"),
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer ${args["accesstoken"]}",
+          "Accept": "application/json"
+        });
   }
 
   static Future<Response?> getAllReservationUser() async {
@@ -74,73 +73,62 @@ class Data {
         });
   }
 
-  static Future<Response> postCreateNewUser(
-      String email, String storageName) async {
+  static Future<Response> postCreateNewUser(Map<String, dynamic> args) async {
     return post(Uri.parse('${uriRaspi}users'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
         },
-        body: jsonEncode({"email": email, "storage": storageName}));
+        body: jsonEncode(
+            {"email": args["email"], "storage": args["storagename"]}));
   }
 
-  static Future<Response> postGetCardNow(
-      ReaderCard readerCard, String email) async {
-    // "/api/storages/cards/name/NAME/fetch/user/email/USER@PROVIDER.COM",
-    // "/api/storages/cards/name/NAME/fetch",
-    print(Uri.parse(
-        '${uriRaspi}storages/cards/name/${readerCard.name}/fetch/user/email/${email}'));
-    String readerCards = jsonEncode(readerCard.toJson());
+  static Future<Response> postGetCardNow(Map<String, dynamic> args) async {
     return put(
         Uri.parse(
-            '${uriRaspi}storages/cards/name/${readerCard.name}/fetch/user/email/${email}'),
+            '${uriRaspi}storages/cards/name/${args["cardname"]}/fetch/user/email/${args["email"]}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
         });
   }
 
-  static Future<Response?> getReservationsOfCard(ReaderCard card) async {
+  static Future<Response?> getReservationsOfCard(
+      Map<String, dynamic> args) async {
     //https: //localhost:7171/api/storages/cards/reservations/card/Card1
     return await get(
-        Uri.parse("${uriRaspi}storages/cards/reservations/card/${card.name}"),
+        Uri.parse(
+            "${uriRaspi}storages/cards/reservations/card/${args["cardname"]}"),
         headers: {
           "Accept": "application/json",
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
         });
-
-    // var jsonReservation = jsonDecode(reservationResponse.body) as List;
-    // List<Reservation> reservations = jsonReservation
-    //     .map((tagJson) => Reservation.fromJson(tagJson))
-    //     .toList();
-
-    // return reservations;
   }
 
-  static Future<Response> newReservation(
-      String CardName, int since, int till) async {
-    //https://localhost:7171/api/users/reservations/email/40146720180276@litec.ac.at
-
+  static Future<Response> newReservation(Map<String, dynamic> args) async {
+    //		"/api/users/reservations/email/USER@PROVIDER.COM"
+    print(await UserSecureStorage.getUserEmail());
     return await post(
         Uri.parse(
             "${uriRaspi}users/reservations/email/${await UserSecureStorage.getUserEmail()}"),
         headers: {
-          "Accept": "application/json",
+          "Content-Type": "application/json",
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
         },
         body: jsonEncode({
-          "card": CardName,
-          "since": since,
-          "until": till,
+          "card": args["cardname"],
+          "since": args["since"],
+          "until": args["until"],
           "is-reservation": true
         }));
     ;
   }
 
-  static Future<Response> deleteReservation(Reservation reservation) async {
+  static Future<Response> deleteReservation(Map<String, dynamic> args) async {
     //https://localhost :7171/api/users/reservations/email/40146720180276@litec.ac.at
     var reservationResponse = await delete(
-      Uri.parse("${uriRaspi}storages/cards/reservations/id/${reservation.id}"),
+      Uri.parse(
+          "${uriRaspi}storages/cards/reservations/id/${args["reservationid"]}"),
       headers: {
         "Accept": "application/json",
         HttpHeaders.authorizationHeader: "Bearer $bearerToken",
@@ -150,9 +138,12 @@ class Data {
     return reservationResponse;
   }
 
-  static Future<void> generateToken() async {
+  static Future<void> _generateToken() async {
+    print(Uri.parse(
+        "${uriRaspi}auth${(await UserSecureStorage.getUserEmail() == null) ? "" : "/user/email/${await UserSecureStorage.getUserEmail()}"}"));
     var response = await get(
-        Uri.parse("${uriRaspi}auth/user/email/card_storage_admin@default.com"),
+        Uri.parse(
+            "${uriRaspi}auth${(await UserSecureStorage.getUserEmail() == null) ? "" : "/user/email/${await UserSecureStorage.getUserEmail()}"}"),
         headers: {
           "Content-Type": "text/plain",
         });

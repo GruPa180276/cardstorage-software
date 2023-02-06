@@ -125,8 +125,8 @@ class ReservationView extends StatelessWidget {
               Expanded(
                   child: CardButton(
                 onPress: () async {
-                  var response = await Data.check(
-                      Data.deleteReservation, reservation.id.toString());
+                  var response = await Data.check(Data.deleteReservation,
+                      {"reservationid": reservation.id.toString()});
                   if (response.statusCode != 200) {
                     var snackBar = SnackBar(
                         elevation: 0,
@@ -146,7 +146,7 @@ class ReservationView extends StatelessWidget {
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: Colors.transparent,
                         content: AwesomeSnackbarContent(
-                          title: 'Reservierung wurde geloescht!',
+                          title: 'Reservierung wurde gelöscht!',
                           message: "",
 
                           /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
@@ -159,7 +159,7 @@ class ReservationView extends StatelessWidget {
                     LocalNotificationService.cancel(reservation.since);
                   }
                 },
-                text: "Loeschen",
+                text: "Löschen",
               ))
             ],
           )

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_type.dart';
 import 'package:rfidapp/pages/generate/views/reservate_view.dart';
 import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/connection/api/uitls.dart';
 import 'package:rfidapp/provider/types/reservation.dart';
 
 // ignore: must_be_immutable
@@ -20,28 +19,32 @@ class ReservationVisualizer extends StatefulWidget {
 
 class _ReservationVisualizerState extends State<ReservationVisualizer> {
   _ReservationVisualizerState({required this.site});
-  late Future<List<Reservation>?> futureReservations;
+  late Future<List<Reservation>?> _futureReservations;
 
-  String searchString = "";
-  TextEditingController searchController = TextEditingController();
+  String _searchString = "";
+  TextEditingController _searchController = TextEditingController();
   CardPageTypes site;
 
   @override
   void initState() {
     super.initState();
-    reloadReaderCards();
+    _reloadReaderCards();
   }
 
-  void reloadReaderCards() async {
+  void _reloadReaderCards() async {
+    setState(() {
+      _futureReservations = _getReservations();
+    });
+  }
+
+  Future<List<Reservation>?> _getReservations() async {
     var reservationsResponse =
         await Data.check(Data.getAllReservationUser, null);
-    setState(() async {
-      var jsonReservation = jsonDecode(reservationsResponse.body) as List;
-      List<Reservation> reservations = jsonReservation
-          .map((tagJson) => Reservation.fromJson(tagJson))
-          .toList();
-      futureReservations = Future.value(reservations);
-    });
+    var jsonReservation = jsonDecode(reservationsResponse.body) as List;
+    List<Reservation> reservations = jsonReservation
+        .map((tagJson) => Reservation.fromJson(tagJson))
+        .toList();
+    return Future.value(reservations);
   }
 
   @override
@@ -53,7 +56,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
         children: [
           Expanded(
             child: TextField(
-                controller: searchController,
+                controller: _searchController,
                 decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Karte suchen per Name',
@@ -63,7 +66,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
                             BorderSide(color: Theme.of(context).dividerColor))),
                 onChanged: ((value) {
                   setState(() {
-                    searchString = value;
+                    _searchString = value;
                   });
                 })),
           ),
@@ -89,49 +92,46 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<Reservation>?>(
-                future: futureReservations,
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
+                  future: _futureReservations,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
-                    default:
-                      if (snapshot.hasError) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height / 2 - 200,
-                              horizontal: 0),
-                          child: Text(
-                            'No connection was found. Please check if you are connected!',
-                            style: TextStyle(
-                                color: Theme.of(context).dividerColor,
-                                fontSize: 20),
-                          ),
-                        );
-                      } else if (snapshot.data == null) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height / 2 - 200,
-                              horizontal: 0),
-                          child: Text(
-                            'No Data',
-                            style: TextStyle(
-                                color: Theme.of(context).dividerColor,
-                                fontSize: 20),
-                          ),
-                        );
-                      } else {
-                        final cards = snapshot.data!;
-                        return ReservationView(
-                            reservations: cards,
-                            context: context,
-                            searchstring: searchString,
-                            setState: setState);
-                      }
-                  }
-                },
-              ),
+                    } else if (snapshot.hasError) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical:
+                                MediaQuery.of(context).size.height / 2 - 200,
+                            horizontal: 0),
+                        child: Text(
+                          'No connection was found. Please check if you are connected!',
+                          style: TextStyle(
+                              color: Theme.of(context).dividerColor,
+                              fontSize: 20),
+                        ),
+                      );
+                    } else if (snapshot.data == null ||
+                        snapshot.data!.isEmpty) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical:
+                                MediaQuery.of(context).size.height / 2 - 200,
+                            horizontal: 0),
+                        child: Text(
+                          'Keine Reservierungen vorhanden',
+                          style: TextStyle(
+                              color: Theme.of(context).dividerColor,
+                              fontSize: 20),
+                        ),
+                      );
+                    } else {
+                      final cards = snapshot.data!;
+                      return ReservationView(
+                          reservations: cards,
+                          context: context,
+                          searchstring: _searchString,
+                          setState: setState);
+                    }
+                  }),
             ],
           ),
         ),
@@ -141,7 +141,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
             Icons.replay,
             color: Colors.white,
           ),
-          onPressed: () => {reloadReaderCards()},
+          onPressed: () => {_reloadReaderCards()},
         ));
   }
 }

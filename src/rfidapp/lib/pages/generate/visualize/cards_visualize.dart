@@ -39,15 +39,16 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   @override
   void initState() {
     super.initState();
-    reloadReaderCards();
-    reloadPinnedList();
-    checkUserRegistered();
+    _reloadReaderCards();
+    _reloadPinnedList();
+    _checkUserRegistered();
   }
 
-  void checkUserRegistered() async {
+  void _checkUserRegistered() async {
     var isRegistered;
     var data = await UserSecureStorage.getUserValues();
-    var response = await Data.check(Data.check, data["Email"]);
+    var response =
+        await Data.check(Data.checkUserRegistered, {"email": data["Email"]!});
     if (response.statusCode != 200 ||
         jsonDecode(response.body)["email"].toString().isEmpty) {
       isRegistered = false;
@@ -63,30 +64,30 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     }
   }
 
-  void reloadPinnedList() {
+  void _reloadPinnedList() {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
     });
   }
 
-  void reloadReaderCards() async {
-    var cardsResponse = await Data.check(Data.getReaderCards, null);
-
+  void _reloadReaderCards() async {
     setState(() {
       pinnedCards = AppPreferences.getCardsPinned();
-
-      var jsonStorage = jsonDecode(cardsResponse.body) as List;
-      List<Storage> storages =
-          jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
-
-      Utils.parseToReaderCards(storages);
-      defaultReaderCards = Future.value(Utils.parseToReaderCards(storages));
-
+      defaultReaderCards = _getReaderCard();
       modifiedReaderCards = defaultReaderCards;
     });
   }
 
-  void setReaderCards(Future<List<ReaderCard>?> newStorageList) {
+  Future<List<ReaderCard>?> _getReaderCard() async {
+    var cardsResponse = await Data.check(Data.getReaderCards, null);
+    var jsonStorage = jsonDecode(cardsResponse.body) as List;
+    List<Storage> storages =
+        jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
+    Utils.parseToReaderCards(storages);
+    return Future.value(Utils.parseToReaderCards(storages));
+  }
+
+  void _setReaderCards(Future<List<ReaderCard>?> newStorageList) {
     setState(() {
       modifiedReaderCards = newStorageList;
     });
@@ -118,7 +119,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
           IconButton(
               onPressed: () {
                 BottomSheetPop(
-                  setReaderCards: setReaderCards,
+                  setReaderCards: _setReaderCards,
                   defaultCards: defaultReaderCards,
                 ).buildBottomSheet(context);
               },
@@ -145,8 +146,12 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<ReaderCard>?>(
-                future: defaultReaderCards,
+                future: modifiedReaderCards,
                 builder: (context, snapshot) {
+                  if (modifiedReaderCards == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return const Center(child: CircularProgressIndicator());
@@ -186,8 +191,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                               searchstring: searchString,
                               readercards: cards,
                               pinnedCards: pinnedCards!,
-                              reloadPinned: reloadPinnedList,
-                              reloadCard: reloadReaderCards,
+                              reloadPinned: _reloadPinnedList,
+                              reloadCard: _reloadReaderCards,
                               setState: setState,
                             );
                           case CardPageTypes.Favoriten:
@@ -196,9 +201,9 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                               cards: cards,
                               context: context,
                               pinnedCards: pinnedCards!,
-                              reloadPinned: reloadPinnedList,
+                              reloadPinned: _reloadPinnedList,
                               searchstring: searchString,
-                              reloadCard: reloadReaderCards,
+                              reloadCard: _reloadReaderCards,
                             );
 
                           //users.map((e) => e.cards).toList()
@@ -219,7 +224,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             Icons.replay,
             color: Colors.white,
           ),
-          onPressed: () => {reloadReaderCards()},
+          onPressed: () => {_reloadReaderCards()},
         ));
   }
 }

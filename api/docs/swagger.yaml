@@ -1,0 +1,251 @@
+definitions:
+  model.User:
+    properties:
+      email:
+        type: string
+      privileged:
+        type: boolean
+      reader:
+        type: string
+    type: object
+  response.CreateHandler.UserCreator:
+    properties:
+      email:
+        type: string
+      privileged:
+        type: boolean
+      reader:
+        type: string
+      storage:
+        type: string
+    type: object
+  response.CreateHandler.UserEmailResponse:
+    properties:
+      email:
+        type: string
+    type: object
+  response.UpdateHandler.UserUpdater:
+    properties:
+      email:
+        type: string
+      privileged:
+        type: boolean
+      reader:
+        type: string
+    type: object
+  util.ErrorStatusResponse:
+    properties:
+      reason:
+        type: string
+      status:
+        type: string
+    type: object
+  util.ErrorStatusWrapperResponse:
+    properties:
+      error:
+        $ref: '#/definitions/util.ErrorStatusResponse'
+    type: object
+host: localhost:7171
+info:
+  contact:
+    email: mayrhofer.johannes@litec.ac.at
+    name: Johannes L. Mayrhofer
+  description: RESTful HTTP Interface Reference
+  title: CardStorageManagement API Documentation
+  version: "0.1"
+paths:
+  /api/v1/users:
+    get:
+      description: Returns all available users in JSON array format
+      parameters:
+      - default: Bearer <token>
+        description: 'Bearer <token> (minimum security clearance required: User)'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+        "400":
+          description: error while querying data
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+        "401":
+          description: permission denied
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all users
+      tags:
+      - Users
+      - GET
+    post:
+      description: 'Stores a new user with the given parameters and dispatches sign-up-event
+        to the given storage controller to scan the new users card. Optional Fields:
+        ''privileged'' (default: false), ''reader'' (default: null)"'
+      parameters:
+      - description: creator
+        in: body
+        name: Creator
+        required: true
+        schema:
+          $ref: '#/definitions/response.CreateHandler.UserCreator'
+      - default: Bearer <token>
+        description: 'Bearer <token> (minimum security clearance required: Anonymous)'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CreateHandler.UserEmailResponse'
+        "400":
+          description: error while querying data
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+        "401":
+          description: permission denied
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new user
+      tags:
+      - Users
+      - POST
+  /api/v1/users/email/{email}:
+    delete:
+      description: Deletes an existing user whose email attribute matches the given
+        path parameter. User will not be deleted if they are referenced in any existing
+        Reservations.
+      parameters:
+      - description: 'has to match: `[a-zA-Z0-9@._]{10,64}}`'
+        in: path
+        name: email
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: 'Bearer <token> (minimum security clearance required: Administrator)'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: error while querying data
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+        "401":
+          description: permission denied
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a user
+      tags:
+      - Users
+      - DELETE
+    get:
+      description: Returns a single user whose email attribute matches the given path
+        parameter, else empty object.
+      parameters:
+      - description: 'has to match: `[a-zA-Z0-9@._]{10,64}}`'
+        in: path
+        name: email
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: 'Bearer <token> (minimum security clearance required: User)'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: error while querying data
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+        "401":
+          description: permission denied
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+      security:
+      - BearerAuth: []
+      summary: Filter users by email attribute
+      tags:
+      - Users
+      - GET
+      - Email
+    put:
+      description: Updates an existing user whose email attribute matches the given
+        path parameter. Request may only contain the attributes which are to be updated,
+        otherwise unintended fields may be updated as well.
+      parameters:
+      - description: 'optionals: privileged (default: false), reader (default: null)'
+        in: body
+        name: Creator
+        required: true
+        schema:
+          $ref: '#/definitions/response.UpdateHandler.UserUpdater'
+      - description: 'has to match: `[a-zA-Z0-9@._]{10,64}}`'
+        in: path
+        name: email
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: 'Bearer <token> (minimum security clearance required: User)'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: error while querying data
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+        "401":
+          description: permission denied
+          schema:
+            $ref: '#/definitions/util.ErrorStatusWrapperResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a user
+      tags:
+      - Users
+      - PUT
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

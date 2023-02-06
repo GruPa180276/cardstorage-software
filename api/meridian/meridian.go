@@ -46,6 +46,7 @@ type StaticHttpReporter struct {
 
 func HttpReporter(handler ReportingHandlerFunc, errorHandler ReportingErrorHandlerFunc, successHandler ReportingSuccessHandlerFunc) http.HandlerFunc {
 	return func(res http.ResponseWriter, req *http.Request) {
+		res.Header().Set("Accept", "text/json")
 		err, success := handler(res, req)
 		if err != nil {
 			errorHandler(err, res, req)

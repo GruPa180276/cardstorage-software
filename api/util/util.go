@@ -133,16 +133,20 @@ func DisassembleBaseStorageTopic(topic string) (storage, location, sub string) {
 	return
 }
 
+type ErrorStatusResponse struct {
+	Status string `json:"status"`
+	Reason string `json:"reason"`
+}
+
+type ErrorStatusWrapperResponse struct {
+	Error ErrorStatusResponse `json:"error"`
+}
+
 func JsonError(code int, reason string) string {
 	// fmt.Sprintf(`{"error":{"status":"%s"%s}}`, http.StatusText(code), r)
-	type errStatus struct {
-		Status string `json:"status"`
-		Reason string `json:"reason"`
-	}
-	return string(Must(json.Marshal(&struct {
-		Error errStatus `json:"error"`
-	}{
-		Error: errStatus{Status: http.StatusText(code), Reason: reason},
+
+	return string(Must(json.Marshal(ErrorStatusWrapperResponse{
+		Error: ErrorStatusResponse{Status: http.StatusText(code), Reason: reason},
 	})).([]byte))
 }
 

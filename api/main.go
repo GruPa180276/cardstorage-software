@@ -1,8 +1,9 @@
-//go:generate swagger generate spec -o ../doc/spec.json
+//go:generate swag init --parseDependency -g main.go
 package main
 
 import (
 	"crypto/tls"
+	_ "database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -85,7 +86,7 @@ func connectToDatabase(user, passwd, hostname, port, dbname string) *gorm.DB {
 
 func createRouter() *mux.Router {
 	return mux.NewRouter().
-		PathPrefix("/api").
+		PathPrefix("/api/v1").
 		Subrouter()
 }
 
@@ -161,28 +162,28 @@ func listenAndServeTLS(logger *log.Logger, router *mux.Router, certificateFile, 
 			handlers.CORS(originsOk, headersOk, methodsOk)(router))))
 }
 
+// @Title CardStorageManagement API Documentation
+// @Description RESTful HTTP Interface Reference
+// @Version 0.1
+// @Contact.name Johannes L. Mayrhofer
+// @Contact.email mayrhofer.johannes@litec.ac.at
+// @Host localhost:7171
+// @SecurityDefinitions.apikey BearerAuth
+// @In header
+// @Name Authorization
 func main() {
 	router := createRouter()
-
 	logger := log.New(os.Stderr, "API: ", log.LstdFlags|log.Lshortfile)
-
 	clientId := fmt.Sprintf("CSMC-%d", time.Now().Unix())
 	db := connectToDatabase(os.Getenv("DB_USER"), os.Getenv("DB_PASSWD"),
 		os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
-
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-
 	chans := initChannels()
 	c := initController(clientId, db, logger)
-
 	initHandlers(router, c, chans)
-
 	initObserver(c)
-
 	go createSitemap(router)
 	go createActionIndex("actions.json")
-
 	logger.Println("Initialization done...")
-
 	listenAndServeTLS(logger, router, "localhost.crt", "localhost.key")
 }

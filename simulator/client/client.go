@@ -17,8 +17,8 @@ import (
 	ws "github.com/gorilla/websocket"
 )
 
-const apiurl = "https://localhost:7171/api"
-const wsurl = "wss://localhost:7171/api"
+const apiurl = "https://localhost:7171/api/v1"
+const wsurl = "wss://localhost:7171/api/v1"
 const defaultEmail = "card_storage_admin@default.com"
 
 const usage = `

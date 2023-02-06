@@ -22,6 +22,7 @@ type UserHandler struct {
 	UserLogChannel chan string
 }
 
+// RegisterHandlers serves all user-related endpoints
 func (self *UserHandler) RegisterHandlers(router *mux.Router, secret string) {
 	r := meridian.StaticHttpReporter{ErrorHandler: ErrorHandlerFactory(self.Logger, self.UserLogChannel), SuccessHandler: SuccessHandlerFactory(self.Logger)}
 
@@ -39,6 +40,17 @@ func (self *UserHandler) RegisterHandlers(router *mux.Router, secret string) {
 	router.HandleFunc(paths.API_USERS_WS_LOG, authAnonymous.Validator(w.LoggerChannelHandlerFactory())).Methods(http.MethodGet)
 }
 
+// GetAllHandler
+// @Summary Get all users
+// @Description Returns all available users in JSON array format
+// @Tags Users, GET
+// @Produce json
+// @Success 200 {array} model.User
+// @Failure 400 {object} util.ErrorStatusWrapperResponse "error while querying data"
+// @Failure 401 {object} util.ErrorStatusWrapperResponse "permission denied"
+// @Router /api/v1/users [GET]
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer <token> (minimum security clearance required: User)" default(Bearer <token>)
 func (self *UserHandler) GetAllHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	users := make([]model.User, 0)
 
@@ -49,6 +61,18 @@ func (self *UserHandler) GetAllHandler(res http.ResponseWriter, req *http.Reques
 	return nil, meridian.OkayMustJson(&users)
 }
 
+// GetByEmailHandler
+// @Summary Filter users by email attribute
+// @Description Returns a single user whose email attribute matches the given path parameter, else empty object.
+// @Tags Users, GET, Email
+// @Produce json
+// @Success 200 {object} model.User
+// @Failure 400 {object} util.ErrorStatusWrapperResponse "error while querying data"
+// @Failure 401 {object} util.ErrorStatusWrapperResponse "permission denied"
+// @Param email path string true "has to match: `[a-zA-Z0-9@._]{10,64}}`"
+// @Router /api/v1/users/email/{email} [GET]
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer <token> (minimum security clearance required: User)" default(Bearer <token>)
 func (self *UserHandler) GetByEmailHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	email := mux.Vars(req)["email"]
 	user := model.User{}
@@ -59,14 +83,31 @@ func (self *UserHandler) GetByEmailHandler(res http.ResponseWriter, req *http.Re
 	return nil, meridian.OkayMustJson(&user)
 }
 
+// CreateHandler
+// @Summary Create a new user
+// @Description Stores a new user with the given parameters and dispatches sign-up-event to the given storage controller to scan the new users card. Optional Fields: 'privileged' (default: false), 'reader' (default: null)"
+// @Tags Users, POST
+// @Produce json
+// @Success 200 {object} response.CreateHandler.UserEmailResponse
+// @Failure 400 {object} util.ErrorStatusWrapperResponse "error while querying data"
+// @Failure 401 {object} util.ErrorStatusWrapperResponse "permission denied"
+// @Param Creator body response.CreateHandler.UserCreator true "creator" validate(required)
+// @Router /api/v1/users [POST]
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer <token> (minimum security clearance required: Anonymous)" default(Bearer <token>)
 func (self *UserHandler) CreateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
-	type Creator struct {
+	type UserCreator struct {
 		Email       string  `json:"email"`
 		StorageName string  `json:"storage"`
 		Privileged  *bool   `json:"privileged"`
 		ReaderData  *string `json:"reader"`
 	}
-	c := &Creator{}
+
+	type UserEmailResponse struct {
+		Email string `json:"email"`
+	}
+
+	c := &UserCreator{}
 
 	if err := json.NewDecoder(req.Body).Decode(&c); err != nil {
 		return err, nil
@@ -103,26 +144,36 @@ func (self *UserHandler) CreateHandler(res http.ResponseWriter, req *http.Reques
 	intercepted.ClientId = util.AssembleBaseStorageTopic(storage.Name, storage.Location)
 	self.UserLogChannel <- string(util.Must(json.Marshal(intercepted)).([]byte))
 
-	return nil, meridian.OkayMustJson(&struct {
-		Email string `json:"email"`
-	}{
-		Email: user.Email,
-	})
+	return nil, meridian.OkayMustJson(UserEmailResponse{Email: user.Email})
 }
 
+// UpdateHandler
+// @Summary Update a user
+// @Description Updates an existing user whose email attribute matches the given path parameter. Request may only contain the attributes which are to be updated, otherwise unintended fields may be updated as well.
+// @Tags Users, PUT
+// @Produce json
+// @Success 200 {object} model.User
+// @Failure 400 {object} util.ErrorStatusWrapperResponse "error while querying data"
+// @Failure 401 {object} util.ErrorStatusWrapperResponse "permission denied"
+// @Param Creator body response.UpdateHandler.UserUpdater true "optionals: privileged (default: false), reader (default: null)" validate(required)
+// @Param email path string true "has to match: `[a-zA-Z0-9@._]{10,64}}`"
+// @Router /api/v1/users/email/{email} [PUT]
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer <token> (minimum security clearance required: User)" default(Bearer <token>)
 func (self *UserHandler) UpdateHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
-	type Updater struct {
+	type UserUpdater struct {
 		Email      *string `json:"email"`
 		ReaderData *string `json:"reader"`
 		Privileged *bool   `json:"privileged"`
 	}
+
 	user := model.User{}
 	vars := mux.Vars(req)
 	if result := self.DB.Where("email = ?", vars["email"]).First(&user); result.Error != nil || result.RowsAffected == 0 {
 		return fmt.Errorf("user '%s' does not exist", vars["email"]), nil
 	}
 
-	u := Updater{}
+	u := UserUpdater{}
 	if err := json.NewDecoder(req.Body).Decode(&u); err != nil {
 		return err, nil
 	}
@@ -154,6 +205,18 @@ func (self *UserHandler) UpdateHandler(res http.ResponseWriter, req *http.Reques
 	return nil, meridian.OkayMustJson(&user)
 }
 
+// DeleteHandler
+// @Summary Delete a user
+// @Description Deletes an existing user whose email attribute matches the given path parameter. User will not be deleted if they are referenced in any existing Reservations.
+// @Tags Users, DELETE
+// @Produce json
+// @Success 200 {string} string
+// @Failure 400 {object} util.ErrorStatusWrapperResponse "error while querying data"
+// @Failure 401 {object} util.ErrorStatusWrapperResponse "permission denied"
+// @Param email path string true "has to match: `[a-zA-Z0-9@._]{10,64}}`"
+// @Router /api/v1/users/email/{email} [DELETE]
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer <token> (minimum security clearance required: Administrator)" default(Bearer <token>)
 func (self *UserHandler) DeleteHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	email := mux.Vars(req)["email"]
 

@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"math/rand"
@@ -12,7 +13,6 @@ import (
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/joho/godotenv"
 	"github.com/litec-thesis/2223-thesis-5abhit-zoecbe_mayrjo_grupa-cardstorage/simulator/hardware"
 )
 
@@ -27,21 +27,26 @@ var actions = map[string]func(mqtt.Client, mqtt.Message, map[string]any){
 }
 
 var (
-	clientId        string
-	broker          string
-	broker_username string
-	broker_passwd   string
-	topic           string
+	clientId        = *flag.String("client-id", "sim0", "name of this simulator instance")
+	broker_url      = *flag.String("broker-url", "127.0.0.1", "address of mqtt broker")
+	broker_port     = *flag.String("broker-port", "1884", "tcp port of mqtt broker")
+	broker_username = *flag.String("broker-username", "CardStorageManagement", "broker credential: username")
+	broker_passwd   = *flag.String("broker-passwd", "CardStorageManagement", "broker credential: passwd")
+	topic           = *flag.String("topic", "S4@L4/1", "topic to subscribe to")
 )
 
 func init() {
+	flag.Parse()
+
+	fmt.Println(clientId, broker_url, broker_port, broker_username, broker_passwd, topic)
+
 	rand.Seed(time.Now().Unix())
-	must(nil, godotenv.Load("../../.env"))
-	clientId = os.Getenv("SIM_CONTROLLER_CLIENT_ID")
-	broker = "tcp://127.0.0.1" + ":" + os.Getenv("BROKER_PORT")
-	broker_username = os.Getenv("BROKER_USERNAME")
-	broker_passwd = os.Getenv("BROKER_PASSWD")
-	topic = os.Getenv("SIM_CONTROLLER_TOPIC")
+	//must(nil, godotenv.Load("../../.env"))
+	//clientId = os.Getenv("SIM_CONTROLLER_CLIENT_ID")
+	//broker = "tcp://127.0.0.1" + ":" + os.Getenv("BROKER_PORT")
+	//broker_username = os.Getenv("BROKER_USERNAME")
+	//broker_passwd = os.Getenv("BROKER_PASSWD")
+	//topic = os.Getenv("SIM_CONTROLLER_TOPIC")
 	l = log.New(os.Stderr, clientId+": ", log.LstdFlags|log.Lshortfile)
 }
 
@@ -49,7 +54,7 @@ var l *log.Logger
 
 func main() {
 	client := mqtt.NewClient(mqtt.NewClientOptions().
-		AddBroker(broker).
+		AddBroker("tcp://" + broker_url + ":" + broker_port).
 		SetClientID(clientId).
 		SetUsername(broker_username).
 		SetPassword(broker_passwd).

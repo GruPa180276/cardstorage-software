@@ -101,7 +101,7 @@ Future<Storages> focusStorage(String name) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
   );
 
@@ -121,7 +121,7 @@ Future<Storages> deleteData(String name) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
   );
   if (response.statusCode == 200) {
@@ -140,7 +140,7 @@ Future<Storages> updateData(String name, Map<String, dynamic> data) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
     body: jsonEncode(data),
   );
@@ -160,7 +160,7 @@ Future<Storages> sendData(Map<String, dynamic> data) async {
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
     body: jsonEncode(data),
   );

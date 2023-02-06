@@ -142,7 +142,6 @@ class _GenerateCardWithInkWellState extends State<GenerateCardWithInkWell> {
         widget.data![widget.index].name,
         widget.data![widget.index].location,
         widget.data![widget.index].numberOfCards,
-        focus,
       );
     } else {
       return SizedBox.shrink();

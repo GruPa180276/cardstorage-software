@@ -309,7 +309,10 @@ Habe damit begonnen die API Authentifizierung zu implementieren. Stellte sich al
 Weiters habe ich dann noch den Token bei den Websockets implementiert. Zum Schluss habe ich dann noch das Design der Storage Seite, auf das der Karten Seite angepasst. (3h)
 
 **6.2.2023: 17:00 bis 19:30** <br>
-Habe heute noch das Design auf allen Seiten angeglichen. Des weiteren, habe ich einige kleine Fhler behoben und ein paar Tests durchgeführt.(2h 30min)
+Habe heute noch das Design auf allen Seiten angeglichen. Des weiteren, habe ich einige kleine Fhler behoben und ein paar Tests durchgeführt. (2h 30min)
+
+**7.2.2023: 17:30 bis 19:00** <br>
+Habe an der Doku wietergeschriben. Habe die Technolgien der Admin App verfasst und begonnen die Implementation zu verfassen. (1h 30min)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -402,4 +405,5 @@ Habe heute noch das Design auf allen Seiten angeglichen. Des weiteren, habe ich 
 - 8:20 bis 12:00 Uhr
 - 12:30 bis 15:30 Uhr
 - 17:00 bis 19:30 Uhr
+- 17:30 bis 19:00
 <!-- { "progress": false } -->

@@ -23,7 +23,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         body: screens[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          iconSize: 30,
+          iconSize: 20,
           currentIndex: currentIndex,
           onTap: (value) => setState(() => currentIndex = value),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

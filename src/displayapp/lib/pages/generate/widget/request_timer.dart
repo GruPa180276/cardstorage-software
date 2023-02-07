@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rfidapp/domain/enum/snackbar_type.dart';
 import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
+import 'package:rfidapp/provider/storage_properties.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/types/cards.dart';
@@ -21,8 +23,13 @@ class RequestTimer {
   Future<void> build() {
     i = 0;
     channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://10.0.2.2:7171/api/controller/log'));
-    streamListener();
+        Uri.parse(
+            'wss://${StorageProperties.getServer()}:${StorageProperties.getRestPort()}/api/controller/log'),
+        headers: <String, String>{
+          HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
+          'Accept': 'application/json'
+        });
+    _streamListener();
     int timestamp = 0;
     return showDialog(
         context: context,
@@ -73,7 +80,8 @@ class RequestTimer {
                     onStart: () async {
                       this.context = context;
                       if (card != null) {
-                        var response = await Data.postGetCardNow(card!);
+                        var response = await Data.check(
+                            Data.postGetCardNow, {"cardname": card!.name});
                         if (response.statusCode != 200) {
                           Navigator.maybePop(context);
                         }
@@ -109,7 +117,7 @@ class RequestTimer {
     return _successful;
   }
 
-  streamListener() {
+  _streamListener() {
     channel?.stream.listen((message) {
       _responseData = jsonDecode(message);
       _successful = _responseData!["successful"] ??

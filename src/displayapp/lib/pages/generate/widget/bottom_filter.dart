@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/config/palette.dart';
@@ -117,7 +119,7 @@ class BottomSheetPop {
   }
 
   Future _buildReservationPage(BuildContext context) async {
-    Storage? storage = await Data.getStorageData();
+    Storage? storage = await _getReaderCards();
     for (var element in storage!.cards!) {
       if (element.reservation!.isNotEmpty) {
         _dropDownCardValues.add(element.name);
@@ -233,14 +235,14 @@ class BottomSheetPop {
                                   location: value.location,
                                   address: value.address,
                                   capacity: value.capacity,
-                                  cards: getFilteredReservations(value));
+                                  cards: _getFilteredReservations(value));
                             }
                             return Storage(
                                 name: value!.name,
                                 location: value.location,
                                 address: value.address,
                                 capacity: value.capacity,
-                                cards: getFilteredReservations(value)
+                                cards: _getFilteredReservations(value)
                                     .where(
                                         (element) => element.name == _valueCard)
                                     .toList());
@@ -255,7 +257,13 @@ class BottomSheetPop {
         });
   }
 
-  List<ReaderCard> getFilteredReservations(Storage value) {
+  Future<Storage?> _getReaderCards() async {
+    var respone = await Data.check(Data.getStorageData, {});
+    var jsonStorage = jsonDecode(respone.body);
+    Storage cards = Storage.fromJson(jsonStorage);
+  }
+
+  List<ReaderCard> _getFilteredReservations(Storage value) {
     List<ReaderCard> sortedCards = List.empty(growable: true);
     for (var karten in value!.cards!) {
       var card = new ReaderCard(

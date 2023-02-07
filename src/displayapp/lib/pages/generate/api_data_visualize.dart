@@ -1,15 +1,17 @@
 // ignore_for_file: deprecated_member_use
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/pages/generate/views/reservate_view.dart';
-import 'package:rfidapp/provider/mqtt/mqtt.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/types/storage.dart';
 import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
+import 'package:rfidapp/provider/websocket/websocket_callback.dart';
 
 class ApiVisualizer extends StatefulWidget {
   CardPageType site;
@@ -23,7 +25,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
   Future<Storage?>? _defaultStorage; //is only here to filter
   Future<Storage?>? _modifiedStorage;
-
   late bool _isDark;
   String _searchString = "";
   TextEditingController _searchController = TextEditingController();
@@ -32,21 +33,24 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   @override
   void initState() {
     super.initState();
-    reloadCardList();
-    connectMqtt();
+    WebsocketCallBack.setBuildContext(context);
+    _reloadCardList();
     _isDark = AppPreferences.getIsOn();
   }
 
-  void connectMqtt() {}
-
-  void reloadCardList() {
+  void _reloadCardList() {
     setState(() {
-      _defaultStorage = Data.getStorageData();
+      _defaultStorage = _getReaderCards();
       _modifiedStorage = _defaultStorage;
     });
   }
 
-  void setListType(Future<Storage?> cardsNew) {
+  Future<Storage?> _getReaderCards() async {
+    var respone = await Data.check(Data.getStorageData, null);
+    return Storage.fromJson(jsonDecode(respone.body));
+  }
+
+  void _setListType(Future<Storage?> cardsNew) {
     setState(() {
       _modifiedStorage = cardsNew;
     });
@@ -54,42 +58,11 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   @override
   Widget build(BuildContext context) {
-    Widget seachField = const SizedBox(height: 0, width: 0);
-    seachField = Row(
-      children: [
-        Expanded(
-          child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: 'Suche Karte mittel Email',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide:
-                          BorderSide(color: Theme.of(context).dividerColor))),
-              onChanged: ((value) {
-                setState(() {
-                  _searchString = value;
-                });
-              })),
-        ),
-        IconButton(
-            onPressed: () {
-              _defaultStorage = Data.getStorageData();
-              BottomSheetPop(
-                      onPressStorage: setListType,
-                      defaultStorage: _defaultStorage!,
-                      cardPageType: site)
-                  .buildBottomSheet(context);
-            },
-            icon: const Icon(Icons.adjust))
-      ],
-    );
-    MQTTClientManager.connect(context);
+    Widget seachField = const SizedBox(height: 5, width: 0);
 
     return Scaffold(
         appBar: AppBar(
-            toolbarHeight: 100,
+            toolbarHeight: 31,
             bottomOpacity: 0.0,
             elevation: 0.0,
             backgroundColor: Colors.transparent,
@@ -97,13 +70,26 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               children: [
                 Text(site.toString().replaceAll("CardPageType.", ""),
                     style: TextStyle(
-                        fontSize: 42,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor)),
                 Container(
-                    padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
                     alignment: Alignment.bottomRight,
                     child: buildChangeThemeMode(context)),
+                Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.fromLTRB(0, 0, 50, 0),
+                  child: IconButton(
+                      onPressed: () {
+                        BottomSheetPop(
+                                onPressStorage: _setListType,
+                                defaultStorage: _defaultStorage!,
+                                cardPageType: site)
+                            .buildBottomSheet(context);
+                      },
+                      icon: const Icon(Icons.adjust),
+                      color: Theme.of(context).primaryColor),
+                )
               ],
             )),
         body: Container(
@@ -173,7 +159,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             Icons.replay,
             color: Colors.white,
           ),
-          onPressed: () => {reloadCardList()},
+          onPressed: () => {_reloadCardList()},
         ));
   }
 

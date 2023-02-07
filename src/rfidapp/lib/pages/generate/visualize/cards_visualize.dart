@@ -8,12 +8,12 @@ import 'package:rfidapp/domain/enums/cardpage_type.dart';
 import 'package:rfidapp/pages/generate/views/favorite_view.dart';
 import 'package:rfidapp/pages/generate/pop_up/bottom_filter.dart';
 import 'package:rfidapp/pages/login/login_user_page.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/connection/api/uitls.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/rest/data.dart';
+import 'package:rfidapp/provider/rest/uitls.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/rest/types/storage.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {

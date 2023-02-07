@@ -1,4 +1,4 @@
-import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class Storage {
   //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;

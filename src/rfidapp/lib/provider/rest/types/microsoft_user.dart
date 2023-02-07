@@ -33,22 +33,4 @@ class MicrosoftUser {
 
     return jsonTest;
   }
-
-  static void setUserValues(dynamic json) {
-    context = json['@odata.context'];
-    //businessPhones: json['businessPhone;'],
-    displayName = json['displayName'];
-    givenName = json['givenName'];
-    jobTitle = json['jobTitle'];
-    mail = json['mail'];
-    mobilePhone = json['mobilePhone'];
-    officeLocation = json['officeLocation'];
-    preferredLanguage = json['preferredLanguage'];
-    surname = json['surname'];
-    userPrincipalName = json['userPrincipalName'];
-    id = json['id'];
-
-    UserSecureStorage.setUserValues(
-        surname!, givenName!, mail!, officeLocation!);
-  }
 }

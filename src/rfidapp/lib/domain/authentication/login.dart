@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/login_status_type.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/types/microsoft_user.dart';
+import 'package:rfidapp/provider/rest/data.dart';
+import 'package:rfidapp/provider/rest/types/microsoft_user.dart';
+import 'package:rfidapp/provider/sessionUser.dart';
 import 'package:tuple/tuple.dart';
 
 class Login {
@@ -15,25 +16,34 @@ class Login {
       await AadAuthentication.oauth!.login();
       String? accessToken = await AadAuthentication.oauth!.getAccessToken();
       if (accessToken!.isNotEmpty) {
-        var userResponse = await Data.getUserData({"accesstoken": accessToken});
-        var jsonObject = jsonDecode(userResponse!.body);
-        String mail = jsonObject["mail"];
-        var response =
-            await Data.check(Data.checkUserRegistered, {"email": mail});
+        var microsoftResponse =
+            await Data.getUserData({"accesstoken": accessToken});
+        Map<String, dynamic> mircosoftJsonObject =
+            jsonDecode(microsoftResponse!.body);
+        var apiUserResponse = await Data.check(
+            Data.checkUserRegistered, {"email": mircosoftJsonObject["mail"]});
         var isRegistered;
-        if (response.statusCode != 200 ||
-            jsonDecode(response.body)["email"].toString().isEmpty) {
+        if (apiUserResponse.statusCode != 200 ||
+            jsonDecode(apiUserResponse.body)["email"].toString().isEmpty) {
           isRegistered = false;
         } else {
           isRegistered = true;
         }
+        //TODO new veriosn of api
         if (isRegistered) //api get// see if user is registered
         {
-          MicrosoftUser.setUserValues(jsonDecode(userResponse.body));
-          UserSecureStorage.setRememberState(rememberValue.toString());
+          //@TODO 1. Session User bei jeder Anmeldung Speichern sobald successFul
+          //2. Bei main.dart wenn im usersecureStoraghe rememberMe auf true ist werte direkt in session info holen
+          //Bei main.Dart falls rememberMe auf Falls ist UserSecureStorage entleeren
+          //ebenfalls bei getriegerten logout machen
+          SessionUser.fromJson();
+          if (rememberValue) {
+            UserSecureStorage.setUserValues(
+                {jsonDecode(apiUserResponse.body), mircosoftJsonObject});
+          }
           return const Tuple2(LoginStatusType.ALREADYLOGGEDIN, "");
         } else {
-          return Tuple2(LoginStatusType.NEWLOGIN, userResponse.body);
+          return Tuple2(LoginStatusType.NEWLOGIN, microsoftResponse.body);
         }
       }
       UserSecureStorage.setRememberState("false");

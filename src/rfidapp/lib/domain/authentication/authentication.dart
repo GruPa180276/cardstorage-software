@@ -8,7 +8,7 @@ class AadAuthentication {
   static AadOAuth? oauth;
 
   static Future<void> getEnv() async {
-    await dotenv.load(fileName: "assets/.env");
+    await dotenv.load(fileName: "assets/azure.env");
     oauth = AadOAuth(config);
   }
 

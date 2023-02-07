@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rfidapp/domain/local_notification.dart';
 import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
+import 'package:rfidapp/provider/rest/data.dart';
 
-import 'package:rfidapp/provider/types/reservation.dart';
+import 'package:rfidapp/provider/rest/types/reservation.dart';
 
 class ReservationView extends StatelessWidget {
   final List<Reservation> reservations;

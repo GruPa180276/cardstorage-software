@@ -320,8 +320,6 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   @override
   void dispose() {
-    _controller!.stop();
-
     _controller!.dispose();
     super.dispose();
   }
@@ -357,9 +355,9 @@ class CountDownController {
   }
 
   /// This Method Pauses the Countdown Timer
-  void pause() {
+  void dispose() {
     if (_state != null && _state?._controller != null) {
-      _state?._controller?.stop(canceled: false);
+      //_state?._controller?.stop(canceled: true);
       isPaused = true;
       isRestarted = false;
       isResumed = false;

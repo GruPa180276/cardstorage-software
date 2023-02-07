@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
 import 'package:rfidapp/domain/enums/timer_actions_type.dart';
 import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/rest/data.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
 import 'package:web_socket_channel/io.dart';
 
 import '../widget/circular_timer/circular_countdown_timer.dart';
@@ -145,6 +145,7 @@ class RequestTimer {
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
       i++;
+      //timerController.dispose();
       timerController.restart(duration: 0);
       channel!.sink.close();
       if (card != null && i == 1) {

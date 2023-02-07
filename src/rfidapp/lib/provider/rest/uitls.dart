@@ -1,5 +1,5 @@
-import 'package:rfidapp/provider/types/readercard.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
+import 'package:rfidapp/provider/rest/types/storage.dart';
 
 class Utils {
   static List<ReaderCard> parseToReaderCards(List<Storage> storages) {

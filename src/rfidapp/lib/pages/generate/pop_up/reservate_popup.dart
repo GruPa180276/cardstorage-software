@@ -8,9 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:rfidapp/domain/local_notification.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/widget/date_picker.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
-import 'package:rfidapp/provider/types/reservation.dart';
+import 'package:rfidapp/provider/rest/data.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
+import 'package:rfidapp/provider/rest/types/reservation.dart';
 
 class ReservationPopUp {
   TextEditingController vonTextEdidtingcontroller = TextEditingController();

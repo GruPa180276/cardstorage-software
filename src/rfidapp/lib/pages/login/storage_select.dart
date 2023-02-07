@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/rest/data.dart';
+import 'package:rfidapp/provider/rest/types/storage.dart';
 
 class StorageSelectPopUp {
   static var _successful = false;
@@ -13,7 +13,7 @@ class StorageSelectPopUp {
   static Future<void> build(BuildContext buildcontext) async {
     var responseStorage = await Data.check(Data.getReaderCards, null);
 
-    var storagesJson = jsonDecode(responseStorage!.body) as List;
+    var storagesJson = jsonDecode(responseStorage.body) as List;
     List<Storage> storageList =
         storagesJson.map((tagJson) => Storage.fromJson(tagJson)).toList();
 

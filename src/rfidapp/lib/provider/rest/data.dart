@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'dart:async';
-import 'package:rfidapp/provider/types/readercard.dart';
-import 'package:rfidapp/provider/types/reservation.dart';
+
+import 'package:rfidapp/provider/sessionUser.dart';
 
 class Data {
   static String? bearerToken;
-  static String uriRaspi = 'https://10.0.2.2:7171/api/';
+  static String uriRaspi = 'https://10.0.2.2:7171/api/v1/';
 
   static Future<Response> check(
       Function function, Map<String, dynamic>? args) async {
@@ -139,9 +139,11 @@ class Data {
   }
 
   static Future<void> _generateToken() async {
+    print(Uri.parse(
+        "${uriRaspi}auth${(SessionUser.getEmail() == null) ? "" : "/user/email/${SessionUser.getEmail()}"}"));
     var response = await get(
         Uri.parse(
-            "${uriRaspi}auth${(await UserSecureStorage.getUserEmail() == null) ? "" : "/user/email/${await UserSecureStorage.getUserEmail()}"}"),
+            "${uriRaspi}auth${(SessionUser.getEmail() == null) ? "" : "/user/email/${SessionUser.getEmail()}"}"),
         headers: {
           "Content-Type": "text/plain",
         });

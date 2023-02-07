@@ -1,4 +1,4 @@
-import 'package:rfidapp/provider/types/reservation.dart';
+import 'package:rfidapp/provider/rest/types/reservation.dart';
 
 class ReaderCard {
   //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;

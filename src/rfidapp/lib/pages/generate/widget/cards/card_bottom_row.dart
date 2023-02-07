@@ -6,7 +6,7 @@ import 'package:rfidapp/domain/enums/timer_actions_type.dart';
 import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
 import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
 import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class ReaderCardButtons extends StatelessWidget {
   final ReaderCard card;

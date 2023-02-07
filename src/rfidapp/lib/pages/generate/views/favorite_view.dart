@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/card_bottom_row.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class FavoriteView extends StatelessWidget {
   final List<ReaderCard> cards;

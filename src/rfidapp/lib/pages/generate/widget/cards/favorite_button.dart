@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class FavoriteButton extends StatelessWidget {
   final ReaderCard card;

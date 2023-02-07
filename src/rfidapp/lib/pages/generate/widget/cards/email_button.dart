@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
-import 'package:rfidapp/provider/types/readercard.dart';
+import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class EmailButton extends StatelessWidget {
   final ReaderCard card;

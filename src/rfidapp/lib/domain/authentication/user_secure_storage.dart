@@ -8,6 +8,7 @@ class UserSecureStorage {
   static const _keyUserLastname = 'lastename';
   static const _keyUserEmail = 'email';
   static const _keyUserOfficelocation = 'officelocation';
+  static const _keyPriviledged = 'officelocation';
 
   static Future setRememberState(String state) async =>
       await _storage.write(key: _keyRememberState, value: state);
@@ -16,12 +17,13 @@ class UserSecureStorage {
       await _storage.read(key: _keyRememberState);
   //user data
 
-  static void setUserValues(
-      String lastname, String firstname, String email, String officelocation) {
-    UserSecureStorage.setUserLastname(lastname.toString());
-    UserSecureStorage.setUserFirstname(firstname.toString());
-    UserSecureStorage.setUserEmail(email.toString());
-    UserSecureStorage.setUserOfficeLocation(officelocation.toString());
+  static void setUserValues(dynamic user) {
+    UserSecureStorage.setUserLastname(user[1]["givenName"]).toString();
+    UserSecureStorage.setUserFirstname(user[1]["surname"].toString());
+    UserSecureStorage.setUserEmail(user[1]["mail"].toString());
+    UserSecureStorage.setUserOfficeLocation(
+        user[1]["officeLocation"].toString());
+    UserSecureStorage.setPrivileged(user[0]["priviledged"].toString());
   }
 
   static Future<Map<String, String>> getUserValues() async {
@@ -29,11 +31,14 @@ class UserSecureStorage {
     var userFirstname = await UserSecureStorage.getUserFirstname();
     var userLastname = await UserSecureStorage.getUserLastname();
     var userOfficeLocation = await UserSecureStorage.getUserOfficeLocatione();
+    var privileged = await UserSecureStorage.getUserOfficeLocatione();
+
     return Map.of({
       "Email": userEmail!,
       "Firstname": userFirstname!,
       "Lastname": userLastname!,
-      "OfficeLocation": userOfficeLocation!
+      "OfficeLocation": userOfficeLocation!,
+      "Privileged": privileged!
     });
   }
 
@@ -60,4 +65,10 @@ class UserSecureStorage {
 
   static Future<String?> getUserOfficeLocatione() async =>
       await _storage.read(key: _keyUserOfficelocation);
+
+  static Future setPrivileged(String value) async =>
+      await _storage.write(key: _keyPriviledged, value: value);
+
+  static Future<String?> getPrivileged() async =>
+      await _storage.read(key: _keyPriviledged);
 }

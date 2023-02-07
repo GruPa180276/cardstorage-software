@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/login.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/login_status_type.dart';
@@ -14,8 +13,7 @@ import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
 import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
 import 'package:rfidapp/pages/login/storage_select.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
-import 'package:rfidapp/provider/connection/api/data.dart';
-import 'package:rfidapp/provider/types/microsoft_user.dart';
+import 'package:rfidapp/provider/rest/types/microsoft_user.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
 
 class LoginUserScreen extends StatefulWidget {
@@ -176,7 +174,8 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                 storagename: StorageSelectPopUp.getSelectedStorage());
             await reqTimer.startTimer();
             if (reqTimer.getSuccessful()) {
-              MicrosoftUser.setUserValues(jsonDecode(loginStatus.item2!));
+              //@TODO
+              //MicrosoftUser.setUserValues(jsonDecode(loginStatus.item2!));
               UserSecureStorage.setRememberState(rememberValue.toString());
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
@@ -193,5 +192,3 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
     }
   }
 }
-
-

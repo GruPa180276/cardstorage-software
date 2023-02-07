@@ -615,7 +615,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+azure.env
 .venv
 env/
 venv/

@@ -31,7 +31,7 @@ func (self *UserHandler) RegisterHandlers(router *mux.Router, secret string) {
 	authAnonymous := meridian.StaticHttpReporterValidator{StaticHttpReporter: r, ValidatorFunc: auth.ValidateAnonymous(secret)}
 
 	router.HandleFunc(paths.API_USERS, authUser.ReporterValidator(self.GetAllHandler)).Methods(http.MethodGet)
-	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authUser.ReporterValidator(self.GetByEmailHandler)).Methods(http.MethodGet)
+	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authAnonymous.ReporterValidator(self.GetByEmailHandler)).Methods(http.MethodGet)
 	router.HandleFunc(paths.API_USERS, authAnonymous.ReporterValidator(self.CreateHandler)).Methods(http.MethodPost).HeadersRegexp("Content-Type", "(text|application)/json")
 	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authUser.ReporterValidator(self.UpdateHandler)).Methods(http.MethodPut).HeadersRegexp("Content-Type", "(text|application)/json")
 	router.HandleFunc(paths.API_USERS_FILTER_EMAIL, authAdmin.ReporterValidator(self.DeleteHandler)).Methods(http.MethodDelete)
@@ -72,7 +72,7 @@ func (self *UserHandler) GetAllHandler(res http.ResponseWriter, req *http.Reques
 // @Param email path string true "has to match: `[a-zA-Z0-9@._]{10,64}}`"
 // @Router /api/v1/users/email/{email} [GET]
 // @Security BearerAuth
-// @Param Authorization header string true "Bearer <token> (minimum security clearance required: User)" default(Bearer <token>)
+// @Param Authorization header string true "Bearer <token> (minimum security clearance required: Anonymous)" default(Bearer <token>)
 func (self *UserHandler) GetByEmailHandler(res http.ResponseWriter, req *http.Request) (error, *meridian.Ok) {
 	email := mux.Vars(req)["email"]
 	user := model.User{}

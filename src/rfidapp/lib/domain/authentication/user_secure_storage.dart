@@ -17,16 +17,16 @@ class UserSecureStorage {
       await _storage.read(key: _keyRememberState);
   //user data
 
-  static void setUserValues(dynamic user) {
-    UserSecureStorage.setUserLastname(user[1]["givenName"]).toString();
-    UserSecureStorage.setUserFirstname(user[1]["surname"].toString());
-    UserSecureStorage.setUserEmail(user[1]["mail"].toString());
+  static void setUserValues(dynamic apiUser, dynamic microsoftUser) {
+    UserSecureStorage.setUserLastname(microsoftUser["givenName"]).toString();
+    UserSecureStorage.setUserFirstname(microsoftUser["surname"].toString());
+    UserSecureStorage.setUserEmail(microsoftUser["mail"].toString());
     UserSecureStorage.setUserOfficeLocation(
-        user[1]["officeLocation"].toString());
-    UserSecureStorage.setPrivileged(user[0]["priviledged"].toString());
+        microsoftUser["officeLocation"].toString());
+    UserSecureStorage.setPrivileged(apiUser["privileged"].toString());
   }
 
-  static Future<Map<String, String>> getUserValues() async {
+  static Future<Map<String, dynamic>> getUserValues() async {
     var userEmail = await UserSecureStorage.getUserEmail();
     var userFirstname = await UserSecureStorage.getUserFirstname();
     var userLastname = await UserSecureStorage.getUserLastname();
@@ -34,11 +34,11 @@ class UserSecureStorage {
     var privileged = await UserSecureStorage.getUserOfficeLocatione();
 
     return Map.of({
-      "Email": userEmail!,
-      "Firstname": userFirstname!,
-      "Lastname": userLastname!,
-      "OfficeLocation": userOfficeLocation!,
-      "Privileged": privileged!
+      "email": userEmail ?? '',
+      "firstname": userFirstname ?? '',
+      "lastname": userLastname ?? '',
+      "officeLocation": userOfficeLocation ?? '',
+      "privileged": (privileged == 'true') ? true : false
     });
   }
 

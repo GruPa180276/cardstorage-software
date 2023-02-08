@@ -3,7 +3,6 @@ import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/login_status_type.dart';
 import 'package:rfidapp/provider/rest/data.dart';
-import 'package:rfidapp/provider/rest/types/microsoft_user.dart';
 import 'package:rfidapp/provider/sessionUser.dart';
 import 'package:tuple/tuple.dart';
 
@@ -36,10 +35,11 @@ class Login {
           //2. Bei main.dart wenn im usersecureStoraghe rememberMe auf true ist werte direkt in session info holen
           //Bei main.Dart falls rememberMe auf Falls ist UserSecureStorage entleeren
           //ebenfalls bei getriegerten logout machen
-          SessionUser.fromJson();
+          SessionUser.fromJson(
+              jsonDecode(apiUserResponse.body), mircosoftJsonObject);
           if (rememberValue) {
             UserSecureStorage.setUserValues(
-                {jsonDecode(apiUserResponse.body), mircosoftJsonObject});
+                jsonDecode(apiUserResponse.body), mircosoftJsonObject);
           }
           return const Tuple2(LoginStatusType.ALREADYLOGGEDIN, "");
         } else {

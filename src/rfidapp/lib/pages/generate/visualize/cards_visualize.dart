@@ -14,6 +14,7 @@ import 'package:rfidapp/provider/rest/types/readercard.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/rest/types/storage.dart';
+import 'package:rfidapp/provider/sessionUser.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {
@@ -46,9 +47,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   void _checkUserRegistered() async {
     var isRegistered;
-    var data = await UserSecureStorage.getUserValues();
-    var response =
-        await Data.check(Data.checkUserRegistered, {"email": data["Email"]!});
+    var response = await Data.check(
+        Data.checkUserRegistered, {"email": SessionUser.getEmail()});
     if (response.statusCode != 200 ||
         jsonDecode(response.body)["email"].toString().isEmpty) {
       isRegistered = false;

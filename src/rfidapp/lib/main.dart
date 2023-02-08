@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/pages/login/login_user_page.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
+import 'package:rfidapp/provider/sessionUser.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 
@@ -11,6 +12,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   late String? rememberState;
+
   HttpOverrides.global = MyHttpOverrides();
   await UserSecureStorage.getRememberState()
       .then((value) => rememberState = value ?? 'false');
@@ -34,7 +36,10 @@ class MyApp extends StatelessWidget {
       create: (context) => ThemeProvider(),
       builder: (context, _) {
         final themeProvider = Provider.of<ThemeProvider>(context);
-        if (rememberState == 'true') {
+        if (!(rememberState == 'true')) {
+          UserSecureStorage.getUserValues()
+              .then((value) => SessionUser.fromJson(value, null));
+
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: title,
@@ -45,6 +50,7 @@ class MyApp extends StatelessWidget {
             navigatorKey: navigatorKey,
           );
         }
+
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: title,

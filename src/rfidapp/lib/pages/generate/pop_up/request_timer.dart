@@ -36,7 +36,7 @@ class RequestTimer {
   Future<void> startTimer() async {
     _successful = false;
     channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://10.0.2.2:7171/api/controller/log'),
+        Uri.parse('wss://10.0.2.2:7171/api/v1/controller/log'),
         headers: {
           "Accept": "application/json",
           HttpHeaders.authorizationHeader: "Bearer ${Data.bearerToken}",

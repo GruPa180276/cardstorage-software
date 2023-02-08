@@ -224,9 +224,89 @@ class _StorageViewState extends State<UsersSettings> {
                                                 Spacer(),
                                                 ElevatedButton(
                                                   onPressed: () {
-                                                    deleteData(mail);
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            AlertDialog(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .scaffoldBackgroundColor,
+                                                              title: Text(
+                                                                'Storage löschen',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor),
+                                                              ),
+                                                              content:
+                                                                  new Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                    "Wollen Sie diesen User löschen?",
+                                                                    style: TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: <Widget>[
+                                                                Container(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            10),
+                                                                    height: 70,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Row(
+                                                                            children: [
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  deleteData(mail);
 
-                                                    Navigator.of(context).pop();
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                                child: Text(
+                                                                                  "Ja",
+                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                ),
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Spacer(),
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                                child: Text(
+                                                                                  "Nein",
+                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                ),
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                  ),
+                                                                                ),
+                                                                              )
+                                                                            ]),
+                                                                      ],
+                                                                    )),
+                                                              ],
+                                                            ));
                                                   },
                                                   child: Text(
                                                     "Löschen",

@@ -8,6 +8,8 @@ class GenerateListTile extends StatefulWidget {
   final IconData icon;
   final String regExp;
   final Function function;
+  final TextEditingController controller;
+  final String? Function(dynamic value) fun;
 
   const GenerateListTile({
     Key? key,
@@ -16,6 +18,8 @@ class GenerateListTile extends StatefulWidget {
     required this.icon,
     required this.regExp,
     required this.function,
+    required this.controller,
+    required this.fun,
   }) : super(key: key);
 
   @override
@@ -27,10 +31,12 @@ class _GenerateListTileState extends State<GenerateListTile> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(widget.icon, color: Theme.of(context).primaryColor),
-      title: TextField(
+      title: TextFormField(
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(widget.regExp))
         ],
+        controller: widget.controller,
+        validator: widget.fun,
         decoration: InputDecoration(
             labelText: widget.labelText,
             hintText: widget.hintText,

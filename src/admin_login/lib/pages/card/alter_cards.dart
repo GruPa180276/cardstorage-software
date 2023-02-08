@@ -135,6 +135,13 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
           icon: Icons.description,
           regExp: r'([A-Za-z0-91\-\_\ö\ä\ü\ß ])',
           function: this.setName,
+          controller: new TextEditingController(),
+          fun: (value) {
+            if (value!.isEmpty) {
+              return 'Please enter valid name';
+            }
+            return null;
+          },
         ),
         Container(
           padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),

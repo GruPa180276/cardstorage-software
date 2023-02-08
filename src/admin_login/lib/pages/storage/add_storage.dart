@@ -3,11 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:admin_login/pages/widget/button.dart';
 import 'package:admin_login/pages/widget/listTile.dart';
 import 'package:admin_login/provider/types/storages.dart';
-import 'package:admin_login/domain/values/storage_values.dart';
-import 'package:admin_login/pages/widget/circularprogressindicator.dart';
-
-StorageValues storageValues = new StorageValues();
-late Future<List<Storages>> futureData;
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);
@@ -20,7 +15,6 @@ class _AddStorageState extends State<AddStorage> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
   }
 
   @override
@@ -50,91 +44,192 @@ class InputFields extends StatefulWidget {
 }
 
 class _InputFieldsState extends State<InputFields> {
+  late Storages stor = new Storages(
+    name: "",
+    location: "",
+    numberOfCards: 0,
+    cards: [],
+  );
+
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    loadData();
   }
 
   void setName(String value) {
-    storageValues.setName(value);
+    stor.name = value;
   }
 
   void setNumberOfCards(String value) {
-    storageValues.setNumberOfCards(int.parse(value));
+    stor.numberOfCards = int.parse(value);
   }
 
   void setLocation(String value) {
-    storageValues.setLocation(value);
+    stor.location = value;
+  }
+
+  late List<Storages> s;
+
+  void loadData() async {
+    await fetchData().then((value) => s = value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Storages>>(
-      future: futureData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return genereateFields(context);
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return Center(
-            child: Container(
-                child: Column(
-          children: [
-            generateProgressIndicator(context),
-          ],
-        )));
-      },
-    );
-  }
+    final _nameController = TextEditingController();
+    final _locationController = TextEditingController();
+    final _numCardsController = TextEditingController();
 
-  Widget genereateFields(BuildContext context) {
-    return Container(
-      child: Column(children: [
-        GenerateListTile(
-          labelText: "Name",
-          hintText: "",
-          icon: Icons.storage,
-          regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-          function: this.setName,
+    final _formKey = GlobalKey<FormState>();
+
+    return Form(
+      key: _formKey,
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            GenerateListTile(
+              labelText: "Name",
+              hintText: "",
+              icon: Icons.storage,
+              regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
+              function: this.setName,
+              controller: _nameController,
+              fun: (value) {
+                for (int i = 0; i < s.length; i++) {
+                  if (s[i].name == value) {
+                    return 'Exsistiert bereits!';
+                  }
+                }
+                if (value!.isEmpty) {
+                  return 'Bitte Name eingeben!';
+                } else {
+                  return null;
+                }
+              },
+            ),
+            GenerateListTile(
+              labelText: "Standort",
+              hintText: "",
+              icon: Icons.location_city,
+              regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
+              function: this.setLocation,
+              controller: _locationController,
+              fun: (value) {
+                if (value!.isEmpty) {
+                  return 'Bitte Location eingeben!';
+                }
+                return null;
+              },
+            ),
+            GenerateListTile(
+              labelText: "Anzahl an Karten",
+              hintText: "",
+              icon: Icons.format_list_numbered,
+              regExp: r'([0-9])',
+              function: this.setNumberOfCards,
+              controller: _numCardsController,
+              fun: (value) {
+                if (value!.isEmpty) {
+                  return 'Bitte Anzahl eingeben!';
+                }
+                return null;
+              },
+            ),
+            GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  height: 70,
+                  child: Column(children: [
+                    generateButtonRectangle(
+                      context,
+                      "Storage hinzufügen",
+                      () async {
+                        if (_formKey.currentState!.validate()) {
+                          Storages newEntry = new Storages(
+                              name: stor.name,
+                              location: stor.location,
+                              numberOfCards: stor.numberOfCards,
+                              cards: []);
+                          Future<int> code = sendData(newEntry.toJson());
+
+                          if (await code == 200) {
+                            Navigator.of(context).pop();
+                          }
+                          if (await code == 400) {
+                            Navigator.of(context).pop();
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      backgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      title: Text(
+                                        'Storage anlegen',
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      ),
+                                      content: new Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            "Es ist ein Fehler beim anlegen des Storages aufgetreten!",
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                        ],
+                                      ),
+                                      actions: <Widget>[
+                                        Container(
+                                            padding: EdgeInsets.all(10),
+                                            height: 70,
+                                            child: Column(
+                                              children: [
+                                                Column(children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(
+                                                      "Ok",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .focusColor),
+                                                    ),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor: Theme.of(
+                                                              context)
+                                                          .secondaryHeaderColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ]),
+                                              ],
+                                            )),
+                                      ],
+                                    ));
+                          }
+                        }
+                      },
+                    ),
+                  ]),
+                )),
+          ],
         ),
-        GenerateListTile(
-          labelText: "Standort",
-          hintText: "",
-          icon: Icons.location_city,
-          regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-          function: this.setLocation,
-        ),
-        GenerateListTile(
-          labelText: "Anzahl an Karten",
-          hintText: "",
-          icon: Icons.format_list_numbered,
-          regExp: r'([0-9])',
-          function: this.setNumberOfCards,
-        ),
-        GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Container(
-              padding: EdgeInsets.all(10),
-              height: 70,
-              child: Column(children: [
-                generateButtonRectangle(
-                  context,
-                  "Storage hinzufügen",
-                  () {
-                    Storages newEntry = new Storages(
-                        name: storageValues.name,
-                        location: storageValues.location,
-                        numberOfCards: storageValues.numberOfCards,
-                        cards: []);
-                    sendData(newEntry.toJson());
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ]),
-            )),
-      ]),
+      ),
     );
   }
 }

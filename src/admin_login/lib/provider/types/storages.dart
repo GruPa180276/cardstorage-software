@@ -58,6 +58,27 @@ Future<List<Storages>> fetchData() async {
   }
 }
 
+Future<Storages> getStorageByName(String name) async {
+  final response = await http.get(
+    Uri.parse(adres.storageAdress + "/name/" + name),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
+  );
+  if (response.statusCode == 200) {
+    dynamic jsonResponse = json.decode(response.body);
+    return Storages.fromJson(jsonResponse);
+  } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
+    SecureStorage.setToken();
+    return getStorageByName(name);
+  } else {
+    throw Exception('Failed to get current Storage!');
+  }
+}
+
 Future<Storages> getAllCardsPerStorage(String name) async {
   final response = await http.get(
     Uri.parse(adres.storageAdress + "/name/" + name),
@@ -119,7 +140,7 @@ Future<Storages> focusStorage(String name) async {
   }
 }
 
-Future<Storages> deleteData(String name) async {
+Future<int> deleteData(String name) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.storageAdress + "/name/" + name),
     headers: {
@@ -129,7 +150,9 @@ Future<Storages> deleteData(String name) async {
     },
   );
   if (response.statusCode == 200) {
-    return Storages.fromJson(json.decode(response.body));
+    return response.statusCode;
+  } else if (response.statusCode == 200) {
+    return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
@@ -139,7 +162,7 @@ Future<Storages> deleteData(String name) async {
   }
 }
 
-Future<Storages> updateData(String name, Map<String, dynamic> data) async {
+Future<int> updateData(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
     Uri.parse(adres.storageAdress + "/name/" + name),
     headers: {
@@ -150,7 +173,9 @@ Future<Storages> updateData(String name, Map<String, dynamic> data) async {
     body: jsonEncode(data),
   );
   if (response.statusCode == 200) {
-    return Storages.fromJson(json.decode(response.body));
+    return response.statusCode;
+  } else if (response.statusCode == 400) {
+    return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
@@ -160,7 +185,7 @@ Future<Storages> updateData(String name, Map<String, dynamic> data) async {
   }
 }
 
-Future<Storages> sendData(Map<String, dynamic> data) async {
+Future<int> sendData(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
     Uri.parse(adres.storageAdress),
     headers: {
@@ -170,8 +195,10 @@ Future<Storages> sendData(Map<String, dynamic> data) async {
     },
     body: jsonEncode(data),
   );
-  if (response.statusCode == 201) {
-    return Storages.fromJson(json.decode(response.body));
+  if (response.statusCode == 200) {
+    return response.statusCode;
+  } else if (response.statusCode == 400) {
+    return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();

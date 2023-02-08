@@ -108,6 +108,13 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
           icon: Icons.storage,
           regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
           function: this.setName,
+          controller: new TextEditingController(),
+          fun: (value) {
+            if (value!.isEmpty) {
+              return 'Please enter valid name';
+            }
+            return null;
+          },
         ),
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),

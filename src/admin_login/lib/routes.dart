@@ -37,7 +37,7 @@ class RouteGenerator {
       case '/alterStorage':
         if (args is String) {
           return MaterialPageRoute(
-              builder: ((context) => StorageSettings(args)));
+              builder: ((context) => StorageSettings(storage: args)));
         }
         return _errorRoute();
       case '/removeStorage':

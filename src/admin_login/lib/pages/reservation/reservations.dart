@@ -102,10 +102,17 @@ class _SettingsPageState extends State<Reservations> {
                                 Expanded(
                                     child: GenerateListTile(
                                   labelText: "Zeit",
-                                  hintText: resTime.time.toString(),
+                                  hintText: "",
                                   icon: Icons.description,
                                   regExp: r'([0-9\. ])',
                                   function: this.setTime,
+                                  controller: new TextEditingController(),
+                                  fun: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter valid name';
+                                    }
+                                    return null;
+                                  },
                                 )),
                                 SizedBox(
                                   width: 10,

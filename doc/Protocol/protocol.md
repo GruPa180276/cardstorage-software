@@ -314,6 +314,9 @@ Habe heute noch das Design auf allen Seiten angeglichen. Des weiteren, habe ich 
 **7.2.2023: 17:30 bis 19:00** <br>
 Habe an der Doku wietergeschriben. Habe die Technolgien der Admin App verfasst und begonnen die Implementation zu verfassen. (1h 30min)
 
+**8.2.2023: 15:30 bis 20:30** <br>
+Habe heute Error Handling auf der Storage Seite hinzugefügt. Es wird überprüft, ob der jeweilge Storage bereits vorhanden ist und dann angezeigt. Wenn bei der Übetragung an die DB etwas schief geht, wird dies auch angezeigt. (5h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -405,5 +408,6 @@ Habe an der Doku wietergeschriben. Habe die Technolgien der Admin App verfasst u
 - 8:20 bis 12:00 Uhr
 - 12:30 bis 15:30 Uhr
 - 17:00 bis 19:30 Uhr
-- 17:30 bis 19:00
+- 17:30 bis 19:00 Uhr
+- 15:30 bis 20:30 Uhr
 <!-- { "progress": false } -->

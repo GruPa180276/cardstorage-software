@@ -6,26 +6,31 @@ class SnackbarBuilder {
   static void build(SnackbarType snackbarType, BuildContext context,
       bool successful, dynamic content) {
     SnackBar snackBar;
-    if (successful && SnackbarType.USER == snackbarType) {
-      snackBar = SnackBar(
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: AwesomeSnackbarContent(
-            title: 'Anmeldung erfolgreich!',
-            message: '',
-            contentType: ContentType.success,
-          ));
-    } else if (successful && SnackbarType.CARD == snackbarType) {
-      snackBar = SnackBar(
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: AwesomeSnackbarContent(
-            title: 'Karte wird heruntergelassen!',
-            message: '',
-            contentType: ContentType.success,
-          ));
+    if (successful) {
+      switch (snackbarType) {
+        case SnackbarType.USER:
+          snackBar = SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: AwesomeSnackbarContent(
+                title: 'Anmeldung erfolgreich!',
+                message: '',
+                contentType: ContentType.success,
+              ));
+          break;
+        case SnackbarType.CARD:
+          snackBar = SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: AwesomeSnackbarContent(
+                title: 'Karte wird heruntergelassen!',
+                message: '',
+                contentType: ContentType.success,
+              ));
+          break;
+      }
     } else {
       snackBar = SnackBar(
           elevation: 0,

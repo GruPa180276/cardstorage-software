@@ -13,17 +13,20 @@ class UserSecureStorage {
   static Future setRememberState(String state) async =>
       await _storage.write(key: _keyRememberState, value: state);
 
-  static Future<String?> getRememberState() async =>
-      await _storage.read(key: _keyRememberState);
+  static Future<bool?> getRememberState() async {
+    var rememberState = await _storage.read(key: _keyRememberState);
+    return (rememberState == 'true') ? true : false;
+  }
   //user data
 
   static void setUserValues(dynamic apiUser, dynamic microsoftUser) {
-    UserSecureStorage.setUserLastname(microsoftUser["givenName"]).toString();
-    UserSecureStorage.setUserFirstname(microsoftUser["surname"].toString());
+    UserSecureStorage.setUserLastname(microsoftUser["surname"]).toString();
+    UserSecureStorage.setUserFirstname(microsoftUser["givenName"].toString());
     UserSecureStorage.setUserEmail(microsoftUser["mail"].toString());
     UserSecureStorage.setUserOfficeLocation(
         microsoftUser["officeLocation"].toString());
-    UserSecureStorage.setPrivileged(apiUser["privileged"].toString());
+    UserSecureStorage.setPrivileged(
+        (apiUser != null) ? apiUser["privileged"].toString() : "false");
   }
 
   static Future<Map<String, dynamic>> getUserValues() async {
@@ -40,6 +43,10 @@ class UserSecureStorage {
       "officeLocation": userOfficeLocation ?? '',
       "privileged": (privileged == 'true') ? true : false
     });
+  }
+
+  static void deleteAll() async {
+    await _storage.deleteAll();
   }
 
   static Future setUserLastname(String value) async =>

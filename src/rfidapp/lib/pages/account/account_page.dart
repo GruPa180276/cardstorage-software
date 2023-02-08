@@ -4,6 +4,7 @@ import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
 import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
 import 'package:rfidapp/pages/generate/widget/text_field.dart';
+import 'package:rfidapp/provider/sessionUser.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -21,12 +22,10 @@ class _AccountPageState extends State<AccountPage> {
   @override
   void initState() {
     super.initState();
-    UserSecureStorage.getUserValues().then((value) => {
-          emailController.text = value["Email"]!,
-          firstNameController.text = value["Firstname"]!,
-          lastNameController.text = value["Lastname"]!,
-          officeLocationController.text = value["OfficeLocation"]!
-        });
+    emailController.text = SessionUser.getEmail()!;
+    firstNameController.text = SessionUser.getUserFirstname()!;
+    lastNameController.text = SessionUser.getUserLastname()!;
+    officeLocationController.text = SessionUser.getUserOfficeLocation()!;
   }
 
   @override

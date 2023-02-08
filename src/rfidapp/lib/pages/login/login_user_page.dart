@@ -13,8 +13,8 @@ import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
 import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
 import 'package:rfidapp/pages/login/storage_select.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
-import 'package:rfidapp/provider/rest/types/microsoft_user.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
+import 'package:rfidapp/provider/sessionUser.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({Key? key}) : super(key: key);
@@ -155,7 +155,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   }
 
   void sigIn() async {
-    var loginStatus = await Login.start(rememberValue);
+    var loginStatus = await SessionUser.login(rememberValue);
     if (loginStatus != null) {
       switch (loginStatus.item1) {
         case LoginStatusType.ALREADYLOGGEDIN:
@@ -165,25 +165,13 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
           break;
 
         case LoginStatusType.NEWLOGIN:
-          await StorageSelectPopUp.build(context);
-          if (StorageSelectPopUp.getSuccessful()) {
-            var reqTimer = RequestTimer(
-                context: context,
-                action: TimerAction.SIGNUP,
-                email: jsonDecode(loginStatus.item2!)["mail"],
-                storagename: StorageSelectPopUp.getSelectedStorage());
-            await reqTimer.startTimer();
-            if (reqTimer.getSuccessful()) {
-              //@TODO
-              //MicrosoftUser.setUserValues(jsonDecode(loginStatus.item2!));
-              UserSecureStorage.setRememberState(rememberValue.toString());
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (context) => const BottomNavigation()),
-                  (Route<dynamic> route) => false);
-            }
-          } else {
-            SnackbarBuilder.build(SnackbarType.USER, context, false, null);
+          if (await SessionUser.signUp(
+              context, loginStatus.item2, rememberValue)) {
+            SnackbarBuilder.build(SnackbarType.USER, context, true, null);
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const BottomNavigation()),
+                (Route<dynamic> route) => false);
           }
           break;
         case LoginStatusType.ERROR:

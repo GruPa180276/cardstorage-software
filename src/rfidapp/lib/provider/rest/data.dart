@@ -46,6 +46,7 @@ class Data {
 
   static Future<Response?> checkUserRegistered(
       Map<String, dynamic> args) async {
+    print("asd");
     var responseUser = await get(
         Uri.parse("${uriRaspi}users/email/${args["email"]}"),
         headers: {

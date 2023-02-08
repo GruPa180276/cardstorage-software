@@ -1,5 +1,3 @@
-import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
-
 class MicrosoftUser {
   static String? context;
   static String? businessPhones;

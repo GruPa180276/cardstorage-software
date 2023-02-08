@@ -46,7 +46,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   }
 
   void _checkUserRegistered() async {
-    var isRegistered;
+    bool isRegistered;
     var response = await Data.check(
         Data.checkUserRegistered, {"email": SessionUser.getEmail()});
     if (response.statusCode != 200 ||
@@ -55,12 +55,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     } else {
       isRegistered = true;
     }
-
     if (!isRegistered) {
-      await AadAuthentication.getEnv();
-      AadAuthentication.oauth!.logout();
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginUserScreen()));
+      SessionUser.logout(context);
     }
   }
 
@@ -156,27 +152,28 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     case ConnectionState.waiting:
                       return const Center(child: CircularProgressIndicator());
                     default:
-                      if (snapshot.hasError) {
+                      if (snapshot.hasError || snapshot.data == null) {
                         return Container(
                           padding: EdgeInsets.symmetric(
                               vertical:
                                   MediaQuery.of(context).size.height / 2 - 200,
                               horizontal: 0),
                           child: Text(
-                            'No connection was found. Please check if you are connected!',
+                            'Keine Verbindung zum Server',
                             style: TextStyle(
                                 color: Theme.of(context).dividerColor,
                                 fontSize: 20),
                           ),
                         );
-                      } else if (snapshot.data == null) {
+                      } else if (snapshot.data!.isEmpty) {
                         return Container(
+                          alignment: Alignment.center,
                           padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height / 2 - 200,
-                              horizontal: 0),
+                            vertical:
+                                MediaQuery.of(context).size.height / 2 - 200,
+                          ),
                           child: Text(
-                            'No Data',
+                            'Es wurden keine Karten angelegt',
                             style: TextStyle(
                                 color: Theme.of(context).dividerColor,
                                 fontSize: 20),

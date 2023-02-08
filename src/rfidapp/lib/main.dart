@@ -11,12 +11,12 @@ import 'package:rfidapp/domain/app_preferences.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
-  late String? rememberState;
-
+  late bool? rememberState;
   HttpOverrides.global = MyHttpOverrides();
-  await UserSecureStorage.getRememberState()
-      .then((value) => rememberState = value ?? 'false');
-
+  rememberState = await UserSecureStorage.getRememberState() ?? false;
+  if (rememberState) {
+    SessionUser.fromJson(await UserSecureStorage.getUserValues(), null);
+  }
   runApp(MyApp(
     rememberState: rememberState,
   ));
@@ -26,9 +26,8 @@ class MyApp extends StatelessWidget {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   static const String title = 'Rfid Card Management App';
-  // ignore: prefer_typing_uninitialized_variables
-  final rememberState;
-  const MyApp({this.rememberState, Key? key}) : super(key: key);
+  final bool rememberState;
+  const MyApp({required this.rememberState, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +35,7 @@ class MyApp extends StatelessWidget {
       create: (context) => ThemeProvider(),
       builder: (context, _) {
         final themeProvider = Provider.of<ThemeProvider>(context);
-        if (!(rememberState == 'true')) {
-          UserSecureStorage.getUserValues()
-              .then((value) => SessionUser.fromJson(value, null));
-
+        if (rememberState) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: title,

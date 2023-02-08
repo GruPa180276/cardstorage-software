@@ -1,4 +1,3 @@
-import 'package:admin_login/provider/types/storages.dart';
 import 'package:flutter/material.dart';
 
 Table createStorageTable(

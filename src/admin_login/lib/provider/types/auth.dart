@@ -16,7 +16,7 @@ class Auth {
 
 Future<String> authAdminLogin(String mail) async {
   final response = await http.get(
-    Uri.parse("https://10.0.2.2:7171/api/auth/user/email/" + mail),
+    Uri.parse("https://10.0.2.2:7171/api/v1/auth/user/email/" + mail),
     headers: <String, String>{
       'Content-Type': 'text/plain',
     },

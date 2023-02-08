@@ -36,11 +36,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   void _setupWebSockets() async {
     List<String> urls = [
-      'wss://10.0.2.2:7171/api/controller/log',
-      'wss://10.0.2.2:7171/api/storages/log',
-      'wss://10.0.2.2:7171/api/storages/cards/log',
-      'wss://10.0.2.2:7171/api/reservations/log',
-      'wss://10.0.2.2:7171/api/users/log',
+      'wss://10.0.2.2:7171/api/v1/controller/log',
+      'wss://10.0.2.2:7171/api/v1/storages/log',
+      'wss://10.0.2.2:7171/api/v1/storages/cards/log',
+      'wss://10.0.2.2:7171/api/v1/reservations/log',
+      'wss://10.0.2.2:7171/api/v1/users/log',
     ];
 
     for (String url in urls) {
@@ -55,11 +55,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
       _channels.add(channel);
     }
 
-    messages.add("All Websockets are connected ...\n\n"
-        "wss://10.0.2.2:7171/api/controller/log\n"
-        "wss://10.0.2.2:7171/api/storages/log\n"
-        "wss://10.0.2.2:7171/api/storages/cards/log\n"
-        "wss://10.0.2.2:7171/api/users/log");
+    messages.add(
+      "All Websockets are connected ...\n\n"
+      "wss://10.0.2.2:7171/api/v1/controller/log\n"
+      "wss://10.0.2.2:7171/api/v1/storages/log\n"
+      "wss://10.0.2.2:7171/api/v1/storages/cards/log\n"
+      "wss://10.0.2.2:7171/api/v1/users/log\n"
+      "wss://10.0.2.2:7171/api/v1/users/log",
+    );
   }
 
   @override

@@ -1,11 +1,9 @@
 import 'package:admin_login/pages/status/statusInkwell.dart';
 import 'package:admin_login/pages/widget/reloadbutton.dart';
-import 'package:admin_login/provider/types/ping.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/appbar.dart';
 import 'package:admin_login/provider/types/storages.dart';
-import 'package:admin_login/pages/widget/cardwithinkwell.dart';
 import 'package:admin_login/pages/widget/circularprogressindicator.dart';
 
 class StatusView extends StatefulWidget {

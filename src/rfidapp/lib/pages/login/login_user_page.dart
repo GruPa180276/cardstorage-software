@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/enums/login_status_type.dart';
-import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
-import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
-import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
+import 'package:rfidapp/pages/widgets/pop_up/email_popup.dart';
+import 'package:rfidapp/pages/widgets/widget/default_custom_button.dart';
+import 'package:rfidapp/pages/widgets/widget/response_snackbar.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
 import 'package:rfidapp/provider/sessionUser.dart';

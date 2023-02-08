@@ -3,8 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_type.dart';
-import 'package:rfidapp/pages/generate/views/reservate_view.dart';
-import 'package:rfidapp/pages/generate/widget/AppBar.dart';
+import 'package:rfidapp/pages/widgets/views/reservate_view.dart';
+import 'package:rfidapp/pages/widgets/widget/AppBar.dart';
+import 'package:rfidapp/pages/widgets/widget/connection_status_textfield.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/rest/types/reservation.dart';
 
@@ -74,10 +75,10 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
         ],
       );
     }
-
+    CustomAppBar customAppBar =
+        CustomAppBar(title: site.toString().replaceAll("CardPageTypes.", ""));
     return Scaffold(
-        appBar: CustomAppBar(
-            title: site.toString().replaceAll("CardPageTypes.", "")),
+        appBar: customAppBar,
         body: Container(
           margin: const EdgeInsets.all(10),
           child: Column(
@@ -89,32 +90,13 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical:
-                                MediaQuery.of(context).size.height / 2 - 200,
-                            horizontal: 0),
-                        child: Text(
-                          'Keine Verbindung zum Server',
-                          style: TextStyle(
-                              color: Theme.of(context).dividerColor,
-                              fontSize: 20),
-                        ),
+                    } else if (snapshot.hasError || snapshot.data == null) {
+                      return const ConnectionStatusTextfield(
+                        text: 'Keine Verbindung zum Server',
                       );
-                    } else if (snapshot.data == null ||
-                        snapshot.data!.isEmpty) {
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical:
-                                MediaQuery.of(context).size.height / 2 - 200,
-                            horizontal: 0),
-                        child: Text(
-                          'Keine Reservierungen vorhanden',
-                          style: TextStyle(
-                              color: Theme.of(context).dividerColor,
-                              fontSize: 20),
-                        ),
+                    } else if (snapshot.data!.isEmpty) {
+                      return const ConnectionStatusTextfield(
+                        text: 'Keine Reservierungen vorhanden',
                       );
                     } else {
                       final cards = snapshot.data!;

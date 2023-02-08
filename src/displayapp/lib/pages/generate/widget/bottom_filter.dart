@@ -5,9 +5,9 @@ import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/generate/widget/button_create.dart';
 import 'package:rfidapp/provider/rest/data.dart';
-import 'package:rfidapp/provider/types/cards.dart';
-import 'package:rfidapp/provider/types/reservation.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/rest/types/cards.dart';
+import 'package:rfidapp/provider/rest/types/reservation.dart';
+import 'package:rfidapp/provider/rest/types/storage.dart';
 
 class BottomSheetPop {
   String _valueCard = 'alle';
@@ -258,15 +258,15 @@ class BottomSheetPop {
   }
 
   Future<Storage?> _getReaderCards() async {
-    var respone = await Data.check(Data.getStorageData, {});
+    var respone = await Data.check(Data.getStorageData, null);
     var jsonStorage = jsonDecode(respone.body);
     Storage cards = Storage.fromJson(jsonStorage);
   }
 
   List<ReaderCard> _getFilteredReservations(Storage value) {
     List<ReaderCard> sortedCards = List.empty(growable: true);
-    for (var karten in value!.cards!) {
-      var card = new ReaderCard(
+    for (var karten in value.cards!) {
+      var card = ReaderCard(
         reader: karten.reader,
         name: karten.name,
         position: karten.position,

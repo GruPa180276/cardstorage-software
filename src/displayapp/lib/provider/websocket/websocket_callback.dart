@@ -14,7 +14,7 @@ class WebsocketCallBack {
     if (_isConnected) {
       channel!.sink.close();
     }
-    channel = IOWebSocketChannel.connect("wss://10.0.2.2:7171/api/users/log",
+    channel = IOWebSocketChannel.connect("wss://10.0.2.2:7171/api/v1/users/log",
         headers: {
           HttpHeaders.authorizationHeader: "Bearer ${bearerToken}",
           'Accept': 'application/json'

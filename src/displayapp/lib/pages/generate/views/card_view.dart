@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/pages/generate/widget/request_timer.dart';
 import 'package:rfidapp/pages/generate/widget/card_button.dart';
-import 'package:rfidapp/provider/types/cards.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/rest/types/cards.dart';
+import 'package:rfidapp/provider/rest/types/storage.dart';
 
 class CardView extends StatelessWidget {
   Storage storage;

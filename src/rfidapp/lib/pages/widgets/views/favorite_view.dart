@@ -1,48 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rfidapp/pages/generate/widget/AppBar.dart';
-import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
-import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
-import 'package:rfidapp/pages/generate/widget/cards/card_bottom_row.dart';
+import 'package:rfidapp/pages/widgets/inherited/cards_inherited.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/email_button.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/favorite_button.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/card_bottom_row.dart';
 import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class FavoriteView extends StatelessWidget {
-  final List<ReaderCard> cards;
-  final BuildContext context;
-  final Set<String> pinnedCards;
-  final Function reloadPinned;
-  final String searchstring;
-  final void Function() reloadCard;
-  final void Function(void Function()) setState;
+  late CardViewData data;
 
-  const FavoriteView({
-    super.key,
-    required this.cards,
-    required this.context,
-    required this.pinnedCards,
-    required this.reloadPinned,
-    required this.searchstring,
-    required this.reloadCard,
-    required this.setState,
-  });
+  FavoriteView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final scaffold = Scaffold.of(context);
-    if (scaffold != null) {
-      final appBar = scaffold.appBarMaxHeight;
-      print(appBar);
-    }
+    data = CardViewData.of(context)!;
 
     return Flexible(
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: cards.length,
+          itemCount: data.readercards.length,
           itemBuilder: (context, index) {
             bool card = false;
 
-            if (pinnedCards.isEmpty && index == cards.length - 1) {
+            if (data.pinnedCards.isEmpty &&
+                index == data.readercards.length - 1) {
               return Align(
                 alignment: Alignment.center,
                 child: Padding(
@@ -57,8 +38,8 @@ class FavoriteView extends StatelessWidget {
                 ),
               );
             }
-            for (String id in pinnedCards) {
-              card = (cards[index].name.toString() == id);
+            for (String id in data.pinnedCards) {
+              card = (data.readercards[index].name.toString() == id);
               if (card) {
                 break;
               }
@@ -76,13 +57,13 @@ class FavoriteView extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        _buildCardsText(context, cards[index]),
+                        _buildCardsText(context, data.readercards[index]),
                       ]),
                       ReaderCardButtons(
                         key: key,
-                        card: cards[index],
-                        reloadCard: reloadPinned,
-                        setState: setState,
+                        card: data.readercards[index],
+                        reloadCard: data.reloadPinned,
+                        setState: data.setState,
                       )
                     ]))
                 : Container();
@@ -143,7 +124,9 @@ class FavoriteView extends StatelessWidget {
           ),
         ),
         FavoriteButton(
-            card: card, reloadPinned: reloadPinned, pinnedCards: pinnedCards),
+            card: card,
+            reloadPinned: data.reloadPinned,
+            pinnedCards: data.pinnedCards),
         EmailButton(card: card)
       ],
     );

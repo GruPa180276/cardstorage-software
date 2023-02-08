@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/generate/utils/AlwaysDisabledFocusNode.dart';
+import 'package:rfidapp/pages/widgets/utils/AlwaysDisabledFocusNode.dart';
 
 class TextInput extends StatelessWidget {
   TextInput(

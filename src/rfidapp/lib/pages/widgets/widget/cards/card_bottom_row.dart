@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/timer_actions_type.dart';
-import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
-import 'package:rfidapp/pages/generate/pop_up/reservate_popup.dart';
-import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
+import 'package:rfidapp/pages/widgets/pop_up/request_timer.dart';
+import 'package:rfidapp/pages/widgets/pop_up/reservate_popup.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/card_button.dart';
 import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class ReaderCardButtons extends StatelessWidget {

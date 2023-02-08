@@ -6,7 +6,7 @@ import 'package:rfidapp/provider/websocket/websocket_callback.dart';
 
 class Data {
   static String serverAdress =
-      'https://${StorageProperties.getServer()}:${StorageProperties.getRestPort()}/api/';
+      'https://${StorageProperties.getServer()}:${StorageProperties.getRestPort()}/api/v1/';
   static String? _bearerToken;
 
   static String? getBearerToken() {

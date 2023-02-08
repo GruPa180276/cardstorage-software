@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_type.dart';
-import 'package:rfidapp/pages/generate/visualize/cards_visualize.dart';
+import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
+import 'package:rfidapp/pages/widgets/visualize/cards_visualize.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);

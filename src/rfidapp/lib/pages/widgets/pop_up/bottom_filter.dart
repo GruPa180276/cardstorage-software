@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
+import 'package:rfidapp/pages/widgets/widget/default_custom_button.dart';
 import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class BottomSheetPop {

@@ -4,7 +4,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rfidapp/domain/local_notification.dart';
-import 'package:rfidapp/pages/generate/widget/cards/card_button.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/card_button.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 
 import 'package:rfidapp/provider/rest/types/reservation.dart';

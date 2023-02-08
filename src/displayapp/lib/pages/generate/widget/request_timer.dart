@@ -8,7 +8,7 @@ import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
 import 'package:rfidapp/provider/storage_properties.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:rfidapp/provider/rest/data.dart';
-import 'package:rfidapp/provider/types/cards.dart';
+import 'package:rfidapp/provider/rest/types/cards.dart';
 
 class RequestTimer {
   Map? _responseData;
@@ -24,7 +24,7 @@ class RequestTimer {
     i = 0;
     channel = IOWebSocketChannel.connect(
         Uri.parse(
-            'wss://${StorageProperties.getServer()}:${StorageProperties.getRestPort()}/api/controller/log'),
+            'wss://${StorageProperties.getServer()}:${StorageProperties.getRestPort()}/api/v1/controller/log'),
         headers: <String, String>{
           HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
           'Accept': 'application/json'

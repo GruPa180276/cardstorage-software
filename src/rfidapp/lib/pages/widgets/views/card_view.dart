@@ -1,40 +1,27 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
-import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
-import 'package:rfidapp/pages/generate/widget/cards/card_bottom_row.dart';
+import 'package:rfidapp/pages/widgets/inherited/cards_inherited.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/email_button.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/favorite_button.dart';
+import 'package:rfidapp/pages/widgets/widget/cards/card_bottom_row.dart';
 import 'package:rfidapp/provider/rest/types/readercard.dart';
 
 class CardView extends StatelessWidget {
-  List<ReaderCard> readercards;
-  BuildContext context;
-  String searchstring;
-  Set<String> pinnedCards;
-  void Function() reloadPinned;
-  void Function() reloadCard;
-  final void Function(void Function()) setState;
+  late CardViewData data;
 
-  CardView(
-      {super.key,
-      required this.readercards,
-      required this.context,
-      required this.searchstring,
-      required this.pinnedCards,
-      required this.reloadPinned,
-      required this.reloadCard,
-      required this.setState});
-
+  CardView({super.key});
   @override
   Widget build(BuildContext context) {
+    data = CardViewData.of(context)!;
     return Flexible(
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: readercards.length,
+          itemCount: data.readercards.length,
           itemBuilder: (context, index) {
             bool card = false;
-            card = readercards[index].name.contains(searchstring);
+            card = data.readercards[index].name.contains(data.searchstring);
 
             return card
                 ? Card(
@@ -48,12 +35,12 @@ class CardView extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        _buildCardsText(context, readercards[index]),
+                        _buildCardsText(context, data.readercards[index]),
                       ]),
                       ReaderCardButtons(
-                          card: readercards[index],
-                          reloadCard: reloadCard,
-                          setState: setState)
+                          card: data.readercards[index],
+                          reloadCard: data.reloadCard,
+                          setState: data.setState)
                     ]))
                 : Container();
           }),
@@ -115,7 +102,9 @@ class CardView extends StatelessWidget {
             ),
           ),
           FavoriteButton(
-              card: card, reloadPinned: reloadPinned, pinnedCards: pinnedCards),
+              card: card,
+              reloadPinned: data.reloadPinned,
+              pinnedCards: data.pinnedCards),
           EmailButton(card: card)
         ],
       ),

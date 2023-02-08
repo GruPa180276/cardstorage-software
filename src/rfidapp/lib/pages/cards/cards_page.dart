@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/cardpage_type.dart';
-import 'package:rfidapp/pages/generate/visualize/cards_visualize.dart';
+import 'package:rfidapp/pages/widgets/visualize/cards_visualize.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);

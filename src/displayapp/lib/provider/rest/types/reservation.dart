@@ -1,4 +1,4 @@
-import 'package:rfidapp/provider/types/user.dart';
+import 'package:rfidapp/provider/rest/types/user.dart';
 
 class Reservation {
   // "since": 1673000473,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rfidapp/provider/types/reservation.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/rest/types/reservation.dart';
+import 'package:rfidapp/provider/rest/types/storage.dart';
 
 class ReservateView extends StatelessWidget {
   final Storage storage;

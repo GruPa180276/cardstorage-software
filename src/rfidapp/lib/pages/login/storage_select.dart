@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/pages/cards/cards_page.dart';
-import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
+import 'package:rfidapp/pages/widgets/widget/default_custom_button.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/rest/types/storage.dart';
 

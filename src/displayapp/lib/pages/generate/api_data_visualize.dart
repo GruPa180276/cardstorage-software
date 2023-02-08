@@ -9,7 +9,7 @@ import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/pages/generate/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-import 'package:rfidapp/provider/types/storage.dart';
+import 'package:rfidapp/provider/rest/types/storage.dart';
 import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
 import 'package:rfidapp/provider/websocket/websocket_callback.dart';
 

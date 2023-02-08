@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/validator.dart';
-import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
-import 'package:rfidapp/pages/generate/widget/text_field.dart';
+import 'package:rfidapp/pages/widgets/widget/default_custom_button.dart';
+import 'package:rfidapp/pages/widgets/widget/text_field.dart';
 import 'package:rfidapp/provider/sessionUser.dart';
 
 class AccountPage extends StatefulWidget {

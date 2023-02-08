@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/authentication/authentication.dart';
 import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/cardpage_type.dart';
-import 'package:rfidapp/pages/generate/views/favorite_view.dart';
-import 'package:rfidapp/pages/generate/pop_up/bottom_filter.dart';
-import 'package:rfidapp/pages/generate/widget/AppBar.dart';
+import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
+import 'package:rfidapp/pages/widgets/inherited/cards_inherited.dart';
+import 'package:rfidapp/pages/widgets/views/favorite_view.dart';
+import 'package:rfidapp/pages/widgets/pop_up/bottom_filter.dart';
+import 'package:rfidapp/pages/widgets/widget/AppBar.dart';
 import 'package:rfidapp/pages/login/login_user_page.dart';
+import 'package:rfidapp/pages/widgets/widget/connection_status_textfield.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/rest/uitls.dart';
 import 'package:rfidapp/provider/rest/types/readercard.dart';
-import 'package:rfidapp/pages/generate/views/card_view.dart';
+import 'package:rfidapp/pages/widgets/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/rest/types/storage.dart';
 import 'package:rfidapp/provider/sessionUser.dart';
@@ -31,7 +34,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
   late Future<List<ReaderCard>?> defaultReaderCards;
   late Future<List<ReaderCard>?> modifiedReaderCards;
-  late String _email;
+  late double _heightBottomNavigation;
   Set<String>? pinnedCards;
 
   String searchString = "";
@@ -43,6 +46,10 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     super.initState();
     _reloadReaderCards();
     _reloadPinnedList();
+    _heightBottomNavigation = context
+        .findAncestorWidgetOfExactType<BottomNavigation>()!
+        .preferredSize
+        .height;
   }
 
   void _reloadPinnedList() {
@@ -110,6 +117,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     }
     CustomAppBar customAppBar =
         CustomAppBar(title: site.toString().replaceAll("CardPageTypes.", ""));
+    var height = MediaQuery.of(context).size.height;
+    print(height);
     return Scaffold(
         appBar: customAppBar,
         body: Container(
@@ -124,54 +133,41 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError || snapshot.data == null) {
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical:
-                                MediaQuery.of(context).size.height / 2 - 200,
-                            horizontal: 0),
-                        child: Text(
-                          'Keine Verbindung zum Server',
-                          style: TextStyle(
-                              color: Theme.of(context).dividerColor,
-                              fontSize: 20),
-                        ),
+                      return const ConnectionStatusTextfield(
+                        text: 'Keine Verbindung zum Server',
                       );
                     } else if (snapshot.data!.isEmpty) {
-                      return Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                          vertical:
-                              MediaQuery.of(context).size.height / 2 - 200,
-                        ),
-                        child: Text(
-                          'Es wurden keine Karten angelegt',
-                          style: TextStyle(
-                              color: Theme.of(context).dividerColor,
-                              fontSize: 20),
-                        ),
+                      return const ConnectionStatusTextfield(
+                        text: 'Es wurden keine Karten angelegt',
                       );
+                    } else if (site == CardPageTypes.Favoriten &&
+                        (pinnedCards == null || pinnedCards!.isEmpty)) {
+                      return ConnectionStatusTextfield(
+                          text: 'Keine Favoriten ');
                     } else {
                       final cards = snapshot.data!;
                       switch (site) {
                         case CardPageTypes.Karten:
-                          return CardView(
-                            bcontext: context,
-                            searchstring: searchString,
+                          return CardViewData(
+                            customAppBar: customAppBar,
                             readercards: cards,
+                            searchstring: searchString,
                             pinnedCards: pinnedCards!,
                             reloadPinned: _reloadPinnedList,
                             reloadCard: _reloadReaderCards,
                             setState: setState,
+                            child: CardView(),
                           );
                         case CardPageTypes.Favoriten:
-                          return FavoriteView(
-                            setState: setState,
-                            cards: cards,
-                            context: context,
+                          return CardViewData(
+                            customAppBar: customAppBar,
+                            readercards: cards,
+                            searchstring: searchString,
                             pinnedCards: pinnedCards!,
                             reloadPinned: _reloadPinnedList,
-                            searchstring: searchString,
                             reloadCard: _reloadReaderCards,
+                            setState: setState,
+                            child: CardView(),
                           );
 
                         //users.map((e) => e.cards).toList()
@@ -194,8 +190,3 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
         ));
   }
 }
-
-
-  //@TODO and voidCallback
-
-

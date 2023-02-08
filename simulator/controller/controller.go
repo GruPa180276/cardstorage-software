@@ -27,15 +27,22 @@ var actions = map[string]func(mqtt.Client, mqtt.Message, map[string]any){
 }
 
 var (
-	clientId        = *flag.String("client-id", "sim0", "name of this simulator instance")
-	broker_url      = *flag.String("broker-url", "127.0.0.1", "address of mqtt broker")
-	broker_port     = *flag.String("broker-port", "1884", "tcp port of mqtt broker")
-	broker_username = *flag.String("broker-username", "CardStorageManagement", "broker credential: username")
-	broker_passwd   = *flag.String("broker-passwd", "CardStorageManagement", "broker credential: passwd")
-	topic           = *flag.String("topic", "S4@L4/1", "topic to subscribe to")
+	clientId        string
+	broker_url      string
+	broker_port     string
+	broker_username string
+	broker_passwd   string
+	topic           string
 )
 
 func init() {
+	flag.StringVar(&clientId, "client-id", "sim0", "name of this simulator instance")
+	flag.StringVar(&broker_url, "broker-url", "127.0.0.1", "address of mqtt broker")
+	flag.StringVar(&broker_port, "broker-port", "1884", "tcp port of mqtt broker")
+	flag.StringVar(&broker_username, "broker-username", "CardStorageManagement", "broker credential: username")
+	flag.StringVar(&broker_passwd, "broker-passwd", "CardStorageManagement", "broker credential: passwd")
+	flag.StringVar(&topic, "topic", "S4@L4/1", "topic to subscribe to")
+
 	flag.Parse()
 
 	fmt.Println(clientId, broker_url, broker_port, broker_username, broker_passwd, topic)

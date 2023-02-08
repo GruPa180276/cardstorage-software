@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rfidapp/pages/generate/widget/AppBar.dart';
 import 'package:rfidapp/pages/generate/widget/cards/email_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/favorite_button.dart';
 import 'package:rfidapp/pages/generate/widget/cards/card_bottom_row.dart';
@@ -25,60 +27,68 @@ class FavoriteView extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Flexible(
-        child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: cards.length,
-            itemBuilder: (context, index) {
-              bool card = false;
+  Widget build(BuildContext context) {
+    final scaffold = Scaffold.of(context);
+    if (scaffold != null) {
+      final appBar = scaffold.appBarMaxHeight;
+      print(appBar);
+    }
 
-              if (pinnedCards.isEmpty && index == cards.length - 1) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height / 2 - 200,
-                        horizontal: 0),
-                    child: Text(
-                      'Sie haben keine Favoriten',
-                      style: TextStyle(
-                          color: Theme.of(context).cardColor, fontSize: 20),
-                    ),
+    return Flexible(
+      child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount: cards.length,
+          itemBuilder: (context, index) {
+            bool card = false;
+
+            if (pinnedCards.isEmpty && index == cards.length - 1) {
+              return Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: (MediaQuery.of(context).size.height / 2) / 2,
+                      horizontal: 0),
+                  child: Text(
+                    'Sie haben keine Favoriten',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor, fontSize: 20),
                   ),
-                );
+                ),
+              );
+            }
+            for (String id in pinnedCards) {
+              card = (cards[index].name.toString() == id);
+              if (card) {
+                break;
               }
-              for (String id in pinnedCards) {
-                card = (cards[index].name.toString() == id);
-                if (card) {
-                  break;
-                }
-              }
+            }
 
-              return card
-                  ? Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Column(children: [
-                        Row(children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
-                            child: Icon(Icons.credit_card_outlined, size: 35),
-                          ),
-                          _buildCardsText(context, cards[index]),
-                        ]),
-                        ReaderCardButtons(
-                          key: key,
-                          card: cards[index],
-                          reloadCard: reloadPinned,
-                          setState: setState,
-                        )
-                      ]))
-                  : Container();
-            }),
-      );
+            return card
+                ? Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Column(children: [
+                      Row(children: [
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
+                          child: Icon(Icons.credit_card_outlined, size: 35),
+                        ),
+                        _buildCardsText(context, cards[index]),
+                      ]),
+                      ReaderCardButtons(
+                        key: key,
+                        card: cards[index],
+                        reloadCard: reloadPinned,
+                        setState: setState,
+                      )
+                    ]))
+                : Container();
+          }),
+    );
+  }
 
   Widget _buildCardsText(BuildContext context, ReaderCard card) {
     return Stack(

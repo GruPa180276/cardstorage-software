@@ -4,11 +4,11 @@ class UserSecureStorage {
   static const _storage = FlutterSecureStorage();
   static const _keyRememberState = 'state';
 //user
-  static const _keyUserFirstname = 'firtsname';
-  static const _keyUserLastname = 'lastename';
+  static const _keyUserFirstname = 'firstname';
+  static const _keyUserLastname = 'lastname';
   static const _keyUserEmail = 'email';
   static const _keyUserOfficelocation = 'officelocation';
-  static const _keyPriviledged = 'officelocation';
+  static const _keyPriviledged = 'privileged';
 
   static Future setRememberState(String state) async =>
       await _storage.write(key: _keyRememberState, value: state);

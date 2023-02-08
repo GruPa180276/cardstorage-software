@@ -16,6 +16,9 @@ Future main() async {
   rememberState = await UserSecureStorage.getRememberState() ?? false;
   if (rememberState) {
     SessionUser.fromJson(await UserSecureStorage.getUserValues(), null);
+    if (!await SessionUser.reloadUserData()) {
+      rememberState = false;
+    }
   }
   runApp(MyApp(
     rememberState: rememberState,

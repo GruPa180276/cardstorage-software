@@ -3,48 +3,64 @@ import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
 
 class SnackbarBuilder {
-  static void build(SnackbarType snackbarType, BuildContext context,
-      bool successful, dynamic content) {
-    SnackBar snackBar;
-    if (successful) {
-      switch (snackbarType) {
-        case SnackbarType.USER:
-          snackBar = SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: 'Anmeldung erfolgreich!',
-                message: '',
-                contentType: ContentType.success,
-              ));
-          break;
-        case SnackbarType.CARD:
-          snackBar = SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: 'Karte wird heruntergelassen!',
-                message: '',
-                contentType: ContentType.success,
-              ));
-          break;
-      }
-    } else {
-      snackBar = SnackBar(
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: AwesomeSnackbarContent(
-            title: 'Etwas ist schiefgelaufen!',
-            message: (content == null)
-                ? content.toString()
-                : "Anmeldung nicht erfolgreich",
+  final SnackbarType snackbarType;
+  final BuildContext context;
+  final String header;
+  dynamic content;
 
-            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-            contentType: ContentType.failure,
-          ));
+  SnackbarBuilder(
+      {required this.snackbarType,
+      required this.context,
+      required this.header,
+      this.content});
+
+  void build() {
+    SnackBar? snackBar;
+    switch (snackbarType) {
+      case SnackbarType.success:
+        snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: header,
+              message: (content == null) ? '' : content!,
+              contentType: ContentType.success,
+            ));
+        break;
+      case SnackbarType.warning:
+        snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: header,
+              message: (content == null) ? '' : content!,
+              contentType: ContentType.warning,
+            ));
+        break;
+      case SnackbarType.failure:
+        snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: header,
+              message: (content == null) ? '' : content!,
+              contentType: ContentType.failure,
+            ));
+        break;
+      case SnackbarType.help:
+        snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: header,
+              message: (content == null) ? '' : content!,
+              contentType: ContentType.help,
+            ));
+        break;
     }
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

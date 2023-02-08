@@ -18,6 +18,7 @@ class _AccountPageState extends State<AccountPage> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController officeLocationController = TextEditingController();
+  TextEditingController privilegedController = TextEditingController();
 
   @override
   void initState() {
@@ -26,6 +27,8 @@ class _AccountPageState extends State<AccountPage> {
     firstNameController.text = SessionUser.getUserFirstname()!;
     lastNameController.text = SessionUser.getUserLastname()!;
     officeLocationController.text = SessionUser.getUserOfficeLocation()!;
+    privilegedController.text =
+        (SessionUser.getPrivileged()!) ? "Adminrechte" : "Benutzerechte";
   }
 
   @override
@@ -100,9 +103,19 @@ class _AccountPageState extends State<AccountPage> {
                     height: 20,
                   ),
                   TextInput(
-                      iconData: Icons.email,
+                      iconData: Icons.room,
                       inputController: officeLocationController,
-                      label: 'Office location',
+                      label: 'Raum',
+                      obsecureText: false,
+                      validator: Validator.funcEmail,
+                      editable: false),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextInput(
+                      iconData: Icons.lock,
+                      inputController: privilegedController,
+                      label: 'Rechte',
                       obsecureText: false,
                       validator: Validator.funcEmail,
                       editable: false),

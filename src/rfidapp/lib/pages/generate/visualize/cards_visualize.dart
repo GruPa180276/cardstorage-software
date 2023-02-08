@@ -7,6 +7,7 @@ import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/cardpage_type.dart';
 import 'package:rfidapp/pages/generate/views/favorite_view.dart';
 import 'package:rfidapp/pages/generate/pop_up/bottom_filter.dart';
+import 'package:rfidapp/pages/generate/widget/AppBar.dart';
 import 'package:rfidapp/pages/login/login_user_page.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/rest/uitls.dart';
@@ -42,22 +43,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     super.initState();
     _reloadReaderCards();
     _reloadPinnedList();
-    _checkUserRegistered();
-  }
-
-  void _checkUserRegistered() async {
-    bool isRegistered;
-    var response = await Data.check(
-        Data.checkUserRegistered, {"email": SessionUser.getEmail()});
-    if (response.statusCode != 200 ||
-        jsonDecode(response.body)["email"].toString().isEmpty) {
-      isRegistered = false;
-    } else {
-      isRegistered = true;
-    }
-    if (!isRegistered) {
-      SessionUser.logout(context);
-    }
   }
 
   void _reloadPinnedList() {
@@ -123,18 +108,10 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
         ],
       );
     }
-
+    CustomAppBar customAppBar =
+        CustomAppBar(title: site.toString().replaceAll("CardPageTypes.", ""));
     return Scaffold(
-        appBar: AppBar(
-            toolbarHeight: 100,
-            bottomOpacity: 0.0,
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            title: Text(site.toString().replaceAll("CardPageTypes.", ""),
-                style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor))),
+        appBar: customAppBar,
         body: Container(
           margin: const EdgeInsets.all(10),
           child: Column(
@@ -142,76 +119,68 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<List<ReaderCard>?>(
-                future: modifiedReaderCards,
-                builder: (context, snapshot) {
-                  if (modifiedReaderCards == null) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
+                  future: modifiedReaderCards,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
-                    default:
-                      if (snapshot.hasError || snapshot.data == null) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height / 2 - 200,
-                              horizontal: 0),
-                          child: Text(
-                            'Keine Verbindung zum Server',
-                            style: TextStyle(
-                                color: Theme.of(context).dividerColor,
-                                fontSize: 20),
-                          ),
-                        );
-                      } else if (snapshot.data!.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
+                    } else if (snapshot.hasError || snapshot.data == null) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
                             vertical:
                                 MediaQuery.of(context).size.height / 2 - 200,
-                          ),
-                          child: Text(
-                            'Es wurden keine Karten angelegt',
-                            style: TextStyle(
-                                color: Theme.of(context).dividerColor,
-                                fontSize: 20),
-                          ),
-                        );
-                      } else {
-                        final cards = snapshot.data!;
-                        switch (site) {
-                          case CardPageTypes.Karten:
-                            return CardView(
-                              context: context,
-                              searchstring: searchString,
-                              readercards: cards,
-                              pinnedCards: pinnedCards!,
-                              reloadPinned: _reloadPinnedList,
-                              reloadCard: _reloadReaderCards,
-                              setState: setState,
-                            );
-                          case CardPageTypes.Favoriten:
-                            return FavoriteView(
-                              setState: setState,
-                              cards: cards,
-                              context: context,
-                              pinnedCards: pinnedCards!,
-                              reloadPinned: _reloadPinnedList,
-                              searchstring: searchString,
-                              reloadCard: _reloadReaderCards,
-                            );
+                            horizontal: 0),
+                        child: Text(
+                          'Keine Verbindung zum Server',
+                          style: TextStyle(
+                              color: Theme.of(context).dividerColor,
+                              fontSize: 20),
+                        ),
+                      );
+                    } else if (snapshot.data!.isEmpty) {
+                      return Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(
+                          vertical:
+                              MediaQuery.of(context).size.height / 2 - 200,
+                        ),
+                        child: Text(
+                          'Es wurden keine Karten angelegt',
+                          style: TextStyle(
+                              color: Theme.of(context).dividerColor,
+                              fontSize: 20),
+                        ),
+                      );
+                    } else {
+                      final cards = snapshot.data!;
+                      switch (site) {
+                        case CardPageTypes.Karten:
+                          return CardView(
+                            bcontext: context,
+                            searchstring: searchString,
+                            readercards: cards,
+                            pinnedCards: pinnedCards!,
+                            reloadPinned: _reloadPinnedList,
+                            reloadCard: _reloadReaderCards,
+                            setState: setState,
+                          );
+                        case CardPageTypes.Favoriten:
+                          return FavoriteView(
+                            setState: setState,
+                            cards: cards,
+                            context: context,
+                            pinnedCards: pinnedCards!,
+                            reloadPinned: _reloadPinnedList,
+                            searchstring: searchString,
+                            reloadCard: _reloadReaderCards,
+                          );
 
-                          //users.map((e) => e.cards).toList()
-                          case CardPageTypes.Reservierungen:
-                            break;
-                        }
+                        //users.map((e) => e.cards).toList()
+                        case CardPageTypes.Reservierungen:
+                          break;
                       }
-                      return const Text("Error");
-                  }
-                },
-              ),
+                    }
+                    return const Text("Error");
+                  }),
             ],
           ),
         ),

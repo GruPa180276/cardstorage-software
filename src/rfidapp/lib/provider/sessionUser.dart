@@ -64,6 +64,16 @@ class SessionUser {
         MaterialPageRoute(builder: (context) => const LoginUserScreen()));
   }
 
+  static Future<bool> reloadUserData() async {
+    var response = await Data.check(Data.getUserByName, {"email": _email});
+    if (response.statusCode != 200) {
+      return false;
+    }
+    var jsonUserObject = jsonDecode(response.body);
+    _priviliged = jsonUserObject["privileged"];
+    return true;
+  }
+
   static Future<Tuple2<LoginStatusType, dynamic>?> login(
       bool rememberValue) async {
     bool isRegistered;
@@ -78,7 +88,7 @@ class SessionUser {
             await Data.getUserData({"accesstoken": accessToken});
         var mircosoftJsonObject = jsonDecode(microsoftResponse!.body);
         var apiUserResponse = await Data.check(
-            Data.checkUserRegistered, {"email": mircosoftJsonObject["mail"]});
+            Data.getUserByName, {"email": mircosoftJsonObject["mail"]});
         var apiJsonObject = jsonDecode(apiUserResponse.body);
         if (apiUserResponse.statusCode != 200 ||
             apiJsonObject["email"].toString().isEmpty) {

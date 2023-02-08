@@ -358,6 +358,7 @@ class CountDownController {
   void dispose() {
     if (_state != null && _state?._controller != null) {
       //_state?._controller?.stop(canceled: true);
+      _state?._controller?.dispose();
       isPaused = true;
       isRestarted = false;
       isResumed = false;

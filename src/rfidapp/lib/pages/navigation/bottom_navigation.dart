@@ -5,11 +5,16 @@ import 'package:rfidapp/pages/cards/cards_page.dart';
 import 'package:rfidapp/pages/reservate/reservate_page.dart';
 import 'package:rfidapp/pages/settings/settings.dart';
 
-class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({Key? key}) : super(key: key);
+class BottomNavigation extends StatefulWidget implements PreferredSizeWidget {
+  final double height;
+  const BottomNavigation({Key? key, this.height = kBottomNavigationBarHeight})
+      : super(key: key);
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
+
+  @override
+  Size get preferredSize => (Size.fromHeight(height));
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {

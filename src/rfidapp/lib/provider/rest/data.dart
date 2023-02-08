@@ -44,16 +44,13 @@ class Data {
     }
   }
 
-  static Future<Response?> checkUserRegistered(
-      Map<String, dynamic> args) async {
-    print("asd");
-    var responseUser = await get(
-        Uri.parse("${uriRaspi}users/email/${args["email"]}"),
+  static Future<Response?> getUserByName(Map<String, dynamic> args) async {
+    return await get(Uri.parse("${uriRaspi}users/email/${args["email"]}"),
         headers: {
           "Accept": "application/json",
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
         });
-    return responseUser;
+    ;
   }
 
   static Future<Response?> getUserData(Map<String, String> args) async {

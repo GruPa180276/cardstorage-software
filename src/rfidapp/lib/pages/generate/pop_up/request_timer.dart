@@ -25,6 +25,13 @@ class RequestTimer {
   final ReaderCard? card;
   final String? email;
   final String? storagename;
+  bool getSuccessful() {
+    return _successful;
+  }
+
+  Map getResponse() {
+    return _responseData ?? {"Error": "No Message received"};
+  }
 
   RequestTimer(
       {required this.context,
@@ -41,7 +48,7 @@ class RequestTimer {
           "Accept": "application/json",
           HttpHeaders.authorizationHeader: "Bearer ${Data.bearerToken}",
         });
-    streamListener();
+    _streamListener();
     return showDialog(
         //useRootNavigator: false,
         context: context,
@@ -77,16 +84,25 @@ class RequestTimer {
                       autoStart: true,
                       onComplete: (() {
                         if (card != null && i == 0) {
-                          SnackbarBuilder.build(SnackbarType.CARD, context,
-                              _successful, _responseData);
+                          SnackbarBuilder(
+                                  context: context,
+                                  snackbarType: SnackbarType.failure,
+                                  header: "Verbindungsfehler!",
+                                  content: _responseData)
+                              .build();
                           Navigator.of(context).maybePop();
                           channel!.sink.close();
                         } else if (storagename != null && i == 0) {
-                          SnackbarBuilder.build(SnackbarType.USER, context,
-                              _successful, _responseData);
+                          SnackbarBuilder(
+                                  context: context,
+                                  snackbarType: SnackbarType.failure,
+                                  header: "Verbindungsfehler!",
+                                  content: _responseData)
+                              .build();
                           Navigator.of(context).maybePop();
                           channel!.sink.close();
                         }
+                        i++;
                       }),
                       onStart: () async {
                         //maybe you need threading
@@ -99,7 +115,6 @@ class RequestTimer {
                         } else if (action == TimerAction.SIGNUP) {
                           var response = await Data.postCreateNewUser(
                               {"storagename": storagename!, "email": email!});
-
                           if (response.statusCode != 200) {
                             Navigator.maybePop(context);
                           }
@@ -130,39 +145,45 @@ class RequestTimer {
         });
   }
 
-  bool getSuccessful() {
-    return _successful;
-  }
-
-  Map getResponse() {
-    return _responseData ?? {"Error": "No Message received"};
-  }
-
-  streamListener() {
+  _streamListener() {
     channel!.stream.listen((message) async {
       _responseData = jsonDecode(message);
       print(_responseData);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
       i++;
-      //timerController.dispose();
-      timerController.restart(duration: 0);
       channel!.sink.close();
       if (card != null && i == 1) {
         if (_successful) {
-          SnackbarBuilder.build(
-              SnackbarType.CARD, context, _successful, _responseData);
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.success,
+                  header: "Karte wird heruntergelassen!",
+                  content: null)
+              .build();
         } else {
-          SnackbarBuilder.build(
-              SnackbarType.CARD, context, _successful, _responseData);
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.failure,
+                  header: "Verbindungsfehler!",
+                  content: _responseData)
+              .build();
         }
       } else if (storagename != null && i == 1) {
         if (_successful) {
-          SnackbarBuilder.build(
-              SnackbarType.USER, context, _successful, _responseData);
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.failure,
+                  header: "Registrierung erfolgreich!",
+                  content: null)
+              .build();
         } else {
-          SnackbarBuilder.build(
-              SnackbarType.USER, context, _successful, _responseData);
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.failure,
+                  header: "Verbindungsfehler!",
+                  content: _responseData)
+              .build();
         }
       }
       Navigator.of(context).maybePop();

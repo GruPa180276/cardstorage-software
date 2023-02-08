@@ -22,8 +22,6 @@ class MyThemes {
             const ColorScheme.dark().copyWith(primary: ColorSelect.blueAccent),
         primaryColor: Colors.white,
         secondaryHeaderColor: ColorSelect.blueAccent,
-
-        //new
         dividerColor: ColorSelect.darkBorder,
         cardColor: ColorSelect.darkCardColor,
       );
@@ -35,7 +33,6 @@ class MyThemes {
             const ColorScheme.light().copyWith(primary: ColorSelect.blueAccent),
         primaryColor: Colors.black,
         secondaryHeaderColor: ColorSelect.blueAccent,
-        //new
         dividerColor: ColorSelect.lightBorder,
         cardColor: ColorSelect.lightCardColor,
       );

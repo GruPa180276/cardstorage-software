@@ -1,17 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/domain/authentication/login.dart';
-import 'package:rfidapp/domain/authentication/user_secure_storage.dart';
 import 'package:rfidapp/domain/enums/login_status_type.dart';
-import 'package:rfidapp/domain/enums/timer_actions_type.dart';
 import 'package:rfidapp/pages/generate/pop_up/email_popup.dart';
 import 'package:rfidapp/pages/generate/widget/default_custom_button.dart';
-import 'package:rfidapp/pages/generate/pop_up/request_timer.dart';
 import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
-import 'package:rfidapp/pages/login/storage_select.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/domain/enums/snackbar_type.dart';
 import 'package:rfidapp/provider/sessionUser.dart';
@@ -167,7 +160,6 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         case LoginStatusType.NEWLOGIN:
           if (await SessionUser.signUp(
               context, loginStatus.item2, rememberValue)) {
-            SnackbarBuilder.build(SnackbarType.USER, context, true, null);
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => const BottomNavigation()),

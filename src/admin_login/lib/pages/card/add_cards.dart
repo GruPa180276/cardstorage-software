@@ -34,11 +34,17 @@ class _AddCardsState extends State<AddCards> {
     await getAllUnfocusedStorages().then((value) => unfocused = value);
 
     for (int i = 0; i < listOfStorages.length; i++) {
-      if (!unfocused.contains(listOfStorages[i].name)) {
-        dropDownValuesNames.add(listOfStorages[i].name);
+      dropDownValuesNames.add(listOfStorages[i].name);
+    }
+
+    for (int i = 0; i < dropDownValuesNames.length; i++) {
+      for (int j = 0; j < unfocused.length; j++) {
+        if (dropDownValuesNames[i] == unfocused[j].name) {
+          dropDownValuesNames.removeAt(i);
+          setState(() {});
+        }
       }
     }
-    setState(() {});
   }
 
   void loadData() async {
@@ -71,7 +77,6 @@ class _AddCardsState extends State<AddCards> {
   }
 }
 
-// ignore: must_be_immutable
 class GenerateInputFields extends StatefulWidget {
   String selectedStorage;
   final List<String> dropDownValues;
@@ -214,7 +219,6 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                               Navigator.of(context).pop();
                             }
                             if (await code == 400) {
-                              deleteStorage(car.name);
                               Navigator.of(context).pop();
                               showDialog(
                                   context: context,

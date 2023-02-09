@@ -78,7 +78,7 @@ Future<int> deleteData(String name) async {
   }
 }
 
-Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
+Future<int> updateData(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
     Uri.parse(adres.cardAdress + "/name/" + name),
     headers: {
@@ -90,7 +90,9 @@ Future<dynamic> updateData(String name, Map<String, dynamic> data) async {
   );
 
   if (response.statusCode == 200) {
-    return Cards.fromJson(json.decode(response.body));
+    return response.statusCode;
+  } else if (response.statusCode == 400) {
+    return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();

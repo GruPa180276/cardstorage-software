@@ -39,7 +39,7 @@ Table createCardTable(
     TableRow(
       children: [
         Text(
-          "Verwendet:",
+          "Verfügbar:",
           style: TextStyle(fontSize: 20),
         ),
         Text(

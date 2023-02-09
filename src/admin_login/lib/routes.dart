@@ -25,7 +25,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: ((context) => AddCards()));
       case '/alterCards':
         if (args is String) {
-          return MaterialPageRoute(builder: ((context) => CardSettings(args)));
+          return MaterialPageRoute(
+              builder: ((context) => CardSettings(cardName: args)));
         }
         return _errorRoute();
       case '/removeCards':

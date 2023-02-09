@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/pages/generate/widget/button_create.dart';
+import 'package:rfidapp/pages/widgets/widget/button_create.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/rest/types/cards.dart';
 import 'package:rfidapp/provider/rest/types/reservation.dart';
@@ -201,9 +201,6 @@ class BottomSheetPop {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     width: double.infinity,
@@ -260,7 +257,7 @@ class BottomSheetPop {
   Future<Storage?> _getReaderCards() async {
     var respone = await Data.check(Data.getStorageData, null);
     var jsonStorage = jsonDecode(respone.body);
-    Storage cards = Storage.fromJson(jsonStorage);
+    return Storage.fromJson(jsonStorage);
   }
 
   List<ReaderCard> _getFilteredReservations(Storage value) {

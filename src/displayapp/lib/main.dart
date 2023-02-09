@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:rfidapp/pages/navigation/bottom_navigation.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
-
 import 'provider/storage_properties.dart';
 
 Future main() async {

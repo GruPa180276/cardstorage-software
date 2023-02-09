@@ -4,13 +4,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rfidapp/domain/enum/readercard_type.dart';
-import 'package:rfidapp/pages/generate/views/reservate_view.dart';
+import 'package:rfidapp/pages/widgets/inheritated/cards_inherited.dart';
+import 'package:rfidapp/pages/widgets/views/reservate_view.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/theme_provider.dart';
-import 'package:rfidapp/pages/generate/views/card_view.dart';
+import 'package:rfidapp/pages/widgets/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/rest/types/storage.dart';
-import 'package:rfidapp/pages/generate/widget/bottom_filter.dart';
+import 'package:rfidapp/pages/widgets/pop_up/bottom_filter.dart';
 import 'package:rfidapp/provider/websocket/websocket_callback.dart';
 
 class ApiVisualizer extends StatefulWidget {
@@ -18,6 +19,7 @@ class ApiVisualizer extends StatefulWidget {
   ApiVisualizer({super.key, required this.site});
 
   @override
+  // ignore: no_logic_in_create_state
   State<ApiVisualizer> createState() => _ApiVisualizerState(site: site);
 }
 
@@ -27,7 +29,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   Future<Storage?>? _modifiedStorage;
   late bool _isDark;
   String _searchString = "";
-  TextEditingController _searchController = TextEditingController();
   CardPageType site;
 
   @override
@@ -41,7 +42,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   void _reloadCardList() {
     setState(() {
       _defaultStorage = _getReaderCards();
-      _modifiedStorage = _defaultStorage;
+      _modifiedStorage = null;
     });
   }
 
@@ -62,7 +63,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
     return Scaffold(
         appBar: AppBar(
-            toolbarHeight: 31,
+            toolbarHeight: 56,
             bottomOpacity: 0.0,
             elevation: 0.0,
             backgroundColor: Colors.transparent,
@@ -78,7 +79,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                     child: buildChangeThemeMode(context)),
                 Container(
                   alignment: Alignment.centerRight,
-                  margin: EdgeInsets.fromLTRB(0, 0, 50, 0),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 50, 0),
                   child: IconButton(
                       onPressed: () {
                         BottomSheetPop(
@@ -93,13 +94,13 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               ],
             )),
         body: Container(
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               seachField,
               const SizedBox(height: 10),
               FutureBuilder<Storage?>(
-                future: _modifiedStorage,
+                future: _modifiedStorage ?? _defaultStorage,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -135,16 +136,17 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                         final users = snapshot.data!;
                         switch (site) {
                           case CardPageType.Karten:
-                            return CardView(
+                            return CardViewData(
+                                searchstring: _searchString,
+                                storage: users,
                                 setState: setState,
-                                context: context,
-                                searchstring: _searchString,
-                                storage: users);
+                                child: CardView());
                           case CardPageType.Reservierungen:
-                            return ReservateView(
-                                context: context,
+                            return CardViewData(
                                 searchstring: _searchString,
-                                storage: users);
+                                storage: users,
+                                setState: setState,
+                                child: ReservateView());
                         }
                       }
                   }
@@ -177,11 +179,3 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
         });
   }
 }
-
-
-
-
-
-  //@TODO and voidCallback
-
-

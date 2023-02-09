@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rfidapp/pages/widgets/inheritated/cards_inherited.dart';
 import 'package:rfidapp/provider/rest/types/reservation.dart';
-import 'package:rfidapp/provider/rest/types/storage.dart';
 
 class ReservateView extends StatelessWidget {
-  final Storage storage;
-  final BuildContext context;
-  final String searchstring;
+  late CardViewData data;
 
-  const ReservateView(
-      {super.key,
-      required this.storage,
-      required this.context,
-      required this.searchstring});
+  ReservateView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (storage.cards == null) {
+    data = CardViewData.of(context)!;
+
+    if (data.storage.cards == null) {
       return const Text("Error");
     }
     var reservations = _parseToReservationList();
@@ -28,7 +26,7 @@ class ReservateView extends StatelessWidget {
           itemCount: reservations.length,
           itemBuilder: (context, index) {
             bool card = false;
-            card = reservations[index].user.email.contains(searchstring);
+            card = reservations[index].user.email.contains(data.searchstring);
             return card
                 ? Card(
                     elevation: 0,
@@ -65,25 +63,58 @@ class ReservateView extends StatelessWidget {
           children: [
             TableRow(
               children: [
-                const TableCell(child: Text("Karte:")),
-                TableCell(child: Text(reserveration.cardName.toString()))
+                const SizedBox(
+                    width: double.infinity,
+                    height: 25,
+                    child: Text(
+                      "Karte:",
+                      textAlign: TextAlign.left,
+                    )),
+                SizedBox(
+                    width: double.infinity,
+                    height: 25,
+                    child: Text(
+                      reserveration.cardName.toString(),
+                      textAlign: TextAlign.right,
+                    ))
               ],
             ),
             TableRow(
               children: [
-                const TableCell(child: Text("Email:")),
-                TableCell(child: Text(reserveration.user.email.toString()))
+                const SizedBox(
+                    width: double.infinity,
+                    height: 25,
+                    child: Text(
+                      "Email:",
+                      textAlign: TextAlign.left,
+                    )),
+                SizedBox(
+                    width: double.infinity,
+                    height: 25,
+                    child: Text(
+                      reserveration.user.email.toString(),
+                      textAlign: TextAlign.right,
+                    ))
               ],
             ),
             TableRow(
               children: [
-                const TableCell(child: Text("Von:")),
-                TableCell(
+                const SizedBox(
+                    width: double.infinity,
+                    height: 25,
+                    child: Text(
+                      "Von:",
+                      textAlign: TextAlign.left,
+                    )),
+                SizedBox(
+                  width: double.infinity,
+                  height: 25,
                   child: Text(
                     DateFormat('yyyy-MM-dd HH:mm')
                         .format(DateTime.fromMillisecondsSinceEpoch(
                             reserveration.since * 1000))
                         .toString(),
+                    textAlign: TextAlign.right,
                     style: const TextStyle(color: Colors.green),
                   ),
                 )
@@ -91,8 +122,16 @@ class ReservateView extends StatelessWidget {
             ),
             TableRow(
               children: [
-                const TableCell(child: Text("Bis:")),
-                TableCell(
+                const SizedBox(
+                    width: double.infinity,
+                    height: 25,
+                    child: Text(
+                      "Bis:",
+                      textAlign: TextAlign.left,
+                    )),
+                SizedBox(
+                  width: double.infinity,
+                  height: 25,
                   child: Text(
                     (reserveration.isreservation)
                         ? DateFormat('yyyy-MM-dd HH:mm')
@@ -100,6 +139,7 @@ class ReservateView extends StatelessWidget {
                                 reserveration.until * 1000))
                             .toString()
                         : "Wird benutzt",
+                    textAlign: TextAlign.right,
                     style: const TextStyle(color: Colors.red),
                   ),
                 )
@@ -114,7 +154,7 @@ class ReservateView extends StatelessWidget {
   List<Reservation> _parseToReservationList() {
     //@TODO if not reserveraetion (is currently in use)
     List<Reservation> reservations = List.empty(growable: true);
-    for (var element in storage.cards!) {
+    for (var element in data.storage.cards!) {
       if (element.reservation == null) {
         break;
       }

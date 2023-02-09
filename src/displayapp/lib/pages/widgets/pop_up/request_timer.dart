@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rfidapp/domain/enum/snackbar_type.dart';
-import 'package:rfidapp/pages/generate/widget/response_snackbar.dart';
+import 'package:rfidapp/pages/widgets/pop_up/response_snackbar.dart';
 import 'package:rfidapp/provider/storage_properties.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:rfidapp/provider/rest/data.dart';
@@ -30,7 +30,6 @@ class RequestTimer {
           'Accept': 'application/json'
         });
     _streamListener();
-    int timestamp = 0;
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -67,12 +66,20 @@ class RequestTimer {
                       channel!.sink.close();
 
                       if (card != null && i == 0) {
-                        SnackbarBuilder.build(SnackbarType.Karten, context,
-                            _successful, _responseData);
+                        SnackbarBuilder(
+                                context: context,
+                                snackbarType: SnackbarType.failure,
+                                header: "Verbindungsfehler!",
+                                content: _responseData)
+                            .build();
                         Navigator.maybePop(context);
                       } else if (i == 0) {
-                        SnackbarBuilder.build(SnackbarType.User, context,
-                            _successful, _responseData);
+                        SnackbarBuilder(
+                                context: context,
+                                snackbarType: SnackbarType.failure,
+                                header: "Verbindungsfehler!",
+                                content: _responseData)
+                            .build();
                         Navigator.maybePop(context);
                       }
                       i++;
@@ -124,19 +131,40 @@ class RequestTimer {
           _responseData!["status"]["successful"];
       channel!.sink.close();
       i++;
-      timerController.restart(duration: 0);
-
-      if (card != null) {
-        SnackbarBuilder.build(
-            SnackbarType.Karten, context, _successful, _responseData);
-      } else {
-        SnackbarBuilder.build(
-            SnackbarType.User, context, _successful, _responseData);
+      if (card != null && i == 1) {
+        if (_successful) {
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.success,
+                  header: "Karte wird heruntergelassen!",
+                  content: null)
+              .build();
+        } else {
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.failure,
+                  header: "Verbindungsfehler!",
+                  content: _responseData)
+              .build();
+        }
+      } else if (card == null && i == 1) {
+        if (_successful) {
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.failure,
+                  header: "Registrierung erfolgreich!",
+                  content: null)
+              .build();
+        } else {
+          SnackbarBuilder(
+                  context: context,
+                  snackbarType: SnackbarType.failure,
+                  header: "Verbindungsfehler!",
+                  content: _responseData)
+              .build();
+        }
       }
-      print("This print is required");
       Navigator.maybePop(context);
     });
   }
 }
-
-enum _TimerType { InitTimer, Breaktimer }

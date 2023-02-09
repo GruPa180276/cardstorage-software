@@ -10,6 +10,37 @@ import 'package:admin_login/provider/theme/themes.dart';
 import 'package:admin_login/config/theme/app_preference.dart';
 import 'package:admin_login/pages/navigation/bottom_navigation.dart';
 
+// Change app icon -> pubsec.yaml
+// https://pub.dev/packages/flutter_launcher_icons
+// Fix -> C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_launcher_icons-0.9.3\lib\android.dart
+
+// Change app name -> pubsec.yaml
+// https://pub.dev/packages/flutter_app_name
+// Replace this line -> final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
+// with this -> final String minSdk = "21"; // line.replaceAll(RegExp(r'[^\d]'), '');
+
+// TODO
+// Refactor
+
+// Check for Typos
+
+// Stats Page -> Design
+
+// Formulate Error Message when deleting Storage.
+// - There could be open Reservations
+// - There could be cards left
+// - ...
+
+// Formulate Error Message when deleting Cards.
+// - There could be open Reservations
+// - ...
+
+// Change Text of Cards Page Verfügbar - true to something else
+// Change Text of Storage Focus Verfügbar - true to something else
+
+// Use diffrent Sucsess Message PopUp
+// Use diffrent Error Message PopUp
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -34,34 +65,6 @@ Future main() async {
 
   runApp(AppStart());
 }
-
-// Refactor
-
-// Check for Typos
-
-// Formulate Error Message when deleting Storage.
-// - There could be open Reservations
-// - There could be cards left
-// - ...
-
-// Formulate Error Message when deleting Cards.
-// - There could be open Reservations
-// - ...
-
-// Change Text of Cards Page Verfügbar - true to something else
-// Change Text of Storage Focus Verfügbar - true to something else
-
-// Use diffrent Sucsess Message PopUp
-// Use diffrent Error Message PopUp
-
-// Change app icon -> pubsec.yaml
-// https://pub.dev/packages/flutter_launcher_icons
-// Fix -> C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_launcher_icons-0.9.3\lib\android.dart
-
-// Change app name -> pubsec.yaml
-// https://pub.dev/packages/flutter_app_name
-// Replace this line -> final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
-// with this -> final String minSdk = "21"; // line.replaceAll(RegExp(r'[^\d]'), '');
 
 class AppStart extends StatelessWidget {
   const AppStart({Key? key}) : super(key: key);

@@ -112,7 +112,7 @@ class HomePageState extends State<RemoveStorage> {
               name: person.name,
               icon: Icons.credit_card,
               onpressd: () {
-                deleteData(person.name);
+                deleteStorage(person.name);
               },
             );
           }),

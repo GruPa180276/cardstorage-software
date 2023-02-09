@@ -168,7 +168,7 @@ class _GenerateCardState extends State<GenerateStorage> {
                                                                           children: [
                                                                             ElevatedButton(
                                                                               onPressed: () async {
-                                                                                Future<int> code = deleteData(widget.data![widget.index].name);
+                                                                                Future<int> code = deleteStorage(widget.data![widget.index].name);
 
                                                                                 if (await code == 200) {
                                                                                   Navigator.of(context).pop();

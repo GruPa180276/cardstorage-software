@@ -140,7 +140,7 @@ Future<Storages> focusStorage(String name) async {
   }
 }
 
-Future<int> deleteData(String name) async {
+Future<int> deleteStorage(String name) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.storageAdress + "/name/" + name),
     headers: {
@@ -156,7 +156,7 @@ Future<int> deleteData(String name) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return deleteData(name);
+    return deleteStorage(name);
   } else {
     throw Exception('Failed to delete Storage!');
   }

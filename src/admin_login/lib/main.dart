@@ -35,6 +35,10 @@ Future main() async {
   runApp(AppStart());
 }
 
+// Storage when adding Cards
+// Status Page Focus PopUp
+// Check that Storage is empty
+
 // Change app icon -> pubsec.yaml
 // https://pub.dev/packages/flutter_launcher_icons
 // Fix -> C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_launcher_icons-0.9.3\lib\android.dart

@@ -1,3 +1,4 @@
+import 'package:admin_login/provider/types/user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_login/pages/widget/button.dart';
@@ -155,10 +156,87 @@ class _InputFieldsState extends State<InputFields> {
                               cards: []);
                           Future<int> code = sendData(newEntry.toJson());
 
+                          Users newUser = new Users(
+                            email: newEntry.name.toLowerCase() + "@default.com",
+                            storage: stor.name,
+                            privileged: false,
+                          );
+
                           if (await code == 200) {
-                            Navigator.of(context).pop();
+                            code = addUser(newUser.toJson());
+                            if (await code == 200) {
+                              Navigator.of(context).pop();
+                            }
+                            if (await code == 400) {
+                              deleteData(
+                                  stor.name.toLowerCase() + "@default.com");
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        backgroundColor: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        title: Text(
+                                          'Storage anlegen',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        content: new Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              "Es ist ein Fehler beim anlegen des Storages aufgetreten!",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
+                                            ),
+                                          ],
+                                        ),
+                                        actions: <Widget>[
+                                          Container(
+                                              padding: EdgeInsets.all(10),
+                                              height: 70,
+                                              child: Column(
+                                                children: [
+                                                  Column(children: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text(
+                                                        "Ok",
+                                                        style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .focusColor),
+                                                      ),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor: Theme
+                                                                .of(context)
+                                                            .secondaryHeaderColor,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ]),
+                                                ],
+                                              )),
+                                        ],
+                                      ));
+                            }
                           }
                           if (await code == 400) {
+                            deleteStorage(stor.name);
+
                             Navigator.of(context).pop();
                             showDialog(
                                 context: context,

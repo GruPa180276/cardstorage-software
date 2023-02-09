@@ -124,9 +124,139 @@ class _GenerateCardState extends State<GenerateCard> {
                                           Spacer(),
                                           ElevatedButton(
                                             onPressed: () {
-                                              deleteData(widget
-                                                  .data![widget.index].name);
-                                              Navigator.of(context).pop();
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          AlertDialog(
+                                                            backgroundColor: Theme
+                                                                    .of(context)
+                                                                .scaffoldBackgroundColor,
+                                                            title: Text(
+                                                              'Karte löschen',
+                                                              style: TextStyle(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor),
+                                                            ),
+                                                            content: new Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: <
+                                                                  Widget>[
+                                                                Text(
+                                                                  "Wollen Sie diese Karte löschen?",
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .primaryColor),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            actions: <Widget>[
+                                                              Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              10),
+                                                                  height: 70,
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Row(
+                                                                          children: [
+                                                                            ElevatedButton(
+                                                                              onPressed: () async {
+                                                                                Future<int> code = deleteData(widget.data![widget.index].name);
+                                                                                Navigator.of(context).pop();
+
+                                                                                if (await code == 200) {
+                                                                                  Navigator.of(context).pop();
+                                                                                }
+                                                                                if (await code == 400) {
+                                                                                  Navigator.of(context).pop();
+                                                                                  showDialog(
+                                                                                      context: context,
+                                                                                      builder: (BuildContext context) => AlertDialog(
+                                                                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                                                            title: Text(
+                                                                                              'Karte löschen',
+                                                                                              style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                            ),
+                                                                                            content: new Column(
+                                                                                              mainAxisSize: MainAxisSize.min,
+                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                              children: <Widget>[
+                                                                                                Text(
+                                                                                                  "Es ist ein Fehler beim löschen der Karte aufgetreten!",
+                                                                                                  style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                            actions: <Widget>[
+                                                                                              Container(
+                                                                                                  padding: EdgeInsets.all(10),
+                                                                                                  height: 70,
+                                                                                                  child: Column(
+                                                                                                    children: [
+                                                                                                      Column(children: [
+                                                                                                        ElevatedButton(
+                                                                                                          onPressed: () {
+                                                                                                            Navigator.of(context).pop();
+                                                                                                          },
+                                                                                                          child: Text(
+                                                                                                            "Ok",
+                                                                                                            style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                                          ),
+                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                            backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                                            shape: RoundedRectangleBorder(
+                                                                                                              borderRadius: BorderRadius.circular(8),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        )
+                                                                                                      ]),
+                                                                                                    ],
+                                                                                                  )),
+                                                                                            ],
+                                                                                          ));
+                                                                                }
+                                                                              },
+                                                                              child: Text(
+                                                                                "Ja",
+                                                                                style: TextStyle(color: Theme.of(context).focusColor),
+                                                                              ),
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Spacer(),
+                                                                            ElevatedButton(
+                                                                              onPressed: () {
+                                                                                Navigator.of(context).pop();
+                                                                              },
+                                                                              child: Text(
+                                                                                "Nein",
+                                                                                style: TextStyle(color: Theme.of(context).focusColor),
+                                                                              ),
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ]),
+                                                                    ],
+                                                                  )),
+                                                            ],
+                                                          ));
                                             },
                                             child: Text(
                                               "Karte löschen",

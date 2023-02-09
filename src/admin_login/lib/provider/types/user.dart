@@ -6,25 +6,30 @@ import 'package:admin_login/config/adress.dart' as adres;
 
 class Users {
   String email;
+  String storage;
   bool privileged;
 
   Users({
     required this.email,
+    required this.storage,
     required this.privileged,
   });
 
   factory Users.fromJson(Map<String, dynamic> json) {
     return Users(
       email: json['email'] ?? "",
+      storage: json['storage'] ?? "",
       privileged: json['privileged'] ?? false,
     );
   }
   Map<String, dynamic> toJson() => {
+        'email': email,
         'privileged': privileged,
+        'storage': storage,
       };
 }
 
-Future<List<Users>> fetchData() async {
+Future<List<Users>> fetchUsers() async {
   final response = await http.get(
     Uri.parse(adres.usersAdress),
     headers: {
@@ -39,7 +44,7 @@ Future<List<Users>> fetchData() async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return fetchData();
+    return fetchUsers();
   } else {
     throw Exception('Failed to get Users!');
   }
@@ -84,5 +89,29 @@ Future<dynamic> deleteData(String email) async {
     return deleteData(email);
   } else {
     throw Exception('Failed to delete User!');
+  }
+}
+
+Future<int> addUser(Map<String, dynamic> data) async {
+  final http.Response response = await http.post(
+    Uri.parse(adres.usersAdress),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Content-Type": "application/json"
+    },
+    body: jsonEncode(data),
+  );
+
+  if (response.statusCode == 200) {
+    return response.statusCode;
+  } else if (response.statusCode == 400) {
+    return response.statusCode;
+  } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
+    SecureStorage.setToken();
+    return addUser(data);
+  } else {
+    throw Exception('Failed to add User!');
   }
 }

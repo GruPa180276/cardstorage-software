@@ -18,7 +18,7 @@ class _StorageViewState extends State<UsersSettings> {
   TextEditingController txtQuery = new TextEditingController();
 
   void loadData() async {
-    await fetchData().then((value) => listOfCards = value);
+    await fetchUsers().then((value) => listOfCards = value);
 
     persons = listOfCards;
     original = listOfCards;
@@ -194,6 +194,7 @@ class _StorageViewState extends State<UsersSettings> {
                                                   onPressed: () {
                                                     Users user = new Users(
                                                       email: person.email,
+                                                      storage: person.storage,
                                                       privileged: true,
                                                     );
 

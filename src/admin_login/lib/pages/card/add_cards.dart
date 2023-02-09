@@ -77,6 +77,7 @@ class _AddCardsState extends State<AddCards> {
   }
 }
 
+// ignore: must_be_immutable
 class GenerateInputFields extends StatefulWidget {
   String selectedStorage;
   final List<String> dropDownValues;

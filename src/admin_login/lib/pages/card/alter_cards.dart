@@ -104,6 +104,7 @@ class _CardSettingsState extends State<CardSettings> {
   }
 }
 
+// ignore: must_be_immutable
 class GetDataFromAPI extends StatefulWidget {
   String selectedStorage;
   final List<String> dropDownValues;

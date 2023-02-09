@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:admin_login/pages/user/users.dart';
 import 'package:admin_login/pages/card/add_cards.dart';
 import 'package:admin_login/pages/card/alter_cards.dart';
-import 'package:admin_login/pages/card/remove_cards.dart';
 
 import 'package:admin_login/pages/storage/add_storage.dart';
 import 'package:admin_login/pages/storage/alter_storage.dart';
-import 'package:admin_login/pages/storage/remove_storage.dart';
 
 import 'package:admin_login/pages/reservation/reservations.dart';
 
@@ -29,8 +27,6 @@ class RouteGenerator {
               builder: ((context) => CardSettings(cardName: args)));
         }
         return _errorRoute();
-      case '/removeCards':
-        return MaterialPageRoute(builder: ((context) => RemoveCards()));
 
       // Storage
       case '/addStorage':
@@ -41,8 +37,6 @@ class RouteGenerator {
               builder: ((context) => StorageSettings(storage: args)));
         }
         return _errorRoute();
-      case '/removeStorage':
-        return MaterialPageRoute(builder: ((context) => RemoveStorage()));
 
       //Settings
       case '/settings':

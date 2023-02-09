@@ -35,8 +35,20 @@ Future main() async {
   runApp(AppStart());
 }
 
-// Check that Storage is empty -> When deletion
-// all reservation delete
+// Formulate Error Message when deleting Storage.
+// - There could be open Reservations
+// - There could be cards left
+// - ...
+
+// Formulate Error Message when deleting Cards.
+// - There could be open Reservations
+// - ...
+
+// Change Text of Cards Page Verfügbar - true to something else
+// Change Text of Storage Focus Verfügbar - true to something else
+
+// Use diffrent Sucsess Message PopUp
+// Use diffrent Error Message PopUp
 
 // Change app icon -> pubsec.yaml
 // https://pub.dev/packages/flutter_launcher_icons

@@ -352,6 +352,12 @@ Heute wurde der RequestTimer bei der DisplayApp erstellt falls eine Mqttnachrich
 **2023-02-01: 18:00-> 20:00**
 Heute musste ich ein paar Fehler beheben. Zunaechst wurde etwas beim Login geaendert. Danach leoste ich die Problems die mir VsCode anzeigte.
 
+**2023-02-07: 18:00-> 22:00**
+Es wurde der neue Websocket von Herrn Mayrhofer bei der DisplayApp implementiert. Da Herr Mayrhofer die Authentifizierung hinzufügte musste ich mir ein Konzept überlegen um nicht bei jeder Methode den Zustand des Tokens zu überprüfen. Lösung war eine Middleware welche die Funktion für den Api Aufruf und Argumente als Pramamete hatte.
+
+
+**2023-02-07: 19:00-> 00:00**
+Heute wurde der Login vollständig überarbeitet. Es wurde eine Klasse SessionUser erstellt. Diese Klasse bekommt bei jeder ANmeldung die entsprechenden Datan übergeben. Aufgrund eines Videos auf Youtube überarbeitete ich ebenfalls die Strukur des Projekts. Es wurden für KinderWidgets Inheritated Widgets verwendet welche sozusagen als Middleware zwischen Eltern und Kinder Widgets dient
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -419,19 +425,19 @@ Heute musste ich ein paar Fehler beheben. Zunaechst wurde etwas beim Login geaen
 - 10:00 bis 14:25 Uhr
 - 10:00 bis 12:00 Uhr
 - 15:00 bis 16:00 Uhr
-- 09:00 bis 13:00 Uhr
+- 9:00 bis 13:00 Uhr
 - 10:00 bis 17:15 Uhr
-- 09:50 bis 13:50 Uhr
+- 9:50 bis 13:50 Uhr
 - 10:00 bis 13:00 Uhr
 - 12:00 bis 14:00 Uhr
-- 09:30 bis 13:40 Uhr
+- 9:30 bis 13:40 Uhr
 - 16:30 bis 17:40 Uhr
 - 18:00 bis 19:30 Uhr
 - 13:00 bis 18:00 Uhr
 - 10:00 bis 13:00 Uhr
 - 18:00 bis 21:45 Uhr
 - 20:00 bis 23:30 Uhr
-- 09:00 bis 11:00 Uhr
+- 9:00 bis 11:00 Uhr
 - 17:00 bis 20:30 Uhr
 - 20:00 bis 23:10 Uhr
 - 09:00 bis 14:00 Uhr
@@ -442,10 +448,13 @@ Heute musste ich ein paar Fehler beheben. Zunaechst wurde etwas beim Login geaen
 - 10:00 bis 11:00 Uhr
 - 11:00 bis 12:00 Uhr
 - 13:00 bis 17:00 Uhr
-- 08:15 bis 13:00 Uhr
+- 8:15 bis 13:00 Uhr
 - 14:00 bis 18:00 Uhr
 - 20:00 bis 21:40 Uhr
 - 15:00 bis 19:00 Uhr
 - 18:00 bis 20:00 Uhr
+- 18:00 bis 22:00 Uhr
+- 19:00 bis 00:00 Uhr
+
 <!-- { "progress": false } -->
 

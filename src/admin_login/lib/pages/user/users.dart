@@ -272,7 +272,7 @@ class _StorageViewState extends State<UsersSettings> {
                                                                             children: [
                                                                               ElevatedButton(
                                                                                 onPressed: () {
-                                                                                  deleteData(mail);
+                                                                                  deleteUser(mail);
 
                                                                                   Navigator.of(context).pop();
                                                                                 },

@@ -1,4 +1,5 @@
 import 'package:admin_login/pages/widget/createStorage.dart';
+import 'package:admin_login/provider/types/user.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_login/provider/types/storages.dart';
 
@@ -171,7 +172,58 @@ class _GenerateCardState extends State<GenerateStorage> {
                                                                                 Future<int> code = deleteStorage(widget.data![widget.index].name);
 
                                                                                 if (await code == 200) {
-                                                                                  Navigator.of(context).pop();
+                                                                                  code = deleteUser(widget.data![widget.index].name.toString().toLowerCase() + "@default.com");
+                                                                                  if (await code == 200) {
+                                                                                    Navigator.of(context).pop();
+                                                                                  }
+                                                                                  if (await code == 400) {
+                                                                                    Navigator.of(context).pop();
+                                                                                    showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) => AlertDialog(
+                                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                                                              title: Text(
+                                                                                                'Storage aktualisieren',
+                                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                              ),
+                                                                                              content: new Column(
+                                                                                                mainAxisSize: MainAxisSize.min,
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: <Widget>[
+                                                                                                  Text(
+                                                                                                    "Es ist ein Fehler beim aktualisieren des Storages aufgetreten!",
+                                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              actions: <Widget>[
+                                                                                                Container(
+                                                                                                    padding: EdgeInsets.all(10),
+                                                                                                    height: 70,
+                                                                                                    child: Column(
+                                                                                                      children: [
+                                                                                                        Column(children: [
+                                                                                                          ElevatedButton(
+                                                                                                            onPressed: () {
+                                                                                                              Navigator.of(context).pop();
+                                                                                                            },
+                                                                                                            child: Text(
+                                                                                                              "Ok",
+                                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                                            ),
+                                                                                                            style: ElevatedButton.styleFrom(
+                                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                borderRadius: BorderRadius.circular(8),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          )
+                                                                                                        ]),
+                                                                                                      ],
+                                                                                                    )),
+                                                                                              ],
+                                                                                            ));
+                                                                                  }
                                                                                 }
                                                                                 if (await code == 400) {
                                                                                   Navigator.of(context).pop();
@@ -180,7 +232,7 @@ class _GenerateCardState extends State<GenerateStorage> {
                                                                                       builder: (BuildContext context) => AlertDialog(
                                                                                             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                                                                             title: Text(
-                                                                                              'Storage anlegen',
+                                                                                              'Storage aktualisieren',
                                                                                               style: TextStyle(color: Theme.of(context).primaryColor),
                                                                                             ),
                                                                                             content: new Column(

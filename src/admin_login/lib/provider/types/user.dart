@@ -72,7 +72,7 @@ Future<dynamic> updateData(String email, Map<String, dynamic> data) async {
   }
 }
 
-Future<dynamic> deleteData(String email) async {
+Future<int> deleteUser(String email) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.usersAdress + "/email/" + email),
     headers: {
@@ -82,11 +82,13 @@ Future<dynamic> deleteData(String email) async {
     },
   );
   if (response.statusCode == 200) {
-    return Users.fromJson(json.decode(response.body));
+    return response.statusCode;
+  } else if (response.statusCode == 400) {
+    return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return deleteData(email);
+    return deleteUser(email);
   } else {
     throw Exception('Failed to delete User!');
   }

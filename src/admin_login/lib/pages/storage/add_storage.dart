@@ -168,7 +168,7 @@ class _InputFieldsState extends State<InputFields> {
                               Navigator.of(context).pop();
                             }
                             if (await code == 400) {
-                              deleteData(
+                              code = deleteUser(
                                   stor.name.toLowerCase() + "@default.com");
                               showDialog(
                                   context: context,

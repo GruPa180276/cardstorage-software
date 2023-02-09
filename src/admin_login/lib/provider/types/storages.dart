@@ -151,7 +151,7 @@ Future<int> deleteStorage(String name) async {
   );
   if (response.statusCode == 200) {
     return response.statusCode;
-  } else if (response.statusCode == 200) {
+  } else if (response.statusCode == 400) {
     return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));

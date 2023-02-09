@@ -191,17 +191,157 @@ class _StorageViewState extends State<UsersSettings> {
                                             children: [
                                               Row(children: [
                                                 ElevatedButton(
-                                                  onPressed: () {
+                                                  onPressed: () async {
                                                     Users user = new Users(
                                                       email: person.email,
                                                       storage: person.storage,
                                                       privileged: true,
                                                     );
 
-                                                    updateData(person.email,
-                                                        user.toJson());
+                                                    Future<int> code =
+                                                        updateData(person.email,
+                                                            user.toJson());
 
-                                                    Navigator.of(context).pop();
+                                                    if (await code == 200) {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              AlertDialog(
+                                                                backgroundColor:
+                                                                    Theme.of(
+                                                                            context)
+                                                                        .scaffoldBackgroundColor,
+                                                                title: Text(
+                                                                  'Priviledge User',
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .primaryColor),
+                                                                ),
+                                                                content:
+                                                                    new Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                      "User ist jetzt Admin!",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Theme.of(context).primaryColor),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                actions: <
+                                                                    Widget>[
+                                                                  Container(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              10),
+                                                                      height:
+                                                                          70,
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Row(children: [
+                                                                            ElevatedButton(
+                                                                              onPressed: () {
+                                                                                Navigator.of(context).pop();
+                                                                              },
+                                                                              child: Text(
+                                                                                "Finish",
+                                                                                style: TextStyle(color: Theme.of(context).focusColor),
+                                                                              ),
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ]),
+                                                                        ],
+                                                                      )),
+                                                                ],
+                                                              ));
+                                                    }
+                                                    if (await code == 400) {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              AlertDialog(
+                                                                backgroundColor:
+                                                                    Theme.of(
+                                                                            context)
+                                                                        .scaffoldBackgroundColor,
+                                                                title: Text(
+                                                                  'Privilege User',
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .primaryColor),
+                                                                ),
+                                                                content:
+                                                                    new Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                      "Es ist ein Fehler aufgetreten!",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Theme.of(context).primaryColor),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                actions: <
+                                                                    Widget>[
+                                                                  Container(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              10),
+                                                                      height:
+                                                                          70,
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Row(children: [
+                                                                            ElevatedButton(
+                                                                              onPressed: () {
+                                                                                Navigator.of(context).pop();
+                                                                              },
+                                                                              child: Text(
+                                                                                "Finish",
+                                                                                style: TextStyle(color: Theme.of(context).focusColor),
+                                                                              ),
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ]),
+                                                                        ],
+                                                                      )),
+                                                                ],
+                                                              ));
+                                                    }
                                                   },
                                                   child: Text(
                                                     "Ja",
@@ -235,7 +375,7 @@ class _StorageViewState extends State<UsersSettings> {
                                                                           context)
                                                                       .scaffoldBackgroundColor,
                                                               title: Text(
-                                                                'Storage löschen',
+                                                                'User löschen',
                                                                 style: TextStyle(
                                                                     color: Theme.of(
                                                                             context)
@@ -271,10 +411,106 @@ class _StorageViewState extends State<UsersSettings> {
                                                                         Row(
                                                                             children: [
                                                                               ElevatedButton(
-                                                                                onPressed: () {
-                                                                                  deleteUser(mail);
+                                                                                onPressed: () async {
+                                                                                  Future<int> code = deleteUser(mail);
 
-                                                                                  Navigator.of(context).pop();
+                                                                                  if (await code == 200) {
+                                                                                    Navigator.of(context).pop();
+                                                                                    showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) => AlertDialog(
+                                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                                                              title: Text(
+                                                                                                'Delete User',
+                                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                              ),
+                                                                                              content: new Column(
+                                                                                                mainAxisSize: MainAxisSize.min,
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: <Widget>[
+                                                                                                  Text(
+                                                                                                    "User ist gelöscht!",
+                                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              actions: <Widget>[
+                                                                                                Container(
+                                                                                                    padding: EdgeInsets.all(10),
+                                                                                                    height: 70,
+                                                                                                    child: Column(
+                                                                                                      children: [
+                                                                                                        Row(children: [
+                                                                                                          ElevatedButton(
+                                                                                                            onPressed: () {
+                                                                                                              Navigator.of(context).pop();
+                                                                                                            },
+                                                                                                            child: Text(
+                                                                                                              "Finish",
+                                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                                            ),
+                                                                                                            style: ElevatedButton.styleFrom(
+                                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                borderRadius: BorderRadius.circular(8),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ]),
+                                                                                                      ],
+                                                                                                    )),
+                                                                                              ],
+                                                                                            ));
+                                                                                  }
+                                                                                  if (await code == 400) {
+                                                                                    Navigator.of(context).pop();
+                                                                                    showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) => AlertDialog(
+                                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                                                              title: Text(
+                                                                                                'Delete User',
+                                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                              ),
+                                                                                              content: new Column(
+                                                                                                mainAxisSize: MainAxisSize.min,
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: <Widget>[
+                                                                                                  Text(
+                                                                                                    "Es ist ein Fehler aufgetreten!",
+                                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              actions: <Widget>[
+                                                                                                Container(
+                                                                                                    padding: EdgeInsets.all(10),
+                                                                                                    height: 70,
+                                                                                                    child: Column(
+                                                                                                      children: [
+                                                                                                        Row(children: [
+                                                                                                          ElevatedButton(
+                                                                                                            onPressed: () {
+                                                                                                              Navigator.of(context).pop();
+                                                                                                            },
+                                                                                                            child: Text(
+                                                                                                              "Finish",
+                                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                                            ),
+                                                                                                            style: ElevatedButton.styleFrom(
+                                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                borderRadius: BorderRadius.circular(8),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ]),
+                                                                                                      ],
+                                                                                                    )),
+                                                                                              ],
+                                                                                            ));
+                                                                                  }
+                                                                                  ;
                                                                                 },
                                                                                 child: Text(
                                                                                   "Ja",

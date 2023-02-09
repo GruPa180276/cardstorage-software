@@ -58,7 +58,7 @@ Future<List<ReservationOfCards>> fetchData() async {
   }
 }
 
-Future<ReservationOfCards> deleteReservation(int id) async {
+Future<int> deleteReservation(int id) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.reservationAdress + "/id/" + id.toString()),
     headers: {
@@ -68,7 +68,9 @@ Future<ReservationOfCards> deleteReservation(int id) async {
     },
   );
   if (response.statusCode == 200) {
-    return ReservationOfCards.fromJson(json.decode(response.body));
+    return response.statusCode;
+  } else if (response.statusCode == 400) {
+    return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();

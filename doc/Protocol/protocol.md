@@ -317,6 +317,9 @@ Habe an der Doku wietergeschriben. Habe die Technolgien der Admin App verfasst u
 **8.2.2023: 15:30 bis 20:30** <br>
 Habe heute Error Handling auf der Storage Seite hinzugefügt. Es wird überprüft, ob der jeweilge Storage bereits vorhanden ist und dann angezeigt. Wenn bei der Übetragung an die DB etwas schief geht, wird dies auch angezeigt. (5h)
 
+**9.2.2023: 17:00 bis 20:15** <br>
+Habe heute als erstes den Default User option hinzugefügt, das bei jedem Storage ein User für Patrick angelegt wird. Danach habe ich das Error Handling erweitert. Es werden jetzt praktische alle Fehler in irgendeinerweiße gehendelt und dem User angezeigt z.B: Es können keine Felder beim anlegen leergelassen werden, es wird geprüft das der Storage / Karten Name noch nicht exisitiert und ob gegenüber der API ein Fehler aufgetreten ist. Dazu werden die API Error Codes ausgewertet (200 = OK, 400 = Error, 401 = Ungültiger Token). (3h 10min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -410,4 +413,5 @@ Habe heute Error Handling auf der Storage Seite hinzugefügt. Es wird überprüf
 - 17:00 bis 19:30 Uhr
 - 17:30 bis 19:00 Uhr
 - 15:30 bis 20:30 Uhr
+- 17:00 bis 20:15 Uhr
 <!-- { "progress": false } -->

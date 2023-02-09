@@ -119,7 +119,7 @@ Future<Storages> getUnfocusedStorage(String name) async {
   }
 }
 
-Future<Storages> focusStorage(String name) async {
+Future<int> focusStorage(String name) async {
   final http.Response response = await http.put(
     Uri.parse(adres.storageAdress + "/focus/name/" + name),
     headers: {
@@ -130,7 +130,9 @@ Future<Storages> focusStorage(String name) async {
   );
 
   if (response.statusCode == 200) {
-    return Storages.fromJson(json.decode(response.body));
+    return response.statusCode;
+  } else if (response.statusCode == 400) {
+    return response.statusCode;
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();

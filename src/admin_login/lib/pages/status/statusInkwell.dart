@@ -128,7 +128,7 @@ class _GenerateCardState extends State<GenerateStatus> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Sie könnnen folgende Änderungen an dem Storage vornehmen:",
+                                    "Sie könnnen folgende Aktionen an einem Storage vornehmen:",
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor),
                                   ),
@@ -141,10 +141,149 @@ class _GenerateCardState extends State<GenerateStatus> {
                                       children: [
                                         Row(children: [
                                           ElevatedButton(
-                                            onPressed: () {
-                                              focusStorage(
+                                            onPressed: () async {
+                                              Future<int> code = focusStorage(
                                                 widget.data![widget.index].name,
                                               );
+
+                                              if (await code == 200) {
+                                                Navigator.of(context).pop();
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext
+                                                                context) =>
+                                                            AlertDialog(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .scaffoldBackgroundColor,
+                                                              title: Text(
+                                                                'Focus Storage',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor),
+                                                              ),
+                                                              content:
+                                                                  new Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                    "Storage wurde gefocused!",
+                                                                    style: TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: <Widget>[
+                                                                Container(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            10),
+                                                                    height: 70,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Row(
+                                                                            children: [
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                                child: Text(
+                                                                                  "Finish",
+                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                ),
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ]),
+                                                                      ],
+                                                                    )),
+                                                              ],
+                                                            ));
+                                              }
+                                              if (await code == 400) {
+                                                Navigator.of(context).pop();
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext
+                                                                context) =>
+                                                            AlertDialog(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .scaffoldBackgroundColor,
+                                                              title: Text(
+                                                                'Focus Storage',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor),
+                                                              ),
+                                                              content:
+                                                                  new Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                    "Es ist ein Fehler aufgetreten!",
+                                                                    style: TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: <Widget>[
+                                                                Container(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            10),
+                                                                    height: 70,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Row(
+                                                                            children: [
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                                child: Text(
+                                                                                  "Finish",
+                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                ),
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ]),
+                                                                      ],
+                                                                    )),
+                                                              ],
+                                                            ));
+                                              }
                                             },
                                             child: Text(
                                               "Focus",
@@ -163,8 +302,147 @@ class _GenerateCardState extends State<GenerateStatus> {
                                           ),
                                           Spacer(),
                                           ElevatedButton(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               pingNow();
+
+                                              if (ping.time > 0) {
+                                                Navigator.of(context).pop();
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext
+                                                                context) =>
+                                                            AlertDialog(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .scaffoldBackgroundColor,
+                                                              title: Text(
+                                                                'Erfolgreich',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor),
+                                                              ),
+                                                              content:
+                                                                  new Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                    "Storage wurde gepinged!",
+                                                                    style: TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: <Widget>[
+                                                                Container(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            10),
+                                                                    height: 70,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Row(
+                                                                            children: [
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                                child: Text(
+                                                                                  "Finish",
+                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                ),
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ]),
+                                                                      ],
+                                                                    )),
+                                                              ],
+                                                            ));
+                                              }
+                                              if (ping.time == 0) {
+                                                Navigator.of(context).pop();
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext
+                                                                context) =>
+                                                            AlertDialog(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .scaffoldBackgroundColor,
+                                                              title: Text(
+                                                                'Ping Storage',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor),
+                                                              ),
+                                                              content:
+                                                                  new Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                    "Es ist ein Fehler aufgetreten!",
+                                                                    style: TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: <Widget>[
+                                                                Container(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            10),
+                                                                    height: 70,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Row(
+                                                                            children: [
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                                child: Text(
+                                                                                  "Finish",
+                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
+                                                                                ),
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ]),
+                                                                      ],
+                                                                    )),
+                                                              ],
+                                                            ));
+                                              }
                                             },
                                             child: Text(
                                               "Ping",

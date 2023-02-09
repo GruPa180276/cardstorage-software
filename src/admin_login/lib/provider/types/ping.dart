@@ -25,7 +25,7 @@ class Ping {
       };
 }
 
-Future<Ping> pingStorage(String name) async {
+Future<dynamic> pingStorage(String name) async {
   final response = await http.get(
     Uri.parse(adres.pingAdress + "/ping/name/" + name),
     headers: {
@@ -37,6 +37,9 @@ Future<Ping> pingStorage(String name) async {
   if (response.statusCode == 200) {
     dynamic jsonResponse = json.decode(response.body);
     return Ping.fromJson(jsonResponse);
+  }
+  if (response.statusCode == 400) {
+    return Ping.fromJson(response.statusCode);
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();

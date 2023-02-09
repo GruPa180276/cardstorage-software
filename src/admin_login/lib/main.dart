@@ -35,6 +35,10 @@ Future main() async {
   runApp(AppStart());
 }
 
+// Refactor
+
+// Check for Typos
+
 // Formulate Error Message when deleting Storage.
 // - There could be open Reservations
 // - There could be cards left

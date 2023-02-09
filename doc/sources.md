@@ -100,3 +100,8 @@
 - https://stackoverflow.com/questions/69663243/could-not-create-task-this-and-base-files-have-different-roots
 - https://stackoverflow.com/questions/53834085/not-able-to-sync-dependency-in-build-gradle-in-flutter
 - https://stackoverflow.com/questions/13110542/how-to-get-a-timestamp-in-dart
+- https://flutterforyou.com/how-to-validate-text-input-forms-in-flutter/
+- https://stackoverflow.com/questions/54925779/textformfield-validator-not-working-the-method-validate-was-called-on-null
+- https://stackoverflow.com/questions/43214271/how-do-i-supply-an-initial-value-to-a-text-field
+- https://stackoverflow.com/questions/68298643/flutter-initialvalue-null-controller-null-is-not-true
+- https://stackoverflow.com/questions/59929613/convert-futureint-to-int-in-flutter-dart

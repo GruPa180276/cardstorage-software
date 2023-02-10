@@ -1,6 +1,5 @@
 import 'package:card_master/admin/provider/types/auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:card_master/client/provider/session_user.dart';
 
 class SecureStorage {
   static const storage = FlutterSecureStorage();

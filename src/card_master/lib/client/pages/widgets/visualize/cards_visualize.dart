@@ -167,7 +167,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             reloadPinned: _reloadPinnedList,
                             reloadCard: _reloadReaderCards,
                             setState: setState,
-                            child: CardView(),
+                            child: FavoriteView(),
                           );
 
                         //users.map((e) => e.cards).toList()

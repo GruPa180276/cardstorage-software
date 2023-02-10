@@ -107,13 +107,14 @@ class RequestTimer {
                       onStart: () async {
                         //maybe you need threading
                         if (action == TimerAction.GETCARD) {
-                          var response = await Data.postGetCardNow(
-                              {"cardname": card!.name, "email": email!});
+                          var response = await Data.check(
+                              Data.postGetCardNow, {"cardname": card!.name});
                           if (response.statusCode != 200) {
                             Navigator.maybePop(context);
                           }
                         } else if (action == TimerAction.SIGNUP) {
-                          var response = await Data.postCreateNewUser(
+                          var response = await Data.check(
+                              Data.postCreateNewUser,
                               {"storagename": storagename!, "email": email!});
                           if (response.statusCode != 200) {
                             Navigator.maybePop(context);

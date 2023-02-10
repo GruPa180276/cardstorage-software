@@ -96,6 +96,7 @@ class SessionUser {
         if (isRegistered) //api get// see if user is registered
         {
           SessionUser.fromJson(apiJsonObject, mircosoftJsonObject);
+          print(SessionUser.getEmail());
           if (rememberValue) {
             UserSecureStorage.setUserValues(apiJsonObject, mircosoftJsonObject);
             UserSecureStorage.setRememberState(rememberValue.toString());

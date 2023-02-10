@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:card_master/client/domain/app_preferences.dart';
-import 'package:card_master/client/domain/authentication/authentication.dart';
-import 'package:card_master/client/pages/login/login_user_page.dart';
 import 'package:card_master/client/pages/account/account_page.dart';
 import 'package:card_master/client/provider/session_user.dart';
 import 'package:card_master/client/provider/theme_provider.dart';
@@ -29,24 +28,14 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 100,
-          bottomOpacity: 0.0,
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          title: Text("Einstellungen",
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w900,
-                  color: Theme.of(context).primaryColor)),
-        ),
+        appBar: CustomAppBar(title: 'Einstellungen'),
         body: Container(
           color: Theme.of(context).cardColor,
           child: Table(
             border: TableBorder.all(color: Theme.of(context).dividerColor),
             children: [
               TableRow(children: [
-                buildSettingsButton("Benachrichtigungen", Icons.notifications,
+                buildSettingsButton("Benachrichstigungen", Icons.notifications,
                     () {
                   AppSettings.openNotificationSettings();
                 }),

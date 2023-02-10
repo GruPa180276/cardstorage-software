@@ -50,7 +50,6 @@ class Data {
           "Accept": "application/json",
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
         });
-    ;
   }
 
   static Future<Response?> getUserData(Map<String, String> args) async {
@@ -64,7 +63,7 @@ class Data {
   static Future<Response?> getAllReservationUser() async {
     return await get(
         Uri.parse(
-            "${uriRaspi}storages/cards/reservations/details/user/email/${await UserSecureStorage.getUserEmail()}"),
+            "${uriRaspi}storages/cards/reservations/details/user/email/${SessionUser.getEmail()}"),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
           "Accept": "application/json"
@@ -84,7 +83,7 @@ class Data {
   static Future<Response> postGetCardNow(Map<String, dynamic> args) async {
     return put(
         Uri.parse(
-            '${uriRaspi}storages/cards/name/${args["cardname"]}/fetch/user/email/${args["email"]}'),
+            '${uriRaspi}storages/cards/name/${args["cardname"]}/fetch/user/email/${SessionUser.getEmail()}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
@@ -105,10 +104,9 @@ class Data {
 
   static Future<Response> newReservation(Map<String, dynamic> args) async {
     //		"/api/users/reservations/email/USER@PROVIDER.COM"
-    print(await UserSecureStorage.getUserEmail());
     return await post(
         Uri.parse(
-            "${uriRaspi}users/reservations/email/${await UserSecureStorage.getUserEmail()}"),
+            "${uriRaspi}users/reservations/email/${SessionUser.getEmail()}"),
         headers: {
           "Content-Type": "application/json",
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
@@ -123,7 +121,6 @@ class Data {
   }
 
   static Future<Response> deleteReservation(Map<String, dynamic> args) async {
-    //https://localhost :7171/api/users/reservations/email/40146720180276@litec.ac.at
     var reservationResponse = await delete(
       Uri.parse(
           "${uriRaspi}storages/cards/reservations/id/${args["reservationid"]}"),
@@ -137,8 +134,6 @@ class Data {
   }
 
   static Future<void> _generateToken() async {
-    print(Uri.parse(
-        "${uriRaspi}auth${(SessionUser.getEmail() == null) ? "" : "/user/email/${SessionUser.getEmail()}"}"));
     var response = await get(
         Uri.parse(
             "${uriRaspi}auth${(SessionUser.getEmail() == null) ? "" : "/user/email/${SessionUser.getEmail()}"}"),

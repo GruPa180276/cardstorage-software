@@ -149,6 +149,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
 
   void sigIn() async {
     var loginStatus = await SessionUser.login(rememberValue);
+    print(SessionUser.getEmail());
     if (loginStatus != null) {
       switch (loginStatus.item1) {
         case LoginStatusType.ALREADYLOGGEDIN:

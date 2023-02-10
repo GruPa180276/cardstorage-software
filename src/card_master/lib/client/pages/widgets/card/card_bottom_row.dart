@@ -5,7 +5,7 @@ import 'package:card_master/client/domain/authentication/user_secure_storage.dar
 import 'package:card_master/client/domain/enums/timer_actions_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/request_timer.dart';
 import 'package:card_master/client/pages/widgets/pop_up/reservate_popup.dart';
-import 'package:card_master/client/pages/widgets/widget/cards/card_button.dart';
+import 'package:card_master/client/pages/widgets/card/card_button.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 
 class ReaderCardButtons extends StatelessWidget {
@@ -54,10 +54,10 @@ class ReaderCardButtons extends StatelessWidget {
                       onPress: () async {
                         try {
                           var reqTimer = RequestTimer(
-                              context: context,
-                              action: TimerAction.GETCARD,
-                              card: card,
-                              email: await UserSecureStorage.getUserEmail());
+                            context: context,
+                            action: TimerAction.GETCARD,
+                            card: card,
+                          );
                           await reqTimer.startTimer();
                           if (reqTimer.getSuccessful()) {
                             setState!(

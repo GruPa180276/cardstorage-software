@@ -1,10 +1,14 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:card_master/client/domain/enums/cardpage_type.dart';
+import 'package:card_master/client/pages/widgets/inherited/cards_text_inherited.dart';
+import 'package:card_master/client/pages/widgets/views/favorite_view.dart';
+import 'package:card_master/client/pages/widgets/card/card_text_view.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
-import 'package:card_master/client/pages/widgets/widget/cards/email_button.dart';
-import 'package:card_master/client/pages/widgets/widget/cards/favorite_button.dart';
-import 'package:card_master/client/pages/widgets/widget/cards/card_bottom_row.dart';
+import 'package:card_master/client/pages/widgets/widget/buttons/email_button.dart';
+import 'package:card_master/client/pages/widgets/card/favorite_button.dart';
+import 'package:card_master/client/pages/widgets/card/card_bottom_row.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 
 class CardView extends StatelessWidget {
@@ -35,7 +39,9 @@ class CardView extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        _buildCardsText(context, data.readercards[index]),
+                        //FavoriteView().buildCardsText(context, data.readercards[index]),
+                        CardTextData(data.pinnedCards, data.reloadPinned,
+                            card: data.readercards[index], child: TextView())
                       ]),
                       ReaderCardButtons(
                           card: data.readercards[index],
@@ -44,70 +50,6 @@ class CardView extends StatelessWidget {
                     ]))
                 : Container();
           }),
-    );
-  }
-
-  Widget _buildCardsText(BuildContext context, ReaderCard card) {
-    return Expanded(
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-            child: Table(
-              //border: TableBorder.all(),
-
-              columnWidths: const <int, TableColumnWidth>{
-                0: FractionColumnWidth(0.59),
-                1: FractionColumnWidth(0.4),
-              },
-
-              children: [
-                TableRow(
-                  children: [
-                    const TableCell(child: Text("Name:")),
-                    TableCell(child: Text(card.name))
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    const TableCell(child: Text("Storage:")),
-                    TableCell(child: Text(card.storageName!))
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    const TableCell(child: Text("Verfuegbar:")),
-                    TableCell(
-                      child: Text(
-                        card.available.toString(),
-                        style: TextStyle(
-                            color:
-                                (!card.available) ? Colors.red : Colors.green,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    const TableCell(child: Text("Position:")),
-                    TableCell(
-                      child: Text(
-                        card.position.toString(),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          FavoriteButton(
-              card: card,
-              reloadPinned: data.reloadPinned,
-              pinnedCards: data.pinnedCards),
-          EmailButton(card: card)
-        ],
-      ),
     );
   }
 }

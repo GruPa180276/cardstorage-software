@@ -4,7 +4,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:card_master/client/domain/local_notification.dart';
-import 'package:card_master/client/pages/widgets/widget/cards/card_button.dart';
+import 'package:card_master/client/pages/widgets/card/card_button.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 
 import 'package:card_master/client/provider/rest/types/reservation.dart';

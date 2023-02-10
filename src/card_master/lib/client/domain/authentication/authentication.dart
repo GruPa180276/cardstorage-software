@@ -1,6 +1,5 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:aad_oauth/model/config.dart';
-import 'package:card_master/main.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:card_master/main.dart';
@@ -21,3 +20,8 @@ class AadAuthentication {
     navigatorKey: MyApp.navigatorKey,
   );
 }
+
+
+// class MyApp {
+//  static var navigatorKey;
+// }

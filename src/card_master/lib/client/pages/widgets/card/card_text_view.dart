@@ -14,32 +14,54 @@ class TextView extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 12, 70, 0),
             child: Table(
               //border: TableBorder.all(),
-
-              columnWidths: const <int, TableColumnWidth>{
-                0: FractionColumnWidth(0.59),
-                1: FractionColumnWidth(0.4),
-              },
 
               children: [
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Name:")),
-                    TableCell(child: Text(data.card.name))
+                    const SizedBox(
+                        width: double.infinity,
+                        height: 25,
+                        child: Text(
+                          "Name:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 25,
+                        child: Text(data.card.name, textAlign: TextAlign.right))
                   ],
                 ),
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Storage:")),
-                    TableCell(child: Text(data.card.storageName!))
+                    const SizedBox(
+                        width: double.infinity,
+                        height: 25,
+                        child: Text(
+                          "Storage:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 25,
+                        child: Text(data.card.storageName!,
+                            textAlign: TextAlign.right))
                   ],
                 ),
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Verfuegbar:")),
-                    TableCell(
+                    const SizedBox(
+                        width: double.infinity,
+                        height: 25,
+                        child: Text(
+                          "Verfuegbar:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 25,
                       child: Text(
                         data.card.available.toString(),
                         style: TextStyle(
@@ -47,16 +69,26 @@ class TextView extends StatelessWidget {
                                 ? Colors.red
                                 : Colors.green,
                             fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.right,
                       ),
                     )
                   ],
                 ),
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Position:")),
-                    TableCell(
+                    const SizedBox(
+                        width: double.infinity,
+                        height: 25,
+                        child: Text(
+                          "Position:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 25,
                       child: Text(
                         data.card.position.toString(),
+                        textAlign: TextAlign.right,
                       ),
                     )
                   ],

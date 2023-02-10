@@ -2,10 +2,7 @@ import 'package:card_master/client/pages/widgets/inherited/cards_text_inherited.
 import 'package:card_master/client/pages/widgets/card/card_text_view.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
-import 'package:card_master/client/pages/widgets/widget/buttons/email_button.dart';
-import 'package:card_master/client/pages/widgets/card/favorite_button.dart';
 import 'package:card_master/client/pages/widgets/card/card_bottom_row.dart';
-import 'package:card_master/client/provider/rest/types/readercard.dart';
 
 class FavoriteView extends StatelessWidget {
   late CardViewData data;

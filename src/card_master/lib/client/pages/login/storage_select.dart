@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
-import 'package:card_master/client/pages/cards/cards_page.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/client/provider/rest/types/storage.dart';

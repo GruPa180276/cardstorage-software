@@ -149,7 +149,6 @@ class RequestTimer {
   _streamListener() {
     channel!.stream.listen((message) async {
       _responseData = jsonDecode(message);
-      print(_responseData);
       _successful = _responseData!["successful"] ??
           _responseData!["status"]["successful"];
       i++;

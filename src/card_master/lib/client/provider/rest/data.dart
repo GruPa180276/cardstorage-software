@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
-import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
 import 'dart:async';
 
 import 'package:card_master/client/provider/session_user.dart';

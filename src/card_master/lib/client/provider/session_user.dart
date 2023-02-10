@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/authentication/authentication.dart';
 import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
@@ -96,7 +95,6 @@ class SessionUser {
         if (isRegistered) //api get// see if user is registered
         {
           SessionUser.fromJson(apiJsonObject, mircosoftJsonObject);
-          print(SessionUser.getEmail());
           if (rememberValue) {
             UserSecureStorage.setUserValues(apiJsonObject, mircosoftJsonObject);
             UserSecureStorage.setRememberState(rememberValue.toString());

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/enums/cardpage_type.dart';
-import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
 import 'package:card_master/client/pages/widgets/visualize/cards_visualize.dart';
 
 class FavoritePage extends StatefulWidget {

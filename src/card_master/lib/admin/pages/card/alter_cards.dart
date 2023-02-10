@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:flutter/material.dart';
 

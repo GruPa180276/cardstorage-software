@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
-import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
 import 'package:card_master/client/domain/validator.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
 import 'package:card_master/client/pages/widgets/widget/text_field.dart';

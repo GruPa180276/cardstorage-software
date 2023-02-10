@@ -2,15 +2,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/authentication/authentication.dart';
-import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
 import 'package:card_master/client/domain/enums/cardpage_type.dart';
 import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/views/favorite_view.dart';
 import 'package:card_master/client/pages/widgets/pop_up/bottom_filter.dart';
 import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
-import 'package:card_master/client/pages/login/login_user_page.dart';
 import 'package:card_master/client/pages/widgets/widget/connection_status_textfield.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/client/provider/rest/uitls.dart';
@@ -18,7 +15,6 @@ import 'package:card_master/client/provider/rest/types/readercard.dart';
 import 'package:card_master/client/pages/widgets/views/card_view.dart';
 import 'package:card_master/client/domain/app_preferences.dart';
 import 'package:card_master/client/provider/rest/types/storage.dart';
-import 'package:card_master/client/provider/session_user.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {
@@ -92,6 +88,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             child: TextField(
                 controller: searchController,
                 decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Karte suchen per Name',
                     border: OutlineInputBorder(
@@ -118,7 +115,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     CustomAppBar customAppBar =
         CustomAppBar(title: site.toString().replaceAll("CardPageTypes.", ""));
     var height = MediaQuery.of(context).size.height;
-    print(height);
     return Scaffold(
         appBar: customAppBar,
         body: Container(

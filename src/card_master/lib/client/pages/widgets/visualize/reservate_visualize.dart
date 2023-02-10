@@ -60,6 +60,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
             child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Karte suchen per Name',
                     border: OutlineInputBorder(

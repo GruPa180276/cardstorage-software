@@ -1,6 +1,4 @@
-import 'package:card_master/client/domain/enums/cardpage_type.dart';
 import 'package:flutter/material.dart';
-import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 
 class CardTextData extends InheritedWidget {

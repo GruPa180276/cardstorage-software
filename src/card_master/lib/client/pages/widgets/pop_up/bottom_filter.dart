@@ -22,6 +22,7 @@ class BottomSheetPop {
     listOfStorageId.insert(0, "alle");
     _valueStorage = listOfStorageId.first;
     return showModalBottomSheet(
+        isScrollControlled: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(30),
@@ -32,9 +33,12 @@ class BottomSheetPop {
           return StatefulBuilder(builder: (BuildContext context,
               StateSetter setState /*You can rename this!*/) {
             return Container(
-                height: 300,
+                height:
+                    (MediaQuery.of(context).orientation == Orientation.portrait)
+                        ? MediaQuery.of(context).size.height / 3.5
+                        : MediaQuery.of(context).size.width / 3.5,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
                 child: Column(children: [
                   const Text(
                     'Filter',
@@ -74,6 +78,7 @@ class BottomSheetPop {
                       )),
                       Expanded(
                         child: DropdownButton(
+                          isExpanded: true,
                           value: _valueAvailable,
                           items: listofAvailable.map((valueItem) {
                             return DropdownMenuItem(

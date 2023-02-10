@@ -58,46 +58,74 @@ class ReservationView extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+            padding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
             child: Table(
               //border: TableBorder.all(),
 
               columnWidths: const <int, TableColumnWidth>{
-                0: FractionColumnWidth(0.59),
-                1: FractionColumnWidth(0.4),
+                0: FractionColumnWidth(0.5),
+                1: FractionColumnWidth(0.5),
               },
 
               children: [
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Name:")),
-                    TableCell(child: Text(card.cardName!))
+                    const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          "Name:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                        width: double.infinity,
+                        child: Text(card.cardName!, textAlign: TextAlign.right))
                   ],
                 ),
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Storage:")),
-                    TableCell(child: Text(card.storageName!))
+                    const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          "Storage:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                        width: double.infinity,
+                        child:
+                            Text(card.storageName!, textAlign: TextAlign.right))
                   ],
                 ),
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Von:")),
-                    TableCell(
+                    const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          "Von:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                      width: double.infinity,
                       child: Text(
                         DateFormat('yyyy-MM-dd HH:mm')
                             .format(DateTime.fromMicrosecondsSinceEpoch(
                                 card.since * 1000000))
                             .toString(),
                         style: const TextStyle(color: Colors.red),
+                        textAlign: TextAlign.right,
                       ),
                     )
                   ],
                 ),
                 TableRow(
                   children: [
-                    const TableCell(child: Text("Bis:")),
-                    TableCell(
+                    const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          "Bis:",
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                      width: double.infinity,
                       child: Text(
                         (card.isreservation)
                             ? DateFormat('yyyy-MM-dd HH:mm')
@@ -106,6 +134,7 @@ class ReservationView extends StatelessWidget {
                                 .toString()
                             : "In Benutzung",
                         style: const TextStyle(color: Colors.green),
+                        textAlign: TextAlign.right,
                       ),
                     )
                   ],

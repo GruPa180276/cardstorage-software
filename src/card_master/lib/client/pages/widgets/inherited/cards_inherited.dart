@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:card_master/client/pages/widgets/widget/AppBar.dart';
+import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 
 class CardViewData extends InheritedWidget {

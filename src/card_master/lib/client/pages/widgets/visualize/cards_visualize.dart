@@ -9,7 +9,7 @@ import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/views/favorite_view.dart';
 import 'package:card_master/client/pages/widgets/pop_up/bottom_filter.dart';
-import 'package:card_master/client/pages/widgets/widget/AppBar.dart';
+import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
 import 'package:card_master/client/pages/login/login_user_page.dart';
 import 'package:card_master/client/pages/widgets/widget/connection_status_textfield.dart';
 import 'package:card_master/client/provider/rest/data.dart';
@@ -18,7 +18,7 @@ import 'package:card_master/client/provider/rest/types/readercard.dart';
 import 'package:card_master/client/pages/widgets/views/card_view.dart';
 import 'package:card_master/client/domain/app_preferences.dart';
 import 'package:card_master/client/provider/rest/types/storage.dart';
-import 'package:card_master/client/provider/sessionUser.dart';
+import 'package:card_master/client/provider/session_user.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {

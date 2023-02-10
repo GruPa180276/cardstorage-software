@@ -4,7 +4,7 @@ import 'package:card_master/client/domain/authentication/user_secure_storage.dar
 import 'package:card_master/client/domain/validator.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
 import 'package:card_master/client/pages/widgets/widget/text_field.dart';
-import 'package:card_master/client/provider/sessionUser.dart';
+import 'package:card_master/client/provider/session_user.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);

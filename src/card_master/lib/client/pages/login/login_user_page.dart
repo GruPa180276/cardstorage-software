@@ -7,7 +7,7 @@ import 'package:card_master/client/pages/widgets/widget/default_custom_button.da
 import 'package:card_master/client/pages/widgets/widget/response_snackbar.dart';
 import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
 import 'package:card_master/client/domain/enums/snackbar_type.dart';
-import 'package:card_master/client/provider/sessionUser.dart';
+import 'package:card_master/client/provider/session_user.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({Key? key}) : super(key: key);

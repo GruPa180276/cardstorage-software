@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
 import 'package:card_master/client/pages/login/login_user_page.dart';
 import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
-import 'package:card_master/client/provider/sessionUser.dart';
+import 'package:card_master/client/provider/session_user.dart';
 import 'package:card_master/client/provider/theme_provider.dart';
 import 'package:card_master/client/domain/app_preferences.dart';
 

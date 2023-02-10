@@ -6,7 +6,7 @@ import 'package:card_master/client/domain/app_preferences.dart';
 import 'package:card_master/client/domain/authentication/authentication.dart';
 import 'package:card_master/client/pages/login/login_user_page.dart';
 import 'package:card_master/client/pages/account/account_page.dart';
-import 'package:card_master/client/provider/sessionUser.dart';
+import 'package:card_master/client/provider/session_user.dart';
 import 'package:card_master/client/provider/theme_provider.dart';
 import 'package:app_settings/app_settings.dart';
 

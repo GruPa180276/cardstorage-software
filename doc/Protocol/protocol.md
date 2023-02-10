@@ -320,6 +320,9 @@ Habe heute Error Handling auf der Storage Seite hinzugefügt. Es wird überprüf
 **9.2.2023: 17:00 bis 20:15** <br>
 Habe heute als erstes den Default User option hinzugefügt, das bei jedem Storage ein User für Patrick angelegt wird. Danach habe ich das Error Handling erweitert. Es werden jetzt praktische alle Fehler in irgendeinerweiße gehendelt und dem User angezeigt z.B: Es können keine Felder beim anlegen leergelassen werden, es wird geprüft das der Storage / Karten Name noch nicht exisitiert und ob gegenüber der API ein Fehler aufgetreten ist. Dazu werden die API Error Codes ausgewertet (200 = OK, 400 = Error, 401 = Ungültiger Token). (3h 10min)
 
+**10.2.2023: 16:00 bis 18:15** <br>
+Habe mit Herrn Grubauer unsere 2 Apps gemerged. Diese funktionieren jetzt, es fehlt ledgiglich der switch button zwischen den Apps. (2h 15min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -414,4 +417,5 @@ Habe heute als erstes den Default User option hinzugefügt, das bei jedem Storag
 - 17:30 bis 19:00 Uhr
 - 15:30 bis 20:30 Uhr
 - 17:00 bis 20:15 Uhr
+- 16:00 bis 18:15 Uhr
 <!-- { "progress": false } -->

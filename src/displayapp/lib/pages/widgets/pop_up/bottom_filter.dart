@@ -64,6 +64,7 @@ class BottomSheetPop {
                       )),
                       Expanded(
                         child: DropdownButton(
+                          isExpanded: true,
                           value: _valueAvailable,
                           items: _dropDownAvailable.map((valueItem) {
                             return DropdownMenuItem(
@@ -154,6 +155,7 @@ class BottomSheetPop {
                       )),
                       Expanded(
                         child: DropdownButton(
+                          isExpanded: true,
                           value: _valueCard,
                           items: _dropDownCardValues.map((valueItem) {
                             return DropdownMenuItem(
@@ -182,6 +184,7 @@ class BottomSheetPop {
                       )),
                       Expanded(
                         child: DropdownButton(
+                          isExpanded: true,
                           value: _valueAvailable,
                           items: _dropDownReservationType.map((valueItem) {
                             return DropdownMenuItem(

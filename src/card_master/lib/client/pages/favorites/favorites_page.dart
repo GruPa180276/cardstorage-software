@@ -12,6 +12,6 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePage extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
-    return ApiVisualizer(site: CardPageTypes.Favoriten);
+    return ApiVisualizer(site: CardPageType.Favoriten);
   }
 }

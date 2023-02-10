@@ -13,7 +13,7 @@ class _ReservatePage extends State<ReservatePage> {
   @override
   Widget build(BuildContext context) {
     return ReservationVisualizer(
-      site: CardPageTypes.Reservierungen,
+      site: CardPageType.Reservierungen,
     );
   }
 }

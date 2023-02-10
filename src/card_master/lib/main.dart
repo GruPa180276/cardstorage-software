@@ -8,7 +8,11 @@ import 'package:card_master/client/provider/session_user.dart';
 import 'package:card_master/client/provider/theme_provider.dart';
 import 'package:card_master/client/domain/app_preferences.dart';
 
+import 'client/provider/server_properties.dart';
+
 Future main() async {
+  await ServerProperties.loadEnv();
+
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   late bool? rememberState;
@@ -20,6 +24,7 @@ Future main() async {
       rememberState = false;
     }
   }
+
   runApp(MyApp(
     rememberState: rememberState,
   ));

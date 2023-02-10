@@ -24,7 +24,7 @@ class SnackbarBuilder {
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,
-              message: (content == null) ? '' : content!,
+              message: (content == null) ? '' : content.toString(),
               contentType: ContentType.success,
             ));
         break;
@@ -35,7 +35,7 @@ class SnackbarBuilder {
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,
-              message: (content == null) ? '' : content!,
+              message: (content == null) ? '' : content.toString(),
               contentType: ContentType.warning,
             ));
         break;
@@ -46,7 +46,7 @@ class SnackbarBuilder {
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,
-              message: (content == null) ? '' : content!,
+              message: (content == null) ? '' : content.toString(),
               contentType: ContentType.failure,
             ));
         break;
@@ -57,7 +57,7 @@ class SnackbarBuilder {
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,
-              message: (content == null) ? '' : content!,
+              message: (content == null) ? '' : content.toString(),
               contentType: ContentType.help,
             ));
         break;

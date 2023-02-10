@@ -18,7 +18,7 @@ import 'package:card_master/client/provider/rest/types/storage.dart';
 
 // ignore: must_be_immutable
 class ApiVisualizer extends StatefulWidget {
-  CardPageTypes site;
+  CardPageType site;
   ApiVisualizer({super.key, required this.site});
 
   @override
@@ -35,7 +35,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
   String searchString = "";
   TextEditingController searchController = TextEditingController();
-  CardPageTypes site;
+  CardPageType site;
 
   @override
   void initState() {
@@ -81,7 +81,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   Widget build(BuildContext context) {
     Widget seachField = const SizedBox(height: 0, width: 0);
 
-    if (site != CardPageTypes.Favoriten) {
+    if (site != CardPageType.Favoriten) {
       seachField = Row(
         children: [
           Expanded(
@@ -102,18 +102,20 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                 })),
           ),
           IconButton(
-              onPressed: () {
-                BottomSheetPop(
-                  setReaderCards: _setReaderCards,
-                  defaultCards: defaultReaderCards,
-                ).buildBottomSheet(context);
-              },
-              icon: const Icon(Icons.adjust))
+            onPressed: () {
+              BottomSheetPop(
+                setReaderCards: _setReaderCards,
+                defaultCards: defaultReaderCards,
+              ).buildBottomSheet(context);
+            },
+            icon: const Icon(Icons.adjust),
+            iconSize: 30,
+          )
         ],
       );
     }
     CustomAppBar customAppBar =
-        CustomAppBar(title: site.toString().replaceAll("CardPageTypes.", ""));
+        CustomAppBar(title: site.toString().replaceAll("CardPageType.", ""));
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: customAppBar,
@@ -136,14 +138,14 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                       return const ConnectionStatusTextfield(
                         text: 'Es wurden keine Karten angelegt',
                       );
-                    } else if (site == CardPageTypes.Favoriten &&
+                    } else if (site == CardPageType.Favoriten &&
                         (pinnedCards == null || pinnedCards!.isEmpty)) {
                       return ConnectionStatusTextfield(
                           text: 'Keine Favoriten ');
                     } else {
                       final cards = snapshot.data!;
                       switch (site) {
-                        case CardPageTypes.Karten:
+                        case CardPageType.Karten:
                           return CardViewData(
                             customAppBar: customAppBar,
                             readercards: cards,
@@ -154,7 +156,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             setState: setState,
                             child: CardView(),
                           );
-                        case CardPageTypes.Favoriten:
+                        case CardPageType.Favoriten:
                           return CardViewData(
                             customAppBar: customAppBar,
                             readercards: cards,
@@ -167,7 +169,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                           );
 
                         //users.map((e) => e.cards).toList()
-                        case CardPageTypes.Reservierungen:
+                        case CardPageType.Reservierungen:
                           break;
                       }
                     }

@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:card_master/client/pages/widgets/widget/response_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/authentication/authentication.dart';
 import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
 import 'package:card_master/client/domain/enums/login_status_type.dart';
-import 'package:card_master/client/domain/enums/timer_actions_type.dart';
+import 'package:card_master/client/domain/enums/timer_action_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/request_timer.dart';
 import 'package:card_master/client/pages/login/login_user_page.dart';
 import 'package:card_master/client/pages/login/storage_select.dart';
@@ -106,7 +107,7 @@ class SessionUser {
       }
       UserSecureStorage.setRememberState("false");
     } catch (e) {
-      return const Tuple2(LoginStatusType.ERROR, null);
+      return Tuple2(LoginStatusType.ERROR, e.toString());
     }
     return null;
   }

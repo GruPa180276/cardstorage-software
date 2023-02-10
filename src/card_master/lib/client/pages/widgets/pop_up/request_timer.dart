@@ -4,9 +4,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:card_master/client/provider/server_properties.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/enums/snackbar_type.dart';
-import 'package:card_master/client/domain/enums/timer_actions_type.dart';
+import 'package:card_master/client/domain/enums/timer_action_type.dart';
 import 'package:card_master/client/pages/widgets/widget/response_snackbar.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
@@ -43,7 +44,8 @@ class RequestTimer {
   Future<void> startTimer() async {
     _successful = false;
     channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://10.0.2.2:7171/api/v1/controller/log'),
+        Uri.parse(
+            'wss://${ServerProperties.getServer()}:${ServerProperties.getRestPort()}${ServerProperties.getBaseUri()}controller/log'),
         headers: {
           "Accept": "application/json",
           HttpHeaders.authorizationHeader: "Bearer ${Data.bearerToken}",
@@ -110,6 +112,11 @@ class RequestTimer {
                           var response = await Data.check(
                               Data.postGetCardNow, {"cardname": card!.name});
                           if (response.statusCode != 200) {
+                            SnackbarBuilder(
+                                context: context,
+                                snackbarType: SnackbarType.failure,
+                                header: "Verbindungsfehler!",
+                                content: response.body);
                             Navigator.maybePop(context);
                           }
                         } else if (action == TimerAction.SIGNUP) {
@@ -117,6 +124,11 @@ class RequestTimer {
                               Data.postCreateNewUser,
                               {"storagename": storagename!, "email": email!});
                           if (response.statusCode != 200) {
+                            SnackbarBuilder(
+                                context: context,
+                                snackbarType: SnackbarType.failure,
+                                header: "Verbindungsfehler!",
+                                content: response.body);
                             Navigator.maybePop(context);
                           }
                         }

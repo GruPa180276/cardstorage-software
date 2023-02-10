@@ -1,4 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:ffi';
+
+import 'package:card_master/client/domain/enums/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/response_snackbar.dart';
+import 'package:card_master/client/provider/server_properties.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/enums/login_status_type.dart';
@@ -17,6 +22,11 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   bool rememberValue = false;
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +157,6 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
 
   void sigIn() async {
     var loginStatus = await SessionUser.login(rememberValue);
-    print(SessionUser.getEmail());
     if (loginStatus != null) {
       switch (loginStatus.item1) {
         case LoginStatusType.ALREADYLOGGEDIN:
@@ -166,6 +175,12 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
           }
           break;
         case LoginStatusType.ERROR:
+          SnackbarBuilder(
+                  context: context,
+                  header: "Error",
+                  snackbarType: SnackbarType.failure,
+                  content: loginStatus.item2)
+              .build();
           break;
       }
     }

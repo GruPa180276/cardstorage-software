@@ -12,6 +12,6 @@ class CardPage extends StatefulWidget {
 class _CardPage extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
-    return ApiVisualizer(site: CardPageTypes.Karten);
+    return ApiVisualizer(site: CardPageType.Karten);
   }
 }

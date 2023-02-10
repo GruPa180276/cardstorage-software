@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/enums/timer_actions_type.dart';
+import 'package:card_master/client/domain/enums/timer_action_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/request_timer.dart';
 import 'package:card_master/client/pages/widgets/pop_up/reservate_popup.dart';
 import 'package:card_master/client/pages/widgets/card/card_button.dart';

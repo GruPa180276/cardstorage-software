@@ -30,6 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
         appBar: CustomAppBar(title: 'Einstellungen'),
         body: Container(
+          margin: EdgeInsets.symmetric(vertical: 10),
           color: Theme.of(context).cardColor,
           child: Table(
             border: TableBorder.all(color: Theme.of(context).dividerColor),

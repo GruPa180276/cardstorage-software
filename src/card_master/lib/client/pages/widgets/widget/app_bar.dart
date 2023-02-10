@@ -34,14 +34,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? IconButton(
                           onPressed: () =>
                               Navigator.pushReplacement<void, void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      BottomNavigation(),
-                                ),
-                              ),
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  BottomNavigation(),
+                            ),
+                          ),
                           icon: Icon(Icons.admin_panel_settings,
-                              color: Theme.of(context).primaryColor))
+                              color: Theme.of(context).primaryColor),
+                          iconSize: 30,
+                        )
                       : const SizedBox.shrink())
             ],
           )),

@@ -11,7 +11,7 @@ import 'package:card_master/client/provider/rest/types/reservation.dart';
 
 // ignore: must_be_immutable
 class ReservationVisualizer extends StatefulWidget {
-  CardPageTypes site;
+  CardPageType site;
   ReservationVisualizer({super.key, required this.site});
 
   @override
@@ -25,7 +25,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
 
   String _searchString = "";
   TextEditingController _searchController = TextEditingController();
-  CardPageTypes site;
+  CardPageType site;
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
   Widget build(BuildContext context) {
     Widget seachField = const SizedBox(height: 0, width: 0);
 
-    if (site != CardPageTypes.Favoriten) {
+    if (site != CardPageType.Favoriten) {
       seachField = Row(
         children: [
           Expanded(
@@ -77,7 +77,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
       );
     }
     CustomAppBar customAppBar =
-        CustomAppBar(title: site.toString().replaceAll("CardPageTypes.", ""));
+        CustomAppBar(title: site.toString().replaceAll("CardPageType.", ""));
     return Scaffold(
         appBar: customAppBar,
         body: Container(

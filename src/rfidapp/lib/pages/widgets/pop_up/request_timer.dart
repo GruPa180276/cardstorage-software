@@ -173,7 +173,7 @@ class RequestTimer {
         if (_successful) {
           SnackbarBuilder(
                   context: context,
-                  snackbarType: SnackbarType.failure,
+                  snackbarType: SnackbarType.success,
                   header: "Registrierung erfolgreich!",
                   content: null)
               .build();

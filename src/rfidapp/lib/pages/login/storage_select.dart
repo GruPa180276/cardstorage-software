@@ -85,11 +85,7 @@ class StorageSelectPopUp {
                             textColor: Colors.white,
                             onPress: () {
                               _successful = false;
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const CardPage()));
+                              Navigator.pop(context);
                             },
                           ),
                         ),

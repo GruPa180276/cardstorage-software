@@ -355,9 +355,14 @@ Heute musste ich ein paar Fehler beheben. Zunaechst wurde etwas beim Login geaen
 **2023-02-07: 18:00-> 22:00**
 Es wurde der neue Websocket von Herrn Mayrhofer bei der DisplayApp implementiert. Da Herr Mayrhofer die Authentifizierung hinzufügte musste ich mir ein Konzept überlegen um nicht bei jeder Methode den Zustand des Tokens zu überprüfen. Lösung war eine Middleware welche die Funktion für den Api Aufruf und Argumente als Pramamete hatte.
 
-
 **2023-02-07: 19:00-> 00:00**
 Heute wurde der Login vollständig überarbeitet. Es wurde eine Klasse SessionUser erstellt. Diese Klasse bekommt bei jeder ANmeldung die entsprechenden Datan übergeben. Aufgrund eines Videos auf Youtube überarbeitete ich ebenfalls die Strukur des Projekts. Es wurden für KinderWidgets Inheritated Widgets verwendet welche sozusagen als Middleware zwischen Eltern und Kinder Widgets dient
+
+**2023-02-09: 21:00-> 23:00**
+Heute wurde eine Klasse SnackbarBuilde erstellt, welches dazu dient PopUp bei Fehler, Evente anzuzeigen.
+
+**2023-02-10: 16:00-> 21:30**
+Heute habe ich mit Herrn Zoechmann unsere Programme gemerged. Es dauert etwas bis alles funktionierte. Danach musst ich ein paar Sachen anpassen bzw. beheben. Ebenfalls machte ich die ganze App responsive. Es wurde auch das Errorhandlin ueberarbeitet. Die App ist nun vollstaending einsatzfaehig.
 
 <!-- { "progress": true } -->
 - 8:40  bis 11:40 Uhr
@@ -455,6 +460,8 @@ Heute wurde der Login vollständig überarbeitet. Es wurde eine Klasse SessionUs
 - 18:00 bis 20:00 Uhr
 - 18:00 bis 22:00 Uhr
 - 19:00 bis 00:00 Uhr
-
+- 16:00 bis 21:30 Uhr
+- 21:00 bis 23:00 Uhr
+- 16:00 bis 21:30 Uhr
 <!-- { "progress": false } -->
 

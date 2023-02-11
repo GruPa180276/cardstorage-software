@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/enums/cardpage_type.dart';
-import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
+import 'package:card_master/client/pages/navigation/client_navigation.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/views/favorite_view.dart';
 import 'package:card_master/client/pages/widgets/pop_up/bottom_filter.dart';
@@ -43,7 +43,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     _reloadReaderCards();
     _reloadPinnedList();
     _heightBottomNavigation = context
-        .findAncestorWidgetOfExactType<BottomNavigation>()!
+        .findAncestorWidgetOfExactType<ClientNavigation>()!
         .preferredSize
         .height;
   }

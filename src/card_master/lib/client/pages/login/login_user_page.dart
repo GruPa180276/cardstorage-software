@@ -3,13 +3,12 @@ import 'dart:ffi';
 
 import 'package:card_master/client/domain/enums/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/response_snackbar.dart';
-import 'package:card_master/client/provider/server_properties.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/enums/login_status_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/email_popup.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
-import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
+import 'package:card_master/client/pages/navigation/client_navigation.dart';
 import 'package:card_master/client/provider/session_user.dart';
 
 class LoginUserScreen extends StatefulWidget {
@@ -160,18 +159,15 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
     if (loginStatus != null) {
       switch (loginStatus.item1) {
         case LoginStatusType.ALREADYLOGGEDIN:
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const BottomNavigation()),
-              (Route<dynamic> route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/clientnavigation", (Route<dynamic> route) => false);
           break;
 
         case LoginStatusType.NEWLOGIN:
           if (await SessionUser.signUp(
               context, loginStatus.item2, rememberValue)) {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (context) => const BottomNavigation()),
-                (Route<dynamic> route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/clientnavigation", (Route<dynamic> route) => false);
           }
           break;
         case LoginStatusType.ERROR:

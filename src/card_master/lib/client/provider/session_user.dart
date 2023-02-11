@@ -1,13 +1,12 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
 
-import 'package:card_master/client/pages/widgets/widget/response_snackbar.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/authentication/authentication.dart';
 import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
 import 'package:card_master/client/domain/enums/login_status_type.dart';
 import 'package:card_master/client/domain/enums/timer_action_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/request_timer.dart';
-import 'package:card_master/client/pages/login/login_user_page.dart';
 import 'package:card_master/client/pages/login/storage_select.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:tuple/tuple.dart';
@@ -57,8 +56,7 @@ class SessionUser {
     await AadAuthentication.getEnv();
     UserSecureStorage.deleteAll();
     AadAuthentication.oauth!.logout();
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginUserScreen()));
+    Navigator.pushReplacementNamed(context, "/login");
   }
 
   static Future<bool> reloadUserData() async {

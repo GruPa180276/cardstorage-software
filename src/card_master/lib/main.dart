@@ -1,9 +1,10 @@
 import 'dart:io';
+import 'package:card_master/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
 import 'package:card_master/client/pages/login/login_user_page.dart';
-import 'package:card_master/client/pages/navigation/bottom_navigation.dart';
+import 'package:card_master/client/pages/navigation/client_navigation.dart';
 import 'package:card_master/client/provider/session_user.dart';
 import 'package:card_master/client/provider/theme_provider.dart';
 import 'package:card_master/client/domain/app_preferences.dart';
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             theme: MyThemes.lightTheme,
             darkTheme: MyThemes.darkTheme,
-            home: const BottomNavigation(),
+            routes: routes,
+            home: const ClientNavigation(),
             navigatorKey: navigatorKey,
           );
         }
@@ -61,6 +63,7 @@ class MyApp extends StatelessWidget {
           themeMode: themeProvider.themeMode,
           theme: MyThemes.lightTheme,
           darkTheme: MyThemes.darkTheme,
+          routes: routes,
           home: const LoginUserScreen(),
           navigatorKey: navigatorKey,
         );

@@ -5,19 +5,19 @@ import 'package:card_master/client/pages/cards/cards_page.dart';
 import 'package:card_master/client/pages/reservate/reservate_page.dart';
 import 'package:card_master/client/pages/settings/settings.dart';
 
-class BottomNavigation extends StatefulWidget implements PreferredSizeWidget {
+class ClientNavigation extends StatefulWidget implements PreferredSizeWidget {
   final double height;
-  const BottomNavigation({Key? key, this.height = kBottomNavigationBarHeight})
+  const ClientNavigation({Key? key, this.height = kBottomNavigationBarHeight})
       : super(key: key);
 
   @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
+  State<ClientNavigation> createState() => _ClientNavigationState();
 
   @override
   Size get preferredSize => (Size.fromHeight(height));
 }
 
-class _BottomNavigationState extends State<BottomNavigation> {
+class _ClientNavigationState extends State<ClientNavigation> {
   int currentIndex = 0;
   final screens = [
     const FavoritePage(),

@@ -1,3 +1,4 @@
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 
 class ConnectionStatusTextfield extends StatelessWidget {
@@ -11,7 +12,8 @@ class ConnectionStatusTextfield extends StatelessWidget {
       child: Center(
         child: Text(
           text,
-          style: TextStyle(color: Theme.of(context).dividerColor, fontSize: 20),
+          style: TextStyle(
+              color: Theme.of(context).primaryColor, fontSize: 20.0.fs),
         ),
       ),
     );

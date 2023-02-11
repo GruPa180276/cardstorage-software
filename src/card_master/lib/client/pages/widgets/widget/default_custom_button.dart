@@ -1,3 +1,4 @@
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 
 class DefaultCustomButton extends StatelessWidget {
@@ -28,7 +29,7 @@ class DefaultCustomButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 18,
+          fontSize: 13.0.fs,
           fontWeight: FontWeight.bold,
           color: textColor,
         ),

@@ -1,9 +1,10 @@
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/validator.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
 import 'package:card_master/client/pages/widgets/widget/text_field.dart';
-import 'package:card_master/client/provider/session_user.dart';
+import 'package:card_master/client/domain/authentication/session_user.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    var sizedHeight = 10.0.fs;
     return Scaffold(
 
         //drawer: const MenuNavigationDrawer(),
@@ -39,7 +41,7 @@ class _AccountPageState extends State<AccountPage> {
           iconTheme: IconThemeData(
             color: Theme.of(context).primaryColor, //change your color here
           ),
-          toolbarHeight: 100,
+          toolbarHeight: 50.0.fs,
           bottomOpacity: 0.0,
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -52,24 +54,24 @@ class _AccountPageState extends State<AccountPage> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10.0.fs),
             child: Padding(
-              padding: const EdgeInsets.all(30),
+              padding: EdgeInsets.all(25.0.fs),
               child: Column(
                 children: [
                   Center(
                     child: CircleAvatar(
-                      radius: 50,
+                      radius: 40.0.fs,
                       backgroundColor: ColorSelect.greyBorderColor,
-                      child: const Icon(
+                      child: Icon(
                         Icons.account_box,
-                        size: 70,
+                        size: 50.0.fs,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: sizedHeight,
                   ),
                   TextInput(
                       iconData: Icons.person,
@@ -78,8 +80,8 @@ class _AccountPageState extends State<AccountPage> {
                       obsecureText: false,
                       validator: Validator.funcName,
                       editable: false),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: sizedHeight,
                   ),
                   TextInput(
                       iconData: Icons.person,
@@ -88,8 +90,8 @@ class _AccountPageState extends State<AccountPage> {
                       obsecureText: false,
                       validator: Validator.funcName,
                       editable: false),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: sizedHeight,
                   ),
                   TextInput(
                       iconData: Icons.email,
@@ -98,8 +100,8 @@ class _AccountPageState extends State<AccountPage> {
                       obsecureText: false,
                       validator: Validator.funcEmail,
                       editable: false),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: sizedHeight,
                   ),
                   TextInput(
                       iconData: Icons.room,
@@ -108,8 +110,8 @@ class _AccountPageState extends State<AccountPage> {
                       obsecureText: false,
                       validator: Validator.funcEmail,
                       editable: false),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: sizedHeight,
                   ),
                   TextInput(
                       iconData: Icons.lock,
@@ -118,28 +120,25 @@ class _AccountPageState extends State<AccountPage> {
                       obsecureText: false,
                       validator: Validator.funcEmail,
                       editable: false),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: sizedHeight,
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: sizedHeight),
                   Row(
                     children: [
                       Expanded(
                           child: SizedBox(
-                        height: 50,
-                        child: SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: DefaultCustomButton(
-                              bgColor: ColorSelect.blueAccent,
-                              borderColor: ColorSelect.blueAccent,
-                              text: 'Zurueck',
-                              textColor: Colors.white,
-                              onPress: () {
-                                Navigator.pop(context);
-                              },
-                            )),
-                      ))
+                              width: double.infinity,
+                              height: 40.0.fs,
+                              child: DefaultCustomButton(
+                                bgColor: ColorSelect.blueAccent,
+                                borderColor: ColorSelect.blueAccent,
+                                text: 'Zurück',
+                                textColor: Colors.white,
+                                onPress: () {
+                                  Navigator.pop(context);
+                                },
+                              )))
                     ],
                   )
                 ],

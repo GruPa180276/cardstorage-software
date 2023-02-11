@@ -2,6 +2,7 @@
 
 import 'package:card_master/client/pages/widgets/inherited/cards_text_inherited.dart';
 import 'package:card_master/client/pages/widgets/card/card_text_view.dart';
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/card/card_bottom_row.dart';
@@ -26,13 +27,14 @@ class CardView extends StatelessWidget {
                 ? Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(7.0.fs),
                     ),
                     child: Column(children: [
                       Row(children: [
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
-                          child: Icon(Icons.credit_card_outlined, size: 35),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(5.0.fs, 0, 0.0.fs, 0),
+                          child:
+                              Icon(Icons.credit_card_outlined, size: 30.0.fs),
                         ),
                         //FavoriteView().buildCardsText(context, data.readercards[index]),
                         CardTextData(data.pinnedCards, data.reloadPinned,

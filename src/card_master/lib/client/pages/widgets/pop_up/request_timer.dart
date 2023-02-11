@@ -4,11 +4,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:card_master/client/provider/server_properties.dart';
+import 'package:card_master/client/config/properties/server_properties.dart';
+import 'package:card_master/client/pages/widgets/pop_up/response_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/enums/snackbar_type.dart';
-import 'package:card_master/client/domain/enums/timer_action_type.dart';
-import 'package:card_master/client/pages/widgets/widget/response_snackbar.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/domain/types/timer_action_type.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 import 'package:web_socket_channel/io.dart';

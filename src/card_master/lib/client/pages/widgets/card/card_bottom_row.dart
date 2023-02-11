@@ -1,7 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/enums/timer_action_type.dart';
+import 'package:card_master/client/domain/types/timer_action_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/request_timer.dart';
 import 'package:card_master/client/pages/widgets/pop_up/reservate_popup.dart';
 import 'package:card_master/client/pages/widgets/card/card_button.dart';
@@ -17,19 +18,22 @@ class ReaderCardButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (!card.available)
-        ? Row(
-            children: [
-              Expanded(
-                child: CardButton(
-                    text: 'Reservieren',
-                    onPress: () async {
-                      await ReservationPopUp(context, card).build();
-                    }),
-              ),
-            ],
+        ? SizedBox(
+            height: 40.0.fs,
+            child: Row(
+              children: [
+                Expanded(
+                  child: CardButton(
+                      text: 'Reservieren',
+                      onPress: () async {
+                        await ReservationPopUp(context, card).build();
+                      }),
+                ),
+              ],
+            ),
           )
         : SizedBox(
-            height: 50,
+            height: 40.0.fs,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

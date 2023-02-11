@@ -1,15 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:ffi';
 
-import 'package:card_master/client/domain/enums/snackbar_type.dart';
+import 'package:card_master/client/config/properties/screen.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/response_snackbar.dart';
+import 'package:card_master/client/provider/size/size_extentions.dart';
+import 'package:card_master/client/provider/size/size_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
-import 'package:card_master/client/domain/enums/login_status_type.dart';
+import 'package:card_master/client/domain/types/login_status_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/email_popup.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
 import 'package:card_master/client/pages/navigation/client_navigation.dart';
-import 'package:card_master/client/provider/session_user.dart';
+import 'package:card_master/client/domain/authentication/session_user.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({Key? key}) : super(key: key);
@@ -29,8 +32,9 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unnecessary_new
-    return new Scaffold(
+    SizeManager().init(
+        MediaQuery.of(context).size, Screen.getScreenOrientation(context));
+    return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -44,11 +48,11 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
               const Spacer(),
               SizedBox(
                   width: double.infinity,
-                  height: 60,
+                  height: 40.0.fs,
                   child: DefaultCustomButton(
                     bgColor: ColorSelect.blueAccent,
                     borderColor: ColorSelect.blueAccent,
-                    text: 'SIGN IN via Microsoft',
+                    text: 'Einloggen mit Microsoft',
                     textColor: Colors.white,
                     onPress: () {
                       sigIn();
@@ -73,26 +77,26 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.fromLTRB(0.0, 110.0, 0.0, 0.0),
-          child: const Text('Guten',
+          padding: EdgeInsets.fromLTRB(0.0, 55.0.fs, 0.0, 0.0),
+          child: Text('Guten',
               style: TextStyle(
-                  fontSize: 100.0,
+                  fontSize: 65.0.fs,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: const EdgeInsets.fromLTRB(0.0, 200.0, 0.0, 0.0),
-          child: const Text('Tag',
+          padding: EdgeInsets.fromLTRB(0.0, 125.0.fs, 0.0, 0.0),
+          child: Text('Tag',
               style: TextStyle(
-                  fontSize: 100.0,
+                  fontSize: 65.0.fs,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: const EdgeInsets.fromLTRB(160.0, 200.0, 0.0, 0.0),
+          padding: EdgeInsets.fromLTRB(110.0.fs, 125.0.fs, 0.0, 0.0),
           child: Text('.',
               style: TextStyle(
-                  fontSize: 100.0,
+                  fontSize: 65.0.fs,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato",
                   color: Theme.of(context).secondaryHeaderColor)),
@@ -107,7 +111,12 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
       child: CheckboxListTile(
         visualDensity: VisualDensity.compact,
         activeColor: Theme.of(context).secondaryHeaderColor,
-        title: const Text("Login speichern"),
+        title: Text(
+          "Login speichern",
+          style: TextStyle(
+            fontSize: 10.0.fs,
+          ),
+        ),
         //contentPadding: EdgeInsets.fromLTRB(50, 0, 0, 0),
         value: rememberValue,
 
@@ -125,9 +134,12 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Text(
+        Text(
           'Probleme?',
-          style: TextStyle(fontFamily: 'Lato'),
+          style: TextStyle(
+            fontFamily: 'Lato',
+            fontSize: 10.0.fs,
+          ),
         ),
         const SizedBox(width: 5.0),
         InkWell(
@@ -145,6 +157,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
             'Stelle Sie eine Frage.',
             style: TextStyle(
                 color: Theme.of(context).secondaryHeaderColor,
+                fontSize: 10.0.fs,
                 fontFamily: 'Lato',
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline),

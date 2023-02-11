@@ -1,3 +1,6 @@
+import 'package:card_master/client/config/properties/screen.dart';
+import 'package:card_master/client/provider/size/size_extentions.dart';
+import 'package:card_master/client/provider/size/size_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/pages/favorites/favorites_page.dart';
@@ -28,11 +31,15 @@ class _ClientNavigationState extends State<ClientNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    SizeManager().init(
+        MediaQuery.of(context).size, Screen.getScreenOrientation(context));
     return Scaffold(
         body: screens[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          iconSize: 20,
+          iconSize: 20.0.fs,
+          unselectedFontSize: 7.5.fs,
+          selectedFontSize: 8.0.fs,
           currentIndex: currentIndex,
           onTap: (value) => setState(() => currentIndex = value),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

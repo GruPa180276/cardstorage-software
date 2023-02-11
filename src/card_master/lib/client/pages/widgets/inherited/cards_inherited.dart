@@ -9,11 +9,9 @@ class CardViewData extends InheritedWidget {
   final void Function() reloadPinned;
   final void Function() reloadCard;
   final void Function(void Function()) setState;
-  final CustomAppBar customAppBar;
 
   const CardViewData({
     Key? key,
-    required this.customAppBar,
     required this.readercards,
     required this.searchstring,
     required this.pinnedCards,

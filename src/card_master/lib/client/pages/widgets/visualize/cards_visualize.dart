@@ -1,8 +1,11 @@
 // ignore_for_file: deprecated_member_use
 import 'dart:convert';
 
+import 'package:card_master/client/config/properties/screen.dart';
+import 'package:card_master/client/provider/size/size_extentions.dart';
+import 'package:card_master/client/provider/size/size_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/enums/cardpage_type.dart';
+import 'package:card_master/client/domain/types/cardpage_type.dart';
 import 'package:card_master/client/pages/navigation/client_navigation.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/views/favorite_view.dart';
@@ -13,7 +16,7 @@ import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/client/provider/rest/uitls.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 import 'package:card_master/client/pages/widgets/views/card_view.dart';
-import 'package:card_master/client/domain/app_preferences.dart';
+import 'package:card_master/client/domain/persistent/app_preferences.dart';
 import 'package:card_master/client/provider/rest/types/storage.dart';
 
 // ignore: must_be_immutable
@@ -30,7 +33,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   _ApiVisualizerState({required this.site});
   late Future<List<ReaderCard>?> defaultReaderCards;
   late Future<List<ReaderCard>?> modifiedReaderCards;
-  late double _heightBottomNavigation;
   Set<String>? pinnedCards;
 
   String searchString = "";
@@ -42,10 +44,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
     super.initState();
     _reloadReaderCards();
     _reloadPinnedList();
-    _heightBottomNavigation = context
-        .findAncestorWidgetOfExactType<ClientNavigation>()!
-        .preferredSize
-        .height;
   }
 
   void _reloadPinnedList() {
@@ -88,9 +86,10 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             child: TextField(
                 controller: searchController,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 15),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10.0.fs),
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Karte suchen per Name',
+                    hintStyle: TextStyle(fontSize: 10.0.fs),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide:
@@ -109,22 +108,23 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               ).buildBottomSheet(context);
             },
             icon: const Icon(Icons.adjust),
-            iconSize: 30,
+            iconSize: 20.0.fs,
           )
         ],
       );
     }
-    CustomAppBar customAppBar =
-        CustomAppBar(title: site.toString().replaceAll("CardPageType.", ""));
-    var height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        appBar: customAppBar,
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(40.0.fs), //height of appbar
+            child: CustomAppBar(
+                title: site.toString().replaceAll("CardPageType.", ""))),
         body: Container(
-          margin: const EdgeInsets.all(10),
+          margin: EdgeInsets.symmetric(vertical: 10.0.fs, horizontal: 5.0.fs),
           child: Column(
             children: [
               seachField,
-              const SizedBox(height: 10),
+              SizedBox(height: 10.0.fs),
               FutureBuilder<List<ReaderCard>?>(
                   future: modifiedReaderCards,
                   builder: (context, snapshot) {
@@ -147,7 +147,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                       switch (site) {
                         case CardPageType.Karten:
                           return CardViewData(
-                            customAppBar: customAppBar,
                             readercards: cards,
                             searchstring: searchString,
                             pinnedCards: pinnedCards!,
@@ -158,7 +157,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                           );
                         case CardPageType.Favoriten:
                           return CardViewData(
-                            customAppBar: customAppBar,
                             readercards: cards,
                             searchstring: searchString,
                             pinnedCards: pinnedCards!,

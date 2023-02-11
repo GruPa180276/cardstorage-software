@@ -1,3 +1,4 @@
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 
 class CardButton extends StatelessWidget {
@@ -22,8 +23,9 @@ class CardButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black.withOpacity(0)), // <-- Does not work
         onPressed: onPress,
-        child:
-            Text(text, style: TextStyle(color: Theme.of(context).primaryColor)),
+        child: Text(text,
+            style: TextStyle(
+                color: Theme.of(context).primaryColor, fontSize: 10.0.fs)),
       ),
     );
   }

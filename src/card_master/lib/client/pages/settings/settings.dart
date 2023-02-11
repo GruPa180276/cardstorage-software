@@ -1,12 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:card_master/client/domain/app_preferences.dart';
+import 'package:card_master/client/domain/persistent/app_preferences.dart';
 import 'package:card_master/client/pages/account/account_page.dart';
-import 'package:card_master/client/provider/session_user.dart';
-import 'package:card_master/client/provider/theme_provider.dart';
+import 'package:card_master/client/domain/authentication/session_user.dart';
+import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:app_settings/app_settings.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -27,13 +28,18 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var columnHeight = 36.0.fs;
+
     return Scaffold(
-        appBar: CustomAppBar(title: 'Einstellungen'),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100),
+          child: CustomAppBar(title: "Einstellungen"),
+        ),
         body: Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
           color: Theme.of(context).cardColor,
           child: Table(
-            border: TableBorder.all(color: Theme.of(context).dividerColor),
+            border: TableBorder.all(
+                color: Theme.of(context).dividerColor, width: 0.7.fs),
             children: [
               TableRow(children: [
                 buildSettingsButton("Benachrichstigungen", Icons.notifications,
@@ -54,8 +60,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ]),
               TableRow(children: [
                 Container(
-                  height: 40,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  height: columnHeight,
+                  padding: EdgeInsets.symmetric(horizontal: 8.0.fs),
                   color: Theme.of(context).cardColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,12 +69,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       Row(
                         children: [
                           const Icon(Icons.mode),
-                          const SizedBox(
-                            width: 10,
+                          SizedBox(
+                            width: 10.0.fs,
                           ),
                           Text('Dark-Mode',
                               style: TextStyle(
-                                  fontSize: 19,
+                                  fontSize: 14.0.fs,
                                   color: Theme.of(context).primaryColor)),
                         ],
                       ),
@@ -86,8 +92,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget buildSettingsButton(String text, IconData icon, Function function) {
     return ButtonTheme(
-      padding: const EdgeInsets.symmetric(
-          vertical: 7.0, horizontal: 8.0), //adds padding inside the button
+      padding: EdgeInsets.symmetric(
+          vertical: 5.0.fs,
+          horizontal: 8.0.fs), //adds padding inside the button
       materialTapTargetSize: MaterialTapTargetSize
           .shrinkWrap, //limits the touch area to the button area
       minWidth: double.infinity, //wraps child's width
@@ -102,13 +109,13 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Row(
               children: [
                 Icon(icon, color: Theme.of(context).primaryColor),
-                const SizedBox(
-                  width: 10,
+                SizedBox(
+                  width: 10.0.fs,
                 ),
                 Text(
                   text,
                   style: TextStyle(
-                      fontSize: 19, color: Theme.of(context).primaryColor),
+                      fontSize: 14.0.fs, color: Theme.of(context).primaryColor),
                 ),
               ],
             ),

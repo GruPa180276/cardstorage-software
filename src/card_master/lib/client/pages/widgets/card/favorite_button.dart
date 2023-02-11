@@ -1,7 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/app_preferences.dart';
+import 'package:card_master/client/domain/persistent/app_preferences.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 
 class FavoriteButton extends StatelessWidget {
@@ -23,27 +24,33 @@ class FavoriteButton extends StatelessWidget {
 
     return StatefulBuilder(builder:
         (BuildContext context, StateSetter setState /*You can rename this!*/) {
-      return IconButton(
-        padding: EdgeInsets.fromLTRB(
-            MediaQuery.of(context).size.width - 160, 0, 0, 0),
-        onPressed: () {
-          setState(
-            () {
-              if (!(pinnedCards!.contains(card.name.toString()))) {
-                colorPin = Colors.yellow;
-                AppPreferences.addCardPinned(card.name.toString());
-              } else {
-                AppPreferences.removePinnedCardAt(card.name);
-                pinnedCards = AppPreferences.getCardsPinned();
-                colorPin = Theme.of(context).primaryColor;
-              }
-              reloadPinned();
-            },
-          );
-        },
-        icon: Icon(Icons.star, color: colorPin),
-        splashColor: Colors.transparent,
-        splashRadius: 0.1,
+      return Container(
+        alignment: Alignment.centerRight,
+        child: IconButton(
+          padding: EdgeInsets.fromLTRB(0, 0.0.fs, 0.0.fs, 0),
+          onPressed: () {
+            setState(
+              () {
+                if (!(pinnedCards!.contains(card.name.toString()))) {
+                  colorPin = Colors.yellow;
+                  AppPreferences.addCardPinned(card.name.toString());
+                } else {
+                  AppPreferences.removePinnedCardAt(card.name);
+                  pinnedCards = AppPreferences.getCardsPinned();
+                  colorPin = Theme.of(context).primaryColor;
+                }
+                reloadPinned();
+              },
+            );
+          },
+          icon: Icon(
+            Icons.star,
+            color: colorPin,
+          ),
+          iconSize: 20.0.fs,
+          splashColor: Colors.transparent,
+          splashRadius: 0.1,
+        ),
       );
     });
   }

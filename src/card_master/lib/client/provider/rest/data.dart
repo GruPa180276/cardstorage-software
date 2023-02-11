@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'dart:async';
 
-import 'package:card_master/client/provider/session_user.dart';
+import 'package:card_master/client/domain/authentication/session_user.dart';
 
-import '../server_properties.dart';
+import '../../config/properties/server_properties.dart';
 
 class Data {
   static String? bearerToken;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/enums/cardpage_type.dart';
+import 'package:card_master/client/domain/types/cardpage_type.dart';
 import 'package:card_master/client/pages/widgets/visualize/reservate_visualize.dart';
 
 class ReservatePage extends StatefulWidget {

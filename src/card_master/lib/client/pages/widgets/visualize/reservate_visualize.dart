@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use, no_logic_in_create_state
 import 'dart:convert';
 
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/enums/cardpage_type.dart';
+import 'package:card_master/client/domain/types/cardpage_type.dart';
 import 'package:card_master/client/pages/widgets/views/reservate_view.dart';
 import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
 import 'package:card_master/client/pages/widgets/widget/connection_status_textfield.dart';
@@ -60,9 +61,10 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
             child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 15),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10.0.fs),
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Karte suchen per Name',
+                    hintStyle: TextStyle(fontSize: 10.0.fs),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide:
@@ -76,16 +78,19 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
         ],
       );
     }
-    CustomAppBar customAppBar =
-        CustomAppBar(title: site.toString().replaceAll("CardPageType.", ""));
+
     return Scaffold(
-        appBar: customAppBar,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(40.0.fs), //height of appbar
+          child: CustomAppBar(
+              title: site.toString().replaceAll("CardPageType.", "")),
+        ),
         body: Container(
-          margin: const EdgeInsets.all(10),
+          margin: EdgeInsets.symmetric(vertical: 15.0.fs, horizontal: 5.0.fs),
           child: Column(
             children: [
               seachField,
-              const SizedBox(height: 10),
+              SizedBox(height: 10.0.fs),
               FutureBuilder<List<Reservation>?>(
                   future: _futureReservations,
                   builder: (context, snapshot) {

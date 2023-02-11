@@ -1,6 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:card_master/client/domain/enums/snackbar_type.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
 
 class SnackbarBuilder {
   final SnackbarType snackbarType;

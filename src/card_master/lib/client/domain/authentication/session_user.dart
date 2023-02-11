@@ -3,9 +3,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/authentication/authentication.dart';
-import 'package:card_master/client/domain/authentication/user_secure_storage.dart';
-import 'package:card_master/client/domain/enums/login_status_type.dart';
-import 'package:card_master/client/domain/enums/timer_action_type.dart';
+import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
+import 'package:card_master/client/domain/types/login_status_type.dart';
+import 'package:card_master/client/domain/types/timer_action_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/request_timer.dart';
 import 'package:card_master/client/pages/login/storage_select.dart';
 import 'package:card_master/client/provider/rest/data.dart';

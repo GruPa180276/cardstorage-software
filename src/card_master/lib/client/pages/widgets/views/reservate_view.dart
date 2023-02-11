@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:card_master/client/domain/local_notification.dart';
@@ -37,13 +38,14 @@ class ReservationView extends StatelessWidget {
                   ? Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.circular(7.0.fs),
                       ),
                       child: Column(children: [
                         Row(children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
-                            child: Icon(Icons.credit_card_outlined, size: 35),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5.0.fs, 0, 0.0.fs, 0),
+                            child:
+                                Icon(Icons.credit_card_outlined, size: 30.0.fs),
                           ),
                           _buildCardsText(context, reservations[index]),
                         ]),
@@ -54,143 +56,163 @@ class ReservationView extends StatelessWidget {
       );
 
   Widget _buildCardsText(BuildContext context, Reservation card) {
+    var textFontSize = 11.0.fs;
+
     return Expanded(
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
-            child: Table(
-              //border: TableBorder.all(),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 5.0.fs, 5.0.fs, 0),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(10.0.fs, 0, 10.0.fs, 0),
+              child: Table(
+                //border: TableBorder.all(),
 
-              columnWidths: const <int, TableColumnWidth>{
-                0: FractionColumnWidth(0.5),
-                1: FractionColumnWidth(0.5),
-              },
-
-              children: [
-                TableRow(
-                  children: [
-                    const SizedBox(
+                children: [
+                  TableRow(
+                    children: [
+                      SizedBox(
+                          width: double.infinity,
+                          height: 16.0.fs,
+                          child: Text(
+                            "Name:",
+                            style: TextStyle(fontSize: textFontSize),
+                            textAlign: TextAlign.left,
+                          )),
+                      SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            card.cardName!,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(fontSize: textFontSize),
+                          ))
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      SizedBox(
+                          height: 16.0.fs,
+                          width: double.infinity,
+                          child: Text("Storage:",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: textFontSize))),
+                      SizedBox(
+                          width: double.infinity,
+                          height: 16.0.fs,
+                          child: Text(card.storageName!,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(fontSize: textFontSize)))
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      SizedBox(
+                          height: 16.0.fs,
+                          width: double.infinity,
+                          child: Text(
+                            "Von:",
+                            style: TextStyle(fontSize: textFontSize),
+                            textAlign: TextAlign.left,
+                          )),
+                      SizedBox(
                         width: double.infinity,
+                        height: 16.0.fs,
                         child: Text(
-                          "Name:",
-                          textAlign: TextAlign.left,
-                        )),
-                    SizedBox(
-                        width: double.infinity,
-                        child: Text(card.cardName!, textAlign: TextAlign.right))
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    const SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          "Storage:",
-                          textAlign: TextAlign.left,
-                        )),
-                    SizedBox(
-                        width: double.infinity,
-                        child:
-                            Text(card.storageName!, textAlign: TextAlign.right))
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    const SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          "Von:",
-                          textAlign: TextAlign.left,
-                        )),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        DateFormat('yyyy-MM-dd HH:mm')
-                            .format(DateTime.fromMicrosecondsSinceEpoch(
-                                card.since * 1000000))
-                            .toString(),
-                        style: const TextStyle(color: Colors.red),
-                        textAlign: TextAlign.right,
-                      ),
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    const SizedBox(
+                          DateFormat('yyyy-MM-dd HH:mm')
+                              .format(DateTime.fromMicrosecondsSinceEpoch(
+                                  card.since * 1000000))
+                              .toString(),
+                          style: TextStyle(
+                              color: Colors.red, fontSize: textFontSize),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      SizedBox(
+                        height: 16.0.fs,
                         width: double.infinity,
                         child: Text(
                           "Bis:",
+                          style: TextStyle(fontSize: textFontSize),
                           textAlign: TextAlign.left,
-                        )),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        (card.isreservation)
-                            ? DateFormat('yyyy-MM-dd HH:mm')
-                                .format(DateTime.fromMicrosecondsSinceEpoch(
-                                    card.until * 1000000))
-                                .toString()
-                            : "In Benutzung",
-                        style: const TextStyle(color: Colors.green),
-                        textAlign: TextAlign.right,
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              ],
+                      SizedBox(
+                        height: 16.0.fs,
+                        width: double.infinity,
+                        child: Text(
+                          (card.isreservation)
+                              ? DateFormat('yyyy-MM-dd HH:mm')
+                                  .format(DateTime.fromMicrosecondsSinceEpoch(
+                                      card.until * 1000000))
+                                  .toString()
+                              : "In Benutzung",
+                          style: TextStyle(
+                              color: Colors.green, fontSize: textFontSize),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildBottomCards(BuildContext context, Reservation reservation) {
     return (reservation.isreservation)
-        ? Row(
-            children: [
-              Expanded(
-                  child: CardButton(
-                onPress: () async {
-                  var response = await Data.check(Data.deleteReservation,
-                      {"reservationid": reservation.id.toString()});
-                  if (response.statusCode != 200) {
-                    var snackBar = SnackBar(
-                        elevation: 0,
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.transparent,
-                        content: AwesomeSnackbarContent(
-                          title: 'Etwas ist schiefgelaufen!',
-                          message: response.statusCode.toString(),
+        ? SizedBox(
+            height: 40.0.fs,
+            child: Row(
+              children: [
+                Expanded(
+                    child: CardButton(
+                  onPress: () async {
+                    var response = await Data.check(Data.deleteReservation,
+                        {"reservationid": reservation.id.toString()});
+                    if (response.statusCode != 200) {
+                      var snackBar = SnackBar(
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'Etwas ist schiefgelaufen!',
+                            message: response.statusCode.toString(),
 
-                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                          contentType: ContentType.failure,
-                        ));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  } else {
-                    var snackBar = SnackBar(
-                        elevation: 0,
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.transparent,
-                        content: AwesomeSnackbarContent(
-                          title: 'Reservierung wurde gelöscht!',
-                          message: "",
+                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                            contentType: ContentType.failure,
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      var snackBar = SnackBar(
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'Reservierung wurde gelöscht!',
+                            message: "",
 
-                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                          contentType: ContentType.success,
-                        ));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    setState(() {
-                      reservations.remove(reservation);
-                    });
-                    LocalNotificationService.cancel(reservation.since);
-                  }
-                },
-                text: "Löschen",
-              ))
-            ],
+                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                            contentType: ContentType.success,
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      setState(() {
+                        reservations.remove(reservation);
+                      });
+                      LocalNotificationService.cancel(reservation.since);
+                    }
+                  },
+                  text: "Löschen",
+                ))
+              ],
+            ),
           )
         : const SizedBox.shrink();
   }

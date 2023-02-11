@@ -19,7 +19,7 @@ class ReaderCardButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return (!card.available)
         ? SizedBox(
-            height: 40.0.fs,
+            height: 7.0.hs,
             child: Row(
               children: [
                 Expanded(
@@ -33,7 +33,7 @@ class ReaderCardButtons extends StatelessWidget {
             ),
           )
         : SizedBox(
-            height: 40.0.fs,
+            height: 7.0.hs,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -45,10 +45,11 @@ class ReaderCardButtons extends StatelessWidget {
                         await ReservationPopUp(context, card).build();
                       }),
                 ),
-                VerticalDivider(
-                  color: Theme.of(context).dividerColor,
-                  thickness: 1,
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 2.5.hs, 0, 0),
+                  height: 15.0.hs,
                   width: 1,
+                  color: Theme.of(context).dividerColor,
                 ),
                 Expanded(
                   //get card

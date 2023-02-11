@@ -28,27 +28,27 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var columnHeight = 36.0.fs;
+    var columnHeight = 5.0.hs;
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(40.0.fs), //height of appbar
+          preferredSize: Size.fromHeight(10.0.hs), //height of appbar
           child: CustomAppBar(title: "Einstellungen"),
         ),
         body: Container(
           color: Theme.of(context).cardColor,
           child: Table(
             border: TableBorder.all(
-                color: Theme.of(context).dividerColor, width: 0.7.fs),
+                color: Theme.of(context).dividerColor, width: 0.3.hs),
             children: [
               TableRow(children: [
-                buildSettingsButton("Benachrichstigungen", Icons.notifications,
+                buildSettingsButton("Benachrichtigungen", Icons.notifications,
                     () {
                   AppSettings.openNotificationSettings();
                 }),
               ]),
               TableRow(children: [
-                buildSettingsButton("Log-Out", Icons.logout_rounded, () {
+                buildSettingsButton("Ausloggen", Icons.logout_rounded, () {
                   buildPop();
                 }),
               ]),
@@ -61,20 +61,23 @@ class _SettingsPageState extends State<SettingsPage> {
               TableRow(children: [
                 Container(
                   height: columnHeight,
-                  padding: EdgeInsets.symmetric(horizontal: 8.0.fs),
+                  padding: EdgeInsets.symmetric(horizontal: 2.0.ws),
                   color: Theme.of(context).cardColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          const Icon(Icons.mode),
-                          SizedBox(
-                            width: 10.0.fs,
+                          Icon(
+                            Icons.mode,
+                            size: 3.4.hs,
                           ),
-                          Text('Dark-Mode',
+                          SizedBox(
+                            width: 5.0.ws,
+                          ),
+                          Text(' Dark-Mode',
                               style: TextStyle(
-                                  fontSize: 14.0.fs,
+                                  fontSize: 3.0.fs,
                                   color: Theme.of(context).primaryColor)),
                         ],
                       ),
@@ -92,9 +95,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget buildSettingsButton(String text, IconData icon, Function function) {
     return ButtonTheme(
-      padding: EdgeInsets.symmetric(
-          vertical: 5.0.fs,
-          horizontal: 8.0.fs), //adds padding inside the button
       materialTapTargetSize: MaterialTapTargetSize
           .shrinkWrap, //limits the touch area to the button area
       minWidth: double.infinity, //wraps child's width
@@ -108,14 +108,21 @@ class _SettingsPageState extends State<SettingsPage> {
             alignment: Alignment.centerLeft,
             child: Row(
               children: [
-                Icon(icon, color: Theme.of(context).primaryColor),
                 SizedBox(
-                  width: 10.0.fs,
+                  width: 1.0.ws,
+                ),
+                Icon(
+                  icon,
+                  color: Theme.of(context).primaryColor,
+                  size: 3.4.hs,
+                ),
+                SizedBox(
+                  width: 5.0.ws,
                 ),
                 Text(
                   text,
                   style: TextStyle(
-                      fontSize: 14.0.fs, color: Theme.of(context).primaryColor),
+                      fontSize: 3.0.fs, color: Theme.of(context).primaryColor),
                 ),
               ],
             ),
@@ -124,17 +131,20 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildChangeThemeMode(BuildContext context) {
-    return Switch(
-        activeColor: Theme.of(context).secondaryHeaderColor,
-        value: isDark,
-        onChanged: (value) async {
-          await AppPreferences.setIsOn(value);
-          final provider = Provider.of<ThemeProvider>(context, listen: false);
-          isDark = value;
-          setState(() {
-            provider.toggleTheme(value);
-          });
-        });
+    return Transform.scale(
+      scale: 0.15.hs,
+      child: Switch(
+          activeColor: Theme.of(context).secondaryHeaderColor,
+          value: isDark,
+          onChanged: (value) async {
+            await AppPreferences.setIsOn(value);
+            final provider = Provider.of<ThemeProvider>(context, listen: false);
+            isDark = value;
+            setState(() {
+              provider.toggleTheme(value);
+            });
+          }),
+    );
   }
 
   Future<void> buildPop() async {

@@ -33,7 +33,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    var sizedHeight = 10.0.fs;
+    var sizedHeight = 2.0.hs;
     return Scaffold(
 
         //drawer: const MenuNavigationDrawer(),
@@ -41,7 +41,7 @@ class _AccountPageState extends State<AccountPage> {
           iconTheme: IconThemeData(
             color: Theme.of(context).primaryColor, //change your color here
           ),
-          toolbarHeight: 30.0.fs,
+          toolbarHeight: 10.0.hs,
           bottomOpacity: 0.0,
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -53,18 +53,18 @@ class _AccountPageState extends State<AccountPage> {
                   color: Theme.of(context).primaryColor)),
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10.0.fs),
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5.0.ws),
           child: Padding(
-            padding: EdgeInsets.all(20.0.fs),
+            padding: EdgeInsets.all(10.0.ws),
             child: Column(
               children: [
                 Center(
                   child: CircleAvatar(
-                    radius: 30.0.fs,
+                    radius: 7.0.fs,
                     backgroundColor: ColorSelect.greyBorderColor,
                     child: Icon(
                       Icons.account_box,
-                      size: 40.0.fs,
+                      size: 8.0.fs,
                       color: Colors.white,
                     ),
                   ),
@@ -128,7 +128,7 @@ class _AccountPageState extends State<AccountPage> {
                     Expanded(
                         child: SizedBox(
                             width: double.infinity,
-                            height: 40.0.fs,
+                            height: 7.0.fs,
                             child: DefaultCustomButton(
                               bgColor: ColorSelect.blueAccent,
                               borderColor: ColorSelect.blueAccent,

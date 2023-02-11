@@ -34,10 +34,10 @@ class TextInput extends StatelessWidget {
           editable ?? true, // will disable paste operation
       focusNode: temp,
       controller: inputController,
-      style: TextStyle(fontSize: 10.0.fs),
+      style: TextStyle(fontSize: 2.0.fs),
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-          labelStyle: TextStyle(fontSize: 9.0.fs),
+          labelStyle: TextStyle(fontSize: 2.0.fs),
           border: const UnderlineInputBorder(),
           prefixIcon: Icon(iconData),
           labelText: label),

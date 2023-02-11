@@ -13,7 +13,7 @@ class ConnectionStatusTextfield extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              color: Theme.of(context).primaryColor, fontSize: 20.0.fs),
+              color: Theme.of(context).primaryColor, fontSize: 3.0.fs),
         ),
       ),
     );

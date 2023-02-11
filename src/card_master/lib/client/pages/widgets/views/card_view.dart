@@ -27,14 +27,13 @@ class CardView extends StatelessWidget {
                 ? Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0.fs),
+                      borderRadius: BorderRadius.circular(2.0.hs),
                     ),
                     child: Column(children: [
                       Row(children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(5.0.fs, 0, 0.0.fs, 0),
-                          child:
-                              Icon(Icons.credit_card_outlined, size: 30.0.fs),
+                          padding: EdgeInsets.fromLTRB(5.0.ws, 0, 0.0, 0),
+                          child: Icon(Icons.credit_card_outlined, size: 5.0.hs),
                         ),
                         //FavoriteView().buildCardsText(context, data.readercards[index]),
                         CardTextData(data.pinnedCards, data.reloadPinned,

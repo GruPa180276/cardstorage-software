@@ -23,9 +23,11 @@ class CardButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black.withOpacity(0)), // <-- Does not work
         onPressed: onPress,
-        child: Text(text,
-            style: TextStyle(
-                color: Theme.of(context).primaryColor, fontSize: 10.0.fs)),
+        child: Container(
+          child: Text(text,
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor, fontSize: 2.3.fs)),
+        ),
       ),
     );
   }

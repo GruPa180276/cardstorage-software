@@ -86,12 +86,12 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             child: TextField(
                 controller: searchController,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 10.0.fs),
+                    contentPadding: EdgeInsets.symmetric(vertical: 2.50.fs),
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Karte suchen per Name',
-                    hintStyle: TextStyle(fontSize: 10.0.fs),
+                    hintStyle: TextStyle(fontSize: 1.75.fs),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(2.0.hs),
                         borderSide:
                             BorderSide(color: Theme.of(context).dividerColor))),
                 onChanged: ((value) {
@@ -108,7 +108,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
               ).buildBottomSheet(context);
             },
             icon: const Icon(Icons.adjust),
-            iconSize: 20.0.fs,
+            iconSize: 5.00.fs,
           )
         ],
       );
@@ -116,15 +116,15 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(40.0.fs), //height of appbar
+            preferredSize: Size.fromHeight(10.00.fs), //height of appbar
             child: CustomAppBar(
                 title: site.toString().replaceAll("CardPageType.", ""))),
         body: Container(
-          margin: EdgeInsets.symmetric(vertical: 10.0.fs, horizontal: 5.0.fs),
+          margin: EdgeInsets.fromLTRB(2.0.ws, 0, 2.0.ws, 0),
           child: Column(
             children: [
               seachField,
-              SizedBox(height: 10.0.fs),
+              SizedBox(height: 1.00.hs),
               FutureBuilder<List<ReaderCard>?>(
                   future: modifiedReaderCards,
                   builder: (context, snapshot) {
@@ -176,13 +176,19 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          child: const Icon(
-            Icons.replay,
-            color: Colors.white,
+        floatingActionButton: Container(
+          width: 8.0.hs,
+          child: FittedBox(
+            child: FloatingActionButton(
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              child: Icon(
+                Icons.replay,
+                color: Colors.white,
+                size: 3.00.hs,
+              ),
+              onPressed: () => {_reloadReaderCards()},
+            ),
           ),
-          onPressed: () => {_reloadReaderCards()},
         ));
   }
 }

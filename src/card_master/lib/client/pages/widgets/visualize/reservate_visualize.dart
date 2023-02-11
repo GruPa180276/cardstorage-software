@@ -61,12 +61,12 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
             child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 10.0.fs),
+                    contentPadding: EdgeInsets.symmetric(vertical: 2.50.fs),
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Karte suchen per Name',
-                    hintStyle: TextStyle(fontSize: 10.0.fs),
+                    hintStyle: TextStyle(fontSize: 1.75.fs),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(2.0.hs),
                         borderSide:
                             BorderSide(color: Theme.of(context).dividerColor))),
                 onChanged: ((value) {
@@ -81,16 +81,16 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(40.0.fs), //height of appbar
+          preferredSize: Size.fromHeight(10.00.fs), //height of appbar
           child: CustomAppBar(
               title: site.toString().replaceAll("CardPageType.", "")),
         ),
         body: Container(
-          margin: EdgeInsets.symmetric(vertical: 15.0.fs, horizontal: 5.0.fs),
+          margin: EdgeInsets.fromLTRB(2.0.ws, 0, 2.0.ws, 0),
           child: Column(
             children: [
               seachField,
-              SizedBox(height: 10.0.fs),
+              SizedBox(height: 2.00.hs),
               FutureBuilder<List<Reservation>?>(
                   future: _futureReservations,
                   builder: (context, snapshot) {
@@ -116,13 +116,19 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          child: const Icon(
-            Icons.replay,
-            color: Colors.white,
+        floatingActionButton: Container(
+          width: 8.0.hs,
+          child: FittedBox(
+            child: FloatingActionButton(
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              child: Icon(
+                Icons.replay,
+                size: 3.00.hs,
+                color: Colors.white,
+              ),
+              onPressed: () => {_reloadReaderCards()},
+            ),
           ),
-          onPressed: () => {_reloadReaderCards()},
         ));
   }
 }

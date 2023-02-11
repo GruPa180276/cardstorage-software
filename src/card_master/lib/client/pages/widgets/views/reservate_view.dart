@@ -38,15 +38,14 @@ class ReservationView extends StatelessWidget {
                   ? Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0.fs),
+                        borderRadius: BorderRadius.circular(2.0.hs),
                       ),
                       child: Column(children: [
                         Row(children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(5.0.fs, 0, 0.0.fs, 0),
-                            child:
-                                Icon(Icons.credit_card_outlined, size: 30.0.fs),
-                          ),
+                              padding: EdgeInsets.fromLTRB(5.0.ws, 0, 0.0, 0),
+                              child: Icon(Icons.credit_card_outlined,
+                                  size: 6.0.hs)),
                           _buildCardsText(context, reservations[index]),
                         ]),
                         _buildBottomCards(context, reservations[index])
@@ -56,24 +55,28 @@ class ReservationView extends StatelessWidget {
       );
 
   Widget _buildCardsText(BuildContext context, Reservation card) {
-    var textFontSize = 11.0.fs;
-
+    var textFontSize = 2.1.fs;
+    var sizedBoxHeight = 2.9.hs;
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 5.0.fs, 5.0.fs, 0),
+        padding: EdgeInsets.fromLTRB(5.0.ws, 0.0.hs, 3.0.ws, 0.0.hs),
         child: Stack(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(10.0.fs, 0, 10.0.fs, 0),
+              padding: EdgeInsets.fromLTRB(
+                  0, 1.0.hs, 5.0.ws, (card.isreservation) ? 0 : 3.0.ws),
               child: Table(
                 //border: TableBorder.all(),
-
+                columnWidths: {
+                  0: FlexColumnWidth(0.4),
+                  1: FlexColumnWidth(0.35),
+                },
                 children: [
                   TableRow(
                     children: [
                       SizedBox(
                           width: double.infinity,
-                          height: 16.0.fs,
+                          //height: sizedBoxHeight,
                           child: Text(
                             "Name:",
                             style: TextStyle(fontSize: textFontSize),
@@ -81,6 +84,7 @@ class ReservationView extends StatelessWidget {
                           )),
                       SizedBox(
                           width: double.infinity,
+                          //height: sizedBoxHeight,
                           child: Text(
                             card.cardName!,
                             textAlign: TextAlign.right,
@@ -91,14 +95,14 @@ class ReservationView extends StatelessWidget {
                   TableRow(
                     children: [
                       SizedBox(
-                          height: 16.0.fs,
+                          //height: sizedBoxHeight,
                           width: double.infinity,
                           child: Text("Storage:",
                               textAlign: TextAlign.left,
                               style: TextStyle(fontSize: textFontSize))),
                       SizedBox(
                           width: double.infinity,
-                          height: 16.0.fs,
+                          //height: sizedBoxHeight,
                           child: Text(card.storageName!,
                               textAlign: TextAlign.right,
                               style: TextStyle(fontSize: textFontSize)))
@@ -107,7 +111,7 @@ class ReservationView extends StatelessWidget {
                   TableRow(
                     children: [
                       SizedBox(
-                          height: 16.0.fs,
+                          //height: sizedBoxHeight,
                           width: double.infinity,
                           child: Text(
                             "Von:",
@@ -116,7 +120,7 @@ class ReservationView extends StatelessWidget {
                           )),
                       SizedBox(
                         width: double.infinity,
-                        height: 16.0.fs,
+                        //height: sizedBoxHeight,
                         child: Text(
                           DateFormat('yyyy-MM-dd HH:mm')
                               .format(DateTime.fromMicrosecondsSinceEpoch(
@@ -132,7 +136,7 @@ class ReservationView extends StatelessWidget {
                   TableRow(
                     children: [
                       SizedBox(
-                        height: 16.0.fs,
+                        //height: sizedBoxHeight,
                         width: double.infinity,
                         child: Text(
                           "Bis:",
@@ -141,7 +145,7 @@ class ReservationView extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 16.0.fs,
+                        //height: sizedBoxHeight,
                         width: double.infinity,
                         child: Text(
                           (card.isreservation)
@@ -169,7 +173,7 @@ class ReservationView extends StatelessWidget {
   Widget _buildBottomCards(BuildContext context, Reservation reservation) {
     return (reservation.isreservation)
         ? SizedBox(
-            height: 40.0.fs,
+            height: 7.0.hs,
             child: Row(
               children: [
                 Expanded(

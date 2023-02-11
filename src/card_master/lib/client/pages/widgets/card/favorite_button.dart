@@ -27,7 +27,7 @@ class FavoriteButton extends StatelessWidget {
       return Container(
         alignment: Alignment.centerRight,
         child: IconButton(
-          padding: EdgeInsets.fromLTRB(0, 0.0.fs, 0.0.fs, 0),
+          padding: EdgeInsets.fromLTRB(0, 0.0.hs, 0.0, 0),
           onPressed: () {
             setState(
               () {
@@ -36,6 +36,7 @@ class FavoriteButton extends StatelessWidget {
                   AppPreferences.addCardPinned(card.name.toString());
                 } else {
                   AppPreferences.removePinnedCardAt(card.name);
+
                   pinnedCards = AppPreferences.getCardsPinned();
                   colorPin = Theme.of(context).primaryColor;
                 }
@@ -47,7 +48,7 @@ class FavoriteButton extends StatelessWidget {
             Icons.star,
             color: colorPin,
           ),
-          iconSize: 20.0.fs,
+          iconSize: 4.0.hs,
           splashColor: Colors.transparent,
           splashRadius: 0.1,
         ),

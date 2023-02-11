@@ -17,7 +17,15 @@ class SizeManager {
   }
 
   static fs(var i) {
-    return _width / 100 * (i / 3);
+    return _height / 100 * i;
+  }
+
+  static ws(var i) {
+    return _width / 100 * i;
+  }
+
+  static hs(var i) {
+    return _height / 100 * i;
   }
 
   static get orientation => _orientation;

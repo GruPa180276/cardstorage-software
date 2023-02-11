@@ -48,7 +48,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
               const Spacer(),
               SizedBox(
                   width: double.infinity,
-                  height: 40.0.fs,
+                  height: 8.0.fs,
                   child: DefaultCustomButton(
                     bgColor: ColorSelect.blueAccent,
                     borderColor: ColorSelect.blueAccent,
@@ -77,26 +77,26 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(0.0, 55.0.fs, 0.0, 0.0),
+          padding: EdgeInsets.fromLTRB(0.0, 9.0.fs, 0.0, 0.0),
           child: Text('Guten',
               style: TextStyle(
-                  fontSize: 65.0.fs,
+                  fontSize: 13.0.fs,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(0.0, 125.0.fs, 0.0, 0.0),
+          padding: EdgeInsets.fromLTRB(0.0, 20.0.fs, 0.0, 0.0),
           child: Text('Tag',
               style: TextStyle(
-                  fontSize: 65.0.fs,
+                  fontSize: 13.0.fs,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato")),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(110.0.fs, 125.0.fs, 0.0, 0.0),
+          padding: EdgeInsets.fromLTRB(22.0.fs, 20.0.fs, 0.0, 0.0),
           child: Text('.',
               style: TextStyle(
-                  fontSize: 65.0.fs,
+                  fontSize: 13.0.fs,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Lato",
                   color: Theme.of(context).secondaryHeaderColor)),
@@ -114,7 +114,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         title: Text(
           "Login speichern",
           style: TextStyle(
-            fontSize: 10.0.fs,
+            fontSize: 2.0.fs,
           ),
         ),
         //contentPadding: EdgeInsets.fromLTRB(50, 0, 0, 0),
@@ -138,7 +138,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
           'Probleme?',
           style: TextStyle(
             fontFamily: 'Lato',
-            fontSize: 10.0.fs,
+            fontSize: 2.0.fs,
           ),
         ),
         const SizedBox(width: 5.0),
@@ -157,7 +157,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
             'Stelle Sie eine Frage.',
             style: TextStyle(
                 color: Theme.of(context).secondaryHeaderColor,
-                fontSize: 10.0.fs,
+                fontSize: 2.0.fs,
                 fontFamily: 'Lato',
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline),

@@ -37,9 +37,9 @@ class _ClientNavigationState extends State<ClientNavigation> {
         body: screens[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          iconSize: 20.0.fs,
-          unselectedFontSize: 7.5.fs,
-          selectedFontSize: 8.0.fs,
+          iconSize: 5.0.fs,
+          unselectedFontSize: 1.3.fs,
+          selectedFontSize: 1.9.fs,
           currentIndex: currentIndex,
           onTap: (value) => setState(() => currentIndex = value),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

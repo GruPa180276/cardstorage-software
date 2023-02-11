@@ -29,7 +29,7 @@ class DefaultCustomButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 13.0.fs,
+          fontSize: 2.5.fs,
           fontWeight: FontWeight.bold,
           color: textColor,
         ),

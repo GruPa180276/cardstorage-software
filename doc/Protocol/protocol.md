@@ -323,6 +323,9 @@ Habe heute als erstes den Default User option hinzugefügt, das bei jedem Storag
 **10.2.2023: 16:00 bis 18:15** <br>
 Habe mit Herrn Grubauer unsere 2 Apps gemerged. Diese funktionieren jetzt, es fehlt ledgiglich der switch button zwischen den Apps. (2h 15min)
 
+**11.2.2023: 9:00 bis 13:00** <br>
+Habe heute weiter an der Doku gearbeitet. Dazu habe ich die allgemeinen Technologien der beiden Apps nocheinmal überabeitet. Dazu habe ich noch mit Patrick einige Calls durchgeführt um uns abzustimmen. (4h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -418,4 +421,5 @@ Habe mit Herrn Grubauer unsere 2 Apps gemerged. Diese funktionieren jetzt, es fe
 - 15:30 bis 20:30 Uhr
 - 17:00 bis 20:15 Uhr
 - 16:00 bis 18:15 Uhr
+- 9:00 bis 13:00 Uhr
 <!-- { "progress": false } -->

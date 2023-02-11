@@ -32,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100),
+          preferredSize: Size.fromHeight(40.0.fs), //height of appbar
           child: CustomAppBar(title: "Einstellungen"),
         ),
         body: Container(

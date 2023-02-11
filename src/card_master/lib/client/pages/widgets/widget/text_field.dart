@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/pages/widgets/utils/AlwaysDisabledFocusNode.dart';
 
@@ -33,8 +34,10 @@ class TextInput extends StatelessWidget {
           editable ?? true, // will disable paste operation
       focusNode: temp,
       controller: inputController,
+      style: TextStyle(fontSize: 10.0.fs),
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
+          labelStyle: TextStyle(fontSize: 9.0.fs),
           border: const UnderlineInputBorder(),
           prefixIcon: Icon(iconData),
           labelText: label),

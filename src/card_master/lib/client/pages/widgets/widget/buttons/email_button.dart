@@ -14,7 +14,7 @@ class EmailButton extends StatelessWidget {
         ? Container(
             alignment: Alignment.centerRight,
             child: IconButton(
-              padding: EdgeInsets.fromLTRB(0, 10.0.fs, 0.0.fs, 0),
+              padding: EdgeInsets.fromLTRB(0, 10.0.fs, 0.0.fs, 10.0.fs),
               onPressed: () async {
                 EmailPopUp(
                         context: context,

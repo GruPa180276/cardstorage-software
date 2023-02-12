@@ -67,9 +67,9 @@ class ReservationView extends StatelessWidget {
                   0, 1.0.hs, 5.0.ws, (card.isreservation) ? 0 : 3.0.ws),
               child: Table(
                 //border: TableBorder.all(),
-                columnWidths: {
+                columnWidths: const {
                   0: FlexColumnWidth(0.4),
-                  1: FlexColumnWidth(0.35),
+                  1: FlexColumnWidth(0.55),
                 },
                 children: [
                   TableRow(

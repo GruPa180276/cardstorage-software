@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 class CardButton extends StatelessWidget {
   final String text;
   final void Function()? onPress;
+  bool? borderLeftSide;
 
-  const CardButton({
-    super.key,
-    required this.text,
-    required this.onPress,
-  });
+  CardButton(
+      {super.key,
+      required this.text,
+      required this.onPress,
+      this.borderLeftSide});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,10 @@ class CardButton extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(color: Theme.of(context).dividerColor),
-          right: BorderSide(color: Theme.of(context).dividerColor),
+          left: BorderSide(
+              color: (borderLeftSide != null)
+                  ? (Theme.of(context).dividerColor)
+                  : Colors.transparent),
         ),
       ),
       child: TextButton(

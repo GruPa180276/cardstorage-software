@@ -46,6 +46,7 @@ class ReaderCardButtons extends StatelessWidget {
                 Expanded(
                   //get card
                   child: CardButton(
+                      borderLeftSide: true,
                       text: 'Jetzt holen',
                       onPress: () async {
                         try {

@@ -3,39 +3,18 @@ import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode =
-      AppPreferences.getIsOn() ? ThemeMode.dark : ThemeMode.light;
+  late ThemeMode _themeMode;
 
-  bool get isDarkMode => themeMode == ThemeMode.dark;
-
-  void toggleTheme(bool isOn) {
-    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+  ThemeProvider() {
+    _themeMode = AppPreferences.getIsOn() ? ThemeMode.dark : ThemeMode.light;
+  }
+  void toggleTheme(bool isOn) async {
+    await AppPreferences.setIsOn(isOn);
+    _themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
+
+  ThemeMode getThemeMode() {
+    return _themeMode;
+  }
 }
-
-class MyThemes {
-  static get darkTheme => ThemeData(
-        fontFamily: 'Kanit',
-        scaffoldBackgroundColor: Colors.black,
-        colorScheme:
-            const ColorScheme.dark().copyWith(primary: ColorSelect.blueAccent),
-        primaryColor: Colors.white,
-        secondaryHeaderColor: ColorSelect.blueAccent,
-        dividerColor: ColorSelect.darkBorder,
-        cardColor: ColorSelect.darkCardColor,
-      );
-
-  static get lightTheme => ThemeData(
-        fontFamily: 'Kanit',
-        scaffoldBackgroundColor: ColorSelect.lightBgColor,
-        colorScheme:
-            const ColorScheme.light().copyWith(primary: ColorSelect.blueAccent),
-        primaryColor: Colors.black,
-        secondaryHeaderColor: ColorSelect.blueAccent,
-        dividerColor: ColorSelect.lightBorder,
-        cardColor: ColorSelect.lightCardColor,
-      );
-}
-
-//accentColor:blue,

@@ -136,8 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Switch(
           activeColor: Theme.of(context).secondaryHeaderColor,
           value: isDark,
-          onChanged: (value) async {
-            await AppPreferences.setIsOn(value);
+          onChanged: (value) {
             final provider = Provider.of<ThemeProvider>(context, listen: false);
             isDark = value;
             setState(() {

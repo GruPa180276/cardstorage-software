@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:card_master/client/pages/widgets/widget/app_bar.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 
-class CardViewData extends InheritedWidget {
+class CardsData extends InheritedWidget {
   final List<ReaderCard> readercards;
   final String searchstring;
   final Set<String> pinnedCards;
@@ -10,7 +10,7 @@ class CardViewData extends InheritedWidget {
   final void Function() reloadCard;
   final void Function(void Function()) setState;
 
-  const CardViewData({
+  const CardsData({
     Key? key,
     required this.readercards,
     required this.searchstring,
@@ -21,12 +21,12 @@ class CardViewData extends InheritedWidget {
     required Widget child,
   }) : super(key: key, child: child);
 
-  static CardViewData? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<CardViewData>();
+  static CardsData? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<CardsData>();
   }
 
   @override
-  bool updateShouldNotify(CardViewData oldWidget) {
+  bool updateShouldNotify(CardsData oldWidget) {
     return readercards != oldWidget.readercards ||
         searchstring != oldWidget.searchstring ||
         pinnedCards != oldWidget.pinnedCards;

@@ -109,7 +109,7 @@ class RequestTimer {
                       onStart: () async {
                         //maybe you need threading
                         if (action == TimerAction.GETCARD) {
-                          var response = await Data.check(
+                          var response = await Data.checkAuthorization(
                               Data.postGetCardNow, {"cardname": card!.name});
                           if (response.statusCode != 200) {
                             SnackbarBuilder(
@@ -120,7 +120,7 @@ class RequestTimer {
                             Navigator.maybePop(context);
                           }
                         } else if (action == TimerAction.SIGNUP) {
-                          var response = await Data.check(
+                          var response = await Data.checkAuthorization(
                               Data.postCreateNewUser,
                               {"storagename": storagename!, "email": email!});
                           if (response.statusCode != 200) {

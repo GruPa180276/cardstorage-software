@@ -146,7 +146,7 @@ class ReservationPopUp {
           borderRadius: BorderRadius.circular(32),
         ))),
         onPressed: () async {
-          var reservationsResponse = await Data.check(
+          var reservationsResponse = await Data.checkAuthorization(
               Data.getReservationsOfCard, {"cardname": card.name});
 
           var jsonReservation = jsonDecode(reservationsResponse.body) as List;

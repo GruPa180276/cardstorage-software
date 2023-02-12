@@ -1,4 +1,4 @@
-import 'package:card_master/client/pages/widgets/inherited/cards_text_inherited.dart';
+import 'package:card_master/client/pages/widgets/inherited/card_inherited.dart';
 import 'package:card_master/client/pages/widgets/widget/buttons/email_button.dart';
 import 'package:card_master/client/pages/widgets/card/favorite_button.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';
@@ -10,10 +10,11 @@ class TextView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = CardTextData.of(context)!;
+    final data = CardData.of(context)!;
+
     var textFontSize = 2.1.fs;
-    var sizedBoxHeight = 2.9.hs;
-//horizontal: 35.0, vertical: 2.0
+    //var sizedBoxHeight = 2.9.hs;
+    //horizontal: 35.0, vertical: 2.0
     return Expanded(
       child: Padding(
         padding: EdgeInsets.fromLTRB(5.0.ws, 1.0.hs, 3.0.ws, 0.0.hs),
@@ -22,7 +23,7 @@ class TextView extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 1.0.hs, 12.0.ws, 0),
               child: Table(
-                columnWidths: {
+                columnWidths: const {
                   0: FlexColumnWidth(0.4),
                   1: FlexColumnWidth(0.35),
                 },

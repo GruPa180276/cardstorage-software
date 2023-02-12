@@ -1,12 +1,9 @@
 // ignore_for_file: deprecated_member_use
 import 'dart:convert';
 
-import 'package:card_master/client/config/properties/screen.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';
-import 'package:card_master/client/provider/size/size_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/types/cardpage_type.dart';
-import 'package:card_master/client/pages/navigation/client_navigation.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/views/favorite_view.dart';
 import 'package:card_master/client/pages/widgets/pop_up/bottom_filter.dart';
@@ -61,7 +58,8 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   }
 
   Future<List<ReaderCard>?> _getReaderCard() async {
-    var cardsResponse = await Data.check(Data.getReaderCards, null);
+    var cardsResponse =
+        await Data.checkAuthorization(Data.getReaderCards, null);
     var jsonStorage = jsonDecode(cardsResponse.body) as List;
     List<Storage> storages =
         jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
@@ -146,7 +144,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                       final cards = snapshot.data!;
                       switch (site) {
                         case CardPageType.Karten:
-                          return CardViewData(
+                          return CardsData(
                             readercards: cards,
                             searchstring: searchString,
                             pinnedCards: pinnedCards!,
@@ -156,7 +154,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             child: CardView(),
                           );
                         case CardPageType.Favoriten:
-                          return CardViewData(
+                          return CardsData(
                             readercards: cards,
                             searchstring: searchString,
                             pinnedCards: pinnedCards!,

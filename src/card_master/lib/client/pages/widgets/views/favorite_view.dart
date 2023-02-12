@@ -1,17 +1,17 @@
-import 'package:card_master/client/pages/widgets/inherited/cards_text_inherited.dart';
+import 'package:card_master/client/pages/widgets/inherited/card_inherited.dart';
 import 'package:card_master/client/pages/widgets/card/card_text_view.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/card/card_bottom_row.dart';
 
 class FavoriteView extends StatelessWidget {
-  late CardViewData data;
+  late CardsData data;
 
   FavoriteView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    data = CardViewData.of(context)!;
+    data = CardsData.of(context)!;
 
     return Flexible(
       child: ListView.builder(
@@ -56,15 +56,18 @@ class FavoriteView extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
                           child: Icon(Icons.credit_card_outlined, size: 35),
                         ),
-                        CardTextData(data.pinnedCards, data.reloadPinned,
-                            card: data.readercards[index], child: TextView())
+                        CardData(
+                            pinnedCards: data.pinnedCards,
+                            reloadPinned: data.reloadPinned,
+                            card: data.readercards[index],
+                            child: TextView())
                       ]),
-                      ReaderCardButtons(
-                        key: key,
-                        card: data.readercards[index],
-                        reloadCard: data.reloadPinned,
-                        setState: data.setState,
-                      )
+                      CardData(
+                          pinnedCards: data.pinnedCards,
+                          reloadPinned: data.reloadPinned,
+                          setState: data.setState,
+                          card: data.readercards[index],
+                          child: ReaderCardButtons())
                     ]))
                 : Container();
           }),

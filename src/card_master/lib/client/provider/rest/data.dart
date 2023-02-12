@@ -12,25 +12,17 @@ class Data {
   static String apiAdress =
       'https://${ServerProperties.getServer()}:${ServerProperties.getRestPort()}${ServerProperties.getBaseUri()}';
 
-  static Future<Response> check(
+  static Future<Response> checkAuthorization(
       Function function, Map<String, dynamic>? args) async {
     Response response;
     if (bearerToken == null) {
       await _generateToken();
     }
-    if (args != null) {
-      response = await function(args);
-    } else {
-      response = await function();
-    }
+    response = (args != null) ? await function(args) : await function();
+
     if (response.statusCode == 401) {
       await _generateToken();
-
-      if (args != null) {
-        response = await function(args);
-      } else {
-        response = await function();
-      }
+      response = (args != null) ? await function(args) : await function();
     }
     return response;
   }
@@ -145,7 +137,7 @@ class Data {
     bearerToken = response.body;
   }
 
-  static void setToken(String token) async {
-    // https://localhost:7171/api/auth/user/email/card_storage_admin@default.com
+  static String getBearerToken() {
+    return bearerToken!;
   }
 }

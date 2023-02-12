@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:card_master/client/config/properties/screen.dart';
 import 'package:card_master/client/provider/size/size_manager.dart';
+import 'package:card_master/client/provider/theme/rfid_themes.dart';
 import 'package:card_master/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,6 @@ import 'client/config/properties/server_properties.dart';
 
 Future main() async {
   await ServerProperties.loadEnv();
-
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
   late bool? rememberState;
@@ -26,18 +26,17 @@ Future main() async {
       rememberState = false;
     }
   }
-
-  runApp(MyApp(
+  runApp(RfidApp(
     rememberState: rememberState,
   ));
 }
 
-class MyApp extends StatelessWidget {
+class RfidApp extends StatelessWidget {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   static const String title = 'Rfid Card Management App';
   final bool rememberState;
-  const MyApp({required this.rememberState, Key? key}) : super(key: key);
+  const RfidApp({required this.rememberState, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -48,9 +47,9 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: title,
-            themeMode: themeProvider.themeMode,
-            theme: MyThemes.lightTheme,
-            darkTheme: MyThemes.darkTheme,
+            themeMode: themeProvider.getThemeMode(),
+            theme: RifdAppThemes.lightTheme,
+            darkTheme: RifdAppThemes.darkTheme,
             routes: routes,
             home: const ClientNavigation(),
             navigatorKey: navigatorKey,
@@ -60,9 +59,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: title,
-          themeMode: themeProvider.themeMode,
-          theme: MyThemes.lightTheme,
-          darkTheme: MyThemes.darkTheme,
+          themeMode: themeProvider.getThemeMode(),
+          theme: RifdAppThemes.lightTheme,
+          darkTheme: RifdAppThemes.darkTheme,
           routes: routes,
           home: const LoginUserScreen(),
           navigatorKey: navigatorKey,

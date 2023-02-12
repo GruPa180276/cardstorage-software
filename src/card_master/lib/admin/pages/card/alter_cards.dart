@@ -34,6 +34,7 @@ class _CardSettingsState extends State<CardSettings> {
     position: 0,
     accessed: 0,
     available: false,
+    reader: "",
   );
 
   @override
@@ -187,11 +188,13 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                         () async {
                           if (_formKey.currentState!.validate()) {
                             Cards updateEntry = new Cards(
-                                name: widget.car.name,
-                                storage: widget.car.storage,
-                                position: widget.car.position,
-                                accessed: widget.car.accessed,
-                                available: widget.car.available);
+                              name: widget.car.name,
+                              storage: widget.car.storage,
+                              position: widget.car.position,
+                              accessed: widget.car.accessed,
+                              available: widget.car.available,
+                              reader: "",
+                            );
 
                             Future<int> code = card.updateData(
                                 widget.car.name, updateEntry.toJson());

@@ -10,6 +10,7 @@ class Cards {
   int position;
   int accessed;
   bool available;
+  String reader;
 
   Cards({
     required this.name,
@@ -17,6 +18,7 @@ class Cards {
     required this.position,
     required this.accessed,
     required this.available,
+    required this.reader,
   });
 
   factory Cards.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Cards {
       position: json['position'] ?? 0,
       accessed: json['accessed'] ?? 0,
       available: json['available'] ?? false,
+      reader: json['reader'] ?? "",
     );
   }
 
@@ -51,6 +54,27 @@ Future<List<Cards>> fetchData() async {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
     return fetchData();
+  } else {
+    throw Exception('Failed to get Cards!');
+  }
+}
+
+Future<Cards> getCardByName(String name) async {
+  final response = await http.get(
+    Uri.parse(adres.cardAdress + "/name/" + name),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
+  );
+  if (response.statusCode == 200) {
+    dynamic jsonResponse = json.decode(response.body);
+    return Cards.fromJson(jsonResponse);
+  } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
+    SecureStorage.setToken();
+    return getCardByName(name);
   } else {
     throw Exception('Failed to get Cards!');
   }

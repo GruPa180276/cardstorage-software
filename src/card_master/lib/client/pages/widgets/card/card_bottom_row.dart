@@ -45,12 +45,6 @@ class ReaderCardButtons extends StatelessWidget {
                         await ReservationPopUp(context, card).build();
                       }),
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 2.5.hs, 0, 0),
-                  height: 15.0.hs,
-                  width: 1,
-                  color: Theme.of(context).dividerColor,
-                ),
                 Expanded(
                   //get card
                   child: CardButton(

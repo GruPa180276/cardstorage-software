@@ -55,9 +55,9 @@ class ReservateView extends StatelessWidget {
         child: Table(
           //border: TableBorder.all(),
 
-          columnWidths: const <int, TableColumnWidth>{
-            0: FractionColumnWidth(0.2),
-            1: FractionColumnWidth(0.7),
+          columnWidths: const {
+            0: FlexColumnWidth(0.4),
+            1: FlexColumnWidth(0.35),
           },
 
           children: [
@@ -65,14 +65,14 @@ class ReservateView extends StatelessWidget {
               children: [
                 const SizedBox(
                     width: double.infinity,
-                    height: 25,
+                    //height: 25,
                     child: Text(
                       "Karte:",
                       textAlign: TextAlign.left,
                     )),
                 SizedBox(
                     width: double.infinity,
-                    height: 25,
+                    //height: 25,
                     child: Text(
                       reserveration.cardName.toString(),
                       textAlign: TextAlign.right,
@@ -83,14 +83,14 @@ class ReservateView extends StatelessWidget {
               children: [
                 const SizedBox(
                     width: double.infinity,
-                    height: 25,
+                    //height: 25,
                     child: Text(
                       "Email:",
                       textAlign: TextAlign.left,
                     )),
                 SizedBox(
                     width: double.infinity,
-                    height: 25,
+                    //height: 25,
                     child: Text(
                       reserveration.user.email.toString(),
                       textAlign: TextAlign.right,
@@ -101,14 +101,14 @@ class ReservateView extends StatelessWidget {
               children: [
                 const SizedBox(
                     width: double.infinity,
-                    height: 25,
+                    //height: 25,
                     child: Text(
                       "Von:",
                       textAlign: TextAlign.left,
                     )),
                 SizedBox(
                   width: double.infinity,
-                  height: 25,
+                  //height: 25,
                   child: Text(
                     DateFormat('yyyy-MM-dd HH:mm')
                         .format(DateTime.fromMillisecondsSinceEpoch(
@@ -124,14 +124,14 @@ class ReservateView extends StatelessWidget {
               children: [
                 const SizedBox(
                     width: double.infinity,
-                    height: 25,
+                    //height: 25,
                     child: Text(
                       "Bis:",
                       textAlign: TextAlign.left,
                     )),
                 SizedBox(
                   width: double.infinity,
-                  height: 25,
+                  //height: 25,
                   child: Text(
                     (reserveration.isreservation)
                         ? DateFormat('yyyy-MM-dd HH:mm')

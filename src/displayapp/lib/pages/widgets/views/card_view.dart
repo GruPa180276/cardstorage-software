@@ -52,74 +52,77 @@ class CardView extends StatelessWidget {
     if (!card.available) {
       colorAvailable = Colors.red;
     }
-    return Container(
-      child: Expanded(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          child: Table(
-            children: [
-              TableRow(
-                children: [
-                  const SizedBox(
-                    width: double.infinity,
-                    height: 25,
-                    child: Text(
-                      "Name:",
-                      textAlign: TextAlign.left,
-                    ),
+
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        child: Table(
+          columnWidths: const {
+            0: FlexColumnWidth(0.4),
+            1: FlexColumnWidth(0.35),
+          },
+          children: [
+            TableRow(
+              children: [
+                const SizedBox(
+                  width: double.infinity,
+                  //height: 25,
+                  child: Text(
+                    "Name:",
+                    textAlign: TextAlign.left,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 25,
-                    child: Text(
-                      card.name,
-                      textAlign: TextAlign.right,
-                    ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  //height: 25,
+                  child: Text(
+                    card.name,
+                    textAlign: TextAlign.right,
                   ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  const SizedBox(
-                    width: double.infinity,
-                    height: 25,
-                    child: Text(
-                      "Verfügbar:",
-                      textAlign: TextAlign.left,
-                    ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                const SizedBox(
+                  width: double.infinity,
+                  //height: 25,
+                  child: Text(
+                    "Verfügbar:",
+                    textAlign: TextAlign.left,
                   ),
-                  SizedBox(
-                    height: 25,
-                    child: Text(
-                      card.available.toString(),
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          color: colorAvailable, fontWeight: FontWeight.bold),
-                    ),
+                ),
+                SizedBox(
+                  //height: 25,
+                  child: Text(
+                    card.available.toString(),
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        color: colorAvailable, fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  const SizedBox(
-                    height: 25,
-                    child: Text(
-                      "Position:",
-                      textAlign: TextAlign.left,
-                    ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                const SizedBox(
+                  //height: 25,
+                  child: Text(
+                    "Position:",
+                    textAlign: TextAlign.left,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 25,
-                    child: Text(
-                      card.position.toString(),
-                      textAlign: TextAlign.right,
-                    ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  //height: 25,
+                  child: Text(
+                    card.position.toString(),
+                    textAlign: TextAlign.right,
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

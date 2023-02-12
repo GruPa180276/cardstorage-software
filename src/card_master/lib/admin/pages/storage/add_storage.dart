@@ -73,7 +73,7 @@ class _InputFieldsState extends State<InputFields> {
   late List<Storages> s;
 
   void loadData() async {
-    await fetchData().then((value) => s = value);
+    await fetchStorages().then((value) => s = value);
   }
 
   @override
@@ -154,7 +154,7 @@ class _InputFieldsState extends State<InputFields> {
                               location: stor.location,
                               numberOfCards: stor.numberOfCards,
                               cards: []);
-                          Future<int> code = sendData(newEntry.toJson());
+                          Future<int> code = addStorage(newEntry.toJson());
 
                           Users newUser = new Users(
                             email: newEntry.name.toLowerCase() + "@default.com",

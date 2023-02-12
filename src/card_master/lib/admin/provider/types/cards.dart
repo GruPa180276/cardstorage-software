@@ -38,7 +38,7 @@ class Cards {
       };
 }
 
-Future<List<Cards>> fetchData() async {
+Future<List<Cards>> fetchCards() async {
   final response = await http.get(
     Uri.parse(adres.cardAdress),
     headers: {
@@ -53,7 +53,7 @@ Future<List<Cards>> fetchData() async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return fetchData();
+    return fetchCards();
   } else {
     throw Exception('Failed to get Cards!');
   }
@@ -80,7 +80,7 @@ Future<Cards> getCardByName(String name) async {
   }
 }
 
-Future<int> deleteData(String name) async {
+Future<int> deleteCard(String name) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.cardAdress + "/name/" + name),
     headers: {
@@ -96,13 +96,13 @@ Future<int> deleteData(String name) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return deleteData(name);
+    return deleteCard(name);
   } else {
     throw Exception('Failed to delete Card!');
   }
 }
 
-Future<int> updateData(String name, Map<String, dynamic> data) async {
+Future<int> updateCard(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
     Uri.parse(adres.cardAdress + "/name/" + name),
     headers: {
@@ -120,13 +120,13 @@ Future<int> updateData(String name, Map<String, dynamic> data) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return updateData(name, data);
+    return updateCard(name, data);
   } else {
     throw Exception('Failed to update Card!');
   }
 }
 
-Future<int> sendData(Map<String, dynamic> data) async {
+Future<int> addCard(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
     Uri.parse(adres.cardAdress),
     headers: {
@@ -144,7 +144,7 @@ Future<int> sendData(Map<String, dynamic> data) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return sendData(data);
+    return addCard(data);
   } else {
     throw Exception('Failed to add Card!');
   }

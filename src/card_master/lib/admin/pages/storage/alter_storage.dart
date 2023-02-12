@@ -32,7 +32,7 @@ class _StorageSettingsState extends State<StorageSettings> {
   }
 
   void test() async {
-    await fetchData().then((value) => s = value);
+    await fetchStorages().then((value) => s = value);
 
     for (int i = 0; i < s.length; i++) {
       if (s[i].name == widget.storage) {
@@ -189,7 +189,7 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                             cards: []);
 
                         Future<int> code =
-                            updateData(widget.stor.name, newEntry.toJson());
+                            updateStorage(widget.stor.name, newEntry.toJson());
 
                         if (await code == 200) {
                           Navigator.of(context).pop();

@@ -71,7 +71,7 @@ Expanded generateButtonRectangle(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        minimumSize: Size(double.infinity, 50),
+        minimumSize: const Size(double.infinity, 60),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         foregroundColor: Theme.of(context).focusColor,
       ),

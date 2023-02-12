@@ -35,11 +35,7 @@ import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
 // - There could be open Reservations
 // - ...
 
-// Change Text of Cards Page Verfügbar - true to something else
 // Change Text of Storage Focus Verfügbar - true to something else
-
-// Use diffrent Sucsess Message PopUp
-// Use diffrent Error Message PopUp
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -54,7 +50,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black,
   ));
 
@@ -63,7 +59,7 @@ Future main() async {
   SecureStorage.storage.deleteAll();
   SecureStorage.setToken();
 
-  runApp(AppStart());
+  runApp(const AppStart());
 }
 
 class AppStart extends StatelessWidget {
@@ -82,7 +78,7 @@ class AppStart extends StatelessWidget {
             theme: MyThemes.lightTheme,
             darkTheme: MyThemes.darkTheme,
             debugShowCheckedModeBanner: false,
-            home: SplashScreen(),
+            home: const SplashScreen(),
             onGenerateRoute: RouteGenerator.generateRoute,
           );
         });
@@ -101,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        const Duration(seconds: 3),
         () => Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => BottomNavigation())));
   }

@@ -332,6 +332,8 @@ Habe heute damit begonnen. einen Timer beim ausborgen der Karten einzufügen. Da
 **12.2.2023: 12:30 bis 18:30** <br>
 Später habe ich dann damit begonnen die Karten Seiten zu überarbeiten. Dazu habe ich die 4 vorhandenen Files weiter aufgeteilt, damit duplikationen entfernt werden konnten. Somit konnte ich etwa 400 Zeilen von 1200 Zeilen Code einsparen. Dazu habe ich dann auch noch kleine Änderungen am Design vorgenommen. Es wird bei den Karten jetzt auch der Storage Name angezeigt und statt True und False bei der Verfügbarkeit, Ja und Nein. Desweiteren habe ich das Error Handling noch etwas verbessert. (6h)
 
+**12.2.2023: 18:30 bis 19:30** <br>
+Habe bei der Doku den thoretischen Teil der Admin Sicht, noch etwas genauer zu beschreiben. (1h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -431,4 +433,5 @@ Später habe ich dann damit begonnen die Karten Seiten zu überarbeiten. Dazu ha
 - 9:00 bis 13:00 Uhr
 - 8:00 bis 12:00 Uhr
 - 12:30 bis 18:30 Uhr
+- 18:30 bis 19:30 Uhr
 <!-- { "progress": false } -->

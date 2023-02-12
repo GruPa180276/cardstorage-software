@@ -87,10 +87,13 @@ func connectToDatabase(user, passwd, hostname, port, dbname string) *gorm.DB {
 	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "User"))
 	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "fk_reservation_user"))
 
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "Card"))
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "fk_reservation_card"))
+
 	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "Reservations"))
 	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_reservations"))
 
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "StorageID"))
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "Storage"))
 	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_storageid"))
 
 	util.Must(nil, db.Migrator().CreateConstraint(&model.Storage{}, "Cards"))

@@ -14,9 +14,9 @@ type Card struct {
 	ReaderData         sql.NullString `json:"reader"       gorm:"default:null;type:varchar(64)"`
 	AccessCount        uint           `json:"accessed"     gorm:"not null;default:0"`
 	CurrentlyAvailable bool           `json:"available"    gorm:"not null;default:true"`
-	// Reservations       []Reservation  `json:"reservations" gorm:"many2many:card_reservations;constraint:OnDelete:CASCADE;"`
-	StorageID    uint          `gorm:"foreignKey:StorageID"`
-	Reservations []Reservation `gorm:"foreignKey:ReservationID"`
+	StorageID          uint           `json:"-"            gorm:"foreignKey:StorageID"`
+	Storage            Storage        `json:"-"`
+	Reservations       []Reservation  `json:"reservations"`
 }
 
 func (self *Card) MarshalJSON() ([]byte, error) {

@@ -12,6 +12,8 @@ type Reservation struct {
 	Since         time.Time `json:"since"          gorm:"not null"`
 	Until         time.Time `json:"until"          gorm:"default:null"`
 	ReturnedAt    time.Time `json:"returned-at"    gorm:"default:null"`
+	CardID        uint      `json:"-"              gorm:"foreignKey:CardID"`
+	Card          Card      `json:"-"`
 	IsReservation bool      `json:"is-reservation" gorm:"default:false"`
 }
 

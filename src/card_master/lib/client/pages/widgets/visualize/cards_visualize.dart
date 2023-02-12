@@ -58,13 +58,16 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
   }
 
   Future<List<ReaderCard>?> _getReaderCard() async {
-    var cardsResponse =
-        await Data.checkAuthorization(Data.getReaderCards, null);
-    var jsonStorage = jsonDecode(cardsResponse.body) as List;
-    List<Storage> storages =
-        jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
-    Utils.parseToReaderCards(storages);
-    return Future.value(Utils.parseToReaderCards(storages));
+    var cardsResponse = await Data.checkAuthorization(
+        context: context, function: Data.getReaderCards, args: null);
+    if (cardsResponse != null) {
+      var jsonStorage = jsonDecode(cardsResponse.body) as List;
+      List<Storage> storages =
+          jsonStorage.map((tagJson) => Storage.fromJson(tagJson)).toList();
+      Utils.parseToReaderCards(storages);
+      return Future.value(Utils.parseToReaderCards(storages));
+    }
+    return null;
   }
 
   void _setReaderCards(Future<List<ReaderCard>?> newStorageList) {

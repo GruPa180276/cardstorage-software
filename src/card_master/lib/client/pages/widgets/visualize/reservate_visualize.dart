@@ -42,8 +42,8 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
 
   Future<List<Reservation>?> _getReservations() async {
     var reservationsResponse =
-        await Data.checkAuthorization(Data.getAllReservationUser, null);
-    var jsonReservation = jsonDecode(reservationsResponse.body) as List;
+        await Data.checkAuthorization(function: Data.getAllReservationUser);
+    var jsonReservation = jsonDecode(reservationsResponse!.body) as List;
     List<Reservation> reservations = jsonReservation
         .map((tagJson) => Reservation.fromJson(tagJson))
         .toList();

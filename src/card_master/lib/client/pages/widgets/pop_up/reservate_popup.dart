@@ -147,9 +147,11 @@ class ReservationPopUp {
         ))),
         onPressed: () async {
           var reservationsResponse = await Data.checkAuthorization(
-              Data.getReservationsOfCard, {"cardname": card.name});
+              context: context,
+              function: Data.getReservationsOfCard,
+              args: {"cardname": card.name});
 
-          var jsonReservation = jsonDecode(reservationsResponse.body) as List;
+          var jsonReservation = jsonDecode(reservationsResponse!.body) as List;
           reservations = jsonReservation
               .map((tagJson) => Reservation.fromJson(tagJson))
               .toList();

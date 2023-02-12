@@ -1,4 +1,5 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:card_master/client/pages/widgets/pop_up/snackbar/awesome_snackbar_content.dart';
+import 'package:card_master/client/pages/widgets/pop_up/snackbar/content_type.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 

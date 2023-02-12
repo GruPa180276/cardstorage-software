@@ -8,20 +8,21 @@ import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart'
 import 'package:card_master/client/pages/widgets/card/card_bottom_row.dart';
 
 class CardView extends StatelessWidget {
-  late CardsData data;
+  late CardsData cardsData;
 
   CardView({super.key});
   @override
   Widget build(BuildContext context) {
-    data = CardsData.of(context)!;
+    cardsData = CardsData.of(context)!;
     return Flexible(
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: data.readercards.length,
+          itemCount: cardsData.readercards.length,
           itemBuilder: (context, index) {
             bool card = false;
-            card = data.readercards[index].name.contains(data.searchstring);
+            card = cardsData.readercards[index].name
+                .contains(cardsData.searchstring);
 
             return card
                 ? Card(
@@ -37,16 +38,16 @@ class CardView extends StatelessWidget {
                         ),
                         //FavoriteView().buildCardsText(context, data.readercards[index]),
                         CardData(
-                            pinnedCards: data.pinnedCards,
-                            reloadPinned: data.reloadPinned,
-                            card: data.readercards[index],
+                            pinnedCards: cardsData.pinnedCards,
+                            reloadPinned: cardsData.reloadPinned,
+                            card: cardsData.readercards[index],
                             child: TextView())
                       ]),
                       CardData(
-                          pinnedCards: data.pinnedCards,
-                          reloadPinned: data.reloadPinned,
-                          setState: data.setState,
-                          card: data.readercards[index],
+                          pinnedCards: cardsData.pinnedCards,
+                          reloadPinned: cardsData.reloadPinned,
+                          setState: cardsData.setState,
+                          card: cardsData.readercards[index],
                           child: ReaderCardButtons())
                     ]))
                 : Container();

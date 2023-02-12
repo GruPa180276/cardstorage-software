@@ -110,8 +110,10 @@ class RequestTimer {
                         //maybe you need threading
                         if (action == TimerAction.GETCARD) {
                           var response = await Data.checkAuthorization(
-                              Data.postGetCardNow, {"cardname": card!.name});
-                          if (response.statusCode != 200) {
+                              context: context,
+                              function: Data.postGetCardNow,
+                              args: {"cardname": card!.name});
+                          if (response!.statusCode != 200) {
                             SnackbarBuilder(
                                 context: context,
                                 snackbarType: SnackbarType.failure,
@@ -121,9 +123,13 @@ class RequestTimer {
                           }
                         } else if (action == TimerAction.SIGNUP) {
                           var response = await Data.checkAuthorization(
-                              Data.postCreateNewUser,
-                              {"storagename": storagename!, "email": email!});
-                          if (response.statusCode != 200) {
+                              context: context,
+                              function: Data.postCreateNewUser,
+                              args: {
+                                "storagename": storagename!,
+                                "email": email!
+                              });
+                          if (response!.statusCode != 200) {
                             SnackbarBuilder(
                                 context: context,
                                 snackbarType: SnackbarType.failure,

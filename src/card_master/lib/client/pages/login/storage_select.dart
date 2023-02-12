@@ -10,10 +10,10 @@ class StorageSelectPopUp {
   static var _successful = false;
   static String _dropdownValue = "";
   static Future<void> build(BuildContext buildcontext) async {
-    var responseStorage =
-        await Data.checkAuthorization(Data.getReaderCards, null);
+    var responseStorage = await Data.checkAuthorization(
+        context: buildcontext, function: Data.getReaderCards);
 
-    var storagesJson = jsonDecode(responseStorage.body) as List;
+    var storagesJson = jsonDecode(responseStorage!.body) as List;
     List<Storage> storageList =
         storagesJson.map((tagJson) => Storage.fromJson(tagJson)).toList();
 

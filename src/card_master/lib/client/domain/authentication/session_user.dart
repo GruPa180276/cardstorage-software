@@ -60,9 +60,9 @@ class SessionUser {
   }
 
   static Future<bool> reloadUserData() async {
-    var response =
-        await Data.checkAuthorization(Data.getUserByName, {"email": _email});
-    if (response.statusCode != 200) {
+    var response = await Data.checkAuthorization(
+        function: Data.getUserByName, args: {"email": _email});
+    if (response!.statusCode != 200) {
       return false;
     }
     var jsonUserObject = jsonDecode(response.body);
@@ -82,10 +82,11 @@ class SessionUser {
       if (accessToken!.isNotEmpty) {
         var microsoftResponse =
             await Data.getUserData({"accesstoken": accessToken});
-        var mircosoftJsonObject = jsonDecode(microsoftResponse!.body);
+        var mircosoftJsonObject = jsonDecode(microsoftResponse.body);
         var apiUserResponse = await Data.checkAuthorization(
-            Data.getUserByName, {"email": mircosoftJsonObject["mail"]});
-        var apiJsonObject = jsonDecode(apiUserResponse.body);
+            function: Data.getUserByName,
+            args: {"email": mircosoftJsonObject["mail"]});
+        var apiJsonObject = jsonDecode(apiUserResponse!.body);
         if (apiUserResponse.statusCode != 200 ||
             apiJsonObject["email"].toString().isEmpty) {
           isRegistered = false;

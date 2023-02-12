@@ -74,8 +74,27 @@ func connectToBroker(ct *controller.Controller, hostname, port, clientId string)
 
 func connectToDatabase(user, passwd, hostname, port, dbname string) *gorm.DB {
 	connstring := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, passwd, hostname, port, dbname)
-	db := util.Must(gorm.Open(mysql.Open(connstring), &gorm.Config{})).(*gorm.DB)
-	util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
+	db := util.Must(gorm.Open(mysql.Open(connstring), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})).(*gorm.DB)
+	// util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
+	// util.Must(nil, db.AutoMigrate(&model.User{}, &model.Card{}, &model.Reservation{}, &model.Storage{}))
+	util.Must(nil, db.Migrator().CreateTable(&model.User{}))
+	util.Must(nil, db.Migrator().CreateTable(&model.Card{}))
+	util.Must(nil, db.Migrator().CreateTable(&model.Reservation{}))
+	util.Must(nil, db.Migrator().CreateTable(&model.Storage{}))
+
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "User"))
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "fk_reservation_user"))
+
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "Reservations"))
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_reservations"))
+
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "StorageID"))
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_storageid"))
+
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Storage{}, "Cards"))
+	util.Must(nil, db.Migrator().CreateConstraint(&model.Storage{}, "fk_storage_cards"))
 
 	if result := db.Where("privileged = ?", true).Find(&model.User{}); result.RowsAffected == 0 {
 		db.Create(&model.User{Email: os.Getenv("MANAGEMENT_ADMIN_DEFAULT"), Privileged: true})

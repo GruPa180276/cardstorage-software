@@ -1,14 +1,15 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-
-import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:async';
+import 'package:card_master/admin/pages/card/form.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/pages/widget/listTile.dart';
-import 'package:card_master/admin/provider/types/cards.dart' as card;
-import 'package:card_master/admin/provider/types/storages.dart' as storage;
+import 'package:card_master/admin/pages/card/timer_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:card_master/admin/pages/card/alert_dialog.dart';
+import 'package:card_master/admin/pages/card/storage_selector.dart';
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -18,131 +19,164 @@ class AddCards extends StatefulWidget {
 }
 
 class _AddCardsState extends State<AddCards> {
-  String selectedStorage = "-";
-  List<String> dropDownValuesNames = ["-"];
-  late List<Storages> listOfStorages = [];
-  late List<Cards> s = [];
-  late List<FocusS> unfocused = [];
+  List<String> listOfStorageNames = [];
+  List<Storages> listOfStorages = [];
+  List<Cards> listOfCards = [];
+  List<FocusS> listUnfocusedStorages = [];
 
   @override
   void initState() {
     super.initState();
-    loadData();
-    test();
+    fetchData();
   }
 
-  void test() async {
-    await storage.fetchData().then((value) => listOfStorages = value);
-    await getAllUnfocusedStorages().then((value) => unfocused = value);
+  void fetchData() async {
+    await fetchCards().then((value) => listOfCards = value);
+    await fetchStorages().then((value) => listOfStorages = value);
+    await getAllUnfocusedStorages()
+        .then((value) => listUnfocusedStorages = value);
 
+    listOfStorageNames.add("-");
     for (int i = 0; i < listOfStorages.length; i++) {
-      dropDownValuesNames.add(listOfStorages[i].name);
+      listOfStorageNames.add(listOfStorages[i].name);
     }
 
-    for (int i = 0; i < dropDownValuesNames.length; i++) {
-      for (int j = 0; j < unfocused.length; j++) {
-        if (dropDownValuesNames[i] == unfocused[j].name) {
-          dropDownValuesNames.removeAt(i);
+    for (int i = 0; i < listOfStorageNames.length; i++) {
+      for (int j = 0; j < listUnfocusedStorages.length; j++) {
+        if (listOfStorageNames[i] == listUnfocusedStorages[j].name) {
+          listOfStorageNames.removeAt(i);
           setState(() {});
         }
       }
     }
-  }
 
-  void loadData() async {
-    await card.fetchData().then((value) => s = value);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            "Karte hinzufügen",
-            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-          ),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          actions: []),
-      body: Container(
-          padding: EdgeInsets.only(top: 10),
-          child: Column(
-            children: [
-              GenerateInputFields(
-                s: s,
-                selectedStorage: selectedStorage,
-                dropDownValues: dropDownValuesNames,
-                storages: listOfStorages,
-              )
-            ],
-          )),
+        title: Text(
+          "Karte hinzufügen",
+          style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+        ),
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+      ),
+      body: Column(
+        children: [
+          GenerateCards(
+            listOfCards: listOfCards,
+            listOfStorageNames: listOfStorageNames,
+            listOfStorages: listOfStorages,
+          )
+        ],
+      ),
     );
   }
 }
 
-// ignore: must_be_immutable
-class GenerateInputFields extends StatefulWidget {
-  String selectedStorage;
-  final List<String> dropDownValues;
-  final List<Storages> storages;
-  final List<Cards> s;
+class GenerateCards extends StatefulWidget {
+  final List<String> listOfStorageNames;
+  final List<Storages> listOfStorages;
+  final List<Cards> listOfCards;
 
-  GenerateInputFields({
+  const GenerateCards({
     Key? key,
-    required this.selectedStorage,
-    required this.dropDownValues,
-    required this.s,
-    required this.storages,
+    required this.listOfStorageNames,
+    required this.listOfCards,
+    required this.listOfStorages,
   }) : super(key: key);
 
   @override
-  State<GenerateInputFields> createState() => _GenerateInputFieldsState();
+  State<GenerateCards> createState() => _GenerateCardsState();
 }
 
-class _GenerateInputFieldsState extends State<GenerateInputFields> {
-  late Cards car = new Cards(
+class _GenerateCardsState extends State<GenerateCards> {
+  String selectedStorage = "-";
+  Cards card = Cards(
     name: "",
     storage: "",
     position: 0,
     accessed: 0,
     available: false,
+    reader: "",
   );
-  String storageName = "";
 
   @override
   void initState() {
     super.initState();
   }
 
-  void setName(String value) {
-    car.name = value;
+  void setCardName(String value) {
+    card.name = value;
   }
 
-  void setStorage(String value) {
-    storageName = value;
+  void setSelectedStorage(String value) {
+    setState(() {
+      selectedStorage = value;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _nameController = TextEditingController(text: car.name);
+    final nameController = TextEditingController(text: card.name);
+    final formKey = GlobalKey<FormState>();
 
-    final _formKey = GlobalKey<FormState>();
+    return Expanded(
+      child: Column(
+        children: [
+          buildCardForm(context, "Karte hinzufügen", (() async {
+            if (formKey.currentState!.validate() && selectedStorage != "-") {
+              Cards newEntry = Cards(
+                name: card.name,
+                storage: selectedStorage,
+                position: card.position,
+                accessed: card.accessed,
+                available: card.available,
+                reader: "",
+              );
 
-    return Form(
-        key: _formKey,
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+              Future<int> code = addCard(newEntry.toJson());
+
+              if (await code == 200) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        buildTimerdialog(context, newEntry));
+              }
+              if (await code == 400) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => buildAlertDialog(
+                          context,
+                          "Karte hinzufügen ...",
+                          "Es ist ein Fehler beim anlegen der Karte aufgetreten!",
+                          [
+                            generateButtonRectangle(
+                              context,
+                              "Ok",
+                              () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        ));
+              }
+            }
+          }),
+              formKey,
               GenerateListTile(
                 labelText: "Name",
                 hintText: "",
                 icon: Icons.storage,
                 regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-                function: this.setName,
-                controller: _nameController,
+                function: setCardName,
+                controller: nameController,
                 fun: (value) {
-                  for (int i = 0; i < widget.s.length; i++) {
-                    if (widget.s[i].name == value) {
+                  for (int i = 0; i < widget.listOfCards.length; i++) {
+                    if (widget.listOfCards[i].name == value) {
                       return 'Exsistiert bereits!';
                     }
                   }
@@ -153,146 +187,15 @@ class _GenerateInputFieldsState extends State<GenerateInputFields> {
                   }
                 },
               ),
-              Container(
-                margin:
-                    EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                child: Column(children: [
-                  DecoratedBox(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).secondaryHeaderColor,
-                          border: Border.all(
-                            color: Colors.black38,
-                            width: 3,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            5,
-                          ),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.57),
-                              blurRadius: 5,
-                            )
-                          ]),
-                      child: Center(
-                          child: DropdownButton(
-                        focusColor: Theme.of(context).focusColor,
-                        dropdownColor: Theme.of(context).backgroundColor,
-                        iconEnabledColor: Theme.of(context).focusColor,
-                        iconDisabledColor: Theme.of(context).focusColor,
-                        value: widget.selectedStorage,
-                        items: widget.dropDownValues.map((valueItem) {
-                          return DropdownMenuItem(
-                              value: valueItem,
-                              child: Text(
-                                valueItem.toString(),
-                                style: TextStyle(
-                                    color: Theme.of(context).focusColor),
-                              ));
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            widget.selectedStorage = newValue!;
-                          });
-                          setStorage(newValue!);
-                        },
-                      )))
-                ]),
-              ),
-              GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    height: 70,
-                    child: Column(children: [
-                      generateButtonRectangle(
-                        context,
-                        "Karte hinzufügen",
-                        () async {
-                          if (_formKey.currentState!.validate()) {
-                            Cards newEntry = new Cards(
-                                name: car.name,
-                                storage: storageName,
-                                position: car.position,
-                                accessed: car.accessed,
-                                available: car.available);
-
-                            Future<int> code = card.sendData(newEntry.toJson());
-
-                            if (await code == 200) {
-                              Navigator.of(context).pop();
-                            }
-                            if (await code == 400) {
-                              Navigator.of(context).pop();
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                        backgroundColor: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        title: Text(
-                                          'Karte anlegen',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        content: new Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              "Es ist ein Fehler beim anlegen der Karte aufgetreten!",
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor),
-                                            ),
-                                          ],
-                                        ),
-                                        actions: <Widget>[
-                                          Container(
-                                              padding: EdgeInsets.all(10),
-                                              height: 70,
-                                              child: Column(
-                                                children: [
-                                                  Column(children: [
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text(
-                                                        "Ok",
-                                                        style: TextStyle(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .focusColor),
-                                                      ),
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor: Theme
-                                                                .of(context)
-                                                            .secondaryHeaderColor,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ]),
-                                                ],
-                                              )),
-                                        ],
-                                      ));
-                            }
-                          }
-                        },
-                      ),
-                    ]),
-                  )),
-            ],
-          ),
-        ));
+              buildStorageSelector(
+                context,
+                selectedStorage,
+                widget.listOfStorageNames,
+                setSelectedStorage,
+                "Selected Storage",
+              ))
+        ],
+      ),
+    );
   }
 }

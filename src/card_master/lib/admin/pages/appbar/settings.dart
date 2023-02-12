@@ -24,22 +24,21 @@ class _SettingsPageState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            "Einstellungen",
-            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-          ),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          actions: []),
-      body: Container(
-          child: Column(
+        title: Text(
+          "Einstellungen",
+          style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+        ),
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+      ),
+      body: Column(
         children: [buildChangeThemeMode(context)],
-      )),
+      ),
     );
   }
 
   Widget buildChangeThemeMode(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: Card(
             elevation: 5,
             shape: RoundedRectangleBorder(
@@ -53,8 +52,8 @@ class _SettingsPageState extends State<Settings> {
                   "Switch Theme Mode",
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
-                onChanged: (value) async {
-                  await AppPreferences.setIsOn(value);
+                onChanged: (value) {
+                  AppPreferences.setIsOn(value);
                   final provider =
                       Provider.of<ThemeProvider>(context, listen: false);
                   isDark = value;

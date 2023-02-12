@@ -37,7 +37,7 @@ class Storages {
       };
 }
 
-Future<List<Storages>> fetchData() async {
+Future<List<Storages>> fetchStorages() async {
   final response = await http.get(
     Uri.parse(adres.storageAdress),
     headers: {
@@ -52,7 +52,7 @@ Future<List<Storages>> fetchData() async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return fetchData();
+    return fetchStorages();
   } else {
     throw Exception('Failed to get Storages!');
   }
@@ -99,7 +99,7 @@ Future<Storages> getAllCardsPerStorage(String name) async {
   }
 }
 
-Future<Storages> getUnfocusedStorage(String name) async {
+Future<Storages> getUnfocusedStorages(String name) async {
   final response = await http.get(
     Uri.parse(adres.storageAdress + "/focus/name/" + name),
     headers: {
@@ -113,7 +113,7 @@ Future<Storages> getUnfocusedStorage(String name) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return getUnfocusedStorage(name);
+    return getUnfocusedStorages(name);
   } else {
     throw Exception('Failed to get all unfocused Storages!');
   }
@@ -164,7 +164,7 @@ Future<int> deleteStorage(String name) async {
   }
 }
 
-Future<int> updateData(String name, Map<String, dynamic> data) async {
+Future<int> updateStorage(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
     Uri.parse(adres.storageAdress + "/name/" + name),
     headers: {
@@ -181,13 +181,13 @@ Future<int> updateData(String name, Map<String, dynamic> data) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return updateData(name, data);
+    return updateStorage(name, data);
   } else {
     throw Exception('Failed to update Storage!');
   }
 }
 
-Future<int> sendData(Map<String, dynamic> data) async {
+Future<int> addStorage(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
     Uri.parse(adres.storageAdress),
     headers: {
@@ -204,7 +204,7 @@ Future<int> sendData(Map<String, dynamic> data) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return sendData(data);
+    return addStorage(data);
   } else {
     throw Exception('Failed to add Storage!');
   }

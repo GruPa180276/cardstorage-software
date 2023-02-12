@@ -10,6 +10,7 @@ class Cards {
   int position;
   int accessed;
   bool available;
+  String reader;
 
   Cards({
     required this.name,
@@ -17,6 +18,7 @@ class Cards {
     required this.position,
     required this.accessed,
     required this.available,
+    required this.reader,
   });
 
   factory Cards.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Cards {
       position: json['position'] ?? 0,
       accessed: json['accessed'] ?? 0,
       available: json['available'] ?? false,
+      reader: json['reader'] ?? "",
     );
   }
 
@@ -35,7 +38,7 @@ class Cards {
       };
 }
 
-Future<List<Cards>> fetchData() async {
+Future<List<Cards>> fetchCards() async {
   final response = await http.get(
     Uri.parse(adres.cardAdress),
     headers: {
@@ -50,13 +53,34 @@ Future<List<Cards>> fetchData() async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return fetchData();
+    return fetchCards();
   } else {
     throw Exception('Failed to get Cards!');
   }
 }
 
-Future<int> deleteData(String name) async {
+Future<Cards> getCardByName(String name) async {
+  final response = await http.get(
+    Uri.parse(adres.cardAdress + "/name/" + name),
+    headers: {
+      HttpHeaders.authorizationHeader:
+          "Bearer ${await SecureStorage.getToken()}",
+      "Accept": "application/json"
+    },
+  );
+  if (response.statusCode == 200) {
+    dynamic jsonResponse = json.decode(response.body);
+    return Cards.fromJson(jsonResponse);
+  } else if (response.statusCode == 401) {
+    await Future.delayed(Duration(seconds: 1));
+    SecureStorage.setToken();
+    return getCardByName(name);
+  } else {
+    throw Exception('Failed to get Cards!');
+  }
+}
+
+Future<int> deleteCard(String name) async {
   final http.Response response = await http.delete(
     Uri.parse(adres.cardAdress + "/name/" + name),
     headers: {
@@ -72,13 +96,13 @@ Future<int> deleteData(String name) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return deleteData(name);
+    return deleteCard(name);
   } else {
     throw Exception('Failed to delete Card!');
   }
 }
 
-Future<int> updateData(String name, Map<String, dynamic> data) async {
+Future<int> updateCard(String name, Map<String, dynamic> data) async {
   final http.Response response = await http.put(
     Uri.parse(adres.cardAdress + "/name/" + name),
     headers: {
@@ -96,13 +120,13 @@ Future<int> updateData(String name, Map<String, dynamic> data) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return updateData(name, data);
+    return updateCard(name, data);
   } else {
     throw Exception('Failed to update Card!');
   }
 }
 
-Future<int> sendData(Map<String, dynamic> data) async {
+Future<int> addCard(Map<String, dynamic> data) async {
   final http.Response response = await http.post(
     Uri.parse(adres.cardAdress),
     headers: {
@@ -120,7 +144,7 @@ Future<int> sendData(Map<String, dynamic> data) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return sendData(data);
+    return addCard(data);
   } else {
     throw Exception('Failed to add Card!');
   }

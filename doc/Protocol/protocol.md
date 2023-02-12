@@ -326,6 +326,13 @@ Habe mit Herrn Grubauer unsere 2 Apps gemerged. Diese funktionieren jetzt, es fe
 **11.2.2023: 9:00 bis 13:00** <br>
 Habe heute weiter an der Doku gearbeitet. Dazu habe ich die allgemeinen Technologien der beiden Apps nocheinmal überabeitet. Dazu habe ich noch mit Patrick einige Calls durchgeführt um uns abzustimmen. (4h)
 
+**12.2.2023: 8:00 bis 12:00** <br>
+Habe heute damit begonnen. einen Timer beim ausborgen der Karten einzufügen. Das hat sich anfänglich als schwierig gestalltet, da ich einen Timer verwendete, welcher praktisch nicht möglich war zu unterbrechen. Danach hatte ich nach einem anderen Package gesucht, mit dem es dann sofort funktioniert hat. (4h)
+
+**12.2.2023: 12:30 bis 18:30** <br>
+Später habe ich dann damit begonnen die Karten Seiten zu überarbeiten. Dazu habe ich die 4 vorhandenen Files weiter aufgeteilt, damit duplikationen entfernt werden konnten. Somit konnte ich etwa 400 Zeilen von 1200 Zeilen Code einsparen. Dazu habe ich dann auch noch kleine Änderungen am Design vorgenommen. Es wird bei den Karten jetzt auch der Storage Name angezeigt und statt True und False bei der Verfügbarkeit, Ja und Nein. Desweiteren habe ich das Error Handling noch etwas verbessert. (6h)
+
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -422,4 +429,6 @@ Habe heute weiter an der Doku gearbeitet. Dazu habe ich die allgemeinen Technolo
 - 17:00 bis 20:15 Uhr
 - 16:00 bis 18:15 Uhr
 - 9:00 bis 13:00 Uhr
+- 8:00 bis 12:00 Uhr
+- 12:30 bis 18:30 Uhr
 <!-- { "progress": false } -->

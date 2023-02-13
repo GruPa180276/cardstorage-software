@@ -335,6 +335,12 @@ Später habe ich dann damit begonnen die Karten Seiten zu überarbeiten. Dazu ha
 **12.2.2023: 18:30 bis 19:30** <br>
 Habe bei der Doku den thoretischen Teil der Admin Sicht, noch etwas genauer zu beschreiben. (1h)
 
+**13.2.2023: 8:00 bis 11:30** <br>
+Habe heute den theoretischen Teil fertig überarbeitet. (3h 30min)
+
+**13.2.2023: 12:40 bis 15:40** <br>
+Weiters habe ich dann noch das Ändern des App Names, Icons und des Ladebildschirms beschrieben. Danach habe ich mit dem erklären der Implementation der Admin Sicht begonnen. (3h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -434,4 +440,6 @@ Habe bei der Doku den thoretischen Teil der Admin Sicht, noch etwas genauer zu b
 - 8:00 bis 12:00 Uhr
 - 12:30 bis 18:30 Uhr
 - 18:30 bis 19:30 Uhr
+- 8:00 bis 11:30 Uhr
+- 12:40 bis 15:40 Uhr
 <!-- { "progress": false } -->

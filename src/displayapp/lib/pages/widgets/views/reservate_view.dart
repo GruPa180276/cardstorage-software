@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rfidapp/pages/widgets/inheritated/cards_inherited.dart';
 import 'package:rfidapp/provider/rest/types/reservation.dart';
+import 'package:rfidapp/provider/size/size_extentions.dart';
 
 class ReservateView extends StatelessWidget {
   late CardViewData data;
@@ -31,13 +32,14 @@ class ReservateView extends StatelessWidget {
                 ? Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(2.0.ws),
                     ),
                     child: Column(children: [
                       Row(children: [
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
-                          child: Icon(Icons.credit_card_outlined, size: 35),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5.0.ws, vertical: 2.0.hs),
+                          child: Icon(Icons.credit_card_outlined, size: 5.0.fs),
                         ),
                         _buildCardsText(context, reservations[index]),
                       ]),
@@ -49,9 +51,11 @@ class ReservateView extends StatelessWidget {
 
   static Widget _buildCardsText(
       BuildContext context, Reservation reserveration) {
+    var fs = 1.75.hs;
+
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.fromLTRB(0, 1.0.hs, 5.0.ws, 1.0.hs),
         child: Table(
           //border: TableBorder.all(),
 
@@ -63,17 +67,19 @@ class ReservateView extends StatelessWidget {
           children: [
             TableRow(
               children: [
-                const SizedBox(
+                SizedBox(
                     width: double.infinity,
                     //height: 25,
                     child: Text(
                       "Karte:",
+                      style: TextStyle(fontSize: fs),
                       textAlign: TextAlign.left,
                     )),
                 SizedBox(
                     width: double.infinity,
                     //height: 25,
                     child: Text(
+                      style: TextStyle(fontSize: fs),
                       reserveration.cardName.toString(),
                       textAlign: TextAlign.right,
                     ))
@@ -81,17 +87,19 @@ class ReservateView extends StatelessWidget {
             ),
             TableRow(
               children: [
-                const SizedBox(
+                SizedBox(
                     width: double.infinity,
                     //height: 25,
                     child: Text(
                       "Email:",
+                      style: TextStyle(fontSize: fs),
                       textAlign: TextAlign.left,
                     )),
                 SizedBox(
                     width: double.infinity,
                     //height: 25,
                     child: Text(
+                      style: TextStyle(fontSize: fs),
                       reserveration.user.email.toString(),
                       textAlign: TextAlign.right,
                     ))
@@ -99,10 +107,11 @@ class ReservateView extends StatelessWidget {
             ),
             TableRow(
               children: [
-                const SizedBox(
+                SizedBox(
                     width: double.infinity,
                     //height: 25,
                     child: Text(
+                      style: TextStyle(fontSize: fs),
                       "Von:",
                       textAlign: TextAlign.left,
                     )),
@@ -115,17 +124,18 @@ class ReservateView extends StatelessWidget {
                             reserveration.since * 1000))
                         .toString(),
                     textAlign: TextAlign.right,
-                    style: const TextStyle(color: Colors.green),
+                    style: TextStyle(color: Colors.green, fontSize: fs),
                   ),
                 )
               ],
             ),
             TableRow(
               children: [
-                const SizedBox(
+                SizedBox(
                     width: double.infinity,
                     //height: 25,
                     child: Text(
+                      style: TextStyle(fontSize: fs),
                       "Bis:",
                       textAlign: TextAlign.left,
                     )),
@@ -140,7 +150,7 @@ class ReservateView extends StatelessWidget {
                             .toString()
                         : "Wird benutzt",
                     textAlign: TextAlign.right,
-                    style: const TextStyle(color: Colors.red),
+                    style: TextStyle(color: Colors.red, fontSize: fs),
                   ),
                 )
               ],

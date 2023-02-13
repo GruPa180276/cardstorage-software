@@ -5,6 +5,7 @@ import 'package:rfidapp/pages/widgets/pop_up/request_timer.dart';
 import 'package:rfidapp/pages/widgets/pop_up/response_snackbar.dart';
 import 'package:rfidapp/pages/widgets/widget/card_button.dart';
 import 'package:rfidapp/provider/rest/types/cards.dart';
+import 'package:rfidapp/provider/size/size_extentions.dart';
 
 class CardView extends StatelessWidget {
   late CardViewData data;
@@ -29,13 +30,14 @@ class CardView extends StatelessWidget {
                 ? Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(2.0.ws),
                     ),
                     child: Column(children: [
                       Row(children: [
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
-                          child: Icon(Icons.credit_card_outlined, size: 35),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5.0.ws, vertical: 2.0.hs),
+                          child: Icon(Icons.credit_card_outlined, size: 5.0.fs),
                         ),
                         _buildCardsText(context, data.storage.cards![index]),
                       ]),
@@ -52,10 +54,11 @@ class CardView extends StatelessWidget {
     if (!card.available) {
       colorAvailable = Colors.red;
     }
+    var fs = 1.75.hs;
 
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        padding: EdgeInsets.fromLTRB(0, 0, 5.0.ws, 0),
         child: Table(
           columnWidths: const {
             0: FlexColumnWidth(0.4),
@@ -64,11 +67,12 @@ class CardView extends StatelessWidget {
           children: [
             TableRow(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: double.infinity,
                   //height: 25,
                   child: Text(
                     "Name:",
+                    style: TextStyle(fontSize: fs),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -76,6 +80,7 @@ class CardView extends StatelessWidget {
                   width: double.infinity,
                   //height: 25,
                   child: Text(
+                    style: TextStyle(fontSize: fs),
                     card.name,
                     textAlign: TextAlign.right,
                   ),
@@ -84,10 +89,11 @@ class CardView extends StatelessWidget {
             ),
             TableRow(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: double.infinity,
                   //height: 25,
                   child: Text(
+                    style: TextStyle(fontSize: fs),
                     "Verfügbar:",
                     textAlign: TextAlign.left,
                   ),
@@ -98,24 +104,28 @@ class CardView extends StatelessWidget {
                     card.available.toString(),
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        color: colorAvailable, fontWeight: FontWeight.bold),
+                        color: colorAvailable,
+                        fontWeight: FontWeight.bold,
+                        fontSize: fs),
                   ),
                 ),
               ],
             ),
             TableRow(
               children: [
-                const SizedBox(
+                SizedBox(
                   //height: 25,
                   child: Text(
                     "Position:",
                     textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: fs),
                   ),
                 ),
                 SizedBox(
                   width: double.infinity,
                   //height: 25,
                   child: Text(
+                    style: TextStyle(fontSize: fs),
                     card.position.toString(),
                     textAlign: TextAlign.right,
                   ),

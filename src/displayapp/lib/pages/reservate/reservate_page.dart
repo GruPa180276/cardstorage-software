@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/domain/enum/readercard_type.dart';
-import 'package:rfidapp/pages/widgets/api_data_visualize.dart';
+import 'package:rfidapp/pages/widgets/cards_wrapper.dart';
 
 class ReservatePage extends StatefulWidget {
   const ReservatePage({Key? key}) : super(key: key);

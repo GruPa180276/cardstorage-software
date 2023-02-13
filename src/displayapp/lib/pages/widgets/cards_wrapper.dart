@@ -7,7 +7,8 @@ import 'package:rfidapp/domain/enum/readercard_type.dart';
 import 'package:rfidapp/pages/widgets/inheritated/cards_inherited.dart';
 import 'package:rfidapp/pages/widgets/views/reservate_view.dart';
 import 'package:rfidapp/provider/rest/data.dart';
-import 'package:rfidapp/provider/theme_provider.dart';
+import 'package:rfidapp/provider/size/size_extentions.dart';
+import 'package:rfidapp/provider/theme/theme_provider.dart';
 import 'package:rfidapp/pages/widgets/views/card_view.dart';
 import 'package:rfidapp/domain/app_preferences.dart';
 import 'package:rfidapp/provider/rest/types/storage.dart';
@@ -63,23 +64,25 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
 
     return Scaffold(
         appBar: AppBar(
-            toolbarHeight: 56,
+            toolbarHeight: 5.0.hs,
             bottomOpacity: 0.0,
             elevation: 0.0,
             backgroundColor: Colors.transparent,
-            title: Stack(
+            title: Row(
               children: [
                 Text(site.toString().replaceAll("CardPageType.", ""),
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 4.5.fs,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor)),
-                Container(
-                    alignment: Alignment.bottomRight,
-                    child: buildChangeThemeMode(context)),
+                Expanded(
+                  child: Container(
+                      alignment: Alignment.topRight,
+                      child: buildChangeThemeMode(context)),
+                ),
                 Container(
                   alignment: Alignment.centerRight,
-                  margin: const EdgeInsets.fromLTRB(0, 0, 50, 0),
+                  margin: EdgeInsets.fromLTRB(0, 0, 0.0.ws, 0),
                   child: IconButton(
                       onPressed: () {
                         BottomSheetPop(
@@ -89,6 +92,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             .buildBottomSheet(context);
                       },
                       icon: const Icon(Icons.adjust),
+                      iconSize: 3.5.hs,
                       color: Theme.of(context).primaryColor),
                 )
               ],
@@ -97,8 +101,6 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              seachField,
-              const SizedBox(height: 10),
               FutureBuilder<Storage?>(
                 future: _modifiedStorage ?? _defaultStorage,
                 builder: (context, snapshot) {
@@ -116,7 +118,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                             'No connection was found. Please check if you are connected!',
                             style: TextStyle(
                                 color: Theme.of(context).dividerColor,
-                                fontSize: 20),
+                                fontSize: 3.0.fs),
                           ),
                         );
                       } else if (snapshot.data == null) {
@@ -155,27 +157,35 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          child: const Icon(
-            Icons.replay,
-            color: Colors.white,
+        floatingActionButton: Container(
+          width: 7.0.hs,
+          child: FittedBox(
+            child: FloatingActionButton(
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              child: const Icon(
+                Icons.replay,
+                color: Colors.white,
+              ),
+              onPressed: () => {_reloadCardList()},
+            ),
           ),
-          onPressed: () => {_reloadCardList()},
         ));
   }
 
   Widget buildChangeThemeMode(BuildContext context) {
-    return Switch(
-        activeColor: Theme.of(context).secondaryHeaderColor,
-        value: _isDark,
-        onChanged: (value) async {
-          await AppPreferences.setIsOn(value);
-          final provider = Provider.of<ThemeProvider>(context, listen: false);
-          _isDark = value;
-          setState(() {
-            provider.toggleTheme(value);
-          });
-        });
+    return Transform.scale(
+        scale: 0.12.hs,
+        child: Switch(
+            activeColor: Theme.of(context).secondaryHeaderColor,
+            value: _isDark,
+            onChanged: (value) async {
+              await AppPreferences.setIsOn(value);
+              final provider =
+                  Provider.of<ThemeProvider>(context, listen: false);
+              _isDark = value;
+              setState(() {
+                provider.toggleTheme(value);
+              });
+            }));
   }
 }

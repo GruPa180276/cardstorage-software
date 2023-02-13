@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rfidapp/config/palette.dart';
-import 'package:rfidapp/domain/app_preferences.dart';
 
-class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode =
-      AppPreferences.getIsOn() ? ThemeMode.dark : ThemeMode.light;
-  bool get isDarkMode => themeMode == ThemeMode.dark;
-
-  void toggleTheme(bool isOn) {
-    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
-  }
-}
-
-class MyThemes {
+class DisplayAppThemes {
   static get darkTheme => ThemeData(
         fontFamily: 'Kanit',
         scaffoldBackgroundColor: Colors.black,

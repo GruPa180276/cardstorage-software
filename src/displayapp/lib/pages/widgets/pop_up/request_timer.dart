@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rfidapp/domain/enum/snackbar_type.dart';
 import 'package:rfidapp/pages/widgets/pop_up/response_snackbar.dart';
-import 'package:rfidapp/provider/storage_properties.dart';
+import 'package:rfidapp/domain/storage_properties.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:rfidapp/provider/rest/data.dart';
 import 'package:rfidapp/provider/rest/types/cards.dart';
@@ -68,17 +68,17 @@ class RequestTimer {
                       if (card != null && i == 0) {
                         SnackbarBuilder(
                                 context: context,
-                                snackbarType: SnackbarType.failure,
-                                header: "Verbindungsfehler!",
-                                content: _responseData)
+                                snackbarType: SnackbarType.warning,
+                                header: "Warnung!",
+                                content: "Zeit ist abgelaufen!")
                             .build();
                         Navigator.maybePop(context);
                       } else if (i == 0) {
                         SnackbarBuilder(
                                 context: context,
-                                snackbarType: SnackbarType.failure,
-                                header: "Verbindungsfehler!",
-                                content: _responseData)
+                                snackbarType: SnackbarType.warning,
+                                header: "Warnung!",
+                                content: "Zeit ist abgelaufen!")
                             .build();
                         Navigator.maybePop(context);
                       }
@@ -90,6 +90,12 @@ class RequestTimer {
                         var response = await Data.check(
                             Data.postGetCardNow, {"cardname": card!.name});
                         if (response.statusCode != 200) {
+                          SnackbarBuilder(
+                                  context: context,
+                                  snackbarType: SnackbarType.failure,
+                                  header: "Fehler bei der Anfrage!",
+                                  content: response.body)
+                              .build();
                           Navigator.maybePop(context);
                         }
                       }
@@ -137,7 +143,7 @@ class RequestTimer {
                   context: context,
                   snackbarType: SnackbarType.success,
                   header: "Karte wird heruntergelassen!",
-                  content: null)
+                  content: "null")
               .build();
         } else {
           SnackbarBuilder(

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:rfidapp/pages/widgets/pop_up/request_timer.dart';
 import 'package:rfidapp/provider/rest/data.dart';
-import 'package:rfidapp/provider/storage_properties.dart';
+import 'package:rfidapp/domain/storage_properties.dart';
 import 'package:web_socket_channel/io.dart';
 
 class WebsocketCallBack {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rfidapp/provider/size/size_extentions.dart';
 
 class CardButton extends StatelessWidget {
   final String text;
@@ -19,15 +20,14 @@ class CardButton extends StatelessWidget {
         ),
       ),
       child: Container(
-        height: (MediaQuery.of(context).orientation == Orientation.portrait)
-            ? MediaQuery.of(context).size.width / 9
-            : MediaQuery.of(context).size.height / 10,
+        height: 5.4.hs,
         child: TextButton(
           style: ElevatedButton.styleFrom(
               primary: Colors.black.withOpacity(0)), // <-- Does not work
           onPressed: onPress,
           child: Text(text,
-              style: TextStyle(color: Theme.of(context).primaryColor)),
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor, fontSize: 1.75.fs)),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:http/http.dart';
-import 'package:rfidapp/provider/storage_properties.dart';
+import 'package:rfidapp/domain/storage_properties.dart';
 import 'dart:async';
 import 'package:rfidapp/provider/websocket/websocket_callback.dart';
 

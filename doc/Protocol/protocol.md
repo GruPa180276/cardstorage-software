@@ -341,6 +341,9 @@ Habe heute den theoretischen Teil fertig überarbeitet. (3h 30min)
 **13.2.2023: 12:40 bis 15:40** <br>
 Weiters habe ich dann noch das Ändern des App Names, Icons und des Ladebildschirms beschrieben. Danach habe ich mit dem erklären der Implementation der Admin Sicht begonnen. (3h)
 
+**14.2.2023: 18:00 bis 20:30** <br>
+Habe heute wieder weiter an der Doku geschrieben. Dazu habe ich mit der Weiterentwicklung begonnen. (2h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -442,4 +445,5 @@ Weiters habe ich dann noch das Ändern des App Names, Icons und des Ladebildschi
 - 18:30 bis 19:30 Uhr
 - 8:00 bis 11:30 Uhr
 - 12:40 bis 15:40 Uhr
+- 18:00 bis 20:30 Uhr
 <!-- { "progress": false } -->

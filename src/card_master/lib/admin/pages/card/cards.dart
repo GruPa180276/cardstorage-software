@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/card/search.dart';
@@ -9,6 +11,8 @@ import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/card_builder.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
+
+import '../../provider/middelware.dart';
 
 class CardsView extends StatefulWidget {
   const CardsView({Key? key}) : super(key: key);
@@ -32,7 +36,18 @@ class _CardsViewState extends State<CardsView> {
   }
 
   void fetchData() async {
-    await fetchStorages().then((value) => listOfStorages = value);
+    var response = await Data.checkAuthorization(
+        context: context, function: fetchStorages);
+
+    // await fetchStorages().then((value) => listOfStorages = value);
+    var temp = jsonDecode(response!.body) as List;
+
+    listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+
+    await Data.checkAuthorization(
+        function: updateCard,
+        context: context,
+        args: {"name": "card1", 'card': []});
 
     listOfStorageNames.add("-");
     for (int i = 0; i < listOfStorages.length; i++) {

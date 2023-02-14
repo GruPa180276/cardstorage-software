@@ -22,7 +22,7 @@ class _StorageViewState extends State<StorageView> {
   List<FocusS> listOfStorages = [];
 
   void loadData() async {
-    await fetchStorages().then((value) => listOfCards = value);
+    // await fetchStorages().then((value) => listOfCards = value);
 
     await getAllUnfocusedStorages().then((value) => listOfStorages = value);
 

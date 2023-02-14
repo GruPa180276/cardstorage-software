@@ -73,7 +73,7 @@ class _InputFieldsState extends State<InputFields> {
   late List<Storages> s;
 
   void loadData() async {
-    await fetchStorages().then((value) => s = value);
+    // await fetchStorages().then((value) => s = value);
   }
 
   @override

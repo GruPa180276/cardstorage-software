@@ -102,15 +102,15 @@ Future<int> deleteCard(String name) async {
   }
 }
 
-Future<int> updateCard(String name, Map<String, dynamic> data) async {
+Future<dynamic> updateCard(Map<String, dynamic> data) async {
   final http.Response response = await http.put(
-    Uri.parse(adres.cardAdress + "/name/" + name),
+    Uri.parse(adres.cardAdress + "/name/" + data["name"]),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Content-Type": "application/json"
     },
-    body: jsonEncode(data),
+    body: jsonEncode(data["card"]),
   );
 
   if (response.statusCode == 200) {
@@ -120,7 +120,7 @@ Future<int> updateCard(String name, Map<String, dynamic> data) async {
   } else if (response.statusCode == 401) {
     await Future.delayed(Duration(seconds: 1));
     SecureStorage.setToken();
-    return updateCard(name, data);
+    return updateCard(data);
   } else {
     throw Exception('Failed to update Card!');
   }

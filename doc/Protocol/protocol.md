@@ -344,6 +344,9 @@ Weiters habe ich dann noch das Ändern des App Names, Icons und des Ladebildschi
 **14.2.2023: 18:00 bis 20:30** <br>
 Habe heute wieder weiter an der Doku geschrieben. Dazu habe ich mit der Weiterentwicklung begonnen. (2h 30min)
 
+**15.2.2023: 16:40 bis 18:40** <br>
+Habe heute die Weiterentwicklung fertig geschrieben. Danach habe ich mit dem Benutzer Handbuch begonnen. (2h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -446,4 +449,5 @@ Habe heute wieder weiter an der Doku geschrieben. Dazu habe ich mit der Weiteren
 - 8:00 bis 11:30 Uhr
 - 12:40 bis 15:40 Uhr
 - 18:00 bis 20:30 Uhr
+- 16:40 bis 18:40 Uhr
 <!-- { "progress": false } -->

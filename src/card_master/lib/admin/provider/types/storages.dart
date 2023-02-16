@@ -37,8 +37,8 @@ class Storages {
       };
 }
 
-Future<List<Storages>> fetchStorages() async {
-  final response = await http.get(
+Future<http.Response> fetchStorages() async {
+  return await http.get(
     Uri.parse(adres.storageAdress),
     headers: {
       HttpHeaders.authorizationHeader:
@@ -46,16 +46,6 @@ Future<List<Storages>> fetchStorages() async {
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Storages.fromJson(data)).toList();
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return fetchStorages();
-  } else {
-    throw Exception('Failed to get Storages!');
-  }
 }
 
 Future<Storages> getStorageByName(String name) async {

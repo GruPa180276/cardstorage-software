@@ -32,7 +32,7 @@ class _StorageSettingsState extends State<StorageSettings> {
   }
 
   void test() async {
-    await fetchStorages().then((value) => s = value);
+    // await fetchStorages().then((value) => s = value);
 
     for (int i = 0; i < s.length; i++) {
       if (s[i].name == widget.storage) {

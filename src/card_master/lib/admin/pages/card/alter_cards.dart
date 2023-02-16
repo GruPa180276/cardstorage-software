@@ -1,3 +1,4 @@
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/card/form.dart';
@@ -112,8 +113,15 @@ class _GenerateCardsState extends State<GenerateCards> {
                 reader: "",
               );
 
-              Future<int> code =
-                  updateCard(widget.card.name, updateEntry.toJson());
+              int code = 200;
+
+              Data.checkAuthorization(
+                  function: updateCard,
+                  context: context,
+                  args: {
+                    "name": widget.card.name,
+                    'card': [updateEntry.toJson()]
+                  });
 
               if (await code == 200) {
                 Navigator.of(context).pop();

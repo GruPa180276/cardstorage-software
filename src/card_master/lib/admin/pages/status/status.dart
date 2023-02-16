@@ -19,12 +19,12 @@ class _StatusViewState extends State<StatusView> {
   @override
   void initState() {
     super.initState();
-    futureData = fetchStorages();
+    // futureData = fetchStorages();
   }
 
   void reload() {
     setState(() {
-      futureData = fetchStorages();
+      // futureData = fetchStorages();
     });
   }
 

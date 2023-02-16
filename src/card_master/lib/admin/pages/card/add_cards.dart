@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -10,6 +14,10 @@ import 'package:card_master/admin/pages/card/timer_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/alert_dialog.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
+import 'package:web_socket_channel/io.dart';
+
+import '../../../client/domain/types/snackbar_type.dart';
+import '../../../client/pages/widgets/pop_up/response_snackbar.dart';
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -32,7 +40,7 @@ class _AddCardsState extends State<AddCards> {
 
   void fetchData() async {
     await fetchCards().then((value) => listOfCards = value);
-    await fetchStorages().then((value) => listOfStorages = value);
+    // await fetchStorages().then((value) => listOfStorages = value);
     await getAllUnfocusedStorages()
         .then((value) => listUnfocusedStorages = value);
 
@@ -106,6 +114,7 @@ class _GenerateCardsState extends State<GenerateCards> {
   @override
   void initState() {
     super.initState();
+    connectSocket();
   }
 
   void setCardName(String value) {
@@ -117,6 +126,44 @@ class _GenerateCardsState extends State<GenerateCards> {
       selectedStorage = value;
     });
     Navigator.of(context).pop();
+  }
+
+  IOWebSocketChannel? channel;
+  Map? _responseData;
+  bool? _successful;
+
+  void connectSocket() async {
+    channel = IOWebSocketChannel.connect(
+        Uri.parse('wss://10.0.2.2:7171/api/v1/storages/cards/log'),
+        headers: {
+          "Accept": "application/json",
+          HttpHeaders.authorizationHeader: "Bearer ${Data.bearerToken}",
+        });
+    _streamListener();
+  }
+
+  _streamListener() {
+    channel!.stream.listen((message) async {
+      _responseData = jsonDecode(message);
+      _successful = _responseData!["successful"] ??
+          _responseData!["status"]["successful"];
+      channel!.sink.close();
+      if (_successful!) {
+        SnackbarBuilder(
+                context: context,
+                snackbarType: SnackbarType.success,
+                header: "Karte wird heruntergelassen!",
+                content: null)
+            .build();
+      } else {
+        SnackbarBuilder(
+                context: context,
+                snackbarType: SnackbarType.failure,
+                header: "Verbindungsfehler!",
+                content: _responseData)
+            .build();
+      }
+    });
   }
 
   @override

@@ -18,11 +18,10 @@ class AadAuthentication {
     clientId: dotenv.env['clientId']!,
     scope: 'User.Read',
     redirectUri: 'cardstorage://auth',
-    navigatorKey: RfidApp.navigatorKey,
+    navigatorKey: AppStart.navigatorKey,
   );
 }
 
-
-// class MyApp {
-//  static var navigatorKey;
-// }
+class AppStart {
+  static var navigatorKey;
+}

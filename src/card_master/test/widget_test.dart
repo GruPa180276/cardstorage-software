@@ -5,17 +5,16 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:card_master/client/domain/authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:card_master/main_client.dart';
+import 'package:card_master/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const RfidApp(
-      rememberState: false,
-    ));
+    await tester.pumpWidget(const AppStart());
 
     // await tester.pumpWidget(const AppStart());
 

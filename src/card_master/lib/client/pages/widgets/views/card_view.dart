@@ -14,6 +14,7 @@ class CardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cardsData = CardsData.of(context)!;
+
     return Flexible(
       child: ListView.builder(
           shrinkWrap: true,

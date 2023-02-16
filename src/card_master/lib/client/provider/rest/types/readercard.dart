@@ -1,7 +1,6 @@
 import 'package:card_master/client/provider/rest/types/reservation.dart';
 
 class ReaderCard {
-  //final DateTime? standardTime = DateTime(2000).microsecondsSinceEpoch;
   String reader;
   String name;
   int position;

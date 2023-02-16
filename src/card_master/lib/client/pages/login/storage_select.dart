@@ -30,7 +30,7 @@ class StorageSelectPopUp {
           return SizedBox(
             height: 100,
             child: AlertDialog(
-                title: const Text('Waehlen Sie einen Storage aus'),
+                title: const Text('Wählen Sie einen Storage aus'),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(32.0))),
                 content: StatefulBuilder(
@@ -41,7 +41,7 @@ class StorageSelectPopUp {
                       children: [
                         const Center(
                             child: Text(
-                          "Sie muessen Ihre Karte nun auf einen Storage halten um sich vollstaendig zu registrieren",
+                          "Sie müssen Ihre Karte nun auf einen Storage halten um sich vollständig zu registrieren",
                           textAlign: TextAlign.center,
                         )),
                         DropdownButtonFormField<String>(

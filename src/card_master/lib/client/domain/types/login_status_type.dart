@@ -1,1 +1,1 @@
-enum LoginStatusType { NEWLOGIN, ALREADYLOGGEDIN, ERROR }
+enum LoginStatusType { NOTREGISTERED, REGISTERED, ERROR }

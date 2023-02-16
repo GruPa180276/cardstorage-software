@@ -4,7 +4,7 @@ import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/validator.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
 import 'package:card_master/client/pages/widgets/widget/text_field.dart';
-import 'package:card_master/client/domain/authentication/session_user.dart';
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -23,12 +23,12 @@ class _AccountPageState extends State<AccountPage> {
   @override
   void initState() {
     super.initState();
-    emailController.text = SessionUser.getEmail()!;
-    firstNameController.text = SessionUser.getUserFirstname()!;
-    lastNameController.text = SessionUser.getUserLastname()!;
-    officeLocationController.text = SessionUser.getUserOfficeLocation()!;
+    emailController.text = UserSessionManager.getEmail()!;
+    firstNameController.text = UserSessionManager.getUserFirstname()!;
+    lastNameController.text = UserSessionManager.getUserLastname()!;
+    officeLocationController.text = UserSessionManager.getUserOfficeLocation()!;
     privilegedController.text =
-        (SessionUser.getPrivileged()!) ? "Adminrechte" : "Benutzerechte";
+        (UserSessionManager.getPrivileged()!) ? "Adminrechte" : "Benutzerechte";
   }
 
   @override

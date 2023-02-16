@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:card_master/client/config/properties/server_properties.dart';
-import 'package:card_master/client/domain/authentication/session_user.dart';
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
 import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
 import 'package:card_master/client/pages/login/login_user_page.dart';
@@ -27,8 +27,8 @@ Future main() async {
   HttpOverrides.global = MyHttpOverrides();
   rememberState = await UserSecureStorage.getRememberState() ?? false;
   if (rememberState) {
-    SessionUser.fromJson(await UserSecureStorage.getUserValues(), null);
-    if (!await SessionUser.reloadUserData()) {
+    UserSessionManager.fromJson(await UserSecureStorage.getUserValues(), null);
+    if (!await UserSessionManager.reloadUserData()) {
       rememberState = false;
     }
   }

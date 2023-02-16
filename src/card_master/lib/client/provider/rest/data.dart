@@ -3,12 +3,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
-import 'package:card_master/client/pages/widgets/pop_up/response_snackbar.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'dart:async';
 
-import 'package:card_master/client/domain/authentication/session_user.dart';
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 
 import '../../config/properties/server_properties.dart';
 
@@ -38,10 +38,10 @@ class Data {
       return response;
     } catch (e) {
       if (context != null) {
-        SnackbarBuilder(
+        FeedbackBuilder(
                 context: context,
                 header: "Error",
-                snackbarType: SnackbarType.failure,
+                snackbarType: FeedbackType.failure,
                 content: e.toString())
             .build();
       }
@@ -63,7 +63,7 @@ class Data {
         });
   }
 
-  static Future<Response> getUserData(Map<String, String> args) async {
+  static Future<Response> getGraphUserData(Map<String, String> args) async {
     return await get(Uri.parse(ServerProperties.getMsGraphAdress()), headers: {
       HttpHeaders.authorizationHeader: "Bearer ${args["accesstoken"]}",
       "Accept": "application/json"
@@ -73,7 +73,7 @@ class Data {
   static Future<Response> getAllReservationUser() async {
     return await get(
         Uri.parse(
-            "${apiAdress}storages/cards/reservations/details/user/email/${SessionUser.getEmail()}"),
+            "${apiAdress}storages/cards/reservations/details/user/email/${UserSessionManager.getEmail()}"),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
           "Accept": "application/json"
@@ -93,7 +93,7 @@ class Data {
   static Future<Response> postGetCardNow(Map<String, dynamic> args) async {
     return put(
         Uri.parse(
-            '${apiAdress}storages/cards/name/${args["cardname"]}/fetch/user/email/${SessionUser.getEmail()}'),
+            '${apiAdress}storages/cards/name/${args["cardname"]}/fetch/user/email/${UserSessionManager.getEmail()}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
@@ -115,7 +115,7 @@ class Data {
     //		"/api/users/reservations/email/USER@PROVIDER.COM"
     return await post(
         Uri.parse(
-            "${apiAdress}users/reservations/email/${SessionUser.getEmail()}"),
+            "${apiAdress}users/reservations/email/${UserSessionManager.getEmail()}"),
         headers: {
           "Content-Type": "application/json",
           HttpHeaders.authorizationHeader: "Bearer $bearerToken",
@@ -145,7 +145,7 @@ class Data {
   static Future<void> _generateToken() async {
     var response = await get(
         Uri.parse(
-            "${apiAdress}auth${(SessionUser.getEmail() == null) ? "" : "/user/email/${SessionUser.getEmail()}"}"),
+            "${apiAdress}auth${(UserSessionManager.getEmail() == null) ? "" : "/user/email/${UserSessionManager.getEmail()}"}"),
         headers: {
           "Content-Type": "text/plain",
         });

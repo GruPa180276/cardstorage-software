@@ -53,7 +53,7 @@ class TextView extends StatelessWidget {
                           width: double.infinity,
                           //height: sizedBoxHeight,
                           child: Text(
-                            "Storage:",
+                            "Tresor:",
                             style: TextStyle(fontSize: textFontSize),
                             textAlign: TextAlign.left,
                           )),
@@ -71,7 +71,7 @@ class TextView extends StatelessWidget {
                           width: double.infinity,
                           //height: sizedBoxHeight,
                           child: Text(
-                            "Verfuegbar:",
+                            "Verfügbar:",
                             style: TextStyle(fontSize: textFontSize),
                             textAlign: TextAlign.left,
                           )),

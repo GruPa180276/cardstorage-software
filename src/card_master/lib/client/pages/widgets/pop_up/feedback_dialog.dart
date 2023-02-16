@@ -3,13 +3,13 @@ import 'package:card_master/client/pages/widgets/pop_up/snackbar/content_type.da
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 
-class SnackbarBuilder {
-  final SnackbarType snackbarType;
+class FeedbackBuilder {
+  final FeedbackType snackbarType;
   final BuildContext context;
   final String header;
   dynamic content;
 
-  SnackbarBuilder(
+  FeedbackBuilder(
       {required this.snackbarType,
       required this.context,
       required this.header,
@@ -18,7 +18,7 @@ class SnackbarBuilder {
   void build() {
     SnackBar? snackBar;
     switch (snackbarType) {
-      case SnackbarType.success:
+      case FeedbackType.success:
         snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -29,7 +29,7 @@ class SnackbarBuilder {
               contentType: ContentType.success,
             ));
         break;
-      case SnackbarType.warning:
+      case FeedbackType.warning:
         snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -40,7 +40,7 @@ class SnackbarBuilder {
               contentType: ContentType.warning,
             ));
         break;
-      case SnackbarType.failure:
+      case FeedbackType.failure:
         snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -51,7 +51,7 @@ class SnackbarBuilder {
               contentType: ContentType.failure,
             ));
         break;
-      case SnackbarType.help:
+      case FeedbackType.help:
         snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,

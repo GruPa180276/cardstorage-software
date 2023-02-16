@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:card_master/client/config/properties/server_properties.dart';
-import 'package:card_master/client/pages/widgets/pop_up/response_snackbar.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/domain/types/timer_action_type.dart';
@@ -86,19 +86,19 @@ class RequestTimer {
                       autoStart: true,
                       onComplete: (() {
                         if (card != null && i == 0) {
-                          SnackbarBuilder(
+                          FeedbackBuilder(
                                   context: context,
-                                  snackbarType: SnackbarType.failure,
-                                  header: "Verbindungsfehler!",
+                                  snackbarType: FeedbackType.warning,
+                                  header: "Zeit ist abgelaufen!",
                                   content: _responseData)
                               .build();
                           Navigator.of(context).maybePop();
                           channel!.sink.close();
                         } else if (storagename != null && i == 0) {
-                          SnackbarBuilder(
+                          FeedbackBuilder(
                                   context: context,
-                                  snackbarType: SnackbarType.failure,
-                                  header: "Verbindungsfehler!",
+                                  snackbarType: FeedbackType.warning,
+                                  header: "Zeit ist abgelaufen!",
                                   content: _responseData)
                               .build();
                           Navigator.of(context).maybePop();
@@ -114,9 +114,9 @@ class RequestTimer {
                               function: Data.postGetCardNow,
                               args: {"cardname": card!.name});
                           if (response!.statusCode != 200) {
-                            SnackbarBuilder(
+                            FeedbackBuilder(
                                 context: context,
-                                snackbarType: SnackbarType.failure,
+                                snackbarType: FeedbackType.failure,
                                 header: "Verbindungsfehler!",
                                 content: response.body);
                             Navigator.maybePop(context);
@@ -130,9 +130,9 @@ class RequestTimer {
                                 "email": email!
                               });
                           if (response!.statusCode != 200) {
-                            SnackbarBuilder(
+                            FeedbackBuilder(
                                 context: context,
-                                snackbarType: SnackbarType.failure,
+                                snackbarType: FeedbackType.failure,
                                 header: "Verbindungsfehler!",
                                 content: response.body);
                             Navigator.maybePop(context);
@@ -173,32 +173,32 @@ class RequestTimer {
       channel!.sink.close();
       if (card != null && i == 1) {
         if (_successful) {
-          SnackbarBuilder(
+          FeedbackBuilder(
                   context: context,
-                  snackbarType: SnackbarType.success,
+                  snackbarType: FeedbackType.success,
                   header: "Karte wird heruntergelassen!",
                   content: null)
               .build();
         } else {
-          SnackbarBuilder(
+          FeedbackBuilder(
                   context: context,
-                  snackbarType: SnackbarType.failure,
+                  snackbarType: FeedbackType.failure,
                   header: "Verbindungsfehler!",
                   content: _responseData)
               .build();
         }
       } else if (storagename != null && i == 1) {
         if (_successful) {
-          SnackbarBuilder(
+          FeedbackBuilder(
                   context: context,
-                  snackbarType: SnackbarType.success,
+                  snackbarType: FeedbackType.success,
                   header: "Registrierung erfolgreich!",
                   content: null)
               .build();
         } else {
-          SnackbarBuilder(
+          FeedbackBuilder(
                   context: context,
-                  snackbarType: SnackbarType.failure,
+                  snackbarType: FeedbackType.failure,
                   header: "Verbindungsfehler!",
                   content: _responseData)
               .build();

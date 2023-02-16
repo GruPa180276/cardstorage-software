@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
 import 'package:card_master/client/pages/account/account_page.dart';
-import 'package:card_master/client/domain/authentication/session_user.dart';
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:app_settings/app_settings.dart';
 
@@ -177,7 +177,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   TextButton(
                     child: const Text('Abmelden'),
                     onPressed: () async {
-                      SessionUser.logout(context);
+                      UserSessionManager.logout(context);
                     },
                   ),
                 ])

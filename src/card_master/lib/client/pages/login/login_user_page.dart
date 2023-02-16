@@ -3,7 +3,7 @@ import 'dart:ffi';
 
 import 'package:card_master/client/config/properties/screen.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
-import 'package:card_master/client/pages/widgets/pop_up/response_snackbar.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:card_master/client/provider/size/size_manager.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ import 'package:card_master/client/domain/types/login_status_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/email_popup.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
 import 'package:card_master/client/pages/navigation/client_navigation.dart';
-import 'package:card_master/client/domain/authentication/session_user.dart';
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({Key? key}) : super(key: key);
@@ -154,7 +154,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                     );
           },
           child: Text(
-            'Stelle Sie eine Frage.',
+            'Stellen Sie eine Frage.',
             style: TextStyle(
                 color: Theme.of(context).secondaryHeaderColor,
                 fontSize: 2.0.fs,
@@ -168,30 +168,30 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   }
 
   void sigIn() async {
-    var loginStatus = await SessionUser.login(rememberValue);
-    if (loginStatus != null) {
-      switch (loginStatus.item1) {
-        case LoginStatusType.ALREADYLOGGEDIN:
+    var loginResult = await UserSessionManager.login(rememberValue);
+    if (loginResult == null) return;
+
+    switch (loginResult.item1) {
+      case LoginStatusType.REGISTERED:
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/clientnavigation", (Route<dynamic> route) => false);
+        break;
+
+      case LoginStatusType.NOTREGISTERED:
+        if (await UserSessionManager.signUp(
+            context, loginResult.item2, rememberValue)) {
           Navigator.pushNamedAndRemoveUntil(
               context, "/clientnavigation", (Route<dynamic> route) => false);
-          break;
-
-        case LoginStatusType.NEWLOGIN:
-          if (await SessionUser.signUp(
-              context, loginStatus.item2, rememberValue)) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, "/clientnavigation", (Route<dynamic> route) => false);
-          }
-          break;
-        case LoginStatusType.ERROR:
-          SnackbarBuilder(
-                  context: context,
-                  header: "Error",
-                  snackbarType: SnackbarType.failure,
-                  content: loginStatus.item2)
-              .build();
-          break;
-      }
+        }
+        break;
+      case LoginStatusType.ERROR:
+        FeedbackBuilder(
+                context: context,
+                header: "Error",
+                snackbarType: FeedbackType.failure,
+                content: loginResult.item2)
+            .build();
+        break;
     }
   }
 }

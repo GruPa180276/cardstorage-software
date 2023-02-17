@@ -347,6 +347,12 @@ Habe heute wieder weiter an der Doku geschrieben. Dazu habe ich mit der Weiteren
 **15.2.2023: 16:40 bis 18:40** <br>
 Habe heute die Weiterentwicklung fertig geschrieben. Danach habe ich mit dem Benutzer Handbuch begonnen. (2h)
 
+**17.2.2023: 7:00 bis 11:50** <br>
+Habe an der Doku weiter geschrieben. Benutzer Handbuch fertiggestellt. (4h 50min)
+
+**17.2.2023: 12:30 bis 14:00** <br>
+Habe die allgemeinen Sachen erstellt und noch kleiner andere Sachen. (3h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -450,4 +456,6 @@ Habe heute die Weiterentwicklung fertig geschrieben. Danach habe ich mit dem Ben
 - 12:40 bis 15:40 Uhr
 - 18:00 bis 20:30 Uhr
 - 16:40 bis 18:40 Uhr
+- 7:00 bis 11:50 Uhr
+- 12:30 bis 16:00 Uhr
 <!-- { "progress": false } -->

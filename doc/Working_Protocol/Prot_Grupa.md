@@ -365,8 +365,6 @@ Heute wurde eine Klasse SnackbarBuilde erstellt, welches dazu dient PopUp bei Fe
 Heute habe ich mit Herrn Zoechmann unsere Programme gemerged. Es dauert etwas bis alles funktionierte. Danach musst ich ein paar Sachen anpassen bzw. beheben. Ebenfalls machte ich die ganze App responsive. Es wurde auch das Errorhandlin ueberarbeitet. Die App ist nun vollstaending einsatzfaehig.
 
 
-
-
 **2023-02-11: 18:00-> 00:00**
 Es wurde an der Dokumentation weiter gearbeitet, wobei ich bei mit der Implementierung begann. Beim Erklaeren ist mir aufgefallen, das gewisse code Teile verbessert werden konnte
 
@@ -524,5 +522,13 @@ Therorie wurde vollstaendig ueberarbeitet. Ebenfalls wurde Teile der Implementie
 - 16:00 bis 21:30 Uhr
 - 21:00 bis 23:00 Uhr
 - 16:00 bis 21:30 Uhr
-<!-- { "progress": false } -->
-
+- 18:00 bis 00:00 Uhr
+- 11:00 bis 15:00 Uhr
+- 19:00 bis 00:00 Uhr
+- 13:00 bis 17:00 Uhr
+- 21:00 bis 23:00 Uhr
+- 21:20 bis 22:50 Uhr
+- 21:45 bis 23:30 Uhr
+- 10:00 bis 17:15 Uhr
+- 20:55 bis 23:45 Uhr
+- 08:15 bis 19:30 Uhr

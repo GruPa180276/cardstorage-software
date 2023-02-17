@@ -384,16 +384,16 @@ Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen
 Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
 
 
-2023-02-14: 21:00-> 23:00
+2023-02-14: 21:20-> 22:50
 Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
 
 
-2023-02-15: 21:00-> 23:00
+2023-02-15: 21:45-> 23:30
 Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
 
-2023-02-16: 10:00-> 17:00
+2023-02-16: 10:00-> 17:15
 Implementierung wurde fertiggestellt. Begin der Dokumentation der fuer die Weiterentwicklung  
-2023-02-16: 20:30-> 00:00
+2023-02-16: 20:55-> 23:45
 Weiterentwicklung Dokumentation fertiggestellt
 
 2023-02-17: 8:15-> 19:30

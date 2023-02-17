@@ -367,36 +367,36 @@ Heute habe ich mit Herrn Zoechmann unsere Programme gemerged. Es dauert etwas bi
 
 
 
-2023-02-11: 18:00-> 00:00
+**2023-02-11: 18:00-> 00:00**
 Es wurde an der Dokumentation weiter gearbeitet, wobei ich bei mit der Implementierung begann. Beim Erklaeren ist mir aufgefallen, das gewisse code Teile verbessert werden konnte
 
-2023-02-12: 11:00-> 15:00
+**2023-02-12: 11:00-> 15:00**
 Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
 
-2023-02-12: 19:00-> 00:00
-Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
-
-
-2023-02-13: 13:00-> 17:00
-Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
-
-2023-02-13: 21:00-> 23:00
+**2023-02-12: 19:00-> 00:00**
 Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
 
 
-2023-02-14: 21:20-> 22:50
+**2023-02-13: 13:00-> 17:00**
+Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
+
+**2023-02-13: 21:00-> 23:00**
 Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
 
 
-2023-02-15: 21:45-> 23:30
+**2023-02-14: 21:20-> 22:50**
 Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
 
-2023-02-16: 10:00-> 17:15
+
+**2023-02-15: 21:45-> 23:30**
+Weiterarbeiten der Dokumentation (Implementierung). Verbesserung von Code Teilen 
+
+**2023-02-16: 10:00-> 17:15**
 Implementierung wurde fertiggestellt. Begin der Dokumentation der fuer die Weiterentwicklung  
-2023-02-16: 20:55-> 23:45
+**2023-02-16: 20:55-> 23:45**
 Weiterentwicklung Dokumentation fertiggestellt
 
-2023-02-17: 8:15-> 19:30
+**2023-02-17: 8:15-> 19:30**
 Therorie wurde vollstaendig ueberarbeitet. Ebenfalls wurde Teile der Implementierung geaender bzw hinzugefuegt. Ebenfalls wurde das Benuzterhandbuch erstellt
 
 

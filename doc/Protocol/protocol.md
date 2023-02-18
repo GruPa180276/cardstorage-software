@@ -353,6 +353,9 @@ Habe an der Doku weiter geschrieben. Benutzer Handbuch fertiggestellt. (4h 50min
 **17.2.2023: 12:30 bis 14:00** <br>
 Habe die allgemeinen Sachen erstellt und noch kleiner andere Sachen. (3h 30min)
 
+**18.2.2023: 8:00 bis 11:55** <br>
+Habe heute kleinigekiten angepasst und Rechschreibfehler behoben. (3h 55min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr

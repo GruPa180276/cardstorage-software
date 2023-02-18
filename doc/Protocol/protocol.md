@@ -356,6 +356,9 @@ Habe die allgemeinen Sachen erstellt und noch kleiner andere Sachen. (3h 30min)
 **18.2.2023: 8:00 bis 11:55** <br>
 Habe heute kleinigekiten angepasst und Rechschreibfehler behoben. (3h 55min)
 
+**18.2.2023: 12:30 bis 15:30** <br>
+Habe meine Teil der Doku fertiggestellt, dazu habe ich die Protokolle noch hizugefügt und das Pflichtenheft. (3h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -461,4 +464,6 @@ Habe heute kleinigekiten angepasst und Rechschreibfehler behoben. (3h 55min)
 - 16:40 bis 18:40 Uhr
 - 7:00 bis 11:50 Uhr
 - 12:30 bis 16:00 Uhr
+- 8:00 bis 11:55 Uhr
+- 12:30 Uhr 15:30 Uhr
 <!-- { "progress": false } -->

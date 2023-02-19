@@ -1,11 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
+import 'package:web_socket_channel/io.dart';
 import 'package:card_master/admin/pages/card/form.dart';
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
@@ -14,10 +14,8 @@ import 'package:card_master/admin/pages/card/timer_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/alert_dialog.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
-import 'package:web_socket_channel/io.dart';
-
-import '../../../client/domain/types/snackbar_type.dart';
-import '../../../client/pages/widgets/pop_up/response_snackbar.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -39,10 +37,17 @@ class _AddCardsState extends State<AddCards> {
   }
 
   void fetchData() async {
-    await fetchCards().then((value) => listOfCards = value);
-    // await fetchStorages().then((value) => listOfStorages = value);
-    await getAllUnfocusedStorages()
-        .then((value) => listUnfocusedStorages = value);
+    var response = await Data.checkAuthorization(
+        context: context, function: fetchStorages);
+    var temp = jsonDecode(response!.body) as List;
+    listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+
+    var resp = await Data.checkAuthorization(
+        context: context, function: getAllUnfocusedStorages);
+
+    List jsonResponse = json.decode(resp!.body);
+    listUnfocusedStorages =
+        jsonResponse.map((data) => FocusS.fromJson(data)).toList();
 
     listOfStorageNames.add("-");
     for (int i = 0; i < listOfStorages.length; i++) {
@@ -114,7 +119,7 @@ class _GenerateCardsState extends State<GenerateCards> {
   @override
   void initState() {
     super.initState();
-    connectSocket();
+    //connectSocket();
   }
 
   void setCardName(String value) {
@@ -149,18 +154,18 @@ class _GenerateCardsState extends State<GenerateCards> {
           _responseData!["status"]["successful"];
       channel!.sink.close();
       if (_successful!) {
-        SnackbarBuilder(
+        FeedbackBuilder(
                 context: context,
-                snackbarType: SnackbarType.success,
-                header: "Karte wird heruntergelassen!",
-                content: null)
+                header: "Error",
+                snackbarType: FeedbackType.failure,
+                content: "")
             .build();
       } else {
-        SnackbarBuilder(
+        FeedbackBuilder(
                 context: context,
-                snackbarType: SnackbarType.failure,
-                header: "Verbindungsfehler!",
-                content: _responseData)
+                header: "Error",
+                snackbarType: FeedbackType.failure,
+                content: "")
             .build();
       }
     });
@@ -172,77 +177,54 @@ class _GenerateCardsState extends State<GenerateCards> {
     final formKey = GlobalKey<FormState>();
 
     return Expanded(
-      child: Column(
-        children: [
-          buildCardForm(context, "Karte hinzufügen", (() async {
-            if (formKey.currentState!.validate() && selectedStorage != "-") {
-              Cards newEntry = Cards(
-                name: card.name,
-                storage: selectedStorage,
-                position: card.position,
-                accessed: card.accessed,
-                available: card.available,
-                reader: "",
-              );
+        child: Column(
+      children: [
+        buildCardForm(context, "Karte hinzufügen", (() async {
+          if (formKey.currentState!.validate() && selectedStorage != "-") {
+            Cards newEntry = Cards(
+              name: card.name,
+              storage: selectedStorage,
+              position: card.position,
+              accessed: card.accessed,
+              available: card.available,
+              reader: "",
+            );
 
-              Future<int> code = addCard(newEntry.toJson());
-
-              if (await code == 200) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        buildTimerdialog(context, newEntry));
-              }
-              if (await code == 400) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) => buildAlertDialog(
-                          context,
-                          "Karte hinzufügen ...",
-                          "Es ist ein Fehler beim anlegen der Karte aufgetreten!",
-                          [
-                            generateButtonRectangle(
-                              context,
-                              "Ok",
-                              () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
-                        ));
-              }
-            }
-          }),
-              formKey,
-              GenerateListTile(
-                labelText: "Name",
-                hintText: "",
-                icon: Icons.storage,
-                regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-                function: setCardName,
-                controller: nameController,
-                fun: (value) {
-                  for (int i = 0; i < widget.listOfCards.length; i++) {
-                    if (widget.listOfCards[i].name == value) {
-                      return 'Exsistiert bereits!';
-                    }
+            await Data.checkAuthorization(
+                function: addCard,
+                context: context,
+                args: {"name": newEntry.name, 'data': newEntry.toJson()});
+          }
+        }),
+            formKey,
+            GenerateListTile(
+              labelText: "Name",
+              hintText: "",
+              icon: Icons.storage,
+              regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
+              function: setCardName,
+              controller: nameController,
+              fun: (value) {
+                for (int i = 0; i < widget.listOfCards.length; i++) {
+                  if (widget.listOfCards[i].name == value) {
+                    return 'Exsistiert bereits!';
                   }
-                  if (value!.isEmpty) {
-                    return 'Bitte Name eingeben!';
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              buildStorageSelector(
-                context,
-                selectedStorage,
-                widget.listOfStorageNames,
-                setSelectedStorage,
-                "Selected Storage",
-              ))
-        ],
-      ),
-    );
+                }
+                if (value!.isEmpty) {
+                  return 'Bitte Name eingeben!';
+                } else {
+                  return null;
+                }
+              },
+            ),
+            buildStorageSelector(
+              context,
+              selectedStorage,
+              widget.listOfStorageNames,
+              setSelectedStorage,
+              "Selected Storage",
+            ))
+      ],
+    ));
   }
 }

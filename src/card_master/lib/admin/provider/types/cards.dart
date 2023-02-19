@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart';
+import 'package:card_master/admin/config/adress.dart';
 import 'package:card_master/admin/config/token_manager.dart';
-import 'package:http/http.dart' as http;
-import 'package:card_master/admin/config/adress.dart' as adres;
 
 class Cards {
   String name;
@@ -38,114 +38,59 @@ class Cards {
       };
 }
 
-Future<List<Cards>> fetchCards() async {
-  final response = await http.get(
-    Uri.parse(adres.cardAdress),
+Future<Response> fetchCards() async {
+  return await get(
+    Uri.parse(cardAdress),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Cards.fromJson(data)).toList();
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return fetchCards();
-  } else {
-    throw Exception('Failed to get Cards!');
-  }
 }
 
-Future<Cards> getCardByName(String name) async {
-  final response = await http.get(
-    Uri.parse(adres.cardAdress + "/name/" + name),
+Future<Response> getCardByName(Map<String, dynamic> data) async {
+  return await get(
+    Uri.parse(cardAdress + "/name/" + data["name"]),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    dynamic jsonResponse = json.decode(response.body);
-    return Cards.fromJson(jsonResponse);
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return getCardByName(name);
-  } else {
-    throw Exception('Failed to get Cards!');
-  }
 }
 
-Future<int> deleteCard(String name) async {
-  final http.Response response = await http.delete(
-    Uri.parse(adres.cardAdress + "/name/" + name),
+Future<Response> deleteCard(Map<String, dynamic> data) async {
+  return await delete(
+    Uri.parse(cardAdress + "/name/" + data["name"]),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    return response.statusCode;
-  } else if (response.statusCode == 400) {
-    return response.statusCode;
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return deleteCard(name);
-  } else {
-    throw Exception('Failed to delete Card!');
-  }
 }
 
-Future<dynamic> updateCard(Map<String, dynamic> data) async {
-  final http.Response response = await http.put(
-    Uri.parse(adres.cardAdress + "/name/" + data["name"]),
+Future<Response> updateCard(Map<String, dynamic> data) async {
+  return await put(
+    Uri.parse(cardAdress + "/name/" + data["name"]),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Content-Type": "application/json"
     },
-    body: jsonEncode(data["card"]),
+    body: jsonEncode(data["data"]),
   );
-
-  if (response.statusCode == 200) {
-    return response.statusCode;
-  } else if (response.statusCode == 400) {
-    return response.statusCode;
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return updateCard(data);
-  } else {
-    throw Exception('Failed to update Card!');
-  }
 }
 
-Future<int> addCard(Map<String, dynamic> data) async {
-  final http.Response response = await http.post(
-    Uri.parse(adres.cardAdress),
+Future<Response> addCard(Map<String, dynamic> data) async {
+  return await post(
+    Uri.parse(cardAdress),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Content-Type": "application/json"
     },
-    body: jsonEncode(data),
+    body: jsonEncode(data["data"]),
   );
-  if (response.statusCode == 200) {
-    return response.statusCode;
-  }
-  if (response.statusCode == 400) {
-    return response.statusCode;
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return addCard(data);
-  } else {
-    throw Exception('Failed to add Card!');
-  }
 }

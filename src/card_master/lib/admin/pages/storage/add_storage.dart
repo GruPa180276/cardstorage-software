@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/user.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +76,12 @@ class _InputFieldsState extends State<InputFields> {
   late List<Storages> s;
 
   void loadData() async {
-    // await fetchStorages().then((value) => s = value);
+    var response = await Data.checkAuthorization(
+      context: context,
+      function: fetchStorages,
+    );
+    var temp = jsonDecode(response!.body) as List;
+    s = temp.map((e) => Storages.fromJson(e)).toList();
   }
 
   @override
@@ -149,157 +157,27 @@ class _InputFieldsState extends State<InputFields> {
                       "Storage hinzufügen",
                       () async {
                         if (_formKey.currentState!.validate()) {
-                          Storages newEntry = new Storages(
+                          Storages newEntry = Storages(
                               name: stor.name,
                               location: stor.location,
                               numberOfCards: stor.numberOfCards,
                               cards: []);
-                          Future<int> code = addStorage(newEntry.toJson());
 
-                          Users newUser = new Users(
+                          await Data.checkAuthorization(
+                              context: context,
+                              function: addStorage,
+                              args: {"name": "", 'data': newEntry.toJson()});
+
+                          Users newUser = Users(
                             email: newEntry.name.toLowerCase() + "@default.com",
                             storage: stor.name,
                             privileged: false,
                           );
 
-                          if (await code == 200) {
-                            code = addUser(newUser.toJson());
-                            if (await code == 200) {
-                              Navigator.of(context).pop();
-                            }
-                            if (await code == 400) {
-                              code = deleteUser(
-                                  stor.name.toLowerCase() + "@default.com");
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                        backgroundColor: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        title: Text(
-                                          'Storage anlegen',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        content: new Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              "Es ist ein Fehler beim anlegen des Storages aufgetreten!",
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor),
-                                            ),
-                                          ],
-                                        ),
-                                        actions: <Widget>[
-                                          Container(
-                                              padding: EdgeInsets.all(10),
-                                              height: 70,
-                                              child: Column(
-                                                children: [
-                                                  Column(children: [
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text(
-                                                        "Ok",
-                                                        style: TextStyle(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .focusColor),
-                                                      ),
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor: Theme
-                                                                .of(context)
-                                                            .secondaryHeaderColor,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ]),
-                                                ],
-                                              )),
-                                        ],
-                                      ));
-                            }
-                          }
-                          if (await code == 400) {
-                            deleteStorage(stor.name);
-
-                            Navigator.of(context).pop();
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      title: Text(
-                                        'Storage anlegen',
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      ),
-                                      content: new Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "Es ist ein Fehler beim anlegen des Storages aufgetreten!",
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                          ),
-                                        ],
-                                      ),
-                                      actions: <Widget>[
-                                        Container(
-                                            padding: EdgeInsets.all(10),
-                                            height: 70,
-                                            child: Column(
-                                              children: [
-                                                Column(children: [
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text(
-                                                      "Ok",
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .focusColor),
-                                                    ),
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor: Theme.of(
-                                                              context)
-                                                          .secondaryHeaderColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ]),
-                                              ],
-                                            )),
-                                      ],
-                                    ));
-                          }
+                          await Data.checkAuthorization(
+                              context: context,
+                              function: addUser,
+                              args: {"name": "", 'data': newUser.toJson()});
                         }
                       },
                     ),

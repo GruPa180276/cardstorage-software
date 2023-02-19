@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/ping.dart';
@@ -31,19 +34,30 @@ class _StatusStorageState extends State<StatusStorage> {
   }
 
   void pingNow() async {
-    await pingStorage(widget.name).then((value) => ping = value);
+    var response = await Data.checkAuthorization(
+        context: context,
+        function: pingStorage,
+        args: {"name": widget.name, 'data': []});
+    var temp = jsonDecode(response!.body);
+    ping = temp.map((e) => Ping.fromJson(e));
 
     setState(() {});
   }
 
-  void focus() {
-    focusStorage(widget.name);
+  void focus() async {
+    await Data.checkAuthorization(
+        context: context,
+        function: focusStorage,
+        args: {"name": widget.name, 'data': []});
   }
 
   void fetchCards() async {
-    await storages
-        .getAllCardsPerStorage(widget.name)
-        .then((value) => listOfCards = value.cards);
+    var response = await Data.checkAuthorization(
+        context: context,
+        function: getAllCardsPerStorage,
+        args: {"name": widget.name, 'data': []});
+    var temp = jsonDecode(response!.body) as List;
+    listOfCards = temp.map((e) => Cards.fromJson(e)).toList();
 
     setState(() {});
   }

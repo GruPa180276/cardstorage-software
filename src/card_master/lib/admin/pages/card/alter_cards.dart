@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +39,10 @@ class _CardSettingsState extends State<CardSettings> {
   }
 
   void fetchData() async {
-    await fetchCards().then((value) => listOfCards = value);
+    var response =
+        await Data.checkAuthorization(context: context, function: fetchCards);
+    var temp = jsonDecode(response!.body) as List;
+    listOfCards = temp.map((e) => Cards.fromJson(e)).toList();
 
     for (int i = 0; i < listOfCards.length; i++) {
       if (listOfCards[i].name == widget.cardName) {
@@ -113,54 +118,13 @@ class _GenerateCardsState extends State<GenerateCards> {
                 reader: "",
               );
 
-              int code = 200;
-
               Data.checkAuthorization(
                   function: updateCard,
                   context: context,
                   args: {
                     "name": widget.card.name,
-                    'card': [updateEntry.toJson()]
+                    "data": [updateEntry.toJson()]
                   });
-
-              if (await code == 200) {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) => buildAlertDialog(
-                          context,
-                          "Karte aktualisieren ...",
-                          "Karte wurde Erfolgreich aktualisiert!",
-                          [
-                            generateButtonRectangle(
-                              context,
-                              "Ok",
-                              () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
-                        ));
-              }
-              if (await code == 400) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) => buildAlertDialog(
-                          context,
-                          "Karte aktualisieren ...",
-                          "Es ist ein Fehler beim anlegen der Karte aufgetreten!",
-                          [
-                            generateButtonRectangle(
-                              context,
-                              "Ok",
-                              () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
-                        ));
-              }
             }
           }),
               formKey,

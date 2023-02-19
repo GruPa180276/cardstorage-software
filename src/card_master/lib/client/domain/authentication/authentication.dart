@@ -20,6 +20,8 @@ class AadAuthentication {
     redirectUri: 'cardstorage://auth',
     navigatorKey: AppStart.navigatorKey,
   );
+
+  static getOAuth() {}
 }
 
 class AppStart {

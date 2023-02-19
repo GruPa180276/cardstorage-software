@@ -9,8 +9,8 @@ Table createUserTable(
 
   return Table(
     columnWidths: {
-      0: FractionColumnWidth(0.36),
-      1: FractionColumnWidth(0.63),
+      0: FractionColumnWidth(0.34),
+      1: FractionColumnWidth(0.65),
     },
     children: [
       TableRow(
@@ -29,7 +29,7 @@ Table createUserTable(
       TableRow(
         children: [
           Text(
-            "Priviledged:",
+            "Berechtigt:",
             style: TextStyle(fontSize: 20),
           ),
           Text(

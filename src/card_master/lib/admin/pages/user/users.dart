@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/user.dart';
@@ -18,7 +21,12 @@ class _StorageViewState extends State<UsersSettings> {
   TextEditingController txtQuery = new TextEditingController();
 
   void loadData() async {
-    await fetchUsers().then((value) => listOfCards = value);
+    var response = await Data.checkAuthorization(
+      context: context,
+      function: fetchUsers,
+    );
+    List jsonResponse = json.decode(response!.body);
+    listOfCards = jsonResponse.map((data) => Users.fromJson(data)).toList();
 
     persons = listOfCards;
     original = listOfCards;
@@ -63,50 +71,49 @@ class _StorageViewState extends State<UsersSettings> {
     return Scaffold(
         floatingActionButton: GenerateReloadButton(this.reload),
         appBar: AppBar(
-          title: Text("Benutzer",
+            title: Text(
+              "Benutzer",
               style:
-                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25)),
-        ),
+                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+            ),
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
+            actions: []),
         body: Container(
           padding: EdgeInsets.all(5),
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: txtQuery,
-                            onChanged: search,
-                            decoration: InputDecoration(
-                              hintText: "Search",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              prefixIcon: Icon(Icons.search),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {
-                                  txtQuery.text = '';
-                                  search(txtQuery.text);
-                                },
-                              ),
-                            ),
+          child: Column(children: [
+            Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: txtQuery,
+                        onChanged: search,
+                        decoration: InputDecoration(
+                          hintText: "Search",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          prefixIcon: Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              txtQuery.text = '';
+                              search(txtQuery.text);
+                            },
                           ),
-                        ],
+                        ),
                       ),
-                    )),
-                _listView(persons)
-              ]),
+                    ],
+                  ),
+                )),
+            _listView(persons)
+          ]),
         ));
   }
 
@@ -198,150 +205,15 @@ class _StorageViewState extends State<UsersSettings> {
                                                       privileged: true,
                                                     );
 
-                                                    Future<int> code =
-                                                        updateData(person.email,
-                                                            user.toJson());
-
-                                                    if (await code == 200) {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              AlertDialog(
-                                                                backgroundColor:
-                                                                    Theme.of(
-                                                                            context)
-                                                                        .scaffoldBackgroundColor,
-                                                                title: Text(
-                                                                  'Priviledge User',
-                                                                  style: TextStyle(
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .primaryColor),
-                                                                ),
-                                                                content:
-                                                                    new Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Text(
-                                                                      "User ist jetzt Admin!",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Theme.of(context).primaryColor),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                actions: <
-                                                                    Widget>[
-                                                                  Container(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              10),
-                                                                      height:
-                                                                          70,
-                                                                      child:
-                                                                          Column(
-                                                                        children: [
-                                                                          Row(children: [
-                                                                            ElevatedButton(
-                                                                              onPressed: () {
-                                                                                Navigator.of(context).pop();
-                                                                              },
-                                                                              child: Text(
-                                                                                "Finish",
-                                                                                style: TextStyle(color: Theme.of(context).focusColor),
-                                                                              ),
-                                                                              style: ElevatedButton.styleFrom(
-                                                                                backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                shape: RoundedRectangleBorder(
-                                                                                  borderRadius: BorderRadius.circular(8),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ]),
-                                                                        ],
-                                                                      )),
-                                                                ],
-                                                              ));
-                                                    }
-                                                    if (await code == 400) {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              AlertDialog(
-                                                                backgroundColor:
-                                                                    Theme.of(
-                                                                            context)
-                                                                        .scaffoldBackgroundColor,
-                                                                title: Text(
-                                                                  'Privilege User',
-                                                                  style: TextStyle(
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .primaryColor),
-                                                                ),
-                                                                content:
-                                                                    new Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Text(
-                                                                      "Es ist ein Fehler aufgetreten!",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Theme.of(context).primaryColor),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                actions: <
-                                                                    Widget>[
-                                                                  Container(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              10),
-                                                                      height:
-                                                                          70,
-                                                                      child:
-                                                                          Column(
-                                                                        children: [
-                                                                          Row(children: [
-                                                                            ElevatedButton(
-                                                                              onPressed: () {
-                                                                                Navigator.of(context).pop();
-                                                                              },
-                                                                              child: Text(
-                                                                                "Finish",
-                                                                                style: TextStyle(color: Theme.of(context).focusColor),
-                                                                              ),
-                                                                              style: ElevatedButton.styleFrom(
-                                                                                backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                shape: RoundedRectangleBorder(
-                                                                                  borderRadius: BorderRadius.circular(8),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ]),
-                                                                        ],
-                                                                      )),
-                                                                ],
-                                                              ));
-                                                    }
+                                                    await Data
+                                                        .checkAuthorization(
+                                                            context: context,
+                                                            function:
+                                                                updateData,
+                                                            args: {
+                                                          "name": person.email,
+                                                          'data': user.toJson(),
+                                                        });
                                                   },
                                                   child: Text(
                                                     "Ja",
@@ -412,105 +284,14 @@ class _StorageViewState extends State<UsersSettings> {
                                                                             children: [
                                                                               ElevatedButton(
                                                                                 onPressed: () async {
-                                                                                  Future<int> code = deleteUser(mail);
-
-                                                                                  if (await code == 200) {
-                                                                                    Navigator.of(context).pop();
-                                                                                    showDialog(
-                                                                                        context: context,
-                                                                                        builder: (BuildContext context) => AlertDialog(
-                                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                                                              title: Text(
-                                                                                                'Delete User',
-                                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                              ),
-                                                                                              content: new Column(
-                                                                                                mainAxisSize: MainAxisSize.min,
-                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                children: <Widget>[
-                                                                                                  Text(
-                                                                                                    "User ist gelöscht!",
-                                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                              actions: <Widget>[
-                                                                                                Container(
-                                                                                                    padding: EdgeInsets.all(10),
-                                                                                                    height: 70,
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        Row(children: [
-                                                                                                          ElevatedButton(
-                                                                                                            onPressed: () {
-                                                                                                              Navigator.of(context).pop();
-                                                                                                            },
-                                                                                                            child: Text(
-                                                                                                              "Finish",
-                                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                                            ),
-                                                                                                            style: ElevatedButton.styleFrom(
-                                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                                              shape: RoundedRectangleBorder(
-                                                                                                                borderRadius: BorderRadius.circular(8),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ]),
-                                                                                                      ],
-                                                                                                    )),
-                                                                                              ],
-                                                                                            ));
-                                                                                  }
-                                                                                  if (await code == 400) {
-                                                                                    Navigator.of(context).pop();
-                                                                                    showDialog(
-                                                                                        context: context,
-                                                                                        builder: (BuildContext context) => AlertDialog(
-                                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                                                              title: Text(
-                                                                                                'Delete User',
-                                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                              ),
-                                                                                              content: new Column(
-                                                                                                mainAxisSize: MainAxisSize.min,
-                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                children: <Widget>[
-                                                                                                  Text(
-                                                                                                    "Es ist ein Fehler aufgetreten!",
-                                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                              actions: <Widget>[
-                                                                                                Container(
-                                                                                                    padding: EdgeInsets.all(10),
-                                                                                                    height: 70,
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        Row(children: [
-                                                                                                          ElevatedButton(
-                                                                                                            onPressed: () {
-                                                                                                              Navigator.of(context).pop();
-                                                                                                            },
-                                                                                                            child: Text(
-                                                                                                              "Finish",
-                                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                                            ),
-                                                                                                            style: ElevatedButton.styleFrom(
-                                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                                              shape: RoundedRectangleBorder(
-                                                                                                                borderRadius: BorderRadius.circular(8),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ]),
-                                                                                                      ],
-                                                                                                    )),
-                                                                                              ],
-                                                                                            ));
-                                                                                  }
-                                                                                  ;
+                                                                                  await Data.checkAuthorization(
+                                                                                    context: context,
+                                                                                    function: deleteUser,
+                                                                                    args: {
+                                                                                      "name": mail.toString(),
+                                                                                      'data': []
+                                                                                    },
+                                                                                  );
                                                                                 },
                                                                                 child: Text(
                                                                                   "Ja",

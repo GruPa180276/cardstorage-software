@@ -1,3 +1,4 @@
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/widget/button.dart';
@@ -119,61 +120,15 @@ class _GenerateCardState extends State<GenerateCard> {
                                           "Wollen Sie diese Karte löschen?",
                                           [
                                             generateButtonRectangle(
-                                              context,
-                                              "Ja",
-                                              () async {
-                                                Future<int> code = deleteCard(
-                                                    widget.card.name);
-
-                                                if (await code == 200) {
-                                                  Navigator.of(context).pop();
-                                                  Navigator.of(context).pop();
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          buildAlertDialog(
-                                                            context,
-                                                            "Karte löschen ...",
-                                                            "Karte wurde erfolgreich gelöscht",
-                                                            [
-                                                              generateButtonRectangle(
-                                                                context,
-                                                                "Ok",
-                                                                () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              )
-                                                            ],
-                                                          ));
-                                                } else if (await code == 400) {
-                                                  Navigator.of(context).pop();
-                                                  Navigator.of(context).pop();
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          buildAlertDialog(
-                                                            context,
-                                                            "Karte löschen ...",
-                                                            "Es ist ein Fehler beim löschen der Karte aufgetreten!",
-                                                            [
-                                                              generateButtonRectangle(
-                                                                context,
-                                                                "Ok",
-                                                                () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              )
-                                                            ],
-                                                          ));
-                                                }
-                                              },
-                                            ),
+                                                context, "Ja", () async {
+                                              await Data.checkAuthorization(
+                                                  function: deleteCard,
+                                                  context: context,
+                                                  args: {
+                                                    "name": widget.card.name,
+                                                    'data': []
+                                                  });
+                                            }),
                                             const SizedBox(
                                               height: 10,
                                             ),

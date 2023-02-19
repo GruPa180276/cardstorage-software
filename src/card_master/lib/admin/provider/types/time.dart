@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart';
+import 'package:card_master/admin/config/adress.dart';
 import 'package:card_master/admin/config/token_manager.dart';
-import 'package:http/http.dart' as http;
-import 'package:card_master/admin/config/adress.dart' as adres;
 
 class ReservationTime {
   double time;
@@ -25,43 +25,25 @@ class ReservationTime {
       };
 }
 
-Future<ReservationTime> getReservationLatestGetTime() async {
-  final response = await http.get(
-    Uri.parse(adres.reservationAdress + "/time"),
+Future<Response> getReservationLatestGetTime() async {
+  return await get(
+    Uri.parse(reservationAdress + "/time"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    dynamic jsonResponse = json.decode(response.body);
-    return ReservationTime.fromJson(jsonResponse);
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return getReservationLatestGetTime();
-  } else {
-    throw Exception('Failed to get Time!');
-  }
 }
 
-Future<ReservationTime> changeReservationLatestGetTime(double time) async {
-  final http.Response response = await http.put(
-    Uri.parse(adres.reservationAdress + "/time/hours/" + time.toString()),
+Future<Response> changeReservationLatestGetTime(
+    Map<String, dynamic> data) async {
+  return await put(
+    Uri.parse(reservationAdress + "/time/hours/" + data["name"]),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Content-Type": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    return ReservationTime.fromJson(json.decode(response.body));
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return changeReservationLatestGetTime(time);
-  } else {
-    throw Exception('Failed to change Time!');
-  }
 }

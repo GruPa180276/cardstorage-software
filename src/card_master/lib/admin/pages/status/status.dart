@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:card_master/admin/pages/status/statusInkwell.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/widget/appbar.dart';
@@ -19,20 +22,24 @@ class _StatusViewState extends State<StatusView> {
   @override
   void initState() {
     super.initState();
-    // futureData = fetchStorages();
+    futureData = fetchData();
   }
 
-  void reload() {
-    setState(() {
-      // futureData = fetchStorages();
-    });
+  Future<List<Storages>> fetchData() async {
+    final response = await Data.checkAuthorization(
+      context: context,
+      function: fetchStorages,
+    );
+
+    List jsonResponse = json.decode(response!.body);
+    return jsonResponse.map((data) => Storages.fromJson(data)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: generateAppBar(context),
-        floatingActionButton: GenerateReloadButton(this.reload),
+        floatingActionButton: GenerateReloadButton(fetchData),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(children: [

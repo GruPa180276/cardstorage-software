@@ -38,16 +38,8 @@ class _CardsViewState extends State<CardsView> {
   void fetchData() async {
     var response = await Data.checkAuthorization(
         context: context, function: fetchStorages);
-
-    // await fetchStorages().then((value) => listOfStorages = value);
     var temp = jsonDecode(response!.body) as List;
-
     listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
-
-    await Data.checkAuthorization(
-        function: updateCard,
-        context: context,
-        args: {"name": "card1", 'card': []});
 
     listOfStorageNames.add("-");
     for (int i = 0; i < listOfStorages.length; i++) {

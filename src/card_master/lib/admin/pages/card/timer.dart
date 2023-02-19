@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -38,7 +41,12 @@ class TimerAddCardState extends State<TimerAddCard> {
   }
 
   void getCard() async {
-    await getCardByName(widget.name!).then((value) => card = value);
+    var response = await Data.checkAuthorization(
+        context: context,
+        function: getCardByName,
+        args: {"name": widget.name, 'data': []});
+    var temp = jsonDecode(response!.body);
+    card = temp.map((e) => Cards.fromJson(e));
   }
 
   String get timerText =>

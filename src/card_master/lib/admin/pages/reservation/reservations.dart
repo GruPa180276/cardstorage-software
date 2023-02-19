@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/time.dart';
@@ -31,7 +34,12 @@ class _SettingsPageState extends State<Reservations> {
   TextEditingController txtQuery = new TextEditingController();
 
   void loadData() async {
-    await cardReservation.fetchData().then((value) => listOfCards = value);
+    var response = await Data.checkAuthorization(
+      context: context,
+      function: fetchReservations,
+    );
+    var temp = jsonDecode(response!.body) as List;
+    listOfCards = temp.map((e) => CardReservation.fromJson(e)).toList();
 
     persons = listOfCards;
     original = listOfCards;
@@ -120,8 +128,13 @@ class _SettingsPageState extends State<Reservations> {
                                 generateButtonRectangle(
                                   context,
                                   "Speichern",
-                                  () {
-                                    changeReservationLatestGetTime(time);
+                                  () async {
+                                    await Data.checkAuthorization(
+                                        function:
+                                            changeReservationLatestGetTime,
+                                        context: context,
+                                        args: {"name": "", 'data': time});
+
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -221,215 +234,111 @@ class _SettingsPageState extends State<Reservations> {
                                   onTap: () {
                                     showDialog(
                                         context: context,
-                                        builder:
-                                            (BuildContext context) =>
-                                                AlertDialog(
-                                                  backgroundColor: Theme.of(
-                                                          context)
-                                                      .scaffoldBackgroundColor,
-                                                  title: Text(
-                                                    'Reservierung löschen',
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                              backgroundColor: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              title: Text(
+                                                'Reservierung löschen',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
+                                              ),
+                                              content: new Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Wollen Sie diese Reservierung löschen?",
                                                     style: TextStyle(
                                                         color: Theme.of(context)
                                                             .primaryColor),
                                                   ),
-                                                  content: new Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        "Wollen Sie diese Reservierung löschen?",
-                                                        style: TextStyle(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  actions: <Widget>[
-                                                    Container(
-                                                        padding:
-                                                            EdgeInsets.all(10),
-                                                        height: 70,
-                                                        child: Column(
-                                                          children: [
-                                                            Row(children: [
-                                                              ElevatedButton(
-                                                                onPressed:
-                                                                    () async {
-                                                                  Future<int>
-                                                                      code =
-                                                                      deleteReservation(
-                                                                          data[index]
-                                                                              .id);
+                                                ],
+                                              ),
+                                              actions: <Widget>[
+                                                Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    height: 70,
+                                                    child: Column(
+                                                      children: [
+                                                        Row(children: [
+                                                          ElevatedButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await Data.checkAuthorization(
+                                                                  function:
+                                                                      deleteReservation,
+                                                                  context: context,
+                                                                  args: {
+                                                                    "name": data[
+                                                                            index]
+                                                                        .id
+                                                                        .toString(),
+                                                                    'data': []
+                                                                  });
 
-                                                                  if (await code ==
-                                                                      200) {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                    showDialog(
-                                                                        context:
-                                                                            context,
-                                                                        builder: (BuildContext
-                                                                                context) =>
-                                                                            AlertDialog(
-                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                                              title: Text(
-                                                                                'Reservierung löschen',
-                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                              ),
-                                                                              content: new Column(
-                                                                                mainAxisSize: MainAxisSize.min,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: <Widget>[
-                                                                                  Text(
-                                                                                    "Reservierung gelöscht",
-                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              actions: <Widget>[
-                                                                                Container(
-                                                                                    padding: EdgeInsets.all(10),
-                                                                                    height: 70,
-                                                                                    child: Column(
-                                                                                      children: [
-                                                                                        Row(children: [
-                                                                                          ElevatedButton(
-                                                                                            onPressed: () {
-                                                                                              Navigator.of(context).pop();
-                                                                                            },
-                                                                                            child: Text(
-                                                                                              "Finish",
-                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                            ),
-                                                                                            style: ElevatedButton.styleFrom(
-                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                              shape: RoundedRectangleBorder(
-                                                                                                borderRadius: BorderRadius.circular(8),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ]),
-                                                                                      ],
-                                                                                    )),
-                                                                              ],
-                                                                            ));
-                                                                  }
-                                                                  if (await code ==
-                                                                      400) {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                    showDialog(
-                                                                        context:
-                                                                            context,
-                                                                        builder: (BuildContext
-                                                                                context) =>
-                                                                            AlertDialog(
-                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                                              title: Text(
-                                                                                'Reservierung löschen',
-                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                              ),
-                                                                              content: new Column(
-                                                                                mainAxisSize: MainAxisSize.min,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: <Widget>[
-                                                                                  Text(
-                                                                                    "Es ist ein Fehler aufgetreten!",
-                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              actions: <Widget>[
-                                                                                Container(
-                                                                                    padding: EdgeInsets.all(10),
-                                                                                    height: 70,
-                                                                                    child: Column(
-                                                                                      children: [
-                                                                                        Row(children: [
-                                                                                          ElevatedButton(
-                                                                                            onPressed: () {
-                                                                                              Navigator.of(context).pop();
-                                                                                            },
-                                                                                            child: Text(
-                                                                                              "Finish",
-                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                            ),
-                                                                                            style: ElevatedButton.styleFrom(
-                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                              shape: RoundedRectangleBorder(
-                                                                                                borderRadius: BorderRadius.circular(8),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ]),
-                                                                                      ],
-                                                                                    )),
-                                                                              ],
-                                                                            ));
-                                                                  }
-                                                                  ;
-                                                                },
-                                                                child: Text(
-                                                                  "Ja",
-                                                                  style: TextStyle(
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .focusColor),
-                                                                ),
-                                                                style: ElevatedButton
-                                                                    .styleFrom(
-                                                                  backgroundColor:
-                                                                      Theme.of(
-                                                                              context)
-                                                                          .secondaryHeaderColor,
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(8),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Spacer(),
-                                                              ElevatedButton(
-                                                                onPressed: () {
-                                                                  Navigator.of(
+                                                              ;
+                                                            },
+                                                            child: Text(
+                                                              "Ja",
+                                                              style: TextStyle(
+                                                                  color: Theme.of(
                                                                           context)
-                                                                      .pop();
-                                                                },
-                                                                child: Text(
-                                                                  "Nein",
-                                                                  style: TextStyle(
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .focusColor),
-                                                                ),
-                                                                style: ElevatedButton
+                                                                      .focusColor),
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
                                                                     .styleFrom(
-                                                                  backgroundColor:
-                                                                      Theme.of(
-                                                                              context)
-                                                                          .secondaryHeaderColor,
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(8),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ]),
-                                                          ],
-                                                        )),
-                                                  ],
-                                                ));
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .secondaryHeaderColor,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text(
+                                                              "Nein",
+                                                              style: TextStyle(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .focusColor),
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .secondaryHeaderColor,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ]),
+                                                      ],
+                                                    )),
+                                              ],
+                                            ));
                                   },
                                 )))
                       ]),

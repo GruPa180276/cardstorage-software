@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart';
+import 'package:card_master/admin/config/adress.dart';
 import 'package:card_master/admin/config/token_manager.dart';
-import 'package:http/http.dart' as http;
-import 'package:card_master/admin/config/adress.dart' as adres;
 
 class FocusS {
   String name;
@@ -21,23 +21,13 @@ class FocusS {
       };
 }
 
-Future<List<FocusS>> getAllUnfocusedStorages() async {
-  final response = await http.get(
-    Uri.parse(adres.storageAdress + "/focus"),
+Future<Response> getAllUnfocusedStorages() async {
+  return await get(
+    Uri.parse(storageAdress + "/focus"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => FocusS.fromJson(data)).toList();
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return getAllUnfocusedStorages();
-  } else {
-    throw Exception('Failed to focus Storage!');
-  }
 }

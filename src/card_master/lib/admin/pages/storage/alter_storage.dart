@@ -1,3 +1,4 @@
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/widget/button.dart';
@@ -188,74 +189,13 @@ class _GetDataFromAPIState extends State<GetDataFromAPI> {
                             numberOfCards: widget.stor.numberOfCards,
                             cards: []);
 
-                        Future<int> code =
-                            updateStorage(widget.stor.name, newEntry.toJson());
-
-                        if (await code == 200) {
-                          Navigator.of(context).pop();
-                        }
-                        if (await code == 400) {
-                          Navigator.of(context).pop();
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    backgroundColor: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    title: Text(
-                                      'Storage anlegen',
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                    ),
-                                    content: new Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          "Es ist ein Fehler beim aktualisieren des Storages aufgetreten!",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                      ],
-                                    ),
-                                    actions: <Widget>[
-                                      Container(
-                                          padding: EdgeInsets.all(10),
-                                          height: 70,
-                                          child: Column(
-                                            children: [
-                                              Column(children: [
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text(
-                                                    "Ok",
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .focusColor),
-                                                  ),
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor: Theme.of(
-                                                            context)
-                                                        .secondaryHeaderColor,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                    ),
-                                                  ),
-                                                )
-                                              ]),
-                                            ],
-                                          )),
-                                    ],
-                                  ));
-                        }
+                        await Data.checkAuthorization(
+                            context: context,
+                            function: updateStorage,
+                            args: {
+                              "name": widget.stor.name,
+                              'data': newEntry.toJson()
+                            });
                       }
                       ;
                     }),

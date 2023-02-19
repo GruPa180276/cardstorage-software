@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:card_master/admin/pages/storage/storageInkwell.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:flutter/material.dart';
 
@@ -15,16 +18,26 @@ class StorageView extends StatefulWidget {
 }
 
 class _StorageViewState extends State<StorageView> {
-  late List<Storages> listOfCards = [];
+  List<Storages> listOfCards = [];
   List<Storages> persons = [];
   List<Storages> original = [];
   TextEditingController txtQuery = new TextEditingController();
   List<FocusS> listOfStorages = [];
 
   void loadData() async {
-    // await fetchStorages().then((value) => listOfCards = value);
+    var response = await Data.checkAuthorization(
+      context: context,
+      function: getAllUnfocusedStorages,
+    );
+    var temp = jsonDecode(response!.body) as List;
+    listOfStorages = temp.map((e) => FocusS.fromJson(e)).toList();
 
-    await getAllUnfocusedStorages().then((value) => listOfStorages = value);
+    response = await Data.checkAuthorization(
+      context: context,
+      function: fetchStorages,
+    );
+    temp = jsonDecode(response!.body) as List;
+    listOfCards = temp.map((e) => Storages.fromJson(e)).toList();
 
     persons = listOfCards;
     original = listOfCards;

@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:card_master/admin/pages/widget/createStatus.dart';
+import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/ping.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
@@ -38,8 +42,12 @@ class _GenerateCardState extends State<GenerateStatus> {
   }
 
   void pingNow() async {
-    await pingStorage(widget.data![widget.index].name)
-        .then((value) => ping = value);
+    var response = await Data.checkAuthorization(
+        context: context,
+        function: pingStorage,
+        args: {"name": widget.data![widget.index].name, 'data': []});
+    dynamic jsonResponse = json.decode(response!.body);
+    ping = Ping.fromJson(jsonResponse);
 
     if (ping.time != 0) {
       pingWorked = true;
@@ -47,8 +55,12 @@ class _GenerateCardState extends State<GenerateStatus> {
   }
 
   void getNumberOfCardsInStorage() async {
-    await getAllCardsPerStorage(widget.data![widget.index].name)
-        .then((value) => storage = value);
+    var response = await Data.checkAuthorization(
+        context: context,
+        function: getAllCardsPerStorage,
+        args: {"name": widget.data![widget.index].name, 'data': []});
+    var temp = jsonDecode(response!.body);
+    storage = Storages.fromJson(temp);
 
     count = 0;
 
@@ -62,8 +74,10 @@ class _GenerateCardState extends State<GenerateStatus> {
   }
 
   void pingNowNow() async {
-    await pingStorage(widget.data![widget.index].name)
-        .then((value) => ping = value);
+    await Data.checkAuthorization(
+        context: context,
+        function: pingStorage,
+        args: {"name": widget.data![widget.index].name, 'data': []});
 
     setState(() {});
   }
@@ -142,148 +156,15 @@ class _GenerateCardState extends State<GenerateStatus> {
                                         Row(children: [
                                           ElevatedButton(
                                             onPressed: () async {
-                                              Future<int> code = focusStorage(
-                                                widget.data![widget.index].name,
-                                              );
-
-                                              if (await code == 200) {
-                                                Navigator.of(context).pop();
-                                                showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext
-                                                                context) =>
-                                                            AlertDialog(
-                                                              backgroundColor:
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .scaffoldBackgroundColor,
-                                                              title: Text(
-                                                                'Focus Storage',
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .primaryColor),
-                                                              ),
-                                                              content:
-                                                                  new Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: <
-                                                                    Widget>[
-                                                                  Text(
-                                                                    "Storage wurde gefocused!",
-                                                                    style: TextStyle(
-                                                                        color: Theme.of(context)
-                                                                            .primaryColor),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              actions: <Widget>[
-                                                                Container(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            10),
-                                                                    height: 70,
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        Row(
-                                                                            children: [
-                                                                              ElevatedButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.of(context).pop();
-                                                                                },
-                                                                                child: Text(
-                                                                                  "Finish",
-                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                ),
-                                                                                style: ElevatedButton.styleFrom(
-                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                  shape: RoundedRectangleBorder(
-                                                                                    borderRadius: BorderRadius.circular(8),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ]),
-                                                                      ],
-                                                                    )),
-                                                              ],
-                                                            ));
-                                              }
-                                              if (await code == 400) {
-                                                Navigator.of(context).pop();
-                                                showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext
-                                                                context) =>
-                                                            AlertDialog(
-                                                              backgroundColor:
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .scaffoldBackgroundColor,
-                                                              title: Text(
-                                                                'Focus Storage',
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .primaryColor),
-                                                              ),
-                                                              content:
-                                                                  new Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: <
-                                                                    Widget>[
-                                                                  Text(
-                                                                    "Es ist ein Fehler aufgetreten!",
-                                                                    style: TextStyle(
-                                                                        color: Theme.of(context)
-                                                                            .primaryColor),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              actions: <Widget>[
-                                                                Container(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            10),
-                                                                    height: 70,
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        Row(
-                                                                            children: [
-                                                                              ElevatedButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.of(context).pop();
-                                                                                },
-                                                                                child: Text(
-                                                                                  "Finish",
-                                                                                  style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                ),
-                                                                                style: ElevatedButton.styleFrom(
-                                                                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                  shape: RoundedRectangleBorder(
-                                                                                    borderRadius: BorderRadius.circular(8),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ]),
-                                                                      ],
-                                                                    )),
-                                                              ],
-                                                            ));
-                                              }
+                                              await Data.checkAuthorization(
+                                                  context: context,
+                                                  function: focusStorage,
+                                                  args: {
+                                                    "name": widget
+                                                        .data![widget.index]
+                                                        .name,
+                                                    'data': []
+                                                  });
                                             },
                                             child: Text(
                                               "Focus",

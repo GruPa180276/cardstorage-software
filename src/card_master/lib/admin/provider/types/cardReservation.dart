@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart';
+import 'package:card_master/admin/config/adress.dart';
 import 'package:card_master/admin/config/token_manager.dart';
 import 'package:card_master/admin/provider/types/reservations.dart';
-import 'package:http/http.dart' as http;
-import 'package:card_master/admin/config/adress.dart' as adres;
 
 class CardReservation {
   String name;
@@ -24,7 +24,7 @@ class CardReservation {
 
   factory CardReservation.fromJson(Map<String, dynamic> json) {
     var tagObjsJson = json['reservations'] as List;
-    List<ReservationOfCards> _reservations = tagObjsJson
+    List<ReservationOfCards> reservations = tagObjsJson
         .map((tagJson) => ReservationOfCards.fromJson(tagJson))
         .toList();
 
@@ -34,7 +34,7 @@ class CardReservation {
       position: json['position'] ?? 0,
       accessed: json['accessed'] ?? 0,
       available: json['available'] ?? false,
-      reservation: _reservations,
+      reservation: reservations,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -43,43 +43,13 @@ class CardReservation {
       };
 }
 
-Future<List<CardReservation>> fetchData() async {
-  final response = await http.get(
-    Uri.parse(adres.cardAdress),
+Future<Response> fetchReservations() async {
+  return await get(
+    Uri.parse(cardAdress),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => CardReservation.fromJson(data)).toList();
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return fetchData();
-  } else {
-    throw Exception('Failed to get Card Reservation!');
-  }
-}
-
-Future<CardReservation> deleteData(String name) async {
-  final http.Response response = await http.delete(
-    Uri.parse(adres.cardAdress + "/name/" + name),
-    headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
-      "Accept": "application/json"
-    },
-  );
-  if (response.statusCode == 200) {
-    return CardReservation.fromJson(json.decode(response.body));
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return deleteData(name);
-  } else {
-    throw Exception('Failed to delete Card Reservation!');
-  }
 }

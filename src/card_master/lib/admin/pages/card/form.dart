@@ -13,8 +13,7 @@ Widget buildCardForm(
 ) {
   return Form(
       key: formKey,
-      child: Expanded(
-          child: Container(
+      child: Container(
         padding:
             const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
         child: Column(
@@ -27,8 +26,7 @@ Widget buildCardForm(
             const SizedBox(
               height: 10,
             ),
-            Expanded(
-                child: GestureDetector(
+            GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Column(children: [
                 SizedBox(
@@ -39,8 +37,8 @@ Widget buildCardForm(
                       onPressed,
                     )),
               ]),
-            )),
+            ),
           ],
         ),
-      )));
+      ));
 }

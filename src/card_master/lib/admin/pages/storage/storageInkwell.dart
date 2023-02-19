@@ -1,4 +1,5 @@
 import 'package:card_master/admin/pages/widget/createStorage.dart';
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/user.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
@@ -169,110 +170,23 @@ class _GenerateCardState extends State<GenerateStorage> {
                                                                           children: [
                                                                             ElevatedButton(
                                                                               onPressed: () async {
-                                                                                Future<int> code = deleteStorage(widget.data![widget.index].name);
+                                                                                await Data.checkAuthorization(
+                                                                                  context: context,
+                                                                                  function: deleteStorage,
+                                                                                  args: {
+                                                                                    "name": widget.data![widget.index].name,
+                                                                                    'data': []
+                                                                                  },
+                                                                                );
 
-                                                                                if (await code == 200) {
-                                                                                  code = deleteUser(widget.data![widget.index].name.toString().toLowerCase() + "@default.com");
-                                                                                  if (await code == 200) {
-                                                                                    Navigator.of(context).pop();
-                                                                                  }
-                                                                                  if (await code == 400) {
-                                                                                    Navigator.of(context).pop();
-                                                                                    showDialog(
-                                                                                        context: context,
-                                                                                        builder: (BuildContext context) => AlertDialog(
-                                                                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                                                              title: Text(
-                                                                                                'Storage aktualisieren',
-                                                                                                style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                              ),
-                                                                                              content: new Column(
-                                                                                                mainAxisSize: MainAxisSize.min,
-                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                children: <Widget>[
-                                                                                                  Text(
-                                                                                                    "Es ist ein Fehler beim aktualisieren des Storages aufgetreten!",
-                                                                                                    style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                              actions: <Widget>[
-                                                                                                Container(
-                                                                                                    padding: EdgeInsets.all(10),
-                                                                                                    height: 70,
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        Column(children: [
-                                                                                                          ElevatedButton(
-                                                                                                            onPressed: () {
-                                                                                                              Navigator.of(context).pop();
-                                                                                                            },
-                                                                                                            child: Text(
-                                                                                                              "Ok",
-                                                                                                              style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                                            ),
-                                                                                                            style: ElevatedButton.styleFrom(
-                                                                                                              backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                                              shape: RoundedRectangleBorder(
-                                                                                                                borderRadius: BorderRadius.circular(8),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          )
-                                                                                                        ]),
-                                                                                                      ],
-                                                                                                    )),
-                                                                                              ],
-                                                                                            ));
-                                                                                  }
-                                                                                }
-                                                                                if (await code == 400) {
-                                                                                  Navigator.of(context).pop();
-                                                                                  showDialog(
-                                                                                      context: context,
-                                                                                      builder: (BuildContext context) => AlertDialog(
-                                                                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                                                            title: Text(
-                                                                                              'Storage aktualisieren',
-                                                                                              style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                            ),
-                                                                                            content: new Column(
-                                                                                              mainAxisSize: MainAxisSize.min,
-                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                              children: <Widget>[
-                                                                                                Text(
-                                                                                                  "Es ist ein Fehler beim aktualisieren des Storages aufgetreten!",
-                                                                                                  style: TextStyle(color: Theme.of(context).primaryColor),
-                                                                                                ),
-                                                                                              ],
-                                                                                            ),
-                                                                                            actions: <Widget>[
-                                                                                              Container(
-                                                                                                  padding: EdgeInsets.all(10),
-                                                                                                  height: 70,
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Column(children: [
-                                                                                                        ElevatedButton(
-                                                                                                          onPressed: () {
-                                                                                                            Navigator.of(context).pop();
-                                                                                                          },
-                                                                                                          child: Text(
-                                                                                                            "Ok",
-                                                                                                            style: TextStyle(color: Theme.of(context).focusColor),
-                                                                                                          ),
-                                                                                                          style: ElevatedButton.styleFrom(
-                                                                                                            backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                                                                                            shape: RoundedRectangleBorder(
-                                                                                                              borderRadius: BorderRadius.circular(8),
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        )
-                                                                                                      ]),
-                                                                                                    ],
-                                                                                                  )),
-                                                                                            ],
-                                                                                          ));
-                                                                                }
+                                                                                await Data.checkAuthorization(
+                                                                                  context: context,
+                                                                                  function: deleteUser,
+                                                                                  args: {
+                                                                                    "name": widget.data![widget.index].name.toString().toLowerCase() + "@default.com",
+                                                                                    'data': []
+                                                                                  },
+                                                                                );
                                                                               },
                                                                               child: Text(
                                                                                 "Ja",

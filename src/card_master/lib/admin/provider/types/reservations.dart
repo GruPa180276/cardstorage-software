@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:card_master/admin/config/token_manager.dart';
+import 'dart:convert';
+import 'package:http/http.dart';
+import 'package:card_master/admin/config/adress.dart';
 import 'package:card_master/admin/provider/types/user.dart';
-import 'package:http/http.dart' as http;
-import 'package:card_master/admin/config/adress.dart' as adres;
+import 'package:card_master/admin/config/token_manager.dart';
 
 class ReservationOfCards {
   int id;
@@ -35,47 +35,24 @@ class ReservationOfCards {
   }
 }
 
-Future<List<ReservationOfCards>> fetchData() async {
-  final response = await http.get(
-    Uri.parse(adres.reservationAdress),
+Future<Response> fetchData() async {
+  return await get(
+    Uri.parse(reservationAdress),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse
-        .map((data) => ReservationOfCards.fromJson(data))
-        .toList();
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return fetchData();
-  } else {
-    throw Exception('Failed to get Reservations!');
-  }
 }
 
-Future<int> deleteReservation(int id) async {
-  final http.Response response = await http.delete(
-    Uri.parse(adres.reservationAdress + "/id/" + id.toString()),
+Future<Response> deleteReservation(Map<String, dynamic> data) async {
+  return await delete(
+    Uri.parse(reservationAdress + "/id/" + data["name"]),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
       "Accept": "application/json"
     },
   );
-  if (response.statusCode == 200) {
-    return response.statusCode;
-  } else if (response.statusCode == 400) {
-    return response.statusCode;
-  } else if (response.statusCode == 401) {
-    await Future.delayed(Duration(seconds: 1));
-    SecureStorage.setToken();
-    return deleteReservation(id);
-  } else {
-    throw Exception('Failed to delete Reservation!');
-  }
 }

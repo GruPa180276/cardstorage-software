@@ -97,7 +97,7 @@ func connectToDatabase(user, passwd, hostname, port, dbname string) *gorm.DB {
 	if !db.Migrator().HasTable(&model.Reservation{}) {
 		log.Println("Early Initialization: Creating new Table 'reservations'")
 		util.Must(nil, db.Migrator().CreateTable(&model.Reservation{}))
-		log.Println("Early Initialization: Creating new Table 'reservations'")
+		log.Println("Early Initialization: Created new Table 'reservations'")
 		migrateReservation = true
 	}
 	if !db.Migrator().HasTable(&model.Storage{}) {

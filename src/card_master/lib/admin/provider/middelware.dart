@@ -14,13 +14,13 @@ class Data {
       Map<String, dynamic>? args}) async {
     try {
       Response response;
-      if (bearerToken == null) {
+      /*if (bearerToken == null) {
         SecureStorage.setToken();
-      }
+      }*/
       response = (args != null) ? await function(args) : await function();
 
       if (response.statusCode == 401) {
-        SecureStorage.setToken();
+        SecureStorage.setToken(context!);
         response = (args != null) ? await function(args) : await function();
       }
       if (response.statusCode != 200) {

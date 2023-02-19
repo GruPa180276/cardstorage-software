@@ -30,25 +30,6 @@ class _StatusStorageState extends State<StatusStorage> {
   void initState() {
     super.initState();
     fetchCards();
-    pingNow();
-  }
-
-  void pingNow() async {
-    var response = await Data.checkAuthorization(
-        context: context,
-        function: pingStorage,
-        args: {"name": widget.name, 'data': []});
-    var temp = jsonDecode(response!.body);
-    ping = temp.map((e) => Ping.fromJson(e));
-
-    setState(() {});
-  }
-
-  void focus() async {
-    await Data.checkAuthorization(
-        context: context,
-        function: focusStorage,
-        args: {"name": widget.name, 'data': []});
   }
 
   void fetchCards() async {

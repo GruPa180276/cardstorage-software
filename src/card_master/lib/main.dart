@@ -60,9 +60,6 @@ Future main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
-  SecureStorage.storage.deleteAll();
-  SecureStorage.setToken();
-
   runApp(const AppStart());
 }
 
@@ -100,6 +97,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    SecureStorage.storage.deleteAll();
+    SecureStorage.setToken(context);
     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(context,

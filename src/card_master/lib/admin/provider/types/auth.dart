@@ -1,4 +1,4 @@
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class Auth {
   String token;
@@ -14,16 +14,11 @@ class Auth {
   }
 }
 
-Future<String> authAdminLogin(String mail) async {
-  final response = await http.get(
-    Uri.parse("https://10.0.2.2:7171/api/v1/auth/user/email/" + mail),
+Future<Response> authAdminLogin(Map<String, dynamic> data) async {
+  return await get(
+    Uri.parse("https://10.0.2.2:7171/api/v1/auth/user/email/" + data["name"]),
     headers: <String, String>{
       'Content-Type': 'text/plain',
     },
   );
-  if (response.statusCode == 200) {
-    return response.body;
-  } else {
-    throw Exception('Failed to get Token!');
-  }
 }

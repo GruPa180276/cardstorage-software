@@ -37,8 +37,8 @@ class _GenerateCardState extends State<GenerateStatus> {
   @override
   void initState() {
     super.initState();
-    pingNow();
     getNumberOfCardsInStorage();
+    pingNow();
   }
 
   void pingNow() async {
@@ -71,15 +71,6 @@ class _GenerateCardState extends State<GenerateStatus> {
         }
       }
     });
-  }
-
-  void pingNowNow() async {
-    await Data.checkAuthorization(
-        context: context,
-        function: pingStorage,
-        args: {"name": widget.data![widget.index].name, 'data': []});
-
-    setState(() {});
   }
 
   @override

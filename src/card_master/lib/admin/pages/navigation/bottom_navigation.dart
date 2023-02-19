@@ -25,7 +25,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   void initState() {
     super.initState();
-    SecureStorage.setToken();
+    SecureStorage.setToken(context);
     _setupWebSockets();
   }
 
@@ -61,7 +61,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       "wss://10.0.2.2:7171/api/v1/controller/log\n"
       "wss://10.0.2.2:7171/api/v1/storages/log\n"
       "wss://10.0.2.2:7171/api/v1/storages/cards/log\n"
-      "wss://10.0.2.2:7171/api/v1/users/log\n"
+      "wss://10.0.2.2:7171/api/v1/reservations/log\n"
       "wss://10.0.2.2:7171/api/v1/users/log",
     );
   }

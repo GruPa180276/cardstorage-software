@@ -79,30 +79,57 @@ func connectToDatabase(user, passwd, hostname, port, dbname string) *gorm.DB {
 	})).(*gorm.DB)
 	// util.Must(nil, db.AutoMigrate(&model.Card{}, &model.Reservation{}, &model.Storage{}, &model.User{}))
 	// util.Must(nil, db.AutoMigrate(&model.User{}, &model.Card{}, &model.Reservation{}, &model.Storage{}))
-	util.Must(nil, db.Migrator().CreateTable(&model.User{}))
-	util.Must(nil, db.Migrator().CreateTable(&model.Card{}))
-	util.Must(nil, db.Migrator().CreateTable(&model.Reservation{}))
-	util.Must(nil, db.Migrator().CreateTable(&model.Storage{}))
 
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "User"))
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "fk_reservation_user"))
+	var migrateUser, migrateCard, migrateReservation, migrateStorage bool
 
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "Card"))
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "fk_reservation_card"))
-
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "Reservations"))
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_reservations"))
-
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "Storage"))
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_storageid"))
-
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Storage{}, "Cards"))
-	util.Must(nil, db.Migrator().CreateConstraint(&model.Storage{}, "fk_storage_cards"))
-
-	if result := db.Where("privileged = ?", true).Find(&model.User{}); result.RowsAffected == 0 {
-		db.Create(&model.User{Email: os.Getenv("MANAGEMENT_ADMIN_DEFAULT"), Privileged: true})
+	if !db.Migrator().HasTable(&model.User{}) {
+		log.Println("Early Initialization: Creating new Table 'users'")
+		util.Must(nil, db.Migrator().CreateTable(&model.User{}))
+		log.Println("Early Initialization: Created new Table 'users'")
+		migrateUser = true
+	}
+	if !db.Migrator().HasTable(&model.Card{}) {
+		log.Println("Early Initialization: Creating new Table 'cards'")
+		util.Must(nil, db.Migrator().CreateTable(&model.Card{}))
+		log.Println("Early Initialization: Created new Table 'cards'")
+		migrateCard = true
+	}
+	if !db.Migrator().HasTable(&model.Reservation{}) {
+		log.Println("Early Initialization: Creating new Table 'reservations'")
+		util.Must(nil, db.Migrator().CreateTable(&model.Reservation{}))
+		log.Println("Early Initialization: Creating new Table 'reservations'")
+		migrateReservation = true
+	}
+	if !db.Migrator().HasTable(&model.Storage{}) {
+		log.Println("Early Initialization: Creating new Table 'storages'")
+		util.Must(nil, db.Migrator().CreateTable(&model.Storage{}))
+		log.Println("Early Initialization: Created new Table 'storages'")
+		migrateStorage = true
 	}
 
+	if migrateUser || migrateCard || migrateReservation || migrateStorage {
+		log.Println("Early Initialization: Creating Table Constraints")
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "User"))
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "fk_reservation_user"))
+
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "Card"))
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Reservation{}, "fk_reservation_card"))
+
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "Reservations"))
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_reservations"))
+
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "Storage"))
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Card{}, "fk_card_storageid"))
+
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Storage{}, "Cards"))
+		util.Must(nil, db.Migrator().CreateConstraint(&model.Storage{}, "fk_storage_cards"))
+		log.Println("Early Initialization: Created Table Constraints")
+		log.Printf("Early Initialization: Creating Administrator Account '%s'\n", os.Getenv("MANAGEMENT_ADMIN_DEFAULT"))
+		if result := db.Where("privileged = ?", true).Find(&model.User{}); result.RowsAffected == 0 {
+			db.Create(&model.User{Email: os.Getenv("MANAGEMENT_ADMIN_DEFAULT"), Privileged: true})
+		}
+		log.Println("Early Initialization: Created Administrator Account")
+	}
 	return db
 }
 

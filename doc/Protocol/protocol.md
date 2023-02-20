@@ -365,6 +365,9 @@ Habe heute im Code die Middelware implementiert. Es funktioniert auch soweit all
 **20.2.2023: 9:00 bis 13:30** <br>
 Habe heute die Websockets in eine eigene Datei ausgelagert. Des weitern funktioniert jetzt auch, wenn eine neue Karte angleget wird, das der WS überprüft wird. (4h 30min)
 
+**20.2.2023: 18:40 bis 22:40** <br>
+Haben die Doku mit Johannes gemerged. Die Doku ist soweit auch fertig. (3h 50min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -474,4 +477,5 @@ Habe heute die Websockets in eine eigene Datei ausgelagert. Des weitern funktion
 - 12:30 Uhr 15:30 Uhr
 - 8:30 bis 12:30 Uhr
 - 9:00 bis 13:30 Uhr
+- 18:40 bis 22:00 Uhr
 <!-- { "progress": false } -->

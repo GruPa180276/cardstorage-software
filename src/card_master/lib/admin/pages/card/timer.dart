@@ -1,12 +1,11 @@
-import 'dart:convert';
-
-import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
-import 'package:card_master/admin/pages/widget/button.dart';
+import 'dart:convert';
 import 'package:card_master/admin/provider/types/cards.dart';
-import 'package:card_master/admin/pages/card/alert_dialog.dart';
+import 'package:card_master/admin/pages/navigation/websockets.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 
 class TimerAddCard extends StatefulWidget {
   final String? name;
@@ -40,15 +39,6 @@ class TimerAddCardState extends State<TimerAddCard> {
     super.initState();
   }
 
-  void getCard() async {
-    var response = await Data.checkAuthorization(
-        context: context,
-        function: getCardByName,
-        args: {"name": widget.name, 'data': []});
-    var temp = jsonDecode(response!.body);
-    card = temp.map((e) => Cards.fromJson(e));
-  }
-
   String get timerText =>
       '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
 
@@ -67,51 +57,37 @@ class TimerAddCardState extends State<TimerAddCard> {
 
   startTimeout([int? milliseconds]) {
     var duration = interval;
+    Map? responseData;
+    bool successful = false;
+
     Timer.periodic(duration, (timer) {
       setState(() {
-        getCard();
         currentSeconds = timer.tick;
+        responseData = jsonDecode(Websockets.messages.last);
+        successful = responseData!["successful"];
+
         if (timer.tick >= timerMaxSeconds) {
           timer.cancel();
           Navigator.of(context).pop();
           Navigator.of(context).pop();
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => buildAlertDialog(
-                    context,
-                    "Karte anlegen ...",
-                    "Es ist ein Fehler beim anlegen der Karte aufgetreten!",
-                    [
-                      generateButtonRectangle(
-                        context,
-                        "Ok",
-                        () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  ));
+          FeedbackBuilder(
+            context: context,
+            header: "Error!",
+            snackbarType: FeedbackType.failure,
+            content: "Karte konnte nicht hinzugefügt werden.",
+          ).build();
         }
-        if (card.reader != "") {
+
+        if (successful) {
           timer.cancel();
           Navigator.of(context).pop();
           Navigator.of(context).pop();
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => buildAlertDialog(
-                    context,
-                    "Karte anlegen ...",
-                    "Karte wurde angelegt!",
-                    [
-                      generateButtonRectangle(
-                        context,
-                        "Ok",
-                        () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  ));
+          FeedbackBuilder(
+            context: context,
+            header: "Karte hinzugefügt!",
+            snackbarType: FeedbackType.success,
+            content: "Karte wurde erfolgreich angelegt.",
+          ).build();
         }
       });
     });

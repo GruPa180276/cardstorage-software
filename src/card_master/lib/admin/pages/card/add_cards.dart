@@ -1,3 +1,4 @@
+import 'package:card_master/admin/pages/navigation/websockets.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:io';
@@ -16,6 +17,7 @@ import 'package:card_master/admin/pages/card/alert_dialog.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -119,7 +121,7 @@ class _GenerateCardsState extends State<GenerateCards> {
   @override
   void initState() {
     super.initState();
-    //connectSocket();
+    connectSocket();
   }
 
   void setCardName(String value) {
@@ -133,43 +135,12 @@ class _GenerateCardsState extends State<GenerateCards> {
     Navigator.of(context).pop();
   }
 
-  IOWebSocketChannel? channel;
+  WebSocketChannel? channel;
+  StreamSubscription? s;
   Map? _responseData;
   bool? _successful;
 
-  void connectSocket() async {
-    channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://10.0.2.2:7171/api/v1/storages/cards/log'),
-        headers: {
-          "Accept": "application/json",
-          HttpHeaders.authorizationHeader: "Bearer ${Data.bearerToken}",
-        });
-    _streamListener();
-  }
-
-  _streamListener() {
-    channel!.stream.listen((message) async {
-      _responseData = jsonDecode(message);
-      _successful = _responseData!["successful"] ??
-          _responseData!["status"]["successful"];
-      channel!.sink.close();
-      if (_successful!) {
-        FeedbackBuilder(
-                context: context,
-                header: "Error",
-                snackbarType: FeedbackType.failure,
-                content: "")
-            .build();
-      } else {
-        FeedbackBuilder(
-                context: context,
-                header: "Error",
-                snackbarType: FeedbackType.failure,
-                content: "")
-            .build();
-      }
-    });
-  }
+  void connectSocket() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -194,6 +165,11 @@ class _GenerateCardsState extends State<GenerateCards> {
                 function: addCard,
                 context: context,
                 args: {"name": newEntry.name, 'data': newEntry.toJson()});
+
+            showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    buildTimerdialog(context, newEntry));
           }
         }),
             formKey,

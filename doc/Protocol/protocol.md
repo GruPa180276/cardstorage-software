@@ -362,6 +362,9 @@ Habe meine Teil der Doku fertiggestellt, dazu habe ich die Protokolle noch hizug
 **19.2.2023: 8:30 bis 12:30** <br>
 Habe heute im Code die Middelware implementiert. Es funktioniert auch soweit alles, aber es tritt beim Karten anlegen ein Parental Error auf, welcher noch gefixed werden muss. (4h)
 
+**20.2.2023: 9:00 bis 13:30** <br>
+Habe heute die Websockets in eine eigene Datei ausgelagert. Des weitern funktioniert jetzt auch, wenn eine neue Karte angleget wird, das der WS überprüft wird. (4h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -470,4 +473,5 @@ Habe heute im Code die Middelware implementiert. Es funktioniert auch soweit all
 - 8:00 bis 11:55 Uhr
 - 12:30 Uhr 15:30 Uhr
 - 8:30 bis 12:30 Uhr
+- 9:00 bis 13:30 Uhr
 <!-- { "progress": false } -->

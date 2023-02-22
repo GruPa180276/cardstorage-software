@@ -1,23 +1,16 @@
-import 'package:card_master/admin/pages/navigation/websockets.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
-import 'dart:io';
-import 'dart:async';
 import 'dart:convert';
-import 'package:web_socket_channel/io.dart';
 import 'package:card_master/admin/pages/card/form.dart';
 import 'package:card_master/admin/provider/middelware.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/pages/widget/listTile.dart';
 import 'package:card_master/admin/pages/card/timer_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/card/alert_dialog.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
-import 'package:card_master/client/domain/types/snackbar_type.dart';
-import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -121,7 +114,6 @@ class _GenerateCardsState extends State<GenerateCards> {
   @override
   void initState() {
     super.initState();
-    connectSocket();
   }
 
   void setCardName(String value) {
@@ -134,13 +126,6 @@ class _GenerateCardsState extends State<GenerateCards> {
     });
     Navigator.of(context).pop();
   }
-
-  WebSocketChannel? channel;
-  StreamSubscription? s;
-  Map? _responseData;
-  bool? _successful;
-
-  void connectSocket() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -166,10 +151,31 @@ class _GenerateCardsState extends State<GenerateCards> {
                 context: context,
                 args: {"name": newEntry.name, 'data': newEntry.toJson()});
 
-            showDialog(
+            int count = 0;
+
+            var response = await Data.checkAuthorization(
                 context: context,
-                builder: (BuildContext context) =>
-                    buildTimerdialog(context, newEntry));
+                function: getAllCardsPerStorage,
+                args: {"name": newEntry.storage});
+            var temp = jsonDecode(response!.body);
+            Storages storage = Storages.fromJson(temp);
+
+            count = 0;
+
+            setState(() {
+              for (int i = 0; i < storage.cards.length; i++) {
+                if (storage.cards[i].available == true) {
+                  count++;
+                }
+              }
+            });
+
+            if (count != storage.numberOfCards) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      buildTimerdialog(context, newEntry));
+            }
           }
         }),
             formKey,

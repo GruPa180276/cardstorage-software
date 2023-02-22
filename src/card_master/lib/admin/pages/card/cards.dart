@@ -41,6 +41,8 @@ class _CardsViewState extends State<CardsView> {
     var temp = jsonDecode(response!.body) as List;
     listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
 
+    listOfStorageNames.clear();
+
     listOfStorageNames.add("-");
     for (int i = 0; i < listOfStorages.length; i++) {
       listOfStorageNames.add(listOfStorages[i].name);

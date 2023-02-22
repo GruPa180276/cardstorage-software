@@ -1,9 +1,9 @@
-import 'package:card_master/admin/pages/card/alert_dialog.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart';
 import 'package:card_master/admin/config/token_manager.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 
 class Data {
   static String? bearerToken;
@@ -29,22 +29,13 @@ class Data {
       return response;
     } catch (e) {
       if (context != null) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => buildAlertDialog(
-                  context,
-                  "Error",
-                  e.toString(),
-                  [
-                    generateButtonRectangle(
-                      context,
-                      "Ok",
-                      () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
+        Navigator.of(context).pop();
+        FeedbackBuilder(
+          context: context,
+          header: "Error!",
+          snackbarType: FeedbackType.failure,
+          content: e.toString(),
+        ).build();
       }
     }
     return null;

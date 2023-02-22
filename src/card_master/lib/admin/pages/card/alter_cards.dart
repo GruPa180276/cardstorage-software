@@ -1,27 +1,27 @@
-import 'dart:convert';
-
-import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:convert';
 import 'package:card_master/admin/pages/card/form.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/pages/widget/listTile.dart';
-import 'package:card_master/admin/pages/card/alert_dialog.dart';
+import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:card_master/admin/pages/card/storage_selector.dart';
 
 class CardSettings extends StatefulWidget {
+  const CardSettings({Key? key, required this.cardName}) : super(key: key);
   final String cardName;
-  const CardSettings({
-    Key? key,
-    required this.cardName,
-  }) : super(key: key);
 
   @override
   State<CardSettings> createState() => _CardSettingsState();
 }
 
 class _CardSettingsState extends State<CardSettings> {
+  List<String> listOfStorageNames = [];
+  List<Storages> listOfStorages = [];
   List<Cards> listOfCards = [];
+  List<FocusS> listUnfocusedStorages = [];
 
   late Cards card = Cards(
     name: widget.cardName,
@@ -39,16 +39,43 @@ class _CardSettingsState extends State<CardSettings> {
   }
 
   void fetchData() async {
-    var response =
+    var response1 =
         await Data.checkAuthorization(context: context, function: fetchCards);
-    var temp = jsonDecode(response!.body) as List;
-    listOfCards = temp.map((e) => Cards.fromJson(e)).toList();
+    var temp1 = jsonDecode(response1!.body) as List;
+    listOfCards = temp1.map((e) => Cards.fromJson(e)).toList();
 
     for (int i = 0; i < listOfCards.length; i++) {
       if (listOfCards[i].name == widget.cardName) {
         card = listOfCards[i];
       }
     }
+
+    var response = await Data.checkAuthorization(
+        context: context, function: fetchStorages);
+    var temp = jsonDecode(response!.body) as List;
+    listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+
+    var resp = await Data.checkAuthorization(
+        context: context, function: getAllUnfocusedStorages);
+
+    List jsonResponse = json.decode(resp!.body);
+    listUnfocusedStorages =
+        jsonResponse.map((data) => FocusS.fromJson(data)).toList();
+
+    listOfStorageNames.add("-");
+    for (int i = 0; i < listOfStorages.length; i++) {
+      listOfStorageNames.add(listOfStorages[i].name);
+    }
+
+    for (int i = 0; i < listOfStorageNames.length; i++) {
+      for (int j = 0; j < listUnfocusedStorages.length; j++) {
+        if (listOfStorageNames[i] == listUnfocusedStorages[j].name) {
+          listOfStorageNames.removeAt(i);
+          setState(() {});
+        }
+      }
+    }
+
     setState(() {});
   }
 
@@ -62,27 +89,32 @@ class _CardSettingsState extends State<CardSettings> {
         ),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
       ),
-      body: Column(children: [
-        Expanded(
-            child: Column(children: [
+      body: Column(
+        children: [
           GenerateCards(
             listOfCards: listOfCards,
             card: card,
+            listOfStorageNames: listOfStorageNames,
+            oldCardName: widget.cardName,
           )
-        ])),
-      ]),
+        ],
+      ),
     );
   }
 }
 
 class GenerateCards extends StatefulWidget {
   final List<Cards> listOfCards;
+  final List<String> listOfStorageNames;
   final Cards card;
+  final String oldCardName;
 
   const GenerateCards({
     Key? key,
     required this.listOfCards,
     required this.card,
+    required this.listOfStorageNames,
+    required this.oldCardName,
   }) : super(key: key);
 
   @override
@@ -90,6 +122,8 @@ class GenerateCards extends StatefulWidget {
 }
 
 class _GenerateCardsState extends State<GenerateCards> {
+  String selectedStorage = "-";
+
   @override
   void initState() {
     super.initState();
@@ -97,6 +131,13 @@ class _GenerateCardsState extends State<GenerateCards> {
 
   void setCardName(String value) {
     widget.card.name = value;
+  }
+
+  void setSelectedStorage(String value) {
+    setState(() {
+      selectedStorage = value;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -108,7 +149,7 @@ class _GenerateCardsState extends State<GenerateCards> {
       child: Column(
         children: [
           buildCardForm(context, "Karte aktualisieren", (() async {
-            if (formKey.currentState!.validate()) {
+            if (formKey.currentState!.validate() && selectedStorage != "-") {
               Cards updateEntry = Cards(
                 name: widget.card.name,
                 storage: widget.card.storage,
@@ -118,12 +159,12 @@ class _GenerateCardsState extends State<GenerateCards> {
                 reader: "",
               );
 
-              Data.checkAuthorization(
+              await Data.checkAuthorization(
                   function: updateCard,
                   context: context,
                   args: {
                     "name": widget.card.name,
-                    "data": [updateEntry.toJson()]
+                    "data": updateEntry.toJson()
                   });
             }
           }),
@@ -152,7 +193,13 @@ class _GenerateCardsState extends State<GenerateCards> {
                   }
                 },
               ),
-              const SizedBox.shrink())
+              buildStorageSelector(
+                context,
+                selectedStorage,
+                widget.listOfStorageNames,
+                setSelectedStorage,
+                "Selected Storage",
+              ))
         ],
       ),
     );

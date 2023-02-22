@@ -1,13 +1,11 @@
+import 'package:card_master/admin/pages/card/alter_card_form.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-import 'package:card_master/admin/pages/card/form.dart';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
-import 'package:card_master/admin/pages/widget/listTile.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/card/storage_selector.dart';
 
 class CardSettings extends StatefulWidget {
   const CardSettings({Key? key, required this.cardName}) : super(key: key);
@@ -50,17 +48,21 @@ class _CardSettingsState extends State<CardSettings> {
       }
     }
 
-    var response = await Data.checkAuthorization(
-        context: context, function: fetchStorages);
-    var temp = jsonDecode(response!.body) as List;
-    listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+    if (context.mounted) {
+      var response = await Data.checkAuthorization(
+          context: context, function: fetchStorages);
+      var temp = jsonDecode(response!.body) as List;
+      listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+    }
 
-    var resp = await Data.checkAuthorization(
-        context: context, function: getAllUnfocusedStorages);
+    if (context.mounted) {
+      var resp = await Data.checkAuthorization(
+          context: context, function: getAllUnfocusedStorages);
 
-    List jsonResponse = json.decode(resp!.body);
-    listUnfocusedStorages =
-        jsonResponse.map((data) => FocusS.fromJson(data)).toList();
+      var jsonResponse = json.decode(resp!.body) as List;
+      listUnfocusedStorages =
+          jsonResponse.map((data) => FocusS.fromJson(data)).toList();
+    }
 
     listOfStorageNames.add("-");
     for (int i = 0; i < listOfStorages.length; i++) {
@@ -82,34 +84,36 @@ class _CardSettingsState extends State<CardSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Karte bearbeiten",
-          style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+        appBar: AppBar(
+          title: Text(
+            "Karte bearbeiten",
+            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+          ),
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
         ),
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-      ),
-      body: Column(
-        children: [
-          GenerateCards(
-            listOfCards: listOfCards,
-            card: card,
-            listOfStorageNames: listOfStorageNames,
-            oldCardName: widget.cardName,
-          )
-        ],
-      ),
-    );
+        body: Container(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Column(
+            children: [
+              BuildUpdateCard(
+                listOfCards: listOfCards,
+                card: card,
+                listOfStorageNames: listOfStorageNames,
+                oldCardName: widget.cardName,
+              )
+            ],
+          ),
+        ));
   }
 }
 
-class GenerateCards extends StatefulWidget {
+class BuildUpdateCard extends StatefulWidget {
   final List<Cards> listOfCards;
   final List<String> listOfStorageNames;
   final Cards card;
   final String oldCardName;
 
-  const GenerateCards({
+  const BuildUpdateCard({
     Key? key,
     required this.listOfCards,
     required this.card,
@@ -118,10 +122,10 @@ class GenerateCards extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GenerateCards> createState() => _GenerateCardsState();
+  State<BuildUpdateCard> createState() => _BuildUpdateCardState();
 }
 
-class _GenerateCardsState extends State<GenerateCards> {
+class _BuildUpdateCardState extends State<BuildUpdateCard> {
   String selectedStorage = "-";
 
   @override
@@ -148,67 +152,17 @@ class _GenerateCardsState extends State<GenerateCards> {
     return Expanded(
       child: Column(
         children: [
-          buildCardForm(context, "Karte aktualisieren", (() async {
-            if (formKey.currentState!.validate() && selectedStorage != "-") {
-              Cards updateEntry = Cards(
-                name: widget.card.name,
-                storage: selectedStorage,
-                position: widget.card.position,
-                accessed: widget.card.accessed,
-                available: widget.card.available,
-                reader: widget.card.reader,
-              );
-
-              await Data.checkAuthorization(
-                  function: deleteCard,
-                  context: context,
-                  args: {
-                    "name": widget.oldCardName,
-                  });
-
-              if (context.mounted) {
-                await Data.checkAuthorization(
-                    function: addCard,
-                    context: context,
-                    args: {"data": updateEntry.toJson()});
-              }
-
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            }
-          }),
-              formKey,
-              GenerateListTile(
-                labelText: "Name",
-                hintText: "",
-                icon: Icons.storage,
-                regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-                function: setCardName,
-                controller: nameController,
-                fun: (value) {
-                  for (int i = 0; i < widget.listOfCards.length; i++) {
-                    if (widget.listOfCards[i].name == widget.card.name) {
-                      return null;
-                    } else if (value!.isEmpty) {
-                      return 'Bitte Name eingeben!';
-                    } else if (widget.listOfCards[i].name == value) {
-                      return 'Exsistiert bereits!';
-                    }
-                  }
-                  if (value!.isEmpty) {
-                    return 'Bitte Name eingeben!';
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              buildStorageSelector(
-                context,
-                selectedStorage,
-                widget.listOfStorageNames,
-                setSelectedStorage,
-                "Selected Storage",
-              ))
+          BuildAlterCardForm(
+              listOfStorageNames: widget.listOfStorageNames,
+              listOfCards: widget.listOfCards,
+              context: context,
+              formKey: formKey,
+              nameController: nameController,
+              setCardName: setCardName,
+              selectedStorage: selectedStorage,
+              setSelectedStorage: setSelectedStorage,
+              card: widget.card,
+              oldCardName: widget.oldCardName)
         ],
       ),
     );

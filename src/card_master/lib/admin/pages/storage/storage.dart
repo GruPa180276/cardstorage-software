@@ -1,89 +1,95 @@
-import 'dart:convert';
-
-import 'package:card_master/admin/pages/storage/storageInkwell.dart';
-import 'package:card_master/admin/pages/widget/reloadbutton.dart';
-import 'package:card_master/admin/provider/middelware.dart';
-import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:flutter/material.dart';
 
-import 'package:card_master/admin/provider/types/storages.dart';
+import 'dart:convert';
+import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/pages/widget/appbar.dart';
+import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:card_master/admin/pages/widget/reloadbutton.dart';
+import 'package:card_master/admin/pages/storage/storage_builder.dart';
 
 class StorageView extends StatefulWidget {
-  StorageView({Key? key}) : super(key: key);
+  const StorageView({Key? key}) : super(key: key);
 
   @override
   State<StorageView> createState() => _StorageViewState();
 }
 
 class _StorageViewState extends State<StorageView> {
-  List<Storages> listOfCards = [];
-  List<Storages> persons = [];
-  List<Storages> original = [];
-  TextEditingController txtQuery = new TextEditingController();
-  List<FocusS> listOfStorages = [];
+  TextEditingController txtQuery = TextEditingController();
+  late Future<List<Storages>> futureListOfStorages;
+  List<Storages> listOfFilteredStorages = [];
+  List<FocusS> listOfUnfocusedStorages = [];
+  List<Storages> listOfStorages = [];
+  bool focusState = true;
 
-  void loadData() async {
+  @override
+  void initState() {
+    super.initState();
+    load();
+  }
+
+  void load() {
+    futureListOfStorages = fetchData();
+  }
+
+  Future<List<Storages>> fetchData() async {
     var response = await Data.checkAuthorization(
       context: context,
       function: getAllUnfocusedStorages,
     );
     var temp = jsonDecode(response!.body) as List;
-    listOfStorages = temp.map((e) => FocusS.fromJson(e)).toList();
+    listOfUnfocusedStorages = temp.map((e) => FocusS.fromJson(e)).toList();
 
-    response = await Data.checkAuthorization(
-      context: context,
-      function: fetchStorages,
-    );
-    temp = jsonDecode(response!.body) as List;
-    listOfCards = temp.map((e) => Storages.fromJson(e)).toList();
+    for (int i = 0; i < listOfUnfocusedStorages.length; i++) {
+      for (int j = 0; j < listOfStorages.length; j++) {
+        if (listOfUnfocusedStorages[i].name == listOfStorages[j].name) {
+          focusState = false;
+        }
+      }
+    }
 
-    persons = listOfCards;
-    original = listOfCards;
+    if (context.mounted) {
+      response = await Data.checkAuthorization(
+        context: context,
+        function: fetchStorages,
+      );
+      temp = jsonDecode(response!.body) as List;
+      listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+    }
+
     setState(() {});
+
+    return listOfStorages;
   }
 
   void search(String query) {
     if (query.isEmpty) {
-      persons = original;
+      load();
       setState(() {});
       return;
     }
 
     query = query.toLowerCase();
-    List<Storages> result = [];
-    for (int i = 0; i < persons.length; i++) {
-      var name = persons[i].name.toString().toLowerCase();
+
+    for (int i = 0; i < listOfStorages.length; i++) {
+      var name = listOfStorages[i].name.toString().toLowerCase();
       if (name.contains(query)) {
-        result.add(persons[i]);
+        listOfFilteredStorages.add(listOfFilteredStorages[i]);
       }
     }
 
-    persons = result;
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    loadData();
-  }
-
-  void reload() {
-    setState(() {
-      loadData();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: generateAppBar(context),
-      floatingActionButton: GenerateReloadButton(this.reload),
+      floatingActionButton: GenerateReloadButton(load),
       body: Container(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Column(children: [
             Card(
                 elevation: 5,
@@ -91,7 +97,7 @@ class _StorageViewState extends State<StorageView> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       Row(
@@ -100,7 +106,7 @@ class _StorageViewState extends State<StorageView> {
                               context, "Hinzufügen", Icons.add, "/addStorage"),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -119,9 +125,9 @@ class _StorageViewState extends State<StorageView> {
                                         Theme.of(context).secondaryHeaderColor),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              prefixIcon: Icon(Icons.search),
+                              prefixIcon: const Icon(Icons.search),
                               suffixIcon: IconButton(
-                                icon: Icon(Icons.clear),
+                                icon: const Icon(Icons.clear),
                                 onPressed: () {
                                   txtQuery.text = '';
                                   search(txtQuery.text);
@@ -135,60 +141,14 @@ class _StorageViewState extends State<StorageView> {
                   ),
                 )),
             Expanded(
-                child: Container(
               child: Column(children: [
-                ListCardStorages(
-                  storages: persons,
-                  focus: listOfStorages,
+                ListStorages(
+                  listOfStorages: futureListOfStorages,
+                  focusState: focusState,
                 )
               ]),
-            )),
+            ),
           ])),
     );
-  }
-}
-
-// ignore: must_be_immutable
-class ListCardStorages extends StatefulWidget {
-  List<Storages> storages;
-  List<FocusS> focus;
-
-  ListCardStorages({
-    required this.storages,
-    required this.focus,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<ListCardStorages> createState() => _ListCardStoragesState();
-}
-
-class _ListCardStoragesState extends State<ListCardStorages> {
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: ListView.builder(
-            itemCount: widget.storages.length,
-            itemBuilder: (BuildContext context, int index) {
-              Color c = Colors.green;
-              bool focus = true;
-
-              for (int i = 0; i < widget.focus.length; i++) {
-                if (widget.focus[i].name == widget.storages[index].name) {
-                  c = Colors.red;
-                  focus = false;
-                }
-              }
-
-              return GenerateStorage(
-                index: index,
-                data: widget.storages,
-                icon: Icons.storage,
-                route: "/alterStorage",
-                argument: widget.storages[index].name,
-                c: c,
-                focus: focus,
-              );
-            }));
   }
 }

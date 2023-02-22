@@ -19,13 +19,12 @@ class CardsView extends StatefulWidget {
 }
 
 class _CardsViewState extends State<CardsView> {
-  String selectedStorage = "-";
+  TextEditingController txtQuery = TextEditingController();
+  late Future<List<Storages>> futureListOfStorages;
   List<String> listOfStorageNames = [];
   List<Storages> listOfStorages = [];
   List<Storages> filteredStorages = [];
-  late Future<List<Storages>> futureListOfStorages;
-
-  TextEditingController txtQuery = TextEditingController();
+  String selectedStorage = "-";
 
   @override
   void initState() {

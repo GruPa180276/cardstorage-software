@@ -9,12 +9,13 @@ Widget buildStorageSelector(
 ) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-        foregroundColor: Theme.of(context).focusColor,
-        minimumSize: const Size(0, 60)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      backgroundColor: Theme.of(context).secondaryHeaderColor,
+      foregroundColor: Theme.of(context).focusColor,
+      minimumSize: const Size(double.infinity, 60),
+    ),
     child: Wrap(
       children: <Widget>[
         const Icon(

@@ -20,6 +20,9 @@ import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
 // with this -> final String minSdk = "21"; // line.replaceAll(RegExp(r'[^\d]'), '');
 
 // TODO
+
+// Delete all Cards from Storage
+// Fix search of Storage Page
 // Refactor
 
 // Check for Typos

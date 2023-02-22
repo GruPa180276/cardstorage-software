@@ -59,24 +59,22 @@ Expanded generateButtonRoundWithoutRoute(
   );
 }
 
-Expanded generateButtonRectangle(
+ElevatedButton generateButtonRectangle(
   BuildContext context,
   String buttonText,
   Function()? onpressd,
 ) {
-  return Expanded(
-    child: ElevatedButton(
-      onPressed: onpressd,
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        minimumSize: const Size(double.infinity, 60),
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-        foregroundColor: Theme.of(context).focusColor,
+  return ElevatedButton(
+    onPressed: onpressd,
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
       ),
-      child: Text(buttonText, style: TextStyle(fontSize: 20)),
+      minimumSize: const Size(double.infinity, 60),
+      backgroundColor: Theme.of(context).secondaryHeaderColor,
+      foregroundColor: Theme.of(context).focusColor,
     ),
+    child: Text(buttonText, style: const TextStyle(fontSize: 20)),
   );
 }
 

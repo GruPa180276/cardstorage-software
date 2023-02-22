@@ -1,25 +1,25 @@
-import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
-import 'package:card_master/admin/pages/widget/button.dart';
-import 'package:card_master/admin/pages/widget/listTile.dart';
+import 'dart:convert';
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:card_master/admin/pages/storage/alter_storage_form.dart';
 
 class StorageSettings extends StatefulWidget {
-  final String storage;
+  final String storageName;
 
-  StorageSettings({
+  const StorageSettings({
     Key? key,
-    required this.storage,
-  }) : super(key: key) {}
+    required this.storageName,
+  }) : super(key: key);
 
   @override
   State<StorageSettings> createState() => _StorageSettingsState();
 }
 
 class _StorageSettingsState extends State<StorageSettings> {
-  late List<Storages> s = [];
-  late Storages stor = new Storages(
+  late List<Storages> listOfStorages = [];
+  late Storages storage = Storages(
     name: "",
     location: "",
     numberOfCards: 0,
@@ -29,17 +29,21 @@ class _StorageSettingsState extends State<StorageSettings> {
   @override
   void initState() {
     super.initState();
-    test();
+    fetchData();
   }
 
-  void test() async {
-    // await fetchStorages().then((value) => s = value);
+  void fetchData() async {
+    var response = await Data.checkAuthorization(
+        context: context, function: fetchStorages);
+    var temp = jsonDecode(response!.body) as List;
+    listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
 
-    for (int i = 0; i < s.length; i++) {
-      if (s[i].name == widget.storage) {
-        stor = s[i];
+    for (int i = 0; i < listOfStorages.length; i++) {
+      if (listOfStorages[i].name == widget.storageName) {
+        storage = listOfStorages[i];
       }
     }
+
     setState(() {});
   }
 
@@ -47,24 +51,23 @@ class _StorageSettingsState extends State<StorageSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(
-              "Storage bearbeiten",
-              style:
-                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-            ),
-            backgroundColor: Theme.of(context).secondaryHeaderColor,
-            actions: []),
+          title: Text(
+            "Storage bearbeiten",
+            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+          ),
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+        ),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(children: [
             Expanded(
               child: Container(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Column(children: [
-                    GetDataFromAPI(
-                      storageName: widget.storage,
-                      s: s,
-                      stor: stor,
+                    BuildUpdateStorage(
+                      oldStorageName: widget.storageName,
+                      storage: storage,
+                      listOfStorages: listOfStorages,
                     )
                   ])),
             )
@@ -73,137 +76,67 @@ class _StorageSettingsState extends State<StorageSettings> {
   }
 }
 
-class GetDataFromAPI extends StatefulWidget {
-  final String storageName;
-  final Storages stor;
-  final List<Storages> s;
+class BuildUpdateStorage extends StatefulWidget {
+  final List<Storages> listOfStorages;
+  final String oldStorageName;
+  final Storages storage;
 
-  const GetDataFromAPI({
+  const BuildUpdateStorage({
     Key? key,
-    required this.storageName,
-    required this.s,
-    required this.stor,
+    required this.listOfStorages,
+    required this.oldStorageName,
+    required this.storage,
   }) : super(key: key);
 
-  State<GetDataFromAPI> createState() => _GetDataFromAPIState();
+  @override
+  State<BuildUpdateStorage> createState() => _BuildUpdateStorageState();
 }
 
-class _GetDataFromAPIState extends State<GetDataFromAPI> {
+class _BuildUpdateStorageState extends State<BuildUpdateStorage> {
   @override
   void initState() {
     super.initState();
   }
 
-  void setName(String value) {
-    widget.stor.name = value;
+  void setStorageName(String value) {
+    widget.storage.name = value;
   }
 
-  void setNumberOfCards(String value) {
-    widget.stor.numberOfCards = int.parse(value);
+  void setNumberOfCardsInStorage(String value) {
+    widget.storage.numberOfCards = int.parse(value);
   }
 
-  void setLocation(String value) {
-    widget.stor.location = value;
+  void setStorageLocation(String value) {
+    widget.storage.location = value;
   }
 
   @override
   Widget build(BuildContext context) {
-    final _nameController = TextEditingController(text: widget.stor.name);
-    final _locationController =
-        TextEditingController(text: widget.stor.location);
-    final _numCardsController =
-        TextEditingController(text: widget.stor.numberOfCards.toString());
+    final nameController = TextEditingController(text: widget.storage.name);
+    final locationController =
+        TextEditingController(text: widget.storage.location);
+    final numCardsController =
+        TextEditingController(text: widget.storage.numberOfCards.toString());
 
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
-    return Form(
-      key: _formKey,
-      child: Container(
+    return Expanded(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            GenerateListTile(
-              labelText: "Name",
-              hintText: "",
-              icon: Icons.storage,
-              regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-              function: this.setName,
-              controller: _nameController,
-              fun: (value) {
-                for (int i = 0; i < widget.s.length; i++) {
-                  if (widget.s[i].name == widget.storageName) {
-                    return null;
-                  } else if (value!.isEmpty) {
-                    return 'Bitte Name eingeben!';
-                  } else if (widget.s[i].name == value) {
-                    return 'Exsistiert bereits!';
-                  }
-                }
-                if (value!.isEmpty) {
-                  return 'Bitte Name eingeben!';
-                } else {
-                  return null;
-                }
-              },
-            ),
-            GenerateListTile(
-              labelText: "Standort",
-              hintText: "",
-              icon: Icons.location_city,
-              regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-              function: this.setLocation,
-              controller: _locationController,
-              fun: (value) {
-                if (value!.isEmpty) {
-                  return 'Bitte Location eingeben!';
-                }
-                return null;
-              },
-            ),
-            GenerateListTile(
-              labelText: "Anzahl an Karten",
-              hintText: "",
-              icon: Icons.format_list_numbered,
-              regExp: r'([0-9])',
-              function: this.setNumberOfCards,
-              controller: _numCardsController,
-              fun: (value) {
-                if (value!.isEmpty) {
-                  return 'Bitte Anzahl eingeben!';
-                }
-                return null;
-              },
-            ),
-            GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  height: 70,
-                  child: Column(children: [
-                    generateButtonRectangle(context, "Storage aktualisiern",
-                        () async {
-                      if (_formKey.currentState!.validate()) {
-                        Storages newEntry = new Storages(
-                            name: widget.stor.name,
-                            location: widget.stor.location,
-                            numberOfCards: widget.stor.numberOfCards,
-                            cards: []);
-
-                        await Data.checkAuthorization(
-                            context: context,
-                            function: updateStorage,
-                            args: {
-                              "name": widget.stor.name,
-                              'data': newEntry.toJson()
-                            });
-                      }
-                      ;
-                    }),
-                  ]),
-                )),
-          ],
-        ),
-      ),
-    );
+      children: [
+        BuildAlterStorageForm(
+          context: context,
+          formKey: formKey,
+          nameController: nameController,
+          locationController: locationController,
+          numCardsController: numCardsController,
+          setStorageName: setStorageName,
+          setStorageLocation: setStorageLocation,
+          setNumberOfCardsInStorage: setNumberOfCardsInStorage,
+          listOfStorages: widget.listOfStorages,
+          storage: widget.storage,
+          oldStorageName: widget.oldStorageName,
+        )
+      ],
+    ));
   }
 }

@@ -1,21 +1,21 @@
+import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/card/card_table_row.dart';
 
 Table createCardTable(
   BuildContext context,
-  String cardName,
+  Cards card,
   String storageName,
-  int accessed,
   String isAvailable,
 ) {
   return Table(columnWidths: const {
     0: FractionColumnWidth(0.49),
     1: FractionColumnWidth(0.50)
   }, children: [
-    buildTableRow(context, "Name", cardName),
+    buildTableRow(context, "Name", card.name),
     buildTableRow(context, "Storage", storageName),
-    buildTableRow(context, "Verwendungen", accessed),
+    buildTableRow(context, "Verwendungen", card.accessed),
     buildTableRow(context, "Verfügbar", isAvailable),
   ]);
 }

@@ -100,8 +100,10 @@ class _GenerateCardState extends State<GenerateCard> {
                               context,
                               "Karte bearbeiten",
                               () {
-                                Navigator.of(context).pushNamed(widget.route,
-                                    arguments: widget.card.name);
+                                Navigator.of(context).pushNamed(
+                                  widget.route,
+                                  arguments: widget.card.name,
+                                );
                               },
                             ),
                             const SizedBox(
@@ -128,6 +130,8 @@ class _GenerateCardState extends State<GenerateCard> {
                                                     "name": widget.card.name,
                                                     'data': []
                                                   });
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
                                             }),
                                             const SizedBox(
                                               height: 10,

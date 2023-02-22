@@ -152,20 +152,29 @@ class _GenerateCardsState extends State<GenerateCards> {
             if (formKey.currentState!.validate() && selectedStorage != "-") {
               Cards updateEntry = Cards(
                 name: widget.card.name,
-                storage: widget.card.storage,
+                storage: selectedStorage,
                 position: widget.card.position,
                 accessed: widget.card.accessed,
                 available: widget.card.available,
-                reader: "",
+                reader: widget.card.reader,
               );
 
               await Data.checkAuthorization(
-                  function: updateCard,
+                  function: deleteCard,
                   context: context,
                   args: {
-                    "name": widget.card.name,
-                    "data": updateEntry.toJson()
+                    "name": widget.oldCardName,
                   });
+
+              if (context.mounted) {
+                await Data.checkAuthorization(
+                    function: addCard,
+                    context: context,
+                    args: {"data": updateEntry.toJson()});
+              }
+
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
             }
           }),
               formKey,

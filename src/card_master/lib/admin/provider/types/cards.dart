@@ -35,6 +35,9 @@ class Cards {
   Map<String, dynamic> toJson() => {
         'name': name,
         'storage': storage,
+        'accessed': accessed,
+        'reader': reader,
+        'available': available,
       };
 }
 

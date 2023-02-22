@@ -1,18 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
+import 'dart:convert';
 import 'package:card_master/admin/pages/card/search.dart';
-
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/pages/widget/appbar.dart';
+import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/card_builder.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
-
-import '../../provider/middelware.dart';
 
 class CardsView extends StatefulWidget {
   const CardsView({Key? key}) : super(key: key);
@@ -26,20 +23,28 @@ class _CardsViewState extends State<CardsView> {
   List<String> listOfStorageNames = [];
   List<Storages> listOfStorages = [];
   List<Storages> filteredStorages = [];
+  late Future<List<Storages>> futureListOfStorages;
 
   TextEditingController txtQuery = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    load();
   }
 
-  void fetchData() async {
-    var response = await Data.checkAuthorization(
-        context: context, function: fetchStorages);
-    var temp = jsonDecode(response!.body) as List;
-    listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+  void load() {
+    futureListOfStorages = fetchData();
+  }
+
+  Future<List<Storages>> fetchData() async {
+    final response = await Data.checkAuthorization(
+      context: context,
+      function: fetchStorages,
+    );
+
+    List jsonResponse = json.decode(response!.body);
+    listOfStorages = jsonResponse.map((e) => Storages.fromJson(e)).toList();
 
     listOfStorageNames.clear();
 
@@ -50,12 +55,14 @@ class _CardsViewState extends State<CardsView> {
 
     filteredStorages = listOfStorages;
     setState(() {});
+
+    return listOfStorages;
   }
 
   void search(String query) {
     if (query.isEmpty) {
       listOfStorageNames.clear();
-      fetchData();
+      load();
       setState(() {});
       return;
     }
@@ -86,7 +93,7 @@ class _CardsViewState extends State<CardsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: GenerateReloadButton(fetchData),
+      floatingActionButton: GenerateReloadButton(load),
       appBar: generateAppBar(context),
       body: Container(
           padding: const EdgeInsets.all(5),
@@ -131,7 +138,7 @@ class _CardsViewState extends State<CardsView> {
               child: Column(children: <Widget>[
                 ListCards(
                   selectedStorage: selectedStorage,
-                  listOfStorages: filteredStorages,
+                  listOfStorages: futureListOfStorages,
                 )
               ]),
             ),

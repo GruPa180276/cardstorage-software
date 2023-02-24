@@ -371,8 +371,11 @@ Haben die Doku mit Johannes gemerged. Die Doku ist soweit auch fertig. (3h 50min
 **22.2.2023: 9:00 bis 13:30** <br>
 Rafored, Storage und Karten Seite. (4h 30min)
 
-**23.2.2023: 8:30 bis 12:30** <br>
+**24.2.2023: 8:30 bis 12:30** <br>
 Rafored, Status Seite. Bugs behoben. (4h)
+
+**24.2.2023: 13:00 bis : 16:00** <br>
+Habe bei der Doku einige Sachen korrigiert. Use Case erstellt.(3h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->

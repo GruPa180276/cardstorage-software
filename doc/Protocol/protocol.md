@@ -369,7 +369,10 @@ Habe heute die Websockets in eine eigene Datei ausgelagert. Des weitern funktion
 Haben die Doku mit Johannes gemerged. Die Doku ist soweit auch fertig. (3h 50min)
 
 **22.2.2023: 9:00 bis 13:30** <br>
-Rafored, Storage und Kartten Seite. (4h 30min)
+Rafored, Storage und Karten Seite. (4h 30min)
+
+**23.2.2023: 8:30 bis 12:30** <br>
+Rafored, Status Seite. Bugs behoben. (4h)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->
@@ -482,4 +485,5 @@ Rafored, Storage und Kartten Seite. (4h 30min)
 - 9:00 bis 13:30 Uhr
 - 18:40 bis 22:00 Uhr
 - 9:00 bis 13:30 Uhr
+- 8:30 bis 12:30 Uhr
 <!-- { "progress": false } -->

@@ -82,7 +82,7 @@ class _BuildAlterCardFormState extends State<BuildAlterCardForm> {
       ),
       generateButtonRectangle(
           context,
-          "Karte hinzufügen",
+          "Karte bearbeiten",
           () => () async {
                 if (widget.formKey.currentState!.validate() &&
                     widget.selectedStorage != "-") {

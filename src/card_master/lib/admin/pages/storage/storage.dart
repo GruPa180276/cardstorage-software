@@ -1,3 +1,4 @@
+import 'package:card_master/admin/pages/card/search.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
@@ -22,7 +23,6 @@ class _StorageViewState extends State<StorageView> {
   List<Storages> listOfFilteredStorages = [];
   List<FocusS> listOfUnfocusedStorages = [];
   List<Storages> listOfStorages = [];
-  bool focusState = true;
 
   @override
   void initState() {
@@ -42,22 +42,16 @@ class _StorageViewState extends State<StorageView> {
     var temp = jsonDecode(response!.body) as List;
     listOfUnfocusedStorages = temp.map((e) => FocusS.fromJson(e)).toList();
 
-    for (int i = 0; i < listOfUnfocusedStorages.length; i++) {
-      for (int j = 0; j < listOfStorages.length; j++) {
-        if (listOfUnfocusedStorages[i].name == listOfStorages[j].name) {
-          focusState = false;
-        }
-      }
-    }
-
     if (context.mounted) {
-      response = await Data.checkAuthorization(
+      var response = await Data.checkAuthorization(
         context: context,
         function: fetchStorages,
       );
-      temp = jsonDecode(response!.body) as List;
+      var temp = jsonDecode(response!.body) as List;
       listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
     }
+
+    listOfFilteredStorages = listOfStorages;
 
     setState(() {});
 
@@ -111,30 +105,10 @@ class _StorageViewState extends State<StorageView> {
                       ),
                       Row(
                         children: [
-                          Expanded(
-                              child: TextFormField(
-                            controller: txtQuery,
-                            onChanged: search,
-                            decoration: InputDecoration(
-                              hintText: "Search",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color:
-                                        Theme.of(context).secondaryHeaderColor),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              prefixIcon: const Icon(Icons.search),
-                              suffixIcon: IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  txtQuery.text = '';
-                                  search(txtQuery.text);
-                                },
-                              ),
-                            ),
-                          )),
+                          buildSeacrh(context, txtQuery, search),
+                          const SizedBox(
+                            width: 10,
+                          ),
                         ],
                       ),
                     ],
@@ -144,7 +118,7 @@ class _StorageViewState extends State<StorageView> {
               child: Column(children: [
                 ListStorages(
                   listOfStorages: futureListOfStorages,
-                  focusState: focusState,
+                  listOfUnfocusedStorages: listOfUnfocusedStorages,
                 )
               ]),
             ),

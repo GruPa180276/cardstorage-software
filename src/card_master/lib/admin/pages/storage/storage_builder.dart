@@ -1,3 +1,4 @@
+import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/storages.dart';
@@ -6,12 +7,12 @@ import 'package:card_master/admin/pages/widget/circularprogressindicator.dart';
 
 class ListStorages extends StatefulWidget {
   final Future<List<Storages>> listOfStorages;
-  final bool focusState;
+  final List<FocusS> listOfUnfocusedStorages;
 
   const ListStorages({
     Key? key,
     required this.listOfStorages,
-    required this.focusState,
+    required this.listOfUnfocusedStorages,
   }) : super(key: key);
 
   @override
@@ -27,15 +28,27 @@ class _ListStoragesState extends State<ListStorages> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Storages>? data = snapshot.data;
+
           return ListView.builder(
               shrinkWrap: true,
               itemCount: data!.length,
               itemBuilder: (BuildContext context, int index) {
+                bool focusState = true;
+
+                for (int i = 0;
+                    i < widget.listOfUnfocusedStorages.length;
+                    i++) {
+                  if (widget.listOfUnfocusedStorages[i].name ==
+                      data[index].name) {
+                    focusState = false;
+                  }
+                }
+
                 return GenerateStorage(
                   icon: Icons.storage,
                   route: "/alterStorage",
                   storage: data[index],
-                  focusState: widget.focusState,
+                  focusState: focusState,
                 );
               });
         } else if (snapshot.hasError) {

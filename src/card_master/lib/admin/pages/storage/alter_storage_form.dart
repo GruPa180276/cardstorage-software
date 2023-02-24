@@ -1,3 +1,6 @@
+import 'package:card_master/admin/provider/types/cardReservation.dart';
+import 'package:card_master/admin/provider/types/cards.dart';
+import 'package:card_master/admin/provider/types/reservations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/user.dart';
@@ -18,6 +21,7 @@ class BuildAlterStorageForm extends StatefulWidget {
   final List<Storages> listOfStorages;
   final Storages storage;
   final String oldStorageName;
+  final List<CardReservation> listOfCardReservations;
 
   const BuildAlterStorageForm({
     Key? key,
@@ -32,6 +36,7 @@ class BuildAlterStorageForm extends StatefulWidget {
     required this.listOfStorages,
     required this.storage,
     required this.oldStorageName,
+    required this.listOfCardReservations,
   }) : super(key: key);
 
   @override
@@ -106,8 +111,9 @@ class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
         const SizedBox(
           height: 10,
         ),
-        generateButtonRectangle(context, "Storage aktualisiern", () async {
-          if (widget.formKey.currentState!.validate()) {
+        generateButtonRectangle(context, "Storage aktualisieren", () async {
+          if (widget.formKey.currentState!.validate() &&
+              widget.storage.cards.isEmpty) {
             Storages newEntry = Storages(
               name: widget.storage.name,
               location: widget.storage.location,
@@ -121,12 +127,14 @@ class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
               privileged: false,
             );
 
-            await Data.checkAuthorization(
-                function: deleteStorage,
-                context: context,
-                args: {
-                  "name": widget.oldStorageName,
-                });
+            if (context.mounted) {
+              await Data.checkAuthorization(
+                  function: deleteStorage,
+                  context: context,
+                  args: {
+                    "name": widget.oldStorageName,
+                  });
+            }
 
             if (context.mounted) {
               await Data.checkAuthorization(
@@ -154,7 +162,7 @@ class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
 
             if (context.mounted) {
               Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
             }
           }
         }),

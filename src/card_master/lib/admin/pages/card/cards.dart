@@ -121,20 +121,21 @@ class _CardsViewState extends State<CardsView> {
                           const SizedBox(
                             width: 10,
                           ),
-                          buildStorageSelector(
+                          Expanded(
+                              child: buildStorageSelector(
                             context,
                             selectedStorage,
                             listOfStorageNames,
                             setSelectedStorage,
                             "Filter",
-                          ),
+                          )),
                         ],
                       ),
                     ],
                   ),
                 )),
             Expanded(
-              child: Column(children: <Widget>[
+              child: Column(children: [
                 ListCards(
                   selectedStorage: selectedStorage,
                   listOfStorages: futureListOfStorages,

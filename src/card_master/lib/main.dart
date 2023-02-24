@@ -23,6 +23,7 @@ import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
 
 // Delete all Cards from Storage
 // Fix search of Storage Page
+// When Deleting / Altering Cards / Storage
 // Refactor
 
 // Check for Typos
@@ -37,12 +38,6 @@ import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
 // Formulate Error Message when deleting Cards.
 // - There could be open Reservations
 // - ...
-
-// Change Text of Cards Page Verfügbar - true to something else
-// Change Text of Storage Focus Verfügbar - true to something else
-
-// Use diffrent Sucsess Message PopUp
-// Use diffrent Error Message PopUp
 
 class MyHttpOverrides extends HttpOverrides {
   @override

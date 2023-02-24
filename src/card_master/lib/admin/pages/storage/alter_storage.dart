@@ -1,3 +1,7 @@
+import 'package:card_master/admin/pages/reservation/reservations.dart';
+import 'package:card_master/admin/provider/types/cardReservation.dart';
+
+import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
@@ -18,8 +22,10 @@ class StorageSettings extends StatefulWidget {
 }
 
 class _StorageSettingsState extends State<StorageSettings> {
-  late List<Storages> listOfStorages = [];
-  late Storages storage = Storages(
+  List<Storages> listOfStorages = [];
+  List<CardReservation> listOfCardReservations = [];
+
+  Storages storage = Storages(
     name: "",
     location: "",
     numberOfCards: 0,
@@ -33,10 +39,18 @@ class _StorageSettingsState extends State<StorageSettings> {
   }
 
   void fetchData() async {
-    var response = await Data.checkAuthorization(
-        context: context, function: fetchStorages);
-    var temp = jsonDecode(response!.body) as List;
-    listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+    var respons = await Data.checkAuthorization(
+        context: context, function: fetchReservations);
+    var tem = jsonDecode(respons!.body) as List;
+    listOfCardReservations =
+        tem.map((e) => CardReservation.fromJson(e)).toList();
+
+    if (context.mounted) {
+      var response = await Data.checkAuthorization(
+          context: context, function: fetchStorages);
+      var temp = jsonDecode(response!.body) as List;
+      listOfStorages = temp.map((e) => Storages.fromJson(e)).toList();
+    }
 
     for (int i = 0; i < listOfStorages.length; i++) {
       if (listOfStorages[i].name == widget.storageName) {
@@ -68,6 +82,7 @@ class _StorageSettingsState extends State<StorageSettings> {
                       oldStorageName: widget.storageName,
                       storage: storage,
                       listOfStorages: listOfStorages,
+                      listOfCardReservations: listOfCardReservations,
                     )
                   ])),
             )
@@ -80,12 +95,14 @@ class BuildUpdateStorage extends StatefulWidget {
   final List<Storages> listOfStorages;
   final String oldStorageName;
   final Storages storage;
+  final List<CardReservation> listOfCardReservations;
 
   const BuildUpdateStorage({
     Key? key,
     required this.listOfStorages,
     required this.oldStorageName,
     required this.storage,
+    required this.listOfCardReservations,
   }) : super(key: key);
 
   @override
@@ -124,18 +141,18 @@ class _BuildUpdateStorageState extends State<BuildUpdateStorage> {
         child: Column(
       children: [
         BuildAlterStorageForm(
-          context: context,
-          formKey: formKey,
-          nameController: nameController,
-          locationController: locationController,
-          numCardsController: numCardsController,
-          setStorageName: setStorageName,
-          setStorageLocation: setStorageLocation,
-          setNumberOfCardsInStorage: setNumberOfCardsInStorage,
-          listOfStorages: widget.listOfStorages,
-          storage: widget.storage,
-          oldStorageName: widget.oldStorageName,
-        )
+            context: context,
+            formKey: formKey,
+            nameController: nameController,
+            locationController: locationController,
+            numCardsController: numCardsController,
+            setStorageName: setStorageName,
+            setStorageLocation: setStorageLocation,
+            setNumberOfCardsInStorage: setNumberOfCardsInStorage,
+            listOfStorages: widget.listOfStorages,
+            storage: widget.storage,
+            oldStorageName: widget.oldStorageName,
+            listOfCardReservations: widget.listOfCardReservations)
       ],
     ));
   }

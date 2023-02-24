@@ -38,48 +38,48 @@ class BuildAddCardForm extends StatefulWidget {
 }
 
 class _BuildAddCardFormState extends State<BuildAddCardForm> {
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: Form(
+            key: widget.formKey,
             child: Column(children: [
-      GenerateListTile(
-        labelText: "Name",
-        hintText: "",
-        icon: Icons.storage,
-        regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
-        function: widget.setCardName,
-        controller: widget.nameController,
-        fun: (value) {
-          for (int i = 0; i < widget.listOfCards.length; i++) {
-            if (widget.listOfCards[i].name == value) {
-              return 'Exsistiert bereits!';
-            }
-          }
-          if (value!.isEmpty) {
-            return 'Bitte Name eingeben!';
-          } else {
-            return null;
-          }
-        },
-      ),
-      const SizedBox(
-        height: 10,
-      ),
-      buildStorageSelector(
-        context,
-        widget.selectedStorage,
-        widget.listOfStorageNames,
-        widget.setSelectedStorage,
-        "Selected Storage",
-      ),
-      const SizedBox(
-        height: 10,
-      ),
-      generateButtonRectangle(
-          context,
-          "Karte hinzufügen",
-          () => () async {
+              GenerateListTile(
+                labelText: "Name",
+                hintText: "",
+                icon: Icons.storage,
+                regExp: r'([A-Za-z0-9\-\_\ö\ä\ü\ß ])',
+                function: widget.setCardName,
+                controller: widget.nameController,
+                fun: (value) {
+                  for (int i = 0; i < widget.listOfCards.length; i++) {
+                    if (widget.listOfCards[i].name == value) {
+                      return 'Exsistiert bereits!';
+                    }
+                  }
+                  if (value!.isEmpty) {
+                    return 'Bitte Name eingeben!';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              buildStorageSelector(
+                context,
+                widget.selectedStorage,
+                widget.listOfStorageNames,
+                widget.setSelectedStorage,
+                "Selected Storage",
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              generateButtonRectangle(context, "Karte hinzufügen", () async {
                 if (widget.formKey.currentState!.validate() &&
                     widget.selectedStorage != "-") {
                   late Storages storage;
@@ -97,8 +97,6 @@ class _BuildAddCardFormState extends State<BuildAddCardForm> {
                       function: addCard,
                       context: context,
                       args: {"name": newEntry.name, 'data': newEntry.toJson()});
-
-                  int count = 0;
 
                   if (context.mounted) {
                     var response = await Data.checkAuthorization(
@@ -127,6 +125,6 @@ class _BuildAddCardFormState extends State<BuildAddCardForm> {
                   }
                 }
               })
-    ])));
+            ])));
   }
 }

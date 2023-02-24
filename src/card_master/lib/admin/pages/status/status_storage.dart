@@ -1,18 +1,15 @@
-import 'dart:convert';
-
-import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
-import 'package:card_master/admin/provider/types/ping.dart';
-import 'package:card_master/admin/provider/types/storages.dart' as storages;
-import 'package:card_master/admin/provider/types/cards.dart';
+import 'dart:convert';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 
 class StatusStorage extends StatefulWidget {
   final String name;
 
-  StatusStorage({
+  const StatusStorage({
     Key? key,
     required this.name,
   }) : super(key: key);
@@ -22,9 +19,7 @@ class StatusStorage extends StatefulWidget {
 }
 
 class _StatusStorageState extends State<StatusStorage> {
-  late Storages storage;
   late List<Cards> listOfCards = [];
-  late Ping ping;
 
   @override
   void initState() {
@@ -36,7 +31,9 @@ class _StatusStorageState extends State<StatusStorage> {
     var response = await Data.checkAuthorization(
         context: context,
         function: getAllCardsPerStorage,
-        args: {"name": widget.name, 'data': []});
+        args: {
+          "name": widget.name,
+        });
     var temp = jsonDecode(response!.body) as List;
     listOfCards = temp.map((e) => Cards.fromJson(e)).toList();
 
@@ -46,37 +43,36 @@ class _StatusStorageState extends State<StatusStorage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              "Statistiken",
-              style:
-                  TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-            ),
-            backgroundColor: Theme.of(context).secondaryHeaderColor,
-            actions: []),
-        body: Container(
-          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-          child: Column(children: [
-            DeveloperChart(
-              cards: listOfCards,
-            ),
-          ]),
-        ));
+      appBar: AppBar(
+        title: Text(
+          "Statistiken",
+          style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
+        ),
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+      ),
+      body: Column(children: [
+        DeveloperChart(
+          listOfCards: listOfCards,
+        ),
+      ]),
+    );
   }
 }
 
-// ignore: must_be_immutable
 class DeveloperChart extends StatelessWidget {
-  late List<Cards> cards;
+  final List<Cards> listOfCards;
 
-  DeveloperChart({required this.cards, Key? key}) : super(key: key);
+  const DeveloperChart({
+    required this.listOfCards,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<charts.Series<Cards, String>> series = [
       charts.Series(
         id: "cards",
-        data: cards,
+        data: listOfCards,
         domainFn: (Cards series, _) => series.name,
         measureFn: (Cards series, _) => series.accessed,
         colorFn: (Cards series, _) => charts.ColorUtil.fromDartColor(
@@ -86,7 +82,7 @@ class DeveloperChart extends StatelessWidget {
 
     return Container(
       height: 300,
-      padding: const EdgeInsets.all(25),
+      padding: const EdgeInsets.all(10),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(9.0),

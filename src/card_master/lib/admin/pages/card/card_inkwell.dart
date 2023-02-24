@@ -127,7 +127,6 @@ class _GenerateCardState extends State<GenerateCard> {
                                                   context: context,
                                                   args: {
                                                     "name": widget.card.name,
-                                                    'data': []
                                                   });
                                               if (context.mounted) {
                                                 Navigator.of(context).pop();

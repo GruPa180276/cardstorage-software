@@ -120,29 +120,33 @@ class _GenerateStorageState extends State<GenerateStorage> {
                                           [
                                             generateButtonRectangle(
                                                 context, "Ja", () async {
-                                              await Data.checkAuthorization(
-                                                context: context,
-                                                function: deleteUser,
-                                                args: {
-                                                  "name":
-                                                      "${widget.storage.name.toString().toLowerCase()}@default.com",
-                                                  'data': []
-                                                },
-                                              );
-
-                                              if (context.mounted) {
+                                              if (widget
+                                                  .storage.cards.isEmpty) {
                                                 await Data.checkAuthorization(
-                                                    function: deleteStorage,
-                                                    context: context,
-                                                    args: {
-                                                      "name":
-                                                          widget.storage.name,
-                                                      'data': []
-                                                    });
-                                              }
+                                                  context: context,
+                                                  function: deleteUser,
+                                                  args: {
+                                                    "name":
+                                                        "${widget.storage.name.toString().toLowerCase()}@default.com",
+                                                    'data': []
+                                                  },
+                                                );
 
-                                              Navigator.of(context).pop();
-                                              Navigator.of(context).pop();
+                                                if (context.mounted) {
+                                                  await Data.checkAuthorization(
+                                                      function: deleteStorage,
+                                                      context: context,
+                                                      args: {
+                                                        "name":
+                                                            widget.storage.name,
+                                                        'data': []
+                                                      });
+                                                }
+                                              }
+                                              if (context.mounted) {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                              }
                                             }),
                                             const SizedBox(
                                               height: 10,

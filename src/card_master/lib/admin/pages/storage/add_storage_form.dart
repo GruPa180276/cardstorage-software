@@ -131,7 +131,6 @@ class _BuildAddStorageFormState extends State<BuildAddStorageForm> {
 
                 if (context.mounted) {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop();
                 }
               }
             },

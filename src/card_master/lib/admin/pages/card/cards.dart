@@ -21,28 +21,31 @@ class CardsView extends StatefulWidget {
 class _CardsViewState extends State<CardsView> {
   TextEditingController txtQuery = TextEditingController();
   late Future<List<Storages>> futureListOfStorages;
+  late Future<List<Cards>> futureListOfCards;
   List<String> listOfStorageNames = [];
   List<Storages> listOfStorages = [];
-  List<Storages> filteredStorages = [];
+  List<Cards> filteredCards = [];
   String selectedStorage = "-";
 
   @override
   void initState() {
     super.initState();
     load();
+    doSearch("-");
   }
 
   void load() {
-    futureListOfStorages = fetchData();
+    futureListOfCards = fetchData();
+    doSearch("-");
   }
 
-  Future<List<Storages>> fetchData() async {
-    final response = await Data.checkAuthorization(
+  Future<List<Cards>> fetchData() async {
+    var response = await Data.checkAuthorization(
       context: context,
       function: fetchStorages,
     );
 
-    List jsonResponse = json.decode(response!.body);
+    var jsonResponse = json.decode(response!.body) as List;
     listOfStorages = jsonResponse.map((e) => Storages.fromJson(e)).toList();
 
     listOfStorageNames.clear();
@@ -52,34 +55,55 @@ class _CardsViewState extends State<CardsView> {
       listOfStorageNames.add(listOfStorages[i].name);
     }
 
-    filteredStorages = listOfStorages;
+    List<Cards> tmp = [];
+
+    for (int i = 0; i < listOfStorages.length; i++) {
+      List<Cards> ls = [];
+      for (int j = 0; j < listOfStorages[i].cards.length; j++) {
+        Cards c = listOfStorages[i].cards[j];
+        c.storage = listOfStorages[i].name;
+        ls.add(c);
+      }
+      tmp.addAll(ls);
+    }
+
+    filteredCards = tmp;
+
     setState(() {});
 
-    return listOfStorages;
+    return tmp;
   }
 
-  void search(String query) {
+  void doSearch(String query) {
+    futureListOfCards = search(query);
+  }
+
+  Future<List<Cards>> search(String query) async {
     if (query.isEmpty) {
       listOfStorageNames.clear();
       load();
       setState(() {});
-      return;
+      return futureListOfCards;
+    }
+
+    if (query == "-") {
+      return futureListOfCards;
     }
 
     query = query.toLowerCase();
 
-    for (int i = 0; i < filteredStorages.length; i++) {
-      List<Cards> tmp = [];
-      for (int j = 0; j < filteredStorages[i].cards.length; j++) {
-        var name = filteredStorages[i].cards[j].name.toString().toLowerCase();
-        if (name.contains(query)) {
-          tmp.add(filteredStorages[i].cards[j]);
-        }
+    List<Cards> tmp = [];
+
+    for (int j = 0; j < filteredCards.length; j++) {
+      var name = filteredCards[j].name.toString().toLowerCase();
+      if (name.contains(query)) {
+        tmp.add(filteredCards[j]);
       }
-      filteredStorages[i].cards = tmp;
     }
 
     setState(() {});
+
+    return tmp;
   }
 
   void setSelectedStorage(String storageName) {
@@ -117,7 +141,7 @@ class _CardsViewState extends State<CardsView> {
                       ),
                       Row(
                         children: [
-                          buildSeacrh(context, txtQuery, search),
+                          buildSeacrh(context, txtQuery, doSearch),
                           const SizedBox(
                             width: 10,
                           ),
@@ -138,7 +162,7 @@ class _CardsViewState extends State<CardsView> {
               child: Column(children: [
                 ListCards(
                   selectedStorage: selectedStorage,
-                  listOfStorages: futureListOfStorages,
+                  listOfCards: futureListOfCards,
                 )
               ]),
             ),

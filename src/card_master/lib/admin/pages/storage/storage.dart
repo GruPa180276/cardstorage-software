@@ -28,10 +28,12 @@ class _StorageViewState extends State<StorageView> {
   void initState() {
     super.initState();
     load();
+    doSearch("-");
   }
 
   void load() {
     futureListOfStorages = fetchData();
+    doSearch("-");
   }
 
   Future<List<Storages>> fetchData() async {
@@ -58,23 +60,35 @@ class _StorageViewState extends State<StorageView> {
     return listOfStorages;
   }
 
-  void search(String query) {
+  void doSearch(String query) {
+    futureListOfStorages = search(query);
+  }
+
+  Future<List<Storages>> search(String query) async {
     if (query.isEmpty) {
       load();
       setState(() {});
-      return;
+      return futureListOfStorages;
+    }
+
+    if (query == "-") {
+      return futureListOfStorages;
     }
 
     query = query.toLowerCase();
 
-    for (int i = 0; i < listOfStorages.length; i++) {
-      var name = listOfStorages[i].name.toString().toLowerCase();
+    List<Storages> tmp = [];
+
+    for (int i = 0; i < listOfFilteredStorages.length; i++) {
+      var name = listOfFilteredStorages[i].name.toString().toLowerCase();
       if (name.contains(query)) {
-        listOfFilteredStorages.add(listOfFilteredStorages[i]);
+        tmp.add(listOfFilteredStorages[i]);
       }
     }
 
     setState(() {});
+
+    return tmp;
   }
 
   @override
@@ -105,7 +119,7 @@ class _StorageViewState extends State<StorageView> {
                       ),
                       Row(
                         children: [
-                          buildSeacrh(context, txtQuery, search),
+                          buildSeacrh(context, txtQuery, doSearch),
                           const SizedBox(
                             width: 10,
                           ),

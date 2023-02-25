@@ -1,5 +1,8 @@
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
+import 'package:http/http.dart';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/user.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
@@ -122,7 +125,8 @@ class _GenerateStorageState extends State<GenerateStorage> {
                                                 context, "Ja", () async {
                                               if (widget
                                                   .storage.cards.isEmpty) {
-                                                await Data.checkAuthorization(
+                                                Response? response1 = await Data
+                                                    .checkAuthorization(
                                                   context: context,
                                                   function: deleteUser,
                                                   args: {
@@ -133,19 +137,50 @@ class _GenerateStorageState extends State<GenerateStorage> {
                                                 );
 
                                                 if (context.mounted) {
-                                                  await Data.checkAuthorization(
-                                                      function: deleteStorage,
-                                                      context: context,
-                                                      args: {
+                                                  Response? response2 =
+                                                      await Data
+                                                          .checkAuthorization(
+                                                              function:
+                                                                  deleteStorage,
+                                                              context: context,
+                                                              args: {
                                                         "name":
                                                             widget.storage.name,
                                                         'data': []
                                                       });
+
+                                                  if (response1!.statusCode == 200 &&
+                                                      response2!.statusCode ==
+                                                          200 &&
+                                                      context.mounted) {
+                                                    FeedbackBuilder(
+                                                      context: context,
+                                                      header: "Erfolgreich",
+                                                      snackbarType:
+                                                          FeedbackType.success,
+                                                      content:
+                                                          "Storage wurde gelöscht!",
+                                                    ).build();
+                                                  }
                                                 }
-                                              }
-                                              if (context.mounted) {
+
+                                                if (context.mounted) {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pop();
+                                                }
+                                              } else if (widget
+                                                  .storage.cards.isNotEmpty) {
                                                 Navigator.of(context).pop();
                                                 Navigator.of(context).pop();
+
+                                                FeedbackBuilder(
+                                                  context: context,
+                                                  header: "Error!",
+                                                  snackbarType:
+                                                      FeedbackType.failure,
+                                                  content:
+                                                      "Bitte alle Karten löschen!",
+                                                ).build();
                                               }
                                             }),
                                             const SizedBox(

@@ -48,9 +48,8 @@ class _AddCardsState extends State<AddCards> {
 
     for (int i = 0; i < listOfStorageNames.length; i++) {
       for (int j = 0; j < listUnfocusedStorages.length; j++) {
-        if (listOfStorageNames[i] == listUnfocusedStorages[j].name) {
-          listOfStorageNames.removeAt(i);
-          setState(() {});
+        if (listOfStorages[i].name == listUnfocusedStorages[j].name) {
+          listOfStorageNames.remove(listOfStorages[i].name);
         }
       }
     }

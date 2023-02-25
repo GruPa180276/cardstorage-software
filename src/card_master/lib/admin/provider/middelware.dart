@@ -26,9 +26,11 @@ class Data {
       if (response.statusCode != 200) {
         throw Exception(response.body);
       }
+
       return response;
     } catch (e) {
       if (context != null) {
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
         FeedbackBuilder(
           context: context,

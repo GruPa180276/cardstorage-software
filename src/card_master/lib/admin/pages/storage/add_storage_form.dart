@@ -1,3 +1,5 @@
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/user.dart';
@@ -5,6 +7,7 @@ import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/pages/widget/listTile.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:http/http.dart';
 
 class BuildAddStorageForm extends StatefulWidget {
   final BuildContext context;
@@ -111,7 +114,7 @@ class _BuildAddStorageFormState extends State<BuildAddStorageForm> {
                     numberOfCards: widget.storage.numberOfCards,
                     cards: []);
 
-                await Data.checkAuthorization(
+                Response? response1 = await Data.checkAuthorization(
                     context: context,
                     function: addStorage,
                     args: {"name": "", 'data': newEntry.toJson()});
@@ -123,10 +126,21 @@ class _BuildAddStorageFormState extends State<BuildAddStorageForm> {
                 );
 
                 if (context.mounted) {
-                  await Data.checkAuthorization(
+                  Response? response2 = await Data.checkAuthorization(
                       context: context,
                       function: addUser,
                       args: {"name": "", 'data': newUser.toJson()});
+
+                  if (response1!.statusCode == 200 &&
+                      response2!.statusCode == 200 &&
+                      context.mounted) {
+                    FeedbackBuilder(
+                      context: context,
+                      header: "Erfolgreich",
+                      snackbarType: FeedbackType.success,
+                      content: "Storage wurde bearbeitet!",
+                    ).build();
+                  }
                 }
 
                 if (context.mounted) {

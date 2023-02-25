@@ -1,8 +1,11 @@
 import 'package:card_master/admin/provider/types/cardReservation.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/reservations.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
+import 'package:http/http.dart';
 import 'package:card_master/admin/provider/types/user.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/provider/middelware.dart';
@@ -44,6 +47,10 @@ class BuildAlterStorageForm extends StatefulWidget {
 }
 
 class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
+  Response? response1;
+  Response? response2;
+  Response? response3;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -128,7 +135,7 @@ class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
             );
 
             if (context.mounted) {
-              await Data.checkAuthorization(
+              response1 = await Data.checkAuthorization(
                   function: deleteStorage,
                   context: context,
                   args: {
@@ -137,7 +144,7 @@ class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
             }
 
             if (context.mounted) {
-              await Data.checkAuthorization(
+              response2 = await Data.checkAuthorization(
                   function: deleteUser,
                   context: context,
                   args: {
@@ -147,23 +154,46 @@ class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
             }
 
             if (context.mounted) {
-              await Data.checkAuthorization(
+              response3 = await Data.checkAuthorization(
                   context: context,
                   function: addStorage,
                   args: {"name": "", 'data': newEntry.toJson()});
             }
 
             if (context.mounted) {
-              await Data.checkAuthorization(
+              Response? response4 = await Data.checkAuthorization(
                   context: context,
                   function: addUser,
                   args: {"name": "", 'data': newUser.toJson()});
+
+              if (response1!.statusCode == 200 &&
+                  response2!.statusCode == 200 &&
+                  response3!.statusCode == 200 &&
+                  response4!.statusCode == 200 &&
+                  context.mounted) {
+                FeedbackBuilder(
+                  context: context,
+                  header: "Erfolgreich",
+                  snackbarType: FeedbackType.success,
+                  content: "Storage wurde bearbeitet!",
+                ).build();
+              }
             }
 
             if (context.mounted) {
               Navigator.of(context).pop();
-              //Navigator.of(context).pop();
+              Navigator.of(context).pop();
             }
+          } else if (widget.storage.cards.isNotEmpty) {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+
+            FeedbackBuilder(
+              context: context,
+              header: "Error!",
+              snackbarType: FeedbackType.failure,
+              content: "Bitte alle Karten löschen!",
+            ).build();
           }
         }),
       ]),

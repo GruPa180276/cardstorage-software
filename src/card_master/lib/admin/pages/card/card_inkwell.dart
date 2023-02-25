@@ -1,5 +1,7 @@
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
@@ -122,15 +124,45 @@ class _GenerateCardState extends State<GenerateCard> {
                                           [
                                             generateButtonRectangle(
                                                 context, "Ja", () async {
-                                              await Data.checkAuthorization(
-                                                  function: deleteCard,
+                                              if (widget.card.available) {
+                                                Response? response1 = await Data
+                                                    .checkAuthorization(
+                                                        function: deleteCard,
+                                                        context: context,
+                                                        args: {
+                                                      "name": widget.card.name,
+                                                    });
+
+                                                if (response1!.statusCode ==
+                                                        200 &&
+                                                    context.mounted) {
+                                                  FeedbackBuilder(
+                                                    context: context,
+                                                    header: "Erfolgreich",
+                                                    snackbarType:
+                                                        FeedbackType.success,
+                                                    content:
+                                                        "Storage wurde gelöscht!",
+                                                  ).build();
+                                                }
+
+                                                if (context.mounted) {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pop();
+                                                }
+                                              } else if (!widget
+                                                  .card.available) {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+
+                                                FeedbackBuilder(
                                                   context: context,
-                                                  args: {
-                                                    "name": widget.card.name,
-                                                  });
-                                              if (context.mounted) {
-                                                Navigator.of(context).pop();
-                                                Navigator.of(context).pop();
+                                                  header: "Error!",
+                                                  snackbarType:
+                                                      FeedbackType.failure,
+                                                  content:
+                                                      "Karte ist nicht im Storage!",
+                                                ).build();
                                               }
                                             }),
                                             const SizedBox(

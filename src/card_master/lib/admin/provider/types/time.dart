@@ -39,7 +39,7 @@ Future<Response> getReservationLatestGetTime() async {
 Future<Response> changeReservationLatestGetTime(
     Map<String, dynamic> data) async {
   return await put(
-    Uri.parse(reservationAdress + "/time/hours/" + data["name"]),
+    Uri.parse(reservationAdress + "/time/hours/" + data["data"]),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",

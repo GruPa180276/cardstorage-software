@@ -1,12 +1,10 @@
-import 'dart:convert';
-
-import 'package:card_master/admin/pages/card/search.dart';
-import 'package:card_master/admin/pages/user/user_builder.dart';
-import 'package:card_master/admin/provider/middelware.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:convert';
+import 'package:card_master/admin/pages/card/search.dart';
 import 'package:card_master/admin/provider/types/user.dart';
-import 'package:card_master/admin/pages/widget/createUser.dart';
+import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/admin/pages/user/user_builder.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
 
 class UsersSettings extends StatefulWidget {
@@ -89,9 +87,6 @@ class _StorageViewState extends State<UsersSettings> {
                       Row(
                         children: [
                           buildSeacrh(context, txtQuery, search),
-                          const SizedBox(
-                            width: 10,
-                          ),
                         ],
                       ),
                     ],

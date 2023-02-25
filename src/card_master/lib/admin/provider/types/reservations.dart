@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:card_master/admin/config/adress.dart';
 import 'package:card_master/admin/provider/types/user.dart';
@@ -7,6 +7,7 @@ import 'package:card_master/admin/config/token_manager.dart';
 
 class ReservationOfCards {
   int id;
+  String name;
   int since;
   int until;
   int returnedAt;
@@ -15,6 +16,7 @@ class ReservationOfCards {
 
   ReservationOfCards({
     required this.id,
+    required this.name,
     required this.since,
     required this.until,
     required this.returnedAt,
@@ -23,19 +25,20 @@ class ReservationOfCards {
   });
 
   factory ReservationOfCards.fromJson(Map<String, dynamic> json) {
-    Users _users = Users.fromJson(json['user']);
+    Users users = Users.fromJson(json['user']);
 
     return ReservationOfCards(
         id: json['id'] ?? 0,
+        name: "",
         since: json['since'] ?? 0,
         until: json['until'] ?? 0,
         returnedAt: json['returned-at'] ?? 0,
         isReservation: json['is-reservation'] ?? false,
-        users: _users);
+        users: users);
   }
 }
 
-Future<Response> fetchData() async {
+Future<Response> fetchRservations() async {
   return await get(
     Uri.parse(reservationAdress),
     headers: {

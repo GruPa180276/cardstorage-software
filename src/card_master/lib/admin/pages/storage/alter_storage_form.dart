@@ -132,6 +132,7 @@ class _BuildAlterStorageFormState extends State<BuildAlterStorageForm> {
               email: "${newEntry.name.toLowerCase()}@default.com",
               storage: widget.storage.name,
               privileged: false,
+              reader: "",
             );
 
             if (context.mounted) {

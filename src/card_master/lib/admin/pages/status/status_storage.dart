@@ -20,6 +20,7 @@ class StatusStorage extends StatefulWidget {
 
 class _StatusStorageState extends State<StatusStorage> {
   late List<Cards> listOfCards = [];
+  late Storages storage;
 
   @override
   void initState() {
@@ -34,8 +35,10 @@ class _StatusStorageState extends State<StatusStorage> {
         args: {
           "name": widget.name,
         });
-    var temp = jsonDecode(response!.body) as List;
-    listOfCards = temp.map((e) => Cards.fromJson(e)).toList();
+    var temp = jsonDecode(response!.body);
+    storage = Storages.fromJson(temp);
+
+    listOfCards = storage.cards;
 
     setState(() {});
   }
@@ -82,7 +85,7 @@ class DeveloperChart extends StatelessWidget {
 
     return Container(
       height: 300,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(9.0),
@@ -93,8 +96,10 @@ class DeveloperChart extends StatelessWidget {
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               Expanded(
-                child: charts.BarChart(series, animate: true),
-              )
+                  child: charts.BarChart(
+                series,
+                animate: true,
+              ))
             ],
           ),
         ),

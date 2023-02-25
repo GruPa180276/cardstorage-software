@@ -19,26 +19,6 @@ import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
 // Replace this line -> final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
 // with this -> final String minSdk = "21"; // line.replaceAll(RegExp(r'[^\d]'), '');
 
-// TODO
-
-// Delete all Cards from Storage
-// Fix search of Storage Page
-// When Deleting / Altering Cards / Storage
-// Refactor
-
-// Check for Typos
-
-// Stats Page -> Design
-
-// Formulate Error Message when deleting Storage.
-// - There could be open Reservations
-// - There could be cards left
-// - ...
-
-// Formulate Error Message when deleting Cards.
-// - There could be open Reservations
-// - ...
-
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {

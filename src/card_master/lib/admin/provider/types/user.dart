@@ -8,11 +8,13 @@ class Users {
   String email;
   String storage;
   bool privileged;
+  String reader;
 
   Users({
     required this.email,
     required this.storage,
     required this.privileged,
+    required this.reader,
   });
 
   factory Users.fromJson(Map<String, dynamic> json) {
@@ -20,12 +22,14 @@ class Users {
       email: json['email'] ?? "",
       storage: json['storage'] ?? "",
       privileged: json['privileged'] ?? false,
+      reader: json['reader'] ?? "",
     );
   }
   Map<String, dynamic> toJson() => {
         'email': email,
         'privileged': privileged,
         'storage': storage,
+        'reader': reader,
       };
 }
 

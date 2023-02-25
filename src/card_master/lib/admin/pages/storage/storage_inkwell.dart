@@ -132,7 +132,6 @@ class _GenerateStorageState extends State<GenerateStorage> {
                                                   args: {
                                                     "name":
                                                         "${widget.storage.name.toString().toLowerCase()}@default.com",
-                                                    'data': []
                                                   },
                                                 );
 

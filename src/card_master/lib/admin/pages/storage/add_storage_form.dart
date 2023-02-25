@@ -123,6 +123,7 @@ class _BuildAddStorageFormState extends State<BuildAddStorageForm> {
                   email: "${newEntry.name.toLowerCase()}@default.com",
                   storage: widget.storage.name,
                   privileged: false,
+                  reader: "",
                 );
 
                 if (context.mounted) {

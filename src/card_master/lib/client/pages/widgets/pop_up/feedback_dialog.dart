@@ -17,6 +17,7 @@ class FeedbackBuilder {
 
   void build() {
     SnackBar? snackBar;
+
     switch (snackbarType) {
       case FeedbackType.success:
         snackBar = SnackBar(

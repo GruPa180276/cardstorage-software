@@ -369,13 +369,19 @@ Habe heute die Websockets in eine eigene Datei ausgelagert. Des weitern funktion
 Haben die Doku mit Johannes gemerged. Die Doku ist soweit auch fertig. (3h 50min)
 
 **22.2.2023: 9:00 bis 13:30** <br>
-Rafored, Storage und Karten Seite. (4h 30min)
+Refactored, Storage und Karten Seite. (4h 30min)
 
 **24.2.2023: 8:30 bis 12:30** <br>
-Rafored, Status Seite. Bugs behoben. (4h)
+Refactored, Status Seite. Bugs behoben. (4h)
 
 **24.2.2023: 13:00 bis : 16:00** <br>
 Habe bei der Doku einige Sachen korrigiert. Use Case erstellt.(3h)
+
+**25.2.2023: 8:30 bis : 12:00** <br>
+Refactored User Page. (3h 30min)
+
+**25.2.2023: 12:30 bis : 18:00** <br>
+Refactored Reservation Page. (5h 30min)
 
 ## Arbeitszeit
 <!-- { "progress": true } -->

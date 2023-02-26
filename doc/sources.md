@@ -108,3 +108,5 @@
 - https://stackoverflow.com/questions/54610121/flutter-countdown-timer
 - https://stackoverflow.com/questions/61580550/build-failed-flutter-gradle
 - https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps
+- https://stackoverflow.com/questions/68762020/how-to-change-font-size-of-textfield-in-flutter
+- https://pub.dev/packages/sizer

@@ -6,6 +6,7 @@ import 'package:card_master/admin/provider/types/user.dart';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/pages/user/user_builder.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
+import 'package:sizer/sizer.dart';
 
 class UsersSettings extends StatefulWidget {
   const UsersSettings({Key? key}) : super(key: key);
@@ -65,13 +66,25 @@ class _StorageViewState extends State<UsersSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: GenerateReloadButton(fetchData),
-        appBar: AppBar(
-          title: Text(
-            "Benutzer",
-            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-          ),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
+        appBar: SizerUtil.deviceType == DeviceType.mobile
+            ? AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Benutzer",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 20.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              )
+            : AppBar(
+                toolbarHeight: 8.h,
+                title: Text(
+                  "Benutzer",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 18.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              ),
         body: Container(
           padding: const EdgeInsets.all(5),
           child: Column(children: [
@@ -86,7 +99,8 @@ class _StorageViewState extends State<UsersSettings> {
                     children: [
                       Row(
                         children: [
-                          buildSeacrh(context, txtQuery, search),
+                          Expanded(
+                              child: buildSeacrh(context, txtQuery, search)),
                         ],
                       ),
                     ],

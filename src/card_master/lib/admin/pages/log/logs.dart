@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/widget/appbar.dart';
 import 'package:card_master/admin/pages/navigation/websockets.dart';
+import 'package:sizer/sizer.dart';
 
 class Logs extends StatefulWidget {
   const Logs({
@@ -26,7 +27,7 @@ class MultiWebSocketsState extends State<Logs> {
     return Scaffold(
         appBar: generateAppBar(context),
         body: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(5),
           child: Column(children: [
             Expanded(
               child: ListView.builder(
@@ -39,7 +40,12 @@ class MultiWebSocketsState extends State<Logs> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Text(messages[index]),
+                        child: Text(
+                          messages[index],
+                          style: SizerUtil.deviceType == DeviceType.mobile
+                              ? TextStyle(fontSize: 11.sp)
+                              : TextStyle(fontSize: 8.sp),
+                        ),
                       ));
                 },
               ),

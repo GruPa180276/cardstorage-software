@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import 'package:card_master/admin/provider/types/user.dart';
+import 'package:sizer/sizer.dart';
 
 class GenerateUser extends StatefulWidget {
   final IconData icon;
@@ -61,31 +62,57 @@ class _GenerateUserState extends State<GenerateUser> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5))),
             child: InkWell(
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                      right: BorderSide(
-                        color: getColor(),
-                        width: 10,
-                      ),
-                    )),
-                    padding: const EdgeInsets.all(15),
-                    child: Row(children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          left: 0,
-                          right: 15,
-                        ),
-                        child: Icon(Icons.account_box_outlined, size: 50),
-                      ),
-                      Expanded(
-                        child: createUserTable(
-                          context,
-                          widget.user,
-                          priviledgedTranslated,
-                        ),
-                      ),
-                    ])),
+                child: SizerUtil.deviceType == DeviceType.mobile
+                    ? Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                          right: BorderSide(
+                            color: getColor(),
+                            width: 2.w,
+                          ),
+                        )),
+                        padding: const EdgeInsets.all(10),
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              right: 4.w,
+                            ),
+                            child:
+                                Icon(Icons.account_box_outlined, size: 40.sp),
+                          ),
+                          Expanded(
+                            child: createUserTable(
+                              context,
+                              widget.user,
+                              priviledgedTranslated,
+                            ),
+                          ),
+                        ]))
+                    : Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                          right: BorderSide(
+                            color: getColor(),
+                            width: 2.w,
+                          ),
+                        )),
+                        padding: const EdgeInsets.all(10),
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              right: 4.w,
+                            ),
+                            child:
+                                Icon(Icons.account_box_outlined, size: 40.sp),
+                          ),
+                          Expanded(
+                            child: createUserTable(
+                              context,
+                              widget.user,
+                              priviledgedTranslated,
+                            ),
+                          ),
+                        ])),
                 onTap: () {
                   showDialog(
                       context: context,

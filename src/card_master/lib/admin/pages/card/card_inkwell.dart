@@ -7,6 +7,7 @@ import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/pages/card/card_table.dart';
 import 'package:card_master/admin/pages/card/alert_dialog.dart';
+import 'package:sizer/sizer.dart';
 
 class GenerateCard extends StatefulWidget {
   final IconData icon;
@@ -64,31 +65,29 @@ class _GenerateCardState extends State<GenerateCard> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5))),
             child: InkWell(
-              child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                    right: BorderSide(
-                      color: getColor(),
-                      width: 10,
-                    ),
-                  )),
-                  padding: const EdgeInsets.all(15),
-                  child: Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 0,
-                        right: 15,
-                      ),
-                      child: Icon(widget.icon, size: 50),
-                    ),
-                    Expanded(
-                        child: createCardTable(
-                      context,
-                      widget.card,
-                      widget.storageName,
-                      availableTranslated,
-                    )),
-                  ])),
+              child: SizerUtil.deviceType == DeviceType.mobile
+                  ? Container(
+                      height: 16.5.h,
+                      decoration: BoxDecoration(
+                          border: Border(
+                        right: BorderSide(
+                          color: getColor(),
+                          width: 2.w,
+                        ),
+                      )),
+                      padding: const EdgeInsets.all(10),
+                      child: buildWidgets(context))
+                  : Container(
+                      height: 22.h,
+                      decoration: BoxDecoration(
+                          border: Border(
+                        right: BorderSide(
+                          color: getColor(),
+                          width: 2.w,
+                        ),
+                      )),
+                      padding: const EdgeInsets.all(10),
+                      child: buildWidgets(context)),
               onTap: () {
                 showDialog(
                     context: context,
@@ -107,8 +106,8 @@ class _GenerateCardState extends State<GenerateCard> {
                                 );
                               },
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 1.h,
                             ),
                             generateButtonRectangle(
                               context,
@@ -165,8 +164,8 @@ class _GenerateCardState extends State<GenerateCard> {
                                                 ).build();
                                               }
                                             }),
-                                            const SizedBox(
-                                              height: 10,
+                                            SizedBox(
+                                              height: 1.h,
                                             ),
                                             generateButtonRectangle(
                                               context,
@@ -184,5 +183,30 @@ class _GenerateCardState extends State<GenerateCard> {
                         ));
               },
             )));
+  }
+
+  Widget buildWidgets(BuildContext context) {
+    return Row(children: [
+      SizerUtil.deviceType == DeviceType.mobile
+          ? Padding(
+              padding: EdgeInsets.only(
+                right: 10.sp,
+              ),
+              child: Icon(widget.icon, size: 40.sp),
+            )
+          : Padding(
+              padding: EdgeInsets.only(
+                right: 10.sp,
+              ),
+              child: Icon(widget.icon, size: 30.sp),
+            ),
+      Expanded(
+          child: createCardTable(
+        context,
+        widget.card,
+        widget.storageName,
+        availableTranslated,
+      )),
+    ]);
   }
 }

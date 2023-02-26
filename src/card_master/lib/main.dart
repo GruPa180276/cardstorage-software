@@ -9,6 +9,7 @@ import 'package:card_master/admin/config/token_manager.dart';
 import 'package:card_master/admin/provider/theme/themes.dart';
 import 'package:card_master/admin/config/theme/app_preference.dart';
 import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
+import 'package:sizer/sizer.dart';
 
 // Change app icon -> pubsec.yaml
 // https://pub.dev/packages/flutter_launcher_icons
@@ -51,14 +52,18 @@ class AppStart extends StatelessWidget {
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
 
-          return MaterialApp(
-            title: 'Splash Screen',
-            themeMode: themeProvider.themeMode,
-            theme: MyThemes.lightTheme,
-            darkTheme: MyThemes.darkTheme,
-            debugShowCheckedModeBanner: false,
-            home: const SplashScreen(),
-            onGenerateRoute: RouteGenerator.generateRoute,
+          return Sizer(
+            builder: (context, orientation, deviceType) {
+              return MaterialApp(
+                title: 'Splash Screen',
+                themeMode: themeProvider.themeMode,
+                theme: MyThemes.lightTheme,
+                darkTheme: MyThemes.darkTheme,
+                debugShowCheckedModeBanner: false,
+                home: const SplashScreen(),
+                onGenerateRoute: RouteGenerator.generateRoute,
+              );
+            },
           );
         });
   }
@@ -80,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => BottomNavigation())));
+            MaterialPageRoute(builder: (context) => const BottomNavigation())));
   }
 
   @override

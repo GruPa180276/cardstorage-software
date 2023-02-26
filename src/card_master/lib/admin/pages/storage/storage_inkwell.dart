@@ -9,6 +9,7 @@ import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/pages/card/alert_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/storage/storage_table.dart';
+import 'package:sizer/sizer.dart';
 
 class GenerateStorage extends StatefulWidget {
   final IconData icon;
@@ -66,30 +67,29 @@ class _GenerateStorageState extends State<GenerateStorage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5))),
             child: InkWell(
-              child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                    right: BorderSide(
-                      color: getColor(),
-                      width: 10,
-                    ),
-                  )),
-                  padding: const EdgeInsets.all(15),
-                  child: Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 0,
-                        right: 15,
-                      ),
-                      child: Icon(widget.icon, size: 50),
-                    ),
-                    Expanded(
-                        child: createStorageTable(
-                      context,
-                      widget.storage,
-                      focusTranslated,
-                    )),
-                  ])),
+              child: SizerUtil.deviceType == DeviceType.mobile
+                  ? Container(
+                      height: 16.5.h,
+                      decoration: BoxDecoration(
+                          border: Border(
+                        right: BorderSide(
+                          color: getColor(),
+                          width: 2.w,
+                        ),
+                      )),
+                      padding: const EdgeInsets.all(10),
+                      child: buildWidgets(context))
+                  : Container(
+                      height: 22.h,
+                      decoration: BoxDecoration(
+                          border: Border(
+                        right: BorderSide(
+                          color: getColor(),
+                          width: 2.w,
+                        ),
+                      )),
+                      padding: const EdgeInsets.all(10),
+                      child: buildWidgets(context)),
               onTap: () {
                 showDialog(
                     context: context,
@@ -106,8 +106,8 @@ class _GenerateStorageState extends State<GenerateStorage> {
                                     arguments: widget.storage.name);
                               },
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 1.h,
                             ),
                             generateButtonRectangle(
                               context,
@@ -182,8 +182,8 @@ class _GenerateStorageState extends State<GenerateStorage> {
                                                 ).build();
                                               }
                                             }),
-                                            const SizedBox(
-                                              height: 10,
+                                            SizedBox(
+                                              height: 1.h,
                                             ),
                                             generateButtonRectangle(
                                               context,
@@ -201,5 +201,29 @@ class _GenerateStorageState extends State<GenerateStorage> {
                         ));
               },
             )));
+  }
+
+  Widget buildWidgets(BuildContext context) {
+    return Row(children: [
+      SizerUtil.deviceType == DeviceType.mobile
+          ? Padding(
+              padding: EdgeInsets.only(
+                right: 10.sp,
+              ),
+              child: Icon(widget.icon, size: 40.sp),
+            )
+          : Padding(
+              padding: EdgeInsets.only(
+                right: 10.sp,
+              ),
+              child: Icon(widget.icon, size: 30.sp),
+            ),
+      Expanded(
+          child: createStorageTable(
+        context,
+        widget.storage,
+        focusTranslated,
+      )),
+    ]);
   }
 }

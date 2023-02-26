@@ -8,8 +8,9 @@ import 'dart:convert';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/ping.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/widget/createStatus.dart';
+import 'package:card_master/admin/pages/status/status_table.dart';
 import 'package:http/http.dart';
+import 'package:sizer/sizer.dart';
 
 class GenerateStatus extends StatefulWidget {
   final IconData icon;
@@ -87,32 +88,57 @@ class _GenerateCardState extends State<GenerateStatus> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5))),
             child: InkWell(
-              child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                    right: BorderSide(
-                      color: color,
-                      width: 10,
-                    ),
-                  )),
-                  padding: const EdgeInsets.all(15),
-                  child: Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 0,
-                        right: 15,
-                      ),
-                      child: Icon(widget.icon, size: 50),
-                    ),
-                    Expanded(
-                        child: createStatus(
-                      context,
-                      pingWorked,
-                      widget.storage.name,
-                      count,
-                      widget.storage.numberOfCards,
-                    )),
-                  ])),
+              child: SizerUtil.deviceType == DeviceType.mobile
+                  ? Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                        right: BorderSide(
+                          color: color,
+                          width: 2.w,
+                        ),
+                      )),
+                      padding: const EdgeInsets.all(10),
+                      child: Row(children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            right: 4.w,
+                          ),
+                          child: Icon(Icons.storage, size: 40.sp),
+                        ),
+                        Expanded(
+                            child: createStatus(
+                          context,
+                          pingWorked,
+                          widget.storage.name,
+                          count,
+                          widget.storage.numberOfCards,
+                        ))
+                      ]))
+                  : Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                        right: BorderSide(
+                          color: color,
+                          width: 2.w,
+                        ),
+                      )),
+                      padding: const EdgeInsets.all(10),
+                      child: Row(children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            right: 4.w,
+                          ),
+                          child: Icon(Icons.storage, size: 30.sp),
+                        ),
+                        Expanded(
+                            child: createStatus(
+                          context,
+                          pingWorked,
+                          widget.storage.name,
+                          count,
+                          widget.storage.numberOfCards,
+                        ))
+                      ])),
               onTap: () {
                 showDialog(
                     context: context,
@@ -148,8 +174,8 @@ class _GenerateCardState extends State<GenerateStatus> {
                                 }
                               },
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 1.h,
                             ),
                             generateButtonRectangle(
                               context,
@@ -177,8 +203,8 @@ class _GenerateCardState extends State<GenerateStatus> {
                                 }
                               },
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 1.h,
                             ),
                             generateButtonRectangle(
                               context,

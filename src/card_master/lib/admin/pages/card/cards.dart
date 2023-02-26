@@ -10,6 +10,7 @@ import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/card_builder.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
+import 'package:sizer/sizer.dart';
 
 class CardsView extends StatefulWidget {
   const CardsView({Key? key}) : super(key: key);
@@ -136,14 +137,15 @@ class _CardsViewState extends State<CardsView> {
                               context, "Hinzufügen", Icons.add, "/addCards"),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 1.5.h,
                       ),
                       Row(
                         children: [
-                          buildSeacrh(context, txtQuery, doSearch),
-                          const SizedBox(
-                            width: 10,
+                          Expanded(
+                              child: buildSeacrh(context, txtQuery, doSearch)),
+                          SizedBox(
+                            width: 2.w,
                           ),
                           Expanded(
                               child: buildStorageSelector(

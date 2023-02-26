@@ -8,6 +8,7 @@ import 'package:card_master/admin/provider/types/user.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/pages/widget/listTile.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:sizer/sizer.dart';
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);
@@ -37,13 +38,25 @@ class _AddStorageState extends State<AddStorage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Storage hinzufügen",
-            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-          ),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
+        appBar: SizerUtil.deviceType == DeviceType.mobile
+            ? AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Storage hinzufügen",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 20.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              )
+            : AppBar(
+                toolbarHeight: 8.h,
+                title: Text(
+                  "Storage hinzufügen",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 18.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              ),
         body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Column(

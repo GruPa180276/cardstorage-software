@@ -6,6 +6,7 @@ import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/alter_card_form.dart';
+import 'package:sizer/sizer.dart';
 
 class CardSettings extends StatefulWidget {
   const CardSettings({Key? key, required this.cardName}) : super(key: key);
@@ -84,13 +85,25 @@ class _CardSettingsState extends State<CardSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Karte bearbeiten",
-            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-          ),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
+        appBar: SizerUtil.deviceType == DeviceType.mobile
+            ? AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Karte bearbeiten",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 20.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              )
+            : AppBar(
+                toolbarHeight: 8.h,
+                title: Text(
+                  "Karte bearbeiten",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 18.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              ),
         body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Column(

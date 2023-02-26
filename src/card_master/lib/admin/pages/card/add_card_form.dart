@@ -8,6 +8,7 @@ import 'package:card_master/admin/pages/widget/listTile.dart';
 import 'package:card_master/admin/pages/card/timer_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';
+import 'package:sizer/sizer.dart';
 
 class BuildAddCardForm extends StatefulWidget {
   final BuildContext context;
@@ -66,8 +67,8 @@ class _BuildAddCardFormState extends State<BuildAddCardForm> {
                   }
                 },
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 2.h,
               ),
               buildStorageSelector(
                 context,

@@ -43,7 +43,7 @@ class _StatusViewState extends State<StatusView> {
         appBar: generateAppBar(context),
         floatingActionButton: GenerateReloadButton(load),
         body: Container(
-          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+          padding: const EdgeInsets.all(5),
           child: Column(children: [
             Expanded(
               child: Column(children: [

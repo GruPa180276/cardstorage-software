@@ -5,6 +5,7 @@ import 'package:card_master/admin/pages/card/cards.dart';
 import 'package:card_master/admin/pages/status/status.dart';
 import 'package:card_master/admin/pages/storage/storage.dart';
 import 'package:card_master/admin/pages/navigation/websockets.dart';
+import 'package:sizer/sizer.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
@@ -26,17 +27,17 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     List<dynamic> screens = [
-      StatusView(),
-      CardsView(),
-      StorageView(),
-      Logs(),
+      const StatusView(),
+      const CardsView(),
+      const StorageView(),
+      const Logs(),
     ];
 
     return Scaffold(
         body: screens[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          iconSize: 30,
+          iconSize: 20.sp,
           currentIndex: currentIndex,
           onTap: (value) => setState(() => currentIndex = value),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/storage/alter_storage_form.dart';
+import 'package:sizer/sizer.dart';
 
 class StorageSettings extends StatefulWidget {
   final String storageName;
@@ -64,13 +65,25 @@ class _StorageSettingsState extends State<StorageSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Storage bearbeiten",
-            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-          ),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
+        appBar: SizerUtil.deviceType == DeviceType.mobile
+            ? AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Storage bearbeiten",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 20.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              )
+            : AppBar(
+                toolbarHeight: 8.h,
+                title: Text(
+                  "Storage bearbeiten",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 18.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              ),
         body: Container(
           padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(children: [

@@ -5,6 +5,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:sizer/sizer.dart';
 
 class StatusStorage extends StatefulWidget {
   final String name;
@@ -46,13 +47,25 @@ class _StatusStorageState extends State<StatusStorage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Statistiken",
-          style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-        ),
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-      ),
+      appBar: SizerUtil.deviceType == DeviceType.mobile
+          ? AppBar(
+              toolbarHeight: 7.h,
+              title: Text(
+                "Statistiken",
+                style: TextStyle(
+                    color: Theme.of(context).focusColor, fontSize: 20.sp),
+              ),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+            )
+          : AppBar(
+              toolbarHeight: 8.h,
+              title: Text(
+                "Statistiken",
+                style: TextStyle(
+                    color: Theme.of(context).focusColor, fontSize: 18.sp),
+              ),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+            ),
       body: Column(children: [
         DeveloperChart(
           listOfCards: listOfCards,
@@ -83,27 +96,55 @@ class DeveloperChart extends StatelessWidget {
       )
     ];
 
-    return Container(
-      height: 300,
-      padding: const EdgeInsets.all(5),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(9.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Wie oft wurde eine Karte ausgeborgt",
-                style: TextStyle(color: Theme.of(context).primaryColor),
+    return SizerUtil.deviceType == DeviceType.mobile
+        ? SingleChildScrollView(
+            child: Container(
+            height: 50.h,
+            padding: const EdgeInsets.all(5),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "Wie oft wurde eine Karte ausgeborgt",
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 14.sp),
+                    ),
+                    Expanded(
+                        child: charts.BarChart(
+                      series,
+                      animate: true,
+                    ))
+                  ],
+                ),
               ),
-              Expanded(
-                  child: charts.BarChart(
-                series,
-                animate: true,
-              ))
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          ))
+        : Container(
+            height: 50.h,
+            padding: const EdgeInsets.all(5),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "Wie oft wurde eine Karte ausgeborgt",
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 10.sp),
+                    ),
+                    Expanded(
+                        child: charts.BarChart(
+                      series,
+                      animate: true,
+                    ))
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 }

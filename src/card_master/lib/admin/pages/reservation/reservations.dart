@@ -9,6 +9,7 @@ import 'package:card_master/admin/provider/types/reservations.dart';
 import 'package:card_master/admin/provider/types/cardReservation.dart';
 import 'package:card_master/admin/pages/reservation/reservation_time.dart';
 import 'package:card_master/admin/pages/reservation/reservation_builder.dart';
+import 'package:sizer/sizer.dart';
 
 class Reservations extends StatefulWidget {
   const Reservations({Key? key}) : super(key: key);
@@ -96,13 +97,25 @@ class _SettingsPageState extends State<Reservations> {
 
     return Scaffold(
         floatingActionButton: GenerateReloadButton(fetchData),
-        appBar: AppBar(
-          title: Text(
-            "Reservierungen",
-            style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-          ),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-        ),
+        appBar: SizerUtil.deviceType == DeviceType.mobile
+            ? AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Reservierungen",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 20.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              )
+            : AppBar(
+                toolbarHeight: 8.h,
+                title: Text(
+                  "Reservierungen",
+                  style: TextStyle(
+                      color: Theme.of(context).focusColor, fontSize: 18.sp),
+                ),
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
+              ),
         body: Container(
           padding: const EdgeInsets.all(5),
           child: Column(children: [
@@ -117,11 +130,13 @@ class _SettingsPageState extends State<Reservations> {
                     children: [
                       Row(
                         children: [
-                          buildSeacrh(context, txtQuery, search),
+                          Expanded(
+                            child: buildSeacrh(context, txtQuery, search),
+                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 1.h,
                       ),
                       ListReservationTime(
                         formKey: formKey,

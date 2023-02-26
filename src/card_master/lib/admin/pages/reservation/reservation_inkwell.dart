@@ -8,6 +8,7 @@ import 'package:card_master/admin/provider/types/reservations.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/admin/pages/reservation/reservation_table.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
+import 'package:sizer/sizer.dart';
 
 class GenerateReservation extends StatefulWidget {
   final IconData icon;
@@ -61,32 +62,57 @@ class _GenerateReservationState extends State<GenerateReservation> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5))),
             child: InkWell(
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                      right: BorderSide(
-                        color: getColor(),
-                        width: 10,
-                      ),
-                    )),
-                    padding: const EdgeInsets.all(15),
-                    child: Row(children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          left: 0,
-                          right: 15,
-                        ),
-                        child: Icon(Icons.account_box_outlined, size: 50),
-                      ),
-                      Expanded(
-                        child: createReservationTable(
-                          context,
-                          widget.reservationOfCards,
-                          widget.reservationOfCards.name,
-                          returnedTranslated,
-                        ),
-                      ),
-                    ])),
+                child: SizerUtil.deviceType == DeviceType.mobile
+                    ? Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                          right: BorderSide(
+                            color: getColor(),
+                            width: 2.w,
+                          ),
+                        )),
+                        padding: const EdgeInsets.all(10),
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              right: 4.w,
+                            ),
+                            child: Icon(Icons.book, size: 50.sp),
+                          ),
+                          Expanded(
+                            child: createReservationTable(
+                              context,
+                              widget.reservationOfCards,
+                              widget.reservationOfCards.name,
+                              returnedTranslated,
+                            ),
+                          ),
+                        ]))
+                    : Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                          right: BorderSide(
+                            color: getColor(),
+                            width: 2.w,
+                          ),
+                        )),
+                        padding: const EdgeInsets.all(10),
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              right: 4.w,
+                            ),
+                            child: Icon(Icons.book, size: 40.sp),
+                          ),
+                          Expanded(
+                            child: createReservationTable(
+                              context,
+                              widget.reservationOfCards,
+                              widget.reservationOfCards.name,
+                              returnedTranslated,
+                            ),
+                          ),
+                        ])),
                 onTap: () {
                   showDialog(
                       context: context,

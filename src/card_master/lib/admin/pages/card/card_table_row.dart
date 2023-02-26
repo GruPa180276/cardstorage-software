@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 TableRow buildTableRow(
   BuildContext context,
   String labelName,
   dynamic value,
 ) {
-  return TableRow(
-    children: [
-      Text(
-        labelName,
-        style: const TextStyle(fontSize: 20),
-      ),
-      Text(
-        value.toString(),
-        style: const TextStyle(fontSize: 20),
-        textAlign: TextAlign.right,
-      )
-    ],
-  );
+  return SizerUtil.deviceType == DeviceType.mobile
+      ? TableRow(
+          children: [
+            Text(
+              labelName,
+              style: TextStyle(fontSize: 15.sp),
+            ),
+            Text(
+              value.toString(),
+              style: TextStyle(fontSize: 15.sp),
+              textAlign: TextAlign.right,
+            )
+          ],
+        )
+      : TableRow(
+          children: [
+            Text(
+              labelName,
+              style: TextStyle(fontSize: 13.sp),
+            ),
+            Text(
+              value.toString(),
+              style: TextStyle(fontSize: 13.sp),
+              textAlign: TextAlign.right,
+            )
+          ],
+        );
 }

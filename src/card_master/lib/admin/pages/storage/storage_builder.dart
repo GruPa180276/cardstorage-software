@@ -28,13 +28,11 @@ class _ListStoragesState extends State<ListStorages> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Storages>? data = snapshot.data;
-
           return ListView.builder(
               shrinkWrap: true,
               itemCount: data!.length,
               itemBuilder: (BuildContext context, int index) {
                 bool focusState = true;
-
                 for (int i = 0;
                     i < widget.listOfUnfocusedStorages.length;
                     i++) {
@@ -43,7 +41,6 @@ class _ListStoragesState extends State<ListStorages> {
                     focusState = false;
                   }
                 }
-
                 return GenerateStorage(
                   icon: Icons.storage,
                   route: "/alterStorage",

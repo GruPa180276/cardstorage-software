@@ -386,6 +386,12 @@ Refactored Reservation Page. (5h 30min)
 **26.2.2023: 9:00 bis : 14:00** <br>
 Habe heute fertig Refactored. Danach habe ich die App so umgebaut, das sich der Inhalt dynamisch an die größe des Display anpasst. Jetzt fehlt nur noch der Log-Out Button und der Button, zum wechseln zur Client Sicht. (5h)
 
+**27.2.2023: 8:20 bis : 12:30** <br>
+Log-Out Button, wechsel zur Client App hinzugefügt. User kann jetzt auch wieder Admin werden. (4h 10min)
+
+**27.2.2023: 13:45 bis : 15:25** <br>
+Refactored Middelware und Theme Provider. (1h 30min)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -499,4 +505,6 @@ Habe heute fertig Refactored. Danach habe ich die App so umgebaut, das sich der 
 - 9:00 bis 13:30 Uhr
 - 8:30 bis 12:30 Uhr
 - 9:00 bis 14:00 Uhr
+- 8:20 bis 12:30 Uhr
+- 13:45 bis 15:25 Uhr
 <!-- { "progress": false } -->

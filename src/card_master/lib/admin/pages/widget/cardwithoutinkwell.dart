@@ -28,9 +28,10 @@ class _GenerateCardWithoutInkWellState
               borderRadius: BorderRadius.circular(10),
             ),
             child: InkWell(
+              onTap: widget.onpressd,
               child: Container(
                 height: 85,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Stack(children: [
                   Positioned(
                       left: 100,
@@ -43,7 +44,6 @@ class _GenerateCardWithoutInkWellState
                       size: 60, color: Theme.of(context).primaryColor)
                 ]),
               ),
-              onTap: widget.onpressd,
             )));
   }
 }

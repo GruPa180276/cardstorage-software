@@ -22,7 +22,7 @@ class RouteGenerator {
     switch (settings.name) {
       // Cards
       case '/addCards':
-        return MaterialPageRoute(builder: ((context) => AddCards()));
+        return MaterialPageRoute(builder: ((context) => const AddCards()));
       case '/alterCards':
         if (args is String) {
           return MaterialPageRoute(
@@ -32,7 +32,7 @@ class RouteGenerator {
 
       // Storage
       case '/addStorage':
-        return MaterialPageRoute(builder: ((context) => AddStorage()));
+        return MaterialPageRoute(builder: ((context) => const AddStorage()));
       case '/alterStorage':
         if (args is String) {
           return MaterialPageRoute(
@@ -42,23 +42,25 @@ class RouteGenerator {
 
       //Settings
       case '/settings':
-        return MaterialPageRoute(builder: ((context) => Settings()));
+        return MaterialPageRoute(builder: ((context) => const Settings()));
 
       //Reservations
       case '/reservations':
-        return MaterialPageRoute(builder: ((context) => Reservations()));
+        return MaterialPageRoute(builder: ((context) => const Reservations()));
 
       //Users
       case '/users':
-        return MaterialPageRoute(builder: ((context) => UsersSettings()));
+        return MaterialPageRoute(builder: ((context) => const UsersSettings()));
 
       //Client-View
       case '/client':
-        return MaterialPageRoute(builder: ((context) => ClientNavigation()));
+        return MaterialPageRoute(
+            builder: ((context) => const ClientNavigation()));
 
       //Log-Out
       case '/logout':
-        return MaterialPageRoute(builder: ((context) => LoginUserScreen()));
+        return MaterialPageRoute(
+            builder: ((context) => const LoginUserScreen()));
 
       //Status
       case '/status':
@@ -76,8 +78,8 @@ class RouteGenerator {
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
-          appBar: AppBar(title: Text("Error")),
-          body: Center(
+          appBar: AppBar(title: const Text("Error")),
+          body: const Center(
             child: Text("Error"),
           ));
     });

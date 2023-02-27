@@ -50,7 +50,7 @@ Future<Response> fetchStorages() async {
 
 Future<Response> getStorageByName(Map<String, dynamic> data) async {
   return await get(
-    Uri.parse(storageAdress + "/name/" + data["name"]),
+    Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -61,7 +61,7 @@ Future<Response> getStorageByName(Map<String, dynamic> data) async {
 
 Future<Response> getAllCardsPerStorage(Map<String, dynamic> data) async {
   return await get(
-    Uri.parse(storageAdress + "/name/" + data["name"]),
+    Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -72,7 +72,7 @@ Future<Response> getAllCardsPerStorage(Map<String, dynamic> data) async {
 
 Future<Response> getUnfocusedStorage(Map<String, dynamic> data) async {
   return await get(
-    Uri.parse(storageAdress + "/focus/name/" + data["name"]),
+    Uri.parse("$storageAdress/focus/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -83,7 +83,7 @@ Future<Response> getUnfocusedStorage(Map<String, dynamic> data) async {
 
 Future<Response> focusStorage(Map<String, dynamic> data) async {
   return await put(
-    Uri.parse(storageAdress + "/focus/name/" + data["name"]),
+    Uri.parse("$storageAdress/focus/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -94,7 +94,7 @@ Future<Response> focusStorage(Map<String, dynamic> data) async {
 
 Future<Response> deleteStorage(Map<String, dynamic> data) async {
   return await delete(
-    Uri.parse(storageAdress + "/name/" + data["name"]),
+    Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -105,7 +105,7 @@ Future<Response> deleteStorage(Map<String, dynamic> data) async {
 
 Future<Response> updateStorage(Map<String, dynamic> data) async {
   return await put(
-    Uri.parse(storageAdress + "/name/" + data["name"]),
+    Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",

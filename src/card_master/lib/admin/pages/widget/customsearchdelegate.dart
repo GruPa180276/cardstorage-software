@@ -57,9 +57,9 @@ class CustomSearchDelegate extends SearchDelegate {
             ),
             child: InkWell(
                 child: Container(
-                  padding: EdgeInsets.all(10),
-                  margin:
-                      EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(
+                      left: 10, top: 5, right: 10, bottom: 5),
                   child: Column(children: [
                     Text(
                       result.toString(),
@@ -93,9 +93,9 @@ class CustomSearchDelegate extends SearchDelegate {
             ),
             child: InkWell(
                 child: Container(
-                  padding: EdgeInsets.all(10),
-                  margin:
-                      EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(
+                      left: 10, top: 5, right: 10, bottom: 5),
                   child: Column(children: [
                     Text(
                       result.toString(),

@@ -96,7 +96,9 @@ class _StorageViewState extends State<StorageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: generateAppBar(context),
-      floatingActionButton: GenerateReloadButton(load),
+      floatingActionButton: GenerateReloadButton(
+        callBack: load,
+      ),
       body: Container(
           padding: const EdgeInsets.all(5),
           child: Column(children: [

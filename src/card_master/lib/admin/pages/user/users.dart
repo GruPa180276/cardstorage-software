@@ -65,7 +65,7 @@ class _StorageViewState extends State<UsersSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: GenerateReloadButton(fetchData),
+        floatingActionButton: GenerateReloadButton(callBack: fetchData),
         appBar: SizerUtil.deviceType == DeviceType.mobile
             ? AppBar(
                 toolbarHeight: 7.h,

@@ -1,16 +1,14 @@
-import 'package:card_master/admin/provider/types/cardReservation.dart';
-import 'package:card_master/admin/provider/types/cards.dart';
-import 'package:card_master/admin/provider/types/reservations.dart';
-import 'package:card_master/client/domain/types/snackbar_type.dart';
-import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart';
 import 'package:card_master/admin/provider/types/user.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/provider/middelware.dart';
-import 'package:card_master/admin/pages/widget/listTile.dart';
+import 'package:card_master/admin/pages/widget/list_tile.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/admin/provider/types/card_reservation.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 
 class BuildAlterStorageForm extends StatefulWidget {
   final BuildContext context;

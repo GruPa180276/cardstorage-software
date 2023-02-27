@@ -1,3 +1,4 @@
+import 'package:card_master/admin/config/adress.dart';
 import 'package:http/http.dart';
 
 class Auth {
@@ -16,7 +17,7 @@ class Auth {
 
 Future<Response> authAdminLogin(Map<String, dynamic> data) async {
   return await get(
-    Uri.parse("https://10.0.2.2:7171/api/v1/auth/user/email/" + data["name"]),
+    Uri.parse("$adress/api/v1/auth/user/email/${data["name"]}"),
     headers: <String, String>{
       'Content-Type': 'text/plain',
     },

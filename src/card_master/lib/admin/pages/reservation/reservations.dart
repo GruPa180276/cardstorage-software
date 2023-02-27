@@ -6,7 +6,7 @@ import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/time.dart';
 import 'package:card_master/admin/pages/widget/reloadbutton.dart';
 import 'package:card_master/admin/provider/types/reservations.dart';
-import 'package:card_master/admin/provider/types/cardReservation.dart';
+import 'package:card_master/admin/provider/types/card_reservation.dart';
 import 'package:card_master/admin/pages/reservation/reservation_time.dart';
 import 'package:card_master/admin/pages/reservation/reservation_builder.dart';
 import 'package:sizer/sizer.dart';
@@ -96,7 +96,7 @@ class _SettingsPageState extends State<Reservations> {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
-        floatingActionButton: GenerateReloadButton(fetchData),
+        floatingActionButton: GenerateReloadButton(callBack: fetchData),
         appBar: SizerUtil.deviceType == DeviceType.mobile
             ? AppBar(
                 toolbarHeight: 7.h,

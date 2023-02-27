@@ -54,7 +54,7 @@ Future<Response> fetchCards() async {
 
 Future<Response> getCardByName(Map<String, dynamic> data) async {
   return await get(
-    Uri.parse(cardAdress + "/name/" + data["name"]),
+    Uri.parse("$cardAdress/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -65,7 +65,7 @@ Future<Response> getCardByName(Map<String, dynamic> data) async {
 
 Future<Response> deleteCard(Map<String, dynamic> data) async {
   return await delete(
-    Uri.parse(cardAdress + "/name/" + data["name"]),
+    Uri.parse("$cardAdress/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -76,7 +76,7 @@ Future<Response> deleteCard(Map<String, dynamic> data) async {
 
 Future<Response> updateCard(Map<String, dynamic> data) async {
   return await put(
-    Uri.parse(cardAdress + "/name/" + data["name"]),
+    Uri.parse("$cardAdress/name/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",

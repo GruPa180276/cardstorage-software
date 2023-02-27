@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:card_master/admin/config/adress.dart';
@@ -27,7 +26,7 @@ class ReservationTime {
 
 Future<Response> getReservationLatestGetTime() async {
   return await get(
-    Uri.parse(reservationAdress + "/time"),
+    Uri.parse("$reservationAdress/time"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -39,7 +38,7 @@ Future<Response> getReservationLatestGetTime() async {
 Future<Response> changeReservationLatestGetTime(
     Map<String, dynamic> data) async {
   return await put(
-    Uri.parse(reservationAdress + "/time/hours/" + data["data"]),
+    Uri.parse("$reservationAdress/time/hours/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",

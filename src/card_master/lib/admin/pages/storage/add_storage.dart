@@ -1,14 +1,10 @@
-import 'package:card_master/admin/pages/storage/add_storage_form.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-
-import 'package:card_master/admin/provider/middelware.dart';
-import 'package:card_master/admin/provider/types/user.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
-import 'package:card_master/admin/pages/widget/listTile.dart';
-import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:sizer/sizer.dart';
+import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/admin/provider/types/storages.dart';
+import 'package:card_master/admin/pages/storage/add_storage_form.dart';
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);

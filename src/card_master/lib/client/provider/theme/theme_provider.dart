@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:card_master/client/config/palette.dart';
+
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {

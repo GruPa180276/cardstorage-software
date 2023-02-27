@@ -117,7 +117,9 @@ class _CardsViewState extends State<CardsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: GenerateReloadButton(load),
+      floatingActionButton: GenerateReloadButton(
+        callBack: load,
+      ),
       appBar: generateAppBar(context),
       body: Container(
           padding: const EdgeInsets.all(5),

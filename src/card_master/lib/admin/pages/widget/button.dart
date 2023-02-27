@@ -19,25 +19,17 @@ Expanded generateButtonRound(BuildContext context, String buttonText,
         foregroundColor: Theme.of(context).focusColor,
       ),
       icon: SizerUtil.deviceType == DeviceType.mobile
-          ? Container(
-              child: Icon(
-                buttonIcon,
-                size: 26.0.sp,
-              ),
+          ? Icon(
+              buttonIcon,
+              size: 26.0.sp,
             )
-          : Container(
-              child: Icon(
-                buttonIcon,
-                size: 18.0.sp,
-              ),
+          : Icon(
+              buttonIcon,
+              size: 18.0.sp,
             ),
       label: SizerUtil.deviceType == DeviceType.mobile
-          ? Container(
-              child: Text(buttonText, style: TextStyle(fontSize: 20.sp)),
-            )
-          : Container(
-              child: Text(buttonText, style: TextStyle(fontSize: 15.sp)),
-            ),
+          ? Text(buttonText, style: TextStyle(fontSize: 20.sp))
+          : Text(buttonText, style: TextStyle(fontSize: 15.sp)),
     ),
   );
 }
@@ -59,19 +51,15 @@ ElevatedButton generateButtonRectangle(
       foregroundColor: Theme.of(context).focusColor,
     ),
     child: SizerUtil.deviceType == DeviceType.mobile
-        ? Container(
-            child: Text(
-              buttonText,
-              style: TextStyle(fontSize: 20.sp),
-              textAlign: TextAlign.center,
-            ),
+        ? Text(
+            buttonText,
+            style: TextStyle(fontSize: 20.sp),
+            textAlign: TextAlign.center,
           )
-        : Container(
-            child: Text(
-              buttonText,
-              style: TextStyle(fontSize: 15.sp),
-              textAlign: TextAlign.center,
-            ),
+        : Text(
+            buttonText,
+            style: TextStyle(fontSize: 15.sp),
+            textAlign: TextAlign.center,
           ),
   );
 }

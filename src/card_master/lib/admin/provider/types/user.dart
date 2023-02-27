@@ -46,7 +46,7 @@ Future<Response> fetchUsers() async {
 
 Future<Response> updateData(Map<String, dynamic> data) async {
   return await put(
-    Uri.parse(usersAdress + "/email/" + data["name"]),
+    Uri.parse("$usersAdress/email/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",
@@ -58,7 +58,7 @@ Future<Response> updateData(Map<String, dynamic> data) async {
 
 Future<Response> deleteUser(Map<String, dynamic> data) async {
   return await delete(
-    Uri.parse(usersAdress + "/email/" + data["name"]),
+    Uri.parse("$usersAdress/email/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",

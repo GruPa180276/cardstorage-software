@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:card_master/admin/provider/middelware.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
-import 'package:card_master/admin/pages/widget/listTile.dart';
+import 'package:card_master/admin/pages/widget/list_tile.dart';
 import 'package:card_master/admin/pages/card/timer_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/card/storage_selector.dart';

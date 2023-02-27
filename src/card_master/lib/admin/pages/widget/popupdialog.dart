@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 Widget generatePopupDialog(BuildContext context) {
-  return new AlertDialog(
+  return AlertDialog(
     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     title: Text(
       'Karte hinzufügen',
       style: TextStyle(color: Theme.of(context).primaryColor),
     ),
-    content: new Column(
+    content: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -19,7 +19,7 @@ Widget generatePopupDialog(BuildContext context) {
     ),
     actions: <Widget>[
       Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         height: 70,
         child: Column(children: [
           SizedBox(
@@ -30,15 +30,15 @@ Widget generatePopupDialog(BuildContext context) {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 },
-                child: Text(
-                  "Abschließen",
-                  style: TextStyle(color: Theme.of(context).focusColor),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).secondaryHeaderColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                ),
+                child: Text(
+                  "Abschließen",
+                  style: TextStyle(color: Theme.of(context).focusColor),
                 ),
               ))
         ]),

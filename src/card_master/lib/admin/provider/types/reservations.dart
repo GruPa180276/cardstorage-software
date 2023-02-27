@@ -51,7 +51,7 @@ Future<Response> fetchRservations() async {
 
 Future<Response> deleteReservation(Map<String, dynamic> data) async {
   return await delete(
-    Uri.parse(reservationAdress + "/id/" + data["name"]),
+    Uri.parse("$reservationAdress/id/${data["name"]}"),
     headers: {
       HttpHeaders.authorizationHeader:
           "Bearer ${await SecureStorage.getToken()}",

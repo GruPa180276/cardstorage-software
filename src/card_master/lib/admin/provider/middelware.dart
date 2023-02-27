@@ -14,9 +14,9 @@ class Data {
       Map<String, dynamic>? args}) async {
     try {
       Response response;
-      /*if (bearerToken == null) {
-        SecureStorage.setToken();
-      }*/
+      if (bearerToken == null) {
+        SecureStorage.setToken(context!);
+      }
       response = (args != null) ? await function(args) : await function();
 
       if (response.statusCode == 401) {

@@ -12,8 +12,8 @@ Table createReservationTable(
 ) {
   return Table(
     columnWidths: const {
-      0: FractionColumnWidth(0.39),
-      1: FractionColumnWidth(0.60),
+      0: FractionColumnWidth(0.34),
+      1: FractionColumnWidth(0.65),
     },
     children: [
       buildTableRow(context, "Name", cardName),

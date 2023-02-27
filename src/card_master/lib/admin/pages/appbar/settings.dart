@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:card_master/admin/provider/theme/themes.dart';
 import 'package:card_master/admin/config/theme/app_preference.dart';
+import 'package:sizer/sizer.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -23,13 +24,25 @@ class _SettingsPageState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Einstellungen",
-          style: TextStyle(color: Theme.of(context).focusColor, fontSize: 25),
-        ),
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-      ),
+      appBar: SizerUtil.deviceType == DeviceType.mobile
+          ? AppBar(
+              toolbarHeight: 7.h,
+              title: Text(
+                "Einstellungen",
+                style: TextStyle(
+                    color: Theme.of(context).focusColor, fontSize: 20.sp),
+              ),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+            )
+          : AppBar(
+              toolbarHeight: 8.h,
+              title: Text(
+                "Einstellungen",
+                style: TextStyle(
+                    color: Theme.of(context).focusColor, fontSize: 18.sp),
+              ),
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+            ),
       body: Column(
         children: [buildChangeThemeMode(context)],
       ),
@@ -37,29 +50,61 @@ class _SettingsPageState extends State<Settings> {
   }
 
   Widget buildChangeThemeMode(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(5),
-        child: Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: SwitchListTile(
-                activeColor: Theme.of(context).primaryColor,
-                value: isDark,
-                controlAffinity: ListTileControlAffinity.trailing,
-                title: Text(
-                  "Switch Theme Mode",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+    return SizerUtil.deviceType == DeviceType.mobile
+        ? Container(
+            height: 70,
+            padding: const EdgeInsets.all(5),
+            child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                onChanged: (value) {
-                  AppPreferences.setIsOn(value);
-                  final provider =
-                      Provider.of<ThemeProvider>(context, listen: false);
-                  isDark = value;
-                  setState(() {
-                    provider.toggleTheme(value);
-                  });
-                })));
+                child: SwitchListTile(
+                    activeColor: Theme.of(context).primaryColor,
+                    value: isDark,
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    title: Text(
+                      "Switch Theme Mode",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      AppPreferences.setIsOn(value);
+                      final provider =
+                          Provider.of<ThemeProvider>(context, listen: false);
+                      isDark = value;
+                      setState(() {
+                        provider.toggleTheme(value);
+                      });
+                    })))
+        : Container(
+            padding: const EdgeInsets.all(5),
+            child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SwitchListTile(
+                    activeColor: Theme.of(context).primaryColor,
+                    value: isDark,
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    title: Text(
+                      "Switch Theme Mode",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      AppPreferences.setIsOn(value);
+                      final provider =
+                          Provider.of<ThemeProvider>(context, listen: false);
+                      isDark = value;
+                      setState(() {
+                        provider.toggleTheme(value);
+                      });
+                    })));
   }
 }

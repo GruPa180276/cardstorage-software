@@ -31,11 +31,11 @@ class Websockets {
 
   static void setupWebSockets() async {
     List<String> urls = [
-      'wss://10.0.2.2:7171/api/v1/controller/log',
-      'wss://10.0.2.2:7171/api/v1/storages/log',
-      'wss://10.0.2.2:7171/api/v1/storages/cards/log',
-      'wss://10.0.2.2:7171/api/v1/reservations/log',
-      'wss://10.0.2.2:7171/api/v1/users/log',
+      'wss://192.168.85.9:7171/api/v1/controller/log',
+      'wss://192.168.85.9:7171/api/v1/storages/log',
+      'wss://192.168.85.9:7171/api/v1/storages/cards/log',
+      'wss://192.168.85.9:7171/api/v1/reservations/log',
+      'wss://192.168.85.9:7171/api/v1/users/log',
     ];
 
     for (String url in urls) {

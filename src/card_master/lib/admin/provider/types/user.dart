@@ -52,7 +52,7 @@ Future<Response> updateData(Map<String, dynamic> data) async {
           "Bearer ${await SecureStorage.getToken()}",
       "Content-Type": "application/json"
     },
-    body: jsonEncode(data),
+    body: jsonEncode(data["data"]),
   );
 }
 

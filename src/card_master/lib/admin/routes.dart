@@ -1,3 +1,5 @@
+import 'package:card_master/client/pages/login/login_user_page.dart';
+import 'package:card_master/client/pages/navigation/client_navigation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/user/users.dart';
@@ -49,6 +51,14 @@ class RouteGenerator {
       //Users
       case '/users':
         return MaterialPageRoute(builder: ((context) => UsersSettings()));
+
+      //Client-View
+      case '/client':
+        return MaterialPageRoute(builder: ((context) => ClientNavigation()));
+
+      //Log-Out
+      case '/logout':
+        return MaterialPageRoute(builder: ((context) => LoginUserScreen()));
 
       //Status
       case '/status':

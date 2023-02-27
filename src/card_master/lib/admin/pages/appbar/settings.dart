@@ -1,3 +1,4 @@
+import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _SettingsPageState extends State<Settings> {
               backgroundColor: Theme.of(context).secondaryHeaderColor,
             ),
       body: Column(
-        children: [buildChangeThemeMode(context)],
+        children: [Expanded(child: buildChangeThemeMode(context))],
       ),
     );
   }
@@ -52,59 +53,90 @@ class _SettingsPageState extends State<Settings> {
   Widget buildChangeThemeMode(BuildContext context) {
     return SizerUtil.deviceType == DeviceType.mobile
         ? Container(
-            height: 70,
             padding: const EdgeInsets.all(5),
-            child: Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: SwitchListTile(
-                    activeColor: Theme.of(context).primaryColor,
-                    value: isDark,
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    title: Text(
-                      "Switch Theme Mode",
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 16.sp,
-                      ),
+            child: Column(
+              children: [
+                Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    onChanged: (value) {
-                      AppPreferences.setIsOn(value);
-                      final provider =
-                          Provider.of<ThemeProvider>(context, listen: false);
-                      isDark = value;
-                      setState(() {
-                        provider.toggleTheme(value);
-                      });
-                    })))
+                    child: SwitchListTile(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: isDark,
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        title: Text(
+                          "Switch Theme Mode",
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          AppPreferences.setIsOn(value);
+                          final provider = Provider.of<ThemeProvider>(context,
+                              listen: false);
+                          isDark = value;
+                          setState(() {
+                            provider.toggleTheme(value);
+                          });
+                        })),
+                SizedBox(
+                  height: 1.h,
+                ),
+                generateButtonRectangle(
+                  context,
+                  "Zur Client Sicht",
+                  () {
+                    Navigator.of(context).pushNamed(
+                      "/client",
+                    );
+                  },
+                ),
+              ],
+            ))
         : Container(
             padding: const EdgeInsets.all(5),
-            child: Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: SwitchListTile(
-                    activeColor: Theme.of(context).primaryColor,
-                    value: isDark,
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    title: Text(
-                      "Switch Theme Mode",
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 12.sp,
-                      ),
+            child: Column(
+              children: [
+                Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    onChanged: (value) {
-                      AppPreferences.setIsOn(value);
-                      final provider =
-                          Provider.of<ThemeProvider>(context, listen: false);
-                      isDark = value;
-                      setState(() {
-                        provider.toggleTheme(value);
-                      });
-                    })));
+                    child: SwitchListTile(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: isDark,
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        title: Text(
+                          "Switch Theme Mode",
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          AppPreferences.setIsOn(value);
+                          final provider = Provider.of<ThemeProvider>(context,
+                              listen: false);
+                          isDark = value;
+                          setState(() {
+                            provider.toggleTheme(value);
+                          });
+                        })),
+                SizedBox(
+                  height: 1.h,
+                ),
+                generateButtonRectangle(
+                  context,
+                  "Zur Client Sicht",
+                  () {
+                    Navigator.of(context).pushNamed(
+                      "/client",
+                    );
+                  },
+                ),
+              ],
+            ));
   }
 }

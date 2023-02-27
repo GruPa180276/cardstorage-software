@@ -21,7 +21,7 @@ AppBar generateAppBar(BuildContext context) {
             generateIconButton(context, Icons.settings, "/settings"),
             generateIconButton(context, Icons.bookmark, "/reservations"),
             generateIconButton(context, Icons.account_box, "/users"),
-            generateIconButton(context, Icons.logout, ""),
+            generateIconButton(context, Icons.logout, "/logout"),
           ],
         )
       : AppBar(
@@ -37,7 +37,7 @@ AppBar generateAppBar(BuildContext context) {
             generateIconButton(context, Icons.settings, "/settings"),
             generateIconButton(context, Icons.bookmark, "/reservations"),
             generateIconButton(context, Icons.account_box, "/users"),
-            generateIconButton(context, Icons.logout, ""),
+            generateIconButton(context, Icons.logout, "/logout"),
           ],
         );
 }

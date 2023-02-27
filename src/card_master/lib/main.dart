@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:card_master/admin/config/token_manager.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:card_master/client/provider/theme/rfid_themes.dart';
 import 'package:card_master/routes.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
   const MyApp({required this.rememberState, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    SecureStorage.storage.deleteAll();
+    SecureStorage.setToken(context);
+
     return ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
       builder: (context, _) {

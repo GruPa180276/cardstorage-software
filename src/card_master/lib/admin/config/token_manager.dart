@@ -1,3 +1,4 @@
+import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/auth.dart';
@@ -9,15 +10,19 @@ class SecureStorage {
   static late String auth;
 
   static void setToken(BuildContext context) async {
-    String mail = "card_storage_admin@default.com";
+    String? mail = "";
 
-    var response = await Data.checkAuthorization(
-      context: context,
-      function: authAdminLogin,
-      args: {"name": mail},
-    );
-    auth = response!.body;
-    storage.write(key: "jwt", value: auth);
+    mail = await UserSecureStorage.getUserEmail();
+
+    if (context.mounted) {
+      var response = await Data.checkAuthorization(
+        context: context,
+        function: authAdminLogin,
+        args: {"name": mail},
+      );
+      auth = response!.body;
+      storage.write(key: "jwt", value: auth);
+    }
   }
 
   static Future<String?> getToken() async {

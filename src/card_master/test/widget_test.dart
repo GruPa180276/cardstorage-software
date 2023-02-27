@@ -13,7 +13,9 @@ import 'package:card_master/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const AppStart());
+    await tester.pumpWidget(const MyApp(
+      rememberState: false,
+    ));
 
     // await tester.pumpWidget(const AppStart());
 

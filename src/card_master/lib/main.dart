@@ -1,24 +1,78 @@
-import 'package:flutter/material.dart';
-
 import 'dart:io';
-import 'dart:async';
-import 'package:flutter/services.dart';
+
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
+import 'package:card_master/client/provider/theme/rfid_themes.dart';
+import 'package:card_master/routes.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:card_master/admin/routes.dart';
-import 'package:card_master/admin/config/token_manager.dart';
-import 'package:card_master/admin/provider/theme/themes.dart';
-import 'package:card_master/admin/config/theme/app_preference.dart';
-import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
-import 'package:sizer/sizer.dart';
+import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
+import 'package:card_master/client/pages/login/login_user_page.dart';
+import 'package:card_master/client/pages/navigation/client_navigation.dart';
+import 'package:card_master/client/provider/theme/theme_provider.dart';
+import 'package:card_master/client/domain/persistent/app_preferences.dart';
+import 'client/config/properties/server_properties.dart';
 
-// Change app icon -> pubsec.yaml
-// https://pub.dev/packages/flutter_launcher_icons
-// Fix -> C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_launcher_icons-0.9.3\lib\android.dart
+Future main() async {
+  await ServerProperties.loadEnv();
 
-// Change app name -> pubsec.yaml
-// https://pub.dev/packages/flutter_app_name
-// Replace this line -> final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
-// with this -> final String minSdk = "21"; // line.replaceAll(RegExp(r'[^\d]'), '');
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppPreferences.init();
+  late bool? rememberState;
+  HttpOverrides.global = MyHttpOverrides();
+  rememberState = await UserSecureStorage.getRememberState() ?? false;
+  if (rememberState) {
+    if (!await UserSessionManager.reloadUserData()) {
+      rememberState = false;
+    } else {
+      UserSessionManager.fromJson(
+          await UserSecureStorage.getUserValues(), null);
+    }
+  }
+
+  runApp(MyApp(
+    rememberState: rememberState,
+  ));
+}
+
+class MyApp extends StatelessWidget {
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
+  static const String title = 'Rfid Card Management App';
+  final bool rememberState;
+  const MyApp({required this.rememberState, Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      builder: (context, _) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+        if (rememberState) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: title,
+            themeMode: themeProvider.getThemeMode(),
+            theme: RifdAppThemes.lightTheme,
+            darkTheme: RifdAppThemes.darkTheme,
+            routes: routes,
+            home: const ClientNavigation(),
+            navigatorKey: navigatorKey,
+          );
+        }
+
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: title,
+          themeMode: themeProvider.getThemeMode(),
+          theme: RifdAppThemes.lightTheme,
+          darkTheme: RifdAppThemes.darkTheme,
+          routes: routes,
+          home: const LoginUserScreen(),
+          navigatorKey: navigatorKey,
+        );
+      },
+    );
+  }
+}
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -26,73 +80,5 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
-  }
-}
-
-Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await AppPreferences.init();
-
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.black,
-  ));
-
-  HttpOverrides.global = MyHttpOverrides();
-
-  runApp(const AppStart());
-}
-
-class AppStart extends StatelessWidget {
-  const AppStart({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ThemeProvider(),
-        builder: (context, _) {
-          final themeProvider = Provider.of<ThemeProvider>(context);
-
-          return Sizer(
-            builder: (context, orientation, deviceType) {
-              return MaterialApp(
-                title: 'Splash Screen',
-                themeMode: themeProvider.themeMode,
-                theme: MyThemes.lightTheme,
-                darkTheme: MyThemes.darkTheme,
-                debugShowCheckedModeBanner: false,
-                home: const SplashScreen(),
-                onGenerateRoute: RouteGenerator.generateRoute,
-              );
-            },
-          );
-        });
-  }
-}
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    SecureStorage.storage.deleteAll();
-    SecureStorage.setToken(context);
-    Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const BottomNavigation())));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Theme.of(context).focusColor,
-        child:
-            Image.asset("img/splashscreen.jpg", height: 200.0, width: 200.0));
   }
 }

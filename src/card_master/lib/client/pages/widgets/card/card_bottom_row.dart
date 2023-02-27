@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/inherited/card_inherited.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/types/timer_action_type.dart';
@@ -57,9 +59,22 @@ class ReaderCardButtons extends StatelessWidget {
                           );
                           await reqTimer.startTimer();
                           if (reqTimer.getSuccessful()) {
+                            FeedbackBuilder(
+                                    context: context,
+                                    snackbarType: FeedbackType.success,
+                                    header: "Karten wird heruntergelassen!",
+                                    content: null)
+                                .build();
                             cardData.setState!(() {
                               cardData.card.available = false;
                             });
+                          } else {
+                            FeedbackBuilder(
+                                    context: context,
+                                    snackbarType: reqTimer.getFeedbackType()!,
+                                    header: "Karte abholen gescheitert",
+                                    content: reqTimer.getResponse())
+                                .build();
                           }
                         } catch (e) {}
                       }),

@@ -16,22 +16,27 @@ import 'package:web_socket_channel/io.dart';
 import '../widget/circular_timer/circular_countdown_timer.dart';
 
 class RequestTimer {
-  Map? _responseData;
+  String? _responseData;
   var timerController = CountDownController();
   late bool _successful = false;
-  int i = 0;
-  IOWebSocketChannel? channel;
+  IOWebSocketChannel? _websocket;
   final BuildContext context;
   final TimerAction action;
   final ReaderCard? card;
   final String? email;
   final String? storagename;
+  late FeedbackType _feedbackType;
+
   bool getSuccessful() {
     return _successful;
   }
 
-  Map getResponse() {
-    return _responseData ?? {"Error": "No Message received"};
+  String? getResponse() {
+    return _responseData;
+  }
+
+  FeedbackType? getFeedbackType() {
+    return _feedbackType;
   }
 
   RequestTimer(
@@ -43,14 +48,14 @@ class RequestTimer {
 
   Future<void> startTimer() async {
     _successful = false;
-    channel = IOWebSocketChannel.connect(
+    _websocket = IOWebSocketChannel.connect(
         Uri.parse(
             'wss://${ServerProperties.getServer()}:${ServerProperties.getRestPort()}${ServerProperties.getBaseUri()}controller/log'),
         headers: {
           "Accept": "application/json",
           HttpHeaders.authorizationHeader: "Bearer ${Data.bearerToken}",
         });
-    _streamListener();
+    _websocketListener();
     return showDialog(
         //useRootNavigator: false,
         context: context,
@@ -85,26 +90,10 @@ class RequestTimer {
                       isTimerTextShown: true,
                       autoStart: true,
                       onComplete: (() {
-                        if (card != null && i == 0) {
-                          FeedbackBuilder(
-                                  context: context,
-                                  snackbarType: FeedbackType.warning,
-                                  header: "Zeit ist abgelaufen!",
-                                  content: _responseData)
-                              .build();
-                          Navigator.of(context).maybePop();
-                          channel!.sink.close();
-                        } else if (storagename != null && i == 0) {
-                          FeedbackBuilder(
-                                  context: context,
-                                  snackbarType: FeedbackType.warning,
-                                  header: "Zeit ist abgelaufen!",
-                                  content: _responseData)
-                              .build();
-                          Navigator.of(context).maybePop();
-                          channel!.sink.close();
-                        }
-                        i++;
+                        _feedbackType = FeedbackType.warning;
+                        _responseData = "Zeit ist abgelaufen!";
+                        Navigator.of(context).maybePop();
+                        _websocket!.sink.close();
                       }),
                       onStart: () async {
                         //maybe you need threading
@@ -114,11 +103,9 @@ class RequestTimer {
                               function: Data.postGetCardNow,
                               args: {"cardname": card!.name});
                           if (response!.statusCode != 200) {
-                            FeedbackBuilder(
-                                context: context,
-                                snackbarType: FeedbackType.failure,
-                                header: "Verbindungsfehler!",
-                                content: response.body);
+                            _feedbackType = FeedbackType.failure;
+                            _responseData = response.body;
+
                             Navigator.maybePop(context);
                           }
                         } else if (action == TimerAction.SIGNUP) {
@@ -130,11 +117,8 @@ class RequestTimer {
                                 "email": email!
                               });
                           if (response!.statusCode != 200) {
-                            FeedbackBuilder(
-                                context: context,
-                                snackbarType: FeedbackType.failure,
-                                header: "Verbindungsfehler!",
-                                content: response.body);
+                            _feedbackType = FeedbackType.failure;
+                            _responseData = response.body;
                             Navigator.maybePop(context);
                           }
                         }
@@ -164,46 +148,15 @@ class RequestTimer {
         });
   }
 
-  _streamListener() {
-    channel!.stream.listen((message) async {
-      _responseData = jsonDecode(message);
-      _successful = _responseData!["successful"] ??
-          _responseData!["status"]["successful"];
-      i++;
-      channel!.sink.close();
-      if (card != null && i == 1) {
-        if (_successful) {
-          FeedbackBuilder(
-                  context: context,
-                  snackbarType: FeedbackType.success,
-                  header: "Karte wird heruntergelassen!",
-                  content: null)
-              .build();
-        } else {
-          FeedbackBuilder(
-                  context: context,
-                  snackbarType: FeedbackType.failure,
-                  header: "Verbindungsfehler!",
-                  content: _responseData)
-              .build();
-        }
-      } else if (storagename != null && i == 1) {
-        if (_successful) {
-          FeedbackBuilder(
-                  context: context,
-                  snackbarType: FeedbackType.success,
-                  header: "Registrierung erfolgreich!",
-                  content: null)
-              .build();
-        } else {
-          FeedbackBuilder(
-                  context: context,
-                  snackbarType: FeedbackType.failure,
-                  header: "Verbindungsfehler!",
-                  content: _responseData)
-              .build();
-        }
-      }
+  _websocketListener() {
+    _websocket!.stream.listen((message) async {
+      var response = jsonDecode(message);
+      _successful =
+          response!["successful"] ?? response!["status"]["successful"];
+      _responseData = response.toString();
+      _feedbackType =
+          (_successful) ? FeedbackType.success : FeedbackType.failure;
+      _websocket!.sink.close();
       Navigator.of(context).maybePop();
     });
   }

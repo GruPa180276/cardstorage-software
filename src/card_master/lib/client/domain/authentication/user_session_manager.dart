@@ -1,6 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:card_master/client/domain/exception/response_exception.dart';
+import 'package:card_master/client/domain/types/snackbar_type.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/authentication/authentication.dart';
 import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
@@ -62,7 +65,7 @@ class UserSessionManager {
   static Future<bool> reloadUserData() async {
     var response = await Data.checkAuthorization(
         function: Data.getUserByName, args: {"email": _email});
-    if (response!.statusCode != 200) {
+    if (response == null || response.statusCode != 200) {
       return false;
     }
     var jsonUserObject = jsonDecode(response.body);
@@ -124,7 +127,8 @@ class UserSessionManager {
 
       // Überprüfen, ob das Popup-Fenster erfolgreich war
       if (!StorageSelectPopUp.getSuccessful()) {
-        return false;
+        throw FeedbackException(
+            FeedbackType.help, 'Es wurde kein Storage ausgewählt!');
       }
       // Timer starten, um die Anforderungsdauer zu messen
       var reqTimer = RequestTimer(
@@ -137,9 +141,16 @@ class UserSessionManager {
 
       // Überprüfen, ob der Timer erfolgreich war
       if (!reqTimer.getSuccessful()) {
-        return false;
+        throw FeedbackException(
+            reqTimer.getFeedbackType()!, reqTimer.getResponse().toString());
       }
       // Benutzerwerte setzen und speichern
+      FeedbackBuilder(
+              context: context,
+              snackbarType: FeedbackType.success,
+              header: "Registrierung erfolgreich!",
+              content: null)
+          .build();
       UserSessionManager.fromJson(null, microsoftJsonObject);
       if (rememberValue) {
         UserSecureStorage.setRememberState(rememberValue.toString());
@@ -147,6 +158,15 @@ class UserSessionManager {
       }
       return true;
     } catch (e) {
+      if (e is FeedbackException) {
+        FeedbackBuilder(
+                context: context,
+                snackbarType: e.feedbackType,
+                header: "Registrierung gescheitert!",
+                content: e.toString())
+            .build();
+      }
+
       return false;
     }
   }

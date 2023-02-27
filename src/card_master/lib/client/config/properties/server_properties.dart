@@ -9,7 +9,7 @@ class ServerProperties {
   static const BASE_URI = '/api/v1/';
 
   static Future<void> loadEnv() async {
-    await dotenv.load(fileName: "assets/.env");
+    //await dotenv.load(fileName: "assets/.env");
   }
 
   static String getServer() {

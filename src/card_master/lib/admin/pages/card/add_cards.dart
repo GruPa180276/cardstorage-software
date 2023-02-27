@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -17,7 +18,6 @@ import 'package:card_master/admin/pages/card/storage_selector.dart';
 import 'package:web_socket_channel/io.dart';
 
 import '../../../client/domain/types/snackbar_type.dart';
-import '../../../client/pages/widgets/pop_up/response_snackbar.dart';
 
 class AddCards extends StatefulWidget {
   const AddCards({Key? key}) : super(key: key);
@@ -149,16 +149,16 @@ class _GenerateCardsState extends State<GenerateCards> {
           _responseData!["status"]["successful"];
       channel!.sink.close();
       if (_successful!) {
-        SnackbarBuilder(
+        FeedbackBuilder(
                 context: context,
-                snackbarType: SnackbarType.success,
+                snackbarType: FeedbackType.success,
                 header: "Karte wird heruntergelassen!",
                 content: null)
             .build();
       } else {
-        SnackbarBuilder(
+        FeedbackBuilder(
                 context: context,
-                snackbarType: SnackbarType.failure,
+                snackbarType: FeedbackType.failure,
                 header: "Verbindungsfehler!",
                 content: _responseData)
             .build();

@@ -21,7 +21,7 @@ class LoginUserScreen extends StatefulWidget {
 }
 
 class _LoginUserScreenState extends State<LoginUserScreen> {
-  bool rememberValue = false;
+  bool _rememberValue = false;
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -55,7 +55,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                     text: 'Einloggen mit Microsoft',
                     textColor: Colors.white,
                     onPress: () {
-                      sigIn();
+                      handleSignIn();
                     },
                   )),
               buildRememberMe(this.context),
@@ -118,11 +118,11 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
           ),
         ),
         //contentPadding: EdgeInsets.fromLTRB(50, 0, 0, 0),
-        value: rememberValue,
+        value: _rememberValue,
 
         onChanged: (newValue) {
           setState(() {
-            rememberValue = newValue!;
+            _rememberValue = newValue!;
           });
         },
         controlAffinity: ListTileControlAffinity.leading,
@@ -167,8 +167,8 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
     );
   }
 
-  void sigIn() async {
-    var loginResult = await UserSessionManager.login(rememberValue);
+  void handleSignIn() async {
+    var loginResult = await UserSessionManager.login(_rememberValue);
     if (loginResult == null) return;
 
     switch (loginResult.item1) {
@@ -179,7 +179,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
 
       case LoginStatusType.NOTREGISTERED:
         if (await UserSessionManager.signUp(
-            context, loginResult.item2, rememberValue)) {
+            context, loginResult.item2, _rememberValue)) {
           Navigator.pushNamedAndRemoveUntil(
               context, "/clientnavigation", (Route<dynamic> route) => false);
         }

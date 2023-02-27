@@ -141,7 +141,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
                       );
                     } else if (site == CardPageType.Favoriten &&
                         (pinnedCards == null || pinnedCards!.isEmpty)) {
-                      return ConnectionStatusTextfield(
+                      return const ConnectionStatusTextfield(
                           text: 'Keine Favoriten ');
                     } else {
                       final cards = snapshot.data!;

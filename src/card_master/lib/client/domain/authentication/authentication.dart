@@ -3,14 +3,12 @@ import 'package:aad_oauth/model/config.dart';
 import 'package:card_master/main.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:card_master/main_client.dart';
-
 class AadAuthentication {
-  static AadOAuth? oauth;
+  static AadOAuth? _oauth;
 
   static Future<void> getEnv() async {
     await dotenv.load(fileName: "assets/azure.env");
-    oauth = AadOAuth(config);
+    _oauth = AadOAuth(config);
   }
 
   static final Config config = Config(
@@ -18,10 +16,15 @@ class AadAuthentication {
     clientId: dotenv.env['clientId']!,
     scope: 'User.Read',
     redirectUri: 'cardstorage://auth',
-    navigatorKey: AppStart.navigatorKey,
+    navigatorKey: MyApp.navigatorKey,
   );
+
+  static getOAuth() {
+    return _oauth;
+  }
 }
 
-class AppStart {
-  static var navigatorKey;
-}
+
+// class MyApp {
+//  static var navigatorKey;
+// }

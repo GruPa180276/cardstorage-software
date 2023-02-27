@@ -1,3 +1,4 @@
+import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
@@ -71,10 +72,10 @@ class BottomSheetPop {
                   ),
                   Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                           child: Text(
-                        'Verfuegabar',
-                        style: TextStyle(fontSize: 17),
+                        'Verfügbar',
+                        style: TextStyle(fontSize: 3.0.fs),
                       )),
                       Expanded(
                         child: DropdownButton(

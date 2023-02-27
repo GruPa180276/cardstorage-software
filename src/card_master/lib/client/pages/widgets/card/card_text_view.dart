@@ -44,7 +44,7 @@ class TextView extends StatelessWidget {
                           //height: sizedBoxHeight,
                           child: Text(data.card.name,
                               style: TextStyle(fontSize: textFontSize),
-                              textAlign: TextAlign.left))
+                              textAlign: TextAlign.right))
                     ],
                   ),
                   TableRow(
@@ -62,7 +62,7 @@ class TextView extends StatelessWidget {
                           //height: sizedBoxHeight,
                           child: Text(data.card.storageName!,
                               style: TextStyle(fontSize: textFontSize),
-                              textAlign: TextAlign.left))
+                              textAlign: TextAlign.right))
                     ],
                   ),
                   TableRow(
@@ -86,7 +86,7 @@ class TextView extends StatelessWidget {
                                   ? Colors.red
                                   : Colors.green,
                               fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.right,
                         ),
                       )
                     ],
@@ -107,7 +107,7 @@ class TextView extends StatelessWidget {
                         child: Text(
                           data.card.position.toString(),
                           style: TextStyle(fontSize: textFontSize),
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.right,
                         ),
                       )
                     ],

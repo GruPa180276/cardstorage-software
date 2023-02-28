@@ -3,7 +3,7 @@ import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart';
-import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/user.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/pages/card/alert_dialog.dart';

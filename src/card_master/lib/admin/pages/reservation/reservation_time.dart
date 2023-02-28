@@ -1,7 +1,7 @@
 import 'package:card_master/admin/pages/card/alert_dialog.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
 import 'package:card_master/admin/pages/widget/list_tile.dart';
-import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/time.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';

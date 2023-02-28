@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'dart:convert';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:sizer/sizer.dart';

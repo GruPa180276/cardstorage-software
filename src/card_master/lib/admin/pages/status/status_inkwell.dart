@@ -5,7 +5,7 @@ import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-import 'package:card_master/admin/provider/middelware.dart';
+import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/ping.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/pages/status/status_table.dart';

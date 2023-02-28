@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:card_master/admin/config/token_manager.dart';
-import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/config/adress.dart';
+import 'package:card_master/client/provider/rest/data.dart';
+import 'package:card_master/admin/provider/types/cards.dart';
 
 class Storages {
   String name;
@@ -41,8 +41,7 @@ Future<Response> fetchStorages() async {
   return await get(
     Uri.parse(storageAdress),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Accept": "application/json"
     },
   );
@@ -52,8 +51,7 @@ Future<Response> getStorageByName(Map<String, dynamic> data) async {
   return await get(
     Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Accept": "application/json"
     },
   );
@@ -63,8 +61,7 @@ Future<Response> getAllCardsPerStorage(Map<String, dynamic> data) async {
   return await get(
     Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Accept": "application/json"
     },
   );
@@ -74,8 +71,7 @@ Future<Response> getUnfocusedStorage(Map<String, dynamic> data) async {
   return await get(
     Uri.parse("$storageAdress/focus/name/${data["name"]}"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Accept": "application/json"
     },
   );
@@ -85,8 +81,7 @@ Future<Response> focusStorage(Map<String, dynamic> data) async {
   return await put(
     Uri.parse("$storageAdress/focus/name/${data["name"]}"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Content-Type": "application/json"
     },
   );
@@ -96,8 +91,7 @@ Future<Response> deleteStorage(Map<String, dynamic> data) async {
   return await delete(
     Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Content-Type": "application/json"
     },
   );
@@ -107,8 +101,7 @@ Future<Response> updateStorage(Map<String, dynamic> data) async {
   return await put(
     Uri.parse("$storageAdress/name/${data["name"]}"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Content-Type": "application/json"
     },
     body: jsonEncode(data["data"]),
@@ -119,8 +112,7 @@ Future<Response> addStorage(Map<String, dynamic> data) async {
   return await post(
     Uri.parse(storageAdress),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Content-Type": "application/json"
     },
     body: jsonEncode(data["data"]),

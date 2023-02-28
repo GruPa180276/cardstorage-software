@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:card_master/admin/config/token_manager.dart';
+import 'package:card_master/client/provider/rest/data.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -30,18 +30,17 @@ class Websockets {
 
   static void setupWebSockets() async {
     List<String> urls = [
-      'wss://192.168.85.9:7171/api/v1/controller/log',
-      'wss://192.168.85.9:7171/api/v1/storages/log',
-      'wss://192.168.85.9:7171/api/v1/storages/cards/log',
-      'wss://192.168.85.9:7171/api/v1/reservations/log',
-      'wss://192.168.85.9:7171/api/v1/users/log',
+      'wss://10.0.2.2:7171/api/v1/controller/log',
+      'wss://10.0.2.2:7171/api/v1/storages/log',
+      'wss://10.0.2.2:7171/api/v1/storages/cards/log',
+      'wss://10.0.2.2:7171/api/v1/reservations/log',
+      'wss://10.0.2.2:7171/api/v1/users/log',
     ];
 
     for (String url in urls) {
       WebSocketChannel channel = IOWebSocketChannel.connect(
         headers: {
-          HttpHeaders.authorizationHeader:
-              "Bearer ${await SecureStorage.getToken()}",
+          HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
           "Accept": "application/json"
         },
         Uri.parse(url),

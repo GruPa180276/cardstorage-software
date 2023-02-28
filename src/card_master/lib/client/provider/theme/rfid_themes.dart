@@ -1,4 +1,4 @@
-import 'package:card_master/admin/config/theme/palette.dart';
+import 'package:card_master/client/config/palette.dart';
 import 'package:flutter/material.dart';
 
 class RifdAppThemes {
@@ -6,23 +6,27 @@ class RifdAppThemes {
   static get darkTheme => ThemeData(
         fontFamily: 'Kanit',
         scaffoldBackgroundColor: Colors.black,
-        colorScheme:
-            const ColorScheme.dark().copyWith(primary: ColorSelect.blueAccent),
         primaryColor: Colors.white,
         secondaryHeaderColor: ColorSelect.blueAccent,
         dividerColor: ColorSelect.darkBorder,
         cardColor: ColorSelect.darkCardColor,
+        focusColor: Colors.white,
+        colorScheme: const ColorScheme.dark()
+            .copyWith(primary: ColorSelect.blueAccent)
+            .copyWith(background: Colors.black),
       );
 
   //darkmode
   static get lightTheme => ThemeData(
         fontFamily: 'Kanit',
         scaffoldBackgroundColor: ColorSelect.lightBgColor,
-        colorScheme:
-            const ColorScheme.light().copyWith(primary: ColorSelect.blueAccent),
         primaryColor: Colors.black,
         secondaryHeaderColor: ColorSelect.blueAccent,
         dividerColor: ColorSelect.lightBorder,
         cardColor: ColorSelect.lightCardColor,
+        focusColor: Colors.white,
+        colorScheme: const ColorScheme.light()
+            .copyWith(primary: ColorSelect.blueAccent)
+            .copyWith(background: Colors.black),
       );
 }

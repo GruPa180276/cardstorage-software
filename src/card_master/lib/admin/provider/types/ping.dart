@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:card_master/admin/config/adress.dart';
-import 'package:card_master/admin/config/token_manager.dart';
+import 'package:card_master/client/provider/rest/data.dart';
 
 class Ping {
   String name;
@@ -28,8 +28,7 @@ Future<Response> pingStorage(Map<String, dynamic> data) async {
   return await get(
     Uri.parse("$pingAdress/ping/name/${data["name"]}"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Accept": "application/json"
     },
   );

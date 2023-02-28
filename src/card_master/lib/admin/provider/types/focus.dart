@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:card_master/admin/config/adress.dart';
-import 'package:card_master/admin/config/token_manager.dart';
+import 'package:card_master/client/provider/rest/data.dart';
 
 class FocusS {
   String name;
@@ -24,8 +24,7 @@ Future<Response> getAllUnfocusedStorages() async {
   return await get(
     Uri.parse("$storageAdress/focus"),
     headers: {
-      HttpHeaders.authorizationHeader:
-          "Bearer ${await SecureStorage.getToken()}",
+      HttpHeaders.authorizationHeader: "Bearer ${Data.getBearerToken()}",
       "Accept": "application/json"
     },
   );

@@ -28,3 +28,27 @@ IconButton generateIconButton(
           ),
         );
 }
+
+IconButton generateIconButtonRoute(
+  BuildContext context,
+  IconData icon,
+  Function()? onpressd,
+) {
+  return SizerUtil.deviceType == DeviceType.mobile
+      ? IconButton(
+          onPressed: onpressd,
+          color: Theme.of(context).focusColor,
+          icon: Icon(
+            icon,
+            size: 16.sp,
+          ),
+        )
+      : IconButton(
+          onPressed: onpressd,
+          color: Theme.of(context).focusColor,
+          icon: Icon(
+            icon,
+            size: 12.sp,
+          ),
+        );
+}

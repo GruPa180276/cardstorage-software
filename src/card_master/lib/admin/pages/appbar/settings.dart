@@ -1,10 +1,11 @@
-import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/client/pages/navigation/client_navigation.dart';
+import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-import 'package:card_master/admin/provider/theme/themes.dart';
-import 'package:card_master/admin/config/theme/app_preference.dart';
+
 import 'package:sizer/sizer.dart';
+import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/client/domain/persistent/app_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -45,12 +46,12 @@ class _SettingsPageState extends State<Settings> {
               backgroundColor: Theme.of(context).secondaryHeaderColor,
             ),
       body: Column(
-        children: [Expanded(child: buildChangeThemeMode(context))],
+        children: [Expanded(child: buildSettings(context))],
       ),
     );
   }
 
-  Widget buildChangeThemeMode(BuildContext context) {
+  Widget buildSettings(BuildContext context) {
     return SizerUtil.deviceType == DeviceType.mobile
         ? Container(
             padding: const EdgeInsets.all(5),
@@ -61,26 +62,42 @@ class _SettingsPageState extends State<Settings> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: SwitchListTile(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: isDark,
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        title: Text(
-                          "Switch Theme Mode",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 16.sp,
+                    child: Container(
+                      color: Theme.of(context).cardColor,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.mode,
+                                size: 3.4.h,
+                              ),
+                              SizedBox(
+                                width: 5.0.w,
+                              ),
+                              Text(' Dark-Mode',
+                                  style: TextStyle(
+                                      fontSize: 15.0.sp,
+                                      color: Theme.of(context).primaryColor)),
+                            ],
                           ),
-                        ),
-                        onChanged: (value) {
-                          AppPreferences.setIsOn(value);
-                          final provider = Provider.of<ThemeProvider>(context,
-                              listen: false);
-                          isDark = value;
-                          setState(() {
-                            provider.toggleTheme(value);
-                          });
-                        })),
+                          Switch(
+                              activeColor:
+                                  Theme.of(context).secondaryHeaderColor,
+                              value: isDark,
+                              onChanged: (value) {
+                                final provider = Provider.of<ThemeProvider>(
+                                    context,
+                                    listen: false);
+                                isDark = value;
+                                setState(() {
+                                  provider.toggleTheme(value);
+                                });
+                              }),
+                        ],
+                      ),
+                    )),
                 SizedBox(
                   height: 1.h,
                 ),
@@ -88,9 +105,8 @@ class _SettingsPageState extends State<Settings> {
                   context,
                   "Zur Client Sicht",
                   () {
-                    Navigator.of(context).pushNamed(
-                      "/client",
-                    );
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "/client", (Route<dynamic> route) => false);
                   },
                 ),
               ],
@@ -104,26 +120,42 @@ class _SettingsPageState extends State<Settings> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: SwitchListTile(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: isDark,
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        title: Text(
-                          "Switch Theme Mode",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 12.sp,
+                    child: Container(
+                      color: Theme.of(context).cardColor,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.mode,
+                                size: 3.4.h,
+                              ),
+                              SizedBox(
+                                width: 5.0.w,
+                              ),
+                              Text(' Dark-Mode',
+                                  style: TextStyle(
+                                      fontSize: 3.0.sp,
+                                      color: Theme.of(context).primaryColor)),
+                            ],
                           ),
-                        ),
-                        onChanged: (value) {
-                          AppPreferences.setIsOn(value);
-                          final provider = Provider.of<ThemeProvider>(context,
-                              listen: false);
-                          isDark = value;
-                          setState(() {
-                            provider.toggleTheme(value);
-                          });
-                        })),
+                          Switch(
+                              activeColor:
+                                  Theme.of(context).secondaryHeaderColor,
+                              value: isDark,
+                              onChanged: (value) {
+                                final provider = Provider.of<ThemeProvider>(
+                                    context,
+                                    listen: false);
+                                isDark = value;
+                                setState(() {
+                                  provider.toggleTheme(value);
+                                });
+                              }),
+                        ],
+                      ),
+                    )),
                 SizedBox(
                   height: 1.h,
                 ),
@@ -131,9 +163,8 @@ class _SettingsPageState extends State<Settings> {
                   context,
                   "Zur Client Sicht",
                   () {
-                    Navigator.of(context).pushNamed(
-                      "/client",
-                    );
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "/client", (Route<dynamic> route) => false);
                   },
                 ),
               ],

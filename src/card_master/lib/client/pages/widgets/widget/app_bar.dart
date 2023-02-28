@@ -1,5 +1,5 @@
-import 'package:card_master/admin/config/theme/palette.dart';
 import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
+import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget {
                             context,
                             MaterialPageRoute<void>(
                               builder: (BuildContext context) =>
-                                  BottomNavigation(),
+                                  const BottomNavigation(),
                             ),
                           ),
                           icon: Icon(Icons.admin_panel_settings,

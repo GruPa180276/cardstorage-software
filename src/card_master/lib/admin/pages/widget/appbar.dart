@@ -1,3 +1,4 @@
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/pages/widget/iconbutton.dart';
@@ -21,7 +22,11 @@ AppBar generateAppBar(BuildContext context) {
             generateIconButton(context, Icons.settings, "/settings"),
             generateIconButton(context, Icons.bookmark, "/reservations"),
             generateIconButton(context, Icons.account_box, "/users"),
-            generateIconButton(context, Icons.logout, "/logout"),
+            generateIconButtonRoute(
+              context,
+              Icons.logout,
+              () => UserSessionManager.logout(context),
+            )
           ],
         )
       : AppBar(

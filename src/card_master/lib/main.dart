@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:card_master/admin/config/token_manager.dart';
+import 'package:card_master/admin/routes.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:card_master/client/provider/theme/rfid_themes.dart';
 import 'package:card_master/routes.dart';
@@ -41,11 +41,9 @@ class MyApp extends StatelessWidget {
   static const String title = 'Rfid Card Management App';
   final bool rememberState;
   const MyApp({required this.rememberState, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    SecureStorage.storage.deleteAll();
-    SecureStorage.setToken(context);
-
     return ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
       builder: (context, _) {
@@ -60,6 +58,7 @@ class MyApp extends StatelessWidget {
             routes: routes,
             home: const ClientNavigation(),
             navigatorKey: navigatorKey,
+            onGenerateRoute: RouteGenerator.generateRoute,
           );
         }
 
@@ -72,6 +71,7 @@ class MyApp extends StatelessWidget {
           routes: routes,
           home: const LoginUserScreen(),
           navigatorKey: navigatorKey,
+          onGenerateRoute: RouteGenerator.generateRoute,
         );
       },
     );

@@ -22,7 +22,7 @@ class FeedbackBuilder {
       case FeedbackType.success:
         snackBar = SnackBar(
             elevation: 0,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,
@@ -33,7 +33,7 @@ class FeedbackBuilder {
       case FeedbackType.warning:
         snackBar = SnackBar(
             elevation: 0,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,
@@ -44,7 +44,7 @@ class FeedbackBuilder {
       case FeedbackType.failure:
         snackBar = SnackBar(
             elevation: 0,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,
@@ -55,7 +55,7 @@ class FeedbackBuilder {
       case FeedbackType.help:
         snackBar = SnackBar(
             elevation: 0,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: header,

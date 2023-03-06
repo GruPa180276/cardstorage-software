@@ -33,11 +33,11 @@ class _GenerateUserState extends State<GenerateUser> {
     translate();
   }
 
-  void translate() {
+  String translate() {
     if (widget.user.privileged) {
-      priviledgedTranslated = "Ja";
+      return "Ja";
     } else {
-      priviledgedTranslated = "Nein";
+      return "Nein";
     }
   }
 
@@ -84,7 +84,7 @@ class _GenerateUserState extends State<GenerateUser> {
                             child: createUserTable(
                               context,
                               widget.user,
-                              priviledgedTranslated,
+                              translate(),
                             ),
                           ),
                         ]))
@@ -173,7 +173,6 @@ class _GenerateUserState extends State<GenerateUser> {
                                                   if (context.mounted) {
                                                     Navigator.of(context).pop();
                                                     Navigator.of(context).pop();
-                                                    Navigator.of(context).pop();
                                                   }
                                                 },
                                               ),
@@ -184,7 +183,6 @@ class _GenerateUserState extends State<GenerateUser> {
                                                 context,
                                                 "Nein",
                                                 () {
-                                                  Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
                                                 },
@@ -236,7 +234,6 @@ class _GenerateUserState extends State<GenerateUser> {
                                                 if (context.mounted) {
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
-                                                  Navigator.of(context).pop();
                                                 }
                                               }),
                                               const SizedBox(
@@ -246,7 +243,6 @@ class _GenerateUserState extends State<GenerateUser> {
                                                 context,
                                                 "Nein",
                                                 () {
-                                                  Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
                                                 },

@@ -33,11 +33,11 @@ class _GenerateReservationState extends State<GenerateReservation> {
     translate();
   }
 
-  void translate() {
+  String translate() {
     if (widget.reservationOfCards.returnedAt > 0) {
-      returnedTranslated = "Ja";
+      return "Ja";
     } else {
-      returnedTranslated = "Nein";
+      return "Nein";
     }
   }
 
@@ -84,7 +84,7 @@ class _GenerateReservationState extends State<GenerateReservation> {
                               context,
                               widget.reservationOfCards,
                               widget.reservationOfCards.name,
-                              returnedTranslated,
+                              translate(),
                             ),
                           ),
                         ]))
@@ -162,7 +162,6 @@ class _GenerateReservationState extends State<GenerateReservation> {
                                                 if (context.mounted) {
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
-                                                  Navigator.of(context).pop();
                                                 }
                                               }),
                                               const SizedBox(
@@ -172,7 +171,6 @@ class _GenerateReservationState extends State<GenerateReservation> {
                                                 context,
                                                 "Nein",
                                                 () {
-                                                  Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
                                                 },

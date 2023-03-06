@@ -38,11 +38,11 @@ class _GenerateStorageState extends State<GenerateStorage> {
     translate();
   }
 
-  void translate() {
+  String translate() {
     if (widget.focusState) {
-      focusTranslated = "Ja";
+      return "Ja";
     } else {
-      focusTranslated = "Nein";
+      return "Nein";
     }
   }
 
@@ -222,7 +222,7 @@ class _GenerateStorageState extends State<GenerateStorage> {
           child: createStorageTable(
         context,
         widget.storage,
-        focusTranslated,
+        translate(),
       )),
     ]);
   }

@@ -36,11 +36,11 @@ class _GenerateCardState extends State<GenerateCard> {
     translate();
   }
 
-  void translate() {
+  String translate() {
     if (widget.card.available) {
-      availableTranslated = "Ja";
+      return "Ja";
     } else {
-      availableTranslated = "Nein";
+      return "Nein";
     }
   }
 
@@ -141,7 +141,7 @@ class _GenerateCardState extends State<GenerateCard> {
                                                     snackbarType:
                                                         FeedbackType.success,
                                                     content:
-                                                        "Storage wurde gelöscht!",
+                                                        "Karte wurde gelöscht!",
                                                   ).build();
                                                 }
 
@@ -205,7 +205,7 @@ class _GenerateCardState extends State<GenerateCard> {
         context,
         widget.card,
         widget.storageName,
-        availableTranslated,
+        translate(),
       )),
     ]);
   }

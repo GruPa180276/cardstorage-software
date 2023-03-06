@@ -87,7 +87,6 @@ class _ListReservationTimeState extends State<ListReservationTime> {
 
                             if (context.mounted) {
                               Navigator.of(context).pop();
-                              Navigator.of(context).pop();
                             }
                           }
                         }),
@@ -98,7 +97,6 @@ class _ListReservationTimeState extends State<ListReservationTime> {
                           context,
                           "Nein",
                           () {
-                            Navigator.of(context).pop();
                             Navigator.of(context).pop();
                           },
                         )

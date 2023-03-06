@@ -1,5 +1,5 @@
 import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
-import 'package:card_master/admin/pages/navigation/websockets.dart';
+import 'package:card_master/admin/provider/websockets.dart';
 import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';

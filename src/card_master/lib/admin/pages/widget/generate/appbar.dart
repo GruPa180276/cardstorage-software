@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
-import 'package:card_master/admin/pages/widget/iconbutton.dart';
+import 'package:card_master/admin/pages/widget/generate/iconbutton.dart';
 
 AppBar generateAppBar(BuildContext context) {
   return SizerUtil.deviceType == DeviceType.mobile

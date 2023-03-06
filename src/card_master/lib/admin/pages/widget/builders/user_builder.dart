@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/user.dart';
-import 'package:card_master/admin/pages/user/user_inkwell.dart';
+import 'package:card_master/admin/pages/widget/inkwells/user_inkwell.dart';
 
 class ListUsers extends StatefulWidget {
   final List<Users> listOfUsers;

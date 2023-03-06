@@ -5,7 +5,7 @@ import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/card/alter_card_form.dart';
+import 'package:card_master/admin/pages/widget/forms/alter_card_form.dart';
 import 'package:sizer/sizer.dart';
 
 class CardSettings extends StatefulWidget {

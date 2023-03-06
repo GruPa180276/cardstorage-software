@@ -2,8 +2,8 @@ import 'package:card_master/admin/provider/types/focus.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/storage/storage_inkwell.dart';
-import 'package:card_master/admin/pages/widget/circularprogressindicator.dart';
+import 'package:card_master/admin/pages/widget/inkwells/storage_inkwell.dart';
+import 'package:card_master/admin/pages/widget/generate/circularprogressindicator.dart';
 
 class ListStorages extends StatefulWidget {
   final Future<List<Storages>> listOfStorages;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/admin/pages/widget/generate/button.dart';
 import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';

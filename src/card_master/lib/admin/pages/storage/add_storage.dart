@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:sizer/sizer.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/storage/add_storage_form.dart';
+import 'package:card_master/admin/pages/widget/forms/add_storage_form.dart';
 
 class AddStorage extends StatefulWidget {
   const AddStorage({Key? key}) : super(key: key);

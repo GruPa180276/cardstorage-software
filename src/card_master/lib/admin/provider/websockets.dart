@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:card_master/admin/config/adress.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -26,11 +27,11 @@ class Websockets {
 
   static void setupWebSockets() async {
     List<String> urls = [
-      'wss://10.0.2.2:7171/api/v1/controller/log',
-      'wss://10.0.2.2:7171/api/v1/storages/log',
-      'wss://10.0.2.2:7171/api/v1/storages/cards/log',
-      'wss://10.0.2.2:7171/api/v1/reservations/log',
-      'wss://10.0.2.2:7171/api/v1/users/log',
+      wssControler,
+      wssStorage,
+      wssCard,
+      wssReservation,
+      wssUser,
     ];
 
     for (String url in urls) {
@@ -45,12 +46,7 @@ class Websockets {
     }
 
     messages.add(
-      "All Websockets are connected ...\n\n"
-      "wss://10.0.2.2:7171/api/v1/controller/log\n"
-      "wss://10.0.2.2:7171/api/v1/storages/log\n"
-      "wss://10.0.2.2:7171/api/v1/storages/cards/log\n"
-      "wss://10.0.2.2:7171/api/v1/reservations/log\n"
-      "wss://10.0.2.2:7171/api/v1/users/log",
+      "All Websockets are connected ...\n\n$wssControler\n$wssStorage\n$wssCard\n$wssReservation\n$wssUser\n",
     );
   }
 

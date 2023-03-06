@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-import 'package:card_master/admin/pages/card/search.dart';
+import 'package:card_master/admin/pages/widget/generate/search.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/time.dart';
-import 'package:card_master/admin/pages/widget/reloadbutton.dart';
+import 'package:card_master/admin/pages/widget/generate/reloadbutton.dart';
 import 'package:card_master/admin/provider/types/reservations.dart';
 import 'package:card_master/admin/provider/types/card_reservation.dart';
 import 'package:card_master/admin/pages/reservation/reservation_time.dart';
-import 'package:card_master/admin/pages/reservation/reservation_builder.dart';
+import 'package:card_master/admin/pages/widget/builders/reservation_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class Reservations extends StatefulWidget {

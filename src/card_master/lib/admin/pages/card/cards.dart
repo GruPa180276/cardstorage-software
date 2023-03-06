@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-import 'package:card_master/admin/pages/card/search.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
-import 'package:card_master/admin/pages/appbar/appbar.dart';
+import 'package:card_master/admin/pages/widget/generate/search.dart';
+import 'package:card_master/admin/pages/widget/generate/button.dart';
+import 'package:card_master/admin/pages/widget/generate/appbar.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/card/card_builder.dart';
-import 'package:card_master/admin/pages/widget/reloadbutton.dart';
-import 'package:card_master/admin/pages/card/storage_selector.dart';
+import 'package:card_master/admin/pages/widget/builders/card_builder.dart';
+import 'package:card_master/admin/pages/widget/generate/reloadbutton.dart';
+import 'package:card_master/admin/pages/widget/generate/storage_selector.dart';
 import 'package:sizer/sizer.dart';
 
 class CardsView extends StatefulWidget {

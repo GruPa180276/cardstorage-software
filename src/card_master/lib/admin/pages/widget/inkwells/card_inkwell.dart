@@ -1,36 +1,34 @@
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart';
 import 'package:card_master/client/provider/rest/data.dart';
-import 'package:card_master/admin/provider/types/user.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
-import 'package:card_master/admin/pages/card/alert_dialog.dart';
-import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/storage/storage_table.dart';
+import 'package:card_master/admin/pages/widget/generate/button.dart';
+import 'package:card_master/admin/provider/types/cards.dart';
+import 'package:card_master/admin/pages/widget/tables/card_table.dart';
+import 'package:card_master/admin/pages/widget/generate/alert_dialog.dart';
 import 'package:sizer/sizer.dart';
 
-class GenerateStorage extends StatefulWidget {
+class GenerateCard extends StatefulWidget {
   final IconData icon;
   final String route;
-  final Storages storage;
-  final bool focusState;
+  final Cards card;
+  final String storageName;
 
-  const GenerateStorage({
+  const GenerateCard({
     Key? key,
     required this.icon,
     required this.route,
-    required this.storage,
-    required this.focusState,
+    required this.card,
+    required this.storageName,
   }) : super(key: key);
 
   @override
-  State<GenerateStorage> createState() => _GenerateStorageState();
+  State<GenerateCard> createState() => _GenerateCardState();
 }
 
-class _GenerateStorageState extends State<GenerateStorage> {
-  String focusTranslated = "";
+class _GenerateCardState extends State<GenerateCard> {
+  String availableTranslated = "";
 
   @override
   void initState() {
@@ -39,7 +37,7 @@ class _GenerateStorageState extends State<GenerateStorage> {
   }
 
   String translate() {
-    if (widget.focusState) {
+    if (widget.card.available) {
       return "Ja";
     } else {
       return "Nein";
@@ -47,7 +45,7 @@ class _GenerateStorageState extends State<GenerateStorage> {
   }
 
   Color getColor() {
-    if (widget.focusState) {
+    if (widget.card.available) {
       setState(() {});
       return Colors.green;
     } else {
@@ -95,15 +93,17 @@ class _GenerateStorageState extends State<GenerateStorage> {
                     context: context,
                     builder: (BuildContext context) => buildAlertDialog(
                           context,
-                          "Storage bearbeiten ...",
-                          "Sie könnnen folgende Änderungen an dem Storage vornehmen: ",
+                          "Karte bearbeiten ...",
+                          "Sie könnnen folgende Änderungen an der Karte vornehmen: ",
                           [
                             generateButtonRectangle(
                               context,
-                              "Storage bearbeiten",
+                              "Karte bearbeiten",
                               () {
-                                Navigator.of(context).pushNamed(widget.route,
-                                    arguments: widget.storage.name);
+                                Navigator.of(context).pushNamed(
+                                  widget.route,
+                                  arguments: widget.card.name,
+                                );
                               },
                             ),
                             SizedBox(
@@ -111,64 +111,46 @@ class _GenerateStorageState extends State<GenerateStorage> {
                             ),
                             generateButtonRectangle(
                               context,
-                              "Storage löschen",
+                              "Karte löschen",
                               () {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
                                         buildAlertDialog(
                                           context,
-                                          "Storage löschen ...",
+                                          "Karte löschen ...",
                                           "Wollen Sie diese Karte löschen?",
                                           [
                                             generateButtonRectangle(
                                                 context, "Ja", () async {
-                                              if (widget
-                                                  .storage.cards.isEmpty) {
+                                              if (widget.card.available) {
                                                 Response? response1 = await Data
                                                     .checkAuthorization(
-                                                  context: context,
-                                                  function: deleteUser,
-                                                  args: {
-                                                    "name":
-                                                        "${widget.storage.name.toString().toLowerCase()}@default.com",
-                                                  },
-                                                );
+                                                        function: deleteCard,
+                                                        context: context,
+                                                        args: {
+                                                      "name": widget.card.name,
+                                                    });
 
-                                                if (context.mounted) {
-                                                  Response? response2 =
-                                                      await Data
-                                                          .checkAuthorization(
-                                                              function:
-                                                                  deleteStorage,
-                                                              context: context,
-                                                              args: {
-                                                        "name":
-                                                            widget.storage.name,
-                                                        'data': []
-                                                      });
-
-                                                  if (response1!.statusCode == 200 &&
-                                                      response2!.statusCode ==
-                                                          200 &&
-                                                      context.mounted) {
-                                                    FeedbackBuilder(
-                                                      context: context,
-                                                      header: "Erfolgreich",
-                                                      snackbarType:
-                                                          FeedbackType.success,
-                                                      content:
-                                                          "Storage wurde gelöscht!",
-                                                    ).build();
-                                                  }
+                                                if (response1!.statusCode ==
+                                                        200 &&
+                                                    context.mounted) {
+                                                  FeedbackBuilder(
+                                                    context: context,
+                                                    header: "Erfolgreich",
+                                                    snackbarType:
+                                                        FeedbackType.success,
+                                                    content:
+                                                        "Karte wurde gelöscht!",
+                                                  ).build();
                                                 }
 
                                                 if (context.mounted) {
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context).pop();
                                                 }
-                                              } else if (widget
-                                                  .storage.cards.isNotEmpty) {
+                                              } else if (!widget
+                                                  .card.available) {
                                                 Navigator.of(context).pop();
                                                 Navigator.of(context).pop();
 
@@ -178,7 +160,7 @@ class _GenerateStorageState extends State<GenerateStorage> {
                                                   snackbarType:
                                                       FeedbackType.failure,
                                                   content:
-                                                      "Bitte alle Karten löschen!",
+                                                      "Karte ist nicht im Storage!",
                                                 ).build();
                                               }
                                             }),
@@ -219,9 +201,10 @@ class _GenerateStorageState extends State<GenerateStorage> {
               child: Icon(widget.icon, size: 30.sp),
             ),
       Expanded(
-          child: createStorageTable(
+          child: createCardTable(
         context,
-        widget.storage,
+        widget.card,
+        widget.storageName,
         translate(),
       )),
     ]);

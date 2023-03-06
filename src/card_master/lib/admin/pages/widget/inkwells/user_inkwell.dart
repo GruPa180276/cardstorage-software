@@ -1,6 +1,6 @@
-import 'package:card_master/admin/pages/card/alert_dialog.dart';
-import 'package:card_master/admin/pages/user/user_table.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/admin/pages/widget/generate/alert_dialog.dart';
+import 'package:card_master/admin/pages/widget/tables/user_table.dart';
+import 'package:card_master/admin/pages/widget/generate/button.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:card_master/admin/provider/types/cards.dart';
-import 'package:card_master/admin/pages/navigation/websockets.dart';
+import 'package:card_master/admin/provider/websockets.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 

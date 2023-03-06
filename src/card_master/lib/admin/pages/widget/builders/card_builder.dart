@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/cards.dart';
-import 'package:card_master/admin/pages/card/card_inkwell.dart';
-import 'package:card_master/admin/pages/widget/circularprogressindicator.dart';
+import 'package:card_master/admin/pages/widget/inkwells/card_inkwell.dart';
+import 'package:card_master/admin/pages/widget/generate/circularprogressindicator.dart';
 
 class ListCards extends StatefulWidget {
   final String selectedStorage;

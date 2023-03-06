@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/reservations.dart';
-import 'package:card_master/admin/pages/reservation/reservation_inkwell.dart';
+import 'package:card_master/admin/pages/widget/inkwells/reservation_inkwell.dart';
 
 class ListReservations extends StatefulWidget {
   final List<ReservationOfCards> listOfCardReservations;

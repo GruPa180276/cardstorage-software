@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/card/card_table_row.dart';
+import 'package:card_master/admin/pages/widget/generate/table_row.dart';
 
 Table createStorageTable(
   BuildContext context,

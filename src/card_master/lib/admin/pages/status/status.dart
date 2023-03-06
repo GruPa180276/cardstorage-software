@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-import 'package:card_master/admin/pages/appbar/appbar.dart';
+import 'package:card_master/admin/pages/widget/generate/appbar.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/widget/reloadbutton.dart';
-import 'package:card_master/admin/pages/status/status_builder.dart';
+import 'package:card_master/admin/pages/widget/generate/reloadbutton.dart';
+import 'package:card_master/admin/pages/widget/builders/status_builder.dart';
 
 class StatusView extends StatefulWidget {
   const StatusView({Key? key}) : super(key: key);

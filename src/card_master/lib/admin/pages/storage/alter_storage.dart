@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
 import 'package:card_master/admin/provider/types/card_reservation.dart';
-import 'package:card_master/admin/pages/storage/alter_storage_form.dart';
+import 'package:card_master/admin/pages/widget/forms/alter_storage_form.dart';
 
 class StorageSettings extends StatefulWidget {
   final String storageName;

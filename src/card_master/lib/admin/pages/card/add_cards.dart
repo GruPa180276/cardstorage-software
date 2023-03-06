@@ -1,4 +1,4 @@
-import 'package:card_master/admin/pages/card/add_card_form.dart';
+import 'package:card_master/admin/pages/widget/forms/add_card_form.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';

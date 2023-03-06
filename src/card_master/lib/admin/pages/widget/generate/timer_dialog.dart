@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:card_master/admin/pages/card/timer.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/admin/pages/widget/generate/timer.dart';
+import 'package:card_master/admin/pages/widget/generate/button.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
 
 Widget buildTimerdialog(

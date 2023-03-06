@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:card_master/client/provider/rest/data.dart';
 import 'package:card_master/admin/provider/types/cards.dart';
-import 'package:card_master/admin/pages/widget/button.dart';
-import 'package:card_master/admin/pages/widget/list_tile.dart';
-import 'package:card_master/admin/pages/card/timer_dialog.dart';
+import 'package:card_master/admin/pages/widget/generate/button.dart';
+import 'package:card_master/admin/pages/widget/generate/list_tile.dart';
+import 'package:card_master/admin/pages/widget/generate/timer_dialog.dart';
 import 'package:card_master/admin/provider/types/storages.dart';
-import 'package:card_master/admin/pages/card/storage_selector.dart';
+import 'package:card_master/admin/pages/widget/generate/storage_selector.dart';
 import 'package:sizer/sizer.dart';
 
 class BuildAddCardForm extends StatefulWidget {

@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class ServerProperties {
   static const SERVER = '10.0.2.2';
   static const REST_PORT = 7171;

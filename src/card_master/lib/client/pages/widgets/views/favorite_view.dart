@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/card/card_bottom_row.dart';
 
+// ignore: must_be_immutable
 class FavoriteView extends StatelessWidget {
   late CardsData data;
 
@@ -60,7 +61,7 @@ class FavoriteView extends StatelessWidget {
                             pinnedCards: data.pinnedCards,
                             reloadPinned: data.reloadPinned,
                             card: data.readercards[index],
-                            child: TextView())
+                            child: const TextView())
                       ]),
                       CardData(
                           pinnedCards: data.pinnedCards,

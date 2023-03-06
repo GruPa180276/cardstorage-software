@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:card_master/client/provider/rest/types/readercard.dart';
 
+// ignore: must_be_immutable
 class CardData extends InheritedWidget {
   final ReaderCard card;
   final Set<String> pinnedCards;

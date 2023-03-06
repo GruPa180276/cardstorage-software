@@ -42,7 +42,7 @@ class CardView extends StatelessWidget {
                             pinnedCards: cardsData.pinnedCards,
                             reloadPinned: cardsData.reloadPinned,
                             card: cardsData.readercards[index],
-                            child: TextView())
+                            child: const TextView())
                       ]),
                       CardData(
                           pinnedCards: cardsData.pinnedCards,

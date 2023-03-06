@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:card_master/client/config/properties/server_properties.dart';
-import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/domain/types/timer_action_type.dart';

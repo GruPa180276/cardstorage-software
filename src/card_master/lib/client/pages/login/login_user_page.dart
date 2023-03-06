@@ -9,7 +9,6 @@ import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/types/login_status_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/email_popup.dart';
 import 'package:card_master/client/pages/widgets/widget/default_custom_button.dart';
-import 'package:card_master/client/pages/navigation/client_navigation.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 
 class LoginUserScreen extends StatefulWidget {

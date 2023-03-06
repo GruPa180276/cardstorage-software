@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 class ConnectionStatusTextfield extends StatelessWidget {
   final String text;
 
-  const ConnectionStatusTextfield({required this.text});
+  const ConnectionStatusTextfield({
+    super.key,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {

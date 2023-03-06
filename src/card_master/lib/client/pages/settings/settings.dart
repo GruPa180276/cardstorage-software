@@ -33,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(10.0.hs), //height of appbar
-          child: CustomAppBar(title: "Einstellungen"),
+          child: const CustomAppBar(title: "Einstellungen"),
         ),
         body: Container(
           color: Theme.of(context).cardColor,

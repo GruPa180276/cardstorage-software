@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget {
   final String title;
 
-  CustomAppBar({
+  const CustomAppBar({
+    super.key,
     required this.title,
   });
 

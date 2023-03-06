@@ -56,7 +56,6 @@ class ReservationView extends StatelessWidget {
 
   Widget _buildCardsText(BuildContext context, Reservation card) {
     var textFontSize = 2.1.fs;
-    var sizedBoxHeight = 2.9.hs;
     return Expanded(
       child: Padding(
         padding: EdgeInsets.fromLTRB(5.0.ws, 0.0.hs, 3.0.ws, 0.0.hs),

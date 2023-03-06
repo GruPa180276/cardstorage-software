@@ -177,7 +177,7 @@ class _ApiVisualizerState extends State<ApiVisualizer> {
             ],
           ),
         ),
-        floatingActionButton: Container(
+        floatingActionButton: SizedBox(
           width: 8.0.hs,
           child: FittedBox(
             child: FloatingActionButton(

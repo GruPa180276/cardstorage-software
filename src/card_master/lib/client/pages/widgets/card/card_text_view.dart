@@ -6,7 +6,7 @@ import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 
 class TextView extends StatelessWidget {
-  TextView({super.key});
+  const TextView({super.key});
 
   @override
   Widget build(BuildContext context) {

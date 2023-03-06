@@ -1,5 +1,6 @@
 import 'package:card_master/client/pages/widgets/pop_up/snackbar/content_type.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'assets_path.dart';

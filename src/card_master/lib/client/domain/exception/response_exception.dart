@@ -8,6 +8,6 @@ class FeedbackException implements Exception {
 
   @override
   String toString() {
-    return 'Ursache: "${message}';
+    return 'Ursache: "$message';
   }
 }

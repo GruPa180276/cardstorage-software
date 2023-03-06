@@ -1,6 +1,7 @@
 import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CardButton extends StatelessWidget {
   final String text;
   final void Function()? onPress;
@@ -28,11 +29,9 @@ class CardButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black.withOpacity(0)), // <-- Does not work
         onPressed: onPress,
-        child: Container(
-          child: Text(text,
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor, fontSize: 2.3.fs)),
-        ),
+        child: Text(text,
+            style: TextStyle(
+                color: Theme.of(context).primaryColor, fontSize: 2.3.fs)),
       ),
     );
   }

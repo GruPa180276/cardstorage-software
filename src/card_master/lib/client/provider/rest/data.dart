@@ -126,7 +126,6 @@ class Data {
           "until": args["until"],
           "is-reservation": true
         }));
-    ;
   }
 
   static Future<Response> deleteReservation(Map<String, dynamic> args) async {

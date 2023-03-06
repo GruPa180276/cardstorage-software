@@ -25,7 +25,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
   late Future<List<Reservation>?> _futureReservations;
 
   String _searchString = "";
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   CardPageType site;
 
   @override
@@ -116,7 +116,7 @@ class _ReservationVisualizerState extends State<ReservationVisualizer> {
             ],
           ),
         ),
-        floatingActionButton: Container(
+        floatingActionButton: SizedBox(
           width: 8.0.hs,
           child: FittedBox(
             child: FloatingActionButton(

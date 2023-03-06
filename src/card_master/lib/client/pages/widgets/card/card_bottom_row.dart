@@ -2,7 +2,6 @@
 
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/inherited/card_inherited.dart';
-import 'package:card_master/client/pages/widgets/inherited/cards_inherited.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +9,11 @@ import 'package:card_master/client/domain/types/timer_action_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/request_timer.dart';
 import 'package:card_master/client/pages/widgets/pop_up/reservate_popup.dart';
 import 'package:card_master/client/pages/widgets/card/card_button.dart';
-import 'package:card_master/client/provider/rest/types/readercard.dart';
 
 class ReaderCardButtons extends StatelessWidget {
   late CardData cardData;
+
+  ReaderCardButtons({super.key});
   @override
   Widget build(BuildContext context) {
     cardData = CardData.of(context)!;
@@ -59,6 +59,7 @@ class ReaderCardButtons extends StatelessWidget {
                           );
                           await reqTimer.startTimer();
                           if (reqTimer.getSuccessful()) {
+                            // ignore: use_build_context_synchronously
                             FeedbackBuilder(
                                     context: context,
                                     snackbarType: FeedbackType.success,
@@ -69,6 +70,7 @@ class ReaderCardButtons extends StatelessWidget {
                               cardData.card.available = false;
                             });
                           } else {
+                            // ignore: use_build_context_synchronously
                             FeedbackBuilder(
                                     context: context,
                                     snackbarType: reqTimer.getFeedbackType()!,
@@ -76,6 +78,7 @@ class ReaderCardButtons extends StatelessWidget {
                                     content: reqTimer.getResponse())
                                 .build();
                           }
+                          // ignore: empty_catches
                         } catch (e) {}
                       }),
                 )

@@ -8,10 +8,6 @@ class Websockets {
   static List<WebSocketChannel> channels = [];
   static List<String> messages = [];
 
-  void initState() {
-    setupWebSockets();
-  }
-
   static WebSocketChannel getSingleChannels() {
     return channels[0];
   }

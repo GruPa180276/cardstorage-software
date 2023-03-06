@@ -21,8 +21,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   void initState() {
     super.initState();
-    Websockets.setupWebSockets();
-    Websockets.dispose();
   }
 
   @override

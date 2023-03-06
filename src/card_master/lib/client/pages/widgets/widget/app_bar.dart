@@ -1,4 +1,5 @@
 import 'package:card_master/admin/pages/navigation/bottom_navigation.dart';
+import 'package:card_master/admin/pages/navigation/websockets.dart';
 import 'package:card_master/client/config/palette.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 import 'package:card_master/client/provider/size/size_extentions.dart';
@@ -30,14 +31,16 @@ class CustomAppBar extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: (UserSessionManager.getPrivileged()!)
                       ? IconButton(
-                          onPressed: () =>
-                              Navigator.pushReplacement<void, void>(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const BottomNavigation(),
-                            ),
-                          ),
+                          onPressed: () {
+                            Websockets.setupWebSockets();
+                            Navigator.pushReplacement<void, void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const BottomNavigation(),
+                              ),
+                            );
+                          },
                           icon: Icon(Icons.admin_panel_settings,
                               color: ColorSelect.blueAccent),
                           iconSize: 5.0.fs,

@@ -1,6 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-import 'dart:ffi';
-
 import 'package:card_master/client/config/properties/screen.dart';
 import 'package:card_master/client/domain/types/snackbar_type.dart';
 import 'package:card_master/client/pages/widgets/pop_up/feedback_dialog.dart';

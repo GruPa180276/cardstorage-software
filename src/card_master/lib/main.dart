@@ -1,17 +1,17 @@
-import 'dart:io';
-
-import 'package:card_master/admin/routes.dart';
-import 'package:card_master/client/domain/authentication/user_session_manager.dart';
-import 'package:card_master/client/provider/theme/rfid_themes.dart';
-import 'package:card_master/routes.dart';
 import 'package:flutter/material.dart';
+
+import 'dart:io';
 import 'package:provider/provider.dart';
-import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
-import 'package:card_master/client/pages/login/login_user_page.dart';
-import 'package:card_master/client/pages/navigation/client_navigation.dart';
+import 'package:card_master/routes.dart';
+import 'package:card_master/splashscreen.dart';
+import 'package:card_master/admin/routes.dart';
+import 'package:card_master/splashscreen_login.dart';
+import 'client/config/properties/server_properties.dart';
+import 'package:card_master/client/provider/theme/rfid_themes.dart';
 import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
-import 'client/config/properties/server_properties.dart';
+import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 
 Future main() async {
   await ServerProperties.loadEnv();
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             theme: RifdAppThemes.lightTheme,
             darkTheme: RifdAppThemes.darkTheme,
             routes: routes,
-            home: const ClientNavigation(),
+            home: const SplashScreen(),
             navigatorKey: navigatorKey,
             onGenerateRoute: RouteGenerator.generateRoute,
           );
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           theme: RifdAppThemes.lightTheme,
           darkTheme: RifdAppThemes.darkTheme,
           routes: routes,
-          home: const LoginUserScreen(),
+          home: const SplashScreenLogin(),
           navigatorKey: navigatorKey,
           onGenerateRoute: RouteGenerator.generateRoute,
         );

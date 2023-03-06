@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:card_master/admin/pages/widget/appbar.dart';
+import 'package:card_master/admin/pages/appbar/appbar.dart';
 import 'package:card_master/admin/pages/navigation/websockets.dart';
 import 'package:sizer/sizer.dart';
 

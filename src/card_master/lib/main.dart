@@ -6,10 +6,10 @@ import 'package:card_master/routes.dart';
 import 'package:card_master/splashscreen.dart';
 import 'package:card_master/admin/routes.dart';
 import 'package:card_master/splashscreen_login.dart';
-import 'client/config/properties/server_properties.dart';
 import 'package:card_master/client/provider/theme/rfid_themes.dart';
 import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
+import 'package:card_master/client/config/properties/server_properties.dart';
 import 'package:card_master/client/domain/persistent/user_secure_storage.dart';
 import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 

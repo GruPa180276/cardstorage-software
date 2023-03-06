@@ -2,7 +2,7 @@
     package="com.example.card_master">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="card_master"
+        android:label="Card Storage Management"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

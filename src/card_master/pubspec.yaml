@@ -1,16 +1,12 @@
 name: card_master
 description: A new Flutter project.
 
-# The following line prevents the package from being accidentally published to
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-# The following defines the version and build number for your application.
+publish_to: 'none' 
 
 version: 1.0.0+1
 environment:
   sdk: '>=2.18.5 <3.0.0'
 
-# Dependencies specify other packages that your package needs in order to work.
 dependencies: 
   flutter:
     sdk: flutter
@@ -31,19 +27,28 @@ dependencies:
   charts_flutter: ^0.12.0
   sizer: ^2.0.15
   http: any
+  flutter_app_name: ^0.1.1
+  flutter_launcher_icons: ^0.9.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-# The following section is specific to Flutter packages.
+
+flutter_icons:
+  image_path: "assets/icon.png"
+  android: true
+  ios: true
+  min_sdk_android: 21
+
+flutter_app_name:
+  name: "Card Storage Management"
+
 flutter:
   assets:
     - img/
     - assets/azure.env
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+
   uses-material-design: true
   fonts:
     - family: Kanit

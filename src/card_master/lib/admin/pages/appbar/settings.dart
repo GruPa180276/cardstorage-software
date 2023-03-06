@@ -1,11 +1,11 @@
-import 'package:card_master/client/pages/navigation/client_navigation.dart';
-import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:card_master/admin/pages/widget/button.dart';
+import 'package:card_master/client/provider/theme/theme_provider.dart';
 import 'package:card_master/client/domain/persistent/app_preferences.dart';
+import 'package:card_master/client/domain/authentication/user_session_manager.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -64,7 +64,7 @@ class _SettingsPageState extends State<Settings> {
                     ),
                     child: Container(
                       color: Theme.of(context).cardColor,
-                      child: Column(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
@@ -103,10 +103,9 @@ class _SettingsPageState extends State<Settings> {
                 ),
                 generateButtonRectangle(
                   context,
-                  "Zur Client Sicht",
+                  "Abmelden",
                   () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, "/client", (Route<dynamic> route) => false);
+                    UserSessionManager.logout(context);
                   },
                 ),
               ],
@@ -122,7 +121,7 @@ class _SettingsPageState extends State<Settings> {
                     ),
                     child: Container(
                       color: Theme.of(context).cardColor,
-                      child: Column(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
@@ -161,10 +160,9 @@ class _SettingsPageState extends State<Settings> {
                 ),
                 generateButtonRectangle(
                   context,
-                  "Zur Client Sicht",
+                  "Abmelden",
                   () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, "/client", (Route<dynamic> route) => false);
+                    UserSessionManager.logout(context);
                   },
                 ),
               ],

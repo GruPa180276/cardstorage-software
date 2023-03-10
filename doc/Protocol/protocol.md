@@ -395,6 +395,9 @@ Refactored Middelware und Theme Provider. (1h 30min)
 **6.3.2.2023: 8:00 bis : 11:30** <br>
 Habe heute noch das AppIcon sowie den App Namen gepasst. Danach habe ich den Ladebildschirm noch eingefügt. Des weiteren habe ich den letzten großen Bug behoben und die ganzen Files in deren Ordner geschoben. Die Admin Sicht ist nun endlich fertig!(3h 30min)
 
+**10.3.2.2023: 12:00 bis : 21:00** <br>
+Doku überarbietett, Folder, Video und Power Point fertiggestellt. (9h)
+
 ## Arbeitszeit
 <!-- { "progress": true } -->
 - 15:00 bis 19:30 Uhr
@@ -511,4 +514,5 @@ Habe heute noch das AppIcon sowie den App Namen gepasst. Danach habe ich den Lad
 - 8:20 bis 12:30 Uhr
 - 13:45 bis 15:25 Uhr
 - 8:00 bis 11:30 Uhr
+- 12:00 bis 21:00 Uhr
 <!-- { "progress": false } -->

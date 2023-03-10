@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 class ServerProperties {
-  static const SERVER = '10.0.2.2';
+  static const SERVER = '192.168.85.9';
   static const REST_PORT = 7171;
   static const MS_GRAPH = 'https://graph.microsoft.com/v1.0/me';
   static const BASE_URI = '/api/v1/';

@@ -1,5 +1,5 @@
-String adress = "https://10.0.2.2:7171";
-String wss = "wss://10.0.2.2:7171";
+String adress = "https://192.168.85.9:7171";
+String wss = "wss://192.168.85.9:7171";
 
 String storageAdress = "$adress/api/v1/storages";
 String cardAdress = "$adress/api/v1/storages/cards";

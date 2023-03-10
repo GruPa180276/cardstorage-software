@@ -15,8 +15,9 @@ class ConnectionStatusTextfield extends StatelessWidget {
       child: Center(
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: TextStyle(
-              color: Theme.of(context).primaryColor, fontSize: 3.0.fs),
+              color: Theme.of(context).dividerColor, fontSize: 3.0.fs),
         ),
       ),
     );

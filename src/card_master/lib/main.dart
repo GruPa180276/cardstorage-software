@@ -22,11 +22,9 @@ Future main() async {
   HttpOverrides.global = MyHttpOverrides();
   rememberState = await UserSecureStorage.getRememberState() ?? false;
   if (rememberState) {
+    UserSessionManager.fromJson(await UserSecureStorage.getUserValues(), null);
     if (!await UserSessionManager.reloadUserData()) {
       rememberState = false;
-    } else {
-      UserSessionManager.fromJson(
-          await UserSecureStorage.getUserValues(), null);
     }
   }
 

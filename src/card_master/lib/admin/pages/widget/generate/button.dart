@@ -46,7 +46,6 @@ ElevatedButton generateButtonRectangle(
         borderRadius: BorderRadius.circular(5.0),
       ),
       minimumSize: Size(double.infinity, 7.h),
-      maximumSize: Size(double.infinity, 7.h),
       backgroundColor: Theme.of(context).secondaryHeaderColor,
       foregroundColor: Theme.of(context).focusColor,
     ),

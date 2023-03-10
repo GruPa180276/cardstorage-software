@@ -142,9 +142,6 @@ class Data {
   }
 
   static Future<void> _generateToken() async {
-    print(Uri.parse(
-        "${apiAdress}auth${(UserSessionManager.getEmail() == null) ? "" : "/user/email/${UserSessionManager.getEmail()}"}"));
-
     var response = await get(
         Uri.parse(
             "${apiAdress}auth${(UserSessionManager.getEmail() == null) ? "" : "/user/email/${UserSessionManager.getEmail()}"}"),

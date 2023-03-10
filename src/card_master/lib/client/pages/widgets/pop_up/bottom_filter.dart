@@ -48,10 +48,10 @@ class BottomSheetPop {
                   ),
                   Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                           child: Text(
                         'Storage',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 2.0.fs),
                       )),
                       Expanded(
                         child: DropdownButton(
@@ -76,7 +76,7 @@ class BottomSheetPop {
                       Expanded(
                           child: Text(
                         'Verfügbar',
-                        style: TextStyle(fontSize: 3.0.fs),
+                        style: TextStyle(fontSize: 2.0.fs),
                       )),
                       Expanded(
                         child: DropdownButton(

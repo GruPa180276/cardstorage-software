@@ -302,9 +302,55 @@ func (self *Controller) SignUpUserDispatcher(storageName, location, email string
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// @todo
 func (self *Controller) DepositCardHandler(message mqtt.Message) (error, *meridian.Ok) {
+	m := SerializableCardStatusMessage{}
+
+	if err := json.Unmarshal(message.Payload(), &m); err != nil {
+		return err, nil
+	}
+
+	m.ClientId = self.ClientId
+
+	c := model.Card{}
+	if err := self.DB.
+		// Preload("Storages").
+		First(&c, "reader_data = ?", m.ReaderData).Error; err != nil {
+		self.Logger.Println("ERROR during Action Handling (Deposit):", err)
+
+		m.Status.ActionSuccessful = false
+		if util.AssembleBaseStorageTopic(c.Storage.Name, c.Storage.Location) != message.Topic() {
+			errMsg := fmt.Sprintf("card (readerData: '%s') not found at '%s'", m.ReaderData, message.Topic())
+			self.Logger.Println(errMsg)
+			m.Status.IfNotWhy = errMsg
+		}
+
+		_ = self.DepositCardDispatcher(message.Topic(), &m)
+		return err, nil
+	}
+
+	m.Status.ActionSuccessful = true
+	c.CurrentlyAvailable = true
+	c.AccessCount++
+	m.Position = c.Position
+	if err := self.DB.Model(&c).Updates(c).Error; err != nil {
+		return err, nil
+	}
+
+	_ = self.DepositCardDispatcher(message.Topic(), &m)
+
 	return nil, meridian.Okay(string(message.Payload()))
+}
+
+func (self *Controller) DepositCardDispatcher(topic string, m *SerializableCardStatusMessage) error {
+	message, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	if err := self.Publish(topic, 2, false, message).Error(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

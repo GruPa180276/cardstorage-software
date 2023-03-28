@@ -11,7 +11,7 @@ type Card struct {
 	CardID             uint           `json:"-"            gorm:"primaryKey;column:card_id"`
 	Name               string         `json:"name"         gorm:"not null;unique;type:varchar(32);column:name"`
 	Position           uint           `json:"position"     gorm:"not null"`
-	ReaderData         sql.NullString `json:"reader"       gorm:"default:null;type:varchar(64)"`
+	ReaderData         sql.NullString `json:"reader"       gorm:"default:null;type:varchar(64);column:reader_data"`
 	AccessCount        uint           `json:"accessed"     gorm:"not null;default:0"`
 	CurrentlyAvailable bool           `json:"available"    gorm:"not null;default:true"`
 	StorageID          uint           `json:"-"            gorm:"foreignKey:StorageID"`

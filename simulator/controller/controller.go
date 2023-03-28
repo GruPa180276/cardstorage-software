@@ -7,9 +7,11 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -98,7 +100,25 @@ func main() {
 		panic(token.Error())
 	}
 
-	select {}
+	for {
+		yes := ""
+		fmt.Print("deposit? [y/n] >>> ")
+		fmt.Scanln(&yes)
+
+		if strings.ToLower(strings.Trim(yes, " \r\n")) != "y" {
+			continue
+		}
+
+		cardData := ""
+		fmt.Print(">>> ")
+		fmt.Scanln(&cardData)
+
+		if cardData = strings.Trim(cardData, " \r\n"); cardData == "" {
+			continue
+		}
+
+		depositCardDispatcher(client, cardData)
+	}
 }
 
 func pingHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
@@ -232,18 +252,53 @@ func fetchCardTerminalHandler(c mqtt.Client, m mqtt.Message, msg map[string]any)
 	}
 }
 
-// @todo
 func depositCardHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {
 	fmt.Println("ACTION:", msg["action"])
 	fmt.Println("~>", string(m.Payload()))
+
+	pos := int(((msg["card"].(map[string]interface{}))["position"]).(float64))
+	name := ((msg["card"].(map[string]interface{}))["card-name"]).(string)
+	stat := ((msg["status"].(map[string]interface{}))["successful"]).(bool)
+	fail := ((msg["status"].(map[string]interface{}))["reason-for-failure"]).(string)
+
+	if stat {
+		hardware.GetCard(pos)
+		fmt.Printf("successfully deposited card '%s' at position %d", name, pos)
+	} else {
+		fmt.Println(fail)
+	}
 }
 
-// @todo
-func depositCardDispatcher() {
+func depositCardDispatcher(c mqtt.Client, encodedCardData string) {
 	// event: card is deposited into storage-unit (how do we know that card is deposited?)
 	// 1. scan card
 	// 2. send card token to server to check if card belongs to this unit
 	// 3. if yes, deposit card; otherwise reject card and inform user
+
+	fmt.Println("ACTION: deposit")
+
+	// buffer := fmt.Sprintf(`{
+	// 	 "message-id": "",
+	//   "client-id": "%s",
+	//	 "action": "storage-unit-deposit-card",
+	//	 "status": { "successful": false, "reason-for-failure": "" },
+	//	 "card": { "position": 0, "card-name ": "C1", "data": "%s" }
+	// }`, clientId, encodedCardData)
+
+	// 5a869d62-673c-481a-900e-183b815a0974
+	buffer := strings.Trim(fmt.Sprintf(`{
+		"message-id": "",
+		"action": "storage-unit-deposit-card",
+		"client-id": "%s",
+		"status": { "reason-for-failure": "", "successful": true },
+		"card": { "position": %d, "card-name": "", "data": "%s" }
+	}`, clientId, uint(math.MaxUint), encodedCardData), "\r\n ")
+
+	fmt.Println("<~", buffer)
+
+	if token := c.Publish(topic, 2, false, buffer); token.Wait() && token.Error() != nil {
+		log.Fatalln(token)
+	}
 }
 
 func userSignupHandler(c mqtt.Client, m mqtt.Message, msg map[string]any) {

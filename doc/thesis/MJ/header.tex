@@ -1,0 +1,49 @@
+% user-specific fancyhdr header & footer config
+\newcommand\MjAbbreviation{MJ}
+\newcommand\MjAnnotation{\raisebox{.15ex}{\scriptsize[\MjAbbreviation]}} % \small
+\newcommand\titlePageFullNameMj{Johannes Leopold Mayrhofer}
+
+\newcounter{Datenbankdump}
+
+\newcommand\MjSec[1]{\AuthoredSection{#1 \MjAnnotation}{#1\hfill\MjAnnotation}{1}}
+\newcommand\MjSSec[1]{\AuthoredSection{#1 \MjAnnotation}{#1\hfill\MjAnnotation}{2}}
+\newcommand\MjSSSec[1]{\AuthoredSection{#1 \MjAnnotation}{#1\hfill\MjAnnotation}{3}}
+
+% \fancypagestyle{hdrMj}{\AuthoredHeader{\MjAbbreviation}{debug-mj}}\pagestyle{hdrMj}
+
+\newcommand\ColorfulCodeDisclaimer{\textit{Hinweis}: Die farbig hervorgehobenen Markierungen in den nachfolgenden Listings dienen nur als Referenz zur späteren Erklärung im Fließtext und haben nichts mit den präsentierten Inhalten zu tun.}
+
+\newcommand{\Par}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\ParSub}[1]{\subparagraph{#1}\mbox{}\\}
+
+\newcommand{\EndpointDescriptor}[7]{%
+\captionsetup[description]{name={Endpunkt}}
+\captionof*{description}{\centering #1}\medskip
+
+\noindent
+\begin{description}\setlength\itemsep{0.9em}
+\item[Body Parameter] #2
+\item[Pfad Parameter] #3
+\item[Berechtigung] #4
+\item[Antwort-Body] #5
+\item[Anfrage-Header] #6
+\item[Nebeneffekte] #7
+\end{description}
+% \captionsetup[table]{name={Endpunkt}}
+% \begin{table}[h]
+% \centering
+% \label{#1}
+% \caption*{\centering #2}
+% \resizebox{1.2\columnwidth}{!}{%
+% \begin{tabular}{p{.16\textwidth}|p{.16\textwidth}|p{.16\textwidth}|p{.16\textwidth}|p{.16\textwidth}|p{.16\textwidth}}
+% Body Param. & Pfad Param. & Berechtigung & Antwort-Body & Anfrage Header & Sideeffects \\
+% \hline
+% #3 & #4 & #5 & #6 & #7 & #8
+% \end{tabular}%
+% }
+% \end{table}\medskip
+
+% \noindent
+}
+
+\newcommand{\Wrap}[1]{\mono{\{#1\}}}

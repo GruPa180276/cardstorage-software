@@ -1,0 +1,128 @@
+├── api
+│   ├── actions.json
+│   ├── auth
+│   │   ├── auth.go
+│   │   ├── go.mod
+│   │   └── go.sum
+│   ├── controller
+│   │   ├── action_enum.go
+│   │   ├── action.go
+│   │   ├── card-message.go
+│   │   ├── controller.go
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   ├── message.go
+│   │   ├── ping-message.go
+│   │   └── user-message.go
+│   ├── Dockerfile
+│   ├── docs
+│   │   ├── docs.go
+│   │   ├── rapipdf-min.js
+│   │   ├── spec.html
+│   │   ├── swagger.json
+│   │   └── swagger.yaml
+│   ├── go.mod
+│   ├── go.sum
+│   ├── localhost.crt
+│   ├── localhost.csr
+│   ├── localhost.key
+│   ├── main.go
+│   ├── meridian
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   └── meridian.go
+│   ├── model
+│   │   ├── card.go
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   ├── model.go
+│   │   ├── reservation.go
+│   │   ├── storage.go
+│   │   └── user.go
+│   ├── observer
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   └── observer.go
+│   ├── paths
+│   │   ├── go.mod
+│   │   └── paths.go
+│   ├── response
+│   │   ├── auth.go
+│   │   ├── card.go
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   ├── reservation.go
+│   │   ├── response.go
+│   │   ├── storage.go
+│   │   └── user.go
+│   ├── sitemap.json
+│   └── util
+│       ├── go.mod
+│       ├── go.sum
+│       └── util.go
+├── broker
+│   └── volumes
+│       └── config
+│           ├── mosquitto.conf
+│           └── passwd
+├── dir-tree.txt
+├── doc
+│   └── thesis
+│       └── thesis-card-storage-management
+├── docker-compose.yml
+├── load-env
+├── persistent
+│   ├── build
+│   ├── model.sql
+│   ├── model.sqlite3.sql
+│   ├── mysql.conf
+│   ├── testdata.sql
+│   └── user.sql
+├── sandbox
+│   ├── basic-auth 
+│   │   └── main.go
+│   ├── controller-message.go
+│   ├── dot.env
+│   ├── dot.go
+│   ├── exclude.go
+│   ├── go.mod
+│   ├── go.sum
+│   ├── optional.go
+│   ├── orm.go
+│   ├── queue.go
+│   ├── stack.go
+│   ├── synchronized-websockets
+│   │   ├── client-farm.go
+│   │   ├── common.go
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   └── server.go
+│   ├── test-container
+│   │   ├── docker-compose.yaml
+│   │   └── envprinter
+│   │       ├── Dockerfile
+│   │       ├── envprinter.go
+│   │       └── go.mod
+│   ├── unmarshal-duration.go
+│   ├── unmarshal-partial.go
+│   └── unmarshal-partial-nested.go
+└── simulator
+    ├── client
+    │   ├── client.go
+    │   ├── go.mod
+    │   ├── go.sum
+    │   ├── localhost.crt
+    │   ├── localhost.csr
+    │   ├── localhost.key
+    │   └── public
+    │       ├── favicon.ico
+    │       └── index.html
+    └── controller
+        ├── controller.go
+        ├── go.mod
+        ├── go.sum
+        └── hardware
+            ├── go.mod
+            └── hardware.go
+
+27 directories, 99 files

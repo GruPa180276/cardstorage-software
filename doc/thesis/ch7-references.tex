@@ -1,0 +1,27 @@
+% \cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{Literatur}
+% \cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{Literatur}
+% \printbibliography[title={Literatur},heading=bibintoc] % {\thispagestyle{footerOnly}}
+% \printbibliography[title={Literatur},notoc]
+% \cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{Literatur}
+{
+\patchcmd{\printbibliography}{\chapter*}{\chapter}{}{}
+\patchcmd{\printglossary}{\chapter*}{\chapter}{}{}
+\patchcmd{\lstlistoflistings}{\chapter*}{\chapter}{}{}
+\patchcmd{\listoffigures}{\chapter*}{\chapter}{}{}
+\cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{Literatur}
+\printbibliography % [title={Literatur}]
+
+\cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{Abkürzungen}
+\printglossary[type=\acronymtype,title={Abkürzungen}] % {\thispagestyle{footerOnly}}
+% \cleardoublepage
+\phantomsection\addcontentsline{toc}{chapter}{Begriffe} % {\printglossary[title={Begriffe}]{\thispagestyle{footerOnly}}}
+\printglossary[title={Begriffe}] % \printglossary[nogroupskip=true]
+% \cleardoublepage
+\phantomsection\addcontentsline{toc}{chapter}{Listings} % \lstlistoflistings{\thispagestyle{footerOnly}}
+\lstlistoflistings
+
+% \cleardoublepage
+\newpage
+\phantomsection\addcontentsline{toc}{chapter}{Abbildungen} % \listoffigures{\thispagestyle{footerOnly}}
+\listoffigures
+}

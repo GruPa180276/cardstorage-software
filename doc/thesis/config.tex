@@ -1,0 +1,274 @@
+% \Huge
+% \huge
+% \LARGE
+% \Large
+% \large
+% \normalsize
+% \small
+% \footnotesize
+% \scriptsize
+% \tiny
+
+\input{macros}
+
+% font-family config: Lmodern
+% \renewcommand\familydefault{\sfdefault} % namsu.de/Extra/pakete/Lmodern.html
+
+% font-family config: Helvetica (Arial clone) (no umlaute!)
+% \renewcommand{\rmdefault}{phv} 
+% \renewcommand{\sfdefault}{phv}
+
+% font-family config: Helvetica (Arial clone)
+\usepackage{helvet}
+\renewcommand\familydefault{\sfdefault}
+
+% font-family config: Arial
+% requires XeLaTeX or LuaLaTeX!
+% \usepackage{fontspec}
+% \setmainfont{Arial}
+
+% chapter color
+% \chapterfont{\color{litec-blue}}
+% \titleformat{\chapter}[hang]{\Huge\bfseries}{\color{litec-blue}\thechapter\hspace{20pt}{$\vert$}\hspace{20pt}}{0pt}{\color{litec-blue}\Huge\bfseries}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\color{black}\thechapter\hspace{20pt}{$\vert$}\hspace{20pt}}{0pt}{\color{black}\Huge\bfseries}
+
+
+% \titleformat{\section}[hang]{\bfseries}{\color{black}{\raisebox{.2ex}{\small\thesection}}\hspace{2ex}}{0pt}{\bfseries}
+% \titleformat{\subsection}[hang]{\bfseries}{\color{black}{\raisebox{.2ex}{\small\thesection}}\hspace{2ex}}{0pt}{\bfseries}
+
+% section color
+\sectionfont{\color{black}}
+
+% header/footer config
+% \pagestyle{fancy}    
+% https://tex.stackexchange.com/questions/222048/add-chapter-title-to-header-without-chapter-1
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}{}
+% \fancypagestyle{plain}{
+% \fancyhf{}    
+% \fancyhead[R]{\color{debug-plain}\slshape\nouppercase{\leftmark}}                                             
+% \fancyhead[C]{}
+% \fancyhead[L]{\ThesisTitle}                       %moin. Frage is noch an chapter automatisch a newpage wei i find kane newpages und es is trzd.     % ;) jo kau i nu ändern                  %ds is warad a traum...vasteh dod hofa gonz ehrli ah nd wieso ma ds aendan mersn. i hobs a moi wo dazur dau.ds durt ma jo eigentli a so owa sie wues iwi nd :'( . Jo am besten wards wonn ma an text schreiben und imma neich pdf lona mersn. do brauchat ma glaub 3 tog zum hallo schreiben % muas nu schaun wei mochmoi hob i wo wos dazua gschrim zu de chaptern anfänge ..e. % des is jetzt de neiche kommunikationsmöglichkeit...i schau gach zum allgemeinen teil
+% % . vllt sirgt ma sie. I murs eh nd seng i schreib a bissl wos glaubi.
+% % hob eichan teil grod auskommentiert dass schnella kompiliert... ok
+% \fancyfoot[R]{\color{debug-plain}Seite \thepage}                        
+% \fancyfoot[L]{\includegraphics[scale=.185]{assets/litec-logo.png}}
+% \fancyfoot[C]{}
+% \renewcommand{\footrulewidth}{\DefaultRuleWidth}                          
+% \renewcommand{\headrulewidth}{\DefaultRuleWidth}
+% \fancyheadoffset{\HeaderFooterOffset}
+% \fancyfootoffset{\HeaderFooterOffset}
+% }
+
+% \setlength{\headheight}{28pt}
+% \setlength{\footheight}{28pt}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+
+\renewcommand{\footruleskip}{5pt}
+\setlength{\footskip}{55pt}
+
+% style for table of contents
+\fancypagestyle{footerOnly}{
+\fancyhf{}
+\fancyhead[R]{\color{debug-plain}\slshape\nouppercase{\leftmark}}                                             
+\fancyhead[C]{}
+\fancyhead[L]{\ThesisTitle}
+\renewcommand{\footrulewidth}{\DefaultRuleWidth}
+\renewcommand{\headrulewidth}{\DefaultRuleWidth}
+\fancyfoot[LE,RO]{\color{debug-footerOnly}Seite \thepage}
+\fancyfoot[LO,RE]{\includegraphics[scale=.185]{assets/litec-logo.png}}
+\fancyfoot[C]{}    
+\fancyheadoffset{\HeaderFooterOffset}
+\fancyfootoffset{\HeaderFooterOffset}
+}
+
+\fancypagestyle{plain}{
+\fancyhf{}
+\fancyhead[R]{\color{debug-plain}\slshape\nouppercase{\leftmark}}                                             
+\fancyhead[C]{}
+\fancyhead[L]{\ThesisTitle}
+\renewcommand{\footrulewidth}{\DefaultRuleWidth}
+\renewcommand{\headrulewidth}{\DefaultRuleWidth}
+\fancyfoot[LE,RO]{\color{debug-footerOnly}Seite \thepage}
+\fancyfoot[LO,RE]{\includegraphics[scale=.185]{assets/litec-logo.png}}
+\fancyfoot[C]{}    
+\fancyheadoffset{\HeaderFooterOffset}
+\fancyfootoffset{\HeaderFooterOffset}
+}
+
+% \fancypagestyle{chapterLeft}{
+% \fancyhf{}
+% \fancyhead[R]{\color{debug-plain}\slshape\nouppercase{\leftmark}}                                             
+% \fancyhead[C]{}
+% \fancyhead[L]{\ThesisTitle}
+% \renewcommand{\footrulewidth}{\DefaultRuleWidth}
+% \renewcommand{\headrulewidth}{\DefaultRuleWidth}
+% \fancyfoot[L]{\includegraphics[scale=.185]{assets/litec-logo.png}}
+% \fancyfoot[R]{\color{debug-footerOnly}Seite \thepage}    
+% \fancyfoot[C]{}    
+% \fancyheadoffset{\HeaderFooterOffset}
+% \fancyfootoffset{\HeaderFooterOffset}
+% }
+
+% stundent-specific header/footer config
+\input{MJ/header}
+%\input{FLUTTER/header.tex}
+\input{GP/header}
+\input{ZB/header}
+
+% reference config
+% common references
+\addbibresource{references.bib}
+% stundent-specific references
+\addbibresource{FLUTTER/references-flutter.bib}
+\addbibresource{MJ/references.bib}
+
+% https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+\lstdefinestyle{goMono}{
+    backgroundcolor=\color{white},   
+    commentstyle=\color{black},
+    keywordstyle=\color{black},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{black},
+    basicstyle=\ttfamily\linespread{0.75}\small, % \small, \footnotesize 
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=7pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    extendedchars=\true,
+    inputencoding=utf8,
+    % escapeinside={{<@},{@>}},
+    escapechar=\%,
+    framesep=25pt,
+    frame=single,
+    xleftmargin=25.5pt,
+    xrightmargin=25.5pt,
+    upquote=true,
+    language=Go
+} 
+\lstdefinestyle{goRaw}{
+    % backgroundcolor=\color{white},   
+    % commentstyle=\color{black},
+    % keywordstyle=\color{black},
+    numberstyle=\tiny\color{codegray},
+    % stringstyle=\color{black},
+    basicstyle=\ttfamily\linespread{0.75}\small, % \small, \footnotesize 
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=7pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    % escapechar=\@,
+    framesep=25pt,
+    frame=single,
+    xleftmargin=25.5pt,
+    xrightmargin=25.5pt,
+    upquote=true,
+    language=Go
+} 
+
+\lstdefinestyle{flutterListingStyle}{
+    extendedchars=\true,
+    inputencoding=utf8,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small, % \small, \footnotesize 
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=7pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    escapechar=\%,
+    framesep=25pt,
+    frame=single,
+    xleftmargin=25.5pt,
+    xrightmargin=25.5pt,
+    language=Go
+}
+
+% \enabletrackers[fonts.missing]
+% https://de.overleaf.com/latex/templates/fontspec-all-the-fonts/hjrpnxhrrtxc
+% \setmonofont[Scale=0.95]{CMU Typewriter Text}
+% \setmonofont[Scale=MatchLowercase]{Droid Sans Mono}
+
+\lstdefinestyle{directoryListing}{
+  basicstyle=\ttfamily,
+  extendedchars=true,
+  columns=fullflexible,
+  basicstyle=\ttfamily\linespread{0.75}\normalsize,
+  keepspaces,
+  literate=
+  {┐}{\textSFiii}1%
+  {└}{\textSFii}1%
+  {┴}{\textSFvii}1%
+  {┬}{\textSFvi}1%
+  {├}{\textSFviii}{1}%
+  {─}{\textSFx}1%
+  {│}{\textSFxi}1%
+  {┼}{\textSFv}1,
+  extendedchars=\true,
+  inputencoding=utf8,
+  texcl=true,
+  emph={trace_on},
+  numbers=none,
+  frame=none
+}
+
+\lstdefinestyle{yaml}{
+     basicstyle=\color{black}\footnotesize,
+     rulecolor=\color{black},
+     string=[s]{'}{'},
+     stringstyle=\color{black},
+     identifier=[l]{:},
+     identifierstyle=\color{blue},
+     comment=[l]{\#},
+     commentstyle=\color{red},
+     framesep=25pt,
+     frame=single,
+     xleftmargin=25.5pt,
+     xrightmargin=25.5pt,
+     upquote=true
+ }
+
+
+\titlespacing*{\section}{0pt}{6mm}{6mm}
+
+\titlespacing*{\subsection}{0pt}{6mm}{6mm}
+
+\titlespacing*{\subsubsection}{0pt}{6mm}{6mm}
+
+% set indent for \section
+\setlength{\cftsecindent}{0pt}
+
+% set indent for \subsection
+\setlength{\cftsubsecindent}{0.5cm}
+
+% set indent for \subsubsection
+\setlength{\cftsubsubsecindent}{0.9cm}
+
+% section level numbering
+\setcounter{secnumdepth}{2} 
+
+% set headers which are displayed in toc
+\setcounter{tocdepth}{2}
+
+\makeglossaries

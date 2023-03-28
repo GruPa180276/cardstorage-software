@@ -1,0 +1,157 @@
+\section[GORM Demonstration anhand eines konkreten Beispiels]{\large GORM Demonstration anhand eines konkreten Beispiels}
+\vspace{-\baselineskip}
+\begin{lstlisting}[style=goRaw,caption={\centering Ausführlicher Programmcode zu Listing \ref{lst:tech:gorm:ex1} (\nameref{lst:tech:gorm:ex1})}]
+package main
+
+import (
+    "fmt"
+
+    "gorm.io/driver/mysql"
+    "gorm.io/gorm"
+)
+
+type Office struct {
+    OfficeID   uint     `gorm:"primaryKey"`
+    Department string   `gorm:"default:'IT'"`
+    Workers    []Worker `gorm:"foreignKey:SSN"`
+}
+
+type Worker struct {
+    SSN       uint   `gorm:"primaryKey"`
+    FirstName string `gorm:"type:varchar(32)"`
+    LastName  string `gorm:"type:varchar(32)"`
+    OfficeID  uint   `gorm:"foreignKey:OfficeID"`
+    Office    Office
+}
+
+const (
+    user     = "root"
+    password = "root"
+    hostname = "127.0.0.1"
+    port     = 3306
+    database = "offices"
+)
+
+func main() {
+    connstring := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", 
+        user, password, hostname, port, database)
+      
+    var db *gorm.DB
+    var err error
+
+    db, err = gorm.Open(mysql.Open(connstring))
+    
+    if err != nil {
+        panic(err)
+    }
+    
+    db.AutoMigrate(&Worker{}, &Office{})
+}
+\end{lstlisting}
+
+\newpage
+\section{\nameref{lst:tech:go:enum:ex1}}
+\begin{lstlisting}[style=goRaw,caption={\centering Ausführlicher Programmcode zu Listing \ref{lst:tech:go:enum:ex1} (\nameref{lst:tech:go:enum:ex1})}]
+package main
+
+import "fmt"
+
+const (
+    Jeep = iota + 1
+    _
+    Audi
+    Mercedes
+    Volkswagen
+    LandRover
+)
+
+func main() {
+    fmt.Println(Jeep, Audi, Mercedes, Volkswagen, LandRover) 
+}
+
+// Ausgabe: 1 3 4 5 6
+\end{lstlisting}
+
+\newpage
+\section{\nameref{lst:go:sync:concurrency:ex4}}
+\begin{lstlisting}[style=goRaw,caption={\centering Ausführlicher Programmcode zu Listing \ref{lst:go:sync:concurrency:ex4} (\nameref{lst:go:sync:concurrency:ex4})}]
+package main
+
+import (
+    "fmt"
+    "math/rand"
+    "sync"
+    "time"
+)
+
+var lock *sync.Mutex = &sync.Mutex{}
+
+func update(numberPtr *int) {
+    for {
+        lock.Lock()
+        *numberPtr = rand.Intn(1000)
+        lock.Unlock()
+    }
+}
+
+func main() {
+    var number int
+    
+    go update(&number)
+    go update(&number)
+    
+    for {
+        lock.Lock()
+        fmt.Println(number)
+        lock.Unlock()
+        time.Sleep(250 * time.Millisecond)
+    }
+}
+\end{lstlisting}
+
+\newpage
+\section{\nameref{lst:go:sync:concurrency:ex5}}
+\begin{lstlisting}[style=goRaw,caption={\centering Ausführlicher Programmcode zu Listing \ref{lst:go:sync:concurrency:ex5} (\nameref{lst:go:sync:concurrency:ex5})}]
+package main
+
+import (
+    "fmt"
+    "math/rand"
+    "sync"
+)
+
+func greet(person string) string {
+    return fmt.Sprintf("%s %s!", []string{"Hello,", "Howdy", "Greetings,", "Hi"}[rand.Intn(4)], person)
+}
+
+func main() {
+    var wg sync.WaitGroup
+    var cond *sync.Cond = sync.NewCond(&sync.Mutex{})
+    
+    people := []string{"Nick", "Alecia", "Madison", "Victor", "Travis"}
+    greetings := []string{}
+    
+    wg.Add(1)
+    go func() {
+        cond.L.Lock()
+        for len(greetings) != len(people) {
+            cond.Wait()
+        }
+        for _, greeting := range greetings {
+            fmt.Println(greeting)
+        }
+        cond.L.Unlock()
+        wg.Done()
+    }()
+    
+    for _, person := range people {
+        cond.L.Lock()
+        greetings = append(greetings, greet(person))
+        cond.L.Unlock()
+    }
+    
+    cond.Broadcast()
+    
+    wg.Wait()
+}
+\end{lstlisting}

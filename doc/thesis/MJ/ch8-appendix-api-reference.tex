@@ -1,0 +1,173 @@
+In diesem Kapitel wird jeder Endpunkt der Benutzer-Schnittstelle dokumentiert. Zu jedem Endpunkt finden sich jeweils die im Body zu übergebenden Parameter, die im Pfad zu übergebenden Parameter, die mindestens benötigte Autorisierungsstufe (\textit{Admin}, \textit{Benutzer}, oder \textit{Anonym}), die im Idealfall zu erwartende Antwort, die zu übergebenden HTTP-Header, mögliche Nebeneffekte, also Aktionen, welche als Resultat einer erfolgreichen Anfrage, angestoßen werden, sowie eine Kurzbeschreibung zu dessen Zweck.\medskip 
+
+\noindent
+Nachfolgend werden die nicht idealtypischen Antwort Möglichkeiten,\\ also HTTP-Statuscode $\neq$ 200, des Servers spezifiziert:
+\begin{description}
+\item[404 Not Found] Wird eine Anfrage an einen nicht existierenden Endpunkt gesendet, also einen Endpunkt, der nicht nachfolgenden Abschnitten dokumentiert ist, beantwortet der Server diese mit dem genannten HTTP-Statuscode.
+\item[401 Unauthorized] Stellt ein Benutzer eine Anfrage, an einen für ihn vom Server verweigerten Endpunkt, da die Berechtigungen nicht ausreichen, bzw. ist der Benutzer überhaupt nicht authentifiziert, beantwortet der Server diese mit dem genannten HTTP-Statuscode.  
+\item[400 Bad Request] Sobald, nach der Überprüfung der beiden oben genannten Kriterien, in einem Zwischenschritt auf dem Weg, der zu bearbeitenden Anfrage ein Fehler auftritt, beantwortert der Server diese mit dem genannten HTTP-Statuscode.
+\end{description}\medskip
+
+\noindent
+Wird keine mindestens benötigte Autorisierungsstufe spezifiziert, so ist damit gemeint, dass der jeweilige Endpunkt ohne jegliche Autorisierung zugänglich ist.\bigskip
+
+\noindent
+Diese oben genannten Fälle werden aufgrund deren allgemeiner Gültigkeit im Rahmen dieser Implementierung, nicht für jeden einzelnen Endpunkt erneut dokumentiert, sondern aufgrund dieses Hinweises fortan als gegeben betrachtet.
+
+
+\section*{\mono{GET /api/v1/auth/user/email/\{email\}}}
+\EndpointDescriptor{Authentifizierung eines bereits im System registrierten Benutzers mit dessen \Wrap{email}.}{}{\Wrap{email}}{}{Authorization: Bearer <JWT>}{}{}
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+
+\section*{\mono{GET /api/v1/auth}}
+\EndpointDescriptor{Authentifizierung eines anonymen Benutzers, kurz Anonym.}{}{}{}{Authorization: Bearer <JWT>}{}{}
+
+
+\section*{\mono{GET /api/v1/storages/cards}}
+\EndpointDescriptor{Alle, dem System bekannten, Karteneinträge.}{}{}{Benutzer}{ {[}\{``name'': string,``position'': int,``reader'': null | string, ``accessed'': int, ``available'': bool\}{]} }{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/storages/cards/name/\{name\}}}
+\EndpointDescriptor{Bestimmte Karte mit dem Namen \Wrap{name}}{Body}{\Wrap{name}}{Benutzer}{\{``name'': string,``position'': int,``reader'': null | string, ``accessed'': int, ``available'': bool\}}{Authorization: Bearer <JWT>}{}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+
+\section*{\mono{GET /api/v1/storages}}\refstepcounter{Datenbankdump}\label{sec:apdx:db:dump}
+\EndpointDescriptor{Voll ausformulierter, Datenbank Dump; sollte überaus sparsam eingesetzt werden}{}{}{Anonym}{ {[}\{``name'': string, ``location'': string, ``address'': string, ``capacity'': int, ``cards'': {[}\{...\}{]}\}{]}}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/storages/name/\{name\}}}
+\EndpointDescriptor{Bestimmtes Schließfach mit dem Namen \Wrap{name}}{}{\Wrap{name}}{Benutzer}{\{``name'': string, ``location'': string, ``address'': string, ``capacity'': int, ``cards'': {[}\{...\}{]}\}}{Authorization: Bearer <JWT>}{}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+
+\section*{\mono{GET /api/v1/storages/ping/name/\{name\}}}
+\EndpointDescriptor{Anstoß eines \acrshort{sscp}-Ping Ereignisses}{}{\Wrap{name}}{Benutzer}{\{``name'': string, ``time'': int\}}{Authorization: Bearer <JWT>}{Ereignis \mono{storage-unit-ping}}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+
+\section*{\mono{GET /api/v1/storages/focus}}
+\EndpointDescriptor{Alle noch \textit{nicht} fokussierten Schließfach Namen: angelegt aber noch nicht auf deren Topic fokussiert (MQTT subscribed)}{}{}{Admin}{[string]}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/users}}
+\EndpointDescriptor{Alle, dem System bekannten, Benutzereinträge.}{}{}{Benutzer}{{[}\{``email'': string, ``reader'': null | string, ``privileged'': bool\}{]}}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/users/email/\{email\}}}
+\EndpointDescriptor{Bestimmter Benutzer mit E-Mail-Adresse \Wrap{email}.}{}{\Wrap{email}}{Anonym}{\{``email'': string, ``reader'': null | string, ``privileged'': bool\}}{Authorization: Bearer <JWT>}{}
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+\section*{\mono{GET /api/v1/storages/cards/reservations}}
+\EndpointDescriptor{Alle, dem System bekannten, Reservierungen}{}{}{Benutzer}{{[}\{``id'': int, ``user'': User, ``since'': int, ``until'': int, ``returned-at'': int, ``is-reservation'': bool\}{]}}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/storages/cards/reservations/details}}
+\EndpointDescriptor{Alle, dem System bekannten, Reservierungen, mit zugehörigem Kartennamen sowie Schließfachnamen.}{}{}{Benutzer}{{[}\{``cardName'': string, ``storageName'': string, ``reservation'': Reservation\}{]}}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\normalsize\mono{GET /api/v1/storages/cards/reservations/details/storage/name/\{name\}}}
+\EndpointDescriptor{Detaillierte Reservierungen, gefiltert nach Schließfachnamen \Wrap{name}}{}{\Wrap{name}}{Benutzer}{{[}\{``cardName'': string, ``storageName'': string, ``reservation'': Reservation\}{]}}{Authorization: Bearer <JWT>}{}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+\section*{\normalsize\mono{GET /api/v1/storages/cards/reservations/details/user/email/\{email\}}}
+\EndpointDescriptor{Detaillierte Reservierungen, gefiltert nach Benutzer E-Mail-Adresse \Wrap{email}}{}{\Wrap{email}}{Benutzer}{{[}\{``cardName'': string, ``storageName'': string, ``reservation'': Reservation\}{]}}{Authorization: Bearer <JWT>}{} 
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+\section*{\mono{GET /api/v1/storages/cards/reservations/card/\{name\}}}
+\EndpointDescriptor{Alle, zu der Karte \Wrap{name} gehörigen Reservierungen.}{}{\Wrap{name}}{Benutzer}{{[} Reservation {]}}{Authorization: Bearer <JWT>}{}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+\section*{\mono{GET /api/v1/users/reservations/email/\{email\}}}
+\EndpointDescriptor{Alle, zu dem Benutzer \Wrap{email} zugehörige, Reservierungen}{}{\Wrap{email}}{Benutzer}{{[} Reservation {]}}{Authorization: Bearer <JWT>}{}
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+\section*{\mono{GET /api/v1/storages/cards/reservations/time}}
+\EndpointDescriptor{Die Zeitspanne, in Stunden (``hours'') in welcher bereits reservierte Karten, nicht mehr ausgeborgt werden dürfen.}{}{}{Benutzer}{\{``time'': float, ``unit'': string\}}{Authorization: Bearer <JWT>}{}
+
+\section*{\mono{GET /api/v1/storages/cards/log}}
+\EndpointDescriptor{Verbindung zum jeweiligen Websocket, herstellen: HTTP 101 Switching Protocols to wss://.../api/v1/storages/cards/log}{}{}{Anonym}{Antwort: Websocket Verbindung, über welche der Benutzer über Informationen, welche mit Karten zusammenhängen (Fehler beim Anlegen in der Datenbank, Konnte nicht ausgeborgt / reserviert werden gerade nicht verfügbar, etc.), benachrichtigt wird; Ein Broadcast Kanal: jeder Teilnehmer wird über alle empfangenen Nachrichten informiert und filtert die für sich relevanten Daten heraus.}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/reservations/log}}
+\EndpointDescriptor{Verbindung zum jeweiligen Websocket, herstellen: HTTP 101 Switching Protocols to wss://.../api/v1/reservations/log}{}{}{Anonym}{Antwort: Websocket Verbindung, über welche der Benutzer über Informationen, welche mit Reservierungen zusammenhängen (Fehler beim Anlegen in der Datenbank, Reservierung bereits vorhanden etc.), benachrichtigt wird; Ein Broadcast Kanal: jeder Teilnehmer wird über alle empfangenen Nachrichten informiert und filtert die für sich relevanten Daten heraus.}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/controller/log}}
+\EndpointDescriptor{Verbindung zum jeweiligen Websocket, herstellen: HTTP 101 Switching Protocols to wss://.../api/v1/controller/log}{}{}{Anonym}{Antwort: Websocket Verbindung, über welche der Benutzer über Schließfach-Controller Events benachrichtigt wird; Ein Broadcast Kanal: jeder Teilnehmer wird über alle empfangenen Nachrichten informiert und filtert die für sich relevanten Daten heraus.}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/storages/log}}
+\EndpointDescriptor{Verbindung zum jeweiligen Websocket, herstellen: HTTP 101 Switching Protocols to wss://.../api/v1/storages/log}{}{}{Anonym}{Antwort: Websocket Verbindung, über welche der Benutzer über Informationen, welche mit Schließfächern zusammenhängen (Fehler beim Anlegen in der Datenbank, etc.), benachrichtigt wird; Ein Broadcast Kanal: jeder Teilnehmer wird über alle empfangenen Nachrichten informiert und filtert die für sich relevanten Daten heraus.}{Authorization: Bearer <JWT>}{}
+
+
+\section*{\mono{GET /api/v1/users/log}}
+\EndpointDescriptor{Verbindung zum jeweiligen Websocket, herstellen: HTTP 101 Switching Protocols to wss://.../api/v1/users/log}{}{}{Anonym}{Antwort: Websocket Verbindung, über welche der Benutzer über Informationen, welche mit Benutzern zusammenhängen (Fehler beim Anlegen in der Datenbank, etc.), benachrichtigt wird; Ein Broadcast Kanal: jeder Teilnehmer wird über alle empfangenen Nachrichten informiert und filtert die für sich relevanten Daten heraus.}{Authorization: Bearer <JWT>}{}
+
+\section*{\mono{POST /api/v1/storages/cards}}
+\EndpointDescriptor{Eine Karte wird angelegt und gleichzeitig einem Schließfach hinzugefügt.}{ \{``name'': string, ''storage``: string\}}{}{Admin}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{Ereignis \mono{storage-unit-new-card}}
+
+\section*{\mono{POST /api/v1/storages}}
+\EndpointDescriptor{Ein neues Schließfach wird angelegt.}{ \{``name'': string, ``location'': string, ``address'': null | string, ``capacity'': null | string\}}{}{Admin}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{}
+
+\section*{\mono{POST /api/v1/users}}
+\EndpointDescriptor{Ein neuer Benutzer wird dem System hinzugefügt. Der Benutzers muss am \mono{storage} seine Schlüsselkarte einlesen. Es kann optional angegeben werden, ob dieser Benutzer ein Administrator sein soll.}{ \{``email'': string, ``storage'': string, ``privileged'': null | string \} }{}{Anonym}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{Ereignis \mono{user-signup}}
+
+\section*{\mono{POST /api/v1/users/reservations/email/\{email\}}}
+\EndpointDescriptor{Einem Benutzer \Wrap{email} wird eine Reservierung hinzugefügt. Ist \mono{is-reservation} auf false , handelt es sich um eine reguläre ausgeborgte Karte. Die Zeitstempel müssen ebenfalls in diesen beiden Fällen nicht vollständig spezifiert werden. Dieser Endpunkt wird im Endeffekt nicht aufgerufen da Reservierungen automatisch erstellt werden.}{\{``card'': string, ``since'': int, ``until'': null | int, ``is-reservation'': null | bool\}}{\{email\}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{}
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+\section*{\mono{PUT /api/v1/storages/cards/name/\{name\}}}
+\EndpointDescriptor{Daten der Karte \Wrap{name} werden aktualisiert}{\{``name'': null | string, ``position'': null | int, ``accessed'': null | int, ``reader'': null | string, ``available'': null | bool \}}{\Wrap{name}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+
+\section*{\large\mono{PUT /api/v1/storages/cards/name/\{name\}/fetch/user/email/\{email\}}}
+\EndpointDescriptor{Ein Benutzer \Wrap{email} borgt sich eine Karte aus \Wrap{name}.}{}{\Wrap{email}, \Wrap{name}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>}{Ereignis \mono{storage-unit-fetch-card-source-mobile}}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!\\
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+\section*{\mono{PUT /api/v1/storages/cards/name/\{name\}/fetch}}
+\EndpointDescriptor{Ein potentiell unbekannter Benutzer borgt sich eine Karte aus \Wrap{name}.}{}{\Wrap{name}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>}{Ereignis \mono{storage-unit-fetch-card-source-terminal}}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+\section*{\mono{PUT /api/v1/storages/name/\{name\}}}
+\EndpointDescriptor{Die Daten des Schließfaches \Wrap{name} werden aktualisiert}{\{``name'': null | string, ``location'': null | string, ``address'': null | string, ``capacity'': null | string \}}{\Wrap{name}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{}
+
+\section*{\mono{PUT /api/v1/storages/focus/name/\{name\}}}
+\EndpointDescriptor{Ein angelegtes aber noch nicht auf das MQTT Topic fokussierte (subscribe) Schließfach \Wrap{name}, wird fokussiert.}{}{\Wrap{name}}{Admin}{200 OK}{Authorization: Bearer <JWT>}{}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+\section*{\mono{PUT /api/v1/users/email/\{email\}}}
+\EndpointDescriptor{Die Daten eines Benutzers \Wrap{email} werden aktualisiert.}{\{``email'': null | string, ``reader'': null | string, ``privileged'': null | string \}}{\Wrap{email}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{} 
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+\section*{\mono{PUT /api/v1/storages/cards/reservations/id/\{id\}}}
+\EndpointDescriptor{Die Daten einer Reservierung \Wrap{id} werden aktualisiert.}{\{``until'': null | int, ``returned-at'': null | int \}}{\Wrap{id}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>, Content-Type: text/json}{}
+\Wrap{id}, muss folgendem regulären Ausdruck genügen: \verb!\d{1,}!
+
+\section*{\large\mono{PUT /api/v1/storages/cards/reservations/time/hours/\{hours\}}}
+\EndpointDescriptor{Die Zeitspanne, in Stunden (``hours'') in welcher bereits reservierte Karten, nicht mehr ausgeborgt werden darf \Wrap{hours} wird aktualisiert.}{}{\Wrap{hours}}{Users}{200 OK}{Authorization: Bearer <JWT>}{}
+\Wrap{hours}, muss folgendem regulären Ausdruck genügen: \verb!\d{1,}\.?\d*!
+
+\section*{\mono{DELETE /api/v1/storages/cards/name/\{name\}}}
+\EndpointDescriptor{Eine Karte \Wrap{name} wird aus dem zugehörigen Schließfach entfernt.}{}{\Wrap{name}}{Admin}{200 OK}{Authorization: Bearer <JWT>}{Ereignis \mono{storage-unit-delete-card}}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+
+\section*{\mono{DELETE /api/v1/storages/name/\{name\}}}
+\EndpointDescriptor{Ein Schließfach \Wrap{name} wird entfernt.}{}{\Wrap{name}}{Admin}{200 OK}{Authorization: Bearer <JWT>}{}
+\Wrap{name}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9]{2,32}!
+
+
+\section*{\mono{DELETE /api/v1/users/email/\{email\}}}
+\EndpointDescriptor{Ein Benutzer \Wrap{email} wird gelöscht.}{}{\Wrap{email}}{Admin}{200 OK}{Authorization: Bearer <JWT>}{}
+\Wrap{email}, muss folgendem regulären Ausdruck genügen: \verb![a-zA-Z0-9@._]{10,64}!
+
+
+\section*{\mono{DELETE /api/v1/storages/cards/reservations/id/\{id\}}}
+\EndpointDescriptor{Eine Reservierung \Wrap{id} einer Karte wird gelöscht.}{}{\Wrap{id}}{Benutzer}{200 OK}{Authorization: Bearer <JWT>}{}
+\Wrap{id}, muss folgendem regulären Ausdruck genügen: \verb!\d{1,}!
+
+\newpage

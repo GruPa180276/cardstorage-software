@@ -1,0 +1,88 @@
+% \usepackage[T1,EU1]{fontenc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[german,ngerman]{babel}
+% \usepackage{import}
+
+% silence babel/polyglossia warning
+\usepackage{float}
+% \usepackage{scrwfile}
+\usepackage{morewrites}
+% \usepackage{pmboxdraw}
+\usepackage{csquotes} 
+\usepackage[backend=biber,style=ieee]{biblatex}
+\usepackage[html,tightLists,hybrid]{markdown}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+% https://tex.stackexchange.com/questions/83855/change-line-spacing-inside-the-document
+\usepackage{setspace} 
+\usepackage[paper=a4paper,
+            top=2.5cm,
+            bottom=2.5cm,
+            right=2.5cm,
+            left=2.5cm,
+            % left=1.5cm,
+            % right=3cm,
+            includeheadfoot]{geometry}
+% \usepackage{lmodern} 
+% de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_fancyhdr
+\usepackage{fancyhdr} 
+% overleaf.com/learn/latex/Multiple_columns
+% \usepackage{multicol} 
+\usepackage{dashrule}
+% https://tex.stackexchange.com/questions/246907/remove-the-header-in-the-table-of-contents
+% \usepackage[toc,page]{appendix}
+\usepackage{tocloft}
+% \usepackage{tocbibind}
+% \usepackage{listingsutf8}
+\usepackage{pmboxdraw}
+\usepackage{listings}
+\usepackage{tikzpagenodes}
+\usepackage{amssymb}
+% set section & chapter color color 
+\usepackage{sectsty}
+% https://texblog.org/2012/07/03/fancy-latex-chapter-styles/
+% \usepackage[Bjarne]{fncychap}
+\usepackage{titlesec}
+\usepackage{multicol}
+% \usepackage{subfigure}
+\usepackage{etoolbox}
+% \usepackage{glossaries}
+\usepackage[nopostdot,style=long,automake,acronym,nonumberlist]{glossaries}
+\usepackage[most]{tcolorbox}
+\usepackage{svg}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+% \usepackage{adjustbox}
+% position footnotes always on bottom of page
+% beware: messes with hyperref's footnote linking!
+% load hyperref with hyperfootnotes=false option
+% \usepackage[bottom]{footmisc}
+\usepackage{menukeys} 
+
+% used for non-floating figure captions
+\usepackage{caption}
+% \usepackage{emptypage}
+
+
+%%%%%% debug packages %%%%%%  
+% \usepackage{blindtext}
+% \usepackage{lipsum}
+% \usepackage{setspace}
+% \usepackage{showframe}
+% \usepackage{showframe}
+
+% https://tex.stackexchange.com/questions/258969/hyperref-not-working-it-goes-to-wrong-page
+% https://tex.stackexchange.com/questions/10555/hyperref-warning-token-not-allowed-in-a-pdf-string
+% \usepackage[pdftex,
+%             hidelinks,
+%             pdfauthor={\DocumentAuthor},
+%             pdftitle={\DocumentTitle},
+%             pdfsubject={\DocumentSubject},
+%             pdfkeywords={\DocumentKeywords},
+%             hyperfootnotes=false]{hyperref}
+
+\usepackage[hidelinks,pdftex,hyperfootnotes=false,pdfauthor={\DocumentAuthor},pdftitle={\DocumentTitle},pdfsubject={\DocumentSubject},pdfkeywords={\DocumentKeywords},]{hyperref}
+
+\usepackage{pdfx}

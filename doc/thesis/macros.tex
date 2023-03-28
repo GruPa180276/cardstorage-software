@@ -1,0 +1,82 @@
+% thesis title
+\newcommand\ThesisTitle{RFID Card Management}
+\newcommand\Grade{5AHIT}
+\newcommand\Supervisor{DI Dr. Susanne Hofer}
+
+% monospaced text (or just use \verb|...|)
+\newcommand{\mono}[1]{\textbf{\texttt{#1}}}
+\newcommand{\monolt}[1]{\mono{\text{$<$}}}
+
+% mark unfinished sections
+\newcommand\Todo{{\color{red}\Huge{
+\begin{center}
+\begin{minipage}[ct]{.5\textwidth}
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black]
+\centering
+\mono{! TODO !}
+\end{tcolorbox}
+\end{minipage}
+\end{center}
+}}}
+
+% color config
+\definecolor{litec-blue}{HTML}{00305C}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+\definecolor{grayX}{rgb}{0.1,0.1,0.1}
+
+% \definecolor{debug-plain}{RGB}{255,0,0}
+% \definecolor{debug-footerOnly}{RGB}{0,255,0}
+% \definecolor{debug-mj}{RGB}{0,0,255}
+% \definecolor{debug-gp}{RGB}{128,128,0}
+% \definecolor{debug-zb}{RGB}{128,0,128}
+
+\definecolor{debug-plain}{RGB}{0,0,0}
+\definecolor{debug-footerOnly}{RGB}{0,0,0}
+\definecolor{debug-mj}{RGB}{0,0,0}
+\definecolor{debug-gp}{RGB}{0,0,0}
+\definecolor{debug-zb}{RGB}{0,0,0}
+
+% default rule width for header and footer rule
+\newcommand\DefaultRuleWidth{0.4pt}
+
+% center offset for header and footer rule
+\newcommand\HeaderFooterOffset{.599cm}
+
+% internal command used for authored sections
+\newcommand\AuthoredSection[3]{
+    \ifthenelse{\equal{#1}{}}{
+        \ifthenelse{\equal{#3}{1}}{
+            \section[#2]{#2}
+        }{\ifthenelse{\equal{#3}{2}}{
+            \subsection[#2]{#2}
+            }{
+            \subsubsection[#2]{#2}}
+        }
+    }{
+        \ifthenelse{\equal{#3}{1}}{
+            \section[#1]{#2}
+        }{\ifthenelse{\equal{#3}{2}}{
+            \subsection[#1]{#2}
+            }{
+            \subsubsection[#1]{#2}}
+        }
+    }
+}
+
+% % internal command used for authored headers
+% \newcommand\AuthoredHeader[2]{
+%     % embedded into \fancypagestyle definition
+%     \fancyhf{}
+%     \fancyhead[R]{\color{#2}#1} % author
+%     \fancyhead[C]{} % left empty for authored sections, otherwise chapter name
+%     \fancyhead[L]{\color{#2}\rightmark} % chapter name
+%     \renewcommand{\headrulewidth}{\DefaultRuleWidth}
+%     \fancyfoot[L]{\includegraphics[scale=.185]{assets/litec-logo.png}}
+%     \fancyfoot[R]{\color{#2}Seite \thepage}    
+%     \fancyfoot[C]{}    
+%     \fancyheadoffset{\HeaderFooterOffset}
+%     \fancyfootoffset{\HeaderFooterOffset}
+% }

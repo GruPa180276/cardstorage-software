@@ -1,0 +1,105 @@
+\section{Zentrale Benutzer- und Controller-Schnittstelle \MjAnnotation{}}\label{sec:apdx:user-guide:mj}
+Im nachfolgenden Benutzerhandbuch wird beschrieben, wie das System praktisch zu verwenden ist.
+
+\subsection{Benötigte Software}
+Um die zentrale Schnittstelle starten zu können, wird eine funktionierende Docker-Umgebung sowie eine Internetverbindung benötigt um die benötigten Abhängigkeiten herunterzuladen. Eine Anleitung, um Docker auf verschiedenen Plattformen zu installieren, findet sich auf der offiziellen Homepage (vgl. \cite{docker:install}).  
+
+\subsection{Starten des Systems}
+Aufgrund der Containerisierung des Systems ist es sehr einfach dieses zu starten, sobald die Docker-Umgebung lauffähig ist. Wechseln Sie in das in Abbildung \ref{apdx:user-guide:dir-structure} veranschaulichte Verzeichnis.
+\begin{wrapfigure}[13]{r}{.225\textwidth}
+\begin{lstlisting}[style=directoryListing,label={lst:impl:dirstructure:extended}]
+.
+├── api
+│   ├── auth
+│   ├── controller
+│   ├── docs
+│   ├── meridian
+│   ├── model
+│   ├── observer
+│   ├── paths
+│   ├── response
+│   └── util
+├── broker
+│   └── volumes
+├── persistent
+├── sandbox
+├── simulator
+│   ├── client
+│   └── controller
+├── .env
+└── docker-compose.yml
+\end{lstlisting}
+\caption{Verzeichnis-Struktur der zentralen Schnittstelle}
+\label{apdx:user-guide:dir-structure}
+\end{wrapfigure}
+Nachdem man sich im richtigen Verzeichnis befindet muss lediglich folgendes Kommando in einem Terminal Emulator ihrer Wahl ausgeführt werden:\\ \mono{\$ docker compose up -{}-build}. Sobald alle Abhängigkeiten heruntergeladen wurden ist das System auch schon einsatzbereit. Das System kann nun auf einen Server ausgelagert werden um es für Benutzer zur Verfügung zu stellen.
+
+\subsection{Konfiguration des Systems}
+Das System bietet einige Konfigurations Möglichkeiten welche automatisch eingelesen werden, sobald das System gestartet wird. Diese müssen in der \mono{.env} Datei konfiguriert werden. Grundsätzlich sollten die Standard Einstellungen, jedoch ausreichend sein.
+\begin{description}
+\item[Benutzer-Schnittstellen Konfiguration]\hfill\begin{description}
+\item[\mono{MANAGEMENT\_ADMIN\_DEFAULT}] E-Mail-Adresse des Administrators
+\item[\mono{REST\_PORT}] TCP Port, auch welchen der Server läuft (Standard: 7171).
+\item[\mono{API\_AUTH\_TOKEN\_SECRET}] Zeichenkette, mit welcher der Server die Benutzer-Tokens validiert. 
+\item[\mono{API\_AUTH\_TOKEN\_VALID\_FOR\_MINUTES}] Dauer in Minuten, für welche die Benutzer-Tokens gültig sind (Standard: 120).
+\item[\mono{API\_AUTH\_TOKEN\_ISSUER}] Name unter welchen die Benutzer Tokens ausgestellt werden. 
+\end{description}
+\item[MySQL-Datenbank Konfiguration]\hfill\begin{description}
+\item[\mono{DB\_USER}] Benutzername, mit welchen sich der Server gegenüber der Datenbank authentifiziert.
+\item[\mono{DB\_PASSWD}] Passwort, mit welchen sich der Server gegenüber der Datenbank authentifiziert.
+\item[\mono{DB\_PORT}] TCP Port, auf welchen der Server den Datenbankserver erwartet.
+\end{description} 
+\item[MQTT-Broker Konfiguration]\hfill\begin{description}
+\item[\mono{BROKER\_USERNAME}] Benutzername, mit welchen sich der Server gegenüber dem Broker authentifiziert.
+\item[\mono{BROKER\_PASSWD}] Passwort, mit welchen sich der Server gegenüber dem Broker authentifiziert.
+\item[\mono{BROKER\_PORT}] TCP Port, auf welchen der Server den Broker erwartet.
+\end{description} 
+\end{description}
+
+\subsection{Weiterentwicklung}
+In diesem Abschnitt finden sich Vorschläge zur Verbesserung einzelner Teilaspekte des Systems. 
+
+\subsubsection{Zertifikate}
+Derzeit wurden selbst signierte, \textit{self-signed}, Zertifikate verwendet, um die Kommunikation der Benutzer-Schnittstelle mittels HTTP/S und WS/S (Websocket Secure) Protokolle zu verschlüsseln. Diese sollten durch Alternativen eines vertrauenswürdigen Vertreibers ersetzt werden. Die derzeit in Verwendung stehenden Zertifikate laufen am 31. Dezember 2023 ab.
+
+\subsection{Datensicherung}
+Um die Datenbank zu sichern kann die Benutzer-Schnittstelle verwendet werden. Siehe folgenden Endpunkt der Benutzer-Schnittstelle: \hyperref[sec:apdx:db:dump]{Datenbank Backup}.% \ref{sec:apdx:db:dump} (\nameref{sec:apdx:db:dump}). 
+
+\section{Controller- und Client-Simulator \MjAnnotation{}}
+Die im Abschnitt \ref{sec:impl:simulators} (\nameref{sec:impl:simulators}) beschriebenen Simulatoren zum Testen des Systems sind nicht Teil der containerisierten Umgebung da diese ohnehin nur zu Entwicklungs- und Testzwecken nützlich sind. Um die Simulatoren verwenden zu können wird ebenfalls die im Abschnitt \ref{sec:apdx:user-guide:mj} erläuterte Docker-Umgebung benötigt. 
+
+\subsection{Integration in die bereits vorhandene Umgebung}
+Die vorgestellten Simulatoren integrieren sich bestens in die containerisierte Umgebung der zentralen Benutzer- und Controller-Schnittstelle. Der Docker-Container muss vor den Simulatoren gestartet werden, sodass die Verbindung zum Broker bzw. Server hergestellt werden kann. 
+
+\subsection{Benötigte Software}
+Daher wird für diese Komponenten eine funktionierende Go-Entwicklungsumgebung sowie eine Internetverbindung benötigt um die Abhängigkeiten herunterzuladen. Eine kompakte dennoch vollständige Anleitung um Go auf verschiedenen Plattformen zu installieren, findet sich auf der offiziellen Homepage des Go Projektes (vgl. \cite{go:install}).
+
+\newpage
+\subsection{Controller-Simulator}
+Der Controller-Simulator akzeptiert folgende Argumente um das System mit mehreren Instanzen gleichzeitig zu testen.
+\begin{description}\setlength\itemsep{1.25em}
+\item[\mono{-{}-topic}] Das MQTT-Topic über das die Instanz mit dem Server kommuniziert.
+\item[\mono{-{}-client-id}] Ein systemweit eindeutiger Name unter dem die Instanz mit dem Server kommuniziert.
+\item[\mono{-{}-broker-url}] Die Adresse des vom System verwendeten MQTT-Brokers (Standardwert: ``127.0.0.1'').
+\item[\mono{-{}-broker-port}] Der TCP Port des vom System verwendeten MQTT-Brokers (Standardwert: ``1884'').
+\item[\mono{-{}-broker-username}] Benutzername, mit dem sich die Instanz gegenüber dem MQTT-Broker authentifiziert (Standardwert: ``CardStorageManagement''). 
+\item[\mono{-{}-broker-passwd}] Passwort, mit dem sich die Instanz gegenüber dem MQTT-Broker authentifiziert (Standardwert: ``CardStorageManagement'').
+\end{description}\medskip
+
+\noindent
+Um eine Controller-Simulator Instanz zu starten, der unter dem eindeutigen Namen \mono{sim0} mit dem Server auf dem Topic \mono{S1@L1/1} kommuniziert, wird folgendes Kommando im\\ \mono{controller/simulator} Verzeichnis, in einem Terminal Emulator ihrer Wahl ausgeführt:\bigskip
+
+\noindent
+\mono{\$ go run controller.go -{}-topic S1@L1/1 -{}-client-id sim0}\bigskip
+
+\noindent
+Im Beispiel wurde davon ausgegangen, dass die Standardparameter (Zugangsdaten, Port, etc.) gültig sind.
+\newpage
+\subsection{Client-Simulator}
+Um eine Client-Simulator Instanz zu starten, wird folgendes Kommando im\\ \mono{client/simulator} Verzeichnis, in einem Terminal Emulator ihrer Wahl ausgeführt:\bigskip
+
+\noindent
+\mono{\$ go run client.go}\bigskip
+
+\noindent
+Da sich die Verwendung der Simulatoren an Entwickler bzw. mit dem System erfahrene Benutzer richtet, wird der Leser für mehr Informationen zur Verwendung der Simulatoren, auf die Implementierung verwiesen, die sich im Abschnitt \ref{sec:impl:simulators} befindet. Dort wird einerseits der Zusammenhang zwischen Client, Server und Schließfach-Controller im Detail erläutert und andererseits die Verwendung der Simulatoren im Rahmen eines Fallbeispiels näher erläutert.    

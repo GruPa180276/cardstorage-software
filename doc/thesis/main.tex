@@ -1,0 +1,175 @@
+\documentclass[12pt,a4paper,twoside,openany]{report}
+% \UseRawInputEncoding
+
+\newcommand\DocumentAuthor{Johannes Mayrhofer, Grubauer Patrick, Zöchmann Benedikt}
+\newcommand\DocumentTitle{RFID Card Management}
+\newcommand\DocumentSubject{LiTec Diplomarbeit (VWA)}
+\newcommand\DocumentKeywords{}
+
+\input{packages}
+\input{config}
+
+\pagestyle{footerOnly}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+% \newpage
+\pagestyle{footerOnly}
+
+{
+\fontsize{5}{6}\selectfont
+\input{titlepage}
+% \input{titlepage2.tex}
+}
+
+\newpage
+
+% \newgeometry{paper=a4paper,top=1.75cm,bottom=1.75cm,left=1.9cm,right=3cm,includeheadfoot}
+% \newgeometry{top=1.75cm,bottom=1.75cm,left=1.9cm,right=3cm,includeheadfoot}
+% \newgeometry{top=.98in,bottom=.79in,left=.98in,right=.98in,includeheadfoot}
+% \newgeometry{top=.98in,bottom=.79in,left=.78in,right=1.18in,includeheadfoot}
+\newgeometry{top=.98in,bottom=.79in,right=.78in,left=1.18in,includeheadfoot}
+
+\onehalfspacing
+% \addtocounter{page}{-1}
+
+{
+\renewcommand{\thesection}{\Roman{section}.} 
+\renewcommand{\thesubsection}{\thesection.\Roman{subsection}}
+\input{./boilerplate.tex}
+}
+
+% \cleardoublepage
+% \phantomsection\addtocontents{toc} % {\protect\thispagestyle{footerOnly}}
+\newpage
+\tableofcontents % {\thispagestyle{footerOnly}}
+\newpage
+
+% \pagestyle{plain} 
+% chapters
+% \pagestyle{footerOnly}
+\input{./ch1-initial-situation}
+% \pagestyle{footerOnly}
+\input{./ch2-requirements}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\chapter{Eingesetzte Technologien der zentralen Schnittstelle \MjAnnotation{}}
+{
+\input{MJ/ch3-technologies}
+}
+
+\chapter{Theoretischer Hintergrund zur zentralen Schnittstelle \MjAnnotation{}}
+{
+\input{MJ/ch4-theoretical-background}
+}
+
+\chapter{Zentrale Benutzer-- und Controller--Schnittstelle \MjAnnotation{}}\label{ch-implementation}
+{
+\input{MJ/ch5-implementation}
+}
+
+\chapter{Eingesetzte Technologien f\"ur Frontend}
+{
+\input{FLUTTER/ch3-technologies-flutter}
+}
+
+\chapter{Grafische Benutzeroberfläche}
+{
+\input{FLUTTER/ch4-theoretical-background-flutter}
+\input{FLUTTER/ch5-implementation-flutter}
+}
+
+\chapter{Vorgehensweise für die Weiterentwicklung}
+{
+% \clearpage
+\input{FLUTTER/ch9-future-development-flutter}
+% \clearpage
+}
+
+
+\chapter{Zusammenfassung und Ausblick}
+\input{ch6-summary-and-outlook}
+
+% \clearpage
+\include{ch7-references}
+% \clearpage
+
+\appendix
+\chapter{Benutzer-Schnittstellen Dokumentation \MjAnnotation{}}\label{sec:apdx:api_reference}
+{
+% \pagestyle{hdrMj}
+% \chapter{Benutzer-Schnittstellen Dokumentation}\label{sec:apdx:api_reference}
+% In diesem Kapitel wird jeder Endpunkt der Benutzer-Schnittstelle dokumentiert. Zu jedem Endpunkt finden sich jeweils die im Body zu übergebenden Parameter, die im Pfad zu übergebenden Parameter, die mindestens benötigte Autorisierungsstufe (\textit{Admin}, \textit{Benutzer}, oder \textit{Anonym}), die im Idealfall zu erwartende Antwort, die zu übergebenden HTTP-Header, mögliche Nebeneffekte, also Aktionen, welche als Resultat einer erfolgreichen Anfrage, angestoßen werden, sowie eine Kurzbeschreibung zu dessen Zweck.\medskip 
+
+% \noindent
+% Nachfolgend werden die nicht idealtypischen Antwort Möglichkeiten,\\ also HTTP-Statuscode $\neq$ 200, des Servers spezifiziert:
+% \begin{description}
+% \item[404 Not Found] Wird eine Anfrage an einen nicht existierenden Endpunkt gesendet, also einen Endpunkt, der nicht nachfolgenden Abschnitten dokumentiert ist, beantwortet der Server diese mit dem genannten HTTP-Statuscode.
+% \item[401 Unauthorized] Wird eine Anfrage an für einen Benutzer verweigerten Endpunkt gesendet, da die Berechtigungen nicht ausreichen, bzw. ist Benutzer überhaupt nicht authentifiziert, beantwortet der Server diese mit dem genannten HTTP-Statuscode.  
+% \item[400 Bad Request] Sobald, nach der Überprüfung der beiden oben genannten Kriterien, in einem Zwischenschritt auf dem Weg der zu bearbeitenden Anfrage ein Fehler auftritt, beantwortert der Server diese mit dem genannten HTTP-Statuscode.
+% \end{description}\medskip
+
+% \noindent
+% Wird keine mindestens benötigte Autorisierungsstufe spezifiziert, so ist damit gemeint, dass der jeweilige Endpunkt ohne jegliche Autorisierung zugänglich ist.\bigskip
+
+% \noindent
+% Diese oben genannten Fälle werden aufgrund deren allgemeiner Gültigkeit im Rahmen dieser Implementierung, nicht für jeden einzelnen Endpunkt erneut dokumentiert, sondern aufgrund dieses Hinweises fortan als gegeben betrachtet.
+
+% % \pagestyle{footerOnly}
+
+% \clearpage
+\input{MJ/ch8-appendix-api-reference}
+% \clearpage
+}
+
+\chapter{Ausführliche Programmbeispiele \MjAnnotation{}}\label{sec:apdx:extendedcode}
+{
+% \clearpage
+\include{MJ/ch8-appendix-extended-listings}
+ %\clearpage
+}
+
+\chapter{Pflichtenheft}
+% \clearpage
+\input{specification}
+% \clearpage
+
+
+\chapter{Benutzerhandbuch}
+{
+% \clearpage
+\input{FLUTTER/ch10-user-guide-flutter}
+% \clearpage
+\newpage
+\input{MJ/ch8-appendix-user-guide}
+% \clearpage
+% \clearpage
+}
+
+% \begin{comment}
+
+
+\chapter{Arbeitsprotokolle}
+{
+\section{Zöchmann Benedikt}
+% \clearpage
+\input{ZB/protocol-zb}
+% \clearpage
+}
+\newpage
+
+{
+\section{Grubauer Patrick}
+% \clearpage
+\input{GP/protocol-gp} 
+% \clearpage
+}
+
+\newpage
+{
+ %\clearpage
+\input{MJ/ch8-appendix-working-protocols}
+% \clearpage
+}
+% \end{comment}
+\end{document}

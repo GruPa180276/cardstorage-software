@@ -1,0 +1,10 @@
+% user-specific fancyhdr header & footer config
+\newcommand\ZbAbbreviation{ZB}
+\newcommand\ZbAnnotation{\raisebox{.15ex}{\scriptsize[\ZbAbbreviation]}}
+\newcommand\titlePageFullNameZb{Benedikt Alexander Zöchmann}
+
+\newcommand\ZbSec[2][]{\AuthoredSection{}{#2 \ZbAnnotation}{1}}
+\newcommand\ZbSSec[2][]{\AuthoredSection{}{#2 \ZbAnnotation}{2}}
+\newcommand\ZbSSSec[2][]{\AuthoredSection{}{#2 \ZbAnnotation}{3}}
+
+% \fancypagestyle{hdrZb}{\AuthoredHeader{\ZbAbbreviation}{debug-zb}}

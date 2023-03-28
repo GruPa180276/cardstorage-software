@@ -1,0 +1,161 @@
+% \section{Hinweis für LeserInnen}
+\section{Verbindungsorientierung: TCP}\label{sec:theory:tcp}
+\newacronym{tcp}{TCP}{Transmission Control Protocol}
+\newacronym{osi}{OSI}{Open Systems Interconnection model}
+\newacronym{ack}{ACK}{Acknowledge, dt. Bestätigung, Anerkennung}
+Wie kann sichergestellt werden, dass die gesendeten Daten auch wirklich ankommen? Hier wird kurz anhand des TCP Protokolls erklärt, das in der vorliegenden Implementierung zum Einsatz kam, warum man in den allermeisten Fällen davon ausgehen kann, dass die gesendeten Daten, sprich Anweisungen vom Server eine Schlüsselkarte aus dem Schließfach zu befördern oder aber das Kommando, eine Karte aus der Datenbank zu entfernen, auch wirklich beim richtigen Empfänger, korrekt ankommen.
+\begin{wrapfigure}{l}{0.65\textwidth}
+\centering
+\includesvg[width=0.625\textwidth,inkscapelatex=false,pretex=\escapeus]{MJ/assets/iso-schichten.svg}
+\caption{\centering Datenverkehr zwischen zwei Systemen gemäß dem OSI Schichtenmodell (vgl. \cite{osi-layers})}
+\label{img:osi-layers}
+\end{wrapfigure}
+Nachfolgend wird kurz die Funktionsweise von TCP, als verbindungsorientiertes Transportprotokoll innerhalb des OSI-Schichtenmodells erläutert und wie TCP die Datenintegrität gewährleistet. Die Transportschicht, des in Abbildung \ref{img:osi-layers} dargestellten \acrshort{osi} Schichtenmodells sorgt dafür, dass die Kommunikation zwischen den Endgeräten gewährleistet ist. Dabei ordnet TCP die an den Rechner ankommenden Datenströme in sogenannte \textit{Ports}, die unterschiedlichen Diensten zugeordnet sind: 80 für HTTP, 443 für HTTPS, 1884 für MQTT mit Authentifizierung, 22 für die Secure Shell etc. TCP teilt den zu übertragenden Datenstrom in Pakete auf, wobei ein Endpunkt immer aus einer IP-Addresse der darunterliegenden Vermittlungsschicht sowie eines Ports besteht. Sobald der Empfänger das Teilpaket erhalten hat, bestätigt dieser den Empfang mit einem TCP-\acrshort{ack}, also einer Nachricht an den Sender dass das Teilpaket (auch Segment genannt) angekommen ist. Wird der Empfang eines Segments vom Empfänger nicht bestätigt, sendet der Sender, den möglicherweise verloren gegangenen Teil des Paketes, nachdem die restlichen Segmente übertragen wurden, nochmals. Die Reihenfolge der gesendeten Segmente ist nicht von Bedeutung da diese vom Sender indiziert werden, sodass der Empfänger diese nach dem vollständigen Empfang wieder, in der richtigen Reihenfolge, zusammensetzen kann. Darüber hinaus stellt TCP auch einen kontrollierten Verbindungsaufbau, den sogenannten TCP-Handshake, der dafür sorgt, dass sowohl Sender, als auch Empfänger bereit sind, Daten miteinander auszutauschen, sowie einen kontrollierten Verbindungsabbau, den TCP-Teardown, welcher dem Empfänger anzeigt, dass vom Sender keine Daten mehr kommen, sicher (vgl. \cite{wiki:tcp:handshake}, \cite{wiki:tcp:teardown}).\bigskip
+
+\noindent
+Nachdem für die vorliegende Implementierung TCP als Transportprotokoll verwendet wurde, ist davon auszugehen dass die zwischen den Schnittstellen ausgetauschten Daten auch bei den richtigen Empfängern, in der richtigen Reihenfolge und mit garantierter Datenintegrität, ankommen.   
+
+\newpage
+\section{HTTP}\label{sec:theory:http}
+\newacronym{http}{HTTP}{Hypertext Transfer Protocol}
+Das \acrlong{http} ist ein sich im \acrshort{osi}-Schichtenmodell auf Schicht 7 befindliches Anwendungsprotokoll (siehe Abbildung \ref{img:osi-layers}), das zum Austausch von Daten, vor allem im Internet, verwendet wird, um die Kommunikation zwischen Client und Server zu standardisieren. Jede HTTP Nachricht besteht aus zwei Teilen: dem Header und dem Body. Im Header, also im Kopf der Nachricht, stehen Informationen über den eigentlichen Inhalt wie z.B.: Typ (Reiner Text, JSON, XML, etc.), Nachrichtenlänge, Kodierung (UTF-8, UTF-16 etc.). Dieser Header werden als Key-Value Paare formuliert und können auch selbst definiert werden, solange diese mit \frqq{}\mono{X-}\flqq{} beginnen. Im Body der HTTP Nachricht befinden sich die eigentlichen Daten die übertragen werden sollen. Der Header ist standardmäßig vom Body mit zwei Zeilenumbrüchen \frqq{}\mono{\textbackslash{}r\textbackslash{}n\textbackslash{}r\textbackslash{}n}\flqq{} getrennt. HTTP ist ein zustandsloses Protokoll. Damit ist gemeint, dass HTTP Nachrichten standardmäßig unabhängig voneinander sind und daher keinen Bezug zueinander haben: \textit{Anfrage A} und \textit{Anfrage B} wissen nichts voneinander, und nehmen keinen Einfluss aufeinander. Möglichkeiten, um diese Zustandslosigkeit von HTTP zu umgehen, sind beispielsweise Cookies (Daten, die lokal am Client gespeichert werden und die der Browser automatisch im HTTP-Header bei jeder Anfrage an den Server sendet) oder Sessions (Daten über einen Client werden am Server gespeichert; der Server unterscheidet Clients anhand von eindeutigen Identifiers in Form von Cookies: Session-Cookie).
+
+\subsection{Methoden}
+\newacronym{uri}{URI}{Unique Resource Identifier}
+Jede HTTP Anfrage (auch \textit{Request} genannt) hat eine Methode. Eine Methode gibt an, wie die Anfrage vom Server zu interpretieren ist. In diesem Abschnitt werden die für die Implementierung benötigten Methoden erklärt.
+\begin{description}\setlength\itemsep{1.5em}
+\item[\mono{GET}] Mit dieser Methode signalisiert der Client, dass dieser Daten, welcher der Server an dem angegebenen Endpunkt zur Verfügung stellt, herunterladen möchte. 
+\item[\mono{HEAD}] Sendet der Client diese Methode an den Server, interpretiert der Server diese wie ein \mono{GET}. Der Server sendet jedoch nur die Header, ohne den eigentlichen Inhalt zurück. Diese Methode kann vom Client verwendet werden um den Inhaltstyp (Content-Type) der angeforderten Ressource zu überprüfen, ohne den Inhalt herunterladen zu müssen.
+\item[\mono{OPTIONS}] Gibt die vom Server unterstützten Methoden im \mono{Allow} Header zurück (vgl. \cite{sec:theory:http:method:options}).
+\item[\mono{POST}] Mit dieser Methode signalisiert der Client, dass dieser Daten an den Server übermitteln möchte. Die zu übermittelnden Daten können sich entweder in Form von Argumenten in der \acrshort{uri}\\ (\mono{http://example.com/upload?name=myPicture.png\&width=100\&height=200}),\\ im Pfad der \acrshort{uri}\\ (\mono{http://example.com/upload/name/myPicture.png/width/100/height/200}) oder im Body der HTTP Anfrage befinden\\(\mono{\{"name":"myPicture.png","width":100,"height":200\}}).    
+\item[\mono{PUT}] Diese Methode ist der \mono{POST} Methode sehr ähnlich. Der Unterschied liegt in der Definition im Standard. \mono{PUT} soll laut Definition, vom Server so interpretiert werden, dass die Auswirkungen der Anfrage keine \textit{Nebeneffekte} haben. Damit ist gemeint dass die Anfrage mehrmals aufgerufen werden kann und diese immer dieselbe Auswirkung erzielt (Foto auf den Server hochladen, etc). Dieses Verhalten wird auch \textit{idempotent} genannt (vgl. \cite{sec:theory:http:method:put}).
+\item[\mono{DELETE}] Diese Methode signalisiert dem Server dass die vom Client spezifizierte Ressource gelöscht werden soll.
+\end{description}
+
+\subsection{Response Codes}
+Teil der Antwort des Servers auf eine Anfrage vom Client ist der Rückgabewert. Mit diesem kann der Client Rückschlüsse auf den Erfolg seiner Anfrage ziehen. Einige wichtige Gruppen von Rückgabecodes sind:
+{
+\setlist{nolistsep}
+\begin{description}[noitemsep] 
+\item[1xx] Informationen
+    \begin{description}[noitemsep] 
+        \item[\textit{101 Switching Protocols}] Die TCP Verbindung wird nun für ein anderes Protkoll verwendet (z.B.: Websockets)
+        \item[\ldots]
+    \end{description}
+
+\item[2xx] Erfolgreich
+    \begin{description}[noitemsep] 
+        \item[\textit{200 OK}] Anfrage war erfolgreich
+        \item[\ldots]
+    \end{description}
+    
+\item[4xx] Fehlerhafte Anfragen des Clients
+    \begin{description}[noitemsep] 
+        \item[\textit{400 Bad Request}] Fehlerhafte Formulierung einer Anfrage
+        \item[\textit{401 Unauthorized}] Client ist nicht berechtigt auf die spezifizierte Ressource zuzugreifen
+        \item[\textit{404 Not found}] Die spezifizierte Ressource wurde nicht gefunden
+        \item[\ldots]
+    \end{description}
+    
+\item[5xx] Serverfehler
+    \begin{description}[noitemsep] 
+        \item[\textit{500 Internal Server Error}] Fehler auf der Seite des Servers ist aufgetreten 
+        \item[\ldots]
+    \end{description}
+\end{description}
+}
+
+\subsection{Authentifizierung}
+HTTP stellt Authentifizierung, also die Überprüfung ob ein Client berechtigt ist auf eine gesicherte Ressource zuzugreifen, in Form von unterschiedlichen Mechanismen bereit.
+
+\subsubsection{Basic-Authentication}
+Die einfachste, aber eine nicht sehr sichere (und mittlerweile auch schon veralterte) Form der Authentifizierung ist die \textit{Basic-Authentication}: Der Client sendet seine Zugangsdaten (beispielsweise Benutzername und Passwort) in Base64-Kodierter Form an den Server (vgl. \cite{wiki:base64}). Der Server dekodiert die Zeichenfolge und überprüft ob der Benutzer berechtigt ist auf die gegebene Ressource zuzugreifen. Da die Base64-Kodierung der Zugangsdaten im Grunde nichts weiter als eine Verschleierung im Gegensatz zu einer Verschlüsselung ist, eignet sich dieser Ansatz nicht für sensible Daten wie Passwörter.\bigskip  
+
+\noindent
+Sicherere Alternativen zur Basic-Authentication, um beispielsweise Clients mit Zugangsdaten zu authorisieren, stellt z.B. die \textit{Digest-Authentication} dar. Die Zugangsdaten können damit, sofern eine kryptografisch sichere Hashfunktion verwendet wurde, nicht mehr ohne weiteres rekonstrukiert werden (vgl. \cite{wiki:http:auth:digest}).
+
+\subsubsection{Bearer-Authentication}
+Für die Implementierung der HTTP Schnittstelle (\nameref{sec:centralAPI}) wurde das sogenannte \textit{Bearer} Authentifizierungsschema verwendet, um die dort näher beschriebenen Ressourcen nur für berechtigte Benutzer zur Verfügung zu stellen. Nähere Erklärungen, um welche Ressourcen es sich handelt, werden dort beschrieben. Hier wird lediglich der theoretische Hintergrund zum genannten Schema kurz erläutert.\bigskip
+
+\noindent
+\textit{Bearer}, zu deutsch \textit{Träger} oder \textit{Inhaber}, ist die Authentifizierung mittels einer vom Server auf Basis von Benutzerdaten generierten Zeichenfolge (auch \textit{Token}, genauer \textit{Bearer}-Token genannt). Der Client sendet die vom Server geforderten Zugangsdaten, entweder in Klartext oder bereits in einer vom Server akzeptierten verschlüsselten bzw. kodierten Form. Der Server antwortet mit einem Token. Der Client übergibt nun diesen Token im \mono{Authorization: Bearer <TOKEN>} Header der gesicherten Ressource um darauf zugreifen zu können. Der Vorteil dieses Schemas ist die erhöhte Sicherheit der Zugangsdaten des Benutzers: diese müssen dem Server nur 1x (über eine meist ohnehin bereits verschlüsselte HTTPS Verbindung) übertragen werden. Jedoch kann man die Token-Authentifizierung noch etwas weiterführen. In Kombination mit JWT (siehe Abschnitt \ref{sec:theory:jwt} \nameref{sec:theory:jwt}) können Informationen in dem vom Server generierten Token in Form eines JSON-Objektes gespeichert werden. Diese Kombination aus Bearer-Authentifizierung und JWT's kam auch in der vorliegenden Implementation zum Einsatz. 
+
+\subsection{Beispiele zu HTTP-Anfragen}
+\newacronym{cli}{CLI}{command-line interface (dt. Kommandozeile)}
+Im folgenden Abschnitt finden sich nun einige Beispiele zu HTTP Anfragen (\textit{Request}), sowie mögliche Antworten (\textit{Response}) welche die oben beschriebene Funktionsweise des HTTP Protokolls verdeutlichen sollen. Dies sind Beispiele für Anfragen, welche ein Browser (Chrome, Firefox, etc.) beim üblichen Surfen im Netz in rauen Mengen, an viele verschiedene Server sendet.\bigskip
+
+\noindent
+Kurz zum Aufbau der folgenden Beispiele: Es wurde ein lokaler Webserver auf dem Port 8085 gestartet, der eine einfache HTML-Datei im Basispfad hat:\\\mono{python3 -m http.server 8085 -{}-bind 127.0.0.1 -{}-directory .} .\\ Anfragen auf diesen Endpunkt wurden mit \mono{ngrep} (vgl. \cite{wiki:ngrep}), einem Paket Analysierungstool (vgl. \cite{wiki:packet-analyzer}) überwacht, sodass diese auf der Kommandozeile ausgegeben werden.\\ Ngrep ist ein sehr umfangreiches Tool mit vielen Funktionen. Für dieses Beispiel wurden lediglich einige Filter verwendet sodass nur HTTP Pakete auf Port 8085 auf dem \textit{loopback}-Interface, also \textit{localhost} (127.0.0.1) überwacht werden. Dies wurde mit folgendem Kommando erzielt: \mono{sudo ngrep -q 'HTTP' 'tcp' 'port 8085' -d lo}. 
+Danach wurde die unten stehende Anfrage mit \mono{curl}, einem \acrshort{cli}-Tool um Daten in verschiedenen Protokollen im Netzwerk auszutauschen, folgendermaßen generiert:\\ \mono{curl -X GET http://127.0.0.1:8085}.
+\newpage
+\noindent
+\ColorfulCodeDisclaimer{}\\
+Das folgende Beispiel veranschaulicht eine GET-Anfrage an einen lokalen Webserver.
+\begin{lstlisting}[style=goMono,caption={Bespiel 1: Demonstration der GET-Methode},label={lst:http:ex1}]
+GET / HTTP/1.1           %\color{magenta}(1)%
+Host: 127.0.0.1:8085     %\color{magenta}(2)%
+User-Agent: curl/7.81.0  %\color{magenta}(3)%
+Accept: */*              %\color{magenta}(4)%
+
+%\color{magenta}(5)%
+\end{lstlisting}
+In der ersten Zeile \mono{\color{magenta}(1)} präsentiert sich bereits der wichtigste Teil der Anfrage. Die Methode (GET), gefolgt von der vom Client geforderten Ressource \frqq{}/\flqq{} (viele Webserver verstehen einen leeren Slash als \mono{/index.html}). Beendet wird \mono{\color{magenta}(1)} mit der vom Client unterstützten HTTP Version. Die folgenden Zeilen, \mono{\color{magenta}(1)}, \mono{\color{magenta}(2)} und \mono{\color{magenta}(3)} sind Beispiele für HTTP-Header. \mono{Host} gibt die Zieladresse des Servers an (in diesem Fall ein lokaler Webserver). Der \mono{User-Agent} identifiziert den Client (Software, welche die Request veranlasst samt Version). \mono{Accept} teilt dem Server mit, welche Inhaltstypen der Client gerne als Antwort auf seine Anfrage hätte. In diesem Fall akzeptiert der Client alles was der Server zurück gibt. \mono{\color{magenta}(5)} stellt den Anfang des HTTP-Body's und das Ende des Headers dar. Da der Client dem Server aber keine weiteren Daten mitgegeben hat, ist der Body leer.\bigskip
+
+\noindent
+Hier ein Beispiel wie eine erfolgreiche Antwort zu der obigen Anfrage aussehen könnte.
+\begin{lstlisting}[style=goMono,caption={Bespiel 2: Erfolgreiche Anwort},label={lst:http:ex2}]
+HTTP/1.0 200 OK                              %\color{magenta}(1)%
+Server: SimpleHTTP/0.6 Python/3.10.6         %\color{magenta}(2)%
+Date: Mon, 13 Feb 2023 23:57:29 GMT
+Content-type: text/html                      %\color{magenta}(3)%
+Content-Length: 7
+Last-Modified: Mon, 13 Feb 2023 23:06:45 GMT
+                                            
+<html>                                       %\color{magenta}(4)%
+<body>hello!</body>
+</html>
+\end{lstlisting} 
+Anhand des Response Code in der ersten Zeile \mono{\color{magenta}(1)} ist erneut klar ersichtlich, dass es sich hier um eine Antwort des Servers handelt. Der Server identifiziert sich ebensfalls \mono{\color{magenta}(2)}, analog zum User-Agent der Anfrage. Als Content-Type \mono{\color{magenta}(3)}, also den Typ des Inhaltes im Body, sendet der Server HTML. Der Server beendet den Header mit \frqq{}\mono{\textbackslash{}r\textbackslash{}n\textbackslash{}r\textbackslash{}n}\flqq{} und sendet den vom Client angeforderten Inhalt der \mono{/} Resource. Dies ist der Inhalt, welcher im Browserfenster grafisch dargestellt werden würde. 
+
+\section{Websockets}\label{sec:theory:ws}
+Mit Hilfe des auf TCP (siehe Abschnitt \ref{sec:theory:tcp}) aufbauenden, \textit{Websocket} Protokolls können zwei Endpunkte miteinander in beiden Richtungen miteinander kommunizieren (vgl. \cite{src:ionos:websocket}). Es können auch HTTP-Verbindungen zu einer Websocket-Verbindung aufgewertet werden, um einen kontinuierlichen Datenaustausch zwischen Client und Server, der in beiden Richtungen funktioniert, umzusetzen. Dies wurde in der vorliegenden Implementierung so umgesetzt. Unterstützt ein HTTP Endpunkt die Aufwertung einer Verbindung auf eine Websocket-Verbindung, antwortet der Server dem Client mit dem Status-Code 101. Dieser steht in der HTTP-Spezifikation für einen Protokollwechsel. Der Server wechselt also vom HTTP Protokoll auf das Websocket Protokoll. Akzeptiert der Client, die vom Server angebotene Verbindung, ist die beidseitige Kommunikation hergestellt. Die nun bestehende Verbindung zwischen den beiden Endpunkten, kann als nahezu Echtzeit Transfer, genutzt werden (vgl. \cite{rfc:websocket})
+
+\section{MQTT}\label{sec:theory:mqtt}
+\newacronym{mqtt}{MQTT}{Message Queueing Telemetry Transport}
+\acrshort{mqtt} ist ein Protokoll, das vor allem im \textit{Internet-of-Things} Raum, wie Smart-Home-Systemen, aufgrund seiner Einfachheit, große Anwendung findet (vgl. \cite{src:therory:mqtt}). Das Protkoll ist auf Basis einer zentralisierten Architektur aufgebaut. Der \textit{Broker}, also die Komponente, die den Nachrichten-Austausch zwischen verbundenen Clients koordiniert, kategorisiert diese Nachrichtenkanäle in sogenannte Topics. Zwei Clients können über ein gemeinsames Topic miteinander kommunizieren.   
+\begin{figure}[h!]
+    \centering
+    \includesvg[width=0.19\textwidth]{MJ/assets/Mqtt_logo.svg}
+    \caption{MQTT Logo (vgl. \cite{MqttLogo})}
+\end{figure}
+Der Broker dient als Schnittstelle zwischen den Clients. Dieser leitet die auf einem Topic empfangene Nachricht an alle Teilnehmer des Topics weiter. Wartet ein Client auf eingehende Nachrichten auf einem Topic so ist dieser \textit{subscribed}. Veröffentlicht ein Client, Nachrichten auf einem Topic so gilt dieser als \textit{Publisher}, wobei auch dieser auf andere Topics \textit{subscribed} sein kann. 
+
+\section{Representational State Transfer}\label{sec:theory:rest}
+\newacronym{rest}{REST}{Representational State Transfer}
+\newacronym{restful}{RESTful}{Eine Schnittstelle welches der \acrshort{rest}-Spezifikation genügt.}
+REST, \acrlong{rest}, ist ein auf HTTP aufbauender Architekturstil für Webdienste. Eine API wird dann \acrshort{restful} genannt, wenn diese die folgenden Kriterien erfüllt (vgl. \cite{src:redhat:rest}).
+\begin{description}
+\item[Ressourcen orientiert] Die vom Server zu bearbeitenden Objekte werden als Ressourcen betrachtet mit denen interagiert werden kann. Konkret, sind dies Karten, Benutzer, Schließfächer und Reservierungen.
+\item[Einheitliche Schnittstelle zum System] Die über HTTP zur Verfügung gestellte Schnittstelle ist über verschiedene HTTP-Methoden (GET, POST, PUT, DELETE) erreichbar.
+\item[Zustandslos] Anfragen verschiedener Clients sind unabhängig voneinander. 
+\item[Client-Server Architektur] REST ist ein Client-Server Prinzip: Der Server beantwortet die Anfragen des Clients.
+\end{description}
+Im Zuge der Implementierung wird erläutert, ob und wie die Benutzer-Schnittstelle diese Anforderungen erfüllt und warum.
+
+\section{JavaScript Object Notation}\label{sec:theory:json}
+\newacronym{json}{JSON}{JavaScript Object Notation}
+\acrshort{json} ist ein Datenformat (vgl. \cite{src:json:org}), das unter anderem für den Austausch von Nachrichten zwischen Endpunkten genutzt wird. Das Format kommt als Basis für die Kommunikation zwischen allen implementierten Schnittstellen zum Einsatz, da es leicht von Menschen zu lesen ist und gleichzeitig effizient zu verarbeiten ist. In den nachfolgenden Abschnitten, werden einige Bespiele erläutert, die den Datenaustausch im JSON-Format veranschaulichen.
+
+\section{JSON Web Tokens}\label{sec:theory:jwt}
+\newacronym{jwt}{JWT}{JSON Web Tokens}
+Mit Hilfe von JSON-Web-Tokens, kurz \acrshort{jwt}'s, können Daten im JSON-Format ausgetauscht werden. Den im JWT enthaltenen Informationen, kann vertraut werden, da diese unter anderem mit einem Geheimnis, welches nur der Aussteller kennt, validiert werden können. Ein JWT besteht aus einem JSON-Header-Objekt, das Auskunft über den verwendeten Verschlüsselungsalgorithmus gibt. Im JWT-Body, ebenfalls ein JSON-Objekt, das auch \textit{Payload} genannt wird, befinden sich die zu übertragenden Daten. Diese werden mit Hilfe der dritten Komponente eines JWT's, der Signature, validiert. JWT's werden in der Implementierung in Kombination mit der HTTP-Bearer-Authentifizierung verwendet, um Benutzer anhand deren E-Mail-Adresse und deren zugehöriger Rolle (Benutzer, Admin, Anonym) zu validieren (vgl. \cite{src:jwt}).    
+
+% \section{Object Relational Mapper}\label{sec:theory:orm}
+% generell: was ist das?
+% für ein beispiel in go siehe kaptiel 3, gorm etc....
+
+\section{Middleware}\label{sec:theory:middleware}
+Middleware vermittelt zwischen Softwarekomponenten, um die Komplexität der einzelnen Komponenten zu verbergen (vgl. \cite{wiki:middleware}). Dies erhöht die Flexibilität der einzelnen Komponenten, da diese unabhängiger voneinander funktionieren, indem die Schnittstellen vereinheitlicht werden. Middleware wird beispielsweise bei Webservern eingesetzt, um die Authentifizierung des Clients zu überprüfen oder ob dieser die richtigen HTTP-Header in der Anfrage übergeben hat, ohne das dies in jedem einzelnen Resource-Handler überprüft werden muss. Vielmehr wird bevor der Resource-Handler aufgerufen wird eine \textit{Middleware} aufgerufen, welche die Authentifizierung des Clients überprüft. Diese Middleware entscheidet, sobald die Überprüfung abgeschlossen ist, ob der Benutzer berechtigt ist, den Endpunkt aufzurufen.\bigskip
+
+\noindent
+In vielen Systemen kommen verschiedene Arten von Middlewares zum Einsatz, die unterschiedliche Aufgaben erfüllen. Der Vorteil einer Middleware ist unteranderem die Trennung der einzelnen Aufgaben in eigene Module (Authentifizierung, Logging, Monitoring von Systemaktivitäten, etc). 

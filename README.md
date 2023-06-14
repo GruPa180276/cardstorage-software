@@ -1,9 +1,4 @@
-# Litec Card Storage
-
-
-## Goal
-- THe project / thesis is about a vending machine for key cards.
-
+# RFID Card Management
 
 ## Contributors
 - Patrick Grubauer (leader)
@@ -18,10 +13,7 @@
   - Admin App: Is responsible for the administrative part, adding machines, creating users, creating statistics...
   - DB + API: The entire data is stored in a database and the data is accessed via the API.
 
+## Documentation
+You can find a very detailed overview (357 pages) of the project [here](doc/thesis_card_storage_management_docu.pdf)
 
-## How to Install
-- To do
 
-
-## Needed hardware
-- To do

@@ -1,0 +1,65 @@
+# https://docs.docker.com/compose/startup-order/
+# https://medium.com/@krishnaregmi/wait-for-it-docker-compose-f0bac30f3357
+# https://github.com/vishnubob/wait-for-it
+# https://community.caribbean.dev/t/how-can-i-import-a-sql-file-once-i-start-up-my-docker-compose-file/295
+# https://stackoverflow.com/questions/55673786/connection-refused-between-containers
+# https://www.datanovia.com/en/lessons/docker-compose-wait-for-container-using-wait-tool/
+
+version: '3.6'
+
+services:
+  api:
+    build: ./api
+    depends_on:
+      - "broker"
+      - "persistent"
+    command: sh -c './wait && ./api'
+    ports:
+      - "${REST_PORT}:${REST_PORT}"
+    networks:
+      - csnet
+    environment:
+      - WAIT_HOSTS=db:${DB_PORT},broker:${BROKER_PORT}
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=1
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+      - DB_USER=${DB_USER}
+      - DB_PASSWD=${DB_PASSWD}
+      - DB_NAME=${DB_NAME}
+      - DB_DRIVER=${DB_DRIVER}
+      - DB_PORT=${DB_PORT}
+      - DB_HOSTNAME=${DB_HOSTNAME}
+      - BROKER_HOSTNAME=${BROKER_HOSTNAME}
+      - BROKER_PORT=${BROKER_PORT}
+      - BROKER_USERNAME=${BROKER_USERNAME}
+      - BROKER_PASSWD=${BROKER_PASSWD}
+      - REST_PORT=${REST_PORT}
+  persistent:
+    hostname: ${DB_HOSTNAME}
+    image: mysql:8.0.31-debian
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=Europe/Vienna
+    volumes:
+      - ./persistent/model.sql:/docker-entrypoint-initdb.d/schema.sql:rw
+    networks:
+      - csnet
+  broker:
+    image: eclipse-mosquitto
+    ports:
+      - "${BROKER_PORT}:${BROKER_PORT}"
+    volumes:
+      - ./broker/volumes/config:/mosquitto/config
+      - broker_log:/mosquitto/log
+    container_name: broker
+    hostname: ${BROKER_HOSTNAME}
+    restart: unless-stopped
+    networks:
+      - csnet
+networks:
+  csnet:
+    driver: bridge
+volumes:
+  broker_log:

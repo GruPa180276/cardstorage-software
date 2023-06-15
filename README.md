@@ -14,6 +14,6 @@
   - DB + API: The entire data is stored in a database and the data is accessed via the API.
 
 ## Documentation
-You can find a very detailed overview (357 pages) of the project [here](doc/thesis_card_storage_management_docu.pdf)
+You can find a very detailed overview of the project [here](doc/thesis_card_storage_management_docu.pdf)
 
 

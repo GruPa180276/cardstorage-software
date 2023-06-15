@@ -23,4 +23,5 @@ You can find a very detailed overview of the project [here](doc/thesis_card_stor
 
 ## General Overview
 ![System overview](/_img/complete-system.png)
+
 Remaining Use-Case diagrams for each software component [here](doc/thesis_card_storage_management_docu.pdf)

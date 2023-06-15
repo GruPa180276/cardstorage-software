@@ -25,6 +25,16 @@ You can find a very detailed overview of the project [here](doc/thesis_card_stor
 ### General
 ![System overview](/_img/complete-system.png)
 
+### Client
+![Client Use-Case](/_img/client-use-case.png)
 
+### Admin
+![Client Use-Case](/_img/admin_use_case.png)
+
+### Display
+![Client Use-Case](/_img/display-use-case.png)
+
+### Login
+![Client Use-Case](/_img/login-use-case.png)
 
 

@@ -21,20 +21,6 @@ This repository includes the software components:
 ## Documentation
 You can find a very detailed overview of the project [here](doc/thesis_card_storage_management_docu.pdf)
 
-## Use-Cases
-### General
+## General Overview
 ![System overview](/_img/complete-system.png)
-
-### Client
-![Client Use-Case](/_img/client-use-case.png)
-
-### Admin
-![Client Use-Case](/_img/admin_use_case.png)
-
-### Display
-![Client Use-Case](/_img/display-use-case.png)
-
-### Login
-![Client Use-Case](/_img/login-use-case.png)
-
-
+Remaining Use-Case diagrams for each software component [here](doc/thesis_card_storage_management_docu.pdf)
